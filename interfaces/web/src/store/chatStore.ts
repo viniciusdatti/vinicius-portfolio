@@ -5,6 +5,7 @@
 
 // Libraries
 import { create } from 'zustand';
+import type { StoreApi, UseBoundStore } from 'zustand';
 
 // Types
 import type { ChatMessage } from '../types';
@@ -29,9 +30,6 @@ interface ChatState {
   toggleSound: () => void;
   reset: () => void;
 }
-
-// Types
-import type { StoreApi, UseBoundStore } from 'zustand';
 
 export const useChatStore: UseBoundStore<StoreApi<ChatState>> =
   create<ChatState>((set) => ({
