@@ -112,19 +112,48 @@ const AdminLogin: React.FC = () => {
     setError('');
 
     try {
-      // TODO: Implement actual API call
-      console.log('Login:', data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      
+      // Call login API
+      const response = await fetch(`${apiUrl}/api/v1/auth/login/json`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password,
+        }),
+      });
 
-      // Mock login for now
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Email ou senha inválidos');
+      }
+
+      const tokens = await response.json();
+
+      // Get user info
+      const userResponse = await fetch(`${apiUrl}/api/v1/auth/me`, {
+        headers: {
+          'Authorization': `Bearer ${tokens.access_token}`,
+        },
+      });
+
+      if (!userResponse.ok) {
+        throw new Error('Erro ao obter dados do usuário');
+      }
+
+      const user = await userResponse.json();
+
       setAuth(
-        { id: 1, email: data.email, name: 'Admin', role: 'admin' },
-        { access_token: 'mock-token', refresh_token: 'mock-refresh', token_type: 'bearer', expires_in: 3600 }
+        { id: user.id, email: user.email, name: user.name, role: user.role },
+        tokens
       );
 
       navigate('/admin');
     } catch (err) {
-      setError('Email ou senha inválidos');
+      setError(err instanceof Error ? err.message : 'Email ou senha inválidos');
     } finally {
       setIsLoading(false);
     }
