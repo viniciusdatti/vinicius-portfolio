@@ -1,6 +1,10 @@
 // Libraries
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+
+// Create motion-enabled Link component
+const MotionLink = motion.create(Link);
 
 export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
   position: fixed;
@@ -31,7 +35,7 @@ export const HeaderContent = styled.div`
   justify-content: space-between;
 `;
 
-export const Logo = styled(motion.a)`
+export const Logo = styled(MotionLink)`
   font-family: ${({ theme }) => theme.typography.fontFamily.heading};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -54,7 +58,7 @@ export const Nav = styled.nav`
   }
 `;
 
-export const NavLink = styled(motion.a)<{ $active?: boolean }>`
+export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   position: relative;
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};

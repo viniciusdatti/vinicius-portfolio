@@ -1,0 +1,119 @@
+---
+description: Strict typing rules for all code
+alwaysApply: true
+---
+
+# Strict Typing
+
+All variables, constants, and functions must have explicit type annotations.
+
+## Rules
+
+### 1. Constants Must Have Types
+
+```typescript
+// ❌ BAD - no type annotation
+const name = 'John';
+const count = 5;
+const items = [];
+
+// ✅ GOOD - explicit types
+const name: string = 'John';
+const count: number = 5;
+const items: string[] = [];
+```
+
+### 2. Functions Must Have Return Types
+
+```typescript
+// ❌ BAD - no return type
+const getData = () => {
+  return { id: 1 };
+};
+
+function calculate(a, b) {
+  return a + b;
+}
+
+// ✅ GOOD - explicit return types
+const getData = (): UserData => {
+  return { id: 1 };
+};
+
+function calculate(a: number, b: number): number {
+  return a + b;
+}
+```
+
+### 3. Function Parameters Must Have Types
+
+```typescript
+// ❌ BAD - untyped parameters
+const greet = (name) => `Hello ${name}`;
+
+// ✅ GOOD - typed parameters
+const greet = (name: string): string => `Hello ${name}`;
+```
+
+### 4. React Components
+
+```typescript
+// ❌ BAD - no type for props or component
+const Button = ({ label, onClick }) => {
+  return <button onClick={onClick}>{label}</button>;
+};
+
+// ✅ GOOD - typed props and component
+interface ButtonProps {
+  label: string;
+  onClick: () => void;
+}
+
+const Button: React.FC<ButtonProps> = ({ label, onClick }) => {
+  return <button onClick={onClick}>{label}</button>;
+};
+```
+
+### 5. Callbacks and Event Handlers
+
+```typescript
+// ❌ BAD - untyped callback
+const handleClick = (e) => {
+  console.log(e.target);
+};
+
+// ✅ GOOD - typed callback
+const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
+  console.log(e.target);
+};
+```
+
+## Python (Backend)
+
+### Type Hints Required
+
+```python
+# ❌ BAD - no type hints
+def get_user(id):
+    return db.find(id)
+
+name = "John"
+
+# ✅ GOOD - with type hints
+def get_user(id: int) -> User:
+    return db.find(id)
+
+name: str = "John"
+```
+
+### Function Return Types
+
+```python
+# ❌ BAD
+def calculate(a, b):
+    return a + b
+
+# ✅ GOOD
+def calculate(a: int, b: int) -> int:
+    return a + b
+```

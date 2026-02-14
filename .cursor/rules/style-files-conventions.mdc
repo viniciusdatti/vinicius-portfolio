@@ -1,33 +1,54 @@
 ---
-description: Convenções em arquivos *.style.ts — ponto e vírgula em todo CSS e imports organizados por seção
+description: Style file conventions — semicolons in CSS and object keys
 globs: "**/*.style.ts"
 alwaysApply: false
 ---
 
-# Convenções em arquivos de estilo
+# Style File Conventions
 
-Em todo arquivo `*.style.ts` do projeto devem ser seguidas duas regras obrigatórias.
+All `*.style.ts` files must follow these mandatory rules.
 
-## 1. Ponto e vírgula em todo CSS
+## 1. Semicolons in CSS Properties
 
-- **Toda** declaração CSS dentro de template literals (styled-components ou keyframes) deve terminar com **;**.
-- Não omitir o `;` na última propriedade de um bloco.
+- **Every** CSS declaration inside template literals must end with **;**
+- Never omit `;` on the last property of a block
 
 ```ts
-// ❌ EVITAR
+// ❌ BAD
 export const Box = styled.div`
   padding: 1rem
   margin: 0
 `;
 
-// ✅ CORRETO
+// ✅ GOOD
 export const Box = styled.div`
   padding: 1rem;
   margin: 0;
 `;
 ```
 
-Em keyframes, todas as propriedades também devem ter `;`:
+## 2. Semicolons in CSS Inside Objects
+
+- CSS properties inside template literals in objects must end with **;**
+- Applies to variant objects, theme objects, and style mappings
+
+```ts
+// ❌ BAD - missing semicolons in CSS
+export const variants = {
+  primary: css`color: blue`,
+  secondary: css`color: gray`,
+};
+
+// ✅ GOOD - semicolons in CSS properties
+export const variants = {
+  primary: css`color: blue;`,
+  secondary: css`color: gray;`,
+};
+```
+
+## 3. Keyframes
+
+All properties in keyframes must have `;`:
 
 ```ts
 const fade = keyframes`
@@ -42,20 +63,20 @@ const fade = keyframes`
 `;
 ```
 
-## 2. Imports organizados por seção
+## 4. Imports Organized by Section
 
-- Separe os imports em blocos com comentários de seção.
-- Ordem obrigatória (conforme regra global do projeto): **Core** → **Libraries** → **Types** → **Theme** → **Components** (usar apenas as seções que existirem no arquivo).
+- Separate imports into blocks with section comments
+- Required order: **Core** → **Libraries** → **Types** → **Theme** → **Components**
 
-Seções (alinhadas à regra `import-sections.mdc`):
+Sections (aligned with `import-sections.mdc` rule):
 
-- `// Core` — React, dependências centrais do app (se aplicável).
-- `// Libraries` — bibliotecas externas (ex.: `styled-components`).
-- `// Types` — imports de tipos (ex.: `./Button.types`).
-- `// Theme` — imports do tema (ex.: `./styles/theme`, `Theme`).
-- `// Components` — outros arquivos do mesmo componente ou do projeto (ex.: estilos compartilhados).
+- `// Core` — React, core app dependencies
+- `// Libraries` — external libraries (e.g., `styled-components`)
+- `// Types` — type imports (e.g., `./Button.types`)
+- `// Theme` — theme imports (e.g., `./styles/theme`)
+- `// Components` — other component files
 
-### Exemplo
+### Example
 
 ```ts
 // Libraries
@@ -64,25 +85,8 @@ import styled from 'styled-components';
 // Types
 import type { ButtonVariant } from './Button.types';
 
-interface StyledButtonProps {
-  $variant?: ButtonVariant;
-}
-
-export const StyledButton = styled.button<StyledButtonProps>`
+export const StyledButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
 `;
 ```
-
-Arquivo que só importa biblioteca:
-
-```ts
-// Libraries
-import styled from 'styled-components';
-
-export const Wrapper = styled.section`
-  padding: 2rem;
-`;
-```
-
-Nenhum arquivo `*.style.ts` deve ficar sem seções nos imports ou sem `;` nas declarações CSS.

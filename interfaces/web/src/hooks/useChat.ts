@@ -1,3 +1,8 @@
+/**
+ * Visitor chat hook for real-time messaging with admin.
+ * Handles socket connection, session management, and message handling.
+ */
+
 // Core
 import { useEffect, useCallback, useRef } from 'react';
 
@@ -10,6 +15,10 @@ import { socketService } from '../utils/socket';
 // Types
 import type { ChatMessage } from '../types';
 
+/**
+ * Hook for visitor chat functionality.
+ * Manages socket connection, session state, and messaging.
+ */
 export const useChat = () => {
   const {
     sessionId,
@@ -90,26 +99,34 @@ export const useChat = () => {
     };
   }, [setConnected, setAdminOnline, setSessionId, addMessage, setTyping]);
 
-  // Start a new chat session
+  /**
+   * Starts a new chat session with visitor information.
+   */
   const startSession = useCallback((visitorName: string, visitorCompany?: string) => {
     socketService.startSession(visitorName, visitorCompany);
   }, []);
 
-  // Send a message
+  /**
+   * Sends a message to the current session.
+   */
   const sendMessage = useCallback((content: string) => {
     if (sessionId && content.trim()) {
       socketService.sendMessage(sessionId, content);
     }
   }, [sessionId]);
 
-  // Send typing indicator
+  /**
+   * Sends typing indicator to the server.
+   */
   const sendTyping = useCallback(() => {
     if (sessionId) {
       socketService.sendTyping(sessionId);
     }
   }, [sessionId]);
 
-  // End chat session
+  /**
+   * Ends the current chat session and disconnects.
+   */
   const endSession = useCallback(() => {
     reset();
     socketService.disconnectVisitor();

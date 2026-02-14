@@ -1,23 +1,27 @@
-// Core
-import React from 'react';
+/**
+ * @fileoverview Styled components for the Admin Dashboard page.
+ * Contains all visual styling definitions using styled-components.
+ */
 
 // Libraries
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-// Store
-import { useAuthStore } from '../../../store';
-
-// Styles
-import { staggerContainer, staggerItem } from '../../../styles/animations';
-
-const PageContainer = styled.div`
+/**
+ * Main container for the dashboard page.
+ * Sets minimum height and background color.
+ */
+export const PageContainer = styled.div`
   min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.backgroundSecondary};
 `;
 
-const Header = styled.header`
+/**
+ * Header section with logo and user info.
+ * Fixed at the top with flex layout.
+ */
+export const Header = styled.header`
   background-color: ${({ theme }) => theme.colors.surface};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
@@ -26,7 +30,11 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const Logo = styled(Link)`
+/**
+ * Logo link component with accent styling.
+ * Navigates to admin home.
+ */
+export const Logo = styled(Link)`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
@@ -36,17 +44,28 @@ const Logo = styled(Link)`
   }
 `;
 
-const UserInfo = styled.div`
+/**
+ * Container for user information and actions.
+ * Displays username and logout button.
+ */
+export const UserInfo = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-const UserName = styled.span`
+/**
+ * Displays the current user's name.
+ */
+export const UserName = styled.span`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-const LogoutButton = styled.button`
+/**
+ * Logout button with error color styling.
+ * Includes hover state for better UX.
+ */
+export const LogoutButton = styled.button`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme }) => theme.colors.error}20;
   color: ${({ theme }) => theme.colors.error};
@@ -58,49 +77,78 @@ const LogoutButton = styled.button`
   }
 `;
 
-const Content = styled.main`
+/**
+ * Main content area with max-width constraint.
+ * Centers content horizontally.
+ */
+export const Content = styled.main`
   max-width: 1200px;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xxl};
 `;
 
-const Title = styled.h1`
+/**
+ * Page title styling.
+ */
+export const Title = styled.h1`
   font-size: ${({ theme }) => theme.typography.fontSize.xxl};
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
 `;
 
-const StatsGrid = styled(motion.div)`
+/**
+ * Grid container for statistics cards.
+ * Uses CSS Grid with auto-fit for responsive layout.
+ */
+export const StatsGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
 `;
 
-const StatCard = styled(motion.div)`
+/**
+ * Individual statistic card with motion support.
+ * Displays a single metric with value and label.
+ */
+export const StatCard = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
 `;
 
-const StatValue = styled.div`
+/**
+ * Large numeric value display in stat cards.
+ */
+export const StatValue = styled.div`
   font-size: 2rem;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
 `;
 
-const StatLabel = styled.div`
+/**
+ * Label text for stat cards.
+ */
+export const StatLabel = styled.div`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-const QuickActions = styled.div`
+/**
+ * Grid container for quick action cards.
+ * Uses CSS Grid with auto-fit for responsive layout.
+ */
+export const QuickActions = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-const ActionCard = styled(Link)`
+/**
+ * Quick action card as a navigable link.
+ * Includes icon, title, and description.
+ */
+export const ActionCard = styled(Link)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
@@ -131,66 +179,9 @@ const ActionCard = styled(Link)`
   }
 `;
 
-const AdminDashboard: React.FC = () => {
-  const { user, logout } = useAuthStore();
-
-  const handleLogout = () => {
-    logout();
-    window.location.href = '/admin/login';
-  };
-
-  return (
-    <PageContainer>
-      <Header>
-        <Logo to="/admin">Admin<span>.</span></Logo>
-        <UserInfo>
-          <UserName>{user?.name || 'Admin'}</UserName>
-          <LogoutButton onClick={handleLogout}>Sair</LogoutButton>
-        </UserInfo>
-      </Header>
-
-      <Content>
-        <Title>Dashboard</Title>
-
-        <StatsGrid
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
-        >
-          <StatCard variants={staggerItem}>
-            <StatValue>0</StatValue>
-            <StatLabel>Chats Ativos</StatLabel>
-          </StatCard>
-          <StatCard variants={staggerItem}>
-            <StatValue>0</StatValue>
-            <StatLabel>Mensagens Hoje</StatLabel>
-          </StatCard>
-          <StatCard variants={staggerItem}>
-            <StatValue>0</StatValue>
-            <StatLabel>Contatos Pendentes</StatLabel>
-          </StatCard>
-          <StatCard variants={staggerItem}>
-            <StatValue>14</StatValue>
-            <StatLabel>Skills Cadastradas</StatLabel>
-          </StatCard>
-        </StatsGrid>
-
-        <h2 style={{ marginBottom: '1.5rem' }}>Ações Rápidas</h2>
-        <QuickActions>
-          <ActionCard to="/admin/chat">
-            <span>💬</span>
-            <h3>Chat</h3>
-            <p>Gerenciar conversas</p>
-          </ActionCard>
-          <ActionCard to="/">
-            <span>🌐</span>
-            <h3>Ver Site</h3>
-            <p>Abrir portfólio</p>
-          </ActionCard>
-        </QuickActions>
-      </Content>
-    </PageContainer>
-  );
-};
-
-export default AdminDashboard;
+/**
+ * Section title for quick actions area.
+ */
+export const SectionTitle = styled.h2`
+  margin-bottom: 1.5rem;
+`;

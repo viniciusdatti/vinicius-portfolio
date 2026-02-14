@@ -1,9 +1,20 @@
+/**
+ * Theme store for managing application color scheme.
+ * Persists theme preference to local storage.
+ */
+
 // Libraries
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+/**
+ * Available theme modes.
+ */
 type ThemeMode = 'dark' | 'light';
 
+/**
+ * Theme state interface with actions.
+ */
 interface ThemeState {
   mode: ThemeMode;
   toggleTheme: () => void;
@@ -13,12 +24,12 @@ interface ThemeState {
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      mode: 'dark', // Default to dark mode
-      toggleTheme: () =>
-        set((state) => ({
+      mode: 'dark' as ThemeMode,
+      toggleTheme: (): void =>
+        set((state: ThemeState) => ({
           mode: state.mode === 'dark' ? 'light' : 'dark',
         })),
-      setTheme: (mode) => set({ mode }),
+      setTheme: (mode: ThemeMode): void => set({ mode }),
     }),
     {
       name: 'theme-storage',

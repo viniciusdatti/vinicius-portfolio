@@ -9,12 +9,17 @@ interface StyledButtonProps {
 }
 
 export const StyledButton = styled.button<StyledButtonProps>`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
   border: 2px solid transparent;
+  min-height: 48px;
+  box-sizing: border-box;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
     transform 0.15s ease;
 

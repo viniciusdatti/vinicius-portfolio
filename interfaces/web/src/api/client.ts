@@ -2,7 +2,8 @@
  * HTTP client configuration for API requests.
  */
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE_URL: string =
+  process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | undefined>;
@@ -25,8 +26,11 @@ export class ApiError extends Error {
 /**
  * Build URL with query parameters.
  */
-function buildUrl(endpoint: string, params?: Record<string, string | undefined>): string {
-  const url = new URL(`${API_BASE_URL}${endpoint}`);
+function buildUrl(
+  endpoint: string,
+  params?: Record<string, string | undefined>
+): string {
+  const url: URL = new URL(`${API_BASE_URL}${endpoint}`);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -42,10 +46,13 @@ function buildUrl(endpoint: string, params?: Record<string, string | undefined>)
 /**
  * Make an HTTP request to the API.
  */
-async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
-  const { params, ...fetchOptions } = options;
+async function request<T>(
+  endpoint: string,
+  options: RequestOptions = {}
+): Promise<T> {
+  const { params, ...fetchOptions }: RequestOptions = options;
 
-  const url = buildUrl(endpoint, params);
+  const url: string = buildUrl(endpoint, params);
 
   const response = await fetch(url, {
     ...fetchOptions,
@@ -56,7 +63,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
   });
 
   if (!response.ok) {
-    let errorData;
+    let errorData: unknown;
     try {
       errorData = await response.json();
     } catch {
@@ -74,23 +81,39 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
 }
 
 /**
+ * API client interface with HTTP methods.
+ */
+interface ApiClient {
+  get: <T>(
+    endpoint: string,
+    params?: Record<string, string | undefined>
+  ) => Promise<T>;
+  post: <T>(endpoint: string, data?: unknown) => Promise<T>;
+  put: <T>(endpoint: string, data?: unknown) => Promise<T>;
+  delete: <T>(endpoint: string) => Promise<T>;
+}
+
+/**
  * API client with HTTP methods.
  */
-export const apiClient = {
-  get: <T>(endpoint: string, params?: Record<string, string | undefined>) =>
-    request<T>(endpoint, { method: 'GET', params }),
+export const apiClient: ApiClient = {
+  get: <T>(
+    endpoint: string,
+    params?: Record<string, string | undefined>
+  ): Promise<T> => request<T>(endpoint, { method: 'GET', params }),
 
-  post: <T>(endpoint: string, data?: unknown) =>
+  post: <T>(endpoint: string, data?: unknown): Promise<T> =>
     request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  put: <T>(endpoint: string, data?: unknown) =>
+  put: <T>(endpoint: string, data?: unknown): Promise<T> =>
     request<T>(endpoint, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
     }),
 
-  delete: <T>(endpoint: string) => request<T>(endpoint, { method: 'DELETE' }),
+  delete: <T>(endpoint: string): Promise<T> =>
+    request<T>(endpoint, { method: 'DELETE' }),
 };
