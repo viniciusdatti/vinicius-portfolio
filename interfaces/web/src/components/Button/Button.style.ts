@@ -18,35 +18,56 @@ export const StyledButton = styled.button<StyledButtonProps>`
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
     transform 0.15s ease;
 
-  ${({ $variant = 'primary', theme }) =>
-    $variant === 'primary'
-      ? `
-    background-color: ${theme.colors.primary};
-    color: ${theme.colors.text};
-    border-color: ${theme.colors.primary};
+  ${({ $variant = 'primary', theme }) => {
+    switch ($variant) {
+      case 'primary':
+        return `
+          background-color: ${theme.colors.primary};
+          color: white;
+          border-color: ${theme.colors.primary};
 
-    &:hover {
-      filter: brightness(1.1);
-      transform: translateY(-1px);
-    }
+          &:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+          }
 
-    &:active {
-      transform: translateY(0);
-    }
-  `
-      : `
-    background-color: transparent;
-    color: ${theme.colors.primary};
-    border-color: ${theme.colors.primary};
+          &:active {
+            transform: translateY(0);
+          }
+        `;
+      case 'secondary':
+        return `
+          background-color: transparent;
+          color: ${theme.colors.text};
+          border-color: ${theme.colors.border};
 
-    &:hover {
-      background-color: ${theme.colors.primary};
-      color: ${theme.colors.text};
-      transform: translateY(-1px);
-    }
+          &:hover {
+            border-color: ${theme.colors.primary};
+            color: ${theme.colors.primary};
+            transform: translateY(-1px);
+          }
 
-    &:active {
-      transform: translateY(0);
+          &:active {
+            transform: translateY(0);
+          }
+        `;
+      case 'outline':
+      default:
+        return `
+          background-color: transparent;
+          color: ${theme.colors.primary};
+          border-color: ${theme.colors.primary};
+
+          &:hover {
+            background-color: ${theme.colors.primary};
+            color: white;
+            transform: translateY(-1px);
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        `;
     }
-  `}
+  }}
 `;
