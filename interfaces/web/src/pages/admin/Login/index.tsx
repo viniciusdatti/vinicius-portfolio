@@ -112,10 +112,11 @@ const AdminLogin: React.FC = () => {
     setError('');
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-      
+      const apiBase =
+        process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+
       // Call login API
-      const response = await fetch(`${apiUrl}/api/v1/auth/login/json`, {
+      const response = await fetch(`${apiBase}/auth/login/json`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +135,7 @@ const AdminLogin: React.FC = () => {
       const tokens = await response.json();
 
       // Get user info
-      const userResponse = await fetch(`${apiUrl}/api/v1/auth/me`, {
+      const userResponse = await fetch(`${apiBase}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${tokens.access_token}`,
         },

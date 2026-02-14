@@ -59,10 +59,11 @@ export const Login: React.FC = () => {
     setError('');
 
     try {
-      const apiUrl: string = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const apiBase: string =
+        process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
 
       // Call login API
-      const response: Response = await fetch(`${apiUrl}/api/v1/auth/login/json`, {
+      const response: Response = await fetch(`${apiBase}/auth/login/json`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export const Login: React.FC = () => {
       const tokens = await response.json();
 
       // Get user info
-      const userResponse: Response = await fetch(`${apiUrl}/api/v1/auth/me`, {
+      const userResponse: Response = await fetch(`${apiBase}/auth/me`, {
         headers: {
           'Authorization': `Bearer ${tokens.access_token}`,
         },
