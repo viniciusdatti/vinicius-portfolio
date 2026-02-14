@@ -280,11 +280,11 @@ export const LiveLab: FC = () => {
                   onKeyPress={handleKeyPress}
                   placeholder={t('liveLab.chat.placeholder')}
                   maxLength={1000}
-                  disabled={!isConnected || !sessionId}
+                  disabled={!sessionId}
                 />
                 <SendButton
                   onClick={handleSend}
-                  disabled={!inputValue.trim() || !isConnected || !sessionId}
+                  disabled={!inputValue.trim() || !sessionId || !isConnected}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >

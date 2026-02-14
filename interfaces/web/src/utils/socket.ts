@@ -6,8 +6,11 @@
 // Libraries
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000';
+/** Base URL for Socket.IO (root, not /api/v1 - socket is mounted at server root) */
+const SOCKET_URL: string = (() => {
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+  return apiUrl.replace(/\/api\/v1\/?$/, '') || 'http://localhost:8000';
+})();
 
 /**
  * Singleton service for managing WebSocket connections.
@@ -33,14 +36,23 @@ class SocketService {
     this.socket = io(`${SOCKET_URL}/chat`, {
       transports: ['websocket', 'polling'],
       autoConnect: true,
+      reconnection: true,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      timeout: 20000,
     });
 
     this.socket.on('connect', () => {
       console.log('Connected to chat server');
     });
 
-    this.socket.on('disconnect', () => {
-      console.log('Disconnected from chat server');
+    this.socket.on('disconnect', (reason) => {
+      console.log('Disconnected from chat server:', reason);
+    });
+
+    this.socket.on('reconnect', () => {
+      console.log('Reconnected to chat server');
     });
 
     this.socket.on('connect_error', (error) => {
@@ -48,6 +60,15 @@ class SocketService {
     });
 
     return this.socket;
+  }
+
+  /**
+   * Rejoins an existing session after reconnect (keeps visitor in room).
+   */
+  rejoinSession(sessionId: string): void {
+    if (this.socket?.connected && sessionId) {
+      this.socket.emit('rejoin_session', { session_id: sessionId });
+    }
   }
 
   /**
@@ -156,14 +177,23 @@ class SocketService {
       transports: ['websocket', 'polling'],
       autoConnect: true,
       auth: { token },
+      reconnection: true,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      timeout: 20000,
     });
 
     this.adminSocket.on('connect', () => {
       console.log('Admin connected to chat server');
     });
 
-    this.adminSocket.on('disconnect', () => {
-      console.log('Admin disconnected from chat server');
+    this.adminSocket.on('disconnect', (reason) => {
+      console.log('Admin disconnected from chat server:', reason);
+    });
+
+    this.adminSocket.on('connect_error', (error) => {
+      console.error('Admin connection error:', error);
     });
 
     return this.adminSocket;
@@ -260,6 +290,19 @@ class SocketService {
   onVisitorDisconnected(callback: (data: { session_id: string }) => void): void {
     if (this.adminSocket) {
       this.adminSocket.on('visitor_disconnected', callback);
+    }
+  }
+
+  /**
+   * Removes all admin event listeners (e.g. when Chat page unmounts).
+   * Does not disconnect; AdminLayout owns the connection lifecycle.
+   */
+  removeAdminListeners(): void {
+    if (this.adminSocket) {
+      this.adminSocket.off('new_session');
+      this.adminSocket.off('new_message');
+      this.adminSocket.off('visitor_typing');
+      this.adminSocket.off('visitor_disconnected');
     }
   }
 

@@ -96,11 +96,13 @@ export const HeroDescription = styled.p`
 export const CtaWrapper = styled.div`
   margin-top: 2rem;
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 1rem;
-  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 `;
 
 export const CtaButtonWrapper = styled.div`
-  display: inline-block;
+  flex-shrink: 0;
 `;

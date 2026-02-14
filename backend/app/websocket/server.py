@@ -143,6 +143,35 @@ async def start_session(sid, data):
         db.close()
 
 
+@sio.on("rejoin_session", namespace="/chat")
+async def rejoin_session(sid, data):
+    """Rejoin an existing session after reconnect (visitor back in room)."""
+    session_id = data.get("session_id")
+    if not session_id:
+        return
+
+    db = get_db()
+    try:
+        session = db.query(ChatSession).filter(
+            ChatSession.session_id == session_id,
+            ChatSession.status == ChatStatus.ACTIVE,
+        ).first()
+        if not session:
+            return
+
+        visitor_sessions[session_id] = sid
+        await sio.enter_room(sid, session_id, namespace="/chat")
+        await sio.emit(
+            "rejoin_ok",
+            {"session_id": session_id},
+            room=sid,
+            namespace="/chat",
+        )
+        logger.info(f"Visitor rejoined session: {session_id}")
+    finally:
+        db.close()
+
+
 @sio.on("send_message", namespace="/chat")
 async def visitor_send_message(sid, data):
     """Handle message from visitor."""

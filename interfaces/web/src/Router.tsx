@@ -35,6 +35,9 @@ const AdminDashboard = lazy(() =>
 const AdminChat = lazy(() =>
   import('./pages/admin/Chat').then((m) => ({ default: m.Chat }))
 );
+const AdminLayout = lazy(() =>
+  import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout }))
+);
 
 // Page loader component
 const PageLoader: React.FC = () => (
@@ -108,20 +111,29 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
         ),
       },
       {
-        path: '',
         element: (
           <Suspense fallback={<PageLoader />}>
-            <AdminDashboard />
+            <AdminLayout />
           </Suspense>
         ),
-      },
-      {
-        path: 'chat',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AdminChat />
-          </Suspense>
-        ),
+        children: [
+          {
+            index: true,
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <AdminDashboard />
+              </Suspense>
+            ),
+          },
+          {
+            path: 'chat',
+            element: (
+              <Suspense fallback={<PageLoader />}>
+                <AdminChat />
+              </Suspense>
+            ),
+          },
+        ],
       },
     ],
   },

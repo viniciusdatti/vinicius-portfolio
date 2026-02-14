@@ -115,9 +115,11 @@ export const ConnectionBadge = styled.span<ConnectionBadgeProps>`
 // ============================================
 
 export const Sidebar = styled.aside`
+  display: flex;
+  flex-direction: column;
   background-color: ${({ theme }) => theme.colors.surface};
   border-right: 1px solid ${({ theme }) => theme.colors.border};
-  overflow-y: auto;
+  overflow: hidden;
 `;
 
 export const SidebarHeader = styled.div`
@@ -131,6 +133,8 @@ export const SidebarTitle = styled.h2`
 `;
 
 export const SessionList = styled.div`
+  flex: 1;
+  overflow-y: auto;
   padding: ${({ theme }) => theme.spacing.sm};
 `;
 
@@ -355,5 +359,56 @@ export const NoChatSelected = styled.div`
 
   p {
     font-size: ${({ theme }) => theme.typography.fontSize.md};
+  }
+`;
+
+// ============================================
+// Eventos recebidos (socket)
+// ============================================
+
+export const EventsSection = styled.div`
+  margin-top: auto;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  padding: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const EventsToggle = styled.button`
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.surface};
+  }
+`;
+
+export const EventsList = styled.div`
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  font-size: 0.75rem;
+  color: ${({ theme }) => theme.colors.textSecondary};
+`;
+
+export const EventItem = styled.div`
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  [data-type] {
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.primary};
+  }
+  [data-time] {
+    opacity: 0.8;
   }
 `;
