@@ -23,13 +23,6 @@ export const HeroSection = styled.section`
   padding: 2rem;
 `;
 
-export const HeroHeader = styled.header`
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  z-index: 2;
-`;
-
 export const GlowBackdrop = styled.div`
   position: absolute;
   top: 50%;
@@ -55,12 +48,19 @@ export const HeroContent = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
+  max-width: 800px;
+`;
+
+export const HeroSubtitle = styled.span`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-bottom: 0.5rem;
 `;
 
 export const HeroName = styled.h1`
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(2.25rem, 6vw + 1rem, 4rem);
-  font-weight: 700;
+  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   margin: 0;
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -77,16 +77,28 @@ export const HeroName = styled.h1`
 `;
 
 export const HeroTitle = styled.p`
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(1rem, 2vw + 0.75rem, 1.5rem);
-  font-weight: 500;
+  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  font-size: clamp(1.25rem, 3vw, 2rem);
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ theme }) => theme.colors.primary};
   margin: 0;
   letter-spacing: 0.02em;
 `;
 
+export const HeroDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  max-width: 500px;
+  margin-top: 1rem;
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+`;
+
 export const CtaWrapper = styled.div`
   margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const CtaButtonWrapper = styled.div`

@@ -1,9 +1,11 @@
 """Application configuration using pydantic-settings."""
 
+# Core
 from functools import lru_cache
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
+# Libraries
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Get the backend directory for SQLite database path
@@ -30,6 +32,30 @@ class Settings(BaseSettings):
 
     # Logging
     log_level: str = "INFO"
+
+    # JWT Authentication
+    jwt_secret_key: str = "your-super-secret-key-change-in-production"
+    jwt_algorithm: str = "HS256"
+    jwt_access_token_expire_minutes: int = 30
+    jwt_refresh_token_expire_days: int = 7
+
+    # Email (Resend)
+    resend_api_key: Optional[str] = None
+    email_from: str = "noreply@viniciusdatti.dev"
+    email_to_admin: str = "viniciusdatti@gmail.com"
+
+    # Telegram Notifications
+    telegram_bot_token: Optional[str] = None
+    telegram_chat_id: Optional[str] = None
+
+    # Cloudinary
+    cloudinary_cloud_name: Optional[str] = None
+    cloudinary_api_key: Optional[str] = None
+    cloudinary_api_secret: Optional[str] = None
+
+    # Rate Limiting
+    rate_limit_per_minute: int = 60
+    rate_limit_contact_per_hour: int = 5
 
     @property
     def cors_origins_list(self) -> List[str]:

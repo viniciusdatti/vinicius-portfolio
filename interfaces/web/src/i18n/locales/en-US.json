@@ -3,21 +3,173 @@
     "reload": "Reload page",
     "retry": "Try again",
     "errorTitle": "Something went wrong",
-    "errorMessage": "Something unexpected happened. Please try reloading the page."
+    "errorMessage": "Something unexpected happened. Try reloading the page.",
+    "loading": "Loading...",
+    "send": "Send",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "optional": "optional",
+    "required": "required",
+    "success": "Success!",
+    "error": "Error"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "liveLab": "Live Lab",
+    "contact": "Contact"
   },
   "home": {
     "hero": {
-      "name": "Vinicius",
-      "title": "Full-Stack Developer",
-      "cta": "View Projects"
+      "greeting": "Hi, I'm",
+      "name": "Vinicius Datti",
+      "title": "Web Developer",
+      "subtitle": "React · TypeScript · Python",
+      "description": "Creating digital experiences focused on quality, performance and UX.",
+      "cta": "View Projects",
+      "contact": "Get in Touch"
+    },
+    "skillsPreview": {
+      "title": "Technologies",
+      "description": "Main tools I use daily",
+      "viewAll": "View all skills"
+    },
+    "liveLabPreview": {
+      "title": "Live Lab",
+      "badge": "Live",
+      "description": "Real-time chat with WebSocket. Talk directly with me!",
+      "cta": "Access Live Lab"
+    },
+    "contactCta": {
+      "title": "Let's talk?",
+      "description": "I'm available for new projects and opportunities.",
+      "cta": "Get in Touch"
     },
     "projectsEmpty": "No projects available at the moment.",
     "projectsLoading": "Loading projects...",
     "projectsError": "Could not load projects. Please try again."
   },
+  "about": {
+    "title": "About Me",
+    "intro": {
+      "title": "Nice to meet you, I'm Vinicius!",
+      "description": "Web Developer with 3+ years of experience, passionate about creating elegant and functional interfaces. Focus on code quality, automated testing and user experience."
+    },
+    "stats": {
+      "experience": "Years of Experience",
+      "certificates": "Certificates",
+      "technologies": "Technologies"
+    },
+    "philosophy": {
+      "title": "Work Philosophy",
+      "description": "I believe that well-written code is tested code. I prioritize clean code, clear documentation and effective communication with the team."
+    },
+    "education": {
+      "title": "Education",
+      "degree": "Software Engineering",
+      "institution": "UniCesumar",
+      "status": "In progress",
+      "complementary": "Complementary courses on Udemy, RocketSeat and Alura"
+    }
+  },
+  "skills": {
+    "title": "Skills & Certificates",
+    "subtitle": "Technical skills and professional certifications",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "testing": "Testing",
+      "realtime": "Real-time",
+      "tools": "Tools",
+      "iot": "IoT"
+    },
+    "certificates": {
+      "title": "Certificates",
+      "filterAll": "All",
+      "viewCertificate": "View certificate"
+    }
+  },
+  "liveLab": {
+    "title": "Live Lab",
+    "subtitle": "Technical demonstration of real-time skills",
+    "chat": {
+      "title": "Real-time Chat",
+      "online": "Online",
+      "offline": "Offline",
+      "placeholder": "Type your message...",
+      "send": "Send",
+      "intro": {
+        "title": "Start Conversation",
+        "description": "Talk directly with me in real-time. This chat demonstrates WebSocket implementation with React and Python.",
+        "name": "Your name",
+        "namePlaceholder": "What should I call you?",
+        "company": "Company",
+        "companyPlaceholder": "Where do you work?",
+        "start": "Start Chat"
+      },
+      "offlineNotice": "I'm offline at the moment. Your message will be saved and I'll respond as soon as possible.",
+      "typing": "typing..."
+    },
+    "techExplanation": {
+      "title": "How it was built",
+      "description": "This chat uses WebSocket for bidirectional real-time communication between client and server.",
+      "stack": {
+        "frontend": "React + Socket.io Client",
+        "backend": "FastAPI + python-socketio",
+        "database": "PostgreSQL for persistence"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Get in touch for opportunities, projects or just to exchange ideas",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your full name",
+      "email": "Email",
+      "emailPlaceholder": "your@email.com",
+      "company": "Company",
+      "companyPlaceholder": "Where do you work?",
+      "subject": "Subject",
+      "subjectPlaceholder": "What would you like to talk about?",
+      "message": "Message",
+      "messagePlaceholder": "Write your message here...",
+      "submit": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! I'll respond soon.",
+      "error": "Error sending message. Please try again."
+    },
+    "info": {
+      "title": "Information",
+      "email": "Email",
+      "location": "Location",
+      "locationValue": "São Paulo, Brazil"
+    },
+    "chatCta": {
+      "title": "Prefer to chat now?",
+      "description": "Access Live Lab for a real-time chat.",
+      "cta": "Go to Live Lab"
+    }
+  },
+  "footer": {
+    "description": "Web Developer focused on creating high-quality digital experiences.",
+    "navigation": "Navigation",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "builtWith": "Built with"
+  },
   "projects": {
     "sectionTitle": "Projects",
     "viewCode": "View code",
     "viewDemo": "View demo"
+  },
+  "validation": {
+    "required": "This field is required",
+    "email": "Invalid email",
+    "minLength": "Minimum of {{min}} characters",
+    "maxLength": "Maximum of {{max}} characters"
   }
 }

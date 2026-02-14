@@ -3,21 +3,173 @@
     "reload": "Recarregar página",
     "retry": "Tentar novamente",
     "errorTitle": "Algo deu errado",
-    "errorMessage": "Algo inesperado aconteceu. Tente recarregar a página."
+    "errorMessage": "Algo inesperado aconteceu. Tente recarregar a página.",
+    "loading": "Carregando...",
+    "send": "Enviar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "optional": "opcional",
+    "required": "obrigatório",
+    "success": "Sucesso!",
+    "error": "Erro"
+  },
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "skills": "Skills",
+    "liveLab": "Live Lab",
+    "contact": "Contato"
   },
   "home": {
     "hero": {
-      "name": "Vinicius",
-      "title": "Full-Stack Developer",
-      "cta": "Ver Projetos"
+      "greeting": "Olá, eu sou",
+      "name": "Vinicius Datti",
+      "title": "Desenvolvedor Web",
+      "subtitle": "React · TypeScript · Python",
+      "description": "Criando experiências digitais com foco em qualidade, performance e UX.",
+      "cta": "Ver Projetos",
+      "contact": "Entrar em Contato"
+    },
+    "skillsPreview": {
+      "title": "Tecnologias",
+      "description": "Principais ferramentas que utilizo no dia a dia",
+      "viewAll": "Ver todas as skills"
+    },
+    "liveLabPreview": {
+      "title": "Live Lab",
+      "badge": "Ao Vivo",
+      "description": "Chat em tempo real com WebSocket. Converse diretamente comigo!",
+      "cta": "Acessar Live Lab"
+    },
+    "contactCta": {
+      "title": "Vamos conversar?",
+      "description": "Estou disponível para novos projetos e oportunidades.",
+      "cta": "Entrar em Contato"
     },
     "projectsEmpty": "Nenhum projeto disponível no momento.",
     "projectsLoading": "Carregando projetos...",
     "projectsError": "Não foi possível carregar os projetos. Por favor, tente novamente."
   },
+  "about": {
+    "title": "Sobre Mim",
+    "intro": {
+      "title": "Prazer, Vinicius!",
+      "description": "Desenvolvedor Web com 3+ anos de experiência, apaixonado por criar interfaces elegantes e funcionais. Foco em qualidade de código, testes automatizados e experiência do usuário."
+    },
+    "stats": {
+      "experience": "Anos de Experiência",
+      "certificates": "Certificados",
+      "technologies": "Tecnologias"
+    },
+    "philosophy": {
+      "title": "Filosofia de Trabalho",
+      "description": "Acredito que código bem escrito é código testado. Priorizo clean code, documentação clara e comunicação efetiva com a equipe."
+    },
+    "education": {
+      "title": "Formação",
+      "degree": "Engenharia de Software",
+      "institution": "UniCesumar",
+      "status": "Em andamento",
+      "complementary": "Cursos complementares em Udemy, RocketSeat e Alura"
+    }
+  },
+  "skills": {
+    "title": "Skills & Certificados",
+    "subtitle": "Competências técnicas e certificações profissionais",
+    "categories": {
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "testing": "Testes",
+      "realtime": "Real-time",
+      "tools": "Ferramentas",
+      "iot": "IoT"
+    },
+    "certificates": {
+      "title": "Certificados",
+      "filterAll": "Todos",
+      "viewCertificate": "Ver certificado"
+    }
+  },
+  "liveLab": {
+    "title": "Live Lab",
+    "subtitle": "Demonstração técnica de habilidades em tempo real",
+    "chat": {
+      "title": "Chat em Tempo Real",
+      "online": "Online",
+      "offline": "Offline",
+      "placeholder": "Digite sua mensagem...",
+      "send": "Enviar",
+      "intro": {
+        "title": "Iniciar Conversa",
+        "description": "Converse diretamente comigo em tempo real. Este chat demonstra implementação de WebSocket com React e Python.",
+        "name": "Seu nome",
+        "namePlaceholder": "Como posso te chamar?",
+        "company": "Empresa",
+        "companyPlaceholder": "Onde você trabalha?",
+        "start": "Iniciar Chat"
+      },
+      "offlineNotice": "Estou offline no momento. Sua mensagem será salva e responderei assim que possível.",
+      "typing": "digitando..."
+    },
+    "techExplanation": {
+      "title": "Como foi construído",
+      "description": "Este chat utiliza WebSocket para comunicação bidirecional em tempo real entre cliente e servidor.",
+      "stack": {
+        "frontend": "React + Socket.io Client",
+        "backend": "FastAPI + python-socketio",
+        "database": "PostgreSQL para persistência"
+      }
+    }
+  },
+  "contact": {
+    "title": "Contato",
+    "subtitle": "Entre em contato para oportunidades, projetos ou apenas para trocar uma ideia",
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "Seu nome completo",
+      "email": "Email",
+      "emailPlaceholder": "seu@email.com",
+      "company": "Empresa",
+      "companyPlaceholder": "Onde você trabalha?",
+      "subject": "Assunto",
+      "subjectPlaceholder": "Sobre o que gostaria de falar?",
+      "message": "Mensagem",
+      "messagePlaceholder": "Escreva sua mensagem aqui...",
+      "submit": "Enviar Mensagem",
+      "sending": "Enviando...",
+      "success": "Mensagem enviada com sucesso! Responderei em breve.",
+      "error": "Erro ao enviar mensagem. Tente novamente."
+    },
+    "info": {
+      "title": "Informações",
+      "email": "Email",
+      "location": "Localização",
+      "locationValue": "São Paulo, Brasil"
+    },
+    "chatCta": {
+      "title": "Prefere conversar agora?",
+      "description": "Acesse o Live Lab para um chat em tempo real.",
+      "cta": "Ir para Live Lab"
+    }
+  },
+  "footer": {
+    "description": "Desenvolvedor Web focado em criar experiências digitais de alta qualidade.",
+    "navigation": "Navegação",
+    "contact": "Contato",
+    "rights": "Todos os direitos reservados.",
+    "builtWith": "Feito com"
+  },
   "projects": {
     "sectionTitle": "Projetos",
     "viewCode": "Ver código",
     "viewDemo": "Ver demo"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "email": "Email inválido",
+    "minLength": "Mínimo de {{min}} caracteres",
+    "maxLength": "Máximo de {{max}} caracteres"
   }
 }
