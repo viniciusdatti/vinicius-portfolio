@@ -1,0 +1,87 @@
+---
+description: Convenções em arquivos *.style.ts — ponto e vírgula em todo CSS e imports organizados por seção
+globs: "**/*.style.ts"
+alwaysApply: false
+---
+
+# Convenções em arquivos de estilo
+
+Em todo arquivo `*.style.ts` do projeto devem ser seguidas duas regras obrigatórias.
+
+## 1. Ponto e vírgula em todo CSS
+
+- **Toda** declaração CSS dentro de template literals (styled-components ou keyframes) deve terminar com **;**.
+- Não omitir o `;` na última propriedade de um bloco.
+
+```ts
+// ❌ EVITAR
+export const Box = styled.div`
+  padding: 1rem
+  margin: 0
+`;
+
+// ✅ CORRETO
+export const Box = styled.div`
+  padding: 1rem;
+  margin: 0;
+`;
+```
+
+Em keyframes, todas as propriedades também devem ter `;`:
+
+```ts
+const fade = keyframes`
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+`;
+```
+
+## 2. Imports organizados por seção
+
+- Separe os imports em blocos com comentários de seção.
+- Ordem sugerida: **Core** → **Libraries** → **Component** / **Types** (conforme o que existir no arquivo).
+
+Seções comuns:
+
+- `// Core` — React, dependências centrais do app (se aplicável).
+- `// Libraries` — bibliotecas externas (ex.: `styled-components`).
+- `// Component` — imports de outros arquivos do mesmo componente (ex.: estilos compartilhados).
+- `// Types` — imports de tipos (ex.: `./Button.types`).
+
+### Exemplo
+
+```ts
+// Libraries
+import styled from 'styled-components';
+
+// Types
+import type { ButtonVariant } from './Button.types';
+
+interface StyledButtonProps {
+  $variant?: ButtonVariant;
+}
+
+export const StyledButton = styled.button<StyledButtonProps>`
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+`;
+```
+
+Arquivo que só importa biblioteca:
+
+```ts
+// Libraries
+import styled from 'styled-components';
+
+export const Wrapper = styled.section`
+  padding: 2rem;
+`;
+```
+
+Nenhum arquivo `*.style.ts` deve ficar sem seções nos imports ou sem `;` nas declarações CSS.
