@@ -45,14 +45,15 @@ const fade = keyframes`
 ## 2. Imports organizados por seção
 
 - Separe os imports em blocos com comentários de seção.
-- Ordem sugerida: **Core** → **Libraries** → **Component** / **Types** (conforme o que existir no arquivo).
+- Ordem obrigatória (conforme regra global do projeto): **Core** → **Libraries** → **Types** → **Theme** → **Components** (usar apenas as seções que existirem no arquivo).
 
-Seções comuns:
+Seções (alinhadas à regra `import-sections.mdc`):
 
 - `// Core` — React, dependências centrais do app (se aplicável).
 - `// Libraries` — bibliotecas externas (ex.: `styled-components`).
-- `// Component` — imports de outros arquivos do mesmo componente (ex.: estilos compartilhados).
 - `// Types` — imports de tipos (ex.: `./Button.types`).
+- `// Theme` — imports do tema (ex.: `./styles/theme`, `Theme`).
+- `// Components` — outros arquivos do mesmo componente ou do projeto (ex.: estilos compartilhados).
 
 ### Exemplo
 

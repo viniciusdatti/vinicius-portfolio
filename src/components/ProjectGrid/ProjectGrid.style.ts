@@ -8,16 +8,22 @@ export const Grid = styled.div`
   width: 100%;
 `;
 
+export const ProjectLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing?.sm ?? '0.5rem'};
+  margin-top: 1rem;
+`;
+
 export const ProjectLink = styled.a`
   display: inline-block;
-  margin-top: 1rem;
   padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+  font-size: ${({ theme }) => theme.typography?.fontSize?.sm ?? '0.875rem'};
   font-weight: 600;
   color: ${({ theme }) => theme.colors.primary};
   background: transparent;
   border: 2px solid ${({ theme }) => theme.colors.primary};
-  border-radius: 8px;
+  border-radius: ${({ theme }) => theme.borderRadius?.md ?? '8px'};
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
 
@@ -46,4 +52,12 @@ export const Tag = styled.span`
   color: ${({ theme }) => theme.colors.primary};
   background: rgba(0, 112, 243, 0.15);
   border-radius: 6px;
+`;
+
+export const EmptyMessage = styled.p`
+  grid-column: 1 / -1;
+  text-align: center;
+  color: ${({ theme }) => theme.colors?.textMuted ?? theme.colors?.text};
+  font-size: ${({ theme }) => theme.typography?.fontSize?.md ?? '1rem'};
+  padding: 2rem;
 `;

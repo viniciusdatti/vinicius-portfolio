@@ -1,9 +1,11 @@
 // Core
 import React from 'react';
 
-// Component
-import { StyledButton } from './Button.style';
+// Types
 import type { ButtonProps } from './Button.types';
+
+// Components
+import { StyledButton } from './Button.style';
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',

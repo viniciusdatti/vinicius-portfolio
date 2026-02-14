@@ -1,5 +1,11 @@
+// Core
 import React from 'react';
+
+// Libraries
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+
+// Components
 import {
   HeroSection,
   GlowBackdrop,
@@ -8,8 +14,10 @@ import {
   HeroTitle,
   CtaWrapper,
   CtaButtonWrapper,
+  HeroHeader,
 } from './Hero.style';
 import { Button } from '../Button';
+import { LanguageToggle } from '../LanguageToggle';
 
 const MotionHeroContent = motion(HeroContent);
 const MotionHeroName = motion(HeroName);
@@ -38,8 +46,13 @@ const itemVariants = {
 };
 
 export const Hero: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <HeroSection>
+      <HeroHeader>
+        <LanguageToggle />
+      </HeroHeader>
       <GlowBackdrop aria-hidden />
       <MotionHeroContent
         variants={containerVariants}
@@ -47,10 +60,10 @@ export const Hero: React.FC = () => {
         animate="visible"
       >
         <MotionHeroName variants={itemVariants}>
-          Vinicius
+          {t('home.hero.name')}
         </MotionHeroName>
         <MotionHeroTitle variants={itemVariants}>
-          Front-end Developer
+          {t('home.hero.title')}
         </MotionHeroTitle>
         <MotionCtaWrapper variants={itemVariants}>
           <MotionCtaButtonWrapper
@@ -62,7 +75,7 @@ export const Hero: React.FC = () => {
                 document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' })
               }
             >
-              Ver Projetos
+              {t('home.hero.cta')}
             </Button>
           </MotionCtaButtonWrapper>
         </MotionCtaWrapper>

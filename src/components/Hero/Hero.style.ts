@@ -23,6 +23,13 @@ export const HeroSection = styled.section`
   padding: 2rem;
 `;
 
+export const HeroHeader = styled.header`
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 2;
+`;
+
 export const GlowBackdrop = styled.div`
   position: absolute;
   top: 50%;

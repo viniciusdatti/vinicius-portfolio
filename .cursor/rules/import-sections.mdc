@@ -1,0 +1,50 @@
+---
+description: Imports devem ser agrupados e separados por seções na ordem Core → Libraries → Types → Theme → Components
+globs: "**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Ordem e seções de imports
+
+Em **todo** arquivo TypeScript/TSX do projeto, os imports devem ser organizados em blocos com comentários de seção, **nessa ordem**:
+
+1. **// Core** — React, ReactDOM e dependências centrais do app (ex.: `react`, `react-dom`, side-effect como `./i18n/config`).
+2. **// Libraries** — bibliotecas externas (ex.: `styled-components`, `framer-motion`, `react-i18next`, `i18next`).
+3. **// Types** — apenas `import type ...` de tipos e interfaces (exceto Theme).
+4. **// Theme** — imports do tema: `theme`, `Theme` ou qualquer coisa de `./styles/theme` / `./theme`.
+5. **// Components** — código interno do projeto: componentes, views, estilos, data, i18n (caminhos relativos `./`, `../`), exceto o tema.
+
+## Regras
+
+- Use **exatamente** os rótulos: `// Core`, `// Libraries`, `// Types`, `// Theme`, `// Components`.
+- Inclua **apenas** as seções que o arquivo realmente usa (ex.: se não houver import do tema, não crie seção Theme).
+- Dentro de cada seção, mantenha uma linha em branco entre seções; imports do mesmo grupo ficam juntos.
+
+## Exemplo
+
+```ts
+// Core
+import React from 'react';
+
+// Libraries
+import { useTranslation } from 'react-i18next';
+
+// Types
+import type { ProjectGridProps } from './ProjectGrid.types';
+
+// Theme
+import { theme } from './styles/theme';
+
+// Components
+import { Card } from '../Card';
+import { Grid } from './ProjectGrid.style';
+```
+
+Arquivo só com biblioteca:
+
+```ts
+// Libraries
+import styled from 'styled-components';
+```
+
+Nenhum arquivo do projeto deve ter imports sem essas seções ou em ordem diferente.
