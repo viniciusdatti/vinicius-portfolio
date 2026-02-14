@@ -89,7 +89,27 @@
     "certificates": {
       "title": "Certificates",
       "filterAll": "All",
-      "viewCertificate": "View certificate"
+      "viewCertificate": "View Certificate",
+      "close": "Close",
+      "totalHours": "{{hours}}+ hours of study",
+      "hours_one": "{{count}} hour",
+      "hours_other": "{{count}} hours",
+      "courses_one": "{{count}} course",
+      "courses_other": "{{count}} courses",
+      "types": {
+        "micro": "Micro certificate",
+        "course": "Course",
+        "trail": "Trail"
+      },
+      "items": {
+        "aluraReactExplore": "Explore React with JavaScript",
+        "aluraReactTests": "Improve your React app with automated testing",
+        "udemyWebDesign": "Complete Web Design: HTML5, CSS3 and JavaScript + 5 projects",
+        "aluraCssDeepDive": "CSS: Deep Dive into Styles",
+        "aluraReactContext": "React: Global State Management with ContextAPI",
+        "rocketseatPythonFundamentals": "Python Fundamentals",
+        "rocketseatPythonFlask": "Python with Flask"
+      }
     }
   },
   "liveLab": {

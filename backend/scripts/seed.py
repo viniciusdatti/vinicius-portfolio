@@ -6,6 +6,8 @@ from pathlib import Path
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+from sqlalchemy import text
+
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
 from app.models.project import Project
@@ -19,33 +21,40 @@ def create_tables():
     print("Tables created successfully!")
 
 
-def seed_data():
+def seed_data(force: bool = False):
     """Seed the database with initial portfolio data."""
     db = SessionLocal()
 
     try:
         # Check if data already exists
         existing_projects = db.query(Project).count()
-        if existing_projects > 0:
+        if existing_projects > 0 and not force:
             print(f"Database already has {existing_projects} projects. Skipping seed.")
+            print("Use --force to replace existing data.")
             return
+        
+        if force and existing_projects > 0:
+            print("Force mode: Deleting existing data...")
+            # Delete in correct order due to foreign keys
+            db.execute(text("DELETE FROM project_technologies"))
+            db.query(Project).delete()
+            db.query(Technology).delete()
+            db.commit()
 
         print("Seeding technologies...")
 
         # Create technologies
         technologies = {
             "react": Technology(name="React", slug="react"),
-            "typescript": Technology(name="TypeScript", slug="typescript"),
-            "storybook": Technology(name="Storybook", slug="storybook"),
-            "styled_components": Technology(
-                name="Styled Components", slug="styled-components"
-            ),
-            "chartjs": Technology(name="Chart.js", slug="chartjs"),
-            "rest_api": Technology(name="REST API", slug="rest-api"),
-            "nodejs": Technology(name="Node.js", slug="nodejs"),
-            "postgresql": Technology(name="PostgreSQL", slug="postgresql"),
+            "javascript": Technology(name="JavaScript", slug="javascript"),
+            "css": Technology(name="CSS", slug="css"),
+            "html": Technology(name="HTML", slug="html"),
             "python": Technology(name="Python", slug="python"),
-            "fastapi": Technology(name="FastAPI", slug="fastapi"),
+            "flask": Technology(name="Flask", slug="flask"),
+            "rest_api": Technology(name="REST API", slug="rest-api"),
+            "vite": Technology(name="Vite", slug="vite"),
+            "docker": Technology(name="Docker", slug="docker"),
+            "mysql": Technology(name="MySQL", slug="mysql"),
         }
 
         for tech in technologies.values():
@@ -53,73 +62,88 @@ def seed_data():
 
         db.flush()  # Flush to get IDs
 
+        db.commit()  # Commit technologies first
+        
         print("Seeding projects...")
 
-        # Create projects
-        projects = [
-            Project(
-                title="Corporate Design System",
-                title_pt="Sistema de Design Corporativo",
-                description="Reusable component library and living documentation to standardize enterprise product interfaces, with design tokens and WCAG accessibility.",
-                description_pt="Biblioteca de componentes reutilizáveis e documentação viva para padronizar a interface de produtos enterprise, com tokens de design e acessibilidade WCAG.",
-                repository_url="https://github.com/viniciusdev/design-system",
-                demo_url="https://design-system.example.com",
-                technologies=[
-                    technologies["react"],
-                    technologies["typescript"],
-                    technologies["storybook"],
-                    technologies["styled_components"],
-                ],
-            ),
-            Project(
-                title="Performance Dashboard",
-                title_pt="Dashboard de Performance",
-                description="Real-time panel for business metrics, with interactive charts, period filters and report export.",
-                description_pt="Painel em tempo real para métricas de negócio, com gráficos interativos, filtros por período e exportação de relatórios.",
-                repository_url="https://github.com/viniciusdev/dashboard",
-                demo_url=None,
-                technologies=[
-                    technologies["react"],
-                    technologies["typescript"],
-                    technologies["chartjs"],
-                    technologies["rest_api"],
-                ],
-            ),
-            Project(
-                title="Investment Platform",
-                title_pt="Plataforma de Investimentos",
-                description="Application for portfolio simulation, asset tracking and onboarding of new investors with a guided flow.",
-                description_pt="Aplicação para simulação de carteira, acompanhamento de ativos e onboarding de novos investidores com fluxo guiado.",
-                repository_url="https://github.com/viniciusdev/investment-platform",
-                demo_url="https://investments.example.com",
-                technologies=[
-                    technologies["react"],
-                    technologies["typescript"],
-                    technologies["nodejs"],
-                    technologies["postgresql"],
-                ],
-            ),
-            Project(
-                title="Portfolio API",
-                title_pt="API do Portfólio",
-                description="RESTful API built with FastAPI to serve portfolio data, demonstrating backend development skills with Python.",
-                description_pt="API RESTful construída com FastAPI para servir dados do portfólio, demonstrando habilidades de desenvolvimento backend com Python.",
-                repository_url="https://github.com/viniciusdev/portfolio-api",
-                demo_url=None,
-                technologies=[
-                    technologies["python"],
-                    technologies["fastapi"],
-                    technologies["postgresql"],
-                    technologies["rest_api"],
-                ],
-            ),
+        # Create projects - Real projects from GitHub
+        # Note: Using ASCII-safe characters for PT-BR to avoid encoding issues
+        project_data = [
+            {
+                "title": "ReactGram",
+                "title_pt": "ReactGram",
+                "description": "Instagram clone built with React, featuring photo sharing, likes, comments, and user profiles. A full-stack social media application.",
+                "description_pt": "Clone do Instagram construido com React, com compartilhamento de fotos, curtidas, comentarios e perfis de usuario. Uma aplicacao full-stack de rede social.",
+                "repository_url": "https://github.com/viniciusdatti/ReactGram",
+                "techs": ["react", "javascript", "css"],
+            },
+            {
+                "title": "Netflix Clone",
+                "title_pt": "Clone da Netflix",
+                "description": "Netflix UI clone built with React, featuring movie browsing, categories, and responsive design inspired by the streaming platform.",
+                "description_pt": "Clone da interface da Netflix construido com React, com navegacao de filmes, categorias e design responsivo inspirado na plataforma de streaming.",
+                "repository_url": "https://github.com/viniciusdatti/netflix_clone",
+                "techs": ["react", "javascript", "css"],
+            },
+            {
+                "title": "Movies Lib",
+                "title_pt": "Biblioteca de Filmes",
+                "description": "Movie library application built with React and Vite, consuming an external API to display movie information, ratings, and details.",
+                "description_pt": "Aplicacao de biblioteca de filmes construida com React e Vite, consumindo API externa para exibir informacoes, avaliacoes e detalhes de filmes.",
+                "repository_url": "https://github.com/viniciusdatti/movies_lib",
+                "techs": ["react", "javascript", "vite", "rest_api"],
+            },
+            {
+                "title": "Secret Word",
+                "title_pt": "Palavra Secreta",
+                "description": "Word guessing game built with React. Players try to discover the secret word by guessing letters, with score tracking and difficulty levels.",
+                "description_pt": "Jogo de adivinhacao de palavras construido com React. Os jogadores tentam descobrir a palavra secreta adivinhando letras, com pontuacao e niveis de dificuldade.",
+                "repository_url": "https://github.com/viniciusdatti/secret_word",
+                "techs": ["react", "javascript", "css"],
+            },
+            {
+                "title": "Tasks Flask CRUD",
+                "title_pt": "CRUD de Tarefas com Flask",
+                "description": "RESTful API for task management built with Flask and Python. Implements full CRUD operations with unit tests.",
+                "description_pt": "API RESTful para gerenciamento de tarefas construida com Flask e Python. Implementa operacoes CRUD completas com testes unitarios.",
+                "repository_url": "https://github.com/viniciusdatti/tasks-flask-crud",
+                "techs": ["python", "flask", "rest_api"],
+            },
+            {
+                "title": "Flask Auth API",
+                "title_pt": "API de Autenticacao Flask",
+                "description": "Authentication API with Flask featuring user registration, login, JWT tokens, and database integration with Docker support.",
+                "description_pt": "API de autenticacao com Flask, com registro de usuarios, login, tokens JWT e integracao com banco de dados com suporte a Docker.",
+                "repository_url": "https://github.com/viniciusdatti/sample-flask-auth",
+                "techs": ["python", "flask", "docker", "mysql"],
+            },
+            {
+                "title": "HTML-CSS Projects",
+                "title_pt": "Projetos HTML-CSS",
+                "description": "Collection of frontend projects built with HTML and CSS, including landing pages, forms, and responsive layouts. Demonstrates fundamental web development skills.",
+                "description_pt": "Colecao de projetos frontend construidos com HTML e CSS, incluindo landing pages, formularios e layouts responsivos. Demonstra habilidades fundamentais de desenvolvimento web.",
+                "repository_url": "https://github.com/viniciusdatti/HTML-CSS",
+                "techs": ["html", "css", "javascript"],
+            },
         ]
 
-        for project in projects:
+        for data in project_data:
+            # Get fresh technology references from the database
+            tech_list = [technologies[tech_key] for tech_key in data["techs"]]
+            
+            project = Project(
+                title=data["title"],
+                title_pt=data["title_pt"],
+                description=data["description"],
+                description_pt=data["description_pt"],
+                repository_url=data["repository_url"],
+                demo_url=None,
+                technologies=tech_list,
+            )
             db.add(project)
 
         db.commit()
-        print(f"Successfully seeded {len(projects)} projects and {len(technologies)} technologies!")
+        print(f"Successfully seeded {len(project_data)} projects and {len(technologies)} technologies!")
 
     except Exception as e:
         print(f"Error seeding database: {e}")
@@ -130,5 +154,10 @@ def seed_data():
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--force", action="store_true", help="Force replace existing data")
+    args = parser.parse_args()
+    
     create_tables()
-    seed_data()
+    seed_data(force=args.force)

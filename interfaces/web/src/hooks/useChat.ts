@@ -40,30 +40,40 @@ export const useChat = () => {
   useEffect(() => {
     const socket = socketService.connectVisitor();
 
-    socket.on('connect', () => {
+    // Handle connection state
+    const handleConnect = (): void => {
       setConnected(true);
-    });
+    };
 
-    socket.on('disconnect', () => {
+    const handleDisconnect = (): void => {
       setConnected(false);
-    });
+    };
+
+    // Register connection listeners
+    socket.on('connect', handleConnect);
+    socket.on('disconnect', handleDisconnect);
+
+    // Check if already connected (in case socket was reused)
+    if (socket.connected) {
+      setConnected(true);
+    }
 
     // Listen for admin status
-    socketService.onAdminStatus((data) => {
+    socket.on('admin_status', (data: { is_online: boolean }) => {
       setAdminOnline(data.is_online);
     });
 
     // Listen for session started
-    socketService.onSessionStarted((data) => {
+    socket.on('session_started', (data: { session_id: string; visitor_name: string }) => {
       setSessionId(data.session_id);
     });
 
     // Listen for messages
-    socketService.onMessage((data) => {
+    socket.on('message', (data: { id: number; content: string; sender_type: string; created_at: string }) => {
       const message: ChatMessage = {
         id: data.id,
         content: data.content,
-        sender_type: data.sender_type,
+        sender_type: data.sender_type as 'visitor' | 'admin',
         is_read: false,
         created_at: data.created_at,
       };
@@ -71,7 +81,7 @@ export const useChat = () => {
     });
 
     // Listen for admin typing
-    socketService.onAdminTyping(() => {
+    socket.on('admin_typing', () => {
       setTyping(true);
       
       // Clear existing timeout
@@ -86,12 +96,19 @@ export const useChat = () => {
     });
 
     // Listen for session closed
-    socketService.onSessionClosed(() => {
+    socket.on('session_closed', () => {
       // Could show a notification here
       console.log('Session was closed by admin');
     });
 
     return () => {
+      socket.off('connect', handleConnect);
+      socket.off('disconnect', handleDisconnect);
+      socket.off('admin_status');
+      socket.off('session_started');
+      socket.off('message');
+      socket.off('admin_typing');
+      socket.off('session_closed');
       socketService.disconnectVisitor();
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
