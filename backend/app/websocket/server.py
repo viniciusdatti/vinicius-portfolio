@@ -2,6 +2,7 @@
 
 # Core
 import logging
+import asyncio
 from typing import Dict, Set
 
 # Libraries
@@ -16,6 +17,9 @@ from app.models.chat import ChatSession, ChatMessage, ChatStatus, SenderType
 
 # App - Core
 from app.core.config import get_settings
+
+# App - Services
+from app.services.telegram import telegram_service
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -124,6 +128,16 @@ async def start_session(sid, data):
             namespace="/admin-chat",
         )
 
+        # Send Telegram notification if no admin is online
+        if len(connected_admins) == 0:
+            asyncio.create_task(
+                telegram_service.send_chat_notification(
+                    visitor_name=visitor_name,
+                    message="Nova conversa iniciada",
+                    visitor_company=visitor_company,
+                )
+            )
+
         logger.info(f"New chat session started: {session.session_id}")
     finally:
         db.close()
@@ -185,6 +199,15 @@ async def visitor_send_message(sid, data):
             namespace="/admin-chat",
         )
 
+        # Send Telegram notification if no admin is online
+        if len(connected_admins) == 0:
+            asyncio.create_task(
+                telegram_service.send_new_message_notification(
+                    visitor_name=session.visitor_name,
+                    message=content,
+                )
+            )
+
         logger.info(f"Message from visitor in session {session_id}")
     finally:
         db.close()
@@ -207,9 +230,9 @@ async def visitor_typing(sid, data):
 # ============================================
 
 @sio.on("connect", namespace="/admin-chat")
-async def admin_connect(sid, environ):
-    """Handle admin connection."""
-    # TODO: Verify admin token from environ
+async def admin_connect(sid, environ, auth):
+    """Handle admin connection with authentication."""
+    # TODO: Verify admin token from auth
     logger.info(f"Admin connected: {sid}")
     connected_admins.add(sid)
     

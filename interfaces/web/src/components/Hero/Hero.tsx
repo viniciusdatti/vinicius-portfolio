@@ -20,13 +20,13 @@ import {
   CtaButtonWrapper,
 } from './Hero.style';
 
-const MotionHeroContent = motion(HeroContent);
-const MotionHeroName = motion(HeroName);
-const MotionHeroTitle = motion(HeroTitle);
-const MotionHeroSubtitle = motion(HeroSubtitle);
-const MotionHeroDescription = motion(HeroDescription);
-const MotionCtaWrapper = motion(CtaWrapper);
-const MotionCtaButtonWrapper = motion(CtaButtonWrapper);
+const MotionHeroContent = motion.create(HeroContent);
+const MotionHeroName = motion.create(HeroName);
+const MotionHeroTitle = motion.create(HeroTitle);
+const MotionHeroSubtitle = motion.create(HeroSubtitle);
+const MotionHeroDescription = motion.create(HeroDescription);
+const MotionCtaWrapper = motion.create(CtaWrapper);
+const MotionCtaButtonWrapper = motion.create(CtaButtonWrapper);
 
 const containerVariants = {
   hidden: { opacity: 0 },
