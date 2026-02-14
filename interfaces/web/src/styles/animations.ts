@@ -142,7 +142,14 @@ export const heroSubtitle: Variants = {
 // Interactive Animations
 // ============================================
 
-export const pulse = {
+/**
+ * Pulse animation target for infinite loop effect.
+ */
+export const pulse: {
+  scale: number[];
+  opacity: number[];
+  transition: { duration: number; repeat: number; ease: string };
+} = {
   scale: [1, 1.2, 1],
   opacity: [1, 0.8, 1],
   transition: {
@@ -237,11 +244,22 @@ export const cardHover: Variants = {
 // Utility Functions
 // ============================================
 
-export const parallaxY = (offset: number) => ({
+/**
+ * Creates parallax Y offset animation properties.
+ */
+export const parallaxY = (
+  offset: number
+): { y: number; transition: { type: string; stiffness: number } } => ({
   y: offset,
   transition: { type: 'spring', stiffness: 100 },
 });
 
-export const createStaggerDelay = (index: number, baseDelay = 0.1) => ({
+/**
+ * Creates stagger delay animation properties based on index.
+ */
+export const createStaggerDelay = (
+  index: number,
+  baseDelay: number = 0.1
+): { transition: { delay: number } } => ({
   transition: { delay: index * baseDelay },
 });

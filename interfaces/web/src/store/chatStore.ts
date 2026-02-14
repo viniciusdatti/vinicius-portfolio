@@ -1,9 +1,17 @@
+/**
+ * Chat store for managing visitor chat state.
+ * Handles session, messages, and connection status.
+ */
+
 // Libraries
 import { create } from 'zustand';
 
 // Types
 import type { ChatMessage } from '../types';
 
+/**
+ * Chat state interface with actions.
+ */
 interface ChatState {
   sessionId: string | null;
   messages: ChatMessage[];
@@ -22,37 +30,41 @@ interface ChatState {
   reset: () => void;
 }
 
-export const useChatStore = create<ChatState>((set) => ({
-  sessionId: null,
-  messages: [],
-  isConnected: false,
-  isAdminOnline: false,
-  isTyping: false,
-  soundEnabled: false, // Opt-in for sound
+// Types
+import type { StoreApi, UseBoundStore } from 'zustand';
 
-  setSessionId: (sessionId) => set({ sessionId }),
+export const useChatStore: UseBoundStore<StoreApi<ChatState>> =
+  create<ChatState>((set) => ({
+    sessionId: null,
+    messages: [],
+    isConnected: false,
+    isAdminOnline: false,
+    isTyping: false,
+    soundEnabled: false,
 
-  addMessage: (message) =>
-    set((state) => ({
-      messages: [...state.messages, message],
-    })),
+    setSessionId: (sessionId: string): void => set({ sessionId }),
 
-  setMessages: (messages) => set({ messages }),
+    addMessage: (message: ChatMessage): void =>
+      set((state: ChatState) => ({
+        messages: [...state.messages, message],
+      })),
 
-  setConnected: (isConnected) => set({ isConnected }),
+    setMessages: (messages: ChatMessage[]): void => set({ messages }),
 
-  setAdminOnline: (isAdminOnline) => set({ isAdminOnline }),
+    setConnected: (isConnected: boolean): void => set({ isConnected }),
 
-  setTyping: (isTyping) => set({ isTyping }),
+    setAdminOnline: (isAdminOnline: boolean): void => set({ isAdminOnline }),
 
-  toggleSound: () =>
-    set((state) => ({ soundEnabled: !state.soundEnabled })),
+    setTyping: (isTyping: boolean): void => set({ isTyping }),
 
-  reset: () =>
-    set({
-      sessionId: null,
-      messages: [],
-      isConnected: false,
-      isTyping: false,
-    }),
-}));
+    toggleSound: (): void =>
+      set((state: ChatState) => ({ soundEnabled: !state.soundEnabled })),
+
+    reset: (): void =>
+      set({
+        sessionId: null,
+        messages: [],
+        isConnected: false,
+        isTyping: false,
+      }),
+  }));

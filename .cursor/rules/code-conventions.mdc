@@ -1,0 +1,57 @@
+---
+description: Core code conventions for backend and frontend
+alwaysApply: true
+---
+
+# Code Conventions
+
+## Line Length
+- Maximum 100 characters per line
+- Break long lines at logical points
+
+## Language
+- All comments in English
+- All variable/function/class names in English
+
+## Functions
+
+### Single Responsibility
+Each function must have only one responsibility and one return type.
+
+```typescript
+// ❌ BAD - mixed responsibilities
+function getUserData(id: string) {
+  const user = db.findUser(id);
+  sendEmail(user.email); // side effect
+  return user;
+}
+
+// ✅ GOOD - single responsibility
+function getUserById(id: string): User {
+  return db.findUser(id);
+}
+
+function notifyUser(user: User): void {
+  sendEmail(user.email);
+}
+```
+
+### Self-Documenting with Comments
+Functions must be self-explanatory with clear comments describing functionality.
+
+```typescript
+// ❌ BAD - no documentation
+function calc(a, b) {
+  return a * b * 0.1;
+}
+
+// ✅ GOOD - documented and clear
+/**
+ * Calculates the discount amount based on price and quantity.
+ * Applies a 10% discount rate.
+ */
+function calculateDiscount(price: number, quantity: number): number {
+  const DISCOUNT_RATE = 0.1;
+  return price * quantity * DISCOUNT_RATE;
+}
+```

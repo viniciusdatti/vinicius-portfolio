@@ -1,8 +1,18 @@
+/**
+ * Socket service for real-time chat communication.
+ * Manages WebSocket connections for visitors and admin users.
+ */
+
 // Libraries
 import { io, Socket } from 'socket.io-client';
 
-const SOCKET_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const SOCKET_URL: string =
+  process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
+/**
+ * Singleton service for managing WebSocket connections.
+ * Handles both visitor and admin chat namespaces.
+ */
 class SocketService {
   private socket: Socket | null = null;
   private adminSocket: Socket | null = null;
@@ -11,6 +21,10 @@ class SocketService {
   // Visitor Socket (Public Chat)
   // ============================================
 
+  /**
+   * Connects to the visitor chat namespace.
+   * Creates a new connection if not already connected.
+   */
   connectVisitor(): Socket {
     if (this.socket?.connected) {
       return this.socket;
@@ -36,6 +50,9 @@ class SocketService {
     return this.socket;
   }
 
+  /**
+   * Disconnects the visitor socket connection.
+   */
   disconnectVisitor(): void {
     if (this.socket) {
       this.socket.disconnect();
@@ -43,6 +60,9 @@ class SocketService {
     }
   }
 
+  /**
+   * Starts a new chat session with visitor information.
+   */
   startSession(visitorName: string, visitorCompany?: string): void {
     if (this.socket) {
       this.socket.emit('start_session', {
@@ -52,6 +72,9 @@ class SocketService {
     }
   }
 
+  /**
+   * Sends a message from visitor to the session.
+   */
   sendMessage(sessionId: string, content: string): void {
     if (this.socket) {
       this.socket.emit('send_message', {
@@ -61,36 +84,56 @@ class SocketService {
     }
   }
 
+  /**
+   * Emits typing indicator for the session.
+   */
   sendTyping(sessionId: string): void {
     if (this.socket) {
       this.socket.emit('typing', { session_id: sessionId });
     }
   }
 
+  /**
+   * Registers callback for incoming messages.
+   */
   onMessage(callback: (data: any) => void): void {
     if (this.socket) {
       this.socket.on('message', callback);
     }
   }
 
+  /**
+   * Registers callback for admin online status updates.
+   */
   onAdminStatus(callback: (data: { is_online: boolean }) => void): void {
     if (this.socket) {
       this.socket.on('admin_status', callback);
     }
   }
 
+  /**
+   * Registers callback for admin typing indicator.
+   */
   onAdminTyping(callback: (data: { session_id: string }) => void): void {
     if (this.socket) {
       this.socket.on('admin_typing', callback);
     }
   }
 
-  onSessionStarted(callback: (data: { session_id: string; visitor_name: string }) => void): void {
+  /**
+   * Registers callback for session started event.
+   */
+  onSessionStarted(
+    callback: (data: { session_id: string; visitor_name: string }) => void
+  ): void {
     if (this.socket) {
       this.socket.on('session_started', callback);
     }
   }
 
+  /**
+   * Registers callback for session closed event.
+   */
   onSessionClosed(callback: (data: { session_id: string }) => void): void {
     if (this.socket) {
       this.socket.on('session_closed', callback);
@@ -101,6 +144,9 @@ class SocketService {
   // Admin Socket
   // ============================================
 
+  /**
+   * Connects to the admin chat namespace with authentication.
+   */
   connectAdmin(token: string): Socket {
     if (this.adminSocket?.connected) {
       return this.adminSocket;
@@ -123,6 +169,9 @@ class SocketService {
     return this.adminSocket;
   }
 
+  /**
+   * Disconnects the admin socket connection.
+   */
   disconnectAdmin(): void {
     if (this.adminSocket) {
       this.adminSocket.disconnect();
@@ -130,12 +179,18 @@ class SocketService {
     }
   }
 
+  /**
+   * Joins a chat session as admin.
+   */
   joinSession(sessionId: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('join_session', { session_id: sessionId });
     }
   }
 
+  /**
+   * Sends a message from admin to the session.
+   */
   adminSendMessage(sessionId: string, content: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('send_message', {
@@ -145,42 +200,63 @@ class SocketService {
     }
   }
 
+  /**
+   * Emits admin typing indicator for the session.
+   */
   adminSendTyping(sessionId: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('typing', { session_id: sessionId });
     }
   }
 
+  /**
+   * Marks all messages in a session as read.
+   */
   markRead(sessionId: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('mark_read', { session_id: sessionId });
     }
   }
 
+  /**
+   * Closes a chat session.
+   */
   closeSession(sessionId: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('close_session', { session_id: sessionId });
     }
   }
 
+  /**
+   * Registers callback for new session events.
+   */
   onNewSession(callback: (data: any) => void): void {
     if (this.adminSocket) {
       this.adminSocket.on('new_session', callback);
     }
   }
 
+  /**
+   * Registers callback for new message events.
+   */
   onNewMessage(callback: (data: any) => void): void {
     if (this.adminSocket) {
       this.adminSocket.on('new_message', callback);
     }
   }
 
+  /**
+   * Registers callback for visitor typing indicator.
+   */
   onVisitorTyping(callback: (data: { session_id: string }) => void): void {
     if (this.adminSocket) {
       this.adminSocket.on('visitor_typing', callback);
     }
   }
 
+  /**
+   * Registers callback for visitor disconnect events.
+   */
   onVisitorDisconnected(callback: (data: { session_id: string }) => void): void {
     if (this.adminSocket) {
       this.adminSocket.on('visitor_disconnected', callback);
@@ -191,18 +267,30 @@ class SocketService {
   // Utility Methods
   // ============================================
 
+  /**
+   * Returns the visitor socket instance.
+   */
   getVisitorSocket(): Socket | null {
     return this.socket;
   }
 
+  /**
+   * Returns the admin socket instance.
+   */
   getAdminSocket(): Socket | null {
     return this.adminSocket;
   }
 
+  /**
+   * Checks if visitor socket is connected.
+   */
   isVisitorConnected(): boolean {
     return this.socket?.connected ?? false;
   }
 
+  /**
+   * Checks if admin socket is connected.
+   */
   isAdminConnected(): boolean {
     return this.adminSocket?.connected ?? false;
   }

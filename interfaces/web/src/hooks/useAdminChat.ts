@@ -1,3 +1,8 @@
+/**
+ * Admin chat hook for managing real-time chat sessions.
+ * Handles socket connections, message handling, and session management.
+ */
+
 // Core
 import { useEffect, useCallback, useRef, useState } from 'react';
 
@@ -7,7 +12,9 @@ import { socketService } from '../utils/socket';
 // Store
 import { useAuthStore } from '../store';
 
-// Types
+/**
+ * Represents an active chat session with a visitor.
+ */
 export interface ChatSession {
   session_id: string;
   visitor_name: string;
@@ -18,6 +25,9 @@ export interface ChatSession {
   is_typing?: boolean;
 }
 
+/**
+ * Represents a single chat message.
+ */
 export interface ChatMessage {
   id: number;
   session_id: string;
@@ -26,6 +36,10 @@ export interface ChatMessage {
   created_at: string;
 }
 
+/**
+ * Hook for admin chat functionality.
+ * Manages socket connection, sessions list, and message handling.
+ */
 export const useAdminChat = () => {
   const { tokens } = useAuthStore();
   const [sessions, setSessions] = useState<ChatSession[]>([]);
@@ -138,7 +152,9 @@ export const useAdminChat = () => {
     };
   }, [tokens?.access_token]);
 
-  // Join a session
+  /**
+   * Joins a chat session and marks messages as read.
+   */
   const joinSession = useCallback((sessionId: string) => {
     setActiveSessionId(sessionId);
     socketService.joinSession(sessionId);
@@ -154,7 +170,9 @@ export const useAdminChat = () => {
     );
   }, []);
 
-  // Send a message
+  /**
+   * Sends a message to the active session.
+   */
   const sendMessage = useCallback(
     (content: string) => {
       if (activeSessionId && content.trim()) {
@@ -164,14 +182,18 @@ export const useAdminChat = () => {
     [activeSessionId]
   );
 
-  // Send typing indicator
+  /**
+   * Sends typing indicator to the active session.
+   */
   const sendTyping = useCallback(() => {
     if (activeSessionId) {
       socketService.adminSendTyping(activeSessionId);
     }
   }, [activeSessionId]);
 
-  // Close a session
+  /**
+   * Closes a chat session and removes it from the list.
+   */
   const closeSession = useCallback((sessionId: string) => {
     socketService.closeSession(sessionId);
     setSessions((prev) => prev.filter((s) => s.session_id !== sessionId));

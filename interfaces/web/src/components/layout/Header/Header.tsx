@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 
 // Libraries
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
@@ -83,7 +83,6 @@ export const Header: React.FC = () => {
       >
         <HeaderContent>
           <Logo
-            as={Link}
             to="/"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -95,7 +94,6 @@ export const Header: React.FC = () => {
             {navItems.map((item) => (
               <NavLink
                 key={item.path}
-                as={Link}
                 to={item.path}
                 $active={location.pathname === item.path}
               >
