@@ -1,0 +1,28 @@
+---
+description: Nenhuma implementação com erro de lint é aceita; sempre corrigir antes de finalizar
+alwaysApply: true
+---
+
+# Zero erros de lint
+
+Neste projeto **nenhuma implementação com erro de lint é aceita**. O código deve ser entregue sem warnings nem erros do linter/TypeScript.
+
+## Regra
+
+- **Não finalize** tarefas deixando erros ou warnings de lint no código alterado.
+- **Sempre verifique** os arquivos editados com o linter (e, se aplicável, o TypeScript) antes de considerar a tarefa concluída.
+- **Corrija** qualquer erro ou warning reportado antes de encerrar a implementação.
+
+## Fluxo esperado
+
+1. Fazer a alteração no código.
+2. Rodar/verificar o linter nos arquivos tocados (ex.: `ReadLints` ou comando do projeto).
+3. Se houver erro ou warning → corrigir e repetir até zerar.
+4. Só então dar a implementação por concluída.
+
+## Escopo
+
+- Aplica-se a **todo** o código do projeto (TypeScript/TSX, ESLint, regras do editor).
+- Inclui erros de tipo (TypeScript), regras do ESLint e demais diagnósticos configurados no workspace.
+
+Entregas com lint quebrado não são aceitas; sempre estar atento e corrigir.

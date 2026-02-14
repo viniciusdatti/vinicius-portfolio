@@ -1,0 +1,52 @@
+// Libraries
+import styled from 'styled-components';
+
+// Types
+import type { ButtonVariant } from './Button.types';
+
+interface StyledButtonProps {
+  $variant?: ButtonVariant;
+}
+
+export const StyledButton = styled.button<StyledButtonProps>`
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    transform 0.15s ease;
+
+  ${({ $variant = 'primary', theme }) =>
+    $variant === 'primary'
+      ? `
+    background-color: ${theme.colors.primary};
+    color: ${theme.colors.text};
+    border-color: ${theme.colors.primary};
+
+    &:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  `
+      : `
+    background-color: transparent;
+    color: ${theme.colors.primary};
+    border-color: ${theme.colors.primary};
+
+    &:hover {
+      background-color: ${theme.colors.primary};
+      color: ${theme.colors.text};
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  `}
+`;

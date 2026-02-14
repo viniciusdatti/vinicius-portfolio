@@ -1,0 +1,34 @@
+---
+description: Proíbe uso de estilos inline (style={{ }}) no projeto
+globs: "**/*.tsx,**/*.ts"
+alwaysApply: true
+---
+
+# Sem estilos inline
+
+Neste projeto **não use estilos inline** (`style={{ ... }}`). Eles tornam o código difícil de manter e quebram a consistência do Design System.
+
+## Regra
+
+- **Não use** o atributo `style` em elementos JSX.
+- **Use** Styled Components (arquivos `*.style.ts`) para todo layout e aparência.
+
+## Como fazer
+
+- **Layout/espacamento**: crie um componente estilizado no arquivo `.style.ts` do componente ou da view (ex.: `Home.style.ts`, `ProjectGrid.style.ts`).
+- **Aparência reutilizável**: use o tema em `src/styles/theme.ts` e componentes do Design System (Button, Card, Typography).
+
+## Exemplos
+
+```tsx
+// ❌ EVITAR
+<div style={{ padding: '2rem', maxWidth: '1200px' }}>
+<Text style={{ marginTop: '0.5rem' }}>
+
+// ✅ CORRETO
+<ProjectsSection>   {/* styled.section no Home.style.ts */}
+<ProjectDescription>
+  <Text>             {/* ProjectDescription no ProjectGrid.style.ts */}
+```
+
+Novos estilos devem ser adicionados em arquivos `ComponentName.style.ts` ou `ViewName.style.ts`, nunca inline.
