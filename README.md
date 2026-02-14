@@ -1,46 +1,154 @@
-# Getting Started with Create React App
+# Vinicius Portfolio - Full-Stack Monorepo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Professional portfolio application demonstrating full-stack development skills.
 
-## Available Scripts
+## Project Structure
 
-In the project directory, you can run:
+```
+vinicius-portfolio/
+├── backend/                  # FastAPI REST API
+│   ├── app/
+│   │   ├── api/              # API endpoints
+│   │   ├── core/             # Configuration, logging, exceptions
+│   │   ├── db/               # Database configuration
+│   │   ├── models/           # SQLAlchemy models
+│   │   ├── schemas/          # Pydantic schemas
+│   │   └── services/         # Business logic
+│   ├── scripts/              # Utility scripts (seed, etc.)
+│   ├── requirements.txt
+│   └── .env.example
+├── interfaces/
+│   └── web/                  # React Frontend
+│       ├── src/
+│       │   ├── api/          # API client
+│       │   ├── components/   # UI components
+│       │   ├── hooks/        # Custom hooks
+│       │   ├── i18n/         # Internationalization
+│       │   ├── styles/       # Theme and global styles
+│       │   └── views/        # Page views
+│       ├── public/
+│       ├── package.json
+│       └── .env.example
+├── docs/                     # Documentation
+│   └── portfolio/
+│       ├── functional_requirements/
+│       └── technical_specifications/
+└── README.md
+```
 
-### `yarn start`
+## Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Backend
+- **FastAPI** - Modern Python web framework
+- **SQLAlchemy 2.x** - ORM for database operations
+- **PostgreSQL** - Relational database
+- **Pydantic** - Data validation
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Frontend (interfaces/web)
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **TanStack Query** - Server state management
+- **styled-components** - CSS-in-JS styling
+- **react-i18next** - Internationalization (pt-BR / en-US)
+- **Framer Motion** - Animations
 
-### `yarn test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `yarn build`
+- Node.js 18+
+- Python 3.11+
+- PostgreSQL 14+
+- Yarn
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Backend Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cd vinicius-portfolio/backend
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Create virtual environment
+python -m venv venv
 
-### `yarn eject`
+# Activate (Windows)
+venv\Scripts\activate
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Activate (Linux/Mac)
+source venv/bin/activate
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Install dependencies
+pip install -r requirements.txt
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+# Configure environment
+cp .env.example .env
+# Edit .env with your database credentials
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+# Create database
+createdb portfolio
 
-## Learn More
+# Seed initial data (optional)
+python scripts/seed.py
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# Run server
+uvicorn app.main:app --reload --port 8000
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Frontend Setup
+
+```bash
+cd vinicius-portfolio/interfaces/web
+
+# Install dependencies
+yarn install
+
+# Configure environment
+cp .env.example .env
+
+# Run development server
+yarn start
+```
+
+### Running Both
+
+**Terminal 1 (Backend):**
+```bash
+cd vinicius-portfolio/backend
+venv\Scripts\activate
+uvicorn app.main:app --reload --port 8000
+```
+
+**Terminal 2 (Frontend):**
+```bash
+cd vinicius-portfolio/interfaces/web
+yarn start
+```
+
+- Frontend: http://localhost:3000
+- API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
+
+## Environment Variables
+
+### Backend (`backend/.env`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/portfolio` |
+| `CORS_ORIGINS` | Allowed origins (comma-separated) | `http://localhost:3000` |
+| `ENVIRONMENT` | Environment name | `development` |
+| `LOG_LEVEL` | Logging level | `INFO` |
+
+### Frontend (`interfaces/web/.env`)
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `REACT_APP_API_URL` | Backend API URL | `http://localhost:8000/api/v1` |
+
+## Features
+
+- Full-Stack Architecture with REST API
+- Database with Many-to-Many relationships
+- Internationalization (pt-BR / en-US)
+- Skeleton Loading states
+- Global error handling
+- Design System with tokens
+- Dark Mode ready architecture
