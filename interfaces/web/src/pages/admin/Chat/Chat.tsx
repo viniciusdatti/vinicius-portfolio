@@ -1,0 +1,269 @@
+/**
+ * @fileoverview Admin Chat component for real-time visitor communication.
+ * Provides a dashboard interface for managing and responding to chat sessions.
+ */
+
+// Core
+import React, { useState, useRef, useEffect } from 'react';
+
+// Libraries
+import { AnimatePresence } from 'framer-motion';
+
+// Hooks
+import { useAdminChat } from '../../../hooks/useAdminChat';
+
+// Styles
+import {
+  PageContainer,
+  Header,
+  BackLink,
+  HeaderTitle,
+  Title,
+  ConnectionBadge,
+  Content,
+  Sidebar,
+  SidebarHeader,
+  SidebarTitle,
+  SessionList,
+  SessionItem,
+  SessionInfo,
+  VisitorName,
+  SessionTime,
+  SessionMeta,
+  LastMessage,
+  UnreadBadge,
+  TypingBadge,
+  EmptyState,
+  ChatArea,
+  ChatHeader,
+  ChatHeaderInfo,
+  CloseButton,
+  MessagesContainer,
+  Message,
+  MessageContent,
+  MessageTime,
+  ChatFooter,
+  MessageInput,
+  SendButton,
+  NoChatSelected,
+} from './Chat.style';
+
+/**
+ * Admin Chat component for managing real-time conversations with visitors.
+ * Displays a list of active chat sessions and provides an interface for responding.
+ */
+export const Chat: React.FC = () => {
+  const [inputValue, setInputValue] = useState<string>('');
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+
+  const {
+    sessions,
+    activeSessionId,
+    activeSession,
+    activeMessages,
+    isConnected,
+    joinSession,
+    sendMessage,
+    sendTyping,
+    closeSession,
+  } = useAdminChat();
+
+  /**
+   * Scrolls to the bottom of the messages container when messages change.
+   */
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [activeMessages]);
+
+  /**
+   * Handles sending a message to the active session.
+   */
+  const handleSend = (): void => {
+    if (inputValue.trim()) {
+      sendMessage(inputValue);
+      setInputValue('');
+    }
+  };
+
+  /**
+   * Handles keyboard events for the message input.
+   * Sends message on Enter key press (without Shift).
+   */
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
+    }
+  };
+
+  /**
+   * Handles input changes and triggers typing indicator.
+   */
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setInputValue(e.target.value);
+    if (e.target.value) {
+      sendTyping();
+    }
+  };
+
+  /**
+   * Formats a date string to time format (HH:MM).
+   */
+  const formatTime = (dateString: string): string => {
+    return new Date(dateString).toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  /**
+   * Formats a date string to a relative format.
+   * Shows time only for today, otherwise shows date and time.
+   */
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    const today = new Date();
+    const isToday = date.toDateString() === today.toDateString();
+    
+    if (isToday) {
+      return formatTime(dateString);
+    }
+    
+    return date.toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  return (
+    <PageContainer>
+      <Header>
+        <BackLink to="/admin">← Voltar ao Dashboard</BackLink>
+        <HeaderTitle>
+          <Title>💬 Chat Admin</Title>
+          <ConnectionBadge $connected={isConnected}>
+            {isConnected ? 'Conectado' : 'Desconectado'}
+          </ConnectionBadge>
+        </HeaderTitle>
+        <div />
+      </Header>
+
+      <Content>
+        <Sidebar>
+          <SidebarHeader>
+            <SidebarTitle>
+              Conversas ({sessions.length})
+            </SidebarTitle>
+          </SidebarHeader>
+          <SessionList>
+            {sessions.length === 0 ? (
+              <EmptyState>
+                <p>🔔 Nenhuma conversa ativa</p>
+                <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                  As conversas aparecerão aqui quando visitantes iniciarem um chat no Live Lab.
+                </p>
+              </EmptyState>
+            ) : (
+              sessions.map((session) => (
+                <SessionItem
+                  key={session.session_id}
+                  $active={activeSessionId === session.session_id}
+                  onClick={() => joinSession(session.session_id)}
+                >
+                  <SessionInfo>
+                    <VisitorName>
+                      👤 {session.visitor_name}
+                    </VisitorName>
+                    <SessionTime>{formatDate(session.started_at)}</SessionTime>
+                  </SessionInfo>
+                  {session.visitor_company && (
+                    <LastMessage style={{ marginBottom: '4px' }}>
+                      🏢 {session.visitor_company}
+                    </LastMessage>
+                  )}
+                  <SessionMeta>
+                    {session.is_typing ? (
+                      <TypingBadge>digitando...</TypingBadge>
+                    ) : session.last_message ? (
+                      <LastMessage>{session.last_message}</LastMessage>
+                    ) : (
+                      <LastMessage>Nova conversa</LastMessage>
+                    )}
+                    {session.unread_count > 0 && (
+                      <UnreadBadge>{session.unread_count}</UnreadBadge>
+                    )}
+                  </SessionMeta>
+                </SessionItem>
+              ))
+            )}
+          </SessionList>
+        </Sidebar>
+
+        <ChatArea>
+          {activeSession ? (
+            <>
+              <ChatHeader>
+                <ChatHeaderInfo>
+                  <h3>👤 {activeSession.visitor_name}</h3>
+                  <span>
+                    {activeSession.visitor_company && `🏢 ${activeSession.visitor_company} • `}
+                    Iniciado às {formatTime(activeSession.started_at)}
+                  </span>
+                </ChatHeaderInfo>
+                <CloseButton onClick={() => closeSession(activeSession.session_id)}>
+                  Encerrar conversa
+                </CloseButton>
+              </ChatHeader>
+
+              <MessagesContainer>
+                <AnimatePresence>
+                  {activeMessages.map((msg) => (
+                    <Message
+                      key={msg.id}
+                      $isAdmin={msg.sender_type === 'admin'}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <MessageContent>{msg.content}</MessageContent>
+                      <MessageTime>{formatTime(msg.created_at)}</MessageTime>
+                    </Message>
+                  ))}
+                </AnimatePresence>
+                <div ref={messagesEndRef} />
+              </MessagesContainer>
+
+              <ChatFooter>
+                <MessageInput
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  placeholder="Digite sua resposta..."
+                  maxLength={5000}
+                />
+                <SendButton
+                  onClick={handleSend}
+                  disabled={!inputValue.trim()}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Enviar
+                </SendButton>
+              </ChatFooter>
+            </>
+          ) : (
+            <NoChatSelected>
+              <h3>💬 Chat em Tempo Real</h3>
+              <p>Selecione uma conversa na lista para começar a responder.</p>
+              <p style={{ fontSize: '0.875rem' }}>
+                Você receberá notificações quando novos visitantes iniciarem conversas.
+              </p>
+            </NoChatSelected>
+          )}
+        </ChatArea>
+      </Content>
+    </PageContainer>
+  );
+};

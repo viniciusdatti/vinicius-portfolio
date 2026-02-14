@@ -1,3 +1,8 @@
+/**
+ * Authentication store for managing user session.
+ * Persists auth state to local storage.
+ */
+
 // Libraries
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -5,6 +10,9 @@ import { persist } from 'zustand/middleware';
 // Types
 import type { User, AuthTokens } from '../types';
 
+/**
+ * Authentication state interface with actions.
+ */
 interface AuthState {
   user: User | null;
   tokens: AuthTokens | null;
@@ -25,7 +33,7 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: true,
 
-      setAuth: (user, tokens) =>
+      setAuth: (user: User, tokens: AuthTokens): void =>
         set({
           user,
           tokens,
@@ -33,20 +41,20 @@ export const useAuthStore = create<AuthState>()(
           isLoading: false,
         }),
 
-      logout: () =>
+      logout: (): void =>
         set({
           user: null,
           tokens: null,
           isAuthenticated: false,
         }),
 
-      setLoading: (isLoading) => set({ isLoading }),
+      setLoading: (isLoading: boolean): void => set({ isLoading }),
 
-      updateTokens: (tokens) => set({ tokens }),
+      updateTokens: (tokens: AuthTokens): void => set({ tokens }),
     }),
     {
       name: 'auth-storage',
-      partialize: (state) => ({
+      partialize: (state: AuthState): Partial<AuthState> => ({
         tokens: state.tokens,
         user: state.user,
         isAuthenticated: state.isAuthenticated,

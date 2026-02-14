@@ -9,16 +9,32 @@ import { Layout } from './components/layout';
 import { Spinner } from './components/common/Spinner';
 
 // Lazy load pages for code splitting
-const Home = lazy(() => import('./pages/Home'));
-const About = lazy(() => import('./pages/About'));
-const Skills = lazy(() => import('./pages/Skills'));
-const LiveLab = lazy(() => import('./pages/LiveLab'));
-const Contact = lazy(() => import('./pages/Contact'));
+const Home = lazy(() =>
+  import('./pages/Home').then((m) => ({ default: m.Home }))
+);
+const About = lazy(() =>
+  import('./pages/About').then((m) => ({ default: m.About }))
+);
+const Skills = lazy(() =>
+  import('./pages/Skills').then((m) => ({ default: m.Skills }))
+);
+const LiveLab = lazy(() =>
+  import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
+);
+const Contact = lazy(() =>
+  import('./pages/Contact').then((m) => ({ default: m.Contact }))
+);
 
 // Admin pages
-const AdminLogin = lazy(() => import('./pages/admin/Login'));
-const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
-const AdminChat = lazy(() => import('./pages/admin/Chat'));
+const AdminLogin = lazy(() =>
+  import('./pages/admin/Login').then((m) => ({ default: m.Login }))
+);
+const AdminDashboard = lazy(() =>
+  import('./pages/admin/Dashboard').then((m) => ({ default: m.Dashboard }))
+);
+const AdminChat = lazy(() =>
+  import('./pages/admin/Chat').then((m) => ({ default: m.Chat }))
+);
 
 // Page loader component
 const PageLoader: React.FC = () => (
@@ -33,7 +49,7 @@ const PageLoader: React.FC = () => (
 );
 
 // Router configuration
-const router = createBrowserRouter([
+const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
