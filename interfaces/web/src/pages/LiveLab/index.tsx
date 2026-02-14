@@ -6,8 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import styled from 'styled-components';
 
-// Store
-import { useChatStore } from '../../store';
+// Hooks
+import { useChat } from '../../hooks/useChat';
 
 // Styles
 import { fadeInUp } from '../../styles/animations';
@@ -228,6 +228,30 @@ const OfflineNotice = styled.div`
   text-align: center;
 `;
 
+const ConnectionStatus = styled.div<{ $connected: boolean }>`
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ $connected, theme }) =>
+    $connected ? theme.colors.success : theme.colors.error};
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: currentColor;
+    animation: ${({ $connected }) => $connected ? 'none' : 'pulse 1.5s infinite'};
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+`;
+
 // Tech Explanation Styles
 const TechSection = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
@@ -287,50 +311,32 @@ const LiveLab: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Use real WebSocket chat hook
   const {
+    sessionId,
     messages,
+    isConnected,
     isAdminOnline,
     isTyping,
-    addMessage,
-  } = useChatStore();
+    startSession,
+    sendMessage,
+    sendTyping,
+  } = useChat();
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const handleStartChat = () => {
-    // Add welcome message
-    addMessage({
-      id: Date.now(),
-      content: t('liveLab.chat.intro.description'),
-      sender_type: 'admin',
-      is_read: true,
-      created_at: new Date().toISOString(),
-    });
+    // Start real WebSocket session
+    startSession(visitorName || 'Visitante', visitorCompany || undefined);
     setStep('chat');
   };
 
   const handleSend = () => {
-    if (inputValue.trim()) {
-      addMessage({
-        id: Date.now(),
-        content: inputValue,
-        sender_type: 'visitor',
-        is_read: false,
-        created_at: new Date().toISOString(),
-      });
+    if (inputValue.trim() && sessionId) {
+      sendMessage(inputValue);
       setInputValue('');
-
-      // Simulate response (remove when WebSocket is implemented)
-      setTimeout(() => {
-        addMessage({
-          id: Date.now() + 1,
-          content: 'Obrigado pela mensagem! Este é um demo - o chat real será implementado com WebSocket.',
-          sender_type: 'admin',
-          is_read: true,
-          created_at: new Date().toISOString(),
-        });
-      }, 1500);
     }
   };
 
@@ -338,6 +344,14 @@ const LiveLab: React.FC = () => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSend();
+    }
+  };
+
+  // Send typing indicator when user is typing
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+    if (sessionId && e.target.value) {
+      sendTyping();
     }
   };
 
@@ -369,6 +383,9 @@ const LiveLab: React.FC = () => {
           <ChatHeader>
             <ChatTitle>
               💬 {t('liveLab.chat.title')}
+              <ConnectionStatus $connected={isConnected}>
+                {isConnected ? 'Conectado' : 'Conectando...'}
+              </ConnectionStatus>
             </ChatTitle>
             <StatusBadge $online={isAdminOnline}>
               {isAdminOnline ? t('liveLab.chat.online') : t('liveLab.chat.offline')}
@@ -462,14 +479,15 @@ const LiveLab: React.FC = () => {
               <ChatFooter>
                 <MessageInput
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder={t('liveLab.chat.placeholder')}
                   maxLength={1000}
+                  disabled={!isConnected || !sessionId}
                 />
                 <SendButton
                   onClick={handleSend}
-                  disabled={!inputValue.trim()}
+                  disabled={!inputValue.trim() || !isConnected || !sessionId}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
