@@ -66,7 +66,7 @@ export const ContentGrid = styled.div`
 // =============================================================================
 
 /**
- * Main chat container with fixed height and flex layout.
+ * Main chat container with flexible height and flex layout.
  */
 export const ChatContainer = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
@@ -75,7 +75,8 @@ export const ChatContainer = styled(motion.div)`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  min-height: 500px;
+  height: fit-content;
 `;
 
 /**
@@ -157,7 +158,7 @@ export const IntroForm = styled(motion.div)`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
   flex: 1;
-  justify-content: center;
+  overflow-y: auto;
 `;
 
 /**
