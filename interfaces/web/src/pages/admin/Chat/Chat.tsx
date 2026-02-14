@@ -11,6 +11,7 @@ import { AnimatePresence } from 'framer-motion';
 
 // Hooks
 import { useAdminChat } from '../../../hooks/useAdminChat';
+import { useAdminChatEvents } from '../../../hooks/useAdminChatEvents';
 
 // Styles
 import {
@@ -46,6 +47,10 @@ import {
   MessageInput,
   SendButton,
   NoChatSelected,
+  EventsSection,
+  EventsToggle,
+  EventsList,
+  EventItem,
 } from './Chat.style';
 
 /**
@@ -54,8 +59,10 @@ import {
  */
 export const Chat: React.FC = () => {
   const [inputValue, setInputValue] = useState<string>('');
+  const [eventsOpen, setEventsOpen] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
+  const receivedEvents = useAdminChatEvents();
   const {
     sessions,
     activeSessionId,
@@ -199,6 +206,38 @@ export const Chat: React.FC = () => {
               ))
             )}
           </SessionList>
+          <EventsSection>
+            <EventsToggle
+              type="button"
+              onClick={() => setEventsOpen((o) => !o)}
+              aria-expanded={eventsOpen}
+            >
+              Eventos recebidos ({receivedEvents.length})
+            </EventsToggle>
+            {eventsOpen && (
+              <EventsList>
+                {receivedEvents.length === 0 ? (
+                  <p style={{ padding: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                    Nenhum evento ainda. Eventos do socket aparecem aqui com a conexão ativa.
+                  </p>
+                ) : (
+                  [...receivedEvents].reverse().map((ev, i) => (
+                    <EventItem key={`${ev.at}-${i}`}>
+                      <span data-type={ev.type}>{ev.type}</span>
+                      <span data-time={ev.at}>
+                        {new Date(ev.at).toLocaleTimeString()}
+                      </span>
+                      {ev.type === 'new_message' && typeof ev.data === 'object' && ev.data !== null && 'content' in ev.data && (
+                        <span style={{ fontSize: '0.75rem', opacity: 0.9 }}>
+                          {(ev.data as { content?: string }).content}
+                        </span>
+                      )}
+                    </EventItem>
+                  ))
+                )}
+              </EventsList>
+            )}
+          </EventsSection>
         </Sidebar>
 
         <ChatArea>

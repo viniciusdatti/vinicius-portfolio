@@ -1,6 +1,7 @@
 /**
  * Visitor chat hook for real-time messaging with admin.
  * Handles socket connection, session management, and message handling.
+ * Uses optimistic updates and debounced typing for performance.
  */
 
 // Core
@@ -15,6 +16,8 @@ import { socketService } from '../utils/socket';
 // Types
 import type { ChatMessage } from '../types';
 
+const TYPING_DEBOUNCE_MS = 400;
+
 /**
  * Hook for visitor chat functionality.
  * Manages socket connection, session state, and messaging.
@@ -28,6 +31,7 @@ export const useChat = () => {
     isTyping,
     setSessionId,
     addMessage,
+    setMessages,
     setConnected,
     setAdminOnline,
     setTyping,
@@ -35,6 +39,7 @@ export const useChat = () => {
   } = useChatStore();
 
   const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const typingDebounceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Connect to socket on mount
   useEffect(() => {
@@ -53,6 +58,15 @@ export const useChat = () => {
     socket.on('connect', handleConnect);
     socket.on('disconnect', handleDisconnect);
 
+    const handleReconnect = (): void => {
+      setConnected(true);
+      const currentSessionId = useChatStore.getState().sessionId;
+      if (currentSessionId) {
+        socketService.rejoinSession(currentSessionId);
+      }
+    };
+    socket.on('reconnect', handleReconnect);
+
     // Check if already connected (in case socket was reused)
     if (socket.connected) {
       setConnected(true);
@@ -68,7 +82,7 @@ export const useChat = () => {
       setSessionId(data.session_id);
     });
 
-    // Listen for messages
+    // Listen for messages (replace optimistic temp message when server echoes visitor message)
     socket.on('message', (data: { id: number; content: string; sender_type: string; created_at: string }) => {
       const message: ChatMessage = {
         id: data.id,
@@ -77,22 +91,24 @@ export const useChat = () => {
         is_read: false,
         created_at: data.created_at,
       };
+      if (data.sender_type === 'visitor') {
+        const state = useChatStore.getState();
+        const idx = state.messages.findIndex((m) => m.id < 0 && m.content === data.content);
+        if (idx >= 0) {
+          const next = [...state.messages];
+          next.splice(idx, 1, message);
+          setMessages(next);
+          return;
+        }
+      }
       addMessage(message);
     });
 
-    // Listen for admin typing
+    // Listen for admin typing (debounced display off after 3s)
     socket.on('admin_typing', () => {
       setTyping(true);
-      
-      // Clear existing timeout
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-      
-      // Stop typing indicator after 3 seconds
-      typingTimeoutRef.current = setTimeout(() => {
-        setTyping(false);
-      }, 3000);
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      typingTimeoutRef.current = setTimeout(() => setTyping(false), 3000);
     });
 
     // Listen for session closed
@@ -104,17 +120,17 @@ export const useChat = () => {
     return () => {
       socket.off('connect', handleConnect);
       socket.off('disconnect', handleDisconnect);
+      socket.off('reconnect', handleReconnect);
       socket.off('admin_status');
       socket.off('session_started');
       socket.off('message');
       socket.off('admin_typing');
       socket.off('session_closed');
       socketService.disconnectVisitor();
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
     };
-  }, [setConnected, setAdminOnline, setSessionId, addMessage, setTyping]);
+  }, [setConnected, setAdminOnline, setSessionId, addMessage, setMessages, setTyping]);
 
   /**
    * Starts a new chat session with visitor information.
@@ -124,21 +140,34 @@ export const useChat = () => {
   }, []);
 
   /**
-   * Sends a message to the current session.
+   * Sends a message to the current session (optimistic update for instant UI).
    */
-  const sendMessage = useCallback((content: string) => {
-    if (sessionId && content.trim()) {
-      socketService.sendMessage(sessionId, content);
-    }
-  }, [sessionId]);
+  const sendMessage = useCallback(
+    (content: string) => {
+      if (!sessionId || !content.trim()) return;
+      const trimmed = content.trim();
+      addMessage({
+        id: -Date.now(),
+        content: trimmed,
+        sender_type: 'visitor',
+        is_read: false,
+        created_at: new Date().toISOString(),
+      });
+      socketService.sendMessage(sessionId, trimmed);
+    },
+    [sessionId, addMessage]
+  );
 
   /**
-   * Sends typing indicator to the server.
+   * Sends typing indicator (debounced to avoid flooding the socket).
    */
   const sendTyping = useCallback(() => {
-    if (sessionId) {
+    if (!sessionId) return;
+    if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
+    typingDebounceRef.current = setTimeout(() => {
       socketService.sendTyping(sessionId);
-    }
+      typingDebounceRef.current = null;
+    }, TYPING_DEBOUNCE_MS);
   }, [sessionId]);
 
   /**

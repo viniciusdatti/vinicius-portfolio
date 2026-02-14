@@ -204,10 +204,11 @@ export const SkillProgress = styled(motion.div)<SkillProgressProps>`
 `;
 
 /**
- * Section wrapper for certificates with additional top margin.
+ * Section wrapper for certificates with tighter spacing.
  */
 export const CertificatesSection = styled(Section)`
-  margin-top: ${({ theme }) => theme.spacing.section};
+  margin-top: ${({ theme }) => theme.spacing.xl};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
 /**
@@ -215,11 +216,12 @@ export const CertificatesSection = styled(Section)`
  */
 export const CertificatesGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: ${({ theme }) => theme.spacing.md};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.sm};
   }
 `;
 
@@ -237,7 +239,7 @@ export const CertificateCard = styled(motion.div)<CertificateCardProps>`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md};
   transition: all ${({ theme }) => theme.transitions.fast};
   cursor: pointer;
   position: relative;
@@ -271,8 +273,8 @@ export const CertificateCard = styled(motion.div)<CertificateCardProps>`
 export const CertificateHeader = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 /**
@@ -286,15 +288,15 @@ export interface PlatformLogoProps {
  * Platform logo/icon container.
  */
 export const PlatformLogo = styled.div<PlatformLogoProps>`
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ $bgColor, theme }) => $bgColor || theme.colors.backgroundSecondary};
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  padding: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs};
 
   img {
     width: 100%;
@@ -340,7 +342,7 @@ export const CertificateFooter = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 /**
@@ -429,8 +431,8 @@ export const CertificateHours = styled.span`
  */
 export const CertificateLink = styled.div`
   position: absolute;
-  top: ${({ theme }) => theme.spacing.md};
-  right: ${({ theme }) => theme.spacing.md};
+  top: ${({ theme }) => theme.spacing.sm};
+  right: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.textMuted};
   opacity: 0;
   transition: opacity ${({ theme }) => theme.transitions.fast};

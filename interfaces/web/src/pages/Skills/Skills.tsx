@@ -4,7 +4,7 @@
  */
 
 // Core
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
@@ -111,8 +111,14 @@ interface CategoryOption {
  */
 const platformConfig = {
   Rocketseat: {
-    // Rocketseat official logo - stylized R with orbit
-    logo: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"%3E%3Crect width="48" height="48" rx="8" fill="%238257E5"/%3E%3Cpath d="M12 35V13h10c3 0 5.3.8 7 2.4 1.7 1.6 2.5 3.7 2.5 6.3 0 2-.5 3.7-1.5 5.1-1 1.4-2.4 2.4-4.2 3L33 35h-6l-6-5h-4v5h-5zm5-10h5c1.5 0 2.7-.4 3.5-1.2.8-.8 1.2-1.8 1.2-3s-.4-2.2-1.2-3c-.8-.8-2-1.2-3.5-1.2h-5v8.4z" fill="white"/%3E%3Cellipse cx="32" cy="16" rx="9" ry="4" stroke="white" stroke-width="2.5" fill="none" transform="rotate(-25 32 16)"/%3E%3C/svg%3E',
+    // Logo Rocketseat: foguete (nariz, corpo, aletas)
+    logo: 'data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">' +
+      '<rect width="48" height="48" rx="8" fill="#8257E5"/>' +
+      '<path fill="white" d="M24 8 L28 14 L28 26 L32 36 L24 30 L16 36 L20 26 L20 14 Z"/>' +
+      '<circle cx="24" cy="20" r="3" fill="#8257E5"/>' +
+      '</svg>'
+    ),
     color: '#8257e5',
     bgColor: 'rgba(130, 87, 229, 0.1)',
   },
@@ -217,9 +223,71 @@ const certificatesData: CertificateItem[] = [
     year: 2025,
     certificateUrl: 'https://app.rocketseat.com.br/certificates/0bd49b7b-e481-4c67-9f42-e059be4d0a94',
     type: 'course',
+    hours: 5,
+  },
+  {
+    id: 'aluraGitGithub',
+    platform: 'Alura',
+    year: 2023,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/5659f1f1-973e-4921-b577-de3a9e7472d1',
+    type: 'course',
+    hours: 8,
+  },
+  {
+    id: 'aluraTypescriptPart1',
+    platform: 'Alura',
+    year: 2023,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/a2a3d58f-ea00-40ca-9590-3d7c6b2a7f8c',
+    type: 'course',
     hours: 10,
   },
+  {
+    id: 'aluraTypescriptPart2',
+    platform: 'Alura',
+    year: 2023,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/cc58c86c-0467-4c6a-982d-2caedd25b5ae',
+    type: 'course',
+    hours: 10,
+  },
+  {
+    id: 'aluraReactTypescriptAdmin',
+    platform: 'Alura',
+    year: 2023,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/9ee980b3-f18c-4982-ae4c-72e54cf33969',
+    type: 'course',
+    hours: 8,
+  },
+  {
+    id: 'aluraReactStyledComponents',
+    platform: 'Alura',
+    year: 2023,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/66a1bdb5-5ac1-43dc-9737-949cf5809b06',
+    type: 'course',
+    hours: 6,
+  },
+  {
+    id: 'aluraAngularPlaywright',
+    platform: 'Alura',
+    year: 2024,
+    certificateUrl: 'https://cursos.alura.com.br/certificate/4c998df4-9b4e-47fc-a5e2-b4b118568042',
+    type: 'course',
+    hours: 8,
+  },
 ];
+
+/** Platform display order: Rocketseat, Alura, Udemy */
+const PLATFORM_ORDER: Record<CertificateItem['platform'], number> = {
+  Rocketseat: 0,
+  Alura: 1,
+  Udemy: 2,
+};
+
+/** Type priority: trail > course > micro */
+const TYPE_ORDER: Record<CertificateItem['type'], number> = {
+  trail: 0,
+  course: 1,
+  micro: 2,
+};
 
 /**
  * Available category filter options.
@@ -265,6 +333,17 @@ export const Skills: React.FC = () => {
 
   // Calculate total hours
   const totalHours = certificatesData.reduce((acc, cert) => acc + cert.hours, 0);
+
+  // Order: platform (Rocketseat → Alura → Udemy), then type (trail → course → micro), then hours desc
+  const sortedCertificates = useMemo(() => {
+    return [...certificatesData].sort((a, b) => {
+      const platformDiff = PLATFORM_ORDER[a.platform] - PLATFORM_ORDER[b.platform];
+      if (platformDiff !== 0) return platformDiff;
+      const typeDiff = TYPE_ORDER[a.type] - TYPE_ORDER[b.type];
+      if (typeDiff !== 0) return typeDiff;
+      return b.hours - a.hours;
+    });
+  }, []);
 
   return (
     <PageContainer>
@@ -345,7 +424,7 @@ export const Skills: React.FC = () => {
           whileInView="animate"
           viewport={{ once: true }}
         >
-          {certificatesData.map((cert: CertificateItem) => {
+          {sortedCertificates.map((cert: CertificateItem) => {
             const platform = platformConfig[cert.platform];
             return (
               <CertificateCard

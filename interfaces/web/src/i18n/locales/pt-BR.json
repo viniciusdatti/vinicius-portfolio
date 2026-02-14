@@ -108,7 +108,13 @@
         "aluraCssDeepDive": "CSS: aprofunde em estilos",
         "aluraReactContext": "React: gerenciamento de estados globais com ContextAPI",
         "rocketseatPythonFundamentals": "Fundamentos de Python",
-        "rocketseatPythonFlask": "Python com Flask"
+        "rocketseatPythonFlask": "Python com Flask",
+        "aluraGitGithub": "Git e GitHub: repositório, commit e versões",
+        "aluraTypescriptPart1": "TypeScript parte 1: evoluindo seu JavaScript",
+        "aluraTypescriptPart2": "TypeScript parte 2: avançando na linguagem",
+        "aluraReactTypescriptAdmin": "React com TypeScript: desenvolvendo uma área administrativa",
+        "aluraReactStyledComponents": "React: abstraindo seu CSS com Styled Components",
+        "aluraAngularPlaywright": "Angular: escreva testes end-to-end com Playwright"
       }
     }
   },

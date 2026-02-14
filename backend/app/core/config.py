@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     database_url: str = f"sqlite:///{BACKEND_DIR}/portfolio.db"
 
     # CORS
-    cors_origins: str = "http://localhost:3000,http://localhost:5173"
+    cors_origins: str = "http://localhost:3000,http://localhost:3001,http://localhost:5173"
 
     # Environment
     environment: str = "development"

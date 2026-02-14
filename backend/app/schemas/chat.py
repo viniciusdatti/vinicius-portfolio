@@ -27,6 +27,12 @@ class ChatMessageResponse(ChatMessageBase):
         from_attributes = True
 
 
+class ChatMessageAdminResponse(ChatMessageResponse):
+    """Message with session_id (uuid) for admin list."""
+
+    session_id: str  # session uuid for frontend
+
+
 class ChatSessionBase(BaseModel):
     visitor_name: str = Field(..., max_length=100)
     visitor_company: Optional[str] = Field(None, max_length=200)
