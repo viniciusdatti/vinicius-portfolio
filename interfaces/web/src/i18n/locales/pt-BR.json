@@ -1,0 +1,23 @@
+{
+  "common": {
+    "reload": "Recarregar página",
+    "retry": "Tentar novamente",
+    "errorTitle": "Algo deu errado",
+    "errorMessage": "Algo inesperado aconteceu. Tente recarregar a página."
+  },
+  "home": {
+    "hero": {
+      "name": "Vinicius",
+      "title": "Full-Stack Developer",
+      "cta": "Ver Projetos"
+    },
+    "projectsEmpty": "Nenhum projeto disponível no momento.",
+    "projectsLoading": "Carregando projetos...",
+    "projectsError": "Não foi possível carregar os projetos. Por favor, tente novamente."
+  },
+  "projects": {
+    "sectionTitle": "Projetos",
+    "viewCode": "Ver código",
+    "viewDemo": "Ver demo"
+  }
+}
