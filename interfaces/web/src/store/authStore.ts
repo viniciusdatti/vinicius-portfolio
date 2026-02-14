@@ -33,28 +33,34 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       isLoading: true,
 
-      setAuth: (user: User, tokens: AuthTokens): void =>
+      setAuth: (user: User, tokens: AuthTokens) => {
         set({
           user,
           tokens,
           isAuthenticated: true,
           isLoading: false,
-        }),
+        });
+      },
 
-      logout: (): void =>
+      logout: () => {
         set({
           user: null,
           tokens: null,
           isAuthenticated: false,
-        }),
+        });
+      },
 
-      setLoading: (isLoading: boolean): void => set({ isLoading }),
+      setLoading: (isLoading: boolean) => {
+        set({ isLoading });
+      },
 
-      updateTokens: (tokens: AuthTokens): void => set({ tokens }),
+      updateTokens: (tokens: AuthTokens) => {
+        set({ tokens });
+      },
     }),
     {
       name: 'auth-storage',
-      partialize: (state: AuthState): Partial<AuthState> => ({
+      partialize: (state) => ({
         tokens: state.tokens,
         user: state.user,
         isAuthenticated: state.isAuthenticated,

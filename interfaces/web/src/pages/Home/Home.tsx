@@ -72,7 +72,7 @@ export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
-  const currentLanguage: string = i18n.language?.startsWith('pt') ? 'pt' : 'en';
+  const currentLanguage: 'pt' | 'en' = i18n.language?.startsWith('pt') ? 'pt' : 'en';
 
   /**
    * Renders the projects section content based on loading/error state.

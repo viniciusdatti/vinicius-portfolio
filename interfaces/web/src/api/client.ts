@@ -63,18 +63,17 @@ async function request<T>(
   });
 
   if (!response.ok) {
-    let errorData: unknown;
+    let errorData: Record<string, unknown> | null = null;
     try {
       errorData = await response.json();
     } catch {
       errorData = null;
     }
 
-    throw new ApiError(
-      errorData?.detail || `HTTP error ${response.status}`,
-      response.status,
-      errorData
-    );
+    const errorMessage: string =
+      (errorData?.detail as string) || `HTTP error ${response.status}`;
+
+    throw new ApiError(errorMessage, response.status, errorData);
   }
 
   return response.json();
