@@ -215,22 +215,53 @@ export const CertificatesSection = styled(Section)`
  */
 export const CertificatesGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr;
+  }
 `;
+
+/**
+ * Props for CertificateCard styled component.
+ */
+export interface CertificateCardProps {
+  $platformColor?: string;
+}
 
 /**
  * Individual certificate card with hover effect.
  */
-export const CertificateCard = styled(motion.div)`
+export const CertificateCard = styled(motion.div)<CertificateCardProps>`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
-  transition: border-color ${({ theme }) => theme.transitions.fast};
+  transition: all ${({ theme }) => theme.transitions.fast};
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
+    opacity: 0;
+    transition: opacity ${({ theme }) => theme.transitions.fast};
+  }
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+    &::before {
+      opacity: 1;
+    }
   }
 `;
 
@@ -239,23 +270,37 @@ export const CertificateCard = styled(motion.div)`
  */
 export const CertificateHeader = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
+
+/**
+ * Props for PlatformLogo styled component.
+ */
+export interface PlatformLogoProps {
+  $bgColor?: string;
+}
 
 /**
  * Platform logo/icon container.
  */
-export const PlatformLogo = styled.div`
-  width: 40px;
-  height: 40px;
+export const PlatformLogo = styled.div<PlatformLogoProps>`
+  width: 48px;
+  height: 48px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  background-color: ${({ $bgColor, theme }) => $bgColor || theme.colors.backgroundSecondary};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  flex-shrink: 0;
+  padding: ${({ theme }) => theme.spacing.sm};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 `;
 
 /**
@@ -263,15 +308,97 @@ export const PlatformLogo = styled.div`
  */
 export const CertificateName = styled.h4`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 `;
+
+/**
+ * Props for CertificatePlatform styled component.
+ */
+export interface CertificatePlatformProps {
+  $color?: string;
+}
 
 /**
  * Platform name text (e.g., Udemy, Alura).
  */
-export const CertificatePlatform = styled.span`
+export const CertificatePlatform = styled.span<CertificatePlatformProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ $color, theme }) => $color || theme.colors.textMuted};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+`;
+
+/**
+ * Footer area of certificate card.
+ */
+export const CertificateFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+/**
+ * Props for CertificateType styled component.
+ */
+export interface CertificateTypeProps {
+  $type: 'micro' | 'course' | 'trail';
+}
+
+/**
+ * Certificate type badge.
+ */
+export const CertificateType = styled.span<CertificateTypeProps>`
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  
+  ${({ $type, theme }) => {
+    switch ($type) {
+      case 'trail':
+        return `
+          background-color: rgba(34, 197, 94, 0.1);
+          color: #22c55e;
+        `;
+      case 'course':
+        return `
+          background-color: rgba(59, 130, 246, 0.1);
+          color: #3b82f6;
+        `;
+      case 'micro':
+        return `
+          background-color: rgba(168, 85, 247, 0.1);
+          color: #a855f7;
+        `;
+      default:
+        return `
+          background-color: ${theme.colors.backgroundSecondary};
+          color: ${theme.colors.textMuted};
+        `;
+    }
+  }}
+`;
+
+/**
+ * Courses count badge inside certificate type.
+ */
+export const CertificateCoursesCount = styled.span`
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  opacity: 0.8;
+  
+  &::before {
+    content: '•';
+    margin: 0 4px;
+  }
 `;
 
 /**
@@ -280,7 +407,236 @@ export const CertificatePlatform = styled.span`
 export const CertificateYear = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textMuted};
+  white-space: nowrap;
+`;
+
+/**
+ * Total hours display in section title.
+ */
+export const CertificateHours = styled.span`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
+  color: ${({ theme }) => theme.colors.textMuted};
   background-color: ${({ theme }) => theme.colors.backgroundSecondary};
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.full};
+  margin-left: ${({ theme }) => theme.spacing.md};
+  white-space: nowrap;
+`;
+
+/**
+ * External link icon on certificate card.
+ */
+export const CertificateLink = styled.div`
+  position: absolute;
+  top: ${({ theme }) => theme.spacing.md};
+  right: ${({ theme }) => theme.spacing.md};
+  color: ${({ theme }) => theme.colors.textMuted};
+  opacity: 0;
+  transition: opacity ${({ theme }) => theme.transitions.fast};
+
+  ${CertificateCard}:hover & {
+    opacity: 1;
+  }
+`;
+
+/**
+ * Modal container for certificate details.
+ */
+export const CertificateModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: ${({ theme }) => theme.zIndex.modal};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+/**
+ * Modal overlay background.
+ */
+export const ModalOverlay = styled(motion.div)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+`;
+
+/**
+ * Modal content container.
+ */
+export const ModalContent = styled(motion.div)`
+  position: relative;
+  background-color: ${({ theme }) => theme.colors.surface};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  max-width: 500px;
+  width: 100%;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+`;
+
+/**
+ * Modal header section.
+ */
+export const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.spacing.xl};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+/**
+ * Modal close button.
+ */
+export const ModalCloseButton = styled.button`
+  width: 40px;
+  height: 40px;
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.textMuted};
+  transition: all ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+    color: ${({ theme }) => theme.colors.text};
+  }
+`;
+
+/**
+ * Modal body section.
+ */
+export const ModalBody = styled.div`
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+/**
+ * Certificate info container in modal.
+ */
+export const ModalCertificateInfo = styled.div`
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+`;
+
+/**
+ * Props for ModalPlatformBadge styled component.
+ */
+export interface ModalPlatformBadgeProps {
+  $bgColor?: string;
+  $color?: string;
+}
+
+/**
+ * Platform badge in modal header.
+ */
+export const ModalPlatformBadge = styled.div<ModalPlatformBadgeProps>`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  background-color: ${({ $bgColor }) => $bgColor};
+  color: ${({ $color }) => $color};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+
+  img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+  }
+`;
+
+/**
+ * Certificate title in modal.
+ */
+export const ModalTitle = styled.h3`
+  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  line-height: 1.4;
+`;
+
+/**
+ * Meta information container in modal.
+ */
+export const ModalMeta = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+/**
+ * Individual meta item in modal.
+ */
+export const ModalMetaItem = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+
+  svg {
+    color: ${({ theme }) => theme.colors.textMuted};
+  }
+`;
+
+/**
+ * Actions container in modal.
+ */
+export const ModalActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+/**
+ * Props for ModalButton styled component.
+ */
+export interface ModalButtonProps {
+  $variant: 'primary' | 'secondary';
+  $platformColor?: string;
+}
+
+/**
+ * Button in modal actions.
+ */
+export const ModalButton = styled.button<ModalButtonProps>`
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  transition: all ${({ theme }) => theme.transitions.fast};
+
+  ${({ $variant, $platformColor, theme }) =>
+    $variant === 'primary'
+      ? `
+          background-color: ${$platformColor || theme.colors.primary};
+          color: white;
+
+          &:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+          }
+        `
+      : `
+          background-color: ${theme.colors.backgroundSecondary};
+          color: ${theme.colors.textSecondary};
+
+          &:hover {
+            background-color: ${theme.colors.border};
+          }
+        `}
 `;
