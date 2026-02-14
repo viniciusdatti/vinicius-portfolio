@@ -1,0 +1,23 @@
+{
+  "common": {
+    "reload": "Reload page",
+    "retry": "Try again",
+    "errorTitle": "Something went wrong",
+    "errorMessage": "Something unexpected happened. Please try reloading the page."
+  },
+  "home": {
+    "hero": {
+      "name": "Vinicius",
+      "title": "Full-Stack Developer",
+      "cta": "View Projects"
+    },
+    "projectsEmpty": "No projects available at the moment.",
+    "projectsLoading": "Loading projects...",
+    "projectsError": "Could not load projects. Please try again."
+  },
+  "projects": {
+    "sectionTitle": "Projects",
+    "viewCode": "View code",
+    "viewDemo": "View demo"
+  }
+}
