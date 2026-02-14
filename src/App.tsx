@@ -1,4 +1,7 @@
+// Core
 import React from 'react';
+
+// Components
 import { Home } from './views';
 
 function App() {

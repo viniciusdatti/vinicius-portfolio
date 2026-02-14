@@ -1,0 +1,34 @@
+{
+  "common": {
+    "reload": "Recarregar página",
+    "errorTitle": "Algo deu errado",
+    "errorMessage": "Algo inesperado aconteceu. Tente recarregar a página."
+  },
+  "home": {
+    "hero": {
+      "name": "Vinicius",
+      "title": "Front-end Developer",
+      "cta": "Ver Projetos"
+    },
+    "projectsEmpty": "Nenhum projeto disponível no momento."
+  },
+  "projects": {
+    "sectionTitle": "Projetos",
+    "viewCode": "Ver código",
+    "viewDemo": "Ver demo",
+    "items": {
+      "designSystem": {
+        "title": "Sistema de Design Corporativo",
+        "description": "Biblioteca de componentes reutilizáveis e documentação viva para padronizar a interface de produtos enterprise, com tokens de design e acessibilidade WCAG."
+      },
+      "dashboard": {
+        "title": "Dashboard de Performance",
+        "description": "Painel em tempo real para métricas de negócio, com gráficos interativos, filtros por período e exportação de relatórios."
+      },
+      "platform": {
+        "title": "Plataforma de Investimentos",
+        "description": "Aplicação para simulação de carteira, acompanhamento de ativos e onboarding de novos investidores com fluxo guiado."
+      }
+    }
+  }
+}
