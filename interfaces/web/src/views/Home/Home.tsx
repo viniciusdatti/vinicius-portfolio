@@ -11,19 +11,25 @@ import { useProjects } from '../../hooks';
 import { Hero } from '../../components/Hero';
 import { ProjectGrid } from '../../components/ProjectGrid';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
-import { ProjectsSection, SectionTitle, SkeletonGrid, ErrorMessage, RetryButton } from './Home.style';
+import { 
+  ProjectsSection, 
+  SectionTitle, 
+  SkeletonGrid, 
+  ErrorMessage, 
+  RetryButton 
+} from './Home.style';
 
 export const Home: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
-  const currentLanguage = i18n.language?.startsWith('pt') ? 'pt' : 'en';
+  const currentLanguage: 'pt' | 'en' = i18n.language?.startsWith('pt') ? 'pt' : 'en';
 
-  const renderContent = () => {
+  const renderContent = (): React.ReactElement => {
     if (isLoading) {
       return (
         <SkeletonGrid>
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3].map((i: number) => (
             <ProjectCardSkeleton key={i} />
           ))}
         </SkeletonGrid>
@@ -41,14 +47,21 @@ export const Home: React.FC = () => {
       );
     }
 
-    return <ProjectGrid projects={projects || []} language={currentLanguage} />;
+    return (
+      <ProjectGrid 
+        projects={projects || []} 
+        language={currentLanguage} 
+      />
+    );
   };
 
   return (
     <>
       <Hero />
       <ProjectsSection id="projetos">
-        <SectionTitle>{t('projects.sectionTitle')}</SectionTitle>
+        <SectionTitle>
+          {t('projects.sectionTitle')}
+        </SectionTitle>
         {renderContent()}
       </ProjectsSection>
     </>
