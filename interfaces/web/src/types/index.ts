@@ -2,6 +2,39 @@
 // Global Types for Portfolio V2
 // ============================================
 
+// Enums (project standard: use Enum instead of string unions)
+export enum SkillCategory {
+  Frontend = 'frontend',
+  Backend = 'backend',
+  Testing = 'testing',
+  Realtime = 'realtime',
+  Tools = 'tools',
+  Iot = 'iot',
+}
+
+export enum ChatSessionStatus {
+  Active = 'active',
+  Closed = 'closed',
+  Archived = 'archived',
+}
+
+export enum ChatMessageSenderType {
+  Visitor = 'visitor',
+  Admin = 'admin',
+}
+
+export enum ContactSubmissionStatus {
+  Pending = 'pending',
+  Read = 'read',
+  Replied = 'replied',
+  Archived = 'archived',
+}
+
+export enum UserRole {
+  Admin = 'admin',
+  SuperAdmin = 'super_admin',
+}
+
 // Skill Types
 export interface Skill {
   id: number;
@@ -13,14 +46,6 @@ export interface Skill {
   display_order: number;
   is_active: boolean;
 }
-
-export type SkillCategory =
-  | 'frontend'
-  | 'backend'
-  | 'testing'
-  | 'realtime'
-  | 'tools'
-  | 'iot';
 
 // Certificate Types
 export interface Certificate {
@@ -41,7 +66,7 @@ export interface ChatSession {
   session_id: string;
   visitor_name: string;
   visitor_company: string | null;
-  status: 'active' | 'closed' | 'archived';
+  status: ChatSessionStatus;
   unread_count: number;
   last_message: string | null;
   started_at: string;
@@ -50,7 +75,7 @@ export interface ChatSession {
 export interface ChatMessage {
   id: number;
   content: string;
-  sender_type: 'visitor' | 'admin';
+  sender_type: ChatMessageSenderType;
   is_read: boolean;
   created_at: string;
 }
@@ -66,7 +91,7 @@ export interface ContactFormData {
 
 export interface ContactSubmission extends ContactFormData {
   id: number;
-  status: 'pending' | 'read' | 'replied' | 'archived';
+  status: ContactSubmissionStatus;
   created_at: string;
 }
 
@@ -75,7 +100,7 @@ export interface User {
   id: number;
   email: string;
   name: string;
-  role: 'admin' | 'super_admin';
+  role: UserRole;
 }
 
 export interface AuthTokens {

@@ -59,7 +59,7 @@ import {
 } from './Skills.style';
 
 // Types
-import type { SkillCategory } from '../../types';
+import { SkillCategory } from '../../types';
 
 /**
  * Represents a single skill item with category, name, icon, and proficiency level.
@@ -139,25 +139,25 @@ const platformConfig = {
  */
 const skillsData: SkillItem[] = [
   // Frontend
-  { category: 'frontend', name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', level: 90 },
-  { category: 'frontend', name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', level: 85 },
-  { category: 'frontend', name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', level: 90 },
-  { category: 'frontend', name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg', level: 95 },
-  { category: 'frontend', name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg', level: 90 },
-  { category: 'frontend', name: 'Styled Components', icon: 'https://raw.githubusercontent.com/styled-components/brand/master/styled-components.svg', level: 85 },
+  { category: SkillCategory.Frontend, name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', level: 90 },
+  { category: SkillCategory.Frontend, name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', level: 85 },
+  { category: SkillCategory.Frontend, name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', level: 90 },
+  { category: SkillCategory.Frontend, name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg', level: 95 },
+  { category: SkillCategory.Frontend, name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg', level: 90 },
+  { category: SkillCategory.Frontend, name: 'Styled Components', icon: 'https://raw.githubusercontent.com/styled-components/brand/master/styled-components.svg', level: 85 },
   // Backend
-  { category: 'backend', name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', level: 85 },
-  { category: 'backend', name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg', level: 80 },
-  { category: 'backend', name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', level: 75 },
+  { category: SkillCategory.Backend, name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', level: 85 },
+  { category: SkillCategory.Backend, name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg', level: 80 },
+  { category: SkillCategory.Backend, name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', level: 75 },
   // Testing
-  { category: 'testing', name: 'Jest', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg', level: 80 },
-  { category: 'testing', name: 'Playwright', icon: 'https://playwright.dev/img/playwright-logo.svg', level: 70 },
+  { category: SkillCategory.Testing, name: 'Jest', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg', level: 80 },
+  { category: SkillCategory.Testing, name: 'Playwright', icon: 'https://playwright.dev/img/playwright-logo.svg', level: 70 },
   // Tools
-  { category: 'tools', name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', level: 85 },
-  { category: 'tools', name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', level: 70 },
-  { category: 'tools', name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg', level: 95 },
+  { category: SkillCategory.Tools, name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', level: 85 },
+  { category: SkillCategory.Tools, name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', level: 70 },
+  { category: SkillCategory.Tools, name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg', level: 95 },
   // Real-time
-  { category: 'realtime', name: 'WebSocket', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg', level: 75 },
+  { category: SkillCategory.Realtime, name: 'WebSocket', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg', level: 75 },
 ];
 
 /**
@@ -294,11 +294,11 @@ const TYPE_ORDER: Record<CertificateItem['type'], number> = {
  */
 const categories: CategoryOption[] = [
   { key: 'all', label: 'Todas' },
-  { key: 'frontend', label: 'Frontend' },
-  { key: 'backend', label: 'Backend' },
-  { key: 'testing', label: 'Testes' },
-  { key: 'tools', label: 'Ferramentas' },
-  { key: 'realtime', label: 'Real-time' },
+  { key: SkillCategory.Frontend, label: 'Frontend' },
+  { key: SkillCategory.Backend, label: 'Backend' },
+  { key: SkillCategory.Testing, label: 'Testes' },
+  { key: SkillCategory.Tools, label: 'Ferramentas' },
+  { key: SkillCategory.Realtime, label: 'Real-time' },
 ];
 
 
