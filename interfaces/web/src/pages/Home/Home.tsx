@@ -19,6 +19,9 @@ import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
 // Hooks
 import { useProjects } from '../../hooks';
 
+// Types
+import { Language } from '../../types';
+
 // Styles
 import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
 import {
@@ -72,7 +75,8 @@ export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
-  const currentLanguage: 'pt' | 'en' = i18n.language?.startsWith('pt') ? 'pt' : 'en';
+  const currentLanguage: Language =
+    i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
 
   /**
    * Renders the projects section content based on loading/error state.

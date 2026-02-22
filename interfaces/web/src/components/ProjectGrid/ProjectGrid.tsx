@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 // Types
 import type { ProjectGridProps } from './ProjectGrid.types';
 import type { Project } from '../../data/types';
+import { Language } from '../../types';
 
 // Components
 import { Card } from '../Card';
@@ -24,8 +25,8 @@ import {
 /**
  * Get localized project title based on current language.
  */
-const getProjectTitle = (project: Project, language: 'pt' | 'en'): string => {
-  if (language === 'pt' && project.title_pt) {
+const getProjectTitle = (project: Project, language: Language): string => {
+  if (language === Language.Pt && project.title_pt) {
     return project.title_pt;
   }
   return project.title;
@@ -34,14 +35,17 @@ const getProjectTitle = (project: Project, language: 'pt' | 'en'): string => {
 /**
  * Get localized project description based on current language.
  */
-const getProjectDescription = (project: Project, language: 'pt' | 'en'): string => {
-  if (language === 'pt' && project.description_pt) {
+const getProjectDescription = (project: Project, language: Language): string => {
+  if (language === Language.Pt && project.description_pt) {
     return project.description_pt;
   }
   return project.description || '';
 };
 
-export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, language = 'en' }) => {
+export const ProjectGrid: React.FC<ProjectGridProps> = ({
+  projects,
+  language = Language.En,
+}) => {
   const { t } = useTranslation();
 
   if (projects.length === 0) {
