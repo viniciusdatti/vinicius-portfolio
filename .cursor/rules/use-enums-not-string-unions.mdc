@@ -1,0 +1,54 @@
+---
+description: Use Enums instead of string literal unions for domain and status values
+alwaysApply: true
+---
+
+# Use Enums Instead of String Unions
+
+## Rule
+
+Prefer **TypeScript Enums** over string literal unions (`'a' | 'b' | 'c'`) for:
+
+- Status values (e.g. chat status, submission status, session status)
+- Roles (e.g. user role)
+- Categories or fixed sets of domain values (e.g. skill category, sender type)
+
+## Rationale
+
+- Single source of truth and better refactoring
+- Autocomplete and typo prevention
+- Clear contract for API and components
+- Easier to extend and document
+
+## Convention
+
+- Define enums in the central types module (e.g. `src/types/index.ts`).
+- Use **string enums** so values stay compatible with APIs: `enum X { A = 'a', B = 'b' }`.
+- Use PascalCase for enum names and for member names; values stay lowercase/snake_case when matching backend.
+
+```typescript
+// ❌ BAD - string union
+status: 'pending' | 'read' | 'replied' | 'archived';
+sender_type: 'visitor' | 'admin';
+role: 'admin' | 'super_admin';
+
+// ✅ GOOD - enum
+export enum ContactSubmissionStatus {
+  Pending = 'pending',
+  Read = 'read',
+  Replied = 'replied',
+  Archived = 'archived',
+}
+status: ContactSubmissionStatus;
+
+export enum ChatMessageSenderType {
+  Visitor = 'visitor',
+  Admin = 'admin',
+}
+sender_type: ChatMessageSenderType;
+```
+
+## Usage in code
+
+- Compare and assign using the enum: `msg.sender_type === ChatMessageSenderType.Visitor`.
+- When receiving from API, cast if needed: `sender_type: data.sender_type as ChatMessageSenderType`.

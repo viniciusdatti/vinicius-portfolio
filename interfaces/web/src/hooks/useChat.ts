@@ -15,6 +15,7 @@ import { socketService } from '../utils/socket';
 
 // Types
 import type { ChatMessage } from '../types';
+import { ChatMessageSenderType } from '../types';
 
 const TYPING_DEBOUNCE_MS = 400;
 
@@ -87,11 +88,11 @@ export const useChat = () => {
       const message: ChatMessage = {
         id: data.id,
         content: data.content,
-        sender_type: data.sender_type as 'visitor' | 'admin',
+        sender_type: data.sender_type as ChatMessageSenderType,
         is_read: false,
         created_at: data.created_at,
       };
-      if (data.sender_type === 'visitor') {
+      if (data.sender_type === ChatMessageSenderType.Visitor) {
         const state = useChatStore.getState();
         const idx = state.messages.findIndex((m) => m.id < 0 && m.content === data.content);
         if (idx >= 0) {
@@ -149,7 +150,7 @@ export const useChat = () => {
       addMessage({
         id: -Date.now(),
         content: trimmed,
-        sender_type: 'visitor',
+        sender_type: ChatMessageSenderType.Visitor,
         is_read: false,
         created_at: new Date().toISOString(),
       });

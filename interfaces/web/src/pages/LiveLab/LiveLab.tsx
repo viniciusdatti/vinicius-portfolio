@@ -12,6 +12,9 @@ import type { ChangeEvent, KeyboardEvent, FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
+// Types
+import { ChatMessageSenderType } from '../../types';
+
 // Hooks
 import { useChat } from '../../hooks/useChat';
 
@@ -233,7 +236,7 @@ export const LiveLab: FC = () => {
                 {messages.map((msg, index) => (
                   <Message
                     key={msg.id || index}
-                    $isOwn={msg.sender_type === 'visitor'}
+                    $isOwn={msg.sender_type === ChatMessageSenderType.Visitor}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >

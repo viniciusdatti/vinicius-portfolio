@@ -12,6 +12,9 @@ import { useEffect, useCallback, useRef, useState } from 'react';
 import { socketService } from '../utils/socket';
 import { recordEvent } from '../services/adminChatService';
 
+// Types
+import type { ChatMessageSenderType } from '../types';
+
 // Store
 import { useAuthStore } from '../store';
 
@@ -38,7 +41,7 @@ export interface ChatMessage {
   id: number;
   session_id: string;
   content: string;
-  sender_type: 'visitor' | 'admin';
+  sender_type: ChatMessageSenderType;
   created_at: string;
 }
 
@@ -134,7 +137,7 @@ export const useAdminChat = () => {
       // Update unread count for the session
       setSessions((prev) =>
         prev.map((s) =>
-          s.session_id === data.session_id && data.sender_type === 'visitor'
+          s.session_id === data.session_id && data.sender_type === ChatMessageSenderType.Visitor
             ? { ...s, unread_count: s.unread_count + 1, last_message: data.content }
             : s
         )

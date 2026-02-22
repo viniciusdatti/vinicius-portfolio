@@ -9,6 +9,9 @@ import React, { useState, useRef, useEffect } from 'react';
 // Libraries
 import { AnimatePresence } from 'framer-motion';
 
+// Types
+import { ChatMessageSenderType } from '../../../types';
+
 // Hooks
 import { useAdminChat } from '../../../hooks/useAdminChat';
 import { useAdminChatEvents } from '../../../hooks/useAdminChatEvents';
@@ -261,7 +264,7 @@ export const Chat: React.FC = () => {
                   {activeMessages.map((msg) => (
                     <Message
                       key={msg.id}
-                      $isAdmin={msg.sender_type === 'admin'}
+                      $isAdmin={msg.sender_type === ChatMessageSenderType.Admin}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
