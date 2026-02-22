@@ -4,6 +4,9 @@ import React from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Types
+import { Language } from '../../types';
+
 // Hooks
 import { useProjects } from '../../hooks';
 
@@ -19,11 +22,12 @@ import {
   RetryButton 
 } from './Home.style';
 
-export const Home: React.FC = () => {
+export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
-  const currentLanguage: 'pt' | 'en' = i18n.language?.startsWith('pt') ? 'pt' : 'en';
+  const currentLanguage: Language =
+    i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
 
   const renderContent = (): React.ReactElement => {
     if (isLoading) {

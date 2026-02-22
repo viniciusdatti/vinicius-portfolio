@@ -35,6 +35,11 @@ export enum UserRole {
   SuperAdmin = 'super_admin',
 }
 
+export enum Language {
+  Pt = 'pt',
+  En = 'en',
+}
+
 // Skill Types
 export interface Skill {
   id: number;
