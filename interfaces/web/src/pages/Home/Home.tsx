@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 // Types
-import type { Language } from '../../types';
+import { Language } from '../../types';
 
 // Components
 import { Hero } from '../../components/Hero';
