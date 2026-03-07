@@ -19,8 +19,67 @@
     "home": "Home",
     "about": "About",
     "skills": "Skills",
+    "projects": "Projects",
+    "howIBuild": "How I build",
     "liveLab": "Live Lab",
     "contact": "Contact"
+  },
+  "howIBuild": {
+    "title": "How I build",
+    "subtitle": "Patterns I use in real projects. Each item links to where it lives in this portfolio.",
+    "items": {
+      "listsFilterDrawer": {
+        "title": "Lists with filter and drawer",
+        "description": "Table with technology filter, search, and detail drawer. Same pattern as admin lists and dashboards.",
+        "linkLabel": "View Projects"
+      },
+      "realtime": {
+        "title": "Real-time (WebSocket)",
+        "description": "Live chat with WebSocket, typing indicators, and session handling.",
+        "linkLabel": "Open Live Lab"
+      },
+      "i18nTheming": {
+        "title": "i18n and theming",
+        "description": "Portuguese and English; dark and light theme. Toggle in the header.",
+        "linkLabel": "Go to Home"
+      },
+      "authAdmin": {
+        "title": "Auth and admin area",
+        "description": "JWT login, protected routes, dashboard, and visitor chat management.",
+        "linkLabel": "Admin login"
+      },
+      "designSystem": {
+        "title": "Design system",
+        "description": "Styled-components, semantic theme, no inline styles. Reusable components and conventions.",
+        "linkLabel": "About"
+      }
+    }
+  },
+  "showcase": {
+    "title": "Showcase",
+    "subtitle": "Front-end component and pattern demos (status cards, table + drawer, dashboard).",
+    "filters": {
+      "all": "All",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Tools"
+    },
+    "sections": {
+      "statusCards": "Status cards",
+      "tableDrawer": "Table and drawer",
+      "dashboard": "Mini dashboard"
+    },
+    "searchPlaceholder": "Search by name or category...",
+    "table": {
+      "name": "Name",
+      "category": "Category",
+      "status": "Status",
+      "created": "Created"
+    },
+    "dashboard": {
+      "visits": "Visits",
+      "clicks": "Clicks"
+    }
   },
   "home": {
     "hero": {
@@ -78,6 +137,10 @@
   "skills": {
     "title": "Skills & Certificates",
     "subtitle": "Technical skills and professional certifications",
+    "toolNames": {
+      "cursor": "Cursor",
+      "aiTools": "AI tools"
+    },
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
@@ -85,6 +148,63 @@
       "realtime": "Real-time",
       "tools": "Tools",
       "iot": "IoT"
+    },
+    "experience": {
+      "title": "Front-end in practice",
+      "intro": "In industrial dashboards and admin panel projects I built all front-end components and the functions that map statuses (equipment, sessions, motors, lubrication, etc.). Each area below represents end-to-end work I implemented.",
+      "subtitle": "Dashboards, admin panels, and this portfolio.",
+      "items": {
+        "auth": {
+          "title": "Authentication and protected routes",
+          "description": "JWT login, route-level auth wrapper, 401 redirect, and password recovery.",
+          "highlight": "Login, register and password recovery components; reusable auth middleware."
+        },
+        "state": {
+          "title": "Global state and persistence",
+          "description": "Zustand with persist to localStorage; getters/setters for use outside React (e.g. API layer).",
+          "highlight": "Stores for session, preferences and layout; integration with request layer."
+        },
+        "i18n": {
+          "title": "Internationalization (i18n)",
+          "description": "react-i18next with pt-BR and en-US; locale synced with theme and date formatting (dayjs).",
+          "highlight": "Namespaced translations; Ant Design and dayjs locale sync."
+        },
+        "realtime": {
+          "title": "Real-time communication",
+          "description": "WebSocket/Socket.io for live dashboards and chat; typing indicators and online status.",
+          "highlight": "Per-equipment events; status indicators and real-time controls."
+        },
+        "api": {
+          "title": "Centralized API layer",
+          "description": "Single client with env-based base URLs, token injection, and 401 handling (logout/redirect).",
+          "highlight": "Typed request plugin per API; error handling and i18n toasts."
+        },
+        "theming": {
+          "title": "Theming and design system",
+          "description": "Styled-components with semantic theme; dark/light mode; no inline styles; reusable components.",
+          "highlight": "All UI components in .style.ts; semantic tokens and customized Ant Design."
+        },
+        "dashboards": {
+          "title": "Dashboards and data visualization",
+          "description": "Charts (e.g. amCharts), maps, and panels with real-time equipment data.",
+          "highlight": "Status mapping functions per equipment; Crusher, Patriot, VSI modules; charts and maps."
+        },
+        "crud": {
+          "title": "Admin and CRUD",
+          "description": "Lists, tables, drawers and modals for Create/Read/Update/Delete; filters and breadcrumbs.",
+          "highlight": "Reusable drawers and modals; tables with column state; status functions for listings."
+        },
+        "architecture": {
+          "title": "Component architecture",
+          "description": "Structure .tsx + .style.ts + .types.ts; import sections; strict typing with TypeScript.",
+          "highlight": "Hundreds of custom components; enums for status and roles; code conventions."
+        },
+        "testing": {
+          "title": "Testing",
+          "description": "Jest and React Testing Library for unit tests; Playwright for E2E; Storybook for component docs.",
+          "highlight": "Component and flow tests; stories per component; E2E for critical flows."
+        }
+      }
     },
     "certificates": {
       "title": "Certificates",
@@ -188,9 +308,28 @@
     "builtWith": "Built with"
   },
   "projects": {
+    "title": "Projects",
+    "subtitle": "Portfolio projects with technologies and links.",
     "sectionTitle": "Projects",
+    "sectionList": "Project list",
+    "filters": {
+      "all": "All"
+    },
+    "searchPlaceholder": "Search by project name...",
+    "table": {
+      "title": "Title",
+      "technologies": "Technologies"
+    },
+    "drawer": {
+      "description": "Description",
+      "repository": "Repository",
+      "demo": "Demo"
+    },
     "viewCode": "View code",
-    "viewDemo": "View demo"
+    "viewDemo": "View demo",
+    "empty": "No projects match the filter.",
+    "loading": "Loading projects...",
+    "error": "Could not load projects. Please try again."
   },
   "validation": {
     "required": "This field is required",

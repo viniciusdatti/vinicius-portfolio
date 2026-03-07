@@ -18,8 +18,7 @@ import type { ChatMessageSenderType } from '../types';
 // Store
 import { useAuthStore } from '../store';
 
-const API_BASE =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE: string = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
 
 /**
  * Represents an active chat session with a visitor.
@@ -137,7 +136,7 @@ export const useAdminChat = () => {
       // Update unread count for the session
       setSessions((prev) =>
         prev.map((s) =>
-          s.session_id === data.session_id && data.sender_type === ChatMessageSenderType.Visitor
+          s.session_id === data.session_id && data.sender_type === 'visitor'
             ? { ...s, unread_count: s.unread_count + 1, last_message: data.content }
             : s
         )

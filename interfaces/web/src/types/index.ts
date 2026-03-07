@@ -40,6 +40,13 @@ export enum Language {
   En = 'en',
 }
 
+/** Status for showcase status cards (HighlightCard-style). */
+export enum HighlightCardStatus {
+  Neutral = 'neutral',
+  Success = 'success',
+  Error = 'error',
+}
+
 // Skill Types
 export interface Skill {
   id: number;
