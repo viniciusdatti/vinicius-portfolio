@@ -1,2 +1,2 @@
-export { ErrorBoundary } from './ErrorBoundary';
-export type { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
+export * from './ErrorBoundary';
+export * from './ErrorBoundary.types';

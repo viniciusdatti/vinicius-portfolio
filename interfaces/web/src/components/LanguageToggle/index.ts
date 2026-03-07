@@ -1,2 +1,2 @@
-export { LanguageToggle } from './LanguageToggle';
-export type { LanguageToggleProps } from './LanguageToggle.types';
+export * from './LanguageToggle';
+export * from './LanguageToggle.types';

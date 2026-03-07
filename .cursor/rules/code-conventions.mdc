@@ -9,6 +9,29 @@ alwaysApply: true
 - Maximum 100 characters per line
 - Break long lines at logical points
 
+## Imports and Props (3+ items)
+- **Imports:** When an import has 3 or more named items, break into multiple lines (one item per line).
+- **Props:** When a component receives 3 or more props (or destructuring has 3+ keys), put each on its own line for readability.
+
+```typescript
+// ❌ BAD - 3+ items on one line
+import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
+<Button variant="primary" size="md" onClick={handleClick} aria-label="Submit" />
+
+// ✅ GOOD - one per line
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+} from '../../styles/animations';
+<Button
+  variant="primary"
+  size="md"
+  onClick={handleClick}
+  aria-label="Submit"
+/>
+```
+
 ## Language
 - All comments in English
 - All variable/function/class names in English

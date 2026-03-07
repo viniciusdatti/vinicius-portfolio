@@ -5,7 +5,11 @@ import React, { Component } from 'react';
 import type { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
 
 // Components
-import { ErrorContainer, ErrorTitle, ErrorText } from './ErrorBoundary.style';
+import {
+  ErrorContainer,
+  ErrorTitle,
+  ErrorText,
+} from './ErrorBoundary.style';
 import { Button } from '../Button';
 import i18n from '../../i18n/config';
 
