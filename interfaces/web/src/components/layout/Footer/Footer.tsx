@@ -93,6 +93,8 @@ export const Footer: React.FC = () => {
             <FooterLink as={Link} to="/">{t('nav.home')}</FooterLink>
             <FooterLink as={Link} to="/about">{t('nav.about')}</FooterLink>
             <FooterLink as={Link} to="/skills">{t('nav.skills')}</FooterLink>
+            <FooterLink as={Link} to="/projects">{t('nav.projects')}</FooterLink>
+            <FooterLink as={Link} to="/how-i-build">{t('nav.howIBuild')}</FooterLink>
             <FooterLink as={Link} to="/live-lab">{t('nav.liveLab')}</FooterLink>
             <FooterLink as={Link} to="/contact">{t('nav.contact')}</FooterLink>
           </FooterLinks>

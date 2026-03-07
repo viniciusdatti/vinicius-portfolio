@@ -71,6 +71,111 @@ export const SectionTitle = styled.h2`
 `;
 
 /**
+ * Section wrapper for "Front-end in practice" experience cards.
+ */
+export const ExperienceSection = styled(Section)`
+  margin-top: ${({ theme }) => theme.spacing.section};
+`;
+
+/**
+ * Intro paragraph emphasizing ownership of components and status mapping.
+ */
+export const ExperienceIntro = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  line-height: 1.6;
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  max-width: 800px;
+`;
+
+/**
+ * Subtitle for the experience section (short context line).
+ */
+export const ExperienceSubtitle = styled.p`
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
+  max-width: 720px;
+`;
+
+/**
+ * Grid for experience cards (responsive).
+ */
+export const ExperienceGrid = styled(motion.div)`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+/**
+ * Single experience card with left accent.
+ */
+export const ExperienceCard = styled(motion.div)`
+  position: relative;
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  transition: border-color ${({ theme }) => theme.transitions.fast},
+              box-shadow ${({ theme }) => theme.transitions.fast};
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: ${({ theme }) => theme.colors.primary};
+    opacity: 0;
+    transition: opacity ${({ theme }) => theme.transitions.fast};
+  }
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+`;
+
+/**
+ * Experience card title.
+ */
+export const ExperienceCardTitle = styled.h3`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+/**
+ * Experience card description (main body).
+ */
+export const ExperienceCardDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.5;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`;
+
+/**
+ * Highlight line (what was built: components, status functions, etc.).
+ */
+export const ExperienceCardHighlight = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: 1.4;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  padding-left: ${({ theme }) => theme.spacing.sm};
+  border-left: 2px solid ${({ theme }) => theme.colors.primary};
+`;
+
+/**
  * Container for category filter tabs.
  * Wraps and centers tabs on smaller screens.
  */

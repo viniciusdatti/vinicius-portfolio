@@ -19,8 +19,67 @@
     "home": "Início",
     "about": "Sobre",
     "skills": "Skills",
+    "projects": "Projetos",
+    "howIBuild": "Como eu construo",
     "liveLab": "Live Lab",
     "contact": "Contato"
+  },
+  "howIBuild": {
+    "title": "Como eu construo",
+    "subtitle": "Padrões que uso em projetos reais. Cada item leva a onde isso existe neste portfólio.",
+    "items": {
+      "listsFilterDrawer": {
+        "title": "Listas com filtro e drawer",
+        "description": "Tabela com filtro por tecnologia, busca e drawer de detalhe. Mesmo padrão de listagens e dashboards.",
+        "linkLabel": "Ver Projetos"
+      },
+      "realtime": {
+        "title": "Tempo real (WebSocket)",
+        "description": "Chat ao vivo com WebSocket, indicador de digitação e gestão de sessões.",
+        "linkLabel": "Abrir Live Lab"
+      },
+      "i18nTheming": {
+        "title": "i18n e tema",
+        "description": "Português e inglês; tema escuro e claro. Troca no header.",
+        "linkLabel": "Ir para Início"
+      },
+      "authAdmin": {
+        "title": "Auth e área admin",
+        "description": "Login com JWT, rotas protegidas, dashboard e gestão de chat com visitantes.",
+        "linkLabel": "Entrar no admin"
+      },
+      "designSystem": {
+        "title": "Design system",
+        "description": "Styled-components, tema semântico, sem estilos inline. Componentes reutilizáveis e convenções.",
+        "linkLabel": "Sobre"
+      }
+    }
+  },
+  "showcase": {
+    "title": "Showcase",
+    "subtitle": "Demonstração de componentes e padrões de front-end (status, tabela + drawer, dashboard).",
+    "filters": {
+      "all": "Todos",
+      "frontend": "Frontend",
+      "backend": "Backend",
+      "tools": "Ferramentas"
+    },
+    "sections": {
+      "statusCards": "Cards de status",
+      "tableDrawer": "Tabela e drawer",
+      "dashboard": "Mini dashboard"
+    },
+    "searchPlaceholder": "Buscar por nome ou categoria...",
+    "table": {
+      "name": "Nome",
+      "category": "Categoria",
+      "status": "Status",
+      "created": "Criado em"
+    },
+    "dashboard": {
+      "visits": "Visitas",
+      "clicks": "Cliques"
+    }
   },
   "home": {
     "hero": {
@@ -78,6 +137,10 @@
   "skills": {
     "title": "Skills & Certificados",
     "subtitle": "Competências técnicas e certificações profissionais",
+    "toolNames": {
+      "cursor": "Cursor",
+      "aiTools": "Ferramentas de IA"
+    },
     "categories": {
       "frontend": "Frontend",
       "backend": "Backend",
@@ -85,6 +148,63 @@
       "realtime": "Real-time",
       "tools": "Ferramentas",
       "iot": "IoT"
+    },
+    "experience": {
+      "title": "Front-end em prática",
+      "intro": "Em projetos de dashboards industriais e painéis administrativos desenvolvi todos os componentes de front-end e as funções que mapeiam os status (equipamentos, sessões, motores, lubrificação, etc.). Cada área abaixo representa trabalho que implementei de ponta a ponta.",
+      "subtitle": "Dashboards, painéis admin e este portfólio.",
+      "items": {
+        "auth": {
+          "title": "Autenticação e rotas protegidas",
+          "description": "Login com JWT, rotas protegidas por componente (Auth wrapper), redirect em 401 e recuperação de senha.",
+          "highlight": "Componentes de login, register e password recovery; middleware de auth reutilizável."
+        },
+        "state": {
+          "title": "Estado global e persistência",
+          "description": "Zustand com persist em localStorage; getters/setters para uso fora do React (ex.: camada de API).",
+          "highlight": "Stores para sessão, preferências e layout; integração com request layer."
+        },
+        "i18n": {
+          "title": "Internacionalização (i18n)",
+          "description": "react-i18next com pt-BR e en-US; locale sincronizado com tema e datas (dayjs).",
+          "highlight": "Traduções por namespace; locale em Ant Design e dayjs."
+        },
+        "realtime": {
+          "title": "Comunicação em tempo real",
+          "description": "WebSocket/Socket.io para dashboards ao vivo e chat; indicadores de digitação e status online.",
+          "highlight": "Eventos por equipamento; indicadores de status e controles em tempo real."
+        },
+        "api": {
+          "title": "Camada de API centralizada",
+          "description": "Cliente único com base URL por ambiente, injeção de token e tratamento de 401 (logout/redirect).",
+          "highlight": "Plugin request tipado por API; tratamento de erro e toasts i18n."
+        },
+        "theming": {
+          "title": "Tema e design system",
+          "description": "Styled-components com tema semântico; dark/light; sem estilos inline; componentes reutilizáveis.",
+          "highlight": "Todos os componentes de UI em .style.ts; tokens semânticos e Ant Design customizado."
+        },
+        "dashboards": {
+          "title": "Dashboards e visualização de dados",
+          "description": "Gráficos (ex.: amCharts), mapas e painéis com dados em tempo real por equipamento.",
+          "highlight": "Funções de mapeamento de status por equipamento; módulos Crusher, Patriot, VSI; gráficos e mapas."
+        },
+        "crud": {
+          "title": "Admin e CRUD",
+          "description": "Listagens, tabelas, drawers e modais para Create/Read/Update/Delete; filtros e breadcrumbs.",
+          "highlight": "Drawers e modais reutilizáveis; tabelas com estado de colunas; funções de status para listagens."
+        },
+        "architecture": {
+          "title": "Arquitetura de componentes",
+          "description": "Estrutura .tsx + .style.ts + .types.ts; imports por seções; tipagem rigorosa com TypeScript.",
+          "highlight": "Centenas de componentes próprios; enums para status e roles; convenções de código."
+        },
+        "testing": {
+          "title": "Testes",
+          "description": "Jest e React Testing Library para unitários; Playwright para E2E; Storybook para documentação de componentes.",
+          "highlight": "Testes de componentes e fluxos; stories por componente; E2E em fluxos críticos."
+        }
+      }
     },
     "certificates": {
       "title": "Certificados",
@@ -188,9 +308,28 @@
     "builtWith": "Feito com"
   },
   "projects": {
+    "title": "Projetos",
+    "subtitle": "Projetos do portfólio com tecnologias e links.",
     "sectionTitle": "Projetos",
+    "sectionList": "Lista de projetos",
+    "filters": {
+      "all": "Todos"
+    },
+    "searchPlaceholder": "Buscar por nome do projeto...",
+    "table": {
+      "title": "Título",
+      "technologies": "Tecnologias"
+    },
+    "drawer": {
+      "description": "Descrição",
+      "repository": "Repositório",
+      "demo": "Demo"
+    },
     "viewCode": "Ver código",
-    "viewDemo": "Ver demo"
+    "viewDemo": "Ver demo",
+    "empty": "Nenhum projeto corresponde ao filtro.",
+    "loading": "Carregando projetos...",
+    "error": "Não foi possível carregar os projetos. Tente novamente."
   },
   "validation": {
     "required": "Este campo é obrigatório",
