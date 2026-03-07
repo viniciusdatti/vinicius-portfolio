@@ -30,6 +30,14 @@ import {
   SkillName,
   SkillBar,
   SkillProgress,
+  ExperienceSection,
+  ExperienceIntro,
+  ExperienceSubtitle,
+  ExperienceGrid,
+  ExperienceCard,
+  ExperienceCardTitle,
+  ExperienceCardDescription,
+  ExperienceCardHighlight,
   CertificatesSection,
   CertificatesGrid,
   CertificateCard,
@@ -67,8 +75,10 @@ import { SkillCategory } from '../../types';
 interface SkillItem {
   /** Category the skill belongs to */
   category: SkillCategory;
-  /** Display name of the skill */
+  /** Display name of the skill (fallback when nameKey is not used) */
   name: string;
+  /** Optional i18n key for name (e.g. skills.toolNames.cursor) */
+  nameKey?: string;
   /** URL to the skill's icon image */
   icon: string;
   /** Proficiency level (0-100) */
@@ -156,6 +166,31 @@ const skillsData: SkillItem[] = [
   { category: SkillCategory.Tools, name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', level: 85 },
   { category: SkillCategory.Tools, name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', level: 70 },
   { category: SkillCategory.Tools, name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg', level: 95 },
+  {
+    category: SkillCategory.Tools,
+    name: 'Cursor',
+    nameKey: 'skills.toolNames.cursor',
+    icon: 'data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#3b82f6">' +
+        '<path d="M12 2v4l-4 2 4 2v4l6-6-6-6z"/>' +
+        '<path d="M12 10v4l4-2-4-2z"/>' +
+      '</svg>'
+    ),
+    level: 90,
+  },
+  {
+    category: SkillCategory.Tools,
+    name: 'AI tools',
+    nameKey: 'skills.toolNames.aiTools',
+    icon: 'data:image/svg+xml,' + encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8b5cf6">' +
+        '<path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/>' +
+        '<path d="M6 16l1.2 3.6L11 21l-3.8-1.2L6 16z"/>' +
+        '<path d="M18 16l-1.2 3.6L13 21l3.8-1.2L18 16z"/>' +
+      '</svg>'
+    ),
+    level: 85,
+  },
   // Real-time
   { category: SkillCategory.Realtime, name: 'WebSocket', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg', level: 75 },
 ];
@@ -301,6 +336,20 @@ const categories: CategoryOption[] = [
   { key: SkillCategory.Realtime, label: 'Real-time' },
 ];
 
+/** Order of experience items to display (matches i18n keys under skills.experience.items). */
+const EXPERIENCE_ITEM_KEYS: readonly string[] = [
+  'auth',
+  'state',
+  'i18n',
+  'realtime',
+  'api',
+  'theming',
+  'dashboards',
+  'crud',
+  'architecture',
+  'testing',
+];
+
 
 /**
  * Skills page component that displays technical skills and certificates.
@@ -387,17 +436,19 @@ export const Skills: React.FC = () => {
             animate="animate"
             exit={{ opacity: 0 }}
           >
-            {filteredSkills.map((skill: SkillItem, index: number) => (
+            {filteredSkills.map((skill: SkillItem, index: number) => {
+              const displayName: string = skill.nameKey ? t(skill.nameKey) : skill.name;
+              return (
               <SkillCard
-                key={skill.name}
+                key={skill.nameKey ?? skill.name}
                 variants={staggerItem}
                 layout
               >
                 <SkillIcon>
-                  <img src={skill.icon} alt={skill.name} />
+                  <img src={skill.icon} alt={displayName} />
                 </SkillIcon>
                 <SkillInfo>
-                  <SkillName>{skill.name}</SkillName>
+                  <SkillName>{displayName}</SkillName>
                   <SkillBar>
                     <SkillProgress
                       $level={skill.level}
@@ -408,10 +459,41 @@ export const Skills: React.FC = () => {
                   </SkillBar>
                 </SkillInfo>
               </SkillCard>
-            ))}
+              );
+            })}
           </SkillsGrid>
         </AnimatePresence>
       </Section>
+
+      <ExperienceSection>
+        <SectionTitle>{t('skills.experience.title')}</SectionTitle>
+        <ExperienceIntro>{t('skills.experience.intro')}</ExperienceIntro>
+        <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
+        <ExperienceGrid
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+        >
+          {EXPERIENCE_ITEM_KEYS.map((key: string) => (
+            <ExperienceCard
+              key={key}
+              variants={staggerItem}
+              whileHover={{ y: -4 }}
+            >
+              <ExperienceCardTitle>
+                {t(`skills.experience.items.${key}.title`)}
+              </ExperienceCardTitle>
+              <ExperienceCardDescription>
+                {t(`skills.experience.items.${key}.description`)}
+              </ExperienceCardDescription>
+              <ExperienceCardHighlight>
+                {t(`skills.experience.items.${key}.highlight`)}
+              </ExperienceCardHighlight>
+            </ExperienceCard>
+          ))}
+        </ExperienceGrid>
+      </ExperienceSection>
 
       <CertificatesSection>
         <SectionTitle>

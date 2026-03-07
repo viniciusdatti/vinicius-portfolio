@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 // Components
 import { Layout } from './components/layout';
 import { Spinner } from './components/common/Spinner';
+import { PageLoaderWrapper } from './Router.style';
 
 // Lazy load pages for code splitting
 const Home = lazy(() =>
@@ -17,6 +18,12 @@ const About = lazy(() =>
 );
 const Skills = lazy(() =>
   import('./pages/Skills').then((m) => ({ default: m.Skills }))
+);
+const Projects = lazy(() =>
+  import('./pages/Projects').then((m) => ({ default: m.Projects }))
+);
+const HowIBuild = lazy(() =>
+  import('./pages/HowIBuild').then((m) => ({ default: m.HowIBuild }))
 );
 const LiveLab = lazy(() =>
   import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
@@ -41,14 +48,9 @@ const AdminLayout = lazy(() =>
 
 // Page loader component
 const PageLoader: React.FC = () => (
-  <div style={{
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '60vh'
-  }}>
+  <PageLoaderWrapper>
     <Spinner size="lg" />
-  </div>
+  </PageLoaderWrapper>
 );
 
 // Router configuration
@@ -78,6 +80,22 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <Skills />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'projects',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <Projects />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'how-i-build',
+        element: (
+          <Suspense fallback={<PageLoader />}>
+            <HowIBuild />
           </Suspense>
         ),
       },
