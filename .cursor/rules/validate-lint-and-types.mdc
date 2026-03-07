@@ -1,0 +1,59 @@
+---
+description: Sempre validar erros de lint e type após alterações em código
+alwaysApply: true
+---
+
+# Validar Lint e Types Após Alterações
+
+**SEMPRE** execute validação de lint e types após realizar alterações em arquivos de código.
+
+## Regra
+
+- Após editar qualquer arquivo `.ts`, `.tsx`, `.py` ou similar, use a ferramenta `ReadLints` para verificar erros
+- Corrija **todos** os erros de lint e type introduzidos antes de finalizar a alteração
+- Não ignore erros de type safety (ex: propriedades faltantes, tipos incompatíveis)
+- **NUNCA use `any` como tipo** — sempre utilize os tipos corretos do projeto
+- Para arquivos Python, execute `poetry run pycodestyle . --max-line-length=100 --exclude=.venv` para verificar conformidade PEP 8
+- Verifique imports removidos/adicionados para garantir que não há referências quebradas
+
+## Checklist pós-alteração
+
+1. Verificar lint nos arquivos modificados
+2. Verificar se imports removidos não são usados em outros arquivos
+3. Verificar se novos imports estão corretos
+4. Verificar se interfaces/types estão consistentes entre os arquivos alterados
+5. **Verificar que não há uso de `any`** — usar enums, interfaces e types existentes do projeto
+6. **Para Python:** executar `poetry run pycodestyle` para verificar estilo de código (PEP 8)
+
+## Type Safety — Evitar `any`
+
+### ❌ PROIBIDO
+```typescript
+const data = { category: 'frontend' as any };
+function process(input: any) { ... }
+const item = { name: null as any };
+```
+
+### ✅ CORRETO
+```typescript
+import { SkillCategory } from '../types';
+const data = { category: SkillCategory.Frontend };
+function process(input: Project) { ... }
+const item: Partial<Project> = { title: undefined };
+```
+
+**Exceção:** `any` só é aceitável em tipos genéricos internos (ex: `Record<string, any>`) onde o tipo real é desconhecido.
+
+## Python Code Style — PEP 8
+
+### Comando de Verificação
+```bash
+cd backend/
+poetry run pycodestyle . --max-line-length=100 --exclude=.venv
+```
+
+### Erros Comuns
+- **W293**: Linha em branco contém espaços — remover todos os espaços de linhas vazias
+- **E501**: Linha muito longa — quebrar em múltiplas linhas (max 100 caracteres)
+- **E302**: Duas linhas em branco esperadas — adicionar espaçamento entre classes/funções
+- **E261**: Pelo menos dois espaços antes de comentário inline

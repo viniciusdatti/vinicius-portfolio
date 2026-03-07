@@ -1,0 +1,39 @@
+---
+description: Preservar nomes de variáveis e chaves de dicionários existentes
+alwaysApply: true
+---
+
+# Preservar Nomes Existentes
+
+**NUNCA** renomeie ou crie variantes redundantes de variáveis ou chaves de dicionários que já existem no código.
+
+## Regra
+
+- Mantenha os nomes originais de variáveis e chaves, mesmo que não sejam semanticamente ideais
+- Não crie novas variáveis com nomes "melhores" para substituir as existentes
+- Não faça correções semânticas de nomenclatura em código existente
+
+## Exceção
+
+Esta regra **não se aplica** quando há mudança de função/propósito da variável.
+
+## Exemplos
+
+```typescript
+// ❌ INCORRETO - criar variável redundante com nome "melhor"
+const userData = getUser();
+const userInfo = userData;   // renomear para "melhorar" semântica
+
+// ✅ CORRETO - usar o nome existente
+const userData = getUser();
+process(userData);
+```
+
+```typescript
+// ❌ INCORRETO - renomear chave existente
+const payload = { user_name: name };  // chave original da API
+const payload = { userName: name };   // "corrigir" para nome melhor
+
+// ✅ CORRETO - manter chave original (ex.: snake_case da API)
+const payload = { user_name: name };
+```

@@ -1,0 +1,73 @@
+---
+description: Enforce precise assertions in unit tests - no greaterThan, lessThan, or false positives
+globs: "**/*.test.{ts,tsx}"
+alwaysApply: false
+---
+
+# Precise Test Assertions
+
+**OBRIGATÓRIO**: Todos os testes devem ser **precisos**. Assertions vagas ou aproximadas são proibidas.
+
+## Regras
+
+### 1. NUNCA use comparadores relativos
+
+```typescript
+// ❌ PROIBIDO
+expect(items.length).toBeGreaterThan(0);
+expect(items.length).toBeGreaterThanOrEqual(2);
+expect(items.length).toBeLessThan(10);
+expect(count).toBeGreaterThan(0);
+
+// ✅ CORRETO - valores exatos
+expect(items.length).toBe(4);
+expect(count).toBe(1);
+```
+
+### 2. NUNCA use `toHaveBeenCalled()` sem contagem
+
+```typescript
+// ❌ PROIBIDO
+expect(mockFn).toHaveBeenCalled();
+
+// ✅ CORRETO - quantidade exata de chamadas
+expect(mockFn).toHaveBeenCalledTimes(1);
+expect(mockFn).toHaveBeenCalledOnce();
+```
+
+### 3. NUNCA crie falsos positivos
+
+```typescript
+// ❌ PROIBIDO - sempre passa, não testa nada
+expect(true).toBe(true);
+
+// ❌ PROIBIDO - if silencioso que pula assertions
+if (element) {
+  expect(element.textContent).toBe('value');
+}
+
+// ✅ CORRETO - garante que o elemento existe E valida
+expect(element).not.toBeNull();
+expect(element!.textContent).toBe('value');
+```
+
+### 4. NUNCA use blocos condicionais que escondam falhas
+
+```typescript
+// ❌ PROIBIDO - se o elemento não existir, o teste passa sem validar
+const el = container.querySelector('.item');
+if (el) {
+  expect(el.textContent).toBe('expected');
+}
+
+// ✅ CORRETO - falha explicitamente se o elemento não existir
+const el = container.querySelector('.item');
+expect(el).not.toBeNull();
+expect(el!.textContent).toBe('expected');
+```
+
+## Resumo
+
+- Use `toBe()`, `toEqual()`, `toContain()`, `toHaveBeenCalledTimes(N)` com valores exatos
+- Sempre valide a existência de elementos antes de acessar suas propriedades com `expect().not.toBeNull()`
+- Cada teste deve falhar se o comportamento esperado não ocorrer

@@ -1,0 +1,42 @@
+---
+description: Reuse existing test utilities and builders instead of creating redundant ones
+globs: "**/*.test.{ts,tsx}"
+alwaysApply: false
+---
+
+# Reuse Test Utilities
+
+**SEMPRE** reutilize builders e utilitários de teste existentes no projeto.
+
+## Regra
+
+- Antes de criar builders de dados (ex: `buildUser`, `buildProject`), verifique se já existem em `testUtils`, `__tests__/utils` ou arquivos de mock do projeto
+- Use builders existentes como base (ex: `buildFakeProject()`, `buildFakeUser()`)
+- Ao criar builders locais, derive dos utilitários existentes com `overrides`
+- Nunca duplique campos manualmente quando um builder já fornece defaults type-safe
+
+## Exemplos
+
+```typescript
+// ❌ PROIBIDO - criar objeto manual com todos os campos
+const project: Project = {
+  id: 1,
+  title: 'Test',
+  title_pt: null,
+  description: null,
+  // ... 10+ campos manuais
+};
+
+// ✅ CORRETO - usar builder existente com overrides
+import { buildFakeProject } from '../__tests__/utils';
+
+const project = buildFakeProject({
+  id: 1,
+  title: 'Test',
+});
+```
+
+## Onde encontrar utilitários
+
+- `src/**/__tests__/utils.ts` ou `**/testUtils.ts` — builders e mocks de dados
+- Verifique constantes exportadas para dados padrão (ex: `MOCK_PROJECT`, `MOCK_USER`)
