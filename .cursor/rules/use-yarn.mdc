@@ -1,0 +1,24 @@
+---
+description: Always use yarn as the package manager for running commands
+alwaysApply: true
+---
+
+# Use Yarn for All Commands
+
+**ALWAYS** use `yarn` as the package manager. Never use `npm` or `npx`.
+
+## Examples
+
+```bash
+# ✅ CORRECT
+yarn install
+yarn test
+yarn lint
+yarn add <package>
+
+# ❌ INCORRECT
+npm install
+npm test
+npm run lint
+npx <command>
+```
