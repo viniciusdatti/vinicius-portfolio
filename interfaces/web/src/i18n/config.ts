@@ -16,7 +16,7 @@ const defaultLng: string = 'en-US';
 /**
  * Detects initial language based on browser settings.
  */
-function getInitialLanguage(): string {
+const getInitialLanguage = (): string => {
   if (typeof navigator === 'undefined' || !navigator.language) {
     return defaultLng;
   }
@@ -32,7 +32,7 @@ function getInitialLanguage(): string {
   }
 
   return defaultLng;
-}
+};
 
 i18n.use(initReactI18next).init({
   resources: {

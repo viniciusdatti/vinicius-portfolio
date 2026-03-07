@@ -14,7 +14,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 export const PageHeader = styled.div`
@@ -48,7 +48,7 @@ export const SectionTitle = styled.h2`
     flex: 1;
     height: 1px;
     background-color: ${({ theme }) => theme.colors.border};
-  }
+  };
 `;
 
 export const TableWrapper = styled.div`
@@ -84,12 +84,12 @@ export const TableRow = styled.tr<{ $clickable?: boolean }>`
 
   &:last-child {
     border-bottom: none;
-  }
+  };
 
   &:hover {
     background-color: ${({ theme, $clickable }) =>
       $clickable ? theme.colors.surfaceHover : 'transparent'};
-  }
+  };
 `;
 
 export const TableCell = styled.td`
@@ -111,7 +111,7 @@ export const SearchInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.textMuted};
-  }
+  };
 `;
 
 export const DrawerDetailRow = styled.div`
@@ -143,7 +143,7 @@ export const DrawerLink = styled.a`
 
   &:hover {
     text-decoration: underline;
-  }
+  };
 `;
 
 export const TechList = styled.span`
@@ -167,7 +167,7 @@ export const RetryButton = styled.button`
 
   &:hover {
     opacity: 0.9;
-  }
+  };
 `;
 
 export const EmptyMessage = styled.p`

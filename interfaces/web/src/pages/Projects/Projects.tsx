@@ -47,7 +47,7 @@ import {
 /**
  * Returns unique technologies from projects, sorted by name.
  */
-function getUniqueTechnologies(projects: Project[]): Technology[] {
+const getUniqueTechnologies = (projects: Project[]): Technology[] => {
   const seen = new Map<string, Technology>();
   projects.forEach((p) => {
     p.technologies.forEach((t) => {
@@ -55,7 +55,7 @@ function getUniqueTechnologies(projects: Project[]): Technology[] {
     });
   });
   return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name));
-}
+};
 
 /**
  * Projects page: list with technology filter, search, and detail drawer (real data).

@@ -24,7 +24,7 @@ export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 export const HeaderContent = styled.div`
@@ -45,7 +45,7 @@ export const Logo = styled(MotionLink)`
 
   span {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 export const Nav = styled.nav`
@@ -55,7 +55,7 @@ export const Nav = styled.nav`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
-  }
+  };
 `;
 
 export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
@@ -70,7 +70,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 
   &::after {
     content: '';
@@ -81,11 +81,11 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
     height: 2px;
     background-color: ${({ theme }) => theme.colors.primary};
     transition: width ${({ theme }) => theme.transitions.fast};
-  }
+  };
 
   &:hover::after {
     width: 100%;
-  }
+  };
 `;
 
 export const HeaderActions = styled.div`
@@ -109,7 +109,7 @@ export const HamburgerButton = styled(motion.button)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
-  }
+  };
 `;
 
 export const HamburgerLine = styled(motion.span)`

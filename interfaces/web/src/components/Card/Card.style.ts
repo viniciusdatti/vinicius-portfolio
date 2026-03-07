@@ -10,5 +10,5 @@ export const StyledCard = styled.div`
   &:hover {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     transform: translateY(-2px);
-  }
+  };
 `;

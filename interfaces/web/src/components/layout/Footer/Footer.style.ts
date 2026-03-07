@@ -18,7 +18,7 @@ export const FooterContent = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
     text-align: center;
-  }
+  };
 `;
 
 export const FooterSection = styled.div`
@@ -36,7 +36,7 @@ export const FooterLogo = styled.div`
 
   span {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 export const FooterDescription = styled.p`
@@ -60,7 +60,7 @@ export const FooterLinks = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     align-items: center;
-  }
+  };
 `;
 
 export const FooterLink = styled(motion.a)`
@@ -74,12 +74,12 @@ export const FooterLink = styled(motion.a)`
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 
   svg {
     width: 16px;
     height: 16px;
-  }
+  };
 `;
 
 export const SocialLinks = styled.div`
@@ -88,7 +88,7 @@ export const SocialLinks = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     justify-content: center;
-  }
+  };
 `;
 
 export const SocialLink = styled(motion.a)`
@@ -106,12 +106,12 @@ export const SocialLink = styled(motion.a)`
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary};
     color: white;
-  }
+  };
 
   svg {
     width: 18px;
     height: 18px;
-  }
+  };
 `;
 
 export const FooterBottom = styled.div`
@@ -129,7 +129,7 @@ export const FooterBottom = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     justify-content: center;
     text-align: center;
-  }
+  };
 `;
 
 export const Copyright = styled.p`
@@ -145,5 +145,5 @@ export const TechStack = styled.p`
 
   span {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;

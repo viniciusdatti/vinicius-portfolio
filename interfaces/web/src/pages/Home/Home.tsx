@@ -11,18 +11,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
+// Types
+import type { Language } from '../../types';
+
 // Components
 import { Hero } from '../../components/Hero';
 import { ProjectGrid } from '../../components/ProjectGrid';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
-
-// Hooks
 import { useProjects } from '../../hooks';
-
-// Types
-import { Language } from '../../types';
-
-// Styles
 import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
 import {
   Section,
@@ -31,31 +27,27 @@ import {
   ErrorMessage,
   RetryButton,
   SkillsPreviewSection,
+  SkillsPreviewDescription,
   SkillsGrid,
   SkillIcon,
+  ViewAllLinkWrapper,
   ViewAllLink,
   LiveLabCard,
   LiveBadge,
   LiveLabTitle,
   LiveLabDescription,
   CTAButton,
+  ContactCtaSection,
+  ContactCtaDescription,
 } from './Home.style';
 
-// Types
-/**
- * Represents a skill item with name and icon URL.
- */
+/** Represents a skill item with name and icon URL. */
 interface SkillItem {
-  /** Display name of the skill */
   name: string;
-  /** URL to the skill's icon image */
   icon: string;
 }
 
-// Constants
-/**
- * Preview skills displayed on the home page.
- */
+/** Preview skills displayed on the home page. */
 const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
   { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
@@ -68,21 +60,23 @@ const PREVIEW_SKILLS: SkillItem[] = [
 /**
  * Home page component displaying the main landing page content.
  * Includes hero, skills preview, live lab preview, projects, and contact CTA.
- *
- * @returns The rendered Home page component
  */
 export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
+  /* ***********************************************************************************************
+   **************************************** DERIVED STATE ********************************************
+   *********************************************************************************************** */
+
   const currentLanguage: Language =
     i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
 
-  /**
-   * Renders the projects section content based on loading/error state.
-   *
-   * @returns Loading skeleton, error message, or project grid
-   */
+  /* ***********************************************************************************************
+   ****************************************** METHODS ***********************************************
+   *********************************************************************************************** */
+
+  /** Renders the projects section content based on loading/error state. */
   const renderProjects = (): React.ReactElement => {
     if (isLoading) {
       return (
@@ -108,11 +102,14 @@ export const Home: React.FC = (): React.ReactElement => {
     return <ProjectGrid projects={projects || []} language={currentLanguage} />;
   };
 
+  /* ***********************************************************************************************
+   *************************************** COMPONENT HANDLING **************************************
+   *********************************************************************************************** */
+
   return (
     <>
       <Hero />
 
-      {/* Skills Preview */}
       <SkillsPreviewSection>
         <div>
           <SectionTitle
@@ -123,9 +120,9 @@ export const Home: React.FC = (): React.ReactElement => {
           >
             {t('home.skillsPreview.title')}
           </SectionTitle>
-          <p style={{ textAlign: 'center', color: 'var(--text-muted)' }}>
+          <SkillsPreviewDescription>
             {t('home.skillsPreview.description')}
-          </p>
+          </SkillsPreviewDescription>
           <SkillsGrid
             variants={staggerContainer}
             initial="initial"
@@ -143,15 +140,14 @@ export const Home: React.FC = (): React.ReactElement => {
               </SkillIcon>
             ))}
           </SkillsGrid>
-          <div style={{ textAlign: 'center' }}>
+          <ViewAllLinkWrapper>
             <ViewAllLink to="/skills">
               {t('home.skillsPreview.viewAll')} →
             </ViewAllLink>
-          </div>
+          </ViewAllLinkWrapper>
         </div>
       </SkillsPreviewSection>
 
-      {/* Live Lab Preview */}
       <Section>
         <LiveLabCard
           variants={fadeInUp}
@@ -170,7 +166,6 @@ export const Home: React.FC = (): React.ReactElement => {
         </LiveLabCard>
       </Section>
 
-      {/* Projects */}
       <Section id="projetos">
         <SectionTitle
           variants={fadeInUp}
@@ -183,8 +178,7 @@ export const Home: React.FC = (): React.ReactElement => {
         {renderProjects()}
       </Section>
 
-      {/* Contact CTA */}
-      <Section style={{ textAlign: 'center' }}>
+      <ContactCtaSection>
         <motion.div
           variants={fadeInUp}
           initial="initial"
@@ -192,14 +186,14 @@ export const Home: React.FC = (): React.ReactElement => {
           viewport={{ once: true }}
         >
           <SectionTitle>{t('home.contactCta.title')}</SectionTitle>
-          <p style={{ marginBottom: '2rem', color: 'var(--text-secondary)' }}>
+          <ContactCtaDescription>
             {t('home.contactCta.description')}
-          </p>
+          </ContactCtaDescription>
           <CTAButton to="/contact">
             {t('home.contactCta.cta')}
           </CTAButton>
         </motion.div>
-      </Section>
+      </ContactCtaSection>
     </>
   );
 };

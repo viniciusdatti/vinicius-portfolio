@@ -11,6 +11,7 @@ import type { Project } from '../data/types';
  * @param technology - Optional technology filter
  * @returns Promise with array of projects
  */
-export async function getProjects(technology?: string): Promise<Project[]> {
-  return apiClient.get<Project[]>('/projects', { technology });
-}
+export const getProjects = async (
+  technology?: string
+): Promise<Project[]> =>
+  apiClient.get<Project[]>('/projects', { technology });

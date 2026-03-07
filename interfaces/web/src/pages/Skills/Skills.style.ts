@@ -18,7 +18,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 /**
@@ -67,7 +67,7 @@ export const SectionTitle = styled.h2`
     flex: 1;
     height: 1px;
     background-color: ${({ theme }) => theme.colors.border};
-  }
+  };
 `;
 
 /**
@@ -130,7 +130,7 @@ export const ExperienceCard = styled(motion.div)`
     background: ${({ theme }) => theme.colors.primary};
     opacity: 0;
     transition: opacity ${({ theme }) => theme.transitions.fast};
-  }
+  };
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
@@ -138,8 +138,8 @@ export const ExperienceCard = styled(motion.div)`
 
     &::before {
       opacity: 1;
-    }
-  }
+    };
+  };
 `;
 
 /**
@@ -215,7 +215,7 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ $active, theme }) =>
       $active ? 'white' : theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -244,7 +244,7 @@ export const SkillCard = styled(motion.div)`
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     transform: translateY(-4px);
-  }
+  };
 `;
 
 /**
@@ -259,7 +259,7 @@ export const SkillIcon = styled.div`
     width: 100%;
     height: 100%;
     object-fit: contain;
-  }
+  };
 `;
 
 /**
@@ -327,7 +327,7 @@ export const CertificatesGrid = styled(motion.div)`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.spacing.sm};
-  }
+  };
 `;
 
 /**
@@ -360,7 +360,7 @@ export const CertificateCard = styled(motion.div)<CertificateCardProps>`
     background-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
     opacity: 0;
     transition: opacity ${({ theme }) => theme.transitions.fast};
-  }
+  };
 
   &:hover {
     border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
@@ -368,8 +368,8 @@ export const CertificateCard = styled(motion.div)<CertificateCardProps>`
 
     &::before {
       opacity: 1;
-    }
-  }
+    };
+  };
 `;
 
 /**
@@ -407,7 +407,7 @@ export const PlatformLogo = styled.div<PlatformLogoProps>`
     width: 100%;
     height: 100%;
     object-fit: contain;
-  }
+  };
 `;
 
 /**
@@ -505,7 +505,7 @@ export const CertificateCoursesCount = styled.span`
   &::before {
     content: '•';
     margin: 0 4px;
-  }
+  };
 `;
 
 /**
@@ -544,7 +544,7 @@ export const CertificateLink = styled.div`
 
   ${CertificateCard}:hover & {
     opacity: 1;
-  }
+  };
 `;
 
 /**
@@ -616,7 +616,7 @@ export const ModalCloseButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.backgroundSecondary};
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 `;
 
 /**
@@ -659,7 +659,7 @@ export const ModalPlatformBadge = styled.div<ModalPlatformBadgeProps>`
     width: 20px;
     height: 20px;
     object-fit: contain;
-  }
+  };
 `;
 
 /**
@@ -693,7 +693,7 @@ export const ModalMetaItem = styled.div`
 
   svg {
     color: ${({ theme }) => theme.colors.textMuted};
-  }
+  };
 `;
 
 /**

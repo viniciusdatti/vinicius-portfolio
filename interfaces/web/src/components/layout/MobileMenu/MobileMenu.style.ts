@@ -29,7 +29,12 @@ export const MenuContainer = styled(motion.nav)`
   border-left: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-export const MenuLink = styled(motion.a)<{ $active?: boolean }>`
+export interface MenuLinkProps {
+  $active?: boolean;
+  $delay?: number;
+}
+
+export const MenuLink = styled(motion.a)<MenuLinkProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ $active, theme }) =>
@@ -38,10 +43,12 @@ export const MenuLink = styled(motion.a)<{ $active?: boolean }>`
   padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transition: color ${({ theme }) => theme.transitions.fast};
+  transition-delay: ${({ $delay }) =>
+    $delay !== undefined ? `${$delay}s` : '0s'};
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 export const MenuFooter = styled.div`
@@ -69,10 +76,10 @@ export const SocialLink = styled(motion.a)`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.surfaceHover};
-  }
+  };
 
   svg {
     width: 20px;
     height: 20px;
-  }
+  };
 `;

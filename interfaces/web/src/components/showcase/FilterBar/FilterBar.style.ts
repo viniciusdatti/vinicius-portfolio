@@ -33,7 +33,7 @@ export const FilterChip = styled.button<FilterChipProps>`
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ $active, theme }) => ($active ? 'white' : theme.colors.primary)};
-  }
+  };
 `;
 
 export const FilterCount = styled.span`

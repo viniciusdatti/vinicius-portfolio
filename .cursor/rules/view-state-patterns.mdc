@@ -1,0 +1,82 @@
+---
+description: Padrões de views e estado - initialState, blocos de comentário, arrow functions, organização de componentes
+globs: "**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Padrões de organização de views e estado
+
+Estes padrões devem ser seguidos em todo o código do portfólio para manter consistência e boas práticas.
+
+## 1. Estado inicial (initialState)
+
+- **Nunca** deixe estado jogado: sempre defina um objeto `initialState` tipado e use-o no `useState`.
+- Nome da variável: `initialState` ou, se houver mais de um estado nomeado, `initial<NomeDoEstado>State` (ex.: `initialRegisterPasswordFormState`).
+- Padrão:
+
+```ts
+interface State {
+  inputValue: string;
+  eventsOpen: boolean;
+}
+
+const initialState: State = {
+  inputValue: '',
+  eventsOpen: false,
+};
+
+const [state, setState] = useState<State>(initialState);
+```
+
+- Em hooks que retornam estado, agrupe estados relacionados em um único tipo quando fizer sentido; caso contrário use um `initialState` por conjunto lógico.
+
+## 2. Comentários de separação de conteúdo (views / telas)
+
+- Use **blocos de comentário** com asteriscos para separar seções dentro de componentes e views.
+- Padrão exato:
+
+```ts
+/* ***********************************************************************************************
+ **************************************** INITIAL STATE *******************************************
+ *********************************************************************************************** */
+
+/* ***********************************************************************************************
+ ****************************************** METHODS ***********************************************
+ *********************************************************************************************** */
+
+/* ***********************************************************************************************
+ *************************************** COMPONENT HANDLING **************************************
+ *********************************************************************************************** */
+```
+
+- Seções comuns: **INITIAL STATE** (ou INITIAL STATES), **METHODS**, **COMPONENT HANDLING**, **VALIDATIONS** (quando aplicável).
+- Em arquivos de estilo (`.style.ts`), use seções mais curtas, por exemplo: `/* ************** NOME DA SEÇÃO ******************* */`.
+
+## 3. Não usar a palavra-chave `function`
+
+- **Componentes**: use arrow function com tipo explícito, ex.: `export const ComponentName: React.FC<Props> = (props): React.ReactElement => { ... }`.
+- **Funções internas (handlers, helpers)**: use `const nomeDaFunção = (): TipoRetorno => { ... }` ou `const nomeDaFunção = useCallback((): TipoRetorno => { ... }, [deps])`.
+- **Hooks customizados**: use `export const useNomeDoHook = (): TipoRetorno => { ... }`.
+- **Utilitários e serviços**: use `export const nomeDaFunção = (...args): TipoRetorno => { ... }`.
+- Evite `function nome() { }` e `export function nome() { }` em todo o projeto.
+
+## 4. Enums para tipar corretamente
+
+- Use **enums** (string enums) em vez de string unions para status, roles, tipos de botão, etc.
+- Centralize enums compartilhados em `src/types/index.ts`; enums específicos de um componente podem ficar em `ComponentName.types.ts`.
+- Convenção: PascalCase para nome do enum e para membros; valores em string compatíveis com API (ex.: lowercase, snake_case quando for o caso).
+
+## 5. Imports com seções
+
+- Respeite a regra existente em `import-sections.mdc`: **Core** → **Libraries** → **Types** → **Theme** → **Components**.
+- Use **apenas** as seções que o arquivo utiliza; dentro de **Components** entram componentes, views, hooks, store, utils, estilos (caminhos relativos internos ao projeto).
+
+## 6. Organização de pastas e arquivos
+
+- **Views/páginas**: uma pasta por view (ex.: `Home/`, `Contact/`, `admin/Chat/`) com `ViewName.tsx`, `ViewName.style.ts`, `ViewName.types.ts` (se necessário), `index.ts`.
+- **Componentes**: mesma estrutura quando houver tipos e estilos próprios: `ComponentName.tsx`, `ComponentName.types.ts`, `ComponentName.style.ts`, `index.ts`.
+- Nomes de variáveis e tipos: camelCase para variáveis e funções; PascalCase para tipos, interfaces e enums; UPPER_SNAKE_CASE para constantes de módulo quando fizer sentido.
+
+## 7. Sem estilos inline
+
+- Não use `style={{ ... }}` em JSX; use sempre Styled Components (arquivos `.style.ts`) ou componentes do Design System, conforme a regra `no-inline-styles.mdc`.

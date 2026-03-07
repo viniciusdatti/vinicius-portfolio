@@ -18,7 +18,7 @@ export const DrawerOverlay = styled(motion.div)`
 
   &[data-open='true'] {
     pointer-events: auto;
-  }
+  };
 `;
 
 export const DrawerPanel = styled(motion.aside)`
@@ -65,7 +65,7 @@ export const DrawerCloseButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.backgroundSecondary};
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 `;
 
 export const DrawerBody = styled.div`
