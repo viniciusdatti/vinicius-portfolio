@@ -20,40 +20,8 @@
     "about": "About",
     "skills": "Skills",
     "projects": "Projects",
-    "howIBuild": "How I build",
     "liveLab": "Live Lab",
     "contact": "Contact"
-  },
-  "howIBuild": {
-    "title": "How I build",
-    "subtitle": "Patterns I use in real projects. Each item links to where it lives in this portfolio.",
-    "items": {
-      "listsFilterDrawer": {
-        "title": "Lists with filter and drawer",
-        "description": "Table with technology filter, search, and detail drawer. Same pattern as admin lists and dashboards.",
-        "linkLabel": "View Projects"
-      },
-      "realtime": {
-        "title": "Real-time (WebSocket)",
-        "description": "Live chat with WebSocket, typing indicators, and session handling.",
-        "linkLabel": "Open Live Lab"
-      },
-      "i18nTheming": {
-        "title": "i18n and theming",
-        "description": "Portuguese and English; dark and light theme. Toggle in the header.",
-        "linkLabel": "Go to Home"
-      },
-      "authAdmin": {
-        "title": "Auth and admin area",
-        "description": "JWT login, protected routes, dashboard, and visitor chat management.",
-        "linkLabel": "Admin login"
-      },
-      "designSystem": {
-        "title": "Design system",
-        "description": "Styled-components, semantic theme, no inline styles. Reusable components and conventions.",
-        "linkLabel": "About"
-      }
-    }
   },
   "showcase": {
     "title": "Showcase",

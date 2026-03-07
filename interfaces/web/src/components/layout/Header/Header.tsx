@@ -36,7 +36,6 @@ const navItems: NavItem[] = [
   { path: '/about', labelKey: 'nav.about' },
   { path: '/skills', labelKey: 'nav.skills' },
   { path: '/projects', labelKey: 'nav.projects' },
-  { path: '/how-i-build', labelKey: 'nav.howIBuild' },
   { path: '/live-lab', labelKey: 'nav.liveLab' },
   { path: '/contact', labelKey: 'nav.contact' },
 ];

@@ -33,7 +33,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate-favicon": "node scripts/generate-favicon.cjs",
+    "prebuild": "yarn generate-favicon"
   },
   "eslintConfig": {
     "extends": [
@@ -53,5 +55,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
 }
