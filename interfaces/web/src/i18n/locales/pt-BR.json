@@ -20,40 +20,8 @@
     "about": "Sobre",
     "skills": "Skills",
     "projects": "Projetos",
-    "howIBuild": "Como eu construo",
     "liveLab": "Live Lab",
     "contact": "Contato"
-  },
-  "howIBuild": {
-    "title": "Como eu construo",
-    "subtitle": "Padrões que uso em projetos reais. Cada item leva a onde isso existe neste portfólio.",
-    "items": {
-      "listsFilterDrawer": {
-        "title": "Listas com filtro e drawer",
-        "description": "Tabela com filtro por tecnologia, busca e drawer de detalhe. Mesmo padrão de listagens e dashboards.",
-        "linkLabel": "Ver Projetos"
-      },
-      "realtime": {
-        "title": "Tempo real (WebSocket)",
-        "description": "Chat ao vivo com WebSocket, indicador de digitação e gestão de sessões.",
-        "linkLabel": "Abrir Live Lab"
-      },
-      "i18nTheming": {
-        "title": "i18n e tema",
-        "description": "Português e inglês; tema escuro e claro. Troca no header.",
-        "linkLabel": "Ir para Início"
-      },
-      "authAdmin": {
-        "title": "Auth e área admin",
-        "description": "Login com JWT, rotas protegidas, dashboard e gestão de chat com visitantes.",
-        "linkLabel": "Entrar no admin"
-      },
-      "designSystem": {
-        "title": "Design system",
-        "description": "Styled-components, tema semântico, sem estilos inline. Componentes reutilizáveis e convenções.",
-        "linkLabel": "Sobre"
-      }
-    }
   },
   "showcase": {
     "title": "Showcase",

@@ -47,30 +47,22 @@ export const Avatar = styled(motion.div)`
   height: 200px;
   border-radius: 50%;
   overflow: hidden;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.primary},
-    ${({ theme }) => theme.colors.primaryHover}
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  color: white;
+  border: 3px solid ${({ theme }) => theme.colors.primary}40;
+  box-shadow: 0 0 40px ${({ theme }) => theme.colors.primary}25;
+  flex-shrink: 0;
   margin: 0 auto;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
     display: block;
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     width: 150px;
     height: 150px;
-    font-size: 3rem;
   };
 `;
 
