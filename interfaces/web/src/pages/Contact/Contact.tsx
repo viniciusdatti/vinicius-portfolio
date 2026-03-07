@@ -12,6 +12,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+// Components
+import { submitContact, ApiError } from '../../api';
+
 // Styles
 import {
   fadeInUp,
@@ -121,6 +124,7 @@ export const Contact: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const {
     register,
@@ -133,19 +137,32 @@ export const Contact: React.FC = (): React.ReactElement => {
 
   /**
    * Handles form submission.
+   * Sends data to the backend contact API (saves to DB and triggers email/telegram).
+   *
    * @param data - The validated form data
    */
   const onSubmit = async (data: ContactFormData): Promise<void> => {
+    setSubmitError(null);
     setIsSubmitting(true);
     try {
-      // TODO: Implement API call
-      console.log('Form data:', data);
-      await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate API call
+      await submitContact({
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        company: data.company?.trim() || undefined,
+        subject: data.subject?.trim() || undefined,
+      });
       setIsSuccess(true);
       reset();
       setTimeout(() => setIsSuccess(false), 5000);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      const message: string =
+        error instanceof ApiError
+          ? error.status === 429
+            ? t('contact.form.rateLimitError')
+            : error.message
+          : t('contact.form.error');
+      setSubmitError(message);
     } finally {
       setIsSubmitting(false);
     }
@@ -242,6 +259,9 @@ export const Contact: React.FC = (): React.ReactElement => {
                 )}
               </InputGroup>
 
+              {submitError && (
+                <ErrorText role="alert">{submitError}</ErrorText>
+              )}
               <SubmitButton
                 type="submit"
                 disabled={isSubmitting}
