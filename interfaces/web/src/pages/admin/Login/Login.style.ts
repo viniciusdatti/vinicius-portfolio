@@ -51,7 +51,7 @@ export const Logo = styled.div`
   p {
     color: ${({ theme }) => theme.colors.textMuted};
     margin-top: ${({ theme }) => theme.spacing.sm};
-  }
+  };
 `;
 
 /**
@@ -107,7 +107,7 @@ export const SubmitButton = styled(motion.button)`
 
   &:disabled {
     opacity: 0.7;
-  }
+  };
 `;
 
 /**

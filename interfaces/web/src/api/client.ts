@@ -26,10 +26,10 @@ export class ApiError extends Error {
 /**
  * Build URL with query parameters.
  */
-function buildUrl(
+const buildUrl = (
   endpoint: string,
   params?: Record<string, string | undefined>
-): string {
+): string => {
   const url: URL = new URL(`${API_BASE_URL}${endpoint}`);
 
   if (params) {
@@ -41,15 +41,15 @@ function buildUrl(
   }
 
   return url.toString();
-}
+};
 
 /**
  * Make an HTTP request to the API.
  */
-async function request<T>(
+const request = async <T>(
   endpoint: string,
   options: RequestOptions = {}
-): Promise<T> {
+): Promise<T> => {
   const { params, ...fetchOptions }: RequestOptions = options;
 
   const url: string = buildUrl(endpoint, params);
@@ -77,7 +77,7 @@ async function request<T>(
   }
 
   return response.json();
-}
+};
 
 /**
  * API client interface with HTTP methods.

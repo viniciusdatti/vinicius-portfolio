@@ -19,7 +19,7 @@ export const Section = styled.section`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 /**
@@ -63,7 +63,7 @@ export const RetryButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
-  }
+  };
 `;
 
 /**
@@ -77,7 +77,7 @@ export const SkillsPreviewSection = styled(Section)`
   > div {
     max-width: 1200px;
     margin: 0 auto;
-  }
+  };
 `;
 
 /**
@@ -93,7 +93,7 @@ export const SkillsGrid = styled(motion.div)`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: repeat(3, 1fr);
     gap: ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 /**
@@ -114,17 +114,32 @@ export const SkillIcon = styled(motion.div)`
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     transform: translateY(-4px);
-  }
+  };
 
   img {
     width: 40px;
     height: 40px;
-  }
+  };
 
   span {
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     color: ${({ theme }) => theme.colors.textSecondary};
-  }
+  };
+`;
+
+/**
+ * Centered description text below section title in skills preview.
+ */
+export const SkillsPreviewDescription = styled.p`
+  text-align: center;
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+/**
+ * Wrapper to center the "View All" link.
+ */
+export const ViewAllLinkWrapper = styled.div`
+  text-align: center;
 `;
 
 /**
@@ -139,7 +154,7 @@ export const ViewAllLink = styled(Link)`
   
   &:hover {
     text-decoration: underline;
-  }
+  };
 `;
 
 /**
@@ -165,7 +180,7 @@ export const LiveLabCard = styled(motion.div)`
     right: 0;
     height: 4px;
     background: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -190,12 +205,12 @@ export const LiveBadge = styled.span`
     background-color: white;
     border-radius: 50%;
     animation: pulse 2s infinite;
-  }
+  };
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
-  }
+    0%, 100% { opacity: 1; };
+    50% { opacity: 0.5; };
+  };
 `;
 
 /**
@@ -236,5 +251,20 @@ export const CTAButton = styled(Link)`
     background-color: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-2px);
     color: white;
-  }
+  };
+`;
+
+/**
+ * Section wrapper for contact CTA with centered content.
+ */
+export const ContactCtaSection = styled(Section)`
+  text-align: center;
+`;
+
+/**
+ * Description paragraph in contact CTA section.
+ */
+export const ContactCtaDescription = styled.p`
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `;

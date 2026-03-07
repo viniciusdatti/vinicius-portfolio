@@ -25,5 +25,5 @@ export const LangButton = styled.button<{ $active?: boolean }>`
   &:hover {
     color: ${({ theme }) => theme.colors.text};
     border-color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;

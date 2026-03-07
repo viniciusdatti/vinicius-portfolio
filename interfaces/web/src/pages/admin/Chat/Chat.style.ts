@@ -52,7 +52,7 @@ export const Content = styled.main`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
-  }
+  };
 `;
 
 // ============================================
@@ -76,7 +76,7 @@ export const BackLink = styled(Link)`
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 `;
 
 export const HeaderTitle = styled.div`
@@ -107,7 +107,7 @@ export const ConnectionBadge = styled.span<ConnectionBadgeProps>`
     height: 8px;
     border-radius: 50%;
     background-color: currentColor;
-  }
+  };
 `;
 
 // ============================================
@@ -153,7 +153,7 @@ export const SessionItem = styled.button<SessionItemProps>`
   &:hover {
     background-color: ${({ $active, theme }) =>
       $active ? theme.colors.primaryLight : theme.colors.surfaceHover};
-  }
+  };
 `;
 
 export const SessionInfo = styled.div`
@@ -188,6 +188,10 @@ export const LastMessage = styled.span`
   max-width: 180px;
 `;
 
+export const SessionCompanyLine = styled(LastMessage)`
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
 export const UnreadBadge = styled.span`
   background-color: ${({ theme }) => theme.colors.primary};
   color: white;
@@ -207,6 +211,11 @@ export const EmptyState = styled.div`
   padding: ${({ theme }) => theme.spacing.xxl};
   text-align: center;
   color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+export const EmptyStateDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `;
 
 // ============================================
@@ -232,12 +241,12 @@ export const ChatHeaderInfo = styled.div`
   h3 {
     font-size: ${({ theme }) => theme.typography.fontSize.lg};
     margin-bottom: ${({ theme }) => theme.spacing.xs};
-  }
+  };
 
   span {
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     color: ${({ theme }) => theme.colors.textMuted};
-  }
+  };
 `;
 
 export const CloseButton = styled.button`
@@ -249,7 +258,7 @@ export const CloseButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.error}30;
-  }
+  };
 `;
 
 // ============================================
@@ -315,11 +324,11 @@ export const MessageInput = styled.input`
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.textMuted};
-  }
+  };
 `;
 
 export const SendButton = styled(motion.button)`
@@ -332,11 +341,11 @@ export const SendButton = styled(motion.button)`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
+  };
 
   &:hover:not(:disabled) {
     background-color: ${({ theme }) => theme.colors.primaryHover};
-  }
+  };
 `;
 
 // ============================================
@@ -355,11 +364,15 @@ export const NoChatSelected = styled.div`
   h3 {
     font-size: ${({ theme }) => theme.typography.fontSize.xl};
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 
   p {
     font-size: ${({ theme }) => theme.typography.fontSize.md};
-  }
+  };
+`;
+
+export const NoChatSelectedDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
 `;
 
 // ============================================
@@ -386,7 +399,7 @@ export const EventsToggle = styled.button`
   &:hover {
     color: ${({ theme }) => theme.colors.text};
     background: ${({ theme }) => theme.colors.surface};
-  }
+  };
 `;
 
 export const EventsList = styled.div`
@@ -407,8 +420,19 @@ export const EventItem = styled.div`
   [data-type] {
     font-weight: 600;
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
   [data-time] {
     opacity: 0.8;
-  }
+  };
+`;
+
+export const EventItemContent = styled.span`
+  font-size: 0.75rem;
+  opacity: 0.9;
+`;
+
+export const EventsListEmpty = styled.p`
+  padding: ${({ theme }) => theme.spacing.sm};
+  font-size: 0.8rem;
+  color: ${({ theme }) => theme.colors.textMuted};
 `;

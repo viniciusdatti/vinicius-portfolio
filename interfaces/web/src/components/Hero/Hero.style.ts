@@ -5,11 +5,11 @@ const pulseGlow = keyframes`
   0%, 100% {
     opacity: 0.4;
     transform: scale(1);
-  }
+  };
   50% {
     opacity: 0.7;
     transform: scale(1.02);
-  }
+  };
 `;
 
 export const HeroSection = styled.section`

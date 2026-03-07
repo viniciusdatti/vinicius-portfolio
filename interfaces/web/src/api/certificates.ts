@@ -10,8 +10,7 @@ import type { Certificate } from '../types';
  *
  * @returns Promise with array of certificates
  */
-export async function getCertificates(): Promise<Certificate[]> {
-  return apiClient.get<Certificate[]>('/certificates', {
+export const getCertificates = async (): Promise<Certificate[]> =>
+  apiClient.get<Certificate[]>('/certificates', {
     active_only: 'true',
   });
-}
