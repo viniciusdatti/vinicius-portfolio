@@ -30,7 +30,7 @@ Usar `git diff` ou análise de arquivos para listar:
 
 ### 1.3 Validar Contra o Planejamento
 
-Para cada arquivo: Backend (services, API, models, testes), Frontend (componentes, views, i18n, testes), Segurança, Padrões do projeto (lint, tipos).
+Para cada arquivo: Backend (services, API, models, testes), Frontend (componentes, pages, i18n, testes), Segurança, Padrões do projeto (lint, tipos).
 
 ### 1.4 Classificar
 

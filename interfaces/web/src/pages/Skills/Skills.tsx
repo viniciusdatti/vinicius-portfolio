@@ -11,7 +11,11 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // Styles
-import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+} from '../../styles/animations';
 
 // Components (styled)
 import {
@@ -28,8 +32,6 @@ import {
   SkillIcon,
   SkillInfo,
   SkillName,
-  SkillBar,
-  SkillProgress,
   ExperienceSection,
   ExperienceIntro,
   ExperienceSubtitle,
@@ -68,6 +70,9 @@ import {
 
 // Types
 import { SkillCategory } from '../../types';
+
+/** Base URL for static assets (icons, images). Ensures icons work offline. */
+const ASSETS_BASE: string = process.env.PUBLIC_URL ?? '';
 
 /**
  * Represents a single skill item with category, name, icon, and proficiency level.
@@ -133,12 +138,12 @@ const platformConfig = {
     bgColor: 'rgba(130, 87, 229, 0.1)',
   },
   Alura: {
-    logo: 'https://www.alura.com.br/assets/img/alura-logo.svg',
+    logo: `${ASSETS_BASE}/icons/platforms/alura.svg`,
     color: '#0066cc',
     bgColor: 'rgba(0, 102, 204, 0.1)',
   },
   Udemy: {
-    logo: 'https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg',
+    logo: `${ASSETS_BASE}/icons/platforms/udemy.svg`,
     color: '#a435f0',
     bgColor: 'rgba(164, 53, 240, 0.1)',
   },
@@ -149,50 +154,114 @@ const platformConfig = {
  */
 const skillsData: SkillItem[] = [
   // Frontend
-  { category: SkillCategory.Frontend, name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg', level: 90 },
-  { category: SkillCategory.Frontend, name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg', level: 85 },
-  { category: SkillCategory.Frontend, name: 'JavaScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg', level: 90 },
-  { category: SkillCategory.Frontend, name: 'HTML5', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg', level: 95 },
-  { category: SkillCategory.Frontend, name: 'CSS3', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg', level: 90 },
-  { category: SkillCategory.Frontend, name: 'Styled Components', icon: 'https://raw.githubusercontent.com/styled-components/brand/master/styled-components.svg', level: 85 },
+  {
+    category: SkillCategory.Frontend,
+    name: 'React',
+    icon: `${ASSETS_BASE}/icons/react.svg`,
+    level: 90,
+  },
+  {
+    category: SkillCategory.Frontend,
+    name: 'TypeScript',
+    icon: `${ASSETS_BASE}/icons/typescript.svg`,
+    level: 85,
+  },
+  {
+    category: SkillCategory.Frontend,
+    name: 'JavaScript',
+    icon: `${ASSETS_BASE}/icons/javascript.svg`,
+    level: 90,
+  },
+  {
+    category: SkillCategory.Frontend,
+    name: 'HTML5',
+    icon: `${ASSETS_BASE}/icons/html5.svg`,
+    level: 95,
+  },
+  {
+    category: SkillCategory.Frontend,
+    name: 'CSS3',
+    icon: `${ASSETS_BASE}/icons/css3.svg`,
+    level: 90,
+  },
+  {
+    category: SkillCategory.Frontend,
+    name: 'Styled Components',
+    icon: `${ASSETS_BASE}/icons/styled-components.svg`,
+    level: 85,
+  },
   // Backend
-  { category: SkillCategory.Backend, name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg', level: 85 },
-  { category: SkillCategory.Backend, name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg', level: 80 },
-  { category: SkillCategory.Backend, name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg', level: 75 },
+  {
+    category: SkillCategory.Backend,
+    name: 'Python',
+    icon: `${ASSETS_BASE}/icons/python.svg`,
+    level: 85,
+  },
+  {
+    category: SkillCategory.Backend,
+    name: 'FastAPI',
+    icon: `${ASSETS_BASE}/icons/fastapi.svg`,
+    level: 80,
+  },
+  {
+    category: SkillCategory.Backend,
+    name: 'PostgreSQL',
+    icon: `${ASSETS_BASE}/icons/postgresql.svg`,
+    level: 75,
+  },
   // Testing
-  { category: SkillCategory.Testing, name: 'Jest', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg', level: 80 },
-  { category: SkillCategory.Testing, name: 'Playwright', icon: 'https://playwright.dev/img/playwright-logo.svg', level: 70 },
+  {
+    category: SkillCategory.Testing,
+    name: 'Jest',
+    icon: `${ASSETS_BASE}/icons/jest.svg`,
+    level: 80,
+  },
+  {
+    category: SkillCategory.Testing,
+    name: 'Playwright',
+    icon: `${ASSETS_BASE}/icons/playwright.svg`,
+    level: 70,
+  },
   // Tools
-  { category: SkillCategory.Tools, name: 'Git', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', level: 85 },
-  { category: SkillCategory.Tools, name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg', level: 70 },
-  { category: SkillCategory.Tools, name: 'VS Code', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg', level: 95 },
+  {
+    category: SkillCategory.Tools,
+    name: 'Git',
+    icon: `${ASSETS_BASE}/icons/git.svg`,
+    level: 85,
+  },
+  {
+    category: SkillCategory.Tools,
+    name: 'Docker',
+    icon: `${ASSETS_BASE}/icons/docker.svg`,
+    level: 70,
+  },
+  {
+    category: SkillCategory.Tools,
+    name: 'VS Code',
+    icon: `${ASSETS_BASE}/icons/vscode.svg`,
+    level: 95,
+  },
   {
     category: SkillCategory.Tools,
     name: 'Cursor',
     nameKey: 'skills.toolNames.cursor',
-    icon: 'data:image/svg+xml,' + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#3b82f6">' +
-        '<path d="M12 2v4l-4 2 4 2v4l6-6-6-6z"/>' +
-        '<path d="M12 10v4l4-2-4-2z"/>' +
-      '</svg>'
-    ),
+    icon: `${ASSETS_BASE}/cursor-icon.png`,
     level: 90,
   },
   {
     category: SkillCategory.Tools,
     name: 'AI tools',
     nameKey: 'skills.toolNames.aiTools',
-    icon: 'data:image/svg+xml,' + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#8b5cf6">' +
-        '<path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/>' +
-        '<path d="M6 16l1.2 3.6L11 21l-3.8-1.2L6 16z"/>' +
-        '<path d="M18 16l-1.2 3.6L13 21l3.8-1.2L18 16z"/>' +
-      '</svg>'
-    ),
+    icon: `${ASSETS_BASE}/ai-tools-icon.png`,
     level: 85,
   },
   // Real-time
-  { category: SkillCategory.Realtime, name: 'WebSocket', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/socketio/socketio-original.svg', level: 75 },
+  {
+    category: SkillCategory.Realtime,
+    name: 'WebSocket',
+    icon: `${ASSETS_BASE}/icons/socketio.svg`,
+    level: 75,
+  },
 ];
 
 /**
@@ -383,7 +452,7 @@ export const Skills: React.FC = () => {
   // Calculate total hours
   const totalHours = certificatesData.reduce((acc, cert) => acc + cert.hours, 0);
 
-  // Order: platform (Rocketseat → Alura → Udemy), then type (trail → course → micro), then hours desc
+  // Order: platform (Rocketseat → Alura → Udemy), then type, then hours desc
   const sortedCertificates = useMemo(() => {
     return [...certificatesData].sort((a, b) => {
       const platformDiff = PLATFORM_ORDER[a.platform] - PLATFORM_ORDER[b.platform];
@@ -449,14 +518,6 @@ export const Skills: React.FC = () => {
                 </SkillIcon>
                 <SkillInfo>
                   <SkillName>{displayName}</SkillName>
-                  <SkillBar>
-                    <SkillProgress
-                      $level={skill.level}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1, delay: index * 0.1 }}
-                    />
-                  </SkillBar>
                 </SkillInfo>
               </SkillCard>
               );
@@ -498,7 +559,9 @@ export const Skills: React.FC = () => {
       <CertificatesSection>
         <SectionTitle>
           {t('skills.certificates.title')}
-          <CertificateHours>{t('skills.certificates.totalHours', { hours: totalHours })}</CertificateHours>
+          <CertificateHours>
+            {t('skills.certificates.totalHours', { hours: totalHours })}
+          </CertificateHours>
         </SectionTitle>
         <CertificatesGrid
           variants={staggerContainer}
@@ -537,10 +600,19 @@ export const Skills: React.FC = () => {
                       </CertificateCoursesCount>
                     )}
                   </CertificateType>
-                  <CertificateYear>{t('skills.certificates.hours', { count: cert.hours })} • {cert.year}</CertificateYear>
+                  <CertificateYear>
+                    {t('skills.certificates.hours', { count: cert.hours })} • {cert.year}
+                  </CertificateYear>
                 </CertificateFooter>
                 <CertificateLink>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                     <polyline points="15 3 21 3 21 9" />
                     <line x1="10" y1="14" x2="21" y2="3" />
@@ -580,7 +652,14 @@ export const Skills: React.FC = () => {
                   {selectedCertificate.platform}
                 </ModalPlatformBadge>
                 <ModalCloseButton onClick={handleCloseModal}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
                   </svg>
@@ -591,14 +670,28 @@ export const Skills: React.FC = () => {
                   <ModalTitle>{t(`skills.certificates.items.${selectedCertificate.id}`)}</ModalTitle>
                   <ModalMeta>
                     <ModalMetaItem>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                       </svg>
                       {t('skills.certificates.hours', { count: selectedCertificate.hours })}
                     </ModalMetaItem>
                     <ModalMetaItem>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
                         <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
                         <line x1="16" y1="2" x2="16" y2="6" />
                         <line x1="8" y1="2" x2="8" y2="6" />
@@ -607,22 +700,39 @@ export const Skills: React.FC = () => {
                       {selectedCertificate.year}
                     </ModalMetaItem>
                     <ModalMetaItem>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                         <polyline points="22 4 12 14.01 9 11.01" />
                       </svg>
                       {t(`skills.certificates.types.${selectedCertificate.type}`)}
-                      {selectedCertificate.coursesCount && ` (${t('skills.certificates.courses', { count: selectedCertificate.coursesCount })})`}
+                      {selectedCertificate.coursesCount &&
+                        ` (${t('skills.certificates.courses', {
+                          count: selectedCertificate.coursesCount,
+                        })})`}
                     </ModalMetaItem>
                   </ModalMeta>
                 </ModalCertificateInfo>
                 <ModalActions>
-                  <ModalButton 
-                    $variant="primary" 
+                  <ModalButton
+                    $variant="primary"
                     onClick={handleViewCertificate}
                     $platformColor={platformConfig[selectedCertificate.platform].color}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
                       <polyline points="15 3 21 3 21 9" />
                       <line x1="10" y1="14" x2="21" y2="3" />

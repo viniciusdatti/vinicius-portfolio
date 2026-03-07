@@ -10,7 +10,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Styles
-import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+} from '../../styles/animations';
 import {
   PageContainer,
   PageHeader,

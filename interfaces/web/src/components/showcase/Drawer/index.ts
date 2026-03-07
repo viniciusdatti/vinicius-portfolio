@@ -1,2 +1,2 @@
-export { Drawer } from './Drawer';
-export type { DrawerProps } from './Drawer.types';
+export * from './Drawer';
+export * from './Drawer.types';

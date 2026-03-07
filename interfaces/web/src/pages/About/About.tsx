@@ -10,7 +10,11 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 // Styles
-import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+} from '../../styles/animations';
 
 // Components
 import {
@@ -24,6 +28,7 @@ import {
   StatNumber,
   StatLabel,
   Section,
+  PhilosophySection,
   SectionTitle,
   PhilosophyCard,
   EducationCard,
@@ -57,9 +62,12 @@ export const About: React.FC = () => {
       >
         <Avatar
           variants={staggerItem}
-          whileHover={{ scale: 1.05, rotate: 5 }}
+          whileHover={{ scale: 1.03 }}
         >
-          VD
+          <img
+            src={`${process.env.PUBLIC_URL ?? ''}/avatar.png`}
+            alt="Vinicius"
+          />
         </Avatar>
         <IntroContent>
           <motion.h2 variants={staggerItem}>
@@ -91,7 +99,7 @@ export const About: React.FC = () => {
         </StatCard>
       </StatsGrid>
 
-      <Section
+      <PhilosophySection
         variants={fadeInUp}
         initial="initial"
         whileInView="animate"
@@ -101,7 +109,7 @@ export const About: React.FC = () => {
         <PhilosophyCard>
           <p>"{t('about.philosophy.description')}"</p>
         </PhilosophyCard>
-      </Section>
+      </PhilosophySection>
 
       <Section
         variants={fadeInUp}

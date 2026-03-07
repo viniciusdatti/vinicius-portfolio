@@ -218,7 +218,9 @@ export const LiveLab: FC = () => {
                   <Label>{t('liveLab.chat.intro.company')} ({t('common.optional')})</Label>
                   <Input
                     value={visitorCompany}
-                    onChange={(e: ChangeEvent<HTMLInputElement>) => setVisitorCompany(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      setVisitorCompany(e.target.value)
+                    }
                     placeholder={t('liveLab.chat.intro.companyPlaceholder')}
                   />
                 </InputGroup>

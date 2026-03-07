@@ -26,6 +26,10 @@ export const Section = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.section};
 `;
 
+export const PhilosophySection = styled(Section)`
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+`;
+
 export const IntroSection = styled(Section)`
   display: grid;
   grid-template-columns: 1fr 2fr;
@@ -42,6 +46,7 @@ export const Avatar = styled(motion.div)`
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  overflow: hidden;
   background: linear-gradient(
     135deg,
     ${({ theme }) => theme.colors.primary},
@@ -54,6 +59,13 @@ export const Avatar = styled(motion.div)`
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: white;
   margin: 0 auto;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     width: 150px;

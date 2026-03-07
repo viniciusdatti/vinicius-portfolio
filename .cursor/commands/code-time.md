@@ -17,7 +17,7 @@ Fluxo: Análise e planejamento → Listagem de arquivos → Implementação Back
 ## 🔍 FASE 1: ANÁLISE E PLANEJAMENTO
 
 - Ler completamente Requerimentos e Especificação Técnica
-- Mapear impacto: Backend (services, models, endpoints, utils), Frontend (componentes, views, hooks, i18n), Testes
+- Mapear impacto: Backend (services, models, endpoints, utils), Frontend (componentes, pages, hooks, i18n), Testes
 - Validar conformidade com padrões do projeto (tipagem, lint, i18n, convenções)
 - Verificar dependências necessárias
 
@@ -28,7 +28,7 @@ Fluxo: Análise e planejamento → Listagem de arquivos → Implementação Back
 Antes de codificar, listar **todos** os arquivos a criar/modificar, agrupados por camada:
 
 - **Backend:** services, models, APIs, testes (test_run, provision, validate quando aplicável)
-- **Frontend:** components (tsx, style.ts, types.ts, index.ts), hooks, views, i18n (en_US, pt_BR), testes (*.test.tsx)
+- **Frontend:** components (tsx, style.ts, types.ts, index.ts), hooks, pages, i18n (en_US, pt_BR), testes (*.test.tsx)
 
 Caminhos de referência: `backend/` para backend, `interfaces/web/src/` para frontend.
 

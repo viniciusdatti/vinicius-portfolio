@@ -9,7 +9,11 @@ import styled from 'styled-components';
 // Types
 import { HighlightCardStatus } from '../../../types';
 
-const statusColorMap = (theme: { colors: { success: string; error: string; textMuted: string } }): Record<
+type ThemeColors = {
+  colors: { success: string; error: string; textMuted: string };
+};
+
+const statusColorMap = (theme: ThemeColors): Record<
   HighlightCardStatus,
   string
 > => ({

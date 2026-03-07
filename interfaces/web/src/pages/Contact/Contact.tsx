@@ -13,7 +13,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 // Styles
-import { fadeInUp, staggerContainer, staggerItem } from '../../styles/animations';
+import {
+  fadeInUp,
+  staggerContainer,
+  staggerItem,
+} from '../../styles/animations';
 import {
   PageContainer,
   PageHeader,
