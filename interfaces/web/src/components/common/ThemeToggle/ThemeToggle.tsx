@@ -3,37 +3,15 @@ import React from 'react';
 
 // Libraries
 import { motion } from 'framer-motion';
-import styled from 'styled-components';
 
 // Store
 import { useThemeStore } from '../../../store';
 
-const ToggleButton = styled(motion.button)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  color: ${({ theme }) => theme.colors.text};
-  cursor: pointer;
-  transition: background-color ${({ theme }) => theme.transitions.fast},
-              border-color ${({ theme }) => theme.transitions.fast};
+// Components
+import { ToggleButton } from './ThemeToggle.style';
+import type { ThemeToggleProps } from './ThemeToggle.types';
 
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.surfaceHover};
-    border-color: ${({ theme }) => theme.colors.borderLight};
-  }
-
-  svg {
-    width: 20px;
-    height: 20px;
-  }
-`;
-
-const SunIcon = () => (
+const SunIcon = (): React.ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -55,7 +33,7 @@ const SunIcon = () => (
   </svg>
 );
 
-const MoonIcon = () => (
+const MoonIcon = (): React.ReactElement => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -69,10 +47,6 @@ const MoonIcon = () => (
   </svg>
 );
 
-interface ThemeToggleProps {
-  className?: string;
-}
-
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
   const { mode, toggleTheme } = useThemeStore();
 
@@ -82,8 +56,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
       onClick={toggleTheme}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      aria-label={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={
+        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+      }
+      title={
+        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+      }
     >
       <motion.div
         key={mode}

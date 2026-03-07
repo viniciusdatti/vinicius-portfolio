@@ -10,8 +10,13 @@ import { motion } from 'framer-motion';
 import { Button } from '../Button';
 import {
   HeroSection,
+  HeroDecoGrid,
   GlowBackdrop,
+  GlowBackdropSecondary,
+  GlowBackdropTertiary,
   HeroContent,
+  HeroAvatar,
+  HeroDecoTag,
   HeroName,
   HeroTitle,
   HeroSubtitle,
@@ -21,6 +26,8 @@ import {
 } from './Hero.style';
 
 const MotionHeroContent = motion.create(HeroContent);
+const MotionHeroAvatar = motion.create(HeroAvatar);
+const MotionHeroDecoTag = motion.create(HeroDecoTag);
 const MotionHeroName = motion.create(HeroName);
 const MotionHeroTitle = motion.create(HeroTitle);
 const MotionHeroSubtitle = motion.create(HeroSubtitle);
@@ -51,14 +58,28 @@ const itemVariants = {
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
 
+  const publicUrl: string = process.env.PUBLIC_URL ?? '';
+
   return (
     <HeroSection>
+      <HeroDecoGrid aria-hidden />
+      <GlowBackdropSecondary aria-hidden />
+      <GlowBackdropTertiary aria-hidden />
       <GlowBackdrop aria-hidden />
       <MotionHeroContent
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
+        <MotionHeroAvatar variants={itemVariants}>
+          <img
+            src={`${publicUrl}/avatar.png`}
+            alt="Vinicius Datti"
+          />
+        </MotionHeroAvatar>
+        <MotionHeroDecoTag variants={itemVariants}>
+          &lt;/&gt;
+        </MotionHeroDecoTag>
         <MotionHeroSubtitle variants={itemVariants}>
           {t('home.hero.greeting')}
         </MotionHeroSubtitle>

@@ -5,7 +5,11 @@
  */
 
 // Core
-import { useEffect, useCallback, useRef } from 'react';
+import {
+  useEffect,
+  useCallback,
+  useRef,
+} from 'react';
 
 // Store
 import { useChatStore } from '../store';
@@ -84,7 +88,12 @@ export const useChat = () => {
     });
 
     // Listen for messages (replace optimistic temp message when server echoes visitor message)
-    socket.on('message', (data: { id: number; content: string; sender_type: string; created_at: string }) => {
+    socket.on('message', (data: {
+      id: number;
+      content: string;
+      sender_type: string;
+      created_at: string;
+    }) => {
       const message: ChatMessage = {
         id: data.id,
         content: data.content,

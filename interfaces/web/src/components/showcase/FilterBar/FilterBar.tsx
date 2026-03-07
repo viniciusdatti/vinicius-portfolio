@@ -9,7 +9,11 @@ import React from 'react';
 import type { FilterBarProps } from './FilterBar.types';
 
 // Components
-import { FilterBarWrapper, FilterChip, FilterCount } from './FilterBar.style';
+import {
+  FilterBarWrapper,
+  FilterChip,
+  FilterCount,
+} from './FilterBar.style';
 
 export const FilterBar: React.FC<FilterBarProps> = ({
   filters,
