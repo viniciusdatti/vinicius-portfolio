@@ -1,0 +1,51 @@
+---
+description: Exemplo de como criar regras do Cursor para o projeto
+alwaysApply: false
+---
+
+# Como criar regras para o projeto
+
+Este é um arquivo de exemplo. Você pode deletá-lo ou usá-lo como referência.
+
+## Estrutura de uma regra
+
+Cada regra é um arquivo `.mdc` neste diretório com:
+
+1. **Frontmatter YAML** (entre `---`) com configurações
+2. **Conteúdo Markdown** com as instruções para o AI
+
+## Campos do Frontmatter
+
+| Campo | Tipo | Descrição |
+|-------|------|-----------|
+| `description` | string | Descrição curta (aparece no seletor de regras) |
+| `globs` | string | Padrão de arquivos (ex: `**/*.py`, `**/*.tsx`) |
+| `alwaysApply` | boolean | Se `true`, aplica em todas as conversas |
+
+## Configurações comuns
+
+### Regra sempre ativa
+
+```yaml
+---
+description: Padrões gerais do projeto
+alwaysApply: true
+---
+```
+
+### Regra para arquivos específicos
+
+```yaml
+---
+description: Padrões para arquivos Python
+globs: **/*.py
+alwaysApply: false
+---
+```
+
+## Boas práticas
+
+- Mantenha regras com menos de 50 linhas
+- Uma preocupação por regra
+- Inclua exemplos concretos de código
+- Use linguagem clara e objetiva
