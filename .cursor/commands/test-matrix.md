@@ -22,13 +22,13 @@ Identifique todos os componentes testáveis afetados:
 - **Backend - API:** Quais endpoints e schemas de validação mudam
 - **Backend - Models:** Quais models ou utilitários auxiliares são impactados
 - **Frontend - Componentes:** Quais componentes React serão criados ou modificados
-- **Frontend - Views:** Quais views/páginas são impactadas
+- **Frontend - Pages:** Quais páginas são impactadas
 - **Frontend - Hooks/Utils:** Quais hooks ou utilitários compartilhados são afetados
 
 ### 1.2 Mapeamento de Padrões Existentes
 
 - **Backend:** Localizar arquivos de teste do serviço impactado
-- **Frontend:** Localizar arquivos `*.test.tsx` nos diretórios dos componentes/views impactados
+- **Frontend:** Localizar arquivos `*.test.tsx` nos diretórios dos componentes/pages impactados
 - **Identificar:** Build functions, mocks de services, mocks de API, padrões de wrapper
 
 ### 1.3 Classificação de Cenários
@@ -56,7 +56,7 @@ Identifique todos os componentes testáveis afetados:
 1. **Contexto de Testes** — Tabela com framework e padrões por camada
 2. **Convenções** — Convenções do projeto (wrapper, mocks de API, i18n, etc.)
 3. **Sumário** — Índice navegável
-4. **Seções por Camada** — Backend (services, API), Frontend (componentes, views)
+4. **Seções por Camada** — Backend (services, API), Frontend (componentes, pages)
 5. **Tabelas de Cenários** — ID, Cenário, Mock, Execução, Validação, CA
 6. **Testes de Regressão**
 7. **TODO - Melhorias Futuras** — Cenários fora do escopo atual

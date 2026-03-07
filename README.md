@@ -25,7 +25,7 @@ vinicius-portfolio/
 │       │   ├── hooks/        # Custom hooks
 │       │   ├── i18n/         # Internationalization
 │       │   ├── styles/       # Theme and global styles
-│       │   └── views/        # Page views
+│       │   └── pages/        # Route pages (single source for screens)
 │       ├── public/
 │       ├── package.json
 │       └── .env.example

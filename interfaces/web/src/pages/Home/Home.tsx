@@ -19,7 +19,11 @@ import { Hero } from '../../components/Hero';
 import { ProjectGrid } from '../../components/ProjectGrid';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
 import { useProjects } from '../../hooks';
-import { staggerContainer, staggerItem, fadeInUp } from '../../styles/animations';
+import {
+  staggerContainer,
+  staggerItem,
+  fadeInUp,
+} from '../../styles/animations';
 import {
   Section,
   SectionTitle,
@@ -47,14 +51,16 @@ interface SkillItem {
   icon: string;
 }
 
-/** Preview skills displayed on the home page. */
+const HOME_ICONS_BASE: string = process.env.PUBLIC_URL ?? '';
+
+/** Preview skills displayed on the home page. Icons are local so they work offline. */
 const PREVIEW_SKILLS: SkillItem[] = [
-  { name: 'React', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-  { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
-  { name: 'Python', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-  { name: 'FastAPI', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/fastapi/fastapi-original.svg' },
-  { name: 'PostgreSQL', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
-  { name: 'Docker', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+  { name: 'React', icon: `${HOME_ICONS_BASE}/icons/react.svg` },
+  { name: 'TypeScript', icon: `${HOME_ICONS_BASE}/icons/typescript.svg` },
+  { name: 'Python', icon: `${HOME_ICONS_BASE}/icons/python.svg` },
+  { name: 'FastAPI', icon: `${HOME_ICONS_BASE}/icons/fastapi.svg` },
+  { name: 'PostgreSQL', icon: `${HOME_ICONS_BASE}/icons/postgresql.svg` },
+  { name: 'Docker', icon: `${HOME_ICONS_BASE}/icons/docker.svg` },
 ];
 
 /**
@@ -66,15 +72,15 @@ export const Home: React.FC = (): React.ReactElement => {
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
   /* ***********************************************************************************************
-   **************************************** DERIVED STATE ********************************************
-   *********************************************************************************************** */
+  **************************************** DERIVED STATE ********************************************
+  *********************************************************************************************** */
 
   const currentLanguage: Language =
     i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
 
   /* ***********************************************************************************************
-   ****************************************** METHODS ***********************************************
-   *********************************************************************************************** */
+  ****************************************** METHODS ***********************************************
+  *********************************************************************************************** */
 
   /** Renders the projects section content based on loading/error state. */
   const renderProjects = (): React.ReactElement => {
@@ -103,8 +109,8 @@ export const Home: React.FC = (): React.ReactElement => {
   };
 
   /* ***********************************************************************************************
-   *************************************** COMPONENT HANDLING **************************************
-   *********************************************************************************************** */
+  *************************************** COMPONENT HANDLING ***************************************
+  *********************************************************************************************** */
 
   return (
     <>

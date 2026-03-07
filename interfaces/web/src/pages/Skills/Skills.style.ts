@@ -263,10 +263,12 @@ export const SkillIcon = styled.div`
 `;
 
 /**
- * Container for skill name and progress bar.
+ * Container for skill name. Flex layout centers text vertically with the icon.
  */
 export const SkillInfo = styled.div`
   flex: 1;
+  display: flex;
+  align-items: center;
 `;
 
 /**
@@ -274,7 +276,7 @@ export const SkillInfo = styled.div`
  */
 export const SkillName = styled.h3`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
+  margin: 0;
 `;
 
 /**

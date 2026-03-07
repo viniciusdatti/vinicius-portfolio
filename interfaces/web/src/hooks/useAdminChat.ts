@@ -6,7 +6,12 @@
  */
 
 // Core
-import { useEffect, useCallback, useRef, useState } from 'react';
+import {
+  useEffect,
+  useCallback,
+  useRef,
+  useState,
+} from 'react';
 
 // Types
 import { ChatMessageSenderType } from '../types';
@@ -69,8 +74,8 @@ export const useAdminChat = (): {
   const typingTimeoutRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
 
   /* ***********************************************************************************************
-   **************************************** INITIAL STATE *******************************************
-   *********************************************************************************************** */
+  **************************************** INITIAL STATE *******************************************
+  *********************************************************************************************** */
 
   const initialState: UseAdminChatInitialState = {
     sessions: [],
@@ -87,8 +92,8 @@ export const useAdminChat = (): {
   const [isConnected, setIsConnected] = useState<boolean>(initialState.isConnected);
 
   /* ***********************************************************************************************
-   ****************************************** EFFECTS **********************************************
-   *********************************************************************************************** */
+  ****************************************** EFFECTS ***********************************************
+  *********************************************************************************************** */
 
   // Connect to admin socket and load existing sessions from API
   useEffect(() => {

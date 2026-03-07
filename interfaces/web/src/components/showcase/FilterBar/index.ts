@@ -1,2 +1,2 @@
-export { FilterBar } from './FilterBar';
-export type { FilterBarProps, FilterItem } from './FilterBar.types';
+export * from './FilterBar';
+export * from './FilterBar.types';
