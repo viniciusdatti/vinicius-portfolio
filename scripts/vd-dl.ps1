@@ -62,6 +62,27 @@ function Test-VenvExists {
     return Test-Path $script:VenvActivate
 }
 
+function Load-BackendEnv {
+    $envFile = Join-Path $script:BackendDir ".env"
+    if (-not (Test-Path $envFile)) {
+        return
+    }
+    $content = Get-Content $envFile -Encoding UTF8 -Raw
+    if ($content.Length -ge 3 -and $content[0] -eq [char]0xFEFF) {
+        $content = $content.Substring(1)
+    }
+    $content -split "`r?`n" | ForEach-Object {
+        $line = $_.Trim()
+        if ($line -and -not $line.StartsWith("#") -and $line -match '^\s*([^#=]+?)\s*=\s*(.*)$') {
+            $key = $matches[1].Trim()
+            $value = $matches[2].Trim().Trim('"').Trim("'")
+            if ($value) {
+                [System.Environment]::SetEnvironmentVariable($key, $value, 'Process')
+            }
+        }
+    }
+}
+
 # ============================================
 # Command Functions
 # ============================================
@@ -144,14 +165,22 @@ function Show-HelpMenu {
     Write-Host ""
     
     Write-ColorText "========================================" "Cyan"
+    Write-ColorText "LOGS:" "Yellow"
+    Write-ColorText "========================================" "Cyan"
+    Write-Host ""
+    Write-Host "  Backend:  Logs appear in THIS terminal (uvicorn runs in foreground)."
+    Write-Host "  Frontend: With 'vd-dl up -web', frontend runs in background; to see"
+    Write-Host "            its logs, run 'yarn start' in another terminal from"
+    Write-Host "            interfaces/web."
+    Write-Host ""
+    Write-ColorText "========================================" "Cyan"
     Write-ColorText "DEBUG TIPS:" "Yellow"
     Write-ColorText "========================================" "Cyan"
     Write-Host ""
     Write-Host "  1. Access Swagger UI at http://localhost:8000/docs"
     Write-Host "  2. Use 'vd-dl status' to verify services are running"
-    Write-Host "  3. Backend logs appear in the terminal running the API"
-    Write-Host "  4. Frontend has hot reload - changes apply automatically"
-    Write-Host "  5. Database: SQLite at backend/portfolio.db (dev mode)"
+    Write-Host "  3. Frontend has hot reload - changes apply automatically"
+    Write-Host "  4. Database: SQLite at backend/portfolio.db (dev mode)"
     Write-Host ""
 }
 
@@ -234,6 +263,11 @@ function Start-AllServices {
         Write-ColorText "[API] Starting backend (Ctrl+C to stop all)..." "Green"
         Write-Host ""
         
+        Load-BackendEnv
+        if (-not $env:RESEND_API_KEY) {
+            Write-ColorText "[API] Email disabled: add RESEND_API_KEY to backend\.env" "Yellow"
+            Write-Host ""
+        }
         Push-Location $script:BackendDir
         $env:PYTHONPATH = $script:BackendDir
         & $script:VenvActivate
@@ -254,6 +288,13 @@ function Start-AllServices {
         Write-ColorText "Press Ctrl+C to stop" "Yellow"
         Write-Host ""
         
+        # Load backend .env (RESEND_API_KEY, EMAIL_TO_ADMIN, etc.) so email works
+        Load-BackendEnv
+        if (-not $env:RESEND_API_KEY) {
+            Write-ColorText "[API] Email disabled: add RESEND_API_KEY to backend\.env" "Yellow"
+            Write-Host "       File: $script:BackendDir\.env (copy from .env.example)"
+            Write-Host ""
+        }
         # Start backend in foreground (current terminal)
         Push-Location $script:BackendDir
         $env:PYTHONPATH = $script:BackendDir

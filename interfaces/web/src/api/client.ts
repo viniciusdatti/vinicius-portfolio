@@ -24,6 +24,26 @@ export class ApiError extends Error {
 }
 
 /**
+ * Parses API error payload into a single message.
+ * Supports FastAPI-style `detail` and SlowAPI-style `error`.
+ */
+const parseApiErrorMessage = (
+  status: number,
+  errorData: Record<string, unknown> | null
+): string => {
+  const detail: unknown = errorData?.detail;
+  if (typeof detail === 'string') return detail;
+  if (Array.isArray(detail) && detail.length > 0) {
+    const first = detail[0] as Record<string, unknown>;
+    const msg = first?.msg;
+    if (typeof msg === 'string') return msg;
+  }
+  const error: unknown = errorData?.error;
+  if (typeof error === 'string') return error;
+  return `HTTP error ${status}`;
+};
+
+/**
  * Build URL with query parameters.
  */
 const buildUrl = (
@@ -70,9 +90,10 @@ const request = async <T>(
       errorData = null;
     }
 
-    const errorMessage: string =
-      (errorData?.detail as string) || `HTTP error ${response.status}`;
-
+    const errorMessage: string = parseApiErrorMessage(
+      response.status,
+      errorData
+    );
     throw new ApiError(errorMessage, response.status, errorData);
   }
 
