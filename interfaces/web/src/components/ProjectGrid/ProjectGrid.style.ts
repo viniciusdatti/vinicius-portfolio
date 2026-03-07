@@ -31,7 +31,7 @@ export const ProjectLink = styled.a`
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.text};
     transform: translateY(-1px);
-  }
+  };
 `;
 
 export const ProjectDescription = styled.div`

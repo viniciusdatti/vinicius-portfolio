@@ -12,11 +12,9 @@ import { AnimatePresence } from 'framer-motion';
 // Types
 import { ChatMessageSenderType } from '../../../types';
 
-// Hooks
+// Components
 import { useAdminChat } from '../../../hooks/useAdminChat';
 import { useAdminChatEvents } from '../../../hooks/useAdminChatEvents';
-
-// Styles
 import {
   PageContainer,
   Header,
@@ -38,6 +36,7 @@ import {
   UnreadBadge,
   TypingBadge,
   EmptyState,
+  EmptyStateDescription,
   ChatArea,
   ChatHeader,
   ChatHeaderInfo,
@@ -50,22 +49,45 @@ import {
   MessageInput,
   SendButton,
   NoChatSelected,
+  NoChatSelectedDescription,
   EventsSection,
   EventsToggle,
   EventsList,
   EventItem,
+  EventItemContent,
+  EventsListEmpty,
+  SessionCompanyLine,
 } from './Chat.style';
+
+/** Local UI state for the Chat view. */
+interface ChatState {
+  inputValue: string;
+  eventsOpen: boolean;
+}
 
 /**
  * Admin Chat component for managing real-time conversations with visitors.
  * Displays a list of active chat sessions and provides an interface for responding.
  */
-export const Chat: React.FC = () => {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [eventsOpen, setEventsOpen] = useState<boolean>(false);
+export const Chat: React.FC = (): React.ReactElement => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
   const receivedEvents = useAdminChatEvents();
+
+  /* ***********************************************************************************************
+   **************************************** INITIAL STATE *******************************************
+   *********************************************************************************************** */
+
+  const initialState: ChatState = {
+    inputValue: '',
+    eventsOpen: false,
+  };
+
+  const [inputValue, setInputValue] = useState<string>(initialState.inputValue);
+  const [eventsOpen, setEventsOpen] = useState<boolean>(initialState.eventsOpen);
+
+  /* ***********************************************************************************************
+   ****************************************** EFFECTS **********************************************
+   *********************************************************************************************** */
   const {
     sessions,
     activeSessionId,
@@ -84,6 +106,10 @@ export const Chat: React.FC = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [activeMessages]);
+
+  /* ***********************************************************************************************
+   ****************************************** METHODS ***********************************************
+   *********************************************************************************************** */
 
   /**
    * Handles sending a message to the active session.
@@ -147,6 +173,10 @@ export const Chat: React.FC = () => {
     });
   };
 
+  /* ***********************************************************************************************
+   *************************************** COMPONENT HANDLING **************************************
+   *********************************************************************************************** */
+
   return (
     <PageContainer>
       <Header>
@@ -171,9 +201,9 @@ export const Chat: React.FC = () => {
             {sessions.length === 0 ? (
               <EmptyState>
                 <p>🔔 Nenhuma conversa ativa</p>
-                <p style={{ fontSize: '0.875rem', marginTop: '0.5rem' }}>
+                <EmptyStateDescription>
                   As conversas aparecerão aqui quando visitantes iniciarem um chat no Live Lab.
-                </p>
+                </EmptyStateDescription>
               </EmptyState>
             ) : (
               sessions.map((session) => (
@@ -189,9 +219,9 @@ export const Chat: React.FC = () => {
                     <SessionTime>{formatDate(session.started_at)}</SessionTime>
                   </SessionInfo>
                   {session.visitor_company && (
-                    <LastMessage style={{ marginBottom: '4px' }}>
+                    <SessionCompanyLine>
                       🏢 {session.visitor_company}
-                    </LastMessage>
+                    </SessionCompanyLine>
                   )}
                   <SessionMeta>
                     {session.is_typing ? (
@@ -220,9 +250,9 @@ export const Chat: React.FC = () => {
             {eventsOpen && (
               <EventsList>
                 {receivedEvents.length === 0 ? (
-                  <p style={{ padding: 8, fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                  <EventsListEmpty>
                     Nenhum evento ainda. Eventos do socket aparecem aqui com a conexão ativa.
-                  </p>
+                  </EventsListEmpty>
                 ) : (
                   [...receivedEvents].reverse().map((ev, i) => (
                     <EventItem key={`${ev.at}-${i}`}>
@@ -231,9 +261,9 @@ export const Chat: React.FC = () => {
                         {new Date(ev.at).toLocaleTimeString()}
                       </span>
                       {ev.type === 'new_message' && typeof ev.data === 'object' && ev.data !== null && 'content' in ev.data && (
-                        <span style={{ fontSize: '0.75rem', opacity: 0.9 }}>
+                        <EventItemContent>
                           {(ev.data as { content?: string }).content}
-                        </span>
+                        </EventItemContent>
                       )}
                     </EventItem>
                   ))
@@ -299,9 +329,9 @@ export const Chat: React.FC = () => {
             <NoChatSelected>
               <h3>💬 Chat em Tempo Real</h3>
               <p>Selecione uma conversa na lista para começar a responder.</p>
-              <p style={{ fontSize: '0.875rem' }}>
+              <NoChatSelectedDescription>
                 Você receberá notificações quando novos visitantes iniciarem conversas.
-              </p>
+              </NoChatSelectedDescription>
             </NoChatSelected>
           )}
         </ChatArea>

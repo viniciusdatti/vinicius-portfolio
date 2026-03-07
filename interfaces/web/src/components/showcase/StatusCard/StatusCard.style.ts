@@ -41,11 +41,11 @@ export const StyledStatusCard = styled.div<StyledStatusCardProps>`
     height: 8px;
     border-radius: 50%;
     background-color: ${({ theme, $status }) => statusColorMap(theme)[$status]};
-  }
+  };
 
   &:hover {
     box-shadow: ${({ theme }) => theme.shadows.md};
-  }
+  };
 `;
 
 export const StatusCardTitle = styled.span`

@@ -28,7 +28,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 /**
@@ -66,7 +66,7 @@ export const ContentGrid = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
-  }
+  };
 `;
 
 /**
@@ -99,7 +99,7 @@ export const FormRow = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
-  }
+  };
 `;
 
 /**
@@ -133,7 +133,7 @@ export const Input = styled.input<InputStyleProps>`
   &:focus {
     border-color: ${({ $hasError, theme }) =>
       $hasError ? theme.colors.error : theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -151,7 +151,7 @@ export const TextArea = styled.textarea<InputStyleProps>`
   &:focus {
     border-color: ${({ $hasError, theme }) =>
       $hasError ? theme.colors.error : theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -184,7 +184,7 @@ export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
+  };
 `;
 
 /**
@@ -255,7 +255,7 @@ export const InfoItem = styled.a`
     width: 20px;
     height: 20px;
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -305,5 +305,5 @@ export const ChatCTAButton = styled(Link)`
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
     color: white;
-  }
+  };
 `;

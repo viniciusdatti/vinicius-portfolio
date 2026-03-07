@@ -29,7 +29,7 @@ export const ErrorMessage = styled.div`
   p {
     font-size: ${({ theme }) => theme.typography?.fontSize?.md ?? '1rem'};
     margin-bottom: 1rem;
-  }
+  };
 `;
 
 export const RetryButton = styled.button`
@@ -46,5 +46,5 @@ export const RetryButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.text};
-  }
+  };
 `;

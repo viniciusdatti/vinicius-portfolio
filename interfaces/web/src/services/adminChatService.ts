@@ -45,11 +45,13 @@ const subscribers = new Set<EventCallback>();
 // ============================================
 
 /**
- * Registra um evento recebido via socket. Deve ser chamado pelos
- * listeners (ex.: useAdminChat) quando um evento chega, para que
- * o serviço mantenha a lista e notifique inscritos.
+ * Registers a socket event. Must be called by listeners (e.g. useAdminChat)
+ * when an event arrives, so the service keeps the list and notifies subscribers.
  */
-export function recordEvent(type: AdminChatEventType, data: unknown): void {
+export const recordEvent = (
+  type: AdminChatEventType,
+  data: unknown
+): void => {
   const event: AdminChatReceivedEvent = {
     type,
     data,
@@ -60,39 +62,40 @@ export function recordEvent(type: AdminChatEventType, data: unknown): void {
     receivedEvents.shift();
   }
   subscribers.forEach((cb) => cb(event));
-}
+};
 
 /**
- * Lista todos os dados/eventos recebidos via socket.
- * Use na admin page para exibir o histórico de eventos em tempo real.
+ * Returns all received socket events.
+ * Use on admin page to show real-time event history.
  */
-export function getReceivedEvents(): AdminChatReceivedEvent[] {
-  return [...receivedEvents];
-}
+export const getReceivedEvents = (): AdminChatReceivedEvent[] => [
+  ...receivedEvents,
+];
 
 /**
- * Inscreve para receber cada novo evento em tempo real.
- * Enquanto a conexão estiver ativa, a admin page recebe os eventos aqui.
- * @returns função para cancelar a inscrição (ex.: no cleanup do useEffect)
+ * Subscribes to each new event in real time.
+ * While connection is active, admin page receives events here.
+ * @returns Unsubscribe function (e.g. in useEffect cleanup)
  */
-export function subscribeToAdminEvents(callback: EventCallback): () => void {
+export const subscribeToAdminEvents = (
+  callback: EventCallback
+): (() => void) => {
   subscribers.add(callback);
   return () => subscribers.delete(callback);
-}
+};
 
 /**
- * Limpa a lista de eventos armazenados (opcional).
+ * Clears the stored events list (optional).
  */
-export function clearReceivedEvents(): void {
+export const clearReceivedEvents = (): void => {
   receivedEvents.length = 0;
-}
+};
 
 /**
- * Indica se o socket do admin está conectado.
+ * Returns whether the admin socket is connected.
  */
-export function isAdminChatConnected(): boolean {
-  return socketService.isAdminConnected();
-}
+export const isAdminChatConnected = (): boolean =>
+  socketService.isAdminConnected();
 
 /**
  * Ações do admin (delegam ao socketService).

@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Components
+import { mobileMenuVariants, staggerItem } from '../../../styles/animations';
 import {
   Overlay,
   MenuContainer,
@@ -14,9 +15,6 @@ import {
   SocialLinks,
   SocialLink,
 } from './MobileMenu.style';
-
-// Styles
-import { mobileMenuVariants, staggerItem } from '../../../styles/animations';
 
 interface NavItem {
   path: string;
@@ -69,11 +67,11 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               as={Link}
               to={item.path}
               $active={currentPath === item.path}
+              $delay={index * 0.05}
               variants={staggerItem}
               initial="initial"
               animate="animate"
               custom={index}
-              style={{ transitionDelay: `${index * 0.05}s` }}
             >
               {t(item.labelKey)}
             </MenuLink>

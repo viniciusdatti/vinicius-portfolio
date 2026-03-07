@@ -7,6 +7,11 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // Components
+import {
+  hamburgerTop,
+  hamburgerMiddle,
+  hamburgerBottom,
+} from '../../../styles/animations';
 import { ThemeToggle } from '../../common/ThemeToggle';
 import { LanguageToggle } from '../../LanguageToggle';
 import { MobileMenu } from '../MobileMenu';
@@ -20,13 +25,6 @@ import {
   HamburgerButton,
   HamburgerLine,
 } from './Header.style';
-
-// Styles
-import {
-  hamburgerTop,
-  hamburgerMiddle,
-  hamburgerBottom,
-} from '../../../styles/animations';
 
 interface NavItem {
   path: string;
@@ -43,11 +41,23 @@ const navItems: NavItem[] = [
   { path: '/contact', labelKey: 'nav.contact' },
 ];
 
-export const Header: React.FC = () => {
+interface HeaderState {
+  scrolled: boolean;
+  mobileMenuOpen: boolean;
+}
+
+const initialState: HeaderState = {
+  scrolled: false,
+  mobileMenuOpen: false,
+};
+
+export const Header: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState<boolean>(initialState.scrolled);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(
+    initialState.mobileMenuOpen
+  );
 
   useEffect(() => {
     const handleScroll = () => {

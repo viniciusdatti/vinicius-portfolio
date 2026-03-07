@@ -1,29 +1,24 @@
 // Core
 import React from 'react';
+import './i18n/config';
 
 // Libraries
 import { ThemeProvider } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+// Theme
+import { GlobalStyles } from './styles/GlobalStyles';
+import {
+  darkTheme,
+  lightTheme,
+  Theme,
+} from './styles/theme';
+
 // Components
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Router } from './Router';
-
-// Store
 import { useThemeStore } from './store';
 
-// Styles
-import { GlobalStyles } from './styles/GlobalStyles'; 
-import { 
-  darkTheme, 
-  lightTheme, 
-  Theme 
-} from './styles/theme';
-
-// Config
-import './i18n/config';
-
-// Create a client
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -33,7 +28,6 @@ const queryClient: QueryClient = new QueryClient({
   },
 });
 
-// Theme wrapper component
 const ThemedApp: React.FC = (): React.ReactElement => {
   const { mode } = useThemeStore();
   const theme: Theme = mode === 'dark' ? darkTheme : lightTheme;
@@ -46,14 +40,12 @@ const ThemedApp: React.FC = (): React.ReactElement => {
   );
 };
 
-function App(): React.ReactElement {
-  return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemedApp />
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
-}
+const App = (): React.ReactElement => (
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemedApp />
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
 
 export default App;

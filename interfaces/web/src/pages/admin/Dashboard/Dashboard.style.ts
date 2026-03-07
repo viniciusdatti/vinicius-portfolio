@@ -41,7 +41,7 @@ export const Logo = styled(Link)`
 
   span {
     color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 /**
@@ -74,7 +74,7 @@ export const LogoutButton = styled.button`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.error}30;
-  }
+  };
 `;
 
 /**
@@ -176,7 +176,7 @@ export const ActionCard = styled(Link)`
   p {
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     color: ${({ theme }) => theme.colors.textMuted};
-  }
+  };
 `;
 
 /**
