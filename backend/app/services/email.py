@@ -1,7 +1,7 @@
 """Email service using Resend."""
 
 # Core
-import logging
+import asyncio
 from typing import Optional
 
 # Libraries
@@ -9,8 +9,9 @@ import resend
 
 # App - Core
 from app.core.config import get_settings
+from app.core.logging import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger("portfolio")
 settings = get_settings()
 
 
@@ -58,21 +59,58 @@ class EmailService:
             </p>
             """
 
+            from_address = settings.email_from
+            if "@" in from_address and " <" not in from_address:
+                from_address = f"Portfolio <{from_address}>"
             params = {
-                "from": settings.email_from,
+                "from": from_address,
                 "to": [settings.email_to_admin],
                 "subject": email_subject,
                 "html": html_content,
                 "reply_to": email,
             }
 
-            response = resend.Emails.send(params)
-            logger.info(f"Contact notification email sent: {response}")
+            # Resend SDK is sync; run in thread to avoid blocking the event loop
+            await asyncio.to_thread(resend.Emails.send, params)
+            logger.info(
+                "Contact notification email sent to %s",
+                settings.email_to_admin,
+            )
             return True
 
         except Exception as e:
-            logger.error(f"Failed to send contact notification email: {e}")
+            logger.error(
+                "Failed to send contact notification email: %s. "
+                "Check RESEND_API_KEY, EMAIL_FROM (must be verified domain in Resend), and Resend dashboard.",
+                e,
+                exc_info=True,
+            )
             return False
+
+    async def send_test_email(self) -> tuple[bool, str]:
+        """
+        Send a single test email to EMAIL_TO_ADMIN (for debugging).
+        Returns (success, error_message). error_message is empty when success is True.
+        """
+        if not self.enabled:
+            return (
+                False,
+                "Email service disabled: RESEND_API_KEY not set in backend/.env",
+            )
+        try:
+            params = {
+                "from": settings.email_from,
+                "to": [settings.email_to_admin],
+                "subject": "[Portfolio] Teste de envio",
+                "html": "<p>E-mail de teste do portfólio. Se você recebeu, o Resend está OK.</p>",
+            }
+            await asyncio.to_thread(resend.Emails.send, params)
+            logger.info("Test email sent to %s", settings.email_to_admin)
+            return (True, "")
+        except Exception as e:  # noqa: BLE001
+            msg = f"{type(e).__name__}: {e}"
+            logger.exception("Test email failed: %s", msg)
+            return (False, msg)
 
     async def send_chat_notification(
         self,
@@ -106,8 +144,8 @@ class EmailService:
                 "html": html_content,
             }
 
-            response = resend.Emails.send(params)
-            logger.info(f"Chat notification email sent: {response}")
+            await asyncio.to_thread(resend.Emails.send, params)
+            logger.info("Chat notification email sent to %s", settings.email_to_admin)
             return True
 
         except Exception as e:

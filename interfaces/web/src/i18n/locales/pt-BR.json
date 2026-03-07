@@ -254,7 +254,8 @@
       "submit": "Enviar Mensagem",
       "sending": "Enviando...",
       "success": "Mensagem enviada com sucesso! Responderei em breve.",
-      "error": "Erro ao enviar mensagem. Tente novamente."
+      "error": "Erro ao enviar mensagem. Tente novamente.",
+      "rateLimitError": "Muitas tentativas. Aguarde alguns minutos e tente novamente."
     },
     "info": {
       "title": "Informações",

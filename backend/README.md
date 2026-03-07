@@ -158,3 +158,11 @@ When running in development mode, API documentation is available at:
 | `CORS_ORIGINS` | Comma-separated list of allowed origins | `http://localhost:3000,http://localhost:5173` |
 | `ENVIRONMENT` | Environment name (development/production) | `development` |
 | `LOG_LEVEL` | Logging level | `INFO` |
+
+### Email (Contact form and notifications)
+
+To receive emails when someone submits the contact form (or starts a chat), set:
+
+- **`RESEND_API_KEY`** – API key from [Resend](https://resend.com). Without it, submissions are saved to the database but no email is sent.
+- **`EMAIL_FROM`** – Sender address (must be a verified domain in Resend).
+- **`EMAIL_TO_ADMIN`** – Your email where notifications are delivered.
