@@ -8,15 +8,15 @@ from typing import List, Optional
 # Libraries
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Get the backend directory for SQLite database path
-BACKEND_DIR = Path(__file__).parent.parent.parent
+# Get the backend directory (resolved absolute path so .env is found regardless of CWD)
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment variables."""
+    """Application settings loaded from environment variables and backend/.env."""
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=str(BACKEND_DIR / ".env"),
         env_file_encoding="utf-8",
         case_sensitive=False,
     )

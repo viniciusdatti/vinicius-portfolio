@@ -254,7 +254,8 @@
       "submit": "Send Message",
       "sending": "Sending...",
       "success": "Message sent successfully! I'll respond soon.",
-      "error": "Error sending message. Please try again."
+      "error": "Error sending message. Please try again.",
+      "rateLimitError": "Too many attempts. Please wait a few minutes and try again."
     },
     "info": {
       "title": "Information",

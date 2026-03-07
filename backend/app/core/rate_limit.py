@@ -20,5 +20,9 @@ def get_rate_limit_string(per_minute: int = None) -> str:
 
 
 def get_contact_rate_limit() -> str:
-    """Get rate limit string for contact endpoint."""
+    """Get rate limit string for contact endpoint.
+    In development, effectively no limit (99999/hour) to avoid 429 during testing.
+    """
+    if get_settings().is_development:
+        return "99999/hour"
     return f"{settings.rate_limit_contact_per_hour}/hour"
