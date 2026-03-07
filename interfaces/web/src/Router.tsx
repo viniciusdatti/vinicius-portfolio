@@ -22,9 +22,6 @@ const Skills = lazy(() =>
 const Projects = lazy(() =>
   import('./pages/Projects').then((m) => ({ default: m.Projects }))
 );
-const HowIBuild = lazy(() =>
-  import('./pages/HowIBuild').then((m) => ({ default: m.HowIBuild }))
-);
 const LiveLab = lazy(() =>
   import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
 );
@@ -88,14 +85,6 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
         element: (
           <Suspense fallback={<PageLoader />}>
             <Projects />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'how-i-build',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <HowIBuild />
           </Suspense>
         ),
       },
