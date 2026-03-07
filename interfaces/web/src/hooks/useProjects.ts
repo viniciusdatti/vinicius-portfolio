@@ -2,12 +2,15 @@
  * Hook for fetching projects from the API.
  */
 
+// Libraries
 import { useQuery } from '@tanstack/react-query';
-import { getProjects } from '../api';
-import type { Project } from '../data/types';
 
 // Types
 import type { UseQueryResult } from '@tanstack/react-query';
+import type { Project } from '../data/types';
+
+// Components
+import { getProjects } from '../api';
 
 /**
  * Query key for projects.
@@ -23,11 +26,10 @@ export const projectsQueryKey = (technology?: string): string[] => [
  * @param technology - Optional technology name or slug to filter by
  * @returns Query result with projects data, loading and error states
  */
-export function useProjects(
+export const useProjects = (
   technology?: string
-): UseQueryResult<Project[], Error> {
-  return useQuery<Project[], Error>({
+): UseQueryResult<Project[], Error> =>
+  useQuery<Project[], Error>({
     queryKey: projectsQueryKey(technology),
     queryFn: (): Promise<Project[]> => getProjects(technology),
   });
-}

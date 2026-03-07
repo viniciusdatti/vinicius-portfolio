@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 
-// Store
+// Components
 import { useAuthStore } from '../../../store';
 
 const PageContainer = styled.div`
@@ -99,11 +99,23 @@ interface LoginForm {
   password: string;
 }
 
-const AdminLogin: React.FC = () => {
+interface LoginState {
+  isLoading: boolean;
+  error: string;
+}
+
+const initialLoginState: LoginState = {
+  isLoading: false,
+  error: '',
+};
+
+const AdminLogin: React.FC = (): React.ReactElement => {
   const navigate = useNavigate();
   const { setAuth } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(
+    initialLoginState.isLoading
+  );
+  const [error, setError] = useState<string>(initialLoginState.error);
 
   const { register, handleSubmit } = useForm<LoginForm>();
 

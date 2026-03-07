@@ -8,15 +8,13 @@
 // Core
 import { useEffect, useCallback, useRef, useState } from 'react';
 
-// Utils
-import { socketService } from '../utils/socket';
-import { recordEvent } from '../services/adminChatService';
-
 // Types
-import type { ChatMessageSenderType } from '../types';
+import { ChatMessageSenderType } from '../types';
 
-// Store
+// Components
+import { recordEvent } from '../services/adminChatService';
 import { useAuthStore } from '../store';
+import { socketService } from '../utils/socket';
 
 const API_BASE: string = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
 
@@ -44,17 +42,53 @@ export interface ChatMessage {
   created_at: string;
 }
 
+/** Initial state shape for useAdminChat hook. */
+interface UseAdminChatInitialState {
+  sessions: ChatSession[];
+  activeSessionId: string | null;
+  messages: ChatMessage[];
+  isConnected: boolean;
+}
+
 /**
  * Hook for admin chat functionality.
  * Manages socket connection, sessions list, and message handling.
  */
-export const useAdminChat = () => {
+export const useAdminChat = (): {
+  sessions: ChatSession[];
+  activeSessionId: string | null;
+  activeSession: ChatSession | undefined;
+  activeMessages: ChatMessage[];
+  isConnected: boolean;
+  joinSession: (sessionId: string) => Promise<void>;
+  sendMessage: (content: string) => void;
+  sendTyping: () => void;
+  closeSession: (sessionId: string) => void;
+} => {
   const { tokens } = useAuthStore();
-  const [sessions, setSessions] = useState<ChatSession[]>([]);
-  const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
   const typingTimeoutRef = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  /* ***********************************************************************************************
+   **************************************** INITIAL STATE *******************************************
+   *********************************************************************************************** */
+
+  const initialState: UseAdminChatInitialState = {
+    sessions: [],
+    activeSessionId: null,
+    messages: [],
+    isConnected: false,
+  };
+
+  const [sessions, setSessions] = useState<ChatSession[]>(initialState.sessions);
+  const [activeSessionId, setActiveSessionId] = useState<string | null>(
+    initialState.activeSessionId
+  );
+  const [messages, setMessages] = useState<ChatMessage[]>(initialState.messages);
+  const [isConnected, setIsConnected] = useState<boolean>(initialState.isConnected);
+
+  /* ***********************************************************************************************
+   ****************************************** EFFECTS **********************************************
+   *********************************************************************************************** */
 
   // Connect to admin socket and load existing sessions from API
   useEffect(() => {
@@ -136,7 +170,7 @@ export const useAdminChat = () => {
       // Update unread count for the session
       setSessions((prev) =>
         prev.map((s) =>
-          s.session_id === data.session_id && data.sender_type === 'visitor'
+          s.session_id === data.session_id && data.sender_type === ChatMessageSenderType.Visitor
             ? { ...s, unread_count: s.unread_count + 1, last_message: data.content }
             : s
         )
@@ -192,6 +226,10 @@ export const useAdminChat = () => {
       timeoutMap.clear();
     };
   }, [tokens?.access_token]);
+
+  /* ***********************************************************************************************
+   ****************************************** METHODS ***********************************************
+   *********************************************************************************************** */
 
   /**
    * Joins a chat session, loads messages from API, and marks as read.
@@ -269,7 +307,10 @@ export const useAdminChat = () => {
     }
   }, [activeSessionId]);
 
-  // Get messages for active session
+  /* ***********************************************************************************************
+   *************************************** DERIVED STATE ********************************************
+   *********************************************************************************************** */
+
   const activeMessages = messages.filter(
     (m) => m.session_id === activeSessionId
   );

@@ -46,24 +46,47 @@ export const variants = {
 };
 ```
 
-## 3. Keyframes
+## 3. Semicolon After Every Closing Brace
 
-All properties in keyframes must have `;`:
+- **Every** closing brace `}` of a CSS block must be followed by **;**
+- Use `};` at the end of every block (e.g. `&:hover { ... };`, `@media { ... };`, `&::before { ... };`)
+
+```ts
+// ❌ BAD — closing brace without semicolon
+export const Link = styled.a`
+  &:hover {
+    color: blue;
+  }
+`;
+
+// ✅ GOOD — every block ends with };
+export const Link = styled.a`
+  &:hover {
+    color: blue;
+  };
+`;
+```
+
+Apply to all blocks: nested selectors, `@media`, `&::before`/`&::after`, keyframes, etc. The **only** exception is the final closing of the template literal, which is `` ` `` (backtick), not `};`.
+
+## 4. Keyframes
+
+All properties in keyframes must have `;`; **every** closing brace in keyframes must be `};`:
 
 ```ts
 const fade = keyframes`
   0% {
     opacity: 0;
     transform: scale(0.9);
-  }
+  };
   100% {
     opacity: 1;
     transform: scale(1);
-  }
+  };
 `;
 ```
 
-## 4. Imports Organized by Section
+## 5. Imports Organized by Section
 
 - Separate imports into blocks with section comments
 - Required order: **Core** → **Libraries** → **Types** → **Theme** → **Components**

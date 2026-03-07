@@ -11,9 +11,8 @@ import type { Skill } from '../types';
  * @param category - Optional SkillCategory to filter (e.g. 'frontend', 'backend')
  * @returns Promise with array of skills
  */
-export async function getSkills(category?: string): Promise<Skill[]> {
-  return apiClient.get<Skill[]>('/skills', {
+export const getSkills = async (category?: string): Promise<Skill[]> =>
+  apiClient.get<Skill[]>('/skills', {
     ...(category ? { category } : {}),
     active_only: 'true',
   });
-}

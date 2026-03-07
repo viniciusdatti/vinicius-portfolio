@@ -26,11 +26,10 @@ export const skillsQueryKey = (category?: string): string[] => [
  * @param category - Optional category (e.g. frontend, backend) to filter by
  * @returns Query result with skills data, loading and error states
  */
-export function useSkills(
+export const useSkills = (
   category?: string
-): UseQueryResult<Skill[], Error> {
-  return useQuery<Skill[], Error>({
+): UseQueryResult<Skill[], Error> =>
+  useQuery<Skill[], Error>({
     queryKey: skillsQueryKey(category),
     queryFn: (): Promise<Skill[]> => getSkills(category),
   });
-}

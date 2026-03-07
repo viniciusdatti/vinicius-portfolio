@@ -34,11 +34,11 @@ export const StyledButton = styled.button<StyledButtonProps>`
           &:hover {
             filter: brightness(1.1);
             transform: translateY(-1px);
-          }
+          };
 
           &:active {
             transform: translateY(0);
-          }
+          };
         `;
       case 'secondary':
         return `
@@ -50,11 +50,11 @@ export const StyledButton = styled.button<StyledButtonProps>`
             border-color: ${theme.colors.primary};
             color: ${theme.colors.primary};
             transform: translateY(-1px);
-          }
+          };
 
           &:active {
             transform: translateY(0);
-          }
+          };
         `;
       case 'outline':
       default:
@@ -67,12 +67,12 @@ export const StyledButton = styled.button<StyledButtonProps>`
             background-color: ${theme.colors.primary};
             color: white;
             transform: translateY(-1px);
-          }
+          };
 
           &:active {
             transform: translateY(0);
-          }
+          };
         `;
     }
-  }}
+  }};
 `;

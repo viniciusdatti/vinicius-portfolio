@@ -15,7 +15,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 export const PageHeader = styled.div`
@@ -51,7 +51,7 @@ export const Card = styled(motion.article)`
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 export const CardTitle = styled.h3`
@@ -80,5 +80,5 @@ export const CardLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
-  }
+  };
 `;

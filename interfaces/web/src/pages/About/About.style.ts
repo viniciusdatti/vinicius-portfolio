@@ -13,7 +13,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 export const PageTitle = styled(motion.h1)`
@@ -35,7 +35,7 @@ export const IntroSection = styled(Section)`
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
     text-align: center;
-  }
+  };
 `;
 
 export const Avatar = styled(motion.div)`
@@ -59,7 +59,7 @@ export const Avatar = styled(motion.div)`
     width: 150px;
     height: 150px;
     font-size: 3rem;
-  }
+  };
 `;
 
 export const IntroContent = styled.div`
@@ -71,7 +71,7 @@ export const IntroContent = styled.div`
   p {
     color: ${({ theme }) => theme.colors.textSecondary};
     line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  }
+  };
 `;
 
 export const StatsGrid = styled(motion.div)`
@@ -82,7 +82,7 @@ export const StatsGrid = styled(motion.div)`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr;
-  }
+  };
 `;
 
 export const StatCard = styled(motion.div)`
@@ -95,7 +95,7 @@ export const StatCard = styled(motion.div)`
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
-  }
+  };
 `;
 
 export const StatNumber = styled.div`
@@ -130,7 +130,7 @@ export const PhilosophyCard = styled(motion.div)`
     line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
     font-size: ${({ theme }) => theme.typography.fontSize.lg};
     font-style: italic;
-  }
+  };
 `;
 
 export const EducationCard = styled(motion.div)`
@@ -149,7 +149,7 @@ export const EducationMain = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     flex-direction: column;
     text-align: center;
-  }
+  };
 `;
 
 export const EducationIcon = styled.div`
@@ -172,7 +172,7 @@ export const EducationInfo = styled.div`
   p {
     color: ${({ theme }) => theme.colors.textMuted};
     margin: 0;
-  }
+  };
 `;
 
 export const EducationStatus = styled.span`

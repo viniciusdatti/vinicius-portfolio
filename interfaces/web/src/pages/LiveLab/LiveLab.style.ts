@@ -21,7 +21,7 @@ export const PageContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
-  }
+  };
 `;
 
 /**
@@ -58,7 +58,7 @@ export const ContentGrid = styled.div`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
-  }
+  };
 `;
 
 // =============================================================================
@@ -130,7 +130,7 @@ export const StatusBadge = styled.span<StatusBadgeProps>`
     height: 8px;
     border-radius: 50%;
     background-color: currentColor;
-  }
+  };
 `;
 
 /**
@@ -218,7 +218,7 @@ export const StartButton = styled(motion.button)`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
-  }
+  };
 `;
 
 // =============================================================================
@@ -327,7 +327,7 @@ export const SendButton = styled(motion.button)`
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
+  };
 `;
 
 /**
@@ -378,7 +378,7 @@ export const ConnectionStatus = styled.div<ConnectionStatusProps>`
     50% {
       opacity: 0.5;
     }
-  }
+  };
 `;
 
 // =============================================================================
@@ -453,5 +453,5 @@ export const StackInfo = styled.div`
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     color: ${({ theme }) => theme.colors.textMuted};
     margin: 0;
-  }
+  };
 `;

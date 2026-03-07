@@ -1,20 +1,25 @@
 /**
- * Hook para a admin page consumir a lista de eventos recebidos via socket
- * e receber novos eventos em tempo real enquanto a conexão estiver ativa.
+ * Hook for admin page to consume received socket events list
+ * and receive new events in real time while connection is active.
  */
 
+// Core
 import { useEffect, useState } from 'react';
+
+// Types
+import type { AdminChatReceivedEvent } from '../services/adminChatService';
+
+// Components
 import {
   getReceivedEvents,
   subscribeToAdminEvents,
-  type AdminChatReceivedEvent,
 } from '../services/adminChatService';
 
 /**
- * Retorna a lista de eventos recebidos e mantém atualizada quando
- * chegam novos eventos (conexão ativa).
+ * Returns the list of received events and keeps it updated when
+ * new events arrive (active connection).
  */
-export function useAdminChatEvents(): AdminChatReceivedEvent[] {
+export const useAdminChatEvents = (): AdminChatReceivedEvent[] => {
   const [events, setEvents] = useState<AdminChatReceivedEvent[]>(() =>
     getReceivedEvents()
   );
@@ -28,4 +33,4 @@ export function useAdminChatEvents(): AdminChatReceivedEvent[] {
   }, []);
 
   return events;
-}
+};
