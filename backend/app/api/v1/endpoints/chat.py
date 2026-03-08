@@ -16,7 +16,7 @@ from app.models.user import User
 from app.schemas.chat import ChatSessionListItem, ChatMessageAdminResponse
 
 # App - API
-from app.api.v1.endpoints.auth import get_current_user
+from app.api.v1.endpoints.auth import get_current_admin_user
 
 router = APIRouter()
 
@@ -41,7 +41,7 @@ def _last_messages_map(db: Session) -> dict[int, str]:
 async def list_sessions(
     status_filter: ChatStatus | None = Query(None, alias="status"),
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """List chat sessions for admin. Default: active first, then recent closed."""
     q = db.query(ChatSession).order_by(desc(ChatSession.started_at))
@@ -67,7 +67,7 @@ async def list_sessions(
 async def list_session_messages(
     session_id: str,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """List messages for a chat session."""
     session = db.query(ChatSession).filter(ChatSession.session_id == session_id).first()

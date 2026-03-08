@@ -19,7 +19,7 @@ from app.models.user import User
 from app.schemas.contact import ContactCreate, ContactUpdate, ContactResponse
 
 # App - API
-from app.api.v1.endpoints.auth import get_current_user
+from app.api.v1.endpoints.auth import get_current_admin_user
 
 # App - Core
 from app.core.config import get_settings
@@ -118,7 +118,7 @@ async def submit_contact(
 async def get_contacts(
     status_filter: ContactStatus | None = None,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Get all contact submissions (admin only)."""
     query = db.query(ContactSubmission)
@@ -134,7 +134,7 @@ async def get_contacts(
 async def get_contact(
     contact_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Get a specific contact submission (admin only)."""
     contact = db.query(ContactSubmission).filter(ContactSubmission.id == contact_id).first()
@@ -151,7 +151,7 @@ async def update_contact_status(
     contact_id: int,
     contact_data: ContactUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Update contact submission status (admin only)."""
     contact = db.query(ContactSubmission).filter(ContactSubmission.id == contact_id).first()
@@ -176,7 +176,7 @@ async def update_contact_status(
 async def delete_contact(
     contact_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Delete a contact submission (admin only)."""
     contact = db.query(ContactSubmission).filter(ContactSubmission.id == contact_id).first()

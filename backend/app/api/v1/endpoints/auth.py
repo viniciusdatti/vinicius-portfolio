@@ -9,14 +9,24 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 
 # App - Models
-from app.models.user import User
+from app.models.user import User, UserRole
 
 # App - Schemas
-from app.schemas.auth import LoginRequest, TokenResponse, RefreshTokenRequest
+from app.schemas.auth import (
+    LoginRequest,
+    TokenResponse,
+    RefreshTokenRequest,
+    ChangePasswordRequest,
+)
 from app.schemas.user import UserResponse
 
 # App - Core
-from app.core.security import verify_password, create_tokens, decode_token
+from app.core.security import (
+    verify_password,
+    get_password_hash,
+    create_tokens,
+    decode_token,
+)
 
 router = APIRouter()
 
@@ -71,6 +81,16 @@ async def get_current_user(
         )
     
     return user
+
+
+def get_current_admin_user(current_user: User = Depends(get_current_user)) -> User:
+    """Require current user to have admin or super_admin role."""
+    if current_user.role not in (UserRole.ADMIN, UserRole.SUPER_ADMIN):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access required",
+        )
+    return current_user
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -158,6 +178,28 @@ async def refresh_token(
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_me(current_user: User = Depends(get_current_user)):
-    """Get current user info."""
+async def get_me(current_user: User = Depends(get_current_admin_user)):
+    """Get current admin user info. Only admin roles can access."""
     return current_user
+
+
+@router.patch("/change-password")
+async def change_password(
+    body: ChangePasswordRequest,
+    current_user: User = Depends(get_current_admin_user),
+    db: Session = Depends(get_db),
+) -> dict:
+    """Change the current user's password. Requires current password."""
+    if not verify_password(body.current_password, current_user.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Current password is incorrect",
+        )
+    if len(body.new_password) < 8:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="New password must be at least 8 characters",
+        )
+    current_user.hashed_password = get_password_hash(body.new_password)
+    db.commit()
+    return {"message": "Password updated successfully"}
