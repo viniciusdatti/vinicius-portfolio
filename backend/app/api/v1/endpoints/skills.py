@@ -18,7 +18,7 @@ from app.models.user import User
 from app.schemas.skill import SkillCreate, SkillUpdate, SkillResponse
 
 # App - API
-from app.api.v1.endpoints.auth import get_current_user
+from app.api.v1.endpoints.auth import get_current_admin_user
 
 router = APIRouter()
 
@@ -59,7 +59,7 @@ async def get_skill(skill_id: int, db: Session = Depends(get_db)):
 async def create_skill(
     skill_data: SkillCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Create a new skill (admin only)."""
     skill = Skill(**skill_data.model_dump())
@@ -74,7 +74,7 @@ async def update_skill(
     skill_id: int,
     skill_data: SkillUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Update a skill (admin only)."""
     skill = db.query(Skill).filter(Skill.id == skill_id).first()
@@ -97,7 +97,7 @@ async def update_skill(
 async def delete_skill(
     skill_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Delete a skill (admin only)."""
     skill = db.query(Skill).filter(Skill.id == skill_id).first()

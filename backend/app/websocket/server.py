@@ -14,9 +14,11 @@ from app.db.session import SessionLocal
 
 # App - Models
 from app.models.chat import ChatSession, ChatMessage, ChatStatus, SenderType
+from app.models.user import User, UserRole
 
 # App - Core
 from app.core.config import get_settings
+from app.core.security import decode_token
 
 # App - Services
 from app.services.telegram import telegram_service
@@ -260,8 +262,25 @@ async def visitor_typing(sid, data):
 
 @sio.on("connect", namespace="/admin-chat")
 async def admin_connect(sid, environ, auth):
-    """Handle admin connection with authentication."""
-    # TODO: Verify admin token from auth
+    """Handle admin connection with authentication. Only admin roles allowed."""
+    token = (auth or {}).get("token") if isinstance(auth, dict) else None
+    if not token:
+        raise socketio.exceptions.ConnectionRefusedError("Missing token")
+    payload = decode_token(token)
+    if not payload or payload.get("type") != "access":
+        raise socketio.exceptions.ConnectionRefusedError("Invalid token")
+    email = payload.get("sub")
+    if not email:
+        raise socketio.exceptions.ConnectionRefusedError("Invalid token")
+    db: Session = SessionLocal()
+    try:
+        user = db.query(User).filter(User.email == email).first()
+        if not user or not user.is_active:
+            raise socketio.exceptions.ConnectionRefusedError("User not found")
+        if user.role not in (UserRole.ADMIN, UserRole.SUPER_ADMIN):
+            raise socketio.exceptions.ConnectionRefusedError("Admin access required")
+    finally:
+        db.close()
     logger.info(f"Admin connected: {sid}")
     connected_admins.add(sid)
     
