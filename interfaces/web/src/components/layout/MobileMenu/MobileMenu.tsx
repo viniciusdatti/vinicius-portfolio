@@ -10,6 +10,7 @@ import { mobileMenuVariants, staggerItem } from '../../../styles/animations';
 import {
   Overlay,
   MenuContainer,
+  MenuNav,
   MenuLink,
   MenuFooter,
   SocialLinks,
@@ -60,7 +61,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         animate="open"
         exit="closed"
       >
-        <div>
+        <MenuNav>
           {navItems.map((item, index) => (
             <MenuLink
               key={item.path}
@@ -76,7 +77,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               {t(item.labelKey)}
             </MenuLink>
           ))}
-        </div>
+        </MenuNav>
 
         <MenuFooter>
           <SocialLinks>

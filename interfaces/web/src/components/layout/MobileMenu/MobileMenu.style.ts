@@ -29,12 +29,19 @@ export const MenuContainer = styled(motion.nav)`
   border-left: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
+export const MenuNav = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
+`;
+
 export interface MenuLinkProps {
   $active?: boolean;
   $delay?: number;
 }
 
 export const MenuLink = styled(motion.a)<MenuLinkProps>`
+  display: block;
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ $active, theme }) =>
@@ -48,7 +55,7 @@ export const MenuLink = styled(motion.a)<MenuLinkProps>`
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};
-  };
+  }
 `;
 
 export const MenuFooter = styled.div`
@@ -76,10 +83,10 @@ export const SocialLink = styled(motion.a)`
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.surfaceHover};
-  };
+  }
 
   svg {
     width: 20px;
     height: 20px;
-  };
+  }
 `;
