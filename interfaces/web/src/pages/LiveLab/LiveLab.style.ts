@@ -50,15 +50,17 @@ export const PageSubtitle = styled(motion.p)`
 
 /**
  * Two-column grid layout that collapses on smaller screens.
+ * Both columns stretch to the same height (row height = max of both).
  */
 export const ContentGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: stretch;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
-  };
+  }
 `;
 
 // =============================================================================
@@ -66,7 +68,7 @@ export const ContentGrid = styled.div`
 // =============================================================================
 
 /**
- * Main chat container with flexible height and flex layout.
+ * Main chat container. Fills grid cell height so it always matches the right panel.
  */
 export const ChatContainer = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
@@ -76,7 +78,7 @@ export const ChatContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   min-height: 500px;
-  height: fit-content;
+  height: 100%;
 `;
 
 /**
@@ -387,12 +389,14 @@ export const ConnectionStatus = styled.div<ConnectionStatusProps>`
 
 /**
  * Container for the technology explanation section.
+ * Stretches to match the chat panel height (same grid row).
  */
 export const TechSection = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
+  min-height: 100%;
 `;
 
 /**
