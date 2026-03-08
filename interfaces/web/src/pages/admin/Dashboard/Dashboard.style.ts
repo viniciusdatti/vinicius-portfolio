@@ -185,3 +185,68 @@ export const ActionCard = styled(Link)`
 export const SectionTitle = styled.h2`
   margin-bottom: 1.5rem;
 `;
+
+/* ************** SECURITY (CHANGE PASSWORD) ******************* */
+
+export const SecuritySection = styled(motion.section)`
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+  padding: ${({ theme }) => theme.spacing.xl};
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  max-width: 400px;
+`;
+
+export const SecurityTitle = styled.h3`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const PasswordForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const FormLabel = styled.label`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`;
+
+export const FormInput = styled.input`
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+`;
+
+export const SubmitButton = styled.button`
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: white;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  margin-top: ${({ theme }) => theme.spacing.sm};
+
+  &:hover:not(:disabled) {
+    opacity: 0.9;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+`;
+
+export const FormMessage = styled.p<{ $error?: boolean }>`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ $error, theme }) =>
+    $error ? theme.colors.error : theme.colors.success};
+  margin: 0;
+`;

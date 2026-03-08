@@ -18,6 +18,13 @@ class RefreshTokenRequest(BaseModel):
     refresh_token: str
 
 
+class ChangePasswordRequest(BaseModel):
+    """Request body for changing the current user's password."""
+
+    current_password: str
+    new_password: str
+
+
 class TokenPayload(BaseModel):
     sub: str
     exp: int

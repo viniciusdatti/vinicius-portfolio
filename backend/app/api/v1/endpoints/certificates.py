@@ -18,7 +18,7 @@ from app.models.user import User
 from app.schemas.certificate import CertificateCreate, CertificateUpdate, CertificateResponse
 
 # App - API
-from app.api.v1.endpoints.auth import get_current_user
+from app.api.v1.endpoints.auth import get_current_admin_user
 
 router = APIRouter()
 
@@ -55,7 +55,7 @@ async def get_certificate(certificate_id: int, db: Session = Depends(get_db)):
 async def create_certificate(
     certificate_data: CertificateCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Create a new certificate (admin only)."""
     certificate = Certificate(**certificate_data.model_dump())
@@ -70,7 +70,7 @@ async def update_certificate(
     certificate_id: int,
     certificate_data: CertificateUpdate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Update a certificate (admin only)."""
     certificate = db.query(Certificate).filter(Certificate.id == certificate_id).first()
@@ -93,7 +93,7 @@ async def update_certificate(
 async def delete_certificate(
     certificate_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
 ):
     """Delete a certificate (admin only)."""
     certificate = db.query(Certificate).filter(Certificate.id == certificate_id).first()
