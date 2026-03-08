@@ -25,7 +25,7 @@ export const AdminLayout: React.FC = () => {
       return;
     }
 
-    const socket = socketService.connectAdmin(tokens.access_token);
+    socketService.connectAdmin(tokens.access_token);
 
     return () => {
       socketService.disconnectAdmin();
