@@ -1,0 +1,63 @@
+---
+description: Full-stack MCP workflow — backend API + CRA frontend + Playwright QA
+alwaysApply: true
+---
+
+# Full-stack MCP — monorepo runtime
+
+## Servers (`.cursor/mcp.json`)
+
+| Server | Role |
+|--------|------|
+| **filesystem** | Entire repo: `backend/`, `interfaces/web/`, `docs/` |
+| **shell** | Default cwd: **monorepo root** — frontend, backend, health checks |
+| **playwright** | UI at **http://localhost:3000**; API calls to **http://localhost:8000** |
+
+## Start both apps (shell MCP)
+
+From repo root (`D:/Portifolio/vinicius-portfolio`):
+
+```bash
+# Terminal 1 — API (SQLite dev default in backend/.env)
+yarn dev:api
+
+# Terminal 2 — Frontend
+yarn dev:web
+```
+
+Verify:
+
+- `yarn health:api` → `{ "status": "healthy" }`
+- Browser / Playwright → http://localhost:3000
+
+Backend ASGI entry: `app.main:socket_app` (FastAPI + Socket.IO).
+
+## Playwright MCP workflow
+
+1. Confirm both servers running
+2. Public routes: `/`, `/about`, `/skills`, `/projects`, `/live-lab`, `/contact`
+3. `browser_resize`: `375×812`, `768×1024`, `1280×720`
+4. `browser_console_messages` (errors), `browser_network_requests` (failed API)
+5. `browser_snapshot` for a11y; screenshots for layout overflow
+6. Minimal fixes → `yarn build:web` from root
+
+## Static checks
+
+```bash
+yarn build:web
+cd interfaces/web && yarn test --watchAll=false
+cd backend && venv\Scripts\python.exe -m poetry run pycodestyle . --max-line-length=100 --exclude=.venv
+```
+
+(Use `poetry run` only if `backend/pyproject.toml` exists; else skip Python lint.)
+
+## Safety
+
+- No destructive git/shell (hooks in `.cursor/hooks/safe-shell.js`)
+- No e2e test scaffolding unless user asks
+- Preserve layered backend (`api` / `services` / `schemas`) and frontend folder conventions
+
+## Stack notes
+
+- Frontend: **CRA** (`react-scripts`), port **3000**, not Vite
+- Git: `main` (prod), `develop` (integration), `feature/*`
