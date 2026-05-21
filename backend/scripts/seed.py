@@ -66,61 +66,114 @@ def seed_data(force: bool = False):
         
         print("Seeding projects...")
 
-        # Create projects - Real projects from GitHub
+        # Engineering case studies — GitHub repos reframed as product/system showcases
         project_data = [
             {
-                "title": "ReactGram",
-                "title_pt": "ReactGram",
-                "description": "Instagram clone built with React, featuring photo sharing, likes, comments, and user profiles. A full-stack social media application.",
-                "description_pt": "Clone do Instagram construído com React, com compartilhamento de fotos, curtidas, comentários e perfis de usuário. Uma aplicação full-stack de rede social.",
+                "title": "Pulse Feed",
+                "title_pt": "Pulse Feed",
+                "description": (
+                    "Social content surface: composable feed cards, interaction state "
+                    "(likes, comments), and responsive layouts aligned with production "
+                    "social product patterns."
+                ),
+                "description_pt": (
+                    "Superfície de conteúdo social: cards de feed composáveis, estado de "
+                    "interação (curtidas, comentários) e layouts responsivos no padrão de "
+                    "produtos sociais em produção."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/ReactGram",
                 "techs": ["react", "javascript", "css"],
             },
             {
-                "title": "Netflix Clone",
-                "title_pt": "Clone da Netflix",
-                "description": "Netflix UI clone built with React, featuring movie browsing, categories, and responsive design inspired by the streaming platform.",
-                "description_pt": "Clone da interface da Netflix construído com React, com navegação de filmes, categorias e design responsivo inspirado na plataforma de streaming.",
+                "title": "Streamline",
+                "title_pt": "Streamline",
+                "description": (
+                    "Media catalog browsing: horizontal category rails, density-aware "
+                    "grids, and layered CSS for streaming-style layouts without an "
+                    "external UI kit."
+                ),
+                "description_pt": (
+                    "Navegação em catálogo de mídia: trilhos horizontais por categoria, "
+                    "grids com densidade controlada e CSS em camadas para layouts no "
+                    "padrão streaming, sem UI kit externo."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/netflix_clone",
                 "techs": ["react", "javascript", "css"],
             },
             {
-                "title": "Movies Lib",
-                "title_pt": "Biblioteca de Filmes",
-                "description": "Movie library application built with React and Vite, consuming an external API to display movie information, ratings, and details.",
-                "description_pt": "Aplicação de biblioteca de filmes construída com React e Vite, consumindo API externa para exibir informações, avaliações e detalhes de filmes.",
+                "title": "CineScope",
+                "title_pt": "CineScope",
+                "description": (
+                    "Film discovery client on Vite: REST integration, explicit loading "
+                    "and error boundaries, list/detail navigation, and metadata views "
+                    "for ratings and synopsis."
+                ),
+                "description_pt": (
+                    "Cliente de descoberta de filmes em Vite: integração REST, estados "
+                    "de carregamento e erro explícitos, navegação lista/detalhe e "
+                    "apresentação de ratings e sinopse."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/movies_lib",
                 "techs": ["react", "javascript", "vite", "rest_api"],
             },
             {
-                "title": "Secret Word",
-                "title_pt": "Palavra Secreta",
-                "description": "Word guessing game built with React. Players try to discover the secret word by guessing letters, with score tracking and difficulty levels.",
-                "description_pt": "Jogo de adivinhação de palavras construído com React. Os jogadores tentam descobrir a palavra secreta adivinhando letras, com pontuação e níveis de dificuldade.",
+                "title": "Cipher Play",
+                "title_pt": "Cipher Play",
+                "description": (
+                    "Word-guess experience driven by an explicit state machine: letter "
+                    "input, scoring tiers, controlled re-renders, and immediate UI "
+                    "feedback loops."
+                ),
+                "description_pt": (
+                    "Experiência de adivinhação com máquina de estados explícita: "
+                    "entrada por letras, níveis de pontuação, re-renders controlados e "
+                    "feedback imediato na interface."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/secret_word",
                 "techs": ["react", "javascript", "css"],
             },
             {
-                "title": "Tasks Flask CRUD",
-                "title_pt": "CRUD de Tarefas com Flask",
-                "description": "RESTful API for task management built with Flask and Python. Implements full CRUD operations with unit tests.",
-                "description_pt": "API RESTful para gerenciamento de tarefas construída com Flask e Python. Implementa operações CRUD completas com testes unitários.",
+                "title": "Taskline API",
+                "title_pt": "Taskline API",
+                "description": (
+                    "Task lifecycle backend: Flask routing, request validation, and unit "
+                    "tests documenting CRUD contracts for a future admin surface."
+                ),
+                "description_pt": (
+                    "Backend de ciclo de tarefas: rotas Flask, validação de requests e "
+                    "testes unitários que documentam contratos CRUD para uma superfície "
+                    "admin futura."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/tasks-flask-crud",
                 "techs": ["python", "flask", "rest_api"],
             },
             {
-                "title": "Flask Auth API",
-                "title_pt": "API de Autenticação Flask",
-                "description": "Authentication API with Flask featuring user registration, login, JWT tokens, and database integration with Docker support.",
-                "description_pt": "API de autenticação com Flask, com registro de usuários, login, tokens JWT e integração com banco de dados com suporte a Docker.",
+                "title": "Gatekeeper Auth",
+                "title_pt": "Gatekeeper Auth",
+                "description": (
+                    "Identity service with JWT: registration, login, refresh flows, "
+                    "MySQL persistence, and containerized runtime for dev/prod parity."
+                ),
+                "description_pt": (
+                    "Serviço de identidade com JWT: registro, login, fluxos de refresh, "
+                    "persistência MySQL e runtime containerizado para paridade dev/prod."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/sample-flask-auth",
                 "techs": ["python", "flask", "docker", "mysql"],
             },
             {
-                "title": "HTML-CSS Projects",
-                "title_pt": "Projetos HTML-CSS",
-                "description": "Collection of frontend projects built with HTML and CSS, including landing pages, forms, and responsive layouts. Demonstrates fundamental web development skills.",
-                "description_pt": "Coleção de projetos frontend construídos com HTML e CSS, incluindo landing pages, formulários e layouts responsivos. Demonstra habilidades fundamentais de desenvolvimento web.",
+                "title": "Layout Atlas",
+                "title_pt": "Layout Atlas",
+                "description": (
+                    "Interface foundations: semantic markup, responsive grids, forms, "
+                    "and landing compositions that establish layout discipline before "
+                    "the React production stack."
+                ),
+                "description_pt": (
+                    "Fundamentos de interface: marcação semântica, grids responsivos, "
+                    "formulários e composições de landing que estabelecem disciplina de "
+                    "layout antes da stack React em produção."
+                ),
                 "repository_url": "https://github.com/viniciusdatti/HTML-CSS",
                 "techs": ["html", "css", "javascript"],
             },
