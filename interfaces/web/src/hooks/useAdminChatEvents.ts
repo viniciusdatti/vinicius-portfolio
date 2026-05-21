@@ -7,7 +7,7 @@
 import { useEffect, useState } from 'react';
 
 // Types
-import type { AdminChatReceivedEvent } from '../services/adminChatService';
+import type { AdminChatReceivedEvent } from '../types/chat-socket';
 
 // Components
 import {

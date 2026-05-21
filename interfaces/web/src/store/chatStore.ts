@@ -1,6 +1,5 @@
 /**
- * Chat store for managing visitor chat state.
- * Handles session, messages, and connection status.
+ * Visitor chat store — session and messages for Live Lab UI.
  */
 
 // Libraries
@@ -9,18 +8,10 @@ import type { StoreApi, UseBoundStore } from 'zustand';
 
 // Types
 import type { ChatMessage } from '../types';
+import type { VisitorChatStoreData } from '../types/chat';
+import { initialVisitorChatStoreData } from '../types/chat';
 
-/**
- * Chat state interface with actions.
- */
-interface ChatState {
-  sessionId: string | null;
-  messages: ChatMessage[];
-  isConnected: boolean;
-  isAdminOnline: boolean;
-  isTyping: boolean;
-  soundEnabled: boolean;
-
+interface ChatState extends VisitorChatStoreData {
   setSessionId: (id: string) => void;
   addMessage: (message: ChatMessage) => void;
   setMessages: (messages: ChatMessage[]) => void;
@@ -33,12 +24,7 @@ interface ChatState {
 
 export const useChatStore: UseBoundStore<StoreApi<ChatState>> =
   create<ChatState>((set) => ({
-    sessionId: null,
-    messages: [],
-    isConnected: false,
-    isAdminOnline: false,
-    isTyping: false,
-    soundEnabled: false,
+    ...initialVisitorChatStoreData,
 
     setSessionId: (sessionId: string): void => set({ sessionId }),
 
@@ -64,5 +50,7 @@ export const useChatStore: UseBoundStore<StoreApi<ChatState>> =
         messages: [],
         isConnected: false,
         isTyping: false,
+        isAdminOnline: initialVisitorChatStoreData.isAdminOnline,
+        soundEnabled: initialVisitorChatStoreData.soundEnabled,
       }),
   }));

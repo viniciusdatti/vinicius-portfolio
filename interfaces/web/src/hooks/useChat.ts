@@ -1,161 +1,71 @@
 /**
- * Visitor chat hook for real-time messaging with admin.
- * Handles socket connection, session management, and message handling.
- * Uses optimistic updates and debounced typing for performance.
+ * Visitor chat hook — thin UI adapter over chatStore + visitorChatRealtime.
  */
 
 // Core
-import {
-  useEffect,
-  useCallback,
-  useRef,
-} from 'react';
-
-// Store
-import { useChatStore } from '../store';
-
-// Utils
-import { socketService } from '../utils/socket';
+import { useCallback, useEffect, useRef } from 'react';
 
 // Types
 import type { ChatMessage } from '../types';
 import { ChatMessageSenderType } from '../types';
 
-const TYPING_DEBOUNCE_MS = 400;
+// Components
+import {
+  endVisitorChatSession,
+  startVisitorChatRealtime,
+  stopVisitorChatRealtime,
+} from '../realtime/visitorChatRealtime';
+import { useChatStore } from '../store';
+import { socketService } from '../utils/socket';
+
+const TYPING_DEBOUNCE_MS: number = 400;
 
 /**
- * Hook for visitor chat functionality.
- * Manages socket connection, session state, and messaging.
+ * Hook for visitor chat UI on Live Lab.
  */
-export const useChat = () => {
-  const {
-    sessionId,
-    messages,
-    isConnected,
-    isAdminOnline,
-    isTyping,
-    setSessionId,
-    addMessage,
-    setMessages,
-    setConnected,
-    setAdminOnline,
-    setTyping,
-    reset,
-  } = useChatStore();
+export const useChat = (): {
+  sessionId: string | null;
+  messages: ChatMessage[];
+  isConnected: boolean;
+  isAdminOnline: boolean;
+  isTyping: boolean;
+  startSession: (visitorName: string, visitorCompany?: string) => void;
+  sendMessage: (content: string) => void;
+  sendTyping: () => void;
+  endSession: () => void;
+} => {
+  const sessionId: string | null = useChatStore((s) => s.sessionId);
+  const messages = useChatStore((s) => s.messages);
+  const isConnected: boolean = useChatStore((s) => s.isConnected);
+  const isAdminOnline: boolean = useChatStore((s) => s.isAdminOnline);
+  const isTyping: boolean = useChatStore((s) => s.isTyping);
+  const addMessage = useChatStore((s) => s.addMessage);
 
-  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const typingDebounceRef = useRef<NodeJS.Timeout | null>(null);
+  const typingDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Connect to socket on mount
   useEffect(() => {
-    const socket = socketService.connectVisitor();
-
-    // Handle connection state
-    const handleConnect = (): void => {
-      setConnected(true);
-    };
-
-    const handleDisconnect = (): void => {
-      setConnected(false);
-    };
-
-    // Register connection listeners
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
-
-    const handleReconnect = (): void => {
-      setConnected(true);
-      const currentSessionId = useChatStore.getState().sessionId;
-      if (currentSessionId) {
-        socketService.rejoinSession(currentSessionId);
-      }
-    };
-    socket.on('reconnect', handleReconnect);
-
-    // Check if already connected (in case socket was reused)
-    if (socket.connected) {
-      setConnected(true);
-    }
-
-    // Listen for admin status
-    socket.on('admin_status', (data: { is_online: boolean }) => {
-      setAdminOnline(data.is_online);
-    });
-
-    // Listen for session started
-    socket.on('session_started', (data: { session_id: string; visitor_name: string }) => {
-      setSessionId(data.session_id);
-    });
-
-    // Listen for messages (replace optimistic temp message when server echoes visitor message)
-    socket.on('message', (data: {
-      id: number;
-      content: string;
-      sender_type: string;
-      created_at: string;
-    }) => {
-      const message: ChatMessage = {
-        id: data.id,
-        content: data.content,
-        sender_type: data.sender_type as ChatMessageSenderType,
-        is_read: false,
-        created_at: data.created_at,
-      };
-      if (data.sender_type === ChatMessageSenderType.Visitor) {
-        const state = useChatStore.getState();
-        const idx = state.messages.findIndex((m) => m.id < 0 && m.content === data.content);
-        if (idx >= 0) {
-          const next = [...state.messages];
-          next.splice(idx, 1, message);
-          setMessages(next);
-          return;
-        }
-      }
-      addMessage(message);
-    });
-
-    // Listen for admin typing (debounced display off after 3s)
-    socket.on('admin_typing', () => {
-      setTyping(true);
-      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
-      typingTimeoutRef.current = setTimeout(() => setTyping(false), 3000);
-    });
-
-    // Listen for session closed
-    socket.on('session_closed', () => {
-      // Could show a notification here
-      console.log('Session was closed by admin');
-    });
-
+    startVisitorChatRealtime();
     return () => {
-      socket.off('connect', handleConnect);
-      socket.off('disconnect', handleDisconnect);
-      socket.off('reconnect', handleReconnect);
-      socket.off('admin_status');
-      socket.off('session_started');
-      socket.off('message');
-      socket.off('admin_typing');
-      socket.off('session_closed');
-      socketService.disconnectVisitor();
-      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
-      if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
+      if (typingDebounceRef.current) {
+        clearTimeout(typingDebounceRef.current);
+      }
+      stopVisitorChatRealtime();
     };
-  }, [setConnected, setAdminOnline, setSessionId, addMessage, setMessages, setTyping]);
-
-  /**
-   * Starts a new chat session with visitor information.
-   */
-  const startSession = useCallback((visitorName: string, visitorCompany?: string) => {
-    socketService.startSession(visitorName, visitorCompany);
   }, []);
 
-  /**
-   * Sends a message to the current session (optimistic update for instant UI).
-   */
+  const startSession = useCallback(
+    (visitorName: string, visitorCompany?: string): void => {
+      socketService.startSession(visitorName, visitorCompany);
+    },
+    []
+  );
+
   const sendMessage = useCallback(
-    (content: string) => {
-      if (!sessionId || !content.trim()) return;
-      const trimmed = content.trim();
+    (content: string): void => {
+      if (!sessionId || !content.trim()) {
+        return;
+      }
+      const trimmed: string = content.trim();
       addMessage({
         id: -Date.now(),
         content: trimmed,
@@ -168,25 +78,22 @@ export const useChat = () => {
     [sessionId, addMessage]
   );
 
-  /**
-   * Sends typing indicator (debounced to avoid flooding the socket).
-   */
-  const sendTyping = useCallback(() => {
-    if (!sessionId) return;
-    if (typingDebounceRef.current) clearTimeout(typingDebounceRef.current);
+  const sendTyping = useCallback((): void => {
+    if (!sessionId) {
+      return;
+    }
+    if (typingDebounceRef.current) {
+      clearTimeout(typingDebounceRef.current);
+    }
     typingDebounceRef.current = setTimeout(() => {
       socketService.sendTyping(sessionId);
       typingDebounceRef.current = null;
     }, TYPING_DEBOUNCE_MS);
   }, [sessionId]);
 
-  /**
-   * Ends the current chat session and disconnects.
-   */
-  const endSession = useCallback(() => {
-    reset();
-    socketService.disconnectVisitor();
-  }, [reset]);
+  const endSession = useCallback((): void => {
+    endVisitorChatSession();
+  }, []);
 
   return {
     sessionId,

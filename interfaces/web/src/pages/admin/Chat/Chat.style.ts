@@ -41,14 +41,18 @@ export interface MessageProps {
 // ============================================
 
 export const PageContainer = styled.div`
-  min-height: 100vh;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.backgroundSecondary};
 `;
 
 export const Content = styled.main`
+  flex: 1;
+  min-height: 0;
   display: grid;
   grid-template-columns: 320px 1fr;
-  height: calc(100vh - 73px);
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
@@ -97,7 +101,7 @@ export const ConnectionBadge = styled.span<ConnectionBadgeProps>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   background-color: ${({ $connected, theme }) =>
-    $connected ? theme.colors.success + '20' : theme.colors.error + '20'};
+    $connected ? theme.colors.successSurface : theme.colors.errorSurface};
   color: ${({ $connected, theme }) =>
     $connected ? theme.colors.success : theme.colors.error};
 
@@ -142,17 +146,22 @@ export const SessionItem = styled.button<SessionItemProps>`
   width: 100%;
   text-align: left;
   padding: ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   background-color: ${({ $active, theme }) =>
     $active ? theme.colors.primaryLight : 'transparent'};
-  border: 1px solid ${({ $active, theme }) =>
-    $active ? theme.colors.primary : 'transparent'};
+  border: 1px solid
+    ${({ $active, theme }) =>
+      $active ? theme.colors.primary : theme.colors.borderSubtle};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
-  transition: all 0.2s ease;
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     background-color: ${({ $active, theme }) =>
       $active ? theme.colors.primaryLight : theme.colors.surfaceHover};
+    transform: translateX(${({ theme }) => theme.motion.distance.liftSm});
   };
 `;
 
@@ -194,7 +203,7 @@ export const SessionCompanyLine = styled(LastMessage)`
 
 export const UnreadBadge = styled.span`
   background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
+  color: ${({ theme }) => theme.colors.onPrimary};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   padding: 2px 8px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
@@ -225,6 +234,8 @@ export const EmptyStateDescription = styled.p`
 export const ChatArea = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
@@ -251,13 +262,13 @@ export const ChatHeaderInfo = styled.div`
 
 export const CloseButton = styled.button`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  background-color: ${({ theme }) => theme.colors.error}20;
+  background-color: ${({ theme }) => theme.colors.errorSurface};
   color: ${({ theme }) => theme.colors.error};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.error}30;
+    background-color: ${({ theme }) => theme.colors.errorSurfaceHover};
   };
 `;
 
@@ -275,15 +286,19 @@ export const MessagesContainer = styled.div`
 `;
 
 export const Message = styled(motion.div)<MessageProps>`
-  max-width: 70%;
-  padding: ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  background-color: ${({ $isAdmin, theme }) =>
-    $isAdmin ? theme.colors.primary : theme.colors.surface};
-  color: ${({ $isAdmin }) => ($isAdmin ? 'white' : 'inherit')};
+  max-width: min(72%, ${({ theme }) => theme.sizes.chat.messageMaxWidthAdmin});
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  background: ${({ $isAdmin, theme }) =>
+    $isAdmin ? theme.colors.gradientMessageOwn : theme.colors.surfaceElevated};
+  color: ${({ $isAdmin, theme }) =>
+    $isAdmin ? theme.colors.onPrimary : theme.colors.text};
   align-self: ${({ $isAdmin }) => ($isAdmin ? 'flex-end' : 'flex-start')};
-  border: ${({ $isAdmin, theme }) =>
-    $isAdmin ? 'none' : `1px solid ${theme.colors.border}`};
+  border: 1px solid
+    ${({ $isAdmin, theme }) =>
+      $isAdmin ? 'transparent' : theme.colors.borderSubtle};
+  box-shadow: ${({ $isAdmin, theme }) =>
+    $isAdmin ? theme.shadows.sm : theme.elevation.sm};
 `;
 
 export const MessageContent = styled.p`
@@ -295,7 +310,7 @@ export const MessageContent = styled.p`
 
 export const MessageTime = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  opacity: 0.7;
+  opacity: ${({ theme }) => theme.effects.opacity.mutedText};
   margin-top: ${({ theme }) => theme.spacing.xs};
   display: block;
 `;
@@ -314,16 +329,17 @@ export const ChatFooter = styled.div`
 
 export const MessageInput = styled.input`
   flex: 1;
-  padding: ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
-  background-color: ${({ theme }) => theme.colors.background};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   color: ${({ theme }) => theme.colors.text};
 
   &:focus {
     outline: none;
     border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.focus.ringShadow};
   };
 
   &::placeholder {
@@ -333,18 +349,18 @@ export const MessageInput = styled.input`
 
 export const SendButton = styled(motion.button)`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-  background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  background: ${({ theme }) => theme.colors.gradientButtonPrimary};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
 
   &:disabled {
-    opacity: 0.5;
+    opacity: ${({ theme }) => theme.effects.opacity.disabled};
     cursor: not-allowed;
   };
 
   &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.colors.primaryHover};
+    box-shadow: ${({ theme }) => theme.shadows.glow};
   };
 `;
 
@@ -388,7 +404,7 @@ export const EventsSection = styled.div`
 export const EventsToggle = styled.button`
   width: 100%;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  font-size: 0.8rem;
+  font-size: ${({ theme }) => theme.typography.fontSize.caption};
   color: ${({ theme }) => theme.colors.textSecondary};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -406,7 +422,7 @@ export const EventsList = styled.div`
   max-height: 200px;
   overflow-y: auto;
   margin-top: ${({ theme }) => theme.spacing.xs};
-  font-size: 0.75rem;
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
@@ -422,17 +438,17 @@ export const EventItem = styled.div`
     color: ${({ theme }) => theme.colors.primary};
   };
   [data-time] {
-    opacity: 0.8;
+    opacity: ${({ theme }) => theme.effects.opacity.subtle};
   };
 `;
 
 export const EventItemContent = styled.span`
-  font-size: 0.75rem;
-  opacity: 0.9;
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  opacity: ${({ theme }) => theme.effects.opacity.buttonShine};
 `;
 
 export const EventsListEmpty = styled.p`
   padding: ${({ theme }) => theme.spacing.sm};
-  font-size: 0.8rem;
+  font-size: ${({ theme }) => theme.typography.fontSize.caption};
   color: ${({ theme }) => theme.colors.textMuted};
 `;

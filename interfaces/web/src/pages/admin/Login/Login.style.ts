@@ -1,104 +1,152 @@
 /**
  * @fileoverview Styled components for the Admin Login page.
- * Contains all visual styling for the login form and its elements.
  */
 
 // Libraries
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-/**
- * Main container that centers the login card on the page.
- * Provides full viewport height with centered content.
- */
-export const PageContainer = styled.div`
+export const PageShell = styled.div`
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: ${({ theme }) => theme.colors.background};
+  overflow: hidden;
+`;
+
+export const TopBar = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  background-color: ${({ theme }) => theme.colors.surface};
+`;
+
+export const Brand = styled.div`
+  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+
+  span {
+    color: ${({ theme }) => theme.colors.primary};
+  }
+`;
+
+export const BackToSiteLink = styled(Link)`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.primary};
+  };
+`;
+
+export const PageContainer = styled.div`
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: ${({ theme }) => theme.spacing.xl};
-  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  overflow-y: auto;
 `;
 
-/**
- * Animated card container for the login form.
- * Features entrance animation and styled borders.
- */
 export const LoginCard = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
+  box-shadow: ${({ theme }) => theme.shadows.lg};
 `;
 
-/**
- * Logo section with branding and subtitle.
- * Centers content with accent color on the period.
- */
 export const Logo = styled.div`
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
 
   h1 {
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
+
     span {
       color: ${({ theme }) => theme.colors.primary};
     }
   }
-
-  p {
-    color: ${({ theme }) => theme.colors.textMuted};
-    margin-top: ${({ theme }) => theme.spacing.sm};
-  };
 `;
 
-/**
- * Form container with vertical layout and consistent spacing.
- */
+export const Subtitle = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+`;
+
+export const SecurityNote = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  text-align: center;
+`;
+
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-/**
- * Wrapper for label and input pairs.
- */
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-/**
- * Styled label for form inputs.
- */
 export const Label = styled.label`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-/**
- * Text input field with consistent padding and border radius.
- */
-export const Input = styled.input`
-  padding: ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
+export const PasswordFieldWrap = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
 `;
 
-/**
- * Animated submit button with hover and tap effects.
- * Includes disabled state styling.
- */
+export const Input = styled.input`
+  width: 100%;
+  padding: ${({ theme }) => theme.spacing.md};
+  padding-right: ${({ theme }) => theme.spacing.xxl};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  background-color: ${({ theme }) => theme.colors.background};
+`;
+
+export const TogglePasswordButton = styled.button`
+  position: absolute;
+  right: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.textMuted};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    background-color: ${({ theme }) => theme.colors.surfaceHover};
+  };
+`;
+
 export const SubmitButton = styled(motion.button)`
   padding: ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme }) => theme.colors.primary};
   color: white;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
 
   &:hover:not(:disabled) {
@@ -107,17 +155,23 @@ export const SubmitButton = styled(motion.button)`
 
   &:disabled {
     opacity: 0.7;
+    cursor: not-allowed;
   };
 `;
 
-/**
- * Error message display with error-themed background and text.
- */
 export const ErrorMessage = styled.div`
   padding: ${({ theme }) => theme.spacing.md};
   background-color: ${({ theme }) => theme.colors.error}20;
   color: ${({ theme }) => theme.colors.error};
+  border: 1px solid ${({ theme }) => theme.colors.error}40;
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   text-align: center;
+`;
+
+export const FooterNote = styled.p`
+  margin: ${({ theme }) => theme.spacing.lg} 0 0;
+  text-align: center;
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.textMuted};
 `;

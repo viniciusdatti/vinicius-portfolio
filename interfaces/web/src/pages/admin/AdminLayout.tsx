@@ -1,33 +1,52 @@
 /**
- * @fileoverview Admin layout that connects the admin chat socket when the user
- * is in the admin area (Dashboard or Chat). Validates that the user has admin
- * role via /me before rendering; redirects to login on 401/403.
+ * @fileoverview Protects admin routes: validates JWT + admin role before rendering children.
  */
 
 // Core
 import React, { useEffect, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+
+// Libraries
+import { useTranslation } from 'react-i18next';
 
 // Types
 import { UserRole } from '../../types';
 
-// Store
+// Components
+import {
+  AdminAuthLoading,
+  AdminSystemBar,
+  AdminMain,
+} from '../../components/admin';
+import { env } from '../../config/env';
+import {
+  startAdminChatRealtime,
+  stopAdminChatRealtime,
+} from '../../realtime/adminChatRealtime';
 import { useAuthStore } from '../../store';
 
-// Utils
-import { socketService } from '../../utils/socket';
+const API_BASE: string = env.apiUrl;
 
-const API_BASE: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+enum AdminGateStatus {
+  Loading = 'loading',
+  Authorized = 'authorized',
+  Unauthorized = 'unauthorized',
+}
 
-export const AdminLayout: React.FC = (): React.ReactElement | null => {
-  const navigate = useNavigate();
+/**
+ * Layout gate for /admin/* (except login). Starts chat realtime when authorized.
+ */
+export const AdminLayout: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
   const { tokens, user, setAuth, logout } = useAuthStore();
-  const [authChecked, setAuthChecked] = useState<boolean>(false);
+  const [gateStatus, setGateStatus] = useState<AdminGateStatus>(
+    AdminGateStatus.Loading
+  );
+  const accessToken: string | undefined = tokens?.access_token;
 
   useEffect(() => {
-    if (!tokens?.access_token) {
-      navigate('/admin/login', { replace: true });
+    if (!accessToken) {
+      setGateStatus(AdminGateStatus.Unauthorized);
       return;
     }
 
@@ -37,16 +56,11 @@ export const AdminLayout: React.FC = (): React.ReactElement | null => {
     const checkAdmin = async (): Promise<void> => {
       try {
         const res: Response = await fetch(url, {
-          headers: { Authorization: `Bearer ${tokens.access_token}` },
+          headers: { Authorization: `Bearer ${accessToken}` },
         });
-        if (res.status === 401 || res.status === 403) {
+        if (res.status === 401 || res.status === 403 || !res.ok) {
           logout();
-          navigate('/admin/login', { replace: true });
-          return;
-        }
-        if (!res.ok) {
-          logout();
-          navigate('/admin/login', { replace: true });
+          setGateStatus(AdminGateStatus.Unauthorized);
           return;
         }
         const me = await res.json();
@@ -54,36 +68,52 @@ export const AdminLayout: React.FC = (): React.ReactElement | null => {
           me.role === UserRole.Admin || me.role === UserRole.SuperAdmin;
         if (!isAdmin) {
           logout();
-          navigate('/admin/login', { replace: true });
+          setGateStatus(AdminGateStatus.Unauthorized);
+          return;
+        }
+        if (!tokens) {
+          logout();
+          setGateStatus(AdminGateStatus.Unauthorized);
           return;
         }
         setAuth(
           { id: me.id, email: me.email, name: me.name, role: me.role },
           tokens
         );
+        setGateStatus(AdminGateStatus.Authorized);
       } catch {
         logout();
-        navigate('/admin/login', { replace: true });
-        return;
-      } finally {
-        setAuthChecked(true);
+        setGateStatus(AdminGateStatus.Unauthorized);
       }
     };
 
-    checkAdmin();
-  }, [tokens?.access_token, navigate, logout, setAuth]);
+    void checkAdmin();
+  }, [accessToken, logout, setAuth, tokens]);
 
   useEffect(() => {
-    if (!tokens?.access_token || !authChecked || !user) return;
-    socketService.connectAdmin(tokens.access_token);
+    if (gateStatus !== AdminGateStatus.Authorized || !accessToken || !user) {
+      return;
+    }
+    startAdminChatRealtime(accessToken);
     return () => {
-      socketService.disconnectAdmin();
+      stopAdminChatRealtime();
     };
-  }, [tokens?.access_token, authChecked, user]);
+  }, [gateStatus, accessToken, user]);
 
-  if (!tokens?.access_token || !authChecked) {
-    return null;
+  if (gateStatus === AdminGateStatus.Loading) {
+    return <AdminAuthLoading message={t('admin.auth.validating')} />;
   }
 
-  return <Outlet />;
+  if (gateStatus === AdminGateStatus.Unauthorized) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  return (
+    <>
+      <AdminSystemBar />
+      <AdminMain>
+        <Outlet />
+      </AdminMain>
+    </>
+  );
 };

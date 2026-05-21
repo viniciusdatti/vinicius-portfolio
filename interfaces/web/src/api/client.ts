@@ -2,8 +2,10 @@
  * HTTP client configuration for API requests.
  */
 
-const API_BASE_URL: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+// Components
+import { env } from '../config/env';
+
+const API_BASE_URL: string = env.apiUrl;
 
 interface RequestOptions extends RequestInit {
   params?: Record<string, string | undefined>;
