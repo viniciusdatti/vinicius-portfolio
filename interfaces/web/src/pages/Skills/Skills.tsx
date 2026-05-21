@@ -71,8 +71,10 @@ import {
 // Types
 import { SkillCategory } from '../../types';
 
-/** Base URL for static assets (icons, images). Ensures icons work offline. */
-const ASSETS_BASE: string = process.env.PUBLIC_URL ?? '';
+// Components
+import { publicAssetUrl } from '../../config/env';
+
+const skillIconUrl = (file: string): string => publicAssetUrl(file);
 
 /**
  * Represents a single skill item with category, name, icon, and proficiency level.
@@ -138,12 +140,12 @@ const platformConfig = {
     bgColor: 'rgba(130, 87, 229, 0.1)',
   },
   Alura: {
-    logo: `${ASSETS_BASE}/icons/platforms/alura.svg`,
+    logo: skillIconUrl('icons/platforms/alura.svg'),
     color: '#0066cc',
     bgColor: 'rgba(0, 102, 204, 0.1)',
   },
   Udemy: {
-    logo: `${ASSETS_BASE}/icons/platforms/udemy.svg`,
+    logo: skillIconUrl('icons/platforms/udemy.svg'),
     color: '#a435f0',
     bgColor: 'rgba(164, 53, 240, 0.1)',
   },
@@ -157,109 +159,109 @@ const skillsData: SkillItem[] = [
   {
     category: SkillCategory.Frontend,
     name: 'React',
-    icon: `${ASSETS_BASE}/icons/react.svg`,
+    icon: skillIconUrl('icons/react.svg'),
     level: 90,
   },
   {
     category: SkillCategory.Frontend,
     name: 'TypeScript',
-    icon: `${ASSETS_BASE}/icons/typescript.svg`,
+    icon: skillIconUrl('icons/typescript.svg'),
     level: 85,
   },
   {
     category: SkillCategory.Frontend,
     name: 'JavaScript',
-    icon: `${ASSETS_BASE}/icons/javascript.svg`,
+    icon: skillIconUrl('icons/javascript.svg'),
     level: 90,
   },
   {
     category: SkillCategory.Frontend,
     name: 'HTML5',
-    icon: `${ASSETS_BASE}/icons/html5.svg`,
+    icon: skillIconUrl('icons/html5.svg'),
     level: 95,
   },
   {
     category: SkillCategory.Frontend,
     name: 'CSS3',
-    icon: `${ASSETS_BASE}/icons/css3.svg`,
+    icon: skillIconUrl('icons/css3.svg'),
     level: 90,
   },
   {
     category: SkillCategory.Frontend,
     name: 'Styled Components',
-    icon: `${ASSETS_BASE}/icons/styled-components.svg`,
+    icon: skillIconUrl('icons/styled-components.svg'),
     level: 85,
   },
   // Backend
   {
     category: SkillCategory.Backend,
     name: 'Python',
-    icon: `${ASSETS_BASE}/icons/python.svg`,
+    icon: skillIconUrl('icons/python.svg'),
     level: 85,
   },
   {
     category: SkillCategory.Backend,
     name: 'FastAPI',
-    icon: `${ASSETS_BASE}/icons/fastapi.svg`,
+    icon: skillIconUrl('icons/fastapi.svg'),
     level: 80,
   },
   {
     category: SkillCategory.Backend,
     name: 'PostgreSQL',
-    icon: `${ASSETS_BASE}/icons/postgresql.svg`,
+    icon: skillIconUrl('icons/postgresql.svg'),
     level: 75,
   },
   // Testing
   {
     category: SkillCategory.Testing,
     name: 'Jest',
-    icon: `${ASSETS_BASE}/icons/jest.svg`,
+    icon: skillIconUrl('icons/jest.svg'),
     level: 80,
   },
   {
     category: SkillCategory.Testing,
     name: 'Playwright',
-    icon: `${ASSETS_BASE}/icons/playwright.svg`,
+    icon: skillIconUrl('icons/playwright.svg'),
     level: 70,
   },
   // Tools
   {
     category: SkillCategory.Tools,
     name: 'Git',
-    icon: `${ASSETS_BASE}/icons/git.svg`,
+    icon: skillIconUrl('icons/git.svg'),
     level: 85,
   },
   {
     category: SkillCategory.Tools,
     name: 'Docker',
-    icon: `${ASSETS_BASE}/icons/docker.svg`,
+    icon: skillIconUrl('icons/docker.svg'),
     level: 70,
   },
   {
     category: SkillCategory.Tools,
     name: 'VS Code',
-    icon: `${ASSETS_BASE}/icons/vscode.svg`,
+    icon: skillIconUrl('icons/vscode.svg'),
     level: 95,
   },
   {
     category: SkillCategory.Tools,
     name: 'Cursor',
     nameKey: 'skills.toolNames.cursor',
-    icon: `${ASSETS_BASE}/cursor-icon.png`,
+    icon: skillIconUrl('cursor-icon.png'),
     level: 90,
   },
   {
     category: SkillCategory.Tools,
     name: 'AI tools',
     nameKey: 'skills.toolNames.aiTools',
-    icon: `${ASSETS_BASE}/ai-tools-icon.png`,
+    icon: skillIconUrl('ai-tools-icon.png'),
     level: 85,
   },
   // Real-time
   {
     category: SkillCategory.Realtime,
     name: 'WebSocket',
-    icon: `${ASSETS_BASE}/icons/socketio.svg`,
+    icon: skillIconUrl('icons/socketio.svg'),
     level: 75,
   },
 ];
@@ -397,7 +399,7 @@ const TYPE_ORDER: Record<CertificateItem['type'], number> = {
  * Available category filter options.
  */
 const categories: CategoryOption[] = [
-  { key: 'all', label: 'Todas' },
+  { key: 'all', label: '' },
   { key: SkillCategory.Frontend, label: 'Frontend' },
   { key: SkillCategory.Backend, label: 'Backend' },
   { key: SkillCategory.Testing, label: 'Testes' },
@@ -492,7 +494,7 @@ export const Skills: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {cat.key === 'all' ? cat.label : t(`skills.categories.${cat.key}`)}
+              {cat.key === 'all' ? t('skills.filterAll') : t(`skills.categories.${cat.key}`)}
             </CategoryTab>
           ))}
         </CategoryTabs>

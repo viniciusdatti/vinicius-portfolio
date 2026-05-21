@@ -62,7 +62,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="GitHub"
+              aria-label={t('a11y.github')}
             >
               <GitHubIcon />
             </SocialLink>
@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="LinkedIn"
+              aria-label={t('a11y.linkedin')}
             >
               <LinkedInIcon />
             </SocialLink>
@@ -80,7 +80,7 @@ export const Footer: React.FC = () => {
               href="mailto:viniciusdatti@gmail.com"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              aria-label="Email"
+              aria-label={t('a11y.email')}
             >
               <EmailIcon />
             </SocialLink>
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
             >
               <LinkedInIcon />
-              LinkedIn
+              {t('footer.linkedin')}
             </FooterLink>
             <FooterLink
               href="https://github.com/viniciusdatti"
@@ -120,7 +120,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
             >
               <GitHubIcon />
-              GitHub
+              {t('footer.github')}
             </FooterLink>
           </FooterLinks>
         </FooterSection>
@@ -131,7 +131,10 @@ export const Footer: React.FC = () => {
           © {currentYear} Vinicius Datti. {t('footer.rights')}
         </Copyright>
         <TechStack>
-          {t('footer.builtWith')} <span>React</span>, <span>TypeScript</span> & <span>FastAPI</span>
+          {t('footer.builtWith')}{' '}
+          <span>{t('footer.techReact')}</span>,{' '}
+          <span>{t('footer.techTypeScript')}</span> &{' '}
+          <span>{t('footer.techFastApi')}</span>
         </TechStack>
       </FooterBottom>
     </FooterContainer>

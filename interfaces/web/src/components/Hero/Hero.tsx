@@ -1,5 +1,5 @@
 // Core
-import React from 'react';
+import React, { useRef } from 'react';
 
 // Libraries
 import { Link } from 'react-router-dom';
@@ -7,114 +7,178 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 // Components
+import { motionPresets } from '../../styles/motionPresets';
+import { motionEase, heroClipReveal } from '../../styles/animations';
+import { publicAssetUrl } from '../../config/env';
 import { Button } from '../Button';
 import {
   HeroSection,
   HeroDecoGrid,
-  GlowBackdrop,
-  GlowBackdropSecondary,
-  GlowBackdropTertiary,
-  HeroContent,
-  HeroAvatar,
+  HeroColumnGuides,
+  HeroEditorialGrid,
+  HeroCopyColumn,
+  HeroVisualColumn,
   HeroDecoTag,
-  HeroName,
-  HeroTitle,
-  HeroSubtitle,
+  HeroWorkspaceTitle,
+  HeroOperatorLine,
+  HeroStackLine,
   HeroDescription,
+  HeroStatsRow,
+  HeroStat,
+  HeroStatValue,
+  HeroStatLabel,
   CtaWrapper,
   CtaButtonWrapper,
+  HeroScrollCue,
+  ScrollCueLine,
+  SystemPanel,
+  SystemPanelHeader,
+  SystemPanelTitle,
+  SystemPanelBody,
+  SystemReadoutRow,
+  SystemReadoutLabel,
+  SystemReadoutValue,
+  SystemOperatorRow,
+  HeroAvatar,
 } from './Hero.style';
-
-const MotionHeroContent = motion.create(HeroContent);
-const MotionHeroAvatar = motion.create(HeroAvatar);
-const MotionHeroDecoTag = motion.create(HeroDecoTag);
-const MotionHeroName = motion.create(HeroName);
-const MotionHeroTitle = motion.create(HeroTitle);
-const MotionHeroSubtitle = motion.create(HeroSubtitle);
-const MotionHeroDescription = motion.create(HeroDescription);
-const MotionCtaWrapper = motion.create(CtaWrapper);
-const MotionCtaButtonWrapper = motion.create(CtaButtonWrapper);
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
+      staggerChildren: motionPresets.stagger.heroChild,
+      delayChildren: motionPresets.stagger.heroDelay,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: motionPresets.distance.item },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    transition: { duration: motionPresets.duration.hero, ease: motionEase },
   },
 };
 
-export const Hero: React.FC = () => {
-  const { t } = useTranslation();
+/* ***********************************************************************************************
+ ****************************************** METHODS ***********************************************
+ *********************************************************************************************** */
 
-  const publicUrl: string = process.env.PUBLIC_URL ?? '';
+const scrollToModules = (): void => {
+  document.getElementById('workspace-modules')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+/* ***********************************************************************************************
+ *************************************** COMPONENT HANDLING **************************************
+ *********************************************************************************************** */
+
+export const Hero: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const avatarSrc: string = publicAssetUrl('avatar.png');
+
+  const stats: { valueKey: string; labelKey: string }[] = [
+    { valueKey: 'home.hero.stats.transportValue', labelKey: 'home.hero.stats.transport' },
+    { valueKey: 'home.hero.stats.stackValue', labelKey: 'home.hero.stats.stack' },
+    { valueKey: 'home.hero.stats.productionValue', labelKey: 'home.hero.stats.production' },
+  ];
+
+  const readouts: { labelKey: string; valueKey: string }[] = [
+    { labelKey: 'home.hero.panel.focusLabel', valueKey: 'home.hero.panel.focusValue' },
+    { labelKey: 'home.hero.panel.domainLabel', valueKey: 'home.hero.panel.domainValue' },
+    { labelKey: 'home.hero.panel.surfaceLabel', valueKey: 'home.hero.panel.surfaceValue' },
+  ];
 
   return (
-    <HeroSection>
+    <HeroSection ref={sectionRef}>
       <HeroDecoGrid aria-hidden />
-      <GlowBackdropSecondary aria-hidden />
-      <GlowBackdropTertiary aria-hidden />
-      <GlowBackdrop aria-hidden />
-      <MotionHeroContent
+      <HeroColumnGuides aria-hidden />
+      <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <MotionHeroAvatar variants={itemVariants}>
-          <img
-            src={`${publicUrl}/avatar.png`}
-            alt="Vinicius Datti"
-          />
-        </MotionHeroAvatar>
-        <MotionHeroDecoTag variants={itemVariants}>
-          &lt;/&gt;
-        </MotionHeroDecoTag>
-        <MotionHeroSubtitle variants={itemVariants}>
-          {t('home.hero.greeting')}
-        </MotionHeroSubtitle>
-        <MotionHeroName variants={itemVariants}>
-          {t('home.hero.name')}
-        </MotionHeroName>
-        <MotionHeroTitle variants={itemVariants}>
-          {t('home.hero.title')}
-        </MotionHeroTitle>
-        <MotionHeroDescription variants={itemVariants}>
-          {t('home.hero.description')}
-        </MotionHeroDescription>
-        <MotionCtaWrapper variants={itemVariants}>
-          <MotionCtaButtonWrapper
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button
-              onClick={() =>
-                document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' })
-              }
-            >
-              {t('home.hero.cta')}
-            </Button>
-          </MotionCtaButtonWrapper>
-          <MotionCtaButtonWrapper
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button as={Link} to="/contact" variant="secondary">
-              {t('home.hero.contact')}
-            </Button>
-          </MotionCtaButtonWrapper>
-        </MotionCtaWrapper>
-      </MotionHeroContent>
+        <HeroEditorialGrid>
+          <HeroCopyColumn>
+            <motion.div variants={itemVariants}>
+              <HeroDecoTag>{t('home.hero.systemTag')}</HeroDecoTag>
+            </motion.div>
+            <motion.div variants={heroClipReveal}>
+              <HeroWorkspaceTitle>{t('home.hero.workspaceTitle')}</HeroWorkspaceTitle>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <HeroOperatorLine>{t('home.hero.operatorLine')}</HeroOperatorLine>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <HeroStackLine>{t('home.hero.stackLine')}</HeroStackLine>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <HeroDescription>{t('home.hero.description')}</HeroDescription>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <HeroStatsRow>
+                {stats.map((stat) => (
+                  <HeroStat key={stat.labelKey}>
+                    <HeroStatValue>{t(stat.valueKey)}</HeroStatValue>
+                    <HeroStatLabel>{t(stat.labelKey)}</HeroStatLabel>
+                  </HeroStat>
+                ))}
+              </HeroStatsRow>
+            </motion.div>
+            <motion.div variants={itemVariants}>
+              <CtaWrapper>
+                <CtaButtonWrapper>
+                  <Button as={Link} to="/projects">
+                    {t('home.hero.ctaPrimary')}
+                  </Button>
+                </CtaButtonWrapper>
+                <CtaButtonWrapper>
+                  <Button variant="secondary" as={Link} to="/live-lab">
+                    {t('home.hero.ctaSecondary')}
+                  </Button>
+                </CtaButtonWrapper>
+              </CtaWrapper>
+            </motion.div>
+          </HeroCopyColumn>
+          <HeroVisualColumn>
+            <motion.div variants={itemVariants}>
+              <SystemPanel>
+                <SystemPanelHeader>
+                  <SystemPanelTitle>{t('home.hero.panel.title')}</SystemPanelTitle>
+                </SystemPanelHeader>
+                <SystemPanelBody>
+                  {readouts.map((row) => (
+                    <SystemReadoutRow key={row.labelKey}>
+                      <SystemReadoutLabel>{t(row.labelKey)}</SystemReadoutLabel>
+                      <SystemReadoutValue>{t(row.valueKey)}</SystemReadoutValue>
+                    </SystemReadoutRow>
+                  ))}
+                  <SystemOperatorRow>
+                    <HeroAvatar>
+                      <img src={avatarSrc} alt={t('home.hero.operatorName')} />
+                    </HeroAvatar>
+                    <div>
+                      <SystemReadoutLabel>{t('home.hero.panel.operatorLabel')}</SystemReadoutLabel>
+                      <SystemReadoutValue>{t('home.hero.operatorName')}</SystemReadoutValue>
+                    </div>
+                  </SystemOperatorRow>
+                </SystemPanelBody>
+              </SystemPanel>
+            </motion.div>
+          </HeroVisualColumn>
+        </HeroEditorialGrid>
+      </motion.div>
+      <HeroScrollCue
+        type="button"
+        onClick={scrollToModules}
+        aria-label={t('home.hero.scrollCue')}
+      >
+        <ScrollCueLine aria-hidden />
+        {t('home.hero.scrollCue')}
+      </HeroScrollCue>
     </HeroSection>
   );
 };

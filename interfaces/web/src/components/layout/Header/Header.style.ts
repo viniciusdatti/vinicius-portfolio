@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Create motion-enabled Link component
+// Components
+import { glassSurface } from '../../../styles/surfaces';
+
 const MotionLink = motion.create(Link);
 
 export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
@@ -11,47 +13,99 @@ export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
   top: 0;
   left: 0;
   right: 0;
-  z-index: ${({ theme }) => theme.zIndex.sticky};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-  background-color: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.colors.background : 'transparent'};
-  backdrop-filter: ${({ $scrolled }) => ($scrolled ? 'blur(10px)' : 'none')};
-  border-bottom: 1px solid
-    ${({ $scrolled, theme }) => ($scrolled ? theme.colors.border : 'transparent')};
-  transition: background-color ${({ theme }) => theme.transitions.normal},
-              border-color ${({ theme }) => theme.transitions.normal},
-              backdrop-filter ${({ theme }) => theme.transitions.normal};
+  z-index: ${({ theme }) => theme.zIndex.sticky + 1};
+  padding: ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.pageX};
+  background-color: transparent;
+  transition: padding ${({ theme }) => theme.transitions.normal};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.md}
+      ${({ theme }) => theme.spacing.lg};
   };
 `;
 
-export const HeaderContent = styled.div`
-  max-width: 1200px;
+export const HeaderShell = styled.div<{ $scrolled: boolean }>`
+  max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  border: 1px solid
+    ${({ $scrolled, theme }) =>
+      $scrolled ? theme.colors.border : 'transparent'};
+  background: ${({ $scrolled, theme }) =>
+    $scrolled ? theme.colors.surfaceGlass : 'transparent'};
+  backdrop-filter: ${({ $scrolled, theme }) =>
+    $scrolled ? theme.effects.backdrop.header : 'none'};
+  -webkit-backdrop-filter: ${({ $scrolled, theme }) =>
+    $scrolled ? theme.effects.backdrop.header : 'none'};
+  box-shadow: ${({ $scrolled, theme }) =>
+    $scrolled ? theme.shadows.md : 'none'};
+  transition:
+    background ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.normal},
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    backdrop-filter ${({ theme }) => theme.transitions.normal};
+`;
+
+export const HeaderContent = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.md};
+  min-width: 0;
+`;
+
+export const HeaderCenter = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: none;
+  };
+`;
+
+export const HeaderTrailing = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  flex-shrink: 0;
+  min-width: 0;
 `;
 
 export const Logo = styled(MotionLink)`
-  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
-  font-size: ${({ theme }) => theme.typography.fontSize.xl};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  display: inline-flex;
+  align-items: baseline;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
-  letter-spacing: -0.02em;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+`;
 
-  span {
-    color: ${({ theme }) => theme.colors.primary};
-  };
+export const LogoMark = styled.span`
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const LogoSuffix = styled.span`
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `;
 
 export const Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
@@ -60,12 +114,16 @@ export const Nav = styled.nav`
 
 export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   position: relative;
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  text-transform: uppercase;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
   color: ${({ $active, theme }) =>
-    $active ? theme.colors.primary : theme.colors.textSecondary};
+    $active ? theme.colors.text : theme.colors.textMuted};
   text-decoration: none;
-  padding: ${({ theme }) => theme.spacing.sm} 0;
+  padding: ${({ theme }) => theme.spacing.xs} 0;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
   transition: color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
@@ -75,12 +133,13 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   &::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     width: ${({ $active }) => ($active ? '100%' : '0')};
     height: 2px;
-    background-color: ${({ theme }) => theme.colors.primary};
-    transition: width ${({ theme }) => theme.transitions.fast};
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    background: ${({ theme }) => theme.colors.gradientNavUnderline};
+    transition: width ${({ theme }) => theme.transitions.normal};
   };
 
   &:hover::after {
@@ -91,7 +150,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
 export const HeaderActions = styled.div`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const HamburgerButton = styled(motion.button)`
@@ -99,13 +158,15 @@ export const HamburgerButton = styled(motion.button)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  background: transparent;
-  border: none;
+  width: ${({ theme }) => theme.sizes.icon.md};
+  height: ${({ theme }) => theme.sizes.icon.md};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
   padding: 0;
   z-index: ${({ theme }) => theme.zIndex.modal + 1};
+  ${glassSurface};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
@@ -114,9 +175,9 @@ export const HamburgerButton = styled(motion.button)`
 
 export const HamburgerLine = styled(motion.span)`
   display: block;
-  width: 24px;
-  height: 2px;
+  width: ${({ theme }) => theme.sizes.hamburger.lineWidth};
+  height: ${({ theme }) => theme.sizes.hamburger.lineHeight};
   background-color: ${({ theme }) => theme.colors.text};
-  margin: 3px 0;
-  border-radius: 2px;
+  margin: ${({ theme }) => theme.sizes.hamburger.lineGap} 0;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
 `;

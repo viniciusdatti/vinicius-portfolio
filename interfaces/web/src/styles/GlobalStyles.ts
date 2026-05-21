@@ -2,14 +2,12 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  /* CSS Reset */
   *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
 
-  /* Root variables for theme transition */
   :root {
     --transition-theme: ${({ theme }) => theme.transitions.theme};
   }
@@ -17,36 +15,88 @@ export const GlobalStyles = createGlobalStyle`
   html {
     scroll-behavior: smooth;
     font-size: 16px;
-    
+    text-rendering: optimizeLegibility;
+
     @media (prefers-reduced-motion: reduce) {
       scroll-behavior: auto;
-    }
+    };
+  }
+
+  body.menu-scroll-locked {
+    overflow: hidden;
   }
 
   body {
     font-family: ${({ theme }) => theme.typography.fontFamily.body};
     font-size: ${({ theme }) => theme.typography.fontSize.md};
     line-height: ${({ theme }) => theme.typography.lineHeight.normal};
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
     color: ${({ theme }) => theme.colors.text};
     background-color: ${({ theme }) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color var(--transition-theme), color var(--transition-theme);
+    transition:
+      background-color var(--transition-theme),
+      color var(--transition-theme);
     min-height: 100vh;
     overflow-x: hidden;
+    position: relative;
   }
 
-  /* Typography */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background: ${({ theme }) => theme.colors.gradientHero};
+    opacity: ${({ theme }) => theme.effects.opacity.grid};
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      ${({ theme }) => theme.colors.borderSubtle} 1px,
+      transparent 0
+    );
+    background-size: 24px 24px;
+    opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
+    mask-image: ${({ theme }) => theme.colors.gradientBodyGridMask};
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: ${({ theme }) => theme.typography.fontFamily.heading};
     font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
     line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
     color: ${({ theme }) => theme.colors.text};
     transition: color var(--transition-theme);
   }
 
+  h1 {
+    font-size: ${({ theme }) => theme.typography.fontSize.display};
+  }
+
+  h2 {
+    font-size: ${({ theme }) => theme.typography.fontSize.xxl};
+    font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
+  }
+
   p {
     margin-bottom: ${({ theme }) => theme.spacing.md};
+    max-width: ${({ theme }) => theme.layout.prose};
   }
 
   a {
@@ -56,48 +106,44 @@ export const GlobalStyles = createGlobalStyle`
 
     &:hover {
       color: ${({ theme }) => theme.colors.primaryHover};
-    }
+    };
 
     &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.primary};
+      outline: 2px solid ${({ theme }) => theme.colors.focusRing};
       outline-offset: 2px;
       border-radius: ${({ theme }) => theme.borderRadius.sm};
-    }
+    };
   }
 
-  /* Lists */
   ul, ol {
     list-style: none;
   }
 
-  /* Images */
   img {
     max-width: 100%;
     height: auto;
     display: block;
   }
 
-  /* Buttons */
   button {
     font-family: inherit;
     font-size: inherit;
     cursor: pointer;
     border: none;
     background: none;
-    
+
     &:focus-visible {
-      outline: 2px solid ${({ theme }) => theme.colors.primary};
+      outline: 2px solid ${({ theme }) => theme.colors.focusRing};
       outline-offset: 2px;
       border-radius: ${({ theme }) => theme.borderRadius.sm};
-    }
+    };
 
     &:disabled {
       cursor: not-allowed;
-      opacity: 0.6;
-    }
+      opacity: 0.55;
+    };
   }
 
-  /* Inputs */
   input, textarea, select {
     font-family: inherit;
     font-size: inherit;
@@ -105,33 +151,32 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.surface};
     border: 1px solid ${({ theme }) => theme.colors.border};
     border-radius: ${({ theme }) => theme.borderRadius.md};
-    transition: border-color ${({ theme }) => theme.transitions.fast},
-                box-shadow ${({ theme }) => theme.transitions.fast},
-                background-color var(--transition-theme);
+    transition:
+      border-color ${({ theme }) => theme.transitions.fast},
+      box-shadow ${({ theme }) => theme.transitions.fast},
+      background-color var(--transition-theme);
 
     &:focus {
       outline: none;
       border-color: ${({ theme }) => theme.colors.primary};
-      box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.primaryLight};
-    }
+      box-shadow: ${({ theme }) => theme.focus.ringShadow};
+    };
 
     &::placeholder {
       color: ${({ theme }) => theme.colors.textMuted};
-    }
+    };
   }
 
-  /* Code */
   code, pre {
     font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+    font-size: 0.92em;
   }
 
-  /* Selection */
   ::selection {
     background-color: ${({ theme }) => theme.colors.primary};
-    color: white;
+    color: ${({ theme }) => theme.colors.onPrimary};
   }
 
-  /* Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -142,29 +187,26 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.border};
+    background: ${({ theme }) => theme.colors.borderLight};
     border-radius: ${({ theme }) => theme.borderRadius.full};
-    
+
     &:hover {
       background: ${({ theme }) => theme.colors.textMuted};
-    }
+    };
   }
 
-  /* Reduced motion */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
-    }
+    };
   }
 
-  /* Focus visible polyfill */
   .js-focus-visible :focus:not(.focus-visible) {
     outline: none;
   }
 
-  /* Screen reader only */
   .sr-only {
     position: absolute;
     width: 1px;

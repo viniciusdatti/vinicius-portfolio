@@ -11,14 +11,22 @@ import {
   hamburgerTop,
   hamburgerMiddle,
   hamburgerBottom,
+  motionEase,
 } from '../../../styles/animations';
+import { motionPresets } from '../../../styles/motionPresets';
 import { ThemeToggle } from '../../common/ThemeToggle';
 import { LanguageToggle } from '../../LanguageToggle';
 import { MobileMenu } from '../MobileMenu';
+import { HeaderStatusPills } from './HeaderStatusPills';
 import {
   HeaderContainer,
+  HeaderShell,
   HeaderContent,
+  HeaderCenter,
+  HeaderTrailing,
   Logo,
+  LogoMark,
+  LogoSuffix,
   Nav,
   NavLink,
   HeaderActions,
@@ -34,8 +42,8 @@ interface NavItem {
 const navItems: NavItem[] = [
   { path: '/', labelKey: 'nav.home' },
   { path: '/about', labelKey: 'nav.about' },
-  { path: '/skills', labelKey: 'nav.skills' },
   { path: '/projects', labelKey: 'nav.projects' },
+  { path: '/skills', labelKey: 'nav.skills' },
   { path: '/live-lab', labelKey: 'nav.liveLab' },
   { path: '/contact', labelKey: 'nav.contact' },
 ];
@@ -53,14 +61,14 @@ const initialState: HeaderState = {
 export const Header: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
-  const [scrolled, setScrolled] = useState<boolean>(initialState.scrolled);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(
-    initialState.mobileMenuOpen
-  );
+  const [state, setState] = useState<HeaderState>(initialState);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    const handleScroll = (): void => {
+      setState((prev: HeaderState) => ({
+        ...prev,
+        scrolled: window.scrollY > 50,
+      }));
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -69,81 +77,98 @@ export const Header: React.FC = (): React.ReactElement => {
 
   // Close mobile menu on route change
   useEffect(() => {
-    setMobileMenuOpen(false);
+    setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }));
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
+  // Prevent body scroll when mobile menu is open (class in GlobalStyles)
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.classList.toggle('menu-scroll-locked', state.mobileMenuOpen);
     return () => {
-      document.body.style.overflow = '';
+      document.body.classList.remove('menu-scroll-locked');
     };
-  }, [mobileMenuOpen]);
+  }, [state.mobileMenuOpen]);
 
   return (
     <>
       <HeaderContainer
-        $scrolled={scrolled}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
+        $scrolled={state.scrolled}
+        initial={{ y: -24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{
+          duration: motionPresets.duration.page,
+          ease: motionEase,
+        }}
       >
+        <HeaderShell $scrolled={state.scrolled}>
         <HeaderContent>
           <Logo
             to="/"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            aria-label={t('home.hero.name')}
           >
-            Vinicius<span>.</span>
+            <LogoMark>{t('system.logoMark')}</LogoMark>
+            <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
           </Logo>
 
-          <Nav>
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                $active={location.pathname === item.path}
-              >
-                {t(item.labelKey)}
-              </NavLink>
-            ))}
-          </Nav>
+          <HeaderCenter>
+            <Nav>
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  $active={location.pathname === item.path}
+                >
+                  {t(item.labelKey)}
+                </NavLink>
+              ))}
+            </Nav>
+          </HeaderCenter>
 
-          <HeaderActions>
+          <HeaderTrailing>
+            <HeaderStatusPills />
+            <HeaderActions>
             <LanguageToggle />
             <ThemeToggle />
             <HamburgerButton
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileMenuOpen}
+              onClick={() =>
+                setState((prev: HeaderState) => ({
+                  ...prev,
+                  mobileMenuOpen: !prev.mobileMenuOpen,
+                }))
+              }
+              aria-label={
+                state.mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')
+              }
+              aria-expanded={state.mobileMenuOpen}
             >
               <HamburgerLine
                 variants={hamburgerTop}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
+                animate={state.mobileMenuOpen ? 'open' : 'closed'}
               />
               <HamburgerLine
                 variants={hamburgerMiddle}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
+                animate={state.mobileMenuOpen ? 'open' : 'closed'}
               />
               <HamburgerLine
                 variants={hamburgerBottom}
-                animate={mobileMenuOpen ? 'open' : 'closed'}
+                animate={state.mobileMenuOpen ? 'open' : 'closed'}
               />
             </HamburgerButton>
-          </HeaderActions>
+            </HeaderActions>
+          </HeaderTrailing>
         </HeaderContent>
+        </HeaderShell>
       </HeaderContainer>
 
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {state.mobileMenuOpen && (
           <MobileMenu
             navItems={navItems}
             currentPath={location.pathname}
-            onClose={() => setMobileMenuOpen(false)}
+            onClose={() =>
+              setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }))
+            }
           />
         )}
       </AnimatePresence>

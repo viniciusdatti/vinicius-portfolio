@@ -23,12 +23,103 @@ export const Section = styled.section`
 `;
 
 /**
- * Animated section title with centered text.
+ * Animated section title — editorial display scale.
  */
 export const SectionTitle = styled(motion.h2)`
-  font-size: ${({ theme }) => theme.typography.fontSize.xxl};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  text-align: center;
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`;
+
+export const SectionLead = styled.p`
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: ${({ theme }) => theme.layout.prose};
+`;
+
+export const SectionEyebrow = styled.span`
+  display: block;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const SectionIndex = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.primary};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+`;
+
+export const SectionStory = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: ${({ theme }) => theme.layout.prose};
+`;
+
+export const ProjectsSectionHeader = styled.div`
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
+  gap: ${({ theme }) => theme.spacing.xl};
+  align-items: end;
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  };
+`;
+
+export const ProjectsSectionMain = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  };
+`;
+
+export const EditorialHeaderAside = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  };
+`;
+
+export const ViewAllProjectsLink = styled(Link)`
+  display: inline-flex;
+  color: ${({ theme }) => theme.colors.primary};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  margin-top: ${({ theme }) => theme.spacing.md};
+
+  &:hover {
+    text-decoration: underline;
+  };
+`;
+
+export const SkillsEditorialLayout = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: center;
+  max-width: ${({ theme }) => theme.layout.contentWide};
+  margin: 0 auto;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr;
+  };
+`;
+
+export const SkillsEditorialIntro = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    text-align: center;
+  };
 `;
 
 /**
@@ -73,11 +164,8 @@ export const RetryButton = styled.button`
 export const SkillsPreviewSection = styled(Section)`
   background-color: ${({ theme }) => theme.colors.backgroundSecondary};
   max-width: 100%;
-  
-  > div {
-    max-width: 1200px;
-    margin: 0 auto;
-  };
+  padding-left: ${({ theme }) => theme.spacing.pageX};
+  padding-right: ${({ theme }) => theme.spacing.pageX};
 `;
 
 /**
@@ -87,8 +175,6 @@ export const SkillsGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
-  margin-top: ${({ theme }) => theme.spacing.xl};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: repeat(3, 1fr);
@@ -131,8 +217,9 @@ export const SkillIcon = styled(motion.div)`
  * Centered description text below section title in skills preview.
  */
 export const SkillsPreviewDescription = styled.p`
-  text-align: center;
   color: ${({ theme }) => theme.colors.textMuted};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
 /**
@@ -157,30 +244,74 @@ export const ViewAllLink = styled(Link)`
   };
 `;
 
+export const LiveLabSection = styled(Section)`
+  max-width: ${({ theme }) => theme.layout.contentWide};
+  scroll-margin-top: ${({ theme }) => theme.sizes.layout.headerOffset};
+`;
+
+export const LiveLabSectionTitle = styled.h2`
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  margin: 0 0 ${({ theme }) => theme.spacing.lg};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+`;
+
 /**
- * Live Lab preview card with gradient background and accent border.
+ * Live Lab preview card — editorial split layout.
  */
 export const LiveLabCard = styled(motion.div)`
-  background: linear-gradient(135deg, 
-    ${({ theme }) => theme.colors.primary}15, 
-    ${({ theme }) => theme.colors.surface}
-  );
-  border: 1px solid ${({ theme }) => theme.colors.primary}30;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: center;
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
-  text-align: center;
   position: relative;
   overflow: hidden;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: ${({ theme }) => theme.colors.primary};
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr;
+    text-align: center;
   };
+`;
+
+export const LiveLabCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing.sm};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    align-items: center;
+  };
+`;
+
+export const LiveLabVisual = styled.div`
+  width: 100%;
+  min-width: 0;
+`;
+
+export const LiveLabMetric = styled.div`
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.mutedSurface};
+`;
+
+export const LiveLabMetricValue = styled.div`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const LiveLabMetricLabel = styled.div`
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-top: ${({ theme }) => theme.spacing.xs};
 `;
 
 /**
@@ -227,9 +358,8 @@ export const LiveLabTitle = styled.h3`
 export const LiveLabDescription = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: ${({ theme }) => theme.layout.prose};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
 `;
 
 /**
@@ -254,17 +384,38 @@ export const CTAButton = styled(Link)`
   };
 `;
 
-/**
- * Section wrapper for contact CTA with centered content.
- */
 export const ContactCtaSection = styled(Section)`
-  text-align: center;
+  max-width: ${({ theme }) => theme.layout.contentWide};
 `;
 
-/**
- * Description paragraph in contact CTA section.
- */
+export const ContactCtaInner = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.xxl};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  };
+`;
+
+export const ContactCtaActions = styled.div`
+  display: flex;
+  gap: ${({ theme }) => theme.spacing.md};
+  flex-shrink: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    justify-content: center;
+  };
+`;
+
 export const ContactCtaDescription = styled.p`
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
   color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
 `;

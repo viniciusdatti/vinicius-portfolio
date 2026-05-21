@@ -54,12 +54,16 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
+        aria-hidden="true"
       />
       <MenuContainer
         variants={mobileMenuVariants}
         initial="closed"
         animate="open"
         exit="closed"
+        aria-label={t('a11y.mobileMenu')}
+        role="dialog"
+        aria-modal="true"
       >
         <MenuNav>
           {navItems.map((item, index) => (
@@ -85,6 +89,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               href="https://github.com/viniciusdatti"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={t('a11y.github')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -94,6 +99,7 @@ export const MobileMenu: React.FC<MobileMenuProps> = ({
               href="https://www.linkedin.com/in/vinicius-datti-791482267/"
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={t('a11y.linkedin')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
             >

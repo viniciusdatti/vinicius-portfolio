@@ -284,7 +284,7 @@ export const Contact: React.FC = (): React.ReactElement => {
             <InfoList>
               <InfoItem href="mailto:viniciusdatti@gmail.com">
                 <EmailIcon />
-                <span>viniciusdatti@gmail.com</span>
+                <span>{t('contact.info.emailValue')}</span>
               </InfoItem>
               <InfoItem
                 href="https://www.linkedin.com/in/vinicius-datti-791482267/"
@@ -292,7 +292,7 @@ export const Contact: React.FC = (): React.ReactElement => {
                 rel="noopener noreferrer"
               >
                 <LinkedInIcon />
-                <span>LinkedIn</span>
+                <span>{t('contact.info.linkedin')}</span>
               </InfoItem>
               <InfoItem
                 href="https://github.com/viniciusdatti"
@@ -300,7 +300,7 @@ export const Contact: React.FC = (): React.ReactElement => {
                 rel="noopener noreferrer"
               >
                 <GitHubIcon />
-                <span>GitHub</span>
+                <span>{t('contact.info.github')}</span>
               </InfoItem>
               <InfoItem as="div">
                 <LocationIcon />

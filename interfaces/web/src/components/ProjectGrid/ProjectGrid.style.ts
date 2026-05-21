@@ -3,61 +3,72 @@ import styled from 'styled-components';
 
 export const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: ${({ theme }) => theme.spacing.lg};
   width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  };
 `;
 
 export const ProjectLinks = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing?.sm ?? '0.5rem'};
-  margin-top: 1rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;
 
 export const ProjectLink = styled.a`
   display: inline-block;
-  padding: 0.5rem 1rem;
-  font-size: ${({ theme }) => theme.typography?.fontSize?.sm ?? '0.875rem'};
-  font-weight: 600;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   color: ${({ theme }) => theme.colors.primary};
   background: transparent;
-  border: 2px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius?.md ?? '8px'};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.15s ease;
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.text};
-    transform: translateY(-1px);
+    background-color: ${({ theme }) => theme.colors.primaryLight};
+    border-color: ${({ theme }) => theme.colors.primary};
+    transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
   };
 `;
 
 export const ProjectDescription = styled.div`
-  margin-top: 0.5rem;
+  margin-top: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.md};
 `;
 
 export const Tag = styled.span`
-  padding: 0.25rem 0.625rem;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.primary};
-  background: rgba(0, 112, 243, 0.15);
-  border-radius: 6px;
+  padding: ${({ theme }) => theme.spacing.xs}
+    ${({ theme }) => theme.spacing.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.accent};
+  background: ${({ theme }) => theme.colors.accentMuted};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
 `;
 
 export const EmptyMessage = styled.p`
   grid-column: 1 / -1;
   text-align: center;
-  color: ${({ theme }) => theme.colors?.textMuted ?? theme.colors?.text};
-  font-size: ${({ theme }) => theme.typography?.fontSize?.md ?? '1rem'};
-  padding: 2rem;
+  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  padding: ${({ theme }) => theme.spacing.xxl};
 `;

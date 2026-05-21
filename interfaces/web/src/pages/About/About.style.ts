@@ -7,17 +7,21 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const PageContainer = styled.div`
-  max-width: 1000px;
+  max-width: ${({ theme }) => theme.layout.contentNarrow};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.pageY}
+    ${({ theme }) => theme.spacing.pageX};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.xxl}
+      ${({ theme }) => theme.spacing.lg};
   };
 `;
 
 export const PageTitle = styled(motion.h1)`
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: ${({ theme }) => theme.typography.fontSize.display};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
   text-align: center;
 `;
@@ -43,12 +47,12 @@ export const IntroSection = styled(Section)`
 `;
 
 export const Avatar = styled(motion.div)`
-  width: 200px;
-  height: 200px;
+  width: ${({ theme }) => theme.sizes.avatar.about};
+  height: ${({ theme }) => theme.sizes.avatar.about};
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid ${({ theme }) => theme.colors.primary}40;
-  box-shadow: 0 0 40px ${({ theme }) => theme.colors.primary}25;
+  box-shadow: ${({ theme }) => theme.shadows.glow};
   flex-shrink: 0;
   margin: 0 auto;
 
@@ -61,8 +65,8 @@ export const Avatar = styled(motion.div)`
   }
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    width: 150px;
-    height: 150px;
+    width: ${({ theme }) => theme.sizes.avatar.aboutMobile};
+    height: ${({ theme }) => theme.sizes.avatar.aboutMobile};
   };
 `;
 
@@ -120,11 +124,7 @@ export const SectionTitle = styled.h3`
 `;
 
 export const PhilosophyCard = styled(motion.div)`
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.primary}10,
-    ${({ theme }) => theme.colors.surface}
-  );
+  background: ${({ theme }) => theme.colors.gradientPhilosophyCard};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
@@ -182,7 +182,7 @@ export const EducationInfo = styled.div`
 export const EducationStatus = styled.span`
   display: inline-block;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  background-color: ${({ theme }) => theme.colors.success}20;
+  background-color: ${({ theme }) => theme.colors.successSurface};
   color: ${({ theme }) => theme.colors.success};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};

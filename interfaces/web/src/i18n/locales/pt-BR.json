@@ -2,8 +2,8 @@
   "common": {
     "reload": "Recarregar página",
     "retry": "Tentar novamente",
-    "errorTitle": "Algo deu errado",
-    "errorMessage": "Algo inesperado aconteceu. Tente recarregar a página.",
+    "errorTitle": "Falha ao carregar",
+    "errorMessage": "Algo inesperado interrompeu a sessão. Recarregue para restaurar o estado.",
     "loading": "Carregando...",
     "send": "Enviar",
     "cancel": "Cancelar",
@@ -12,20 +12,151 @@
     "edit": "Editar",
     "optional": "opcional",
     "required": "obrigatório",
-    "success": "Sucesso!",
+    "success": "Enviado",
     "error": "Erro"
+  },
+  "a11y": {
+    "skipToContent": "Ir para o conteúdo principal",
+    "mobileMenu": "Menu de navegação",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "github": "GitHub",
+    "linkedin": "LinkedIn",
+    "email": "E-mail",
+    "langPt": "Português",
+    "langEn": "Inglês",
+    "themeLight": "Ativar modo claro",
+    "themeDark": "Ativar modo escuro",
+    "drawerClose": "Fechar painel"
   },
   "nav": {
     "home": "Início",
     "about": "Sobre",
-    "skills": "Skills",
-    "projects": "Projetos",
+    "skills": "Competências",
+    "projects": "Trabalhos",
     "liveLab": "Live Lab",
-    "contact": "Contato"
+    "contact": "Contato",
+    "console": "Console",
+    "cases": "Cases",
+    "capabilities": "Stack",
+    "profile": "Perfil",
+    "channel": "Contato"
+  },
+  "system": {
+    "id": "VD·RT",
+    "workspaceName": "Vinicius Datti — Portfólio",
+    "logoMark": "VD",
+    "logoSuffix": "·portfólio",
+    "modules": {
+      "portfolio": "Portfólio",
+      "home": "Início",
+      "about": "Sobre",
+      "console": "Console",
+      "profile": "Identidade",
+      "capabilities": "Stack",
+      "cases": "Cases",
+      "liveLab": "Live Lab",
+      "channel": "Outbound",
+      "contact": "Contato"
+    },
+    "status": {
+      "apiOnline": "API online",
+      "apiOffline": "API offline",
+      "apiChecking": "Sync API",
+      "wsLive": "Canal live",
+      "wsConnecting": "Conectando",
+      "wsReconnecting": "Reconectando",
+      "wsIdle": "Transporte idle",
+      "presenceOnline": "Operador online",
+      "presenceOffline": "Operador ausente",
+      "session": "Sessão {{id}}",
+      "sessionNone": "Sem sessão",
+      "latencyLive": "Realtime",
+      "build": "Build {{version}}",
+      "buildUnknown": "Build —"
+    }
+  },
+  "workspace": {
+    "boot": {
+      "title": "Superfície de comando realtime",
+      "lead": "Você está dentro de um canal WebSocket ativo. Explore os módulos à esquerda — o sistema permanece conectado.",
+      "handshakeTitle": "Boot do sistema",
+      "transportStatus": "Status do transporte",
+      "showcaseBadge": "Showcase de engenharia",
+      "phases": {
+        "initializing": "Inicializando transporte…",
+        "connecting": "Abrindo canal WebSocket…",
+        "live": "Canal live — realtime ativo",
+        "ready": "Operacional — inspecione módulos ou abra sessão"
+      }
+    },
+    "events": {
+      "transportInit": "Stack de transporte inicializada",
+      "transportLive": "Canal WebSocket live",
+      "transportDown": "Transporte desconectado",
+      "transportReconnect": "Reconectando transporte…",
+      "sessionOpen": "Sessão {{id}} aberta",
+      "sessionResume": "Sessão {{id}} retomada",
+      "sessionClosed": "Sessão encerrada",
+      "sessionRequested": "Handshake de sessão solicitado",
+      "messageIn": "Mensagem recebida",
+      "messageOut": "Mensagem enviada",
+      "presenceOnline": "Operador online",
+      "presenceOffline": "Operador ausente",
+      "typing": "Operador digitando",
+      "contextAttach": "Contexto do case: {{title}}",
+      "contextDetach": "Contexto do case removido",
+      "contextActive": "Case ativo · {{title}}",
+      "contextDraft": "Discutindo o case: {{title}} — arquitetura, stack e entrega.",
+      "contextInject": "Contexto do case enviado ao canal live"
+    },
+    "rail": {
+      "label": "Módulos do Live Lab",
+      "identity": "Identidade",
+      "cases": "Cases",
+      "capabilities": "Stack",
+      "channel": "Contato"
+    },
+    "channel": {
+      "title": "Canal live",
+      "transport": "Transporte WebSocket",
+      "events": "Log de eventos"
+    },
+    "identity": {
+      "role": "Engenheiro Front-end",
+      "focus": "Sistemas realtime · engenharia de produto · UI operacional",
+      "statProjects": "Cases entregues",
+      "statRealtime": "Transporte live",
+      "statFocus": "Foco em produto",
+      "statProjectsValue": "12+",
+      "statRealtimeValue": "WS",
+      "statFocusValue": "UX"
+    },
+    "cases": {
+      "title": "Módulos de case",
+      "lead": "Inspecione contexto de arquitetura — abra demo quando disponível.",
+      "inspect": "Inspecionar módulo",
+      "demo": "Abrir caminho live",
+      "repository": "Fonte",
+      "empty": "Nenhum case carregado.",
+      "loading": "Carregando registry…",
+      "error": "Registry indisponível.",
+      "back": "Voltar ao registry"
+    },
+    "capabilities": {
+      "title": "Superfície de competências",
+      "lead": "Stack de engenharia agrupada por domínio.",
+      "empty": "Nenhuma competência retornada."
+    },
+    "channelModule": {
+      "title": "Canal outbound",
+      "lead": "Mensagem estruturada quando o canal live não bastar.",
+      "note": "Prefira o canal live para diálogo realtime — este caminho persiste por e-mail."
+    }
   },
   "showcase": {
     "title": "Showcase",
-    "subtitle": "Demonstração de componentes e padrões de front-end (status, tabela + drawer, dashboard).",
+    "subtitle": "Padrões de UI em produção: status, tabela + drawer e métricas.",
     "filters": {
       "all": "Todos",
       "frontend": "Frontend",
@@ -51,133 +182,213 @@
   },
   "home": {
     "hero": {
-      "greeting": "Olá, eu sou",
+      "greeting": "Olá, sou",
+      "availability": "Front-end Engineer · React · TypeScript · WebSocket",
       "name": "Vinicius Datti",
-      "title": "Desenvolvedor Web",
-      "subtitle": "React · TypeScript · Python",
-      "description": "Criando experiências digitais com foco em qualidade, performance e UX.",
-      "cta": "Ver Projetos",
-      "contact": "Entrar em Contato"
+      "title": "Engenheiro Front-end",
+      "subtitle": "React · TypeScript · WebSocket",
+      "description": "3+ anos construindo aplicações React + TypeScript em produção — interfaces de dados em tempo real, arquitetura de componentes e qualidade de engenharia.",
+      "cta": "Ver trabalhos",
+      "contact": "Iniciar conversa",
+      "scrollCue": "Explorar o portfólio",
+      "systemTag": "Portfólio · engenharia realtime",
+      "workspaceTitle": "Vinicius Datti",
+      "operatorLine": "Engenheiro Front-end — superfícies de produto & sistemas live",
+      "stackLine": "React · TypeScript · WebSocket · FastAPI",
+      "operatorName": "Vinicius Datti",
+      "ctaPrimary": "Ver trabalhos",
+      "ctaSecondary": "Abrir Live Lab",
+      "stats": {
+        "projects": "Anos em produção",
+        "stack": "Stack principal",
+        "focus": "Domínio técnico",
+        "transport": "Transporte",
+        "production": "Produção",
+        "transportValue": "WebSocket",
+        "stackValue": "React · TS",
+        "productionValue": "3+ anos"
+      },
+      "panel": {
+        "title": "Perfil de engenharia",
+        "focusLabel": "Foco",
+        "focusValue": "UI realtime & arquitetura",
+        "domainLabel": "Domínio",
+        "domainValue": "Engenharia de produto",
+        "surfaceLabel": "Superfície",
+        "surfaceValue": "Web · admin · canais live",
+        "operatorLabel": "Operador"
+      }
+    },
+    "realtime": {
+      "lead": "Backend e transporte acessíveis — abra o Live Lab para o canal bidirecional completo.",
+      "apiLive": "API live",
+      "apiAway": "API offline",
+      "apiSync": "Sync API",
+      "channelReady": "Canal pronto",
+      "channelIdle": "Canal sob demanda",
+      "openLab": "Live Lab →"
+    },
+    "sections": {
+      "skills": {
+        "eyebrow": "01 — Competências de engenharia",
+        "index": "01"
+      },
+      "liveLab": {
+        "eyebrow": "02 — Sistema em tempo real",
+        "index": "02"
+      },
+      "projects": {
+        "eyebrow": "03 — Showcase de engenharia",
+        "index": "03",
+        "story": "Sistemas front-end e superfícies de produto — cada case documenta problema, arquitetura e decisões técnicas.",
+        "viewAll": "Explorar todos os cases"
+      },
+      "contact": {
+        "eyebrow": "04 — Colaborar",
+        "index": "04"
+      }
     },
     "skillsPreview": {
-      "title": "Tecnologias",
-      "description": "Principais ferramentas que utilizo no dia a dia",
-      "viewAll": "Ver todas as skills"
+      "title": "Competências de engenharia",
+      "description": "Arquitetura de componentes, interfaces realtime, type safety e qualidade de produto.",
+      "viewAll": "Ver competências"
     },
     "liveLabPreview": {
       "title": "Live Lab",
-      "badge": "Ao Vivo",
-      "description": "Chat em tempo real com WebSocket. Converse diretamente comigo!",
-      "cta": "Acessar Live Lab"
+      "badge": "Sistema ao vivo",
+      "description": "Canal WebSocket bidirecional com persistência — demonstração de engenharia realtime em produção.",
+      "cta": "Abrir Live Lab",
+      "metrics": {
+        "latency": "< 50ms",
+        "latencyLabel": "Latência típica de eventos",
+        "transport": "WebSocket",
+        "transportLabel": "Transporte persistente"
+      },
+      "mock": {
+        "channelTitle": "Canal live",
+        "logTitle": "Log de eventos",
+        "events": {
+          "transport": "10:24:01 · Transporte inicializado",
+          "channel": "10:24:02 · Canal WebSocket live",
+          "presence": "10:24:03 · Operador online",
+          "ready": "10:24:04 · Sessão pronta"
+        },
+        "messages": {
+          "welcome": "Canal aberto — pergunte sobre arquitetura ou cases.",
+          "visitor": "Quero entender o stack realtime do ReactGram.",
+          "reply": "Posso detalhar Socket.io + persistência no FastAPI."
+        }
+      }
     },
     "contactCta": {
-      "title": "Vamos conversar?",
-      "description": "Estou disponível para novos projetos e oportunidades.",
-      "cta": "Entrar em Contato"
+      "title": "Vamos falar de engenharia?",
+      "description": "Aberto a oportunidades em produto, front-end architecture e sistemas realtime.",
+      "cta": "Enviar mensagem"
     },
-    "projectsEmpty": "Nenhum projeto disponível no momento.",
-    "projectsLoading": "Carregando projetos...",
-    "projectsError": "Não foi possível carregar os projetos. Por favor, tente novamente."
+    "projectsEmpty": "Nenhum case publicado no momento.",
+    "projectsLoading": "Carregando trabalhos...",
+    "projectsError": "Não foi possível carregar os cases. Tente novamente."
   },
   "about": {
-    "title": "Sobre Mim",
+    "title": "Sobre",
     "intro": {
-      "title": "Prazer, Vinicius!",
-      "description": "Desenvolvedor Web com 3+ anos de experiência, apaixonado por criar interfaces elegantes e funcionais. Foco em qualidade de código, testes automatizados e experiência do usuário."
+      "title": "Front-end com sistemas em produção",
+      "description": "Engenheiro Front-end com 3+ anos entregando aplicações React + TypeScript em ambientes reais — de dashboards industriais com telemetria via WebSocket a painéis administrativos e este portfólio como referência de arquitetura."
     },
     "stats": {
-      "experience": "Anos de Experiência",
-      "certificates": "Certificados",
-      "technologies": "Tecnologias"
+      "experience": "Anos em produção",
+      "certificates": "Formação contínua",
+      "technologies": "Áreas de engenharia"
     },
     "philosophy": {
-      "title": "Filosofia de Trabalho",
-      "description": "Acredito que código bem escrito é código testado. Priorizo clean code, documentação clara e comunicação efetiva com a equipe."
+      "title": "Como trabalho",
+      "description": "Type safety, component architecture e testes automatizados como contrato de qualidade — código revisável, previsível e pronto para escalar com o produto."
     },
     "education": {
       "title": "Formação",
       "degree": "Engenharia de Software",
       "institution": "UniCesumar",
       "status": "Em andamento",
-      "complementary": "Cursos complementares em Udemy, RocketSeat e Alura"
+      "complementary": "Especialização contínua em Udemy, RocketSeat e Alura — React, TypeScript, testes e backend aplicado."
     }
   },
   "skills": {
-    "title": "Skills & Certificados",
-    "subtitle": "Competências técnicas e certificações profissionais",
+    "title": "Competências",
+    "subtitle": "Competências de engenharia front-end — arquitetura, realtime, qualidade e sistemas escaláveis.",
+    "filterAll": "Todas",
     "toolNames": {
       "cursor": "Cursor",
       "aiTools": "Ferramentas de IA"
     },
     "categories": {
-      "frontend": "Frontend",
-      "backend": "Backend",
-      "testing": "Testes",
-      "realtime": "Real-time",
-      "tools": "Ferramentas",
+      "frontend": "UI & architecture",
+      "backend": "API & services",
+      "testing": "Quality engineering",
+      "realtime": "Realtime systems",
+      "tools": "Tooling",
       "iot": "IoT"
     },
     "experience": {
-      "title": "Front-end em prática",
-      "intro": "Em projetos de dashboards industriais e painéis administrativos desenvolvi todos os componentes de front-end e as funções que mapeiam os status (equipamentos, sessões, motores, lubrificação, etc.). Cada área abaixo representa trabalho que implementei de ponta a ponta.",
-      "subtitle": "Dashboards, painéis admin e este portfólio.",
+      "title": "Front-end em produção",
+      "intro": "Em dashboards industriais e painéis admin implementei component libraries, mapeamento de status por equipamento e interfaces que consomem streams contínuos de telemetria via WebSocket.",
+      "subtitle": "Monitoramento industrial, admin panels e este portfólio.",
       "items": {
         "auth": {
-          "title": "Autenticação e rotas protegidas",
-          "description": "Login com JWT, rotas protegidas por componente (Auth wrapper), redirect em 401 e recuperação de senha.",
-          "highlight": "Componentes de login, register e password recovery; middleware de auth reutilizável."
+          "title": "Fluxos completos de autenticação",
+          "description": "JWT, rotas protegidas, redirect em 401 e recuperação de senha com contratos tipados entre UI e API.",
+          "highlight": "Auth wrapper reutilizável; login, register e recovery como módulos isolados."
         },
         "state": {
           "title": "Estado global e persistência",
-          "description": "Zustand com persist em localStorage; getters/setters para uso fora do React (ex.: camada de API).",
-          "highlight": "Stores para sessão, preferências e layout; integração com request layer."
+          "description": "Zustand com persistência; getters/setters para camada de API fora do ciclo React.",
+          "highlight": "Stores de sessão, preferências e layout integrados ao request layer."
         },
         "i18n": {
           "title": "Internacionalização (i18n)",
-          "description": "react-i18next com pt-BR e en-US; locale sincronizado com tema e datas (dayjs).",
-          "highlight": "Traduções por namespace; locale em Ant Design e dayjs."
+          "description": "react-i18next pt-BR/en-US; locale sincronizado com tema e formatação de datas.",
+          "highlight": "Namespaces por domínio; locale unificado em UI e utilitários."
         },
         "realtime": {
-          "title": "Comunicação em tempo real",
-          "description": "WebSocket/Socket.io para dashboards ao vivo e chat; indicadores de digitação e status online.",
-          "highlight": "Eventos por equipamento; indicadores de status e controles em tempo real."
+          "title": "Interfaces realtime",
+          "description": "WebSocket/Socket.io para dashboards ao vivo e chat; presença, digitação e eventos por equipamento.",
+          "highlight": "Real-time UI com indicadores de status e controles sincronizados."
         },
         "api": {
           "title": "Camada de API centralizada",
-          "description": "Cliente único com base URL por ambiente, injeção de token e tratamento de 401 (logout/redirect).",
-          "highlight": "Plugin request tipado por API; tratamento de erro e toasts i18n."
+          "description": "Cliente único com base URL por ambiente, injeção de token e tratamento consistente de 401.",
+          "highlight": "Request layer tipado; erros mapeados para feedback i18n."
         },
         "theming": {
-          "title": "Tema e design system",
-          "description": "Styled-components com tema semântico; dark/light; sem estilos inline; componentes reutilizáveis.",
-          "highlight": "Todos os componentes de UI em .style.ts; tokens semânticos e Ant Design customizado."
+          "title": "Design Systems",
+          "description": "Styled-components com tokens semânticos; dark/light; zero estilos inline; componentes documentáveis.",
+          "highlight": "UI em .style.ts; Storybook-ready; Ant Design alinhado ao tema."
         },
         "dashboards": {
-          "title": "Dashboards e visualização de dados",
-          "description": "Gráficos (ex.: amCharts), mapas e painéis com dados em tempo real por equipamento.",
-          "highlight": "Funções de mapeamento de status por equipamento; módulos Crusher, Patriot, VSI; gráficos e mapas."
+          "title": "Dashboards e telemetria",
+          "description": "Gráficos, mapas e painéis alimentados por streams contínuos — status por equipamento em tempo real.",
+          "highlight": "Módulos Crusher, Patriot, VSI; funções de mapeamento de status por domínio."
         },
         "crud": {
-          "title": "Admin e CRUD",
-          "description": "Listagens, tabelas, drawers e modais para Create/Read/Update/Delete; filtros e breadcrumbs.",
-          "highlight": "Drawers e modais reutilizáveis; tabelas com estado de colunas; funções de status para listagens."
+          "title": "Admin & data interfaces",
+          "description": "Tabelas, drawers e modais para CRUD; filtros, breadcrumbs e estados de coluna.",
+          "highlight": "Padrões reutilizáveis para listagens complexas em produção."
         },
         "architecture": {
           "title": "Arquitetura de componentes",
-          "description": "Estrutura .tsx + .style.ts + .types.ts; imports por seções; tipagem rigorosa com TypeScript.",
-          "highlight": "Centenas de componentes próprios; enums para status e roles; convenções de código."
+          "description": "Estrutura .tsx + .style.ts + .types.ts; imports por seções; enums para domínio.",
+          "highlight": "Component libraries escaláveis; convenções strict TypeScript."
         },
         "testing": {
-          "title": "Testes",
-          "description": "Jest e React Testing Library para unitários; Playwright para E2E; Storybook para documentação de componentes.",
-          "highlight": "Testes de componentes e fluxos; stories por componente; E2E em fluxos críticos."
+          "title": "Testes automatizados",
+          "description": "Jest + React Testing Library; Playwright para E2E; Storybook para contratos de UI.",
+          "highlight": "Qualidade de engenharia em fluxos críticos e componentes compartilhados."
         }
       }
     },
     "certificates": {
       "title": "Certificados",
       "filterAll": "Todos",
-      "viewCertificate": "Ver Certificado",
+      "viewCertificate": "Ver certificado",
       "close": "Fechar",
       "totalHours": "{{hours}}+ horas de estudo",
       "hours_one": "{{count}} hora",
@@ -206,99 +417,223 @@
       }
     }
   },
+  "admin": {
+    "system": {
+      "id": "VD·OPS",
+      "inboxCount": "{{count}} sessões",
+      "modules": {
+        "console": "Console operador",
+        "dashboard": "Painel de comando",
+        "inbox": "Inbox live",
+        "login": "Portão de acesso"
+      }
+    },
+    "auth": {
+      "validating": "Validando acesso administrativo...",
+      "checkingSession": "Verificando sessão..."
+    },
+    "login": {
+      "brand": "Admin",
+      "subtitle": "Área restrita do painel",
+      "securityNote": "Acesso monitorado. Apenas contas com perfil administrador podem entrar.",
+      "email": "E-mail",
+      "password": "Senha",
+      "emailPlaceholder": "seu@email.com",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Mostrar",
+      "hidePassword": "Ocultar",
+      "submit": "Entrar no painel",
+      "submitting": "Validando...",
+      "footerNote": "Sessão protegida por token. Não compartilhe suas credenciais.",
+      "backToSite": "← Voltar ao portfólio",
+      "errors": {
+        "forbidden": "Acesso restrito a administradores autorizados.",
+        "invalidCredentials": "E-mail ou senha inválidos."
+      }
+    },
+    "dashboard": {
+      "title": "Painel",
+      "logout": "Sair",
+      "fallbackName": "Admin",
+      "stats": {
+        "activeChats": "Chats ativos",
+        "unread": "Não lidas (chat)",
+        "messagesToday": "Mensagens hoje",
+        "pendingContacts": "Contatos pendentes",
+        "skills": "Skills cadastradas"
+      },
+      "quickActions": "Ações rápidas",
+      "chatActionTitle": "Chat",
+      "chatActionDesc": "Gerenciar conversas",
+      "siteActionTitle": "Ver site",
+      "siteActionDesc": "Abrir portfólio",
+      "changePassword": "Alterar senha",
+      "currentPassword": "Senha atual",
+      "newPassword": "Nova senha (mín. 8 caracteres)",
+      "confirmPassword": "Confirmar nova senha",
+      "submitPassword": "Alterar senha",
+      "submittingPassword": "Alterando...",
+      "passwordSuccess": "Senha alterada com sucesso.",
+      "errors": {
+        "mismatch": "As senhas não conferem.",
+        "minLength": "A nova senha deve ter no mínimo 8 caracteres.",
+        "invalidSession": "Sessão inválida. Faça login novamente.",
+        "generic": "Erro ao alterar senha.",
+        "network": "Erro de conexão. Tente novamente."
+      }
+    },
+    "chat": {
+      "back": "← Voltar ao painel",
+      "title": "Chat admin",
+      "connected": "Conectado",
+      "disconnected": "Desconectado",
+      "conversations": "Conversas ({{count}})",
+      "emptyTitle": "Nenhuma conversa ativa",
+      "emptyDescription": "As conversas aparecerão aqui quando visitantes iniciarem um chat no Live Lab.",
+      "typing": "digitando...",
+      "newConversation": "Nova conversa",
+      "eventsToggle": "Eventos recebidos ({{count}})",
+      "eventsEmpty": "Nenhum evento ainda. Eventos do socket aparecem aqui com a conexão ativa.",
+      "startedAt": "Iniciado às {{time}}",
+      "closeSession": "Encerrar conversa",
+      "placeholder": "Digite sua resposta...",
+      "send": "Enviar",
+      "noChatTitle": "Chat em tempo real",
+      "noChatDescription": "Selecione uma conversa na lista para começar a responder.",
+      "noChatHint": "Você receberá notificações quando novos visitantes iniciarem conversas."
+    }
+  },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "Demonstração técnica de habilidades em tempo real",
+    "subtitle": "Sistema realtime ao vivo — WebSocket, persistência e UI de produto",
     "chat": {
-      "title": "Chat em Tempo Real",
-      "online": "Online",
+      "title": "Canal realtime",
+      "online": "Conectado",
       "offline": "Offline",
-      "placeholder": "Digite sua mensagem...",
+      "connected": "WebSocket conectado",
+      "connecting": "Conectando WebSocket...",
+      "placeholder": "Mensagem...",
       "send": "Enviar",
       "intro": {
-        "title": "Iniciar Conversa",
-        "description": "Converse diretamente comigo em tempo real. Este chat demonstra implementação de WebSocket com React e Python.",
-        "name": "Seu nome",
-        "namePlaceholder": "Como posso te chamar?",
+        "title": "Abrir sessão",
+        "description": "Canal bidirecional com Socket.io — o mesmo padrão usado em dashboards industriais e neste portfólio. Mensagens persistidas no backend.",
+        "name": "Nome",
+        "namePlaceholder": "Como devo te chamar?",
         "company": "Empresa",
-        "companyPlaceholder": "Onde você trabalha?",
-        "start": "Iniciar Chat"
+        "companyPlaceholder": "Time ou organização",
+        "start": "Conectar ao canal"
       },
-      "offlineNotice": "Estou offline no momento. Sua mensagem será salva e responderei assim que possível.",
+      "offlineNotice": "Canal em modo assíncrono. Sua mensagem fica na fila e será entregue quando a sessão voltar.",
       "typing": "digitando..."
     },
     "techExplanation": {
-      "title": "Como foi construído",
-      "description": "Este chat utiliza WebSocket para comunicação bidirecional em tempo real entre cliente e servidor.",
+      "title": "Arquitetura",
+      "description": "Eventos em tempo real entre cliente React e API FastAPI — conexão persistente, rooms por sessão e histórico em banco.",
       "stack": {
-        "frontend": "React + Socket.io Client",
-        "backend": "FastAPI + python-socketio",
-        "database": "PostgreSQL para persistência"
+        "frontend": "React · Socket.io client · estado tipado",
+        "backend": "FastAPI · python-socketio · registry de conexões",
+        "database": "PostgreSQL · mensagens e sessões"
       }
     }
   },
   "contact": {
     "title": "Contato",
-    "subtitle": "Entre em contato para oportunidades, projetos ou apenas para trocar uma ideia",
+    "subtitle": "Oportunidades em front-end engineering, arquitetura de UI ou sistemas realtime",
     "form": {
       "name": "Nome",
-      "namePlaceholder": "Seu nome completo",
+      "namePlaceholder": "Seu nome",
       "email": "Email",
       "emailPlaceholder": "seu@email.com",
       "company": "Empresa",
-      "companyPlaceholder": "Onde você trabalha?",
+      "companyPlaceholder": "Time ou organização",
       "subject": "Assunto",
-      "subjectPlaceholder": "Sobre o que gostaria de falar?",
+      "subjectPlaceholder": "Ex.: oportunidade, arquitetura front-end, realtime",
       "message": "Mensagem",
-      "messagePlaceholder": "Escreva sua mensagem aqui...",
-      "submit": "Enviar Mensagem",
+      "messagePlaceholder": "Contexto, stack do time ou o que você quer explorar...",
+      "submit": "Enviar mensagem",
       "sending": "Enviando...",
-      "success": "Mensagem enviada com sucesso! Responderei em breve.",
-      "error": "Erro ao enviar mensagem. Tente novamente.",
-      "rateLimitError": "Muitas tentativas. Aguarde alguns minutos e tente novamente."
+      "success": "Mensagem recebida. Respondo em breve.",
+      "error": "Falha no envio. Tente novamente.",
+      "rateLimitError": "Limite de tentativas. Aguarde alguns minutos."
     },
     "info": {
-      "title": "Informações",
-      "email": "Email",
+      "title": "Canais",
+      "email": "E-mail",
+      "emailValue": "viniciusdatti@gmail.com",
+      "linkedin": "LinkedIn",
+      "github": "GitHub",
       "location": "Localização",
       "locationValue": "São Paulo, Brasil"
     },
     "chatCta": {
-      "title": "Prefere conversar agora?",
-      "description": "Acesse o Live Lab para um chat em tempo real.",
-      "cta": "Ir para Live Lab"
+      "title": "Prefere um canal realtime?",
+      "description": "No Live Lab o handshake WebSocket e a UI de chat rodam como em produção.",
+      "cta": "Abrir Live Lab"
     }
   },
   "footer": {
-    "description": "Desenvolvedor Web focado em criar experiências digitais de alta qualidade.",
+    "description": "Front-end Engineer — React, TypeScript e sistemas realtime em produção.",
     "navigation": "Navegação",
     "contact": "Contato",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
     "rights": "Todos os direitos reservados.",
-    "builtWith": "Feito com"
+    "builtWith": "Desenvolvido com",
+    "techReact": "React",
+    "techTypeScript": "TypeScript",
+    "techFastApi": "FastAPI"
   },
   "projects": {
-    "title": "Projetos",
-    "subtitle": "Projetos do portfólio com tecnologias e links.",
-    "sectionTitle": "Projetos",
-    "sectionList": "Lista de projetos",
+    "title": "Trabalho de engenharia",
+    "subtitle": "Estudos de caso em sistemas de UI, APIs e arquitetura de interface — com código-fonte e experiências ao vivo quando disponíveis.",
+    "showcase": {
+      "eyebrow": "Showcase de engenharia",
+      "lead": "Cases orientados a produto: o que foi construído, como está estruturado e quais sinais de engenharia importam. Leitura para pares, não catálogo de repositórios.",
+      "viewCase": "Ver case study",
+      "liveDemo": "Experiência ao vivo"
+    },
+    "sectionTitle": "Showcase de engenharia",
+    "sectionLead": "Sistemas front-end modernos — composição, estado, limites de dados e arquitetura de layout documentados como cases.",
+    "sectionList": "Índice de cases",
     "filters": {
       "all": "Todos"
     },
-    "searchPlaceholder": "Buscar por nome do projeto...",
+    "searchPlaceholder": "Buscar case ou capacidade...",
     "table": {
-      "title": "Título",
-      "technologies": "Tecnologias"
+      "title": "Case",
+      "technologies": "Sinais de engenharia"
     },
     "drawer": {
-      "description": "Descrição",
-      "repository": "Repositório",
-      "demo": "Demo"
+      "description": "Narrativa do case",
+      "repository": "Código-fonte",
+      "demo": "Experiência ao vivo"
     },
-    "viewCode": "Ver código",
-    "viewDemo": "Ver demo",
-    "empty": "Nenhum projeto corresponde ao filtro.",
-    "loading": "Carregando projetos...",
-    "error": "Não foi possível carregar os projetos. Tente novamente."
+    "viewCode": "Ver código-fonte",
+    "viewDemo": "Abrir experiência",
+    "empty": "Nenhum case corresponde ao filtro.",
+    "loading": "Carregando cases...",
+    "error": "Não foi possível carregar os cases. Tente novamente.",
+    "caseCtas": {
+      "ReactGram": "Ver case study",
+      "netflix_clone": "Abrir experiência",
+      "movies_lib": "Ver sistema",
+      "secret_word": "Explorar arquitetura",
+      "tasks-flask-crud": "Ver case study",
+      "sample-flask-auth": "Explorar arquitetura",
+      "HTML-CSS": "Abrir experiência"
+    },
+    "capabilities": {
+      "react": "Arquitetura de componentes",
+      "javascript": "Runtime no cliente",
+      "css": "Layout e estilo",
+      "html": "Estrutura semântica",
+      "python": "Runtime de serviço",
+      "flask": "Camada HTTP API",
+      "rest-api": "Integração REST",
+      "vite": "Pipeline de build",
+      "docker": "Runtime containerizado",
+      "mysql": "Persistência relacional"
+    }
   },
   "validation": {
     "required": "Este campo é obrigatório",

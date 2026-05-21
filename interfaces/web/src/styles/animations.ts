@@ -1,20 +1,27 @@
 // Libraries
 import { Variants, Transition } from 'framer-motion';
 
+// Components
+import { motionPresets } from './motionPresets';
+
+export const motionEase = motionPresets.ease.out;
+
+export const motionEaseSoft = motionPresets.ease.inOut;
+
 // ============================================
 // Page Transitions
 // ============================================
 
 export const pageVariants: Variants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: motionPresets.distance.pageEnter },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 },
+  exit: { opacity: 0, y: -motionPresets.distance.pageExit },
 };
 
 export const pageTransition: Transition = {
   type: 'tween',
-  ease: 'anticipate',
-  duration: 0.4,
+  ease: motionEase,
+  duration: motionPresets.duration.page,
 };
 
 // ============================================
@@ -25,18 +32,78 @@ export const staggerContainer: Variants = {
   initial: {},
   animate: {
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
+      staggerChildren: motionPresets.stagger.child,
+      delayChildren: motionPresets.stagger.delayChildren,
     },
   },
 };
 
 export const staggerItem: Variants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: motionPresets.distance.item },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    transition: {
+      duration: motionPresets.duration.staggerItem,
+      ease: motionEase,
+    },
+  },
+};
+
+export const editorialStaggerContainer: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: motionPresets.stagger.editorialChild,
+      delayChildren: motionPresets.stagger.editorialDelay,
+    },
+  },
+};
+
+export const editorialStaggerItem: Variants = {
+  initial: { opacity: 0, y: motionPresets.distance.editorial },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+    },
+  },
+};
+
+export const showcaseStaggerContainer: Variants = {
+  initial: {},
+  animate: {
+    transition: {
+      staggerChildren: motionPresets.stagger.showcaseChild,
+      delayChildren: motionPresets.stagger.showcaseDelay,
+    },
+  },
+};
+
+export const showcaseStaggerItem: Variants = {
+  initial: { opacity: 0, y: motionPresets.distance.showcase, scale: 0.98 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+    },
+  },
+};
+
+export const heroClipReveal: Variants = {
+  hidden: { opacity: 0, y: motionPresets.distance.heroReveal },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.hero,
+      ease: motionEase,
+    },
   },
 };
 
@@ -51,38 +118,38 @@ export const fadeIn: Variants = {
 };
 
 export const fadeInUp: Variants = {
-  initial: { opacity: 0, y: 60 },
+  initial: { opacity: 0, y: motionPresets.distance.fadeUp },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] },
+    transition: { duration: motionPresets.duration.slow, ease: motionEase },
   },
 };
 
 export const fadeInDown: Variants = {
-  initial: { opacity: 0, y: -60 },
+  initial: { opacity: 0, y: -motionPresets.distance.fadeSide },
   animate: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] },
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
   },
 };
 
 export const fadeInLeft: Variants = {
-  initial: { opacity: 0, x: -60 },
+  initial: { opacity: 0, x: -motionPresets.distance.fadeSide },
   animate: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] },
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
   },
 };
 
 export const fadeInRight: Variants = {
-  initial: { opacity: 0, x: 60 },
+  initial: { opacity: 0, x: motionPresets.distance.fadeSide },
   animate: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: [0.6, -0.05, 0.01, 0.99] },
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
   },
 };
 
@@ -91,22 +158,22 @@ export const fadeInRight: Variants = {
 // ============================================
 
 export const scaleIn: Variants = {
-  initial: { opacity: 0, scale: 0.9 },
+  initial: { opacity: 0, scale: 0.96 },
   animate: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.3, ease: 'easeOut' },
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
   },
   exit: {
     opacity: 0,
-    scale: 0.9,
-    transition: { duration: 0.2, ease: 'easeIn' },
+    scale: 0.98,
+    transition: { duration: motionPresets.duration.fast, ease: motionEaseSoft },
   },
 };
 
 export const scaleOnHover: Variants = {
   initial: { scale: 1 },
-  hover: { scale: 1.05 },
+  hover: { scale: 1.02 },
   tap: { scale: 0.98 },
 };
 
@@ -119,21 +186,21 @@ export const heroTextReveal: Variants = {
   animate: {
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: [0.6, 0.01, -0.05, 0.95],
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
     },
   },
 };
 
 export const heroSubtitle: Variants = {
-  initial: { opacity: 0, y: 20 },
+  initial: { opacity: 0, y: motionPresets.distance.item },
   animate: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.6,
-      delay: 0.4,
-      ease: 'easeOut',
+      duration: motionPresets.duration.normal,
+      delay: 0.28,
+      ease: motionEase,
     },
   },
 };
@@ -142,18 +209,15 @@ export const heroSubtitle: Variants = {
 // Interactive Animations
 // ============================================
 
-/**
- * Pulse animation target for infinite loop effect.
- */
 export const pulse: {
   scale: number[];
   opacity: number[];
   transition: { duration: number; repeat: number; ease: string };
 } = {
-  scale: [1, 1.2, 1],
-  opacity: [1, 0.8, 1],
+  scale: [1, 1.08, 1],
+  opacity: [1, 0.85, 1],
   transition: {
-    duration: 2,
+    duration: 2.4,
     repeat: Infinity,
     ease: 'easeInOut',
   },
@@ -161,12 +225,38 @@ export const pulse: {
 
 export const typingDot: Variants = {
   animate: {
-    y: [0, -5, 0],
+    y: [0, -4, 0],
+    opacity: [0.45, 1, 0.45],
     transition: {
-      duration: 0.6,
+      duration: 0.55,
       repeat: Infinity,
       ease: 'easeInOut',
     },
+  },
+};
+
+export const messageEnter: Variants = {
+  initial: { opacity: 0, y: motionPresets.distance.message, scale: 0.98 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: motionPresets.duration.message, ease: motionEase },
+  },
+};
+
+/** Context module panel — operational transition (no decorative fade-up). */
+export const modulePanelSwitch: Variants = {
+  initial: { opacity: 0, x: -motionPresets.distance.fadeSide },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+  exit: {
+    opacity: 0,
+    x: motionPresets.distance.fadeSide,
+    transition: { duration: motionPresets.duration.fast, ease: motionEaseSoft },
   },
 };
 
@@ -195,16 +285,16 @@ export const mobileMenuVariants: Variants = {
     opacity: 0,
     x: '100%',
     transition: {
-      duration: 0.3,
-      ease: 'easeIn',
+      duration: motionPresets.duration.normal,
+      ease: motionEaseSoft,
     },
   },
   open: {
     opacity: 1,
     x: 0,
     transition: {
-      duration: 0.4,
-      ease: 'easeOut',
+      duration: motionPresets.duration.page,
+      ease: motionEase,
     },
   },
 };
@@ -229,14 +319,10 @@ export const hamburgerBottom: Variants = {
 // ============================================
 
 export const cardHover: Variants = {
-  initial: {
-    y: 0,
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-  },
+  initial: { y: 0 },
   hover: {
-    y: -8,
-    boxShadow: '0 12px 24px rgba(0, 0, 0, 0.2)',
-    transition: { duration: 0.3, ease: 'easeOut' },
+    y: -4,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
   },
 };
 
@@ -244,22 +330,16 @@ export const cardHover: Variants = {
 // Utility Functions
 // ============================================
 
-/**
- * Creates parallax Y offset animation properties.
- */
 export const parallaxY = (
   offset: number
 ): { y: number; transition: { type: string; stiffness: number } } => ({
   y: offset,
-  transition: { type: 'spring', stiffness: 100 },
+  transition: { type: 'spring', stiffness: 120 },
 });
 
-/**
- * Creates stagger delay animation properties based on index.
- */
 export const createStaggerDelay = (
   index: number,
-  baseDelay: number = 0.1
+  baseDelay: number = motionPresets.stagger.child
 ): { transition: { delay: number } } => ({
   transition: { delay: index * baseDelay },
 });

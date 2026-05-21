@@ -2,14 +2,14 @@
 import React, { lazy, Suspense } from 'react';
 
 // Libraries
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 // Components
+import { AdminGuestRoute } from './components/admin';
 import { Layout } from './components/layout';
 import { Spinner } from './components/common/Spinner';
 import { PageLoaderWrapper } from './Router.style';
 
-// Lazy load pages for code splitting
 const Home = lazy(() =>
   import('./pages/Home').then((m) => ({ default: m.Home }))
 );
@@ -22,14 +22,13 @@ const Skills = lazy(() =>
 const Projects = lazy(() =>
   import('./pages/Projects').then((m) => ({ default: m.Projects }))
 );
-const LiveLab = lazy(() =>
-  import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
-);
 const Contact = lazy(() =>
   import('./pages/Contact').then((m) => ({ default: m.Contact }))
 );
+const LiveLab = lazy(() =>
+  import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
+);
 
-// Admin pages
 const AdminLogin = lazy(() =>
   import('./pages/admin/Login').then((m) => ({ default: m.Login }))
 );
@@ -43,102 +42,52 @@ const AdminLayout = lazy(() =>
   import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout }))
 );
 
-// Page loader component
 const PageLoader: React.FC = () => (
   <PageLoaderWrapper>
     <Spinner size="lg" />
   </PageLoaderWrapper>
 );
 
-// Router configuration
+const withSuspense = (element: React.ReactElement): React.ReactElement => (
+  <Suspense fallback={<PageLoader />}>{element}</Suspense>
+);
+
 const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
-      {
-        index: true,
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Home />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'about',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'skills',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Skills />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'projects',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Projects />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'live-lab',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <LiveLab />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'contact',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Contact />
-          </Suspense>
-        ),
-      },
+      { index: true, element: withSuspense(<Home />) },
+      { path: 'about', element: withSuspense(<About />) },
+      { path: 'skills', element: withSuspense(<Skills />) },
+      { path: 'projects', element: withSuspense(<Projects />) },
+      { path: 'contact', element: withSuspense(<Contact />) },
+      { path: 'live-lab', element: withSuspense(<LiveLab />) },
+      { path: 'home', element: <Navigate to="/" replace /> },
     ],
   },
   {
     path: '/admin',
     children: [
       {
-        path: 'login',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AdminLogin />
-          </Suspense>
-        ),
+        element: <AdminGuestRoute />,
+        children: [
+          {
+            path: 'login',
+            element: withSuspense(<AdminLogin />),
+          },
+        ],
       },
       {
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AdminLayout />
-          </Suspense>
-        ),
+        element: withSuspense(<AdminLayout />),
         children: [
           {
             index: true,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <AdminDashboard />
-              </Suspense>
-            ),
+            element: withSuspense(<AdminDashboard />),
           },
           {
             path: 'chat',
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <AdminChat />
-              </Suspense>
-            ),
+            element: withSuspense(<AdminChat />),
           },
         ],
       },

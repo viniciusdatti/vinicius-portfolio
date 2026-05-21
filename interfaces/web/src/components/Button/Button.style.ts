@@ -4,6 +4,9 @@ import styled from 'styled-components';
 // Types
 import type { ButtonVariant } from './Button.types';
 
+// Components
+import { buttonShine } from '../../styles/surfaces';
+
 interface StyledButtonProps {
   $variant?: ButtonVariant;
 }
@@ -12,28 +15,37 @@ export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.sizes.button.paddingY}
+    ${({ theme }) => theme.sizes.button.paddingX};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
   cursor: pointer;
-  border: 2px solid transparent;
-  min-height: 48px;
+  border: 1px solid transparent;
+  min-height: ${({ theme }) => theme.sizes.button.minHeight};
   box-sizing: border-box;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-    transform 0.15s ease;
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   ${({ $variant = 'primary', theme }) => {
     switch ($variant) {
       case 'primary':
         return `
-          background-color: ${theme.colors.primary};
-          color: white;
-          border-color: ${theme.colors.primary};
+          background: ${theme.colors.gradientButtonPrimary};
+          color: ${theme.colors.onPrimary};
+          border-color: transparent;
+          box-shadow: ${theme.shadows.sm}, ${theme.shadows.glow};
+          ${buttonShine};
 
           &:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            box-shadow: ${theme.shadows.md}, ${theme.shadows.glow};
+            transform: translateY(-${theme.motion.distance.liftSm});
           };
 
           &:active {
@@ -42,14 +54,15 @@ export const StyledButton = styled.button<StyledButtonProps>`
         `;
       case 'secondary':
         return `
-          background-color: transparent;
+          background: ${theme.colors.surfaceGlass};
           color: ${theme.colors.text};
           border-color: ${theme.colors.border};
+          backdrop-filter: ${theme.effects.backdrop.glass};
 
           &:hover {
-            border-color: ${theme.colors.primary};
-            color: ${theme.colors.primary};
-            transform: translateY(-1px);
+            border-color: ${theme.colors.borderLight};
+            background: ${theme.colors.surfaceHover};
+            transform: translateY(-${theme.motion.distance.liftSm});
           };
 
           &:active {
@@ -61,12 +74,12 @@ export const StyledButton = styled.button<StyledButtonProps>`
         return `
           background-color: transparent;
           color: ${theme.colors.primary};
-          border-color: ${theme.colors.primary};
+          border-color: ${theme.colors.primaryBorderFaint};
 
           &:hover {
-            background-color: ${theme.colors.primary};
-            color: white;
-            transform: translateY(-1px);
+            background-color: ${theme.colors.primaryLight};
+            border-color: ${theme.colors.primary};
+            transform: translateY(-${theme.motion.distance.liftSm});
           };
 
           &:active {

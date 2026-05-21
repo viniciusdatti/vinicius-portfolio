@@ -22,12 +22,18 @@ export interface SubmitButtonStyleProps {
  * Centers content with responsive padding.
  */
 export const PageContainer = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.pageY}
+    ${({ theme }) => theme.spacing.pageX};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.xxl}
+      ${({ theme }) => theme.spacing.lg};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
+    max-width: ${({ theme }) => theme.layout.contentWide};
   };
 `;
 
@@ -43,7 +49,9 @@ export const PageHeader = styled.div`
  * Animated page title with responsive font sizing.
  */
 export const PageTitle = styled(motion.h1)`
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: ${({ theme }) => theme.typography.fontSize.display};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
@@ -73,10 +81,12 @@ export const ContentGrid = styled.div`
  * Container for the contact form with surface styling.
  */
 export const FormSection = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  border-radius: ${({ theme }) => theme.borderRadius.xxl};
   padding: ${({ theme }) => theme.spacing.xxl};
+  box-shadow: ${({ theme }) => theme.elevation.md};
 `;
 
 /**
@@ -192,7 +202,7 @@ export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
  */
 export const SuccessMessage = styled(motion.div)`
   padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.success}20;
+  background-color: ${({ theme }) => theme.colors.successSurface};
   color: ${({ theme }) => theme.colors.success};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   text-align: center;
@@ -262,11 +272,8 @@ export const InfoItem = styled.a`
  * Call-to-action card for live chat feature.
  */
 export const ChatCTACard = styled(motion.div)`
-  background: linear-gradient(135deg, 
-    ${({ theme }) => theme.colors.primary}15, 
-    ${({ theme }) => theme.colors.surface}
-  );
-  border: 1px solid ${({ theme }) => theme.colors.primary}30;
+  background: ${({ theme }) => theme.colors.gradientContactChatCta};
+  border: 1px solid ${({ theme }) => theme.colors.primaryBorderStrong};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
