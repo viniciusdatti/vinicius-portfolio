@@ -1,0 +1,66 @@
+---
+description: Frontend engineer + QA via MCP — live browser inspection on Vite dev server
+globs:
+  - interfaces/web/**/*
+alwaysApply: false
+---
+
+# Frontend MCP — runtime inspection + fixes (not automated tests)
+
+## MCP servers (`.cursor/mcp.json`)
+
+| Server | Role |
+|--------|------|
+| **filesystem** | Read/edit monorepo roots (`interfaces/web`, `backend`, `docs`) |
+| **shell** | `@mako10k/mcp-shell-server` — build, test, dev (cwd: `interfaces/web`) |
+| **playwright** | Live app at **http://localhost:5173** — navigate, interact, a11y snapshot |
+
+## Forbidden unless the user explicitly asks
+
+- `.spec.ts`, `e2e/`, Playwright Test CI runners
+- Scaffolding automated test suites via MCP
+- Destructive git/shell (`push --force`, `reset --hard`, `rm -rf` outside safe paths)
+
+## Playwright MCP — use for
+
+- Open app, navigate public routes, forms, mobile menu
+- `browser_console_messages`, `browser_network_requests`
+- `browser_snapshot` (accessibility), `browser_take_screenshot` (layout)
+- `browser_resize`: `375×812`, `768×1024`, `1280×720`
+- Fix issues with minimal diffs, then re-validate
+
+## App URL and routes
+
+Base: `http://localhost:5173` (Vite). API Docker: `http://localhost:8000`
+
+Public: `/`, `/about`, `/skills`, `/projects`, `/live-lab`, `/contact`
+
+Admin: `/admin/login`, `/admin`, `/admin/chat`
+
+## Required workflow
+
+1. Confirm dev server: `yarn dev` in `interfaces/web` → port **5173**; API via `docker compose up` or local uvicorn
+2. **Playwright**: walk relevant routes, console/network/snapshots at multiple viewports
+3. **Shell** (frontend cwd):
+   - `yarn build`
+   - `yarn test --watchAll=false` when logic changed
+4. Fix runtime, UI, a11y, TS issues; respect `.cursor/rules/*`
+5. Re-run build + browser validation
+
+## Stack note
+
+Frontend uses **Vite** (`yarn dev`), port **5173**. Backend/Postgres via Docker per `docs/DOCKER.md`.
+
+## Architecture standards (when editing code)
+
+- Grouped imports with section comments
+- No `function` keyword; arrow + explicit types
+- Enums from `src/types/` for domain values
+- `initialState` for component state
+- No inline `style={{}}` in JSX — use `*.style.ts`
+- Max **100** characters per line
+
+## Scope
+
+- Do not redesign UI without need
+- Stabilize runtime, layout, a11y, and consistency with existing patterns
