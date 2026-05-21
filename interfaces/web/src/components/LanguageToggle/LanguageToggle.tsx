@@ -11,7 +11,7 @@ import type { LanguageToggleProps } from './LanguageToggle.types';
 import { ToggleWrapper, LangButton } from './LanguageToggle.style';
 
 export const LanguageToggle: React.FC<LanguageToggleProps> = ({ className }) => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const currentLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en-US';
 
   return (
@@ -21,7 +21,7 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({ className }) => 
         $active={currentLang === 'pt-BR'}
         onClick={() => i18n.changeLanguage('pt-BR')}
         aria-pressed={currentLang === 'pt-BR'}
-        aria-label="Português"
+        aria-label={t('a11y.langPt')}
       >
         PT
       </LangButton>
@@ -30,7 +30,7 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({ className }) => 
         $active={currentLang === 'en-US'}
         onClick={() => i18n.changeLanguage('en-US')}
         aria-pressed={currentLang === 'en-US'}
-        aria-label="English"
+        aria-label={t('a11y.langEn')}
       >
         EN
       </LangButton>

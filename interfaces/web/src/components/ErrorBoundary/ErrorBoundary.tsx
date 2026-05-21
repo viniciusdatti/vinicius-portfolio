@@ -35,7 +35,7 @@ export class ErrorBoundary extends Component<
   render(): React.ReactNode {
     if (this.state.hasError) {
       return (
-        <ErrorContainer>
+        <ErrorContainer role="alert" aria-live="assertive">
           <ErrorTitle>{t('common.errorTitle')}</ErrorTitle>
           <ErrorText>{t('common.errorMessage')}</ErrorText>
           <Button onClick={this.handleReload}>

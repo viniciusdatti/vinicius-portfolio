@@ -7,6 +7,7 @@ import React, { useCallback } from 'react';
 
 // Libraries
 import { AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 // Types
 import type { DrawerProps } from './Drawer.types';
@@ -27,6 +28,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   title,
   children,
 }) => {
+  const { t } = useTranslation();
   const handleOverlayClick = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -50,7 +52,11 @@ export const Drawer: React.FC<DrawerProps> = ({
           >
             <DrawerHeader>
               <DrawerTitle>{title}</DrawerTitle>
-              <DrawerCloseButton type="button" onClick={onClose} aria-label="Close">
+              <DrawerCloseButton
+                type="button"
+                onClick={onClose}
+                aria-label={t('a11y.drawerClose')}
+              >
                 <svg
                   width="20"
                   height="20"

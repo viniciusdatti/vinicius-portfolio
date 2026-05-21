@@ -12,12 +12,18 @@ import { motion } from 'framer-motion';
  * Centers content with responsive padding.
  */
 export const PageContainer = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.pageY}
+    ${({ theme }) => theme.spacing.pageX};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.xxl}
+      ${({ theme }) => theme.spacing.lg};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
+    max-width: ${({ theme }) => theme.layout.contentWide};
   };
 `;
 
@@ -33,7 +39,9 @@ export const PageHeader = styled.div`
  * Animated page title with responsive font sizing.
  */
 export const PageTitle = styled(motion.h1)`
-  font-size: clamp(2rem, 5vw, 3rem);
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: ${({ theme }) => theme.typography.fontSize.display};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 

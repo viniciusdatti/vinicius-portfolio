@@ -3,6 +3,7 @@ import React from 'react';
 
 // Libraries
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 // Store
 import { useThemeStore } from '../../../store';
@@ -48,7 +49,10 @@ const MoonIcon = (): React.ReactElement => (
 );
 
 export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
+  const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeStore();
+  const themeLabel: string =
+    mode === 'dark' ? t('a11y.themeLight') : t('a11y.themeDark');
 
   return (
     <ToggleButton
@@ -56,12 +60,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
       onClick={toggleTheme}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      aria-label={
-        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-      }
-      title={
-        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-      }
+      aria-label={themeLabel}
+      title={themeLabel}
     >
       <motion.div
         key={mode}

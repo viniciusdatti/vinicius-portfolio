@@ -1,5 +1,5 @@
 /**
- * @fileoverview Projects page. Table + filter + drawer with real API data (v2-style).
+ * @fileoverview Projects page — premium product showcase (bento grid + case drawer).
  */
 
 // Core
@@ -11,56 +11,63 @@ import { useTranslation } from 'react-i18next';
 // Types
 import type { Project } from '../../data/types';
 import type { Technology } from '../../data/types';
+import { Language } from '../../types';
 
 // Components
 import { FilterBar, Drawer } from '../../components/showcase';
+import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { useProjects } from '../../hooks';
+import { resolveTechnologyCapabilityLabel } from '../../utils/projectCaseCopy';
 
 // Styles
 import { fadeInUp } from '../../styles/animations';
 import {
   PageContainer,
   PageHeader,
+  PageHeaderMain,
+  PageHeaderAside,
+  PageEyebrow,
   PageTitle,
   PageSubtitle,
-  Section,
-  SectionTitle,
-  TableWrapper,
-  Table,
-  TableHead,
-  TableHeaderCell,
-  TableBody,
-  TableRow,
-  TableCell,
+  Toolbar,
   SearchInput,
+  ShowcaseSection,
   DrawerDetailRow,
   DrawerDetailLabel,
   DrawerDetailValue,
   DrawerLinks,
   DrawerLink,
   TechList,
+  TechTag,
   ErrorMessage,
   RetryButton,
   EmptyMessage,
+  LoadingMessage,
 } from './Projects.style';
 
-/**
- * Returns unique technologies from projects, sorted by name.
- */
+/* ***********************************************************************************************
+ ****************************************** METHODS ***********************************************
+ *********************************************************************************************** */
+
 const getUniqueTechnologies = (projects: Project[]): Technology[] => {
   const seen = new Map<string, Technology>();
-  projects.forEach((p) => {
-    p.technologies.forEach((t) => {
-      if (!seen.has(t.slug)) seen.set(t.slug, t);
+  projects.forEach((p: Project) => {
+    p.technologies.forEach((tech: Technology) => {
+      if (!seen.has(tech.slug)) {
+        seen.set(tech.slug, tech);
+      }
     });
   });
-  return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name));
+  return Array.from(seen.values()).sort((a: Technology, b: Technology) =>
+    a.name.localeCompare(b.name)
+  );
 };
 
-/**
- * Projects page: list with technology filter, search, and detail drawer (real data).
- */
-export const Projects: React.FC = () => {
+/* ***********************************************************************************************
+ *************************************** COMPONENT HANDLING **************************************
+ *********************************************************************************************** */
+
+export const Projects: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects = [], isLoading, isError, refetch } = useProjects();
   const [techFilter, setTechFilter] = useState<string>('all');
@@ -68,6 +75,7 @@ export const Projects: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
+  const currentLanguage: Language = isPt ? Language.Pt : Language.En;
 
   const technologies: Technology[] = useMemo(
     () => getUniqueTechnologies(projects),
@@ -79,9 +87,9 @@ export const Projects: React.FC = () => {
     const items: { key: string; label: string; count: number }[] = [
       { key: 'all', label: allLabel, count: projects.length },
     ];
-    technologies.forEach((tech) => {
-      const count: number = projects.filter((p) =>
-        p.technologies.some((t) => t.slug === tech.slug)
+    technologies.forEach((tech: Technology) => {
+      const count: number = projects.filter((p: Project) =>
+        p.technologies.some((item: Technology) => item.slug === tech.slug)
       ).length;
       items.push({ key: tech.slug, label: tech.name, count });
     });
@@ -91,15 +99,15 @@ export const Projects: React.FC = () => {
   const filteredProjects = useMemo(() => {
     let list: Project[] = projects;
     if (techFilter !== 'all') {
-      list = list.filter((p) =>
-        p.technologies.some((t) => t.slug === techFilter)
+      list = list.filter((p: Project) =>
+        p.technologies.some((item: Technology) => item.slug === techFilter)
       );
     }
-    const q = search.trim().toLowerCase();
+    const q: string = search.trim().toLowerCase();
     if (q) {
       const title = (p: Project): string =>
         (isPt ? p.title_pt ?? p.title : p.title).toLowerCase();
-      list = list.filter((p) => title(p).includes(q));
+      list = list.filter((p: Project) => title(p).includes(q));
     }
     return list;
   }, [projects, techFilter, search, isPt]);
@@ -115,23 +123,29 @@ export const Projects: React.FC = () => {
     [isPt]
   );
 
-  const handleCloseDrawer = useCallback(() => {
+  const handleCloseDrawer = useCallback((): void => {
     setSelectedProject(null);
+  }, []);
+
+  const handleSelectProject = useCallback((project: Project): void => {
+    setSelectedProject(project);
   }, []);
 
   if (isError) {
     return (
       <PageContainer>
         <PageHeader>
-          <PageTitle>{t('projects.title')}</PageTitle>
-          <PageSubtitle>{t('projects.subtitle')}</PageSubtitle>
+          <PageHeaderMain>
+            <PageTitle>{t('projects.title')}</PageTitle>
+            <PageSubtitle>{t('projects.subtitle')}</PageSubtitle>
+          </PageHeaderMain>
         </PageHeader>
-        <Section>
+        <ShowcaseSection>
           <ErrorMessage>{t('projects.error')}</ErrorMessage>
           <RetryButton type="button" onClick={() => refetch()}>
             {t('common.retry')}
           </RetryButton>
-        </Section>
+        </ShowcaseSection>
       </PageContainer>
     );
   }
@@ -139,74 +153,61 @@ export const Projects: React.FC = () => {
   return (
     <PageContainer>
       <PageHeader>
-        <PageTitle
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
-        >
-          {t('projects.title')}
-        </PageTitle>
-        <PageSubtitle
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
-        >
-          {t('projects.subtitle')}
-        </PageSubtitle>
+        <PageHeaderMain>
+          <PageEyebrow>{t('projects.showcase.eyebrow')}</PageEyebrow>
+          <PageTitle
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+          >
+            {t('projects.title')}
+          </PageTitle>
+        </PageHeaderMain>
+        <PageHeaderAside>
+          <PageSubtitle
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+          >
+            {t('projects.showcase.lead')}
+          </PageSubtitle>
+        </PageHeaderAside>
       </PageHeader>
 
-      <Section>
-        <SectionTitle>{t('projects.sectionList')}</SectionTitle>
+      <Toolbar>
         <FilterBar
-          filters={filters.map((f) => ({ key: f.key, label: f.label, count: f.count }))}
+          filters={filters.map((f) => ({
+            key: f.key,
+            label: f.label,
+            count: f.count,
+          }))}
           selectedKey={techFilter}
           onSelect={setTechFilter}
         />
         <SearchInput
-          type="text"
+          type="search"
           placeholder={t('projects.searchPlaceholder')}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
+            setSearch(e.target.value)
+          }
+          aria-label={t('projects.searchPlaceholder')}
         />
-        <TableWrapper>
-          <Table>
-            <TableHead>
-              <tr>
-                <TableHeaderCell>{t('projects.table.title')}</TableHeaderCell>
-                <TableHeaderCell>{t('projects.table.technologies')}</TableHeaderCell>
-              </tr>
-            </TableHead>
-            <TableBody>
-              {isLoading ? (
-                <TableRow>
-                  <TableCell colSpan={2}>{t('projects.loading')}</TableCell>
-                </TableRow>
-              ) : filteredProjects.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={2}>
-                    <EmptyMessage>{t('projects.empty')}</EmptyMessage>
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filteredProjects.map((project) => (
-                  <TableRow
-                    key={project.id}
-                    $clickable
-                    onClick={() => setSelectedProject(project)}
-                  >
-                    <TableCell>{projectTitle(project)}</TableCell>
-                    <TableCell>
-                      <TechList>
-                        {project.technologies.map((t) => t.name).join(', ')}
-                      </TechList>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableWrapper>
-      </Section>
+      </Toolbar>
+
+      <ShowcaseSection>
+        {isLoading ? (
+          <LoadingMessage>{t('projects.loading')}</LoadingMessage>
+        ) : filteredProjects.length === 0 ? (
+          <EmptyMessage>{t('projects.empty')}</EmptyMessage>
+        ) : (
+          <ProjectShowcaseGrid
+            projects={filteredProjects}
+            language={currentLanguage}
+            onSelectProject={handleSelectProject}
+          />
+        )}
+      </ShowcaseSection>
 
       <Drawer
         open={selectedProject != null}
@@ -215,25 +216,27 @@ export const Projects: React.FC = () => {
       >
         {selectedProject != null && (
           <>
-            <DrawerDetailRow>
-              <DrawerDetailLabel>{t('projects.table.title')}</DrawerDetailLabel>
-              <DrawerDetailValue>
-                {projectTitle(selectedProject)}
-              </DrawerDetailValue>
-            </DrawerDetailRow>
             {projectDescription(selectedProject) && (
               <DrawerDetailRow>
-                <DrawerDetailLabel>{t('projects.drawer.description')}</DrawerDetailLabel>
+                <DrawerDetailLabel>
+                  {t('projects.drawer.description')}
+                </DrawerDetailLabel>
                 <DrawerDetailValue>
                   {projectDescription(selectedProject)}
                 </DrawerDetailValue>
               </DrawerDetailRow>
             )}
             <DrawerDetailRow>
-              <DrawerDetailLabel>{t('projects.table.technologies')}</DrawerDetailLabel>
+              <DrawerDetailLabel>
+                {t('projects.table.technologies')}
+              </DrawerDetailLabel>
               <DrawerDetailValue>
                 <TechList>
-                  {selectedProject.technologies.map((t) => t.name).join(', ')}
+                  {selectedProject.technologies.map((tech: Technology) => (
+                    <TechTag key={tech.id}>
+                      {resolveTechnologyCapabilityLabel(tech, t)}
+                    </TechTag>
+                  ))}
                 </TechList>
               </DrawerDetailValue>
             </DrawerDetailRow>

@@ -3,13 +3,15 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const FooterContainer = styled.footer`
-  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
-  background-color: ${({ theme }) => theme.colors.backgroundSecondary};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  padding: ${({ theme }) => theme.spacing.section}
+    ${({ theme }) => theme.spacing.pageX};
+  background: ${({ theme }) => theme.colors.gradientFooter};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  margin-top: ${({ theme }) => theme.spacing.xxl};
 `;
 
 export const FooterContent = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -18,6 +20,10 @@ export const FooterContent = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr;
     text-align: center;
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
+    max-width: ${({ theme }) => theme.layout.contentWide};
   };
 `;
 
@@ -28,10 +34,11 @@ export const FooterSection = styled.div`
 `;
 
 export const FooterLogo = styled.div`
-  font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
 
   span {
@@ -44,6 +51,7 @@ export const FooterDescription = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   margin: 0;
+  max-width: 28rem;
 `;
 
 export const FooterTitle = styled.h4`
@@ -95,17 +103,23 @@ export const SocialLink = styled(motion.a)`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  background-color: ${({ theme }) => theme.colors.surface};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   color: ${({ theme }) => theme.colors.textMuted};
-  transition: background-color ${({ theme }) => theme.transitions.fast},
-              color ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primary};
-    color: white;
+    background: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.onPrimary};
+    transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
   };
 
   svg {
@@ -115,11 +129,11 @@ export const SocialLink = styled(motion.a)`
 `;
 
 export const FooterBottom = styled.div`
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
   margin-top: ${({ theme }) => theme.spacing.xxl};
   padding-top: ${({ theme }) => theme.spacing.lg};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -130,6 +144,10 @@ export const FooterBottom = styled.div`
     justify-content: center;
     text-align: center;
   };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
+    max-width: ${({ theme }) => theme.layout.contentWide};
+  };
 `;
 
 export const Copyright = styled.p`
@@ -139,11 +157,12 @@ export const Copyright = styled.p`
 `;
 
 export const TechStack = styled.p`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textMuted};
   margin: 0;
 
   span {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.accent};
   };
 `;

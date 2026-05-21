@@ -11,6 +11,7 @@ import { Language } from '../../types';
 
 // Components
 import { Card } from '../Card';
+import { resolveTechnologyCapabilityLabel } from '../../utils/projectCaseCopy';
 import { H2, Text } from '../Typography';
 import {
   Grid,
@@ -66,7 +67,9 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({
           </ProjectDescription>
           <TagList>
             {project.technologies.map((tech) => (
-              <Tag key={tech.id}>{tech.name}</Tag>
+              <Tag key={tech.id}>
+                {resolveTechnologyCapabilityLabel(tech, t)}
+              </Tag>
             ))}
           </TagList>
           <ProjectLinks>

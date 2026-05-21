@@ -19,14 +19,17 @@ export const MenuContainer = styled(motion.nav)`
   bottom: 0;
   width: 100%;
   max-width: 320px;
-  background-color: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.menu};
+  -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.menu};
   z-index: ${({ theme }) => theme.zIndex.modal};
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
-  padding-top: 100px;
+  padding-top: 5.5rem;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   border-left: 1px solid ${({ theme }) => theme.colors.border};
+  box-shadow: ${({ theme }) => theme.elevation.xl};
 `;
 
 export const MenuNav = styled.div`

@@ -1,10 +1,51 @@
 // Libraries
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import styled, { css } from 'styled-components';
 
-/* ************** LAYOUT MAIN ******************* */
+/* ************** SKIP LINK ******************* */
 
-export const Main = styled(motion.main)`
-  min-height: 100vh;
-  padding-top: 80px; /* Header height */
+export const SkipLink = styled.a`
+  position: fixed;
+  top: ${({ theme }) => theme.spacing.md};
+  left: ${({ theme }) => theme.spacing.md};
+  z-index: ${({ theme }) => theme.zIndex.toast + 1};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  background-color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  text-decoration: none;
+  transform: translateY(-${({ theme }) => theme.motion.distance.skipLinkHidden});
+  opacity: ${({ theme }) => theme.effects.opacity.skipLinkHidden};
+  pointer-events: none;
+  transition:
+    transform ${({ theme }) => theme.transitions.fast},
+    opacity ${({ theme }) => theme.transitions.fast};
+
+  &:focus {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  };
+`;
+
+/* ************** MAIN ******************* */
+
+export const Main = styled.main<{ $workspaceMode?: boolean }>`
+  outline: none;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding-top: ${({ theme }) => theme.sizes.layout.headerOffset};
+
+  ${({ $workspaceMode, theme }) =>
+    $workspaceMode
+      ? css`
+          min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
+          height: calc(100vh - ${theme.sizes.layout.headerOffset});
+          overflow: hidden;
+        `
+      : css`
+          min-height: 100vh;
+          overflow-x: hidden;
+        `};
 `;

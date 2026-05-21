@@ -17,6 +17,7 @@ import {
 } from '../../styles/animations';
 
 // Components
+import { publicAssetUrl } from '../../config/env';
 import {
   PageContainer,
   PageTitle,
@@ -65,7 +66,7 @@ export const About: React.FC = () => {
           whileHover={{ scale: 1.03 }}
         >
           <img
-            src={`${process.env.PUBLIC_URL ?? ''}/avatar.png`}
+            src={publicAssetUrl('avatar.png')}
             alt="Vinicius"
           />
         </Avatar>
