@@ -13,8 +13,7 @@
     "prebuild": "yarn generate-favicon",
     "mcp:install-browsers": "yarn dlx playwright install chromium",
     "qa:audit": "node scripts/qa-audit.mjs",
-    "qa:workspace": "node scripts/workspace-flow-audit.mjs",
-    "qa:visual": "node scripts/visual-inspect.mjs"
+    "qa:workspace": "node scripts/workspace-flow-audit.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

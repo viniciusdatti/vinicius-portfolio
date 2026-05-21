@@ -100,64 +100,64 @@ export const Header: React.FC = (): React.ReactElement => {
         }}
       >
         <HeaderShell $scrolled={state.scrolled}>
-        <HeaderContent>
-          <Logo
-            to="/"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            aria-label={t('home.hero.name')}
-          >
-            <LogoMark>{t('system.logoMark')}</LogoMark>
-            <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
-          </Logo>
-
-          <HeaderCenter>
-            <Nav>
-              {navItems.map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  $active={location.pathname === item.path}
-                >
-                  {t(item.labelKey)}
-                </NavLink>
-              ))}
-            </Nav>
-          </HeaderCenter>
-
-          <HeaderTrailing>
-            <HeaderStatusPills />
-            <HeaderActions>
-            <LanguageToggle />
-            <ThemeToggle />
-            <HamburgerButton
-              onClick={() =>
-                setState((prev: HeaderState) => ({
-                  ...prev,
-                  mobileMenuOpen: !prev.mobileMenuOpen,
-                }))
-              }
-              aria-label={
-                state.mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')
-              }
-              aria-expanded={state.mobileMenuOpen}
+          <HeaderContent>
+            <Logo
+              to="/"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              aria-label={t('home.hero.name')}
             >
-              <HamburgerLine
-                variants={hamburgerTop}
-                animate={state.mobileMenuOpen ? 'open' : 'closed'}
-              />
-              <HamburgerLine
-                variants={hamburgerMiddle}
-                animate={state.mobileMenuOpen ? 'open' : 'closed'}
-              />
-              <HamburgerLine
-                variants={hamburgerBottom}
-                animate={state.mobileMenuOpen ? 'open' : 'closed'}
-              />
-            </HamburgerButton>
-            </HeaderActions>
-          </HeaderTrailing>
-        </HeaderContent>
+              <LogoMark>{t('system.logoMark')}</LogoMark>
+              <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
+            </Logo>
+
+            <HeaderCenter>
+              <Nav>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    $active={location.pathname === item.path}
+                  >
+                    {t(item.labelKey)}
+                  </NavLink>
+                ))}
+              </Nav>
+            </HeaderCenter>
+
+            <HeaderTrailing>
+              <HeaderStatusPills />
+              <HeaderActions>
+                <LanguageToggle />
+                <ThemeToggle />
+                <HamburgerButton
+                  onClick={() =>
+                    setState((prev: HeaderState) => ({
+                      ...prev,
+                      mobileMenuOpen: !prev.mobileMenuOpen,
+                    }))
+                  }
+                  aria-label={
+                    state.mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')
+                  }
+                  aria-expanded={state.mobileMenuOpen}
+                >
+                  <HamburgerLine
+                    variants={hamburgerTop}
+                    animate={state.mobileMenuOpen ? 'open' : 'closed'}
+                  />
+                  <HamburgerLine
+                    variants={hamburgerMiddle}
+                    animate={state.mobileMenuOpen ? 'open' : 'closed'}
+                  />
+                  <HamburgerLine
+                    variants={hamburgerBottom}
+                    animate={state.mobileMenuOpen ? 'open' : 'closed'}
+                  />
+                </HamburgerButton>
+              </HeaderActions>
+            </HeaderTrailing>
+          </HeaderContent>
         </HeaderShell>
       </HeaderContainer>
 
