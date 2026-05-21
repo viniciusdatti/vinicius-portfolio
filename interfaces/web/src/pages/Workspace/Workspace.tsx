@@ -9,8 +9,8 @@ import { WorkspaceShell } from '../../components/workspace/WorkspaceShell';
  *********************************************************************************************** */
 
 /**
- * Live Lab — realtime engineering showcase (operational workspace surface).
+ * @deprecated Use pages/LiveLab — workspace shell is only mounted at /live-lab.
  */
-export const LiveLab: React.FC = (): React.ReactElement => {
+export const Workspace: React.FC = (): React.ReactElement => {
   return <WorkspaceShell />;
 };
