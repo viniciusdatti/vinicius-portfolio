@@ -10,13 +10,14 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Get the backend directory (resolved absolute path so .env is found regardless of CWD)
 BACKEND_DIR = Path(__file__).resolve().parent.parent.parent
+_ENV_FILE_PATH = BACKEND_DIR / ".env"
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables and backend/.env."""
 
     model_config = SettingsConfigDict(
-        env_file=str(BACKEND_DIR / ".env"),
+        env_file=str(_ENV_FILE_PATH) if _ENV_FILE_PATH.exists() else None,
         env_file_encoding="utf-8",
         case_sensitive=False,
     )
@@ -25,7 +26,10 @@ class Settings(BaseSettings):
     database_url: str = f"sqlite:///{BACKEND_DIR}/portfolio.db"
 
     # CORS
-    cors_origins: str = "http://localhost:3000,http://localhost:3001,http://localhost:5173"
+    cors_origins: str = (
+        "http://localhost:5173,http://127.0.0.1:5173,"
+        "http://localhost:3000,http://127.0.0.1:3000"
+    )
 
     # Environment
     environment: str = "development"

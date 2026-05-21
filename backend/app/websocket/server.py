@@ -3,8 +3,6 @@
 # Core
 import logging
 import asyncio
-from typing import Dict, Set
-
 # Libraries
 import socketio
 from sqlalchemy.orm import Session
@@ -13,7 +11,7 @@ from sqlalchemy.orm import Session
 from app.db.session import SessionLocal
 
 # App - Models
-from app.models.chat import ChatSession, ChatMessage, ChatStatus, SenderType
+from app.models.chat import SenderType
 from app.models.user import User, UserRole
 
 # App - Core
@@ -22,6 +20,8 @@ from app.core.security import decode_token
 
 # App - Services
 from app.services.telegram import telegram_service
+from app.services.chat_service import ChatService
+from app.services import chat_connection_registry as registry
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -34,11 +34,26 @@ sio = socketio.AsyncServer(
     engineio_logger=settings.is_development,
 )
 
-# Track connected admins and their socket IDs
-connected_admins: Set[str] = set()
+async def _emit_admin_lobby(event: str, data: dict) -> None:
+    """Broadcast admin-scoped events to the shared lobby room."""
+    await sio.emit(
+        event,
+        data,
+        room=registry.ADMIN_LOBBY_ROOM,
+        namespace="/admin-chat",
+    )
 
-# Track visitor sessions: session_id -> socket_id
-visitor_sessions: Dict[str, str] = {}
+
+async def _emit_admin_presence_to_visitors() -> None:
+    """Notify visitors how many admin sockets are connected."""
+    await sio.emit(
+        "admin_status",
+        {
+            "is_online": registry.has_connected_admin(),
+            "admin_count": registry.connected_admin_count(),
+        },
+        namespace="/chat",
+    )
 
 
 def get_db() -> Session:
@@ -61,7 +76,10 @@ async def visitor_connect(sid, environ):
     # Send admin online status
     await sio.emit(
         "admin_status",
-        {"is_online": len(connected_admins) > 0},
+        {
+            "is_online": registry.has_connected_admin(),
+            "admin_count": registry.connected_admin_count(),
+        },
         room=sid,
         namespace="/chat",
     )
@@ -72,16 +90,12 @@ async def visitor_disconnect(sid):
     """Handle visitor disconnection."""
     logger.info(f"Visitor disconnected: {sid}")
     # Remove from visitor sessions
-    for session_id, socket_id in list(visitor_sessions.items()):
-        if socket_id == sid:
-            del visitor_sessions[session_id]
-            # Notify admins
-            await sio.emit(
-                "visitor_disconnected",
-                {"session_id": session_id},
-                namespace="/admin-chat",
-            )
-            break
+    session_id = registry.unbind_visitor_socket(sid)
+    if session_id:
+        await _emit_admin_lobby(
+            "visitor_disconnected",
+            {"session_id": session_id},
+        )
 
 
 @sio.on("start_session", namespace="/chat")
@@ -92,17 +106,9 @@ async def start_session(sid, data):
 
     db = get_db()
     try:
-        # Create new session
-        session = ChatSession(
-            visitor_name=visitor_name,
-            visitor_company=visitor_company,
-        )
-        db.add(session)
-        db.commit()
-        db.refresh(session)
-
-        # Track visitor
-        visitor_sessions[session.session_id] = sid
+        chat = ChatService(db)
+        session = chat.create_session(visitor_name, visitor_company)
+        registry.bind_visitor_session(session.session_id, sid)
 
         # Join room for this session
         await sio.enter_room(sid, session.session_id, namespace="/chat")
@@ -119,19 +125,13 @@ async def start_session(sid, data):
         )
 
         # Notify admins
-        await sio.emit(
+        await _emit_admin_lobby(
             "new_session",
-            {
-                "session_id": session.session_id,
-                "visitor_name": visitor_name,
-                "visitor_company": visitor_company,
-                "started_at": session.started_at.isoformat(),
-            },
-            namespace="/admin-chat",
+            chat.new_session_payload(session),
         )
 
         # Send Telegram notification if no admin is online
-        if len(connected_admins) == 0:
+        if not registry.has_connected_admin():
             asyncio.create_task(
                 telegram_service.send_chat_notification(
                     visitor_name=visitor_name,
@@ -154,14 +154,12 @@ async def rejoin_session(sid, data):
 
     db = get_db()
     try:
-        session = db.query(ChatSession).filter(
-            ChatSession.session_id == session_id,
-            ChatSession.status == ChatStatus.ACTIVE,
-        ).first()
+        chat = ChatService(db)
+        session = chat.get_session_by_uuid(session_id, active_only=True)
         if not session:
             return
 
-        visitor_sessions[session_id] = sid
+        registry.bind_visitor_session(session_id, sid)
         await sio.enter_room(sid, session_id, namespace="/chat")
         await sio.emit(
             "rejoin_ok",
@@ -185,35 +183,18 @@ async def visitor_send_message(sid, data):
 
     db = get_db()
     try:
-        # Find session
-        session = db.query(ChatSession).filter(
-            ChatSession.session_id == session_id
-        ).first()
-
+        chat = ChatService(db)
+        session = chat.get_session_by_uuid(session_id)
         if not session:
             return
 
-        # Create message
-        message = ChatMessage(
-            session_id=session.id,
-            content=content[:5000],  # Limit message length
-            sender_type=SenderType.VISITOR,
+        message = chat.create_message(
+            session,
+            content,
+            SenderType.VISITOR,
+            increment_unread=True,
         )
-        db.add(message)
-        
-        # Update unread count
-        session.unread_count += 1
-        
-        db.commit()
-        db.refresh(message)
-
-        message_data = {
-            "id": message.id,
-            "session_id": session_id,
-            "content": message.content,
-            "sender_type": "visitor",
-            "created_at": message.created_at.isoformat(),
-        }
+        message_data = chat.message_payload(message, session)
 
         # Send to visitor (confirmation)
         await sio.emit(
@@ -223,15 +204,10 @@ async def visitor_send_message(sid, data):
             namespace="/chat",
         )
 
-        # Send to admins
-        await sio.emit(
-            "new_message",
-            message_data,
-            namespace="/admin-chat",
-        )
+        await _emit_admin_lobby("new_message", message_data)
 
         # Send Telegram notification if no admin is online
-        if len(connected_admins) == 0:
+        if not registry.has_connected_admin():
             asyncio.create_task(
                 telegram_service.send_new_message_notification(
                     visitor_name=session.visitor_name,
@@ -249,10 +225,9 @@ async def visitor_typing(sid, data):
     """Handle visitor typing indicator."""
     session_id = data.get("session_id")
     if session_id:
-        await sio.emit(
+        await _emit_admin_lobby(
             "visitor_typing",
             {"session_id": session_id},
-            namespace="/admin-chat",
         )
 
 
@@ -282,29 +257,19 @@ async def admin_connect(sid, environ, auth):
     finally:
         db.close()
     logger.info(f"Admin connected: {sid}")
-    connected_admins.add(sid)
-    
-    # Notify all visitors that admin is online
-    await sio.emit(
-        "admin_status",
-        {"is_online": True},
-        namespace="/chat",
-    )
+    registry.register_admin(sid)
+    await sio.enter_room(sid, registry.ADMIN_LOBBY_ROOM, namespace="/admin-chat")
+    await _emit_admin_presence_to_visitors()
 
 
 @sio.on("disconnect", namespace="/admin-chat")
 async def admin_disconnect(sid):
     """Handle admin disconnection."""
     logger.info(f"Admin disconnected: {sid}")
-    connected_admins.discard(sid)
-    
-    # If no more admins, notify visitors
-    if len(connected_admins) == 0:
-        await sio.emit(
-            "admin_status",
-            {"is_online": False},
-            namespace="/chat",
-        )
+    registry.unregister_admin(sid)
+
+    if not registry.has_connected_admin():
+        await _emit_admin_presence_to_visitors()
 
 
 @sio.on("join_session", namespace="/admin-chat")
@@ -312,7 +277,11 @@ async def admin_join_session(sid, data):
     """Admin joins a chat session."""
     session_id = data.get("session_id")
     if session_id:
-        await sio.enter_room(sid, f"admin_{session_id}", namespace="/admin-chat")
+        await sio.enter_room(
+            sid,
+            registry.admin_session_room(session_id),
+            namespace="/admin-chat",
+        )
         logger.info(f"Admin {sid} joined session {session_id}")
 
 
@@ -327,32 +296,18 @@ async def admin_send_message(sid, data):
 
     db = get_db()
     try:
-        # Find session
-        session = db.query(ChatSession).filter(
-            ChatSession.session_id == session_id
-        ).first()
-
+        chat = ChatService(db)
+        session = chat.get_session_by_uuid(session_id)
         if not session:
             return
 
-        # Create message
-        message = ChatMessage(
-            session_id=session.id,
-            content=content[:5000],
-            sender_type=SenderType.ADMIN,
-            is_read=True,  # Admin messages are already "read"
+        message = chat.create_message(
+            session,
+            content,
+            SenderType.ADMIN,
+            mark_read=True,
         )
-        db.add(message)
-        db.commit()
-        db.refresh(message)
-
-        message_data = {
-            "id": message.id,
-            "session_id": session_id,
-            "content": message.content,
-            "sender_type": "admin",
-            "created_at": message.created_at.isoformat(),
-        }
+        message_data = chat.message_payload(message, session)
 
         # Send to visitor
         await sio.emit(
@@ -362,12 +317,7 @@ async def admin_send_message(sid, data):
             namespace="/chat",
         )
 
-        # Send to all admins
-        await sio.emit(
-            "new_message",
-            message_data,
-            namespace="/admin-chat",
-        )
+        await _emit_admin_lobby("new_message", message_data)
 
         logger.info(f"Message from admin in session {session_id}")
     finally:
@@ -397,20 +347,15 @@ async def mark_messages_read(sid, data):
 
     db = get_db()
     try:
-        session = db.query(ChatSession).filter(
-            ChatSession.session_id == session_id
-        ).first()
-
+        chat = ChatService(db)
+        session = chat.get_session_by_uuid(session_id)
         if session:
-            # Mark all visitor messages as read
-            db.query(ChatMessage).filter(
-                ChatMessage.session_id == session.id,
-                ChatMessage.sender_type == SenderType.VISITOR,
-                ChatMessage.is_read == False,
-            ).update({"is_read": True})
-            
-            session.unread_count = 0
-            db.commit()
+            chat.mark_visitor_messages_read(session)
+            db.refresh(session)
+            await _emit_admin_lobby(
+                "session_updated",
+                chat.session_updated_payload(session),
+            )
     finally:
         db.close()
 
@@ -425,15 +370,10 @@ async def close_session(sid, data):
 
     db = get_db()
     try:
-        session = db.query(ChatSession).filter(
-            ChatSession.session_id == session_id
-        ).first()
-
+        chat = ChatService(db)
+        session = chat.get_session_by_uuid(session_id)
         if session:
-            from datetime import datetime, timezone
-            session.status = ChatStatus.CLOSED
-            session.closed_at = datetime.now(timezone.utc)
-            db.commit()
+            chat.close_session(session)
 
             # Notify visitor
             await sio.emit(

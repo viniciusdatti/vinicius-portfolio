@@ -13,7 +13,11 @@ from app.models.chat import ChatSession, ChatMessage, ChatStatus
 from app.models.user import User
 
 # App - Schemas
-from app.schemas.chat import ChatSessionListItem, ChatMessageAdminResponse
+from app.schemas.chat import (
+    ChatSessionListItem,
+    ChatMessageAdminResponse,
+    ChatMessageResponse,
+)
 
 # App - API
 from app.api.v1.endpoints.auth import get_current_admin_user
@@ -87,6 +91,49 @@ async def list_session_messages(
             is_read=m.is_read,
             created_at=m.created_at,
             session_id=session.session_id,
+        )
+        for m in messages
+    ]
+
+
+@router.get(
+    "/sessions/{session_id}/visitor-messages",
+    response_model=list[ChatMessageResponse],
+)
+async def list_visitor_session_messages(
+    session_id: str,
+    db: Session = Depends(get_db),
+):
+    """
+    Read-only history for an active visitor session (resume after page reload).
+    No auth: limited to ACTIVE sessions by public session UUID.
+    """
+    session = (
+        db.query(ChatSession)
+        .filter(
+            ChatSession.session_id == session_id,
+            ChatSession.status == ChatStatus.ACTIVE,
+        )
+        .first()
+    )
+    if not session:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Session not found or not active",
+        )
+    messages = (
+        db.query(ChatMessage)
+        .filter(ChatMessage.session_id == session.id)
+        .order_by(ChatMessage.created_at)
+        .all()
+    )
+    return [
+        ChatMessageResponse(
+            id=m.id,
+            content=m.content,
+            sender_type=m.sender_type,
+            is_read=m.is_read,
+            created_at=m.created_at,
         )
         for m in messages
     ]
