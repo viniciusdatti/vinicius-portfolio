@@ -8,12 +8,15 @@ import React, { useState, useRef, useEffect } from 'react';
 
 // Libraries
 import { AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 // Types
 import { ChatMessageSenderType } from '../../../types';
 
 // Components
+import { messageEnter } from '../../../styles/animations';
 import { useAdminChat } from '../../../hooks/useAdminChat';
+import { scrollToContainerEnd } from '../../../utils/scrollToContainerEnd';
 import { useAdminChatEvents } from '../../../hooks/useAdminChatEvents';
 import {
   PageContainer,
@@ -70,8 +73,10 @@ interface ChatState {
  * Displays a list of active chat sessions and provides an interface for responding.
  */
 export const Chat: React.FC = (): React.ReactElement => {
+  const { t, i18n } = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const receivedEvents = useAdminChatEvents();
+  const dateLocale: string = i18n.language;
 
   /* ***********************************************************************************************
   **************************************** INITIAL STATE *******************************************
@@ -82,8 +87,7 @@ export const Chat: React.FC = (): React.ReactElement => {
     eventsOpen: false,
   };
 
-  const [inputValue, setInputValue] = useState<string>(initialState.inputValue);
-  const [eventsOpen, setEventsOpen] = useState<boolean>(initialState.eventsOpen);
+  const [state, setState] = useState<ChatState>(initialState);
 
   /* ***********************************************************************************************
   ****************************************** EFFECTS ***********************************************
@@ -104,7 +108,7 @@ export const Chat: React.FC = (): React.ReactElement => {
    * Scrolls to the bottom of the messages container when messages change.
    */
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    scrollToContainerEnd(messagesEndRef.current, 'smooth');
   }, [activeMessages]);
 
   /* ***********************************************************************************************
@@ -115,9 +119,9 @@ export const Chat: React.FC = (): React.ReactElement => {
    * Handles sending a message to the active session.
    */
   const handleSend = (): void => {
-    if (inputValue.trim()) {
-      sendMessage(inputValue);
-      setInputValue('');
+    if (state.inputValue.trim()) {
+      sendMessage(state.inputValue);
+      setState((prev: ChatState) => ({ ...prev, inputValue: '' }));
     }
   };
 
@@ -136,7 +140,7 @@ export const Chat: React.FC = (): React.ReactElement => {
    * Handles input changes and triggers typing indicator.
    */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setInputValue(e.target.value);
+    setState((prev: ChatState) => ({ ...prev, inputValue: e.target.value }));
     if (e.target.value) {
       sendTyping();
     }
@@ -146,7 +150,7 @@ export const Chat: React.FC = (): React.ReactElement => {
    * Formats a date string to time format (HH:MM).
    */
   const formatTime = (dateString: string): string => {
-    return new Date(dateString).toLocaleTimeString('pt-BR', {
+    return new Date(dateString).toLocaleTimeString(dateLocale, {
       hour: '2-digit',
       minute: '2-digit',
     });
@@ -165,7 +169,7 @@ export const Chat: React.FC = (): React.ReactElement => {
       return formatTime(dateString);
     }
     
-    return date.toLocaleDateString('pt-BR', {
+    return date.toLocaleDateString(dateLocale, {
       day: '2-digit',
       month: '2-digit',
       hour: '2-digit',
@@ -180,11 +184,11 @@ export const Chat: React.FC = (): React.ReactElement => {
   return (
     <PageContainer>
       <Header>
-        <BackLink to="/admin">← Voltar ao Dashboard</BackLink>
+        <BackLink to="/admin">{t('admin.chat.back')}</BackLink>
         <HeaderTitle>
-          <Title>💬 Chat Admin</Title>
+          <Title>💬 {t('admin.chat.title')}</Title>
           <ConnectionBadge $connected={isConnected}>
-            {isConnected ? 'Conectado' : 'Desconectado'}
+            {isConnected ? t('admin.chat.connected') : t('admin.chat.disconnected')}
           </ConnectionBadge>
         </HeaderTitle>
         <div />
@@ -194,15 +198,15 @@ export const Chat: React.FC = (): React.ReactElement => {
         <Sidebar>
           <SidebarHeader>
             <SidebarTitle>
-              Conversas ({sessions.length})
+              {t('admin.chat.conversations', { count: sessions.length })}
             </SidebarTitle>
           </SidebarHeader>
           <SessionList>
             {sessions.length === 0 ? (
               <EmptyState>
-                <p>🔔 Nenhuma conversa ativa</p>
+                <p>🔔 {t('admin.chat.emptyTitle')}</p>
                 <EmptyStateDescription>
-                  As conversas aparecerão aqui quando visitantes iniciarem um chat no Live Lab.
+                  {t('admin.chat.emptyDescription')}
                 </EmptyStateDescription>
               </EmptyState>
             ) : (
@@ -225,11 +229,11 @@ export const Chat: React.FC = (): React.ReactElement => {
                   )}
                   <SessionMeta>
                     {session.is_typing ? (
-                      <TypingBadge>digitando...</TypingBadge>
+                      <TypingBadge>{t('admin.chat.typing')}</TypingBadge>
                     ) : session.last_message ? (
                       <LastMessage>{session.last_message}</LastMessage>
                     ) : (
-                      <LastMessage>Nova conversa</LastMessage>
+                      <LastMessage>{t('admin.chat.newConversation')}</LastMessage>
                     )}
                     {session.unread_count > 0 && (
                       <UnreadBadge>{session.unread_count}</UnreadBadge>
@@ -242,23 +246,26 @@ export const Chat: React.FC = (): React.ReactElement => {
           <EventsSection>
             <EventsToggle
               type="button"
-              onClick={() => setEventsOpen((o) => !o)}
-              aria-expanded={eventsOpen}
+              onClick={() =>
+                setState((prev: ChatState) => ({
+                  ...prev,
+                  eventsOpen: !prev.eventsOpen,
+                }))
+              }
+              aria-expanded={state.eventsOpen}
             >
-              Eventos recebidos ({receivedEvents.length})
+              {t('admin.chat.eventsToggle', { count: receivedEvents.length })}
             </EventsToggle>
-            {eventsOpen && (
+            {state.eventsOpen && (
               <EventsList>
                 {receivedEvents.length === 0 ? (
-                  <EventsListEmpty>
-                    Nenhum evento ainda. Eventos do socket aparecem aqui com a conexão ativa.
-                  </EventsListEmpty>
+                  <EventsListEmpty>{t('admin.chat.eventsEmpty')}</EventsListEmpty>
                 ) : (
                   [...receivedEvents].reverse().map((ev, i) => (
                     <EventItem key={`${ev.at}-${i}`}>
                       <span data-type={ev.type}>{ev.type}</span>
                       <span data-time={ev.at}>
-                        {new Date(ev.at).toLocaleTimeString()}
+                        {new Date(ev.at).toLocaleTimeString(dateLocale)}
                       </span>
                       {ev.type === 'new_message' &&
                         typeof ev.data === 'object' &&
@@ -284,11 +291,13 @@ export const Chat: React.FC = (): React.ReactElement => {
                   <h3>👤 {activeSession.visitor_name}</h3>
                   <span>
                     {activeSession.visitor_company && `🏢 ${activeSession.visitor_company} • `}
-                    Iniciado às {formatTime(activeSession.started_at)}
+                    {t('admin.chat.startedAt', {
+                      time: formatTime(activeSession.started_at),
+                    })}
                   </span>
                 </ChatHeaderInfo>
                 <CloseButton onClick={() => closeSession(activeSession.session_id)}>
-                  Encerrar conversa
+                  {t('admin.chat.closeSession')}
                 </CloseButton>
               </ChatHeader>
 
@@ -298,9 +307,9 @@ export const Chat: React.FC = (): React.ReactElement => {
                     <Message
                       key={msg.id}
                       $isAdmin={msg.sender_type === ChatMessageSenderType.Admin}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.2 }}
+                      variants={messageEnter}
+                      initial="initial"
+                      animate="animate"
                     >
                       <MessageContent>{msg.content}</MessageContent>
                       <MessageTime>{formatTime(msg.created_at)}</MessageTime>
@@ -312,28 +321,28 @@ export const Chat: React.FC = (): React.ReactElement => {
 
               <ChatFooter>
                 <MessageInput
-                  value={inputValue}
+                  value={state.inputValue}
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
-                  placeholder="Digite sua resposta..."
+                  placeholder={t('admin.chat.placeholder')}
                   maxLength={5000}
                 />
                 <SendButton
                   onClick={handleSend}
-                  disabled={!inputValue.trim()}
+                  disabled={!state.inputValue.trim()}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  Enviar
+                  {t('admin.chat.send')}
                 </SendButton>
               </ChatFooter>
             </>
           ) : (
             <NoChatSelected>
-              <h3>💬 Chat em Tempo Real</h3>
-              <p>Selecione uma conversa na lista para começar a responder.</p>
+              <h3>💬 {t('admin.chat.noChatTitle')}</h3>
+              <p>{t('admin.chat.noChatDescription')}</p>
               <NoChatSelectedDescription>
-                Você receberá notificações quando novos visitantes iniciarem conversas.
+                {t('admin.chat.noChatHint')}
               </NoChatSelectedDescription>
             </NoChatSelected>
           )}

@@ -40,6 +40,14 @@ export enum Language {
   En = 'en',
 }
 
+/** Workspace context modes — operational modules, not marketing sections. */
+export enum WorkspaceModule {
+  Identity = 'identity',
+  Cases = 'cases',
+  Capabilities = 'capabilities',
+  Channel = 'channel',
+}
+
 /** Status for showcase status cards (HighlightCard-style). */
 export enum HighlightCardStatus {
   Neutral = 'neutral',
@@ -155,3 +163,10 @@ export interface PaginatedResponse<T> {
   per_page: number;
   total_pages: number;
 }
+
+export * from './system-events';
+export * from './chat';
+export * from './chat-api';
+export * from './chat-socket';
+export * from './chat-mappers';
+export * from './admin-chat';

@@ -6,9 +6,20 @@
 // Libraries
 import { io, Socket } from 'socket.io-client';
 
+// Components
+import { env } from '../config/env';
+
+// Types
+import type {
+  ChatSocketAdminStatusPayload,
+  ChatSocketMessagePayload,
+  ChatSocketSessionScopePayload,
+  ChatSocketSessionStartedPayload,
+} from '../types/chat-socket';
+
 /** Base URL for Socket.IO (root, not /api/v1 - socket is mounted at server root) */
 const SOCKET_URL: string = (() => {
-  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+  const apiUrl: string = env.apiUrl;
   return apiUrl.replace(/\/api\/v1\/?$/, '') || 'http://localhost:8000';
 })();
 
@@ -117,7 +128,7 @@ class SocketService {
   /**
    * Registers callback for incoming messages.
    */
-  onMessage(callback: (data: any) => void): void {
+  onMessage(callback: (data: ChatSocketMessagePayload) => void): void {
     if (this.socket) {
       this.socket.on('message', callback);
     }
@@ -126,7 +137,7 @@ class SocketService {
   /**
    * Registers callback for admin online status updates.
    */
-  onAdminStatus(callback: (data: { is_online: boolean }) => void): void {
+  onAdminStatus(callback: (data: ChatSocketAdminStatusPayload) => void): void {
     if (this.socket) {
       this.socket.on('admin_status', callback);
     }
@@ -135,7 +146,7 @@ class SocketService {
   /**
    * Registers callback for admin typing indicator.
    */
-  onAdminTyping(callback: (data: { session_id: string }) => void): void {
+  onAdminTyping(callback: (data: ChatSocketSessionScopePayload) => void): void {
     if (this.socket) {
       this.socket.on('admin_typing', callback);
     }
@@ -145,7 +156,7 @@ class SocketService {
    * Registers callback for session started event.
    */
   onSessionStarted(
-    callback: (data: { session_id: string; visitor_name: string }) => void
+    callback: (data: ChatSocketSessionStartedPayload) => void
   ): void {
     if (this.socket) {
       this.socket.on('session_started', callback);
@@ -155,7 +166,7 @@ class SocketService {
   /**
    * Registers callback for session closed event.
    */
-  onSessionClosed(callback: (data: { session_id: string }) => void): void {
+  onSessionClosed(callback: (data: ChatSocketSessionScopePayload) => void): void {
     if (this.socket) {
       this.socket.on('session_closed', callback);
     }
@@ -254,55 +265,6 @@ class SocketService {
   closeSession(sessionId: string): void {
     if (this.adminSocket) {
       this.adminSocket.emit('close_session', { session_id: sessionId });
-    }
-  }
-
-  /**
-   * Registers callback for new session events.
-   */
-  onNewSession(callback: (data: any) => void): void {
-    if (this.adminSocket) {
-      this.adminSocket.on('new_session', callback);
-    }
-  }
-
-  /**
-   * Registers callback for new message events.
-   */
-  onNewMessage(callback: (data: any) => void): void {
-    if (this.adminSocket) {
-      this.adminSocket.on('new_message', callback);
-    }
-  }
-
-  /**
-   * Registers callback for visitor typing indicator.
-   */
-  onVisitorTyping(callback: (data: { session_id: string }) => void): void {
-    if (this.adminSocket) {
-      this.adminSocket.on('visitor_typing', callback);
-    }
-  }
-
-  /**
-   * Registers callback for visitor disconnect events.
-   */
-  onVisitorDisconnected(callback: (data: { session_id: string }) => void): void {
-    if (this.adminSocket) {
-      this.adminSocket.on('visitor_disconnected', callback);
-    }
-  }
-
-  /**
-   * Removes all admin event listeners (e.g. when Chat page unmounts).
-   * Does not disconnect; AdminLayout owns the connection lifecycle.
-   */
-  removeAdminListeners(): void {
-    if (this.adminSocket) {
-      this.adminSocket.off('new_session');
-      this.adminSocket.off('new_message');
-      this.adminSocket.off('visitor_typing');
-      this.adminSocket.off('visitor_disconnected');
     }
   }
 

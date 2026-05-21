@@ -6,7 +6,14 @@
 // Core
 import React, { useState, useCallback } from 'react';
 
+// Libraries
+import { useTranslation } from 'react-i18next';
+
+// Components
+import { env } from '../../../config/env';
+
 // Store
+import { useAdminChatStore } from '../../../store/adminChatStore';
 import { useAuthStore } from '../../../store';
 
 // Styles
@@ -43,8 +50,7 @@ import {
  *
  * @returns {React.ReactElement} The rendered Dashboard component
  */
-const API_BASE: string =
-  process.env.REACT_APP_API_URL || 'http://localhost:8000/api/v1';
+const API_BASE: string = env.apiUrl;
 
 interface ChangePasswordState {
   currentPassword: string;
@@ -59,7 +65,13 @@ const initialChangePasswordState: ChangePasswordState = {
 };
 
 export const Dashboard: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
   const { user, tokens, logout } = useAuthStore();
+  const chatSessions = useAdminChatStore((s) => s.sessions);
+  const chatUnreadTotal: number = chatSessions.reduce(
+    (sum, session) => sum + session.unread_count,
+    0
+  );
   const [passwordForm, setPasswordForm] = useState<ChangePasswordState>(
     initialChangePasswordState
   );
@@ -88,19 +100,25 @@ export const Dashboard: React.FC = (): React.ReactElement => {
       e.preventDefault();
       setPasswordMessage(null);
       if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-        setPasswordMessage({ text: 'As senhas não conferem.', error: true });
+        setPasswordMessage({
+          text: t('admin.dashboard.errors.mismatch'),
+          error: true,
+        });
         return;
       }
       if (passwordForm.newPassword.length < 8) {
         setPasswordMessage({
-          text: 'A nova senha deve ter no mínimo 8 caracteres.',
+          text: t('admin.dashboard.errors.minLength'),
           error: true,
         });
         return;
       }
       const token: string | undefined = tokens?.access_token;
       if (!token) {
-        setPasswordMessage({ text: 'Sessão inválida. Faça login novamente.', error: true });
+        setPasswordMessage({
+          text: t('admin.dashboard.errors.invalidSession'),
+          error: true,
+        });
         return;
       }
       setPasswordSubmitting(true);
@@ -123,25 +141,25 @@ export const Dashboard: React.FC = (): React.ReactElement => {
           const detail: string =
             typeof data?.detail === 'string'
               ? data.detail
-              : 'Erro ao alterar senha.';
+              : t('admin.dashboard.errors.generic');
           setPasswordMessage({ text: detail, error: true });
           return;
         }
         setPasswordMessage({
-          text: 'Senha alterada com sucesso.',
+          text: t('admin.dashboard.passwordSuccess'),
           error: false,
         });
         setPasswordForm(initialChangePasswordState);
       } catch {
         setPasswordMessage({
-          text: 'Erro de conexão. Tente novamente.',
+          text: t('admin.dashboard.errors.network'),
           error: true,
         });
       } finally {
         setPasswordSubmitting(false);
       }
     },
-    [passwordForm, tokens?.access_token]
+    [passwordForm, t, tokens?.access_token]
   );
 
   return (
@@ -151,13 +169,15 @@ export const Dashboard: React.FC = (): React.ReactElement => {
           Admin<span>.</span>
         </Logo>
         <UserInfo>
-          <UserName>{user?.name || 'Admin'}</UserName>
-          <LogoutButton onClick={handleLogout}>Sair</LogoutButton>
+          <UserName>{user?.name || t('admin.dashboard.fallbackName')}</UserName>
+          <LogoutButton onClick={handleLogout}>
+            {t('admin.dashboard.logout')}
+          </LogoutButton>
         </UserInfo>
       </Header>
 
       <Content>
-        <Title>Dashboard</Title>
+        <Title>{t('admin.dashboard.title')}</Title>
 
         <StatsGrid
           variants={staggerContainer}
@@ -165,42 +185,48 @@ export const Dashboard: React.FC = (): React.ReactElement => {
           animate="animate"
         >
           <StatCard variants={staggerItem}>
-            <StatValue>0</StatValue>
-            <StatLabel>Chats Ativos</StatLabel>
+            <StatValue>{chatSessions.length}</StatValue>
+            <StatLabel>{t('admin.dashboard.stats.activeChats')}</StatLabel>
+          </StatCard>
+          <StatCard variants={staggerItem}>
+            <StatValue>{chatUnreadTotal}</StatValue>
+            <StatLabel>{t('admin.dashboard.stats.unread')}</StatLabel>
           </StatCard>
           <StatCard variants={staggerItem}>
             <StatValue>0</StatValue>
-            <StatLabel>Mensagens Hoje</StatLabel>
+            <StatLabel>{t('admin.dashboard.stats.messagesToday')}</StatLabel>
           </StatCard>
           <StatCard variants={staggerItem}>
             <StatValue>0</StatValue>
-            <StatLabel>Contatos Pendentes</StatLabel>
+            <StatLabel>{t('admin.dashboard.stats.pendingContacts')}</StatLabel>
           </StatCard>
           <StatCard variants={staggerItem}>
             <StatValue>14</StatValue>
-            <StatLabel>Skills Cadastradas</StatLabel>
+            <StatLabel>{t('admin.dashboard.stats.skills')}</StatLabel>
           </StatCard>
         </StatsGrid>
 
-        <SectionTitle>Ações Rápidas</SectionTitle>
+        <SectionTitle>{t('admin.dashboard.quickActions')}</SectionTitle>
         <QuickActions>
           <ActionCard to="/admin/chat">
             <span>💬</span>
-            <h3>Chat</h3>
-            <p>Gerenciar conversas</p>
+            <h3>{t('admin.dashboard.chatActionTitle')}</h3>
+            <p>{t('admin.dashboard.chatActionDesc')}</p>
           </ActionCard>
           <ActionCard to="/">
             <span>🌐</span>
-            <h3>Ver Site</h3>
-            <p>Abrir portfólio</p>
+            <h3>{t('admin.dashboard.siteActionTitle')}</h3>
+            <p>{t('admin.dashboard.siteActionDesc')}</p>
           </ActionCard>
         </QuickActions>
 
         <SecuritySection variants={staggerItem}>
-          <SecurityTitle>Alterar senha</SecurityTitle>
+          <SecurityTitle>{t('admin.dashboard.changePassword')}</SecurityTitle>
           <PasswordForm onSubmit={handleChangePassword}>
             <FormGroup>
-              <FormLabel htmlFor="current-password">Senha atual</FormLabel>
+              <FormLabel htmlFor="current-password">
+                {t('admin.dashboard.currentPassword')}
+              </FormLabel>
               <FormInput
                 id="current-password"
                 type="password"
@@ -216,7 +242,9 @@ export const Dashboard: React.FC = (): React.ReactElement => {
               />
             </FormGroup>
             <FormGroup>
-              <FormLabel htmlFor="new-password">Nova senha (mín. 8 caracteres)</FormLabel>
+              <FormLabel htmlFor="new-password">
+                {t('admin.dashboard.newPassword')}
+              </FormLabel>
               <FormInput
                 id="new-password"
                 type="password"
@@ -232,7 +260,9 @@ export const Dashboard: React.FC = (): React.ReactElement => {
               />
             </FormGroup>
             <FormGroup>
-              <FormLabel htmlFor="confirm-password">Confirmar nova senha</FormLabel>
+              <FormLabel htmlFor="confirm-password">
+                {t('admin.dashboard.confirmPassword')}
+              </FormLabel>
               <FormInput
                 id="confirm-password"
                 type="password"
@@ -253,7 +283,9 @@ export const Dashboard: React.FC = (): React.ReactElement => {
               </FormMessage>
             )}
             <SubmitButton type="submit" disabled={passwordSubmitting}>
-              {passwordSubmitting ? 'Alterando...' : 'Alterar senha'}
+              {passwordSubmitting
+                ? t('admin.dashboard.submittingPassword')
+                : t('admin.dashboard.submitPassword')}
             </SubmitButton>
           </PasswordForm>
         </SecuritySection>
