@@ -89,6 +89,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   variant,
   canvasTone,
   indexLabel,
+  isSelected,
   onSelect,
 }): React.ReactElement => {
   const { t } = useTranslation();
@@ -108,6 +109,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
       data-variant={variant}
       $variant={variant}
       $canvasTone={canvasTone}
+      $selected={isSelected}
       variants={showcaseStaggerItem}
       tabIndex={0}
       role="button"

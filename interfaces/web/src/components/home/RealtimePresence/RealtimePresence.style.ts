@@ -59,6 +59,24 @@ export const PresencePill = styled.span<{ $tone: 'ok' | 'idle' | 'warn' }>`
       : theme.colors.mutedSurface};
 `;
 
+export const PresenceMicro = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.textMuted};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+`;
+
+export const PresenceMicroDot = styled.span<{ $live: boolean }>`
+  width: ${({ theme }) => theme.sizes.badge.dotSm};
+  height: ${({ theme }) => theme.sizes.badge.dotSm};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  background: ${({ $live, theme }) =>
+    $live ? theme.colors.success : theme.colors.textMuted};
+`;
+
 export const PresenceLink = styled(Link)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};

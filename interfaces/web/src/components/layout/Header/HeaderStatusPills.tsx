@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
-import { useChatStore, useWorkspaceStore } from '../../../store';
+import { useChatStore } from '../../../store';
 import { formatSessionLabel } from '../../../utils/workspaceModule';
 import {
   StatusCluster,
@@ -20,12 +20,12 @@ import {
  *********************************************************************************************** */
 
 /**
- * Compact realtime status — lives inside the single portfolio header (not a second bar).
+ * Header status — minimal API signal on portfolio routes; full transport chrome only in Live Lab.
  */
 export const HeaderStatusPills: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { status, version } = useSystemHealth();
+  const { status } = useSystemHealth();
   const isLiveLab: boolean = location.pathname === '/live-lab';
   const isConnected: boolean = useChatStore((s) => s.isConnected);
   const sessionId: string | null = useChatStore((s) => s.sessionId);
@@ -43,18 +43,29 @@ export const HeaderStatusPills: React.FC = (): React.ReactElement => {
 
   const apiLabel: string = useMemo(() => {
     if (status === SystemHealthStatus.Online) {
-      return t('system.status.apiOnline');
+      return t('header.status.apiOnline');
     }
     if (status === SystemHealthStatus.Offline) {
-      return t('system.status.apiOffline');
+      return t('header.status.apiOffline');
     }
-    return t('system.status.apiChecking');
+    return t('header.status.apiChecking');
   }, [status, t]);
+
+  if (!isLiveLab) {
+    return (
+      <StatusCluster role="status" aria-live="polite">
+        <StatusPill $tone={apiTone}>
+          <StatusDot $tone={apiTone} aria-hidden />
+          {apiLabel}
+        </StatusPill>
+      </StatusCluster>
+    );
+  }
 
   const wsTone: 'ok' | 'warn' | 'idle' = isConnected ? 'ok' : 'warn';
   const wsLabel: string = isConnected
     ? t('system.status.wsLive')
-    : t('system.status.wsIdle');
+    : t('system.status.wsReconnecting');
 
   const presenceTone: 'ok' | 'idle' = isAdminOnline ? 'ok' : 'idle';
   const presenceLabel: string = isAdminOnline
@@ -66,30 +77,21 @@ export const HeaderStatusPills: React.FC = (): React.ReactElement => {
     ? t('system.status.session', { id: sessionLabel })
     : t('system.status.sessionNone');
 
-  const buildLabel: string = version
-    ? t('system.status.build', { version })
-    : t('system.status.buildUnknown');
-
   return (
     <StatusCluster role="status" aria-live="polite">
       <StatusPill $tone={apiTone}>
         <StatusDot $tone={apiTone} aria-hidden />
         {apiLabel}
       </StatusPill>
-      {isLiveLab ? (
-        <>
-          <StatusPill $tone={wsTone}>
-            <StatusDot $tone={wsTone} aria-hidden />
-            {wsLabel}
-          </StatusPill>
-          <StatusPill $tone={presenceTone}>
-            <StatusDot $tone={presenceTone} aria-hidden />
-            {presenceLabel}
-          </StatusPill>
-          <StatusPill $tone="idle">{sessionText}</StatusPill>
-          <StatusPill $tone="idle">{buildLabel}</StatusPill>
-        </>
-      ) : null}
+      <StatusPill $tone={wsTone}>
+        <StatusDot $tone={wsTone} aria-hidden />
+        {wsLabel}
+      </StatusPill>
+      <StatusPill $tone={presenceTone}>
+        <StatusDot $tone={presenceTone} aria-hidden />
+        {presenceLabel}
+      </StatusPill>
+      <StatusPill $tone="idle">{sessionText}</StatusPill>
     </StatusCluster>
   );
 };

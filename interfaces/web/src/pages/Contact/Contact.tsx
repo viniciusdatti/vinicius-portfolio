@@ -17,7 +17,7 @@ import { submitContact, ApiError } from '../../api';
 
 // Styles
 import {
-  fadeInUp,
+  sectionReveal,
   staggerContainer,
   staggerItem,
 } from '../../styles/animations';
@@ -172,14 +172,14 @@ export const Contact: React.FC = (): React.ReactElement => {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={fadeInUp}
+          variants={sectionReveal}
           initial="initial"
           animate="animate"
         >
           {t('contact.title')}
         </PageTitle>
         <PageSubtitle
-          variants={fadeInUp}
+          variants={sectionReveal}
           initial="initial"
           animate="animate"
         >
@@ -189,7 +189,7 @@ export const Contact: React.FC = (): React.ReactElement => {
 
       <ContentGrid>
         <FormSection
-          variants={fadeInUp}
+          variants={sectionReveal}
           initial="initial"
           animate="animate"
         >

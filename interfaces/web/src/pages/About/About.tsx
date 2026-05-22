@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 import {
   staggerContainer,
   staggerItem,
-  fadeInUp,
+  sectionReveal,
 } from '../../styles/animations';
 
 // Components
@@ -49,7 +49,7 @@ export const About: React.FC = () => {
   return (
     <PageContainer>
       <PageTitle
-        variants={fadeInUp}
+        variants={sectionReveal}
         initial="initial"
         animate="animate"
       >
@@ -101,7 +101,7 @@ export const About: React.FC = () => {
       </StatsGrid>
 
       <PhilosophySection
-        variants={fadeInUp}
+        variants={sectionReveal}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}
@@ -113,7 +113,7 @@ export const About: React.FC = () => {
       </PhilosophySection>
 
       <Section
-        variants={fadeInUp}
+        variants={sectionReveal}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true }}

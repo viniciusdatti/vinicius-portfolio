@@ -14,12 +14,18 @@ export enum ProjectCanvasTone {
   C = 2,
 }
 
+export enum ProjectShowcaseDetailMode {
+  Inline = 'inline',
+  Callback = 'callback',
+}
+
 export interface ProjectShowcaseCardProps {
   project: Project;
   language: Language;
   variant: ProjectShowcaseVariant;
   canvasTone: ProjectCanvasTone;
   indexLabel: string;
+  isSelected: boolean;
   onSelect: (project: Project) => void;
 }
 
@@ -27,5 +33,6 @@ export interface ProjectShowcaseGridProps {
   projects: Project[];
   language: Language;
   compact?: boolean;
-  onSelectProject: (project: Project) => void;
+  detailMode?: ProjectShowcaseDetailMode;
+  onSelectProject?: (project: Project) => void;
 }

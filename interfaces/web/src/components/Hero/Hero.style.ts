@@ -83,80 +83,46 @@ export const HeroColumnGuides = styled.div`
   };
 `;
 
-export const HeroWorkspaceTitle = styled.h1`
+export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   margin: 0;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   color: ${({ theme }) => theme.colors.text};
+  max-width: 22ch;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    max-width: none;
+  };
 `;
 
-export const HeroOperatorLine = styled.p`
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin: 0;
-  line-height: ${({ theme }) => theme.typography.lineHeight.normal};
-`;
-
-export const SystemPanel = styled.div`
-  width: min(100%, 420px);
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.shadows.md};
-  overflow: hidden;
-`;
-
-export const SystemPanelHeader = styled.div`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-`;
-
-export const SystemPanelTitle = styled.span`
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.textMuted};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
-  text-transform: uppercase;
-`;
-
-export const SystemPanelBody = styled.div`
+export const HeroVisualCard = styled.div`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.lg};
-`;
-
-export const SystemReadoutRow = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xs};
-`;
-
-export const SystemReadoutLabel = styled.span`
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.textMuted};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
-  text-transform: uppercase;
-`;
-
-export const SystemReadoutValue = styled.span`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.text};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-`;
-
-export const SystemOperatorRow = styled.div`
-  display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding-top: ${({ theme }) => theme.spacing.md};
-  margin-top: ${({ theme }) => theme.spacing.xs};
-  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  gap: ${({ theme }) => theme.spacing.lg};
+  width: min(100%, 380px);
+`;
+
+export const HeroPortrait = styled.div`
+  position: relative;
+  width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
+  height: ${({ theme }) => theme.sizes.avatar.heroEditorial};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+  box-shadow: ${({ theme }) => theme.elevation.lg};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  };
 `;
 
 export const HeroSection = styled.section`
@@ -304,24 +270,6 @@ export const HeroAvatarRing = styled.div`
   pointer-events: none;
 `;
 
-export const HeroAvatar = styled.div`
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  flex-shrink: 0;
-  background: ${({ theme }) => theme.colors.surfaceElevated};
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  };
-`;
 
 export const HeroDecoTag = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

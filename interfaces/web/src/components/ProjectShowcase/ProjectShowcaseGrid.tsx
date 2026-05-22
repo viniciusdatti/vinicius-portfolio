@@ -1,5 +1,5 @@
 // Core
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { Project } from '../../data/types';
 import {
   ProjectCanvasTone,
+  ProjectShowcaseDetailMode,
   ProjectShowcaseVariant,
 } from './ProjectShowcase.types';
 import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
@@ -15,6 +16,7 @@ import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
 // Components
 import { showcaseStaggerContainer } from '../../styles/animations';
 import { ProjectShowcaseCard } from './ProjectShowcaseCard';
+import { ProjectCasePanel } from './ProjectCasePanel';
 import { ShowcaseGrid } from './ProjectShowcase.style';
 
 /* ***********************************************************************************************
@@ -62,9 +64,11 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
   projects,
   language,
   compact = false,
+  detailMode = ProjectShowcaseDetailMode.Callback,
   onSelectProject,
 }): React.ReactElement => {
   const { t } = useTranslation();
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   const orderedProjects: Project[] = useMemo(() => {
     const withDemo: Project[] = projects.filter((p: Project) => Boolean(p.demo_url));
@@ -74,10 +78,42 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
 
   const hasFeatured: boolean = orderedProjects.length > 0;
 
-  if (orderedProjects.length === 0) {
-    return (
-      <p>{t('projects.empty')}</p>
+  const selectedProject: Project | null = useMemo(() => {
+    if (selectedProjectId == null) {
+      return null;
+    }
+    return orderedProjects.find((p: Project) => p.id === selectedProjectId) ?? null;
+  }, [orderedProjects, selectedProjectId]);
+
+  const selectedIndexLabel: string = useMemo(() => {
+    if (selectedProject == null) {
+      return '';
+    }
+    const index: number = orderedProjects.findIndex(
+      (p: Project) => p.id === selectedProject.id
     );
+    return formatIndexLabel(index >= 0 ? index : 0);
+  }, [orderedProjects, selectedProject]);
+
+  const handleSelect = useCallback(
+    (project: Project): void => {
+      if (detailMode === ProjectShowcaseDetailMode.Callback) {
+        onSelectProject?.(project);
+        return;
+      }
+      setSelectedProjectId((prev: number | null) =>
+        prev === project.id ? null : project.id
+      );
+    },
+    [detailMode, onSelectProject]
+  );
+
+  const handleClosePanel = useCallback((): void => {
+    setSelectedProjectId(null);
+  }, []);
+
+  if (orderedProjects.length === 0) {
+    return <p>{t('projects.empty')}</p>;
   }
 
   return (
@@ -85,8 +121,7 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
       $compact={compact}
       variants={showcaseStaggerContainer}
       initial="initial"
-      whileInView="animate"
-      viewport={{ once: true, margin: '-40px' }}
+      animate="animate"
     >
       {orderedProjects.map((project: Project, index: number) => (
         <ProjectShowcaseCard
@@ -96,9 +131,18 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
           variant={resolveVariant(index, compact, hasFeatured)}
           canvasTone={resolveCanvasTone(index)}
           indexLabel={formatIndexLabel(index)}
-          onSelect={onSelectProject}
+          isSelected={selectedProjectId === project.id}
+          onSelect={handleSelect}
         />
       ))}
+      {detailMode === ProjectShowcaseDetailMode.Inline ? (
+        <ProjectCasePanel
+          project={selectedProject}
+          language={language}
+          indexLabel={selectedIndexLabel}
+          onClose={handleClosePanel}
+        />
+      ) : null}
     </ShowcaseGrid>
   );
 };

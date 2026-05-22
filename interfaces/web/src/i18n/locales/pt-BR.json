@@ -29,6 +29,14 @@
     "themeDark": "Ativar modo escuro",
     "drawerClose": "Fechar painel"
   },
+  "header": {
+    "logoAria": "Vinicius Datti — início do portfólio",
+    "status": {
+      "apiOnline": "API online",
+      "apiOffline": "API offline",
+      "apiChecking": "Sync"
+    }
+  },
   "nav": {
     "home": "Início",
     "about": "Sobre",
@@ -64,6 +72,7 @@
       "apiOffline": "API offline",
       "apiChecking": "Sync API",
       "wsLive": "Canal live",
+      "wsSynchronized": "Sincronizado",
       "wsConnecting": "Conectando",
       "wsReconnecting": "Reconectando",
       "wsIdle": "Transporte idle",
@@ -182,71 +191,71 @@
   },
   "home": {
     "hero": {
-      "greeting": "Olá, sou",
-      "availability": "Front-end Engineer · React · TypeScript · WebSocket",
-      "name": "Vinicius Datti",
-      "title": "Engenheiro Front-end",
-      "subtitle": "React · TypeScript · WebSocket",
-      "description": "3+ anos construindo aplicações React + TypeScript em produção — interfaces de dados em tempo real, arquitetura de componentes e qualidade de engenharia.",
-      "cta": "Ver trabalhos",
-      "contact": "Iniciar conversa",
-      "scrollCue": "Explorar o portfólio",
-      "systemTag": "Portfólio · engenharia realtime",
-      "workspaceTitle": "Vinicius Datti",
-      "operatorLine": "Engenheiro Front-end — superfícies de produto & sistemas live",
+      "eyebrow": "Portfólio · engenharia frontend",
+      "headline": "Engenheiro Front-end especializado em sistemas modernos, interfaces realtime e arquitetura React.",
+      "description": "Construo interfaces de produção com React e TypeScript — arquitetura de componentes, canais WebSocket e qualidade de produto em ambientes reais.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
-      "operatorName": "Vinicius Datti",
+      "portraitAlt": "Vinicius Datti",
+      "scrollCue": "Explorar o portfólio",
       "ctaPrimary": "Ver trabalhos",
       "ctaSecondary": "Abrir Live Lab",
       "stats": {
-        "projects": "Anos em produção",
-        "stack": "Stack principal",
-        "focus": "Domínio técnico",
-        "transport": "Transporte",
         "production": "Produção",
-        "transportValue": "WebSocket",
-        "stackValue": "React · TS",
-        "productionValue": "3+ anos"
+        "productionValue": "3+ anos",
+        "realtime": "Sistemas realtime",
+        "realtimeValue": "WebSocket",
+        "architecture": "Arquitetura",
+        "architectureValue": "React · TS"
       },
-      "panel": {
-        "title": "Perfil de engenharia",
-        "focusLabel": "Foco",
-        "focusValue": "UI realtime & arquitetura",
-        "domainLabel": "Domínio",
-        "domainValue": "Engenharia de produto",
-        "surfaceLabel": "Superfície",
-        "surfaceValue": "Web · admin · canais live",
-        "operatorLabel": "Operador"
+      "liveMicro": {
+        "apiLive": "API sincronizada",
+        "apiAway": "API indisponível",
+        "apiSync": "Verificando API",
+        "channelHint": "Canal live no Live Lab",
+        "build": "Build {{version}}"
       }
     },
     "realtime": {
-      "lead": "Backend e transporte acessíveis — abra o Live Lab para o canal bidirecional completo.",
-      "apiLive": "API live",
+      "lead": "Sinais vivos do backend — experiência realtime completa no Live Lab.",
+      "apiLive": "API online",
       "apiAway": "API offline",
       "apiSync": "Sync API",
-      "channelReady": "Canal pronto",
       "channelIdle": "Canal sob demanda",
-      "openLab": "Live Lab →"
+      "openLab": "Live Lab completo →",
+      "micro": {
+        "checking": "Sincronizando estado…",
+        "build": "Build {{version}} · pronto para sessão",
+        "channel": "Transporte WebSocket no Live Lab"
+      }
     },
     "sections": {
       "skills": {
         "eyebrow": "01 — Competências de engenharia",
         "index": "01"
       },
-      "liveLab": {
-        "eyebrow": "02 — Sistema em tempo real",
-        "index": "02"
-      },
       "projects": {
-        "eyebrow": "03 — Showcase de engenharia",
-        "index": "03",
+        "eyebrow": "02 — Trabalhos selecionados",
+        "index": "02",
         "story": "Sistemas front-end e superfícies de produto — cada case documenta problema, arquitetura e decisões técnicas.",
         "viewAll": "Explorar todos os cases"
       },
-      "contact": {
-        "eyebrow": "04 — Colaborar",
+      "liveLab": {
+        "eyebrow": "03 — Engenharia realtime",
+        "index": "03"
+      },
+      "about": {
+        "eyebrow": "04 — Experiência",
         "index": "04"
+      },
+      "contact": {
+        "eyebrow": "05 — Colaborar",
+        "index": "05"
       }
+    },
+    "aboutPreview": {
+      "title": "Front-end com sistemas em produção",
+      "description": "3+ anos entregando aplicações React + TypeScript — de telemetria industrial via WebSocket a painéis administrativos e este portfólio como referência de arquitetura.",
+      "cta": "Ler experiência completa"
     },
     "skillsPreview": {
       "title": "Competências de engenharia",
@@ -255,29 +264,26 @@
     },
     "liveLabPreview": {
       "title": "Live Lab",
-      "badge": "Sistema ao vivo",
-      "description": "Canal WebSocket bidirecional com persistência — demonstração de engenharia realtime em produção.",
-      "cta": "Abrir Live Lab",
-      "metrics": {
-        "latency": "< 50ms",
-        "latencyLabel": "Latência típica de eventos",
-        "transport": "WebSocket",
-        "transportLabel": "Transporte persistente"
+      "badge": "Engenharia ao vivo",
+      "description": "Experiência separada com canal WebSocket bidirecional, persistência de sessão e UX operacional — engenharia realtime em profundidade.",
+      "cta": "Abrir Live Lab completo",
+      "activity": {
+        "sync": "Sincronizando com API…",
+        "build": "Build {{version}} · stack operacional",
+        "ready": "Pronto para sessão bidirecional"
       },
-      "mock": {
-        "channelTitle": "Canal live",
-        "logTitle": "Log de eventos",
-        "events": {
-          "transport": "10:24:01 · Transporte inicializado",
-          "channel": "10:24:02 · Canal WebSocket live",
-          "presence": "10:24:03 · Operador online",
-          "ready": "10:24:04 · Sessão pronta"
-        },
-        "messages": {
-          "welcome": "Canal aberto — pergunte sobre arquitetura ou cases.",
-          "visitor": "Quero entender o stack realtime do ReactGram.",
-          "reply": "Posso detalhar Socket.io + persistência no FastAPI."
-        }
+      "metrics": {
+        "transportLabel": "Transporte",
+        "transportLive": "WebSocket live",
+        "transportIdle": "Aguardando API",
+        "transportSync": "Verificando…",
+        "stackLabel": "Stack realtime",
+        "stackValue": "React · FastAPI"
+      },
+      "context": {
+        "transport": "Canal bidirecional com estados de conexão explícitos.",
+        "persistence": "Sessão persistente e retomada elegante no cliente.",
+        "operational": "Event log e feedback operacional — não chat decorativo."
       }
     },
     "contactCta": {
@@ -607,6 +613,35 @@
       "description": "Narrativa do case",
       "repository": "Código-fonte",
       "demo": "Experiência ao vivo"
+    },
+    "casePanel": {
+      "close": "Fechar",
+      "framing": "Enquadramento",
+      "architecture": "Arquitetura",
+      "decision": "Decisão de engenharia",
+      "discussLive": "Discutir no Live Lab"
+    },
+    "caseStudies": {
+      "default": {
+        "framing": "Case orientado a produto — problema, superfície de UI e entrega em produção.",
+        "architecture": "Camadas claras entre UI, estado do cliente e integração com API — composição escalável e tipada.",
+        "decision": "Priorização de legibilidade, performance percebida e contratos de dados previsíveis no front-end."
+      },
+      "ReactGram": {
+        "framing": "Rede social em tempo real — feed, mensagens e presença com expectativa de baixa latência.",
+        "architecture": "React + Socket.io no cliente; FastAPI e persistência no serviço; estado de chat isolado em stores dedicadas.",
+        "decision": "WebSocket como transporte principal com reconexão e feedback operacional explícito na UI."
+      },
+      "netflix_clone": {
+        "framing": "Experiência de streaming com foco em descoberta de conteúdo e hierarquia visual cinematográfica.",
+        "architecture": "Componentes de layout responsivo, lazy media e roteamento por catálogo.",
+        "decision": "Performance de scroll e composição editorial antes de efeitos decorativos."
+      },
+      "movies_lib": {
+        "framing": "Catálogo de filmes com busca e filtros — leitura rápida de metadados.",
+        "architecture": "SPA React consumindo API REST; estado de listagem com cache de requisições.",
+        "decision": "Skeleton loading e estados de erro honestos para sensação de produto real."
+      }
     },
     "viewCode": "Ver código-fonte",
     "viewDemo": "Abrir experiência",

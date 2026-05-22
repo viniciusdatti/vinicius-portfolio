@@ -17,10 +17,14 @@ import { Language } from '../../types';
 import { FilterBar, Drawer } from '../../components/showcase';
 import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { useProjects } from '../../hooks';
-import { resolveTechnologyCapabilityLabel } from '../../utils/projectCaseCopy';
+import {
+  ProjectCaseStudyField,
+  resolveCaseStudyField,
+  resolveTechnologyCapabilityLabel,
+} from '../../utils/projectCaseCopy';
 
 // Styles
-import { fadeInUp } from '../../styles/animations';
+import { sectionReveal } from '../../styles/animations';
 import {
   PageContainer,
   PageHeader,
@@ -156,7 +160,7 @@ export const Projects: React.FC = (): React.ReactElement => {
         <PageHeaderMain>
           <PageEyebrow>{t('projects.showcase.eyebrow')}</PageEyebrow>
           <PageTitle
-            variants={fadeInUp}
+            variants={sectionReveal}
             initial="initial"
             animate="animate"
           >
@@ -165,7 +169,7 @@ export const Projects: React.FC = (): React.ReactElement => {
         </PageHeaderMain>
         <PageHeaderAside>
           <PageSubtitle
-            variants={fadeInUp}
+            variants={sectionReveal}
             initial="initial"
             animate="animate"
           >
@@ -216,6 +220,45 @@ export const Projects: React.FC = (): React.ReactElement => {
       >
         {selectedProject != null && (
           <>
+            <DrawerDetailRow>
+              <DrawerDetailLabel>
+                {t('projects.casePanel.framing')}
+              </DrawerDetailLabel>
+              <DrawerDetailValue>
+                {resolveCaseStudyField(
+                  selectedProject,
+                  ProjectCaseStudyField.Framing,
+                  currentLanguage,
+                  t
+                )}
+              </DrawerDetailValue>
+            </DrawerDetailRow>
+            <DrawerDetailRow>
+              <DrawerDetailLabel>
+                {t('projects.casePanel.architecture')}
+              </DrawerDetailLabel>
+              <DrawerDetailValue>
+                {resolveCaseStudyField(
+                  selectedProject,
+                  ProjectCaseStudyField.Architecture,
+                  currentLanguage,
+                  t
+                )}
+              </DrawerDetailValue>
+            </DrawerDetailRow>
+            <DrawerDetailRow>
+              <DrawerDetailLabel>
+                {t('projects.casePanel.decision')}
+              </DrawerDetailLabel>
+              <DrawerDetailValue>
+                {resolveCaseStudyField(
+                  selectedProject,
+                  ProjectCaseStudyField.Decision,
+                  currentLanguage,
+                  t
+                )}
+              </DrawerDetailValue>
+            </DrawerDetailRow>
             {projectDescription(selectedProject) && (
               <DrawerDetailRow>
                 <DrawerDetailLabel>

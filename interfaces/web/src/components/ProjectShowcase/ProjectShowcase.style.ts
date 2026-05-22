@@ -56,6 +56,7 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
 export interface ShowcaseCardStyleProps {
   $variant: ProjectShowcaseVariant;
   $canvasTone: ProjectCanvasTone;
+  $selected?: boolean;
 }
 
 export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
@@ -70,6 +71,10 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
     transform ${({ theme }) => theme.transitions.normal},
     box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast};
+  border-color: ${({ $selected, theme }) =>
+    $selected ? theme.colors.primary : theme.colors.borderSubtle};
+  box-shadow: ${({ $selected, theme }) =>
+    $selected ? theme.elevation.lg : theme.elevation.sm};
 
   ${({ $variant }) =>
     $variant === ProjectShowcaseVariant.Featured ? featuredSpotlight : ''};

@@ -14,7 +14,7 @@ import { AnimatePresence } from 'framer-motion';
 import {
   staggerContainer,
   staggerItem,
-  fadeInUp,
+  sectionReveal,
 } from '../../styles/animations';
 
 // Components (styled)
@@ -469,14 +469,14 @@ export const Skills: React.FC = () => {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={fadeInUp}
+          variants={sectionReveal}
           initial="initial"
           animate="animate"
         >
           {t('skills.title')}
         </PageTitle>
         <PageSubtitle
-          variants={fadeInUp}
+          variants={sectionReveal}
           initial="initial"
           animate="animate"
         >

@@ -419,3 +419,45 @@ export const ContactCtaDescription = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
 `;
+
+export const AboutPreviewSection = styled(Section)`
+  max-width: ${({ theme }) => theme.layout.contentWide};
+  scroll-margin-top: ${({ theme }) => theme.sizes.layout.headerOffset};
+`;
+
+export const AboutPreviewLayout = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: ${({ theme }) => theme.spacing.xxl};
+  align-items: end;
+  padding: ${({ theme }) => theme.spacing.xxl};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+    text-align: center;
+  };
+`;
+
+export const AboutPreviewMain = styled.div`
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  };
+`;
+
+export const AboutPreviewLink = styled(Link)`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.primary};
+  white-space: nowrap;
+
+  &:hover {
+    text-decoration: underline;
+  };
+`;

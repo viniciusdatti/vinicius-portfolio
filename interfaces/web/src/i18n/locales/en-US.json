@@ -29,6 +29,14 @@
     "themeDark": "Switch to dark mode",
     "drawerClose": "Close panel"
   },
+  "header": {
+    "logoAria": "Vinicius Datti — portfolio home",
+    "status": {
+      "apiOnline": "API online",
+      "apiOffline": "API offline",
+      "apiChecking": "Sync"
+    }
+  },
   "nav": {
     "home": "Home",
     "about": "About",
@@ -64,6 +72,7 @@
       "apiOffline": "API offline",
       "apiChecking": "API sync",
       "wsLive": "Channel live",
+      "wsSynchronized": "Synchronized",
       "wsConnecting": "Connecting",
       "wsReconnecting": "Reconnecting",
       "wsIdle": "Transport idle",
@@ -182,71 +191,71 @@
   },
   "home": {
     "hero": {
-      "greeting": "Hi, I'm",
-      "availability": "Front-end Engineer · React · TypeScript · WebSocket",
-      "name": "Vinicius Datti",
-      "title": "Front-end Engineer",
-      "subtitle": "React · TypeScript · WebSocket",
-      "description": "3+ years shipping React + TypeScript applications in production — real-time data interfaces, component architecture, and engineering quality.",
-      "cta": "View work",
-      "contact": "Start a conversation",
-      "scrollCue": "Explore the portfolio",
-      "systemTag": "Portfolio · realtime engineering",
-      "workspaceTitle": "Vinicius Datti",
-      "operatorLine": "Front-end Engineer — product surfaces & live systems",
+      "eyebrow": "Portfolio · frontend engineering",
+      "headline": "Front-end Engineer focused on modern systems, realtime interfaces, and React architecture.",
+      "description": "I ship production interfaces with React and TypeScript — component architecture, WebSocket channels, and product-quality engineering in real environments.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
-      "operatorName": "Vinicius Datti",
+      "portraitAlt": "Vinicius Datti",
+      "scrollCue": "Explore the portfolio",
       "ctaPrimary": "View work",
       "ctaSecondary": "Open Live Lab",
       "stats": {
-        "projects": "Years in production",
-        "stack": "Core stack",
-        "focus": "Technical focus",
-        "transport": "Transport",
         "production": "Production",
-        "transportValue": "WebSocket",
-        "stackValue": "React · TS",
-        "productionValue": "3+ yrs"
+        "productionValue": "3+ years",
+        "realtime": "Realtime systems",
+        "realtimeValue": "WebSocket",
+        "architecture": "Architecture",
+        "architectureValue": "React · TS"
       },
-      "panel": {
-        "title": "Engineering profile",
-        "focusLabel": "Focus",
-        "focusValue": "Realtime UI & architecture",
-        "domainLabel": "Domain",
-        "domainValue": "Product engineering",
-        "surfaceLabel": "Surface",
-        "surfaceValue": "Web · admin · live channels",
-        "operatorLabel": "Operator"
+      "liveMicro": {
+        "apiLive": "API synchronized",
+        "apiAway": "API unavailable",
+        "apiSync": "Checking API",
+        "channelHint": "Live channel in Live Lab",
+        "build": "Build {{version}}"
       }
     },
     "realtime": {
-      "lead": "Backend and transport stay reachable — open Live Lab for the full bidirectional channel.",
-      "apiLive": "API live",
+      "lead": "Live backend signals — full realtime experience in Live Lab.",
+      "apiLive": "API online",
       "apiAway": "API offline",
       "apiSync": "API sync",
-      "channelReady": "Channel ready",
       "channelIdle": "Channel on demand",
-      "openLab": "Live Lab →"
+      "openLab": "Full Live Lab →",
+      "micro": {
+        "checking": "Synchronizing state…",
+        "build": "Build {{version}} · ready for session",
+        "channel": "WebSocket transport in Live Lab"
+      }
     },
     "sections": {
       "skills": {
         "eyebrow": "01 — Engineering capabilities",
         "index": "01"
       },
-      "liveLab": {
-        "eyebrow": "02 — Realtime system",
-        "index": "02"
-      },
       "projects": {
-        "eyebrow": "03 — Engineering showcase",
-        "index": "03",
+        "eyebrow": "02 — Selected work",
+        "index": "02",
         "story": "Front-end systems and product surfaces — each case documents problem framing, architecture, and technical decisions.",
         "viewAll": "Explore all cases"
       },
-      "contact": {
-        "eyebrow": "04 — Collaborate",
+      "liveLab": {
+        "eyebrow": "03 — Realtime engineering",
+        "index": "03"
+      },
+      "about": {
+        "eyebrow": "04 — Experience",
         "index": "04"
+      },
+      "contact": {
+        "eyebrow": "05 — Collaborate",
+        "index": "05"
       }
+    },
+    "aboutPreview": {
+      "title": "Front-end with production systems",
+      "description": "3+ years delivering React + TypeScript applications — from industrial WebSocket telemetry to admin panels and this portfolio as an architecture reference.",
+      "cta": "Read full experience"
     },
     "skillsPreview": {
       "title": "Engineering capabilities",
@@ -255,29 +264,26 @@
     },
     "liveLabPreview": {
       "title": "Live Lab",
-      "badge": "Live system",
-      "description": "Bidirectional WebSocket channel with persistence — production-grade realtime engineering on display.",
-      "cta": "Open Live Lab",
-      "metrics": {
-        "latency": "< 50ms",
-        "latencyLabel": "Typical event latency",
-        "transport": "WebSocket",
-        "transportLabel": "Persistent transport"
+      "badge": "Live engineering",
+      "description": "Separate experience with bidirectional WebSocket, session persistence, and operational UX — realtime engineering in depth.",
+      "cta": "Open full Live Lab",
+      "activity": {
+        "sync": "Syncing with API…",
+        "build": "Build {{version}} · operational stack",
+        "ready": "Ready for bidirectional session"
       },
-      "mock": {
-        "channelTitle": "Live channel",
-        "logTitle": "Event log",
-        "events": {
-          "transport": "10:24:01 · Transport initialized",
-          "channel": "10:24:02 · WebSocket channel live",
-          "presence": "10:24:03 · Operator online",
-          "ready": "10:24:04 · Session ready"
-        },
-        "messages": {
-          "welcome": "Channel open — ask about architecture or cases.",
-          "visitor": "Interested in the realtime stack on ReactGram.",
-          "reply": "Happy to walk through Socket.io + FastAPI persistence."
-        }
+      "metrics": {
+        "transportLabel": "Transport",
+        "transportLive": "WebSocket live",
+        "transportIdle": "Awaiting API",
+        "transportSync": "Checking…",
+        "stackLabel": "Realtime stack",
+        "stackValue": "React · FastAPI"
+      },
+      "context": {
+        "transport": "Bidirectional channel with explicit connection states.",
+        "persistence": "Persistent session and elegant resume on the client.",
+        "operational": "Event log and operational feedback — not decorative chat."
       }
     },
     "contactCta": {
@@ -607,6 +613,35 @@
       "description": "Case narrative",
       "repository": "Source",
       "demo": "Live experience"
+    },
+    "casePanel": {
+      "close": "Close",
+      "framing": "Framing",
+      "architecture": "Architecture",
+      "decision": "Engineering decision",
+      "discussLive": "Discuss in Live Lab"
+    },
+    "caseStudies": {
+      "default": {
+        "framing": "Product-oriented case — problem, UI surface, and production delivery.",
+        "architecture": "Clear layers between UI, client state, and API integration — scalable, typed composition.",
+        "decision": "Prioritizing legibility, perceived performance, and predictable data contracts on the front-end."
+      },
+      "ReactGram": {
+        "framing": "Realtime social network — feed, messaging, and presence with low-latency expectations.",
+        "architecture": "React + Socket.io on the client; FastAPI and persistence on the service; chat state in dedicated stores.",
+        "decision": "WebSocket as primary transport with reconnection and explicit operational feedback in the UI."
+      },
+      "netflix_clone": {
+        "framing": "Streaming experience focused on content discovery and cinematic visual hierarchy.",
+        "architecture": "Responsive layout components, lazy media, and catalog routing.",
+        "decision": "Scroll performance and editorial composition before decorative effects."
+      },
+      "movies_lib": {
+        "framing": "Film catalog with search and filters — fast metadata scanning.",
+        "architecture": "React SPA consuming REST API; listing state with request caching.",
+        "decision": "Skeleton loading and honest error states for a real product feel."
+      }
     },
     "viewCode": "View source",
     "viewDemo": "Launch experience",

@@ -1,31 +1,29 @@
 /**
- * @fileoverview Home page component for the portfolio website.
- * Displays hero section, skills preview, live lab preview, projects grid,
- * and contact call-to-action sections.
+ * @fileoverview Home page — cinematic one-page narrative with premium sections.
  */
 
 // Core
-import React, { useCallback } from 'react';
+import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+
 // Types
-import type { Project } from '../../data/types';
 import { Language } from '../../types';
+import { ProjectShowcaseDetailMode } from '../../components/ProjectShowcase';
 
 // Components
 import { publicAssetUrl } from '../../config/env';
 import { Hero } from '../../components/Hero';
 import { RealtimePresence } from '../../components/home/RealtimePresence';
-import { LiveLabPreviewMock } from '../../components/home/LiveLabPreviewMock';
+import { LiveLabTeaser } from '../../components/home/LiveLabTeaser';
 import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
 import { useProjects } from '../../hooks';
 import {
   editorialStaggerContainer,
   editorialStaggerItem,
-  fadeInUp,
+  fadeIn,
 } from '../../styles/animations';
 import {
   Section,
@@ -57,6 +55,10 @@ import {
   LiveLabSectionTitle,
   LiveLabDescription,
   CTAButton,
+  AboutPreviewSection,
+  AboutPreviewLayout,
+  AboutPreviewMain,
+  AboutPreviewLink,
   ContactCtaSection,
   ContactCtaInner,
   ContactCtaDescription,
@@ -69,7 +71,7 @@ interface SkillItem {
   icon: string;
 }
 
-/** Preview skills displayed on the home page. Icons are local so they work offline. */
+/** Preview skills displayed on the home page. */
 const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'React', icon: publicAssetUrl('icons/react.svg') },
   { name: 'TypeScript', icon: publicAssetUrl('icons/typescript.svg') },
@@ -79,18 +81,16 @@ const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'Docker', icon: publicAssetUrl('icons/docker.svg') },
 ];
 
+/* ***********************************************************************************************
+ **************************************** DERIVED STATE ********************************************
+ *********************************************************************************************** */
+
 /**
- * Home page component displaying the main landing page content.
- * Includes hero, skills preview, live lab preview, projects, and contact CTA.
+ * Home — one-page cinematic portfolio with complementary deep routes.
  */
 export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
-  const navigate = useNavigate();
   const { data: projects, isLoading, isError, refetch } = useProjects();
-
-  /* ***********************************************************************************************
-  **************************************** DERIVED STATE ********************************************
-  *********************************************************************************************** */
 
   const currentLanguage: Language =
     i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
@@ -99,18 +99,6 @@ export const Home: React.FC = (): React.ReactElement => {
   ****************************************** METHODS ***********************************************
   *********************************************************************************************** */
 
-  const handleSelectProject = useCallback(
-    (project: Project): void => {
-      if (project.demo_url) {
-        window.open(project.demo_url, '_blank', 'noopener,noreferrer');
-        return;
-      }
-      navigate('/projects');
-    },
-    [navigate]
-  );
-
-  /** Renders the projects section content based on loading/error state. */
   const renderProjects = (): React.ReactElement => {
     if (isLoading) {
       return (
@@ -139,7 +127,7 @@ export const Home: React.FC = (): React.ReactElement => {
         projects={list}
         language={currentLanguage}
         compact
-        onSelectProject={handleSelectProject}
+        detailMode={ProjectShowcaseDetailMode.Inline}
       />
     );
   };
@@ -151,42 +139,16 @@ export const Home: React.FC = (): React.ReactElement => {
   return (
     <>
       <Hero />
-
       <RealtimePresence />
 
-      <LiveLabSection id="workspace-modules">
-        <SectionEyebrow>{t('home.sections.liveLab.eyebrow')}</SectionEyebrow>
-        <LiveLabSectionTitle>{t('home.liveLabPreview.title')}</LiveLabSectionTitle>
-        <LiveLabCard
-          variants={fadeInUp}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <LiveLabCopy>
-            <LiveBadge>{t('home.liveLabPreview.badge')}</LiveBadge>
-            <LiveLabDescription>
-              {t('home.liveLabPreview.description')}
-            </LiveLabDescription>
-            <CTAButton to="/live-lab">
-              {t('home.liveLabPreview.cta')}
-            </CTAButton>
-          </LiveLabCopy>
-          <LiveLabVisual>
-            <LiveLabPreviewMock />
-          </LiveLabVisual>
-        </LiveLabCard>
-      </LiveLabSection>
-
-      <SkillsPreviewSection>
+      <SkillsPreviewSection id="section-capabilities">
         <SkillsEditorialLayout>
           <SkillsEditorialIntro>
             <SectionEyebrow>{t('home.sections.skills.eyebrow')}</SectionEyebrow>
             <SectionTitle
-              variants={fadeInUp}
+              variants={fadeIn}
               initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
+              animate="animate"
             >
               {t('home.skillsPreview.title')}
             </SectionTitle>
@@ -202,8 +164,7 @@ export const Home: React.FC = (): React.ReactElement => {
           <SkillsGrid
             variants={editorialStaggerContainer}
             initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, margin: '-60px' }}
+            animate="animate"
           >
             {PREVIEW_SKILLS.map((skill: SkillItem) => (
               <SkillIcon key={skill.name} variants={editorialStaggerItem}>
@@ -215,16 +176,15 @@ export const Home: React.FC = (): React.ReactElement => {
         </SkillsEditorialLayout>
       </SkillsPreviewSection>
 
-      <Section id="projetos">
+      <Section id="section-work">
         <ProjectsSectionHeader>
           <SectionIndex>{t('home.sections.projects.index')}</SectionIndex>
           <ProjectsSectionMain>
             <SectionEyebrow>{t('home.sections.projects.eyebrow')}</SectionEyebrow>
             <SectionTitle
-              variants={fadeInUp}
+              variants={fadeIn}
               initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
+              animate="animate"
             >
               {t('projects.sectionTitle')}
             </SectionTitle>
@@ -240,12 +200,51 @@ export const Home: React.FC = (): React.ReactElement => {
         {renderProjects()}
       </Section>
 
-      <ContactCtaSection>
-        <ContactCtaInner
-          variants={fadeInUp}
+      <LiveLabSection id="live-lab-preview">
+        <SectionEyebrow>{t('home.sections.liveLab.eyebrow')}</SectionEyebrow>
+        <LiveLabSectionTitle>{t('home.liveLabPreview.title')}</LiveLabSectionTitle>
+        <LiveLabCard
+          variants={fadeIn}
           initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
+          animate="animate"
+        >
+          <LiveLabCopy>
+            <LiveBadge>{t('home.liveLabPreview.badge')}</LiveBadge>
+            <LiveLabDescription>
+              {t('home.liveLabPreview.description')}
+            </LiveLabDescription>
+            <CTAButton to="/live-lab">
+              {t('home.liveLabPreview.cta')}
+            </CTAButton>
+          </LiveLabCopy>
+          <LiveLabVisual>
+            <LiveLabTeaser />
+          </LiveLabVisual>
+        </LiveLabCard>
+      </LiveLabSection>
+
+      <AboutPreviewSection id="section-about">
+        <AboutPreviewLayout
+          variants={fadeIn}
+          initial="initial"
+          animate="animate"
+        >
+          <AboutPreviewMain>
+            <SectionEyebrow>{t('home.sections.about.eyebrow')}</SectionEyebrow>
+            <SectionTitle>{t('home.aboutPreview.title')}</SectionTitle>
+            <SectionLead>{t('home.aboutPreview.description')}</SectionLead>
+          </AboutPreviewMain>
+          <AboutPreviewLink to="/about">
+            {t('home.aboutPreview.cta')} →
+          </AboutPreviewLink>
+        </AboutPreviewLayout>
+      </AboutPreviewSection>
+
+      <ContactCtaSection id="section-contact">
+        <ContactCtaInner
+          variants={fadeIn}
+          initial="initial"
+          animate="animate"
         >
           <div>
             <SectionEyebrow>{t('home.sections.contact.eyebrow')}</SectionEyebrow>
