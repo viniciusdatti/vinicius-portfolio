@@ -10,6 +10,7 @@ export const PageHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
   max-width: ${({ theme }) => theme.layout.proseWide};
   text-align: center;
+  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: grid;
@@ -136,6 +137,7 @@ export const SearchInput = styled.input`
 
 export const ShowcaseSection = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.section};
+  padding-bottom: clamp(2rem, 6vw, 4rem);
 `;
 
 export const DrawerCaseBody = styled.div`

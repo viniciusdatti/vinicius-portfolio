@@ -10,9 +10,11 @@ import { motion } from 'framer-motion';
 import {
   cardMarketingGlass,
   interactiveLift,
-  surfaceMotion,
 } from '@/styles/surfaces';
-import { editorialAccentRail } from '@/styles/sectionRhythm';
+import {
+  editorialAccentRail,
+  scrollAnchorOffset,
+} from '@/styles/sectionRhythm';
 
 export const Section = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
@@ -27,9 +29,10 @@ export const IntroSection = styled(Section)`
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: start;
+  ${scrollAnchorOffset};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: minmax(140px, 0.38fr) minmax(0, 1fr);
+    grid-template-columns: minmax(120px, 0.38fr) minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 4rem);
   }
 `;
@@ -39,15 +42,17 @@ export const Avatar = styled(motion.div)`
   height: ${({ theme }) => theme.sizes.avatar.aboutMobile};
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
+  border: 2px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  box-shadow: ${({ theme }) => theme.elevation.md};
   flex-shrink: 0;
   margin: 0 auto;
-  ${surfaceMotion};
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.normal};
 
   @media (hover: hover) {
     &:hover {
-      border-color: ${({ theme }) => theme.colors.primary};
+      border-color: ${({ theme }) => theme.colors.primaryBorderStrong};
       transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
     }
   }
@@ -64,7 +69,7 @@ export const Avatar = styled(motion.div)`
     width: ${({ theme }) => theme.sizes.avatar.about};
     height: ${({ theme }) => theme.sizes.avatar.about};
   };
-`;
+`
 
 export const IntroContent = styled.div`
   display: flex;
@@ -102,15 +107,17 @@ export const IntroHighlight = styled(motion.p)`
 `;
 
 export const StatsGrid = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.lg};
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: ${({ theme }) => theme.spacing.md};
   margin-top: ${({ theme }) => theme.spacing.xxl};
   padding: ${({ theme }) => theme.spacing.xl} 0;
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  ${scrollAnchorOffset};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: flex;
     flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
@@ -150,15 +157,22 @@ export const StatLabel = styled.div`
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
 `;
 
-export const SectionTitle = styled.h3`
-  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+export const SectionTitle = styled.h2`
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: clamp(1.25rem, 2.5vw, 1.625rem);
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
-`;
+  color: ${({ theme }) => theme.colors.text};
+`
 
 export const ExperienceSection = styled(Section)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.xxl};
+  ${scrollAnchorOffset};
 `;
 
 export const ExperienceTimeline = styled(motion.div)`

@@ -107,7 +107,11 @@ export const Label = styled.label`
 export const Input = styled.input<InputStyleProps>`
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.typography.fontSize.md};
+  };
   border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.border)};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
@@ -125,7 +129,11 @@ export const Input = styled.input<InputStyleProps>`
 export const TextArea = styled.textarea<InputStyleProps>`
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    font-size: ${({ theme }) => theme.typography.fontSize.md};
+  };
   min-height: 150px;
   resize: vertical;
   border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.border)};

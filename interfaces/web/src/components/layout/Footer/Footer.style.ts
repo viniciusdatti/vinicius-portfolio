@@ -14,7 +14,7 @@ export const FooterContent = styled.div`
   max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
   gap: ${({ theme }) => theme.spacing.xxl};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
