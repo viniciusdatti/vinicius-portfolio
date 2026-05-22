@@ -128,7 +128,7 @@ export function Header(): React.ReactElement {
             )}
 
             <HeaderTrailing $isWorkspace={isLiveLab}>
-              <HeaderStatusPills />
+              {!isLiveLab ? <HeaderStatusPills /> : null}
               <HeaderActions>
                 <LanguageToggle />
                 <ThemeToggle />
