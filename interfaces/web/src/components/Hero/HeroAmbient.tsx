@@ -1,18 +1,35 @@
 // Core
 import React from 'react';
 
+// Types
+import type { HeroAmbientProps } from '@/components/Hero/HeroAmbient.types';
+
 // Components
 import {
   HeroAmbientLayer,
   HeroNoiseLayer,
+  HeroOperationalGrid,
+  HeroScanLine,
+  HeroMouseGlow,
 } from '@/components/Hero/HeroAmbient.style';
 
+// =================================================================================================
+// ============================================ COMPONENT ==========================================
+// =================================================================================================
+
 /**
- * Restrained hero atmosphere — fine grain only (no orbs, scan, or mouse glow).
+ * Hero atmosphere — operational grid, scan line, grain, pointer wash (max 2 infinite loops).
  */
-export function HeroAmbient(): React.ReactElement {
+export function HeroAmbient({
+  pointerX,
+  pointerY,
+  pointerActive,
+}: HeroAmbientProps): React.ReactElement {
   return (
-    <HeroAmbientLayer aria-hidden>
+    <HeroAmbientLayer aria-hidden $pointerX={pointerX} $pointerY={pointerY}>
+      <HeroOperationalGrid />
+      <HeroMouseGlow $active={pointerActive} />
+      <HeroScanLine />
       <HeroNoiseLayer />
     </HeroAmbientLayer>
   );

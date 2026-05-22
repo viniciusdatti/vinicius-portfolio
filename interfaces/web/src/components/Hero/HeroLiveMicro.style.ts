@@ -1,6 +1,9 @@
 // Libraries
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
+// Components
+import { panelInsetRim } from '@/styles/surfaces';
+
 const livePulse = (theme: DefaultTheme) => keyframes`
   0%, 100% {
     opacity: 1;
@@ -23,7 +26,7 @@ export const LiveMicroRoot = styled.div`
   background: ${({ theme }) => theme.colors.surfaceElevated};
   width: 100%;
   max-width: 280px;
-  box-shadow: ${({ theme }) => theme.elevation.sm};
+  ${panelInsetRim};
 `;
 
 export const LiveMicroDot = styled.span<{ $live: boolean }>`

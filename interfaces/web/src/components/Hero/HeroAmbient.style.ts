@@ -24,12 +24,17 @@ const gridPulse = keyframes`
   50% { opacity: 0.55; }
 `;
 
-export const HeroAmbientLayer = styled.div`
+export const HeroAmbientLayer = styled.div<{
+  $pointerX: number;
+  $pointerY: number;
+}>`
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  --hero-glow-x: ${({ $pointerX }) => $pointerX};
+  --hero-glow-y: ${({ $pointerY }) => $pointerY};
 `;
 
 export const HeroOperationalGrid = styled.div`
@@ -77,7 +82,6 @@ export const HeroScanLine = styled.div`
     ${({ theme }) => theme.colors.accent}55 80%,
     transparent
   );
-  box-shadow: 0 0 12px ${({ theme }) => theme.colors.accent}28;
   animation: ${({ theme }) => scanSweep(theme)} 9s linear infinite;
 
   @media (prefers-reduced-motion: reduce) {
@@ -85,8 +89,21 @@ export const HeroScanLine = styled.div`
   }
 `;
 
-export const HeroMouseGlow = styled(motion.div)`
+export const HeroMouseGlow = styled(motion.div)<{
+  $active: boolean;
+}>`
   position: absolute;
   inset: 0;
+  opacity: ${({ $active }) => ($active ? 1 : 0)};
+  background: radial-gradient(
+    ellipse 42% 38% at calc(var(--hero-glow-x, 50%) * 100%)
+      calc(var(--hero-glow-y, 40%) * 100%),
+    ${({ theme }) => theme.colors.primary}18 0%,
+    transparent 68%
+  );
   transition: opacity ${({ theme }) => theme.transitions.slow};
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
 `;
