@@ -22,19 +22,22 @@ import {
   ProjectCaseStudyContent,
 } from '@/components/ProjectShowcase';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { PageContainerWide } from '@/styles/pageLayout.style';
+import {
+  PageContainerWide,
+  PageHeaderEditorial,
+  PageHeaderMain,
+  PageHeaderAside,
+  SectionEyebrowAnimated,
+  PageTitle,
+  PageSubtitle,
+  PageLead,
+  PageSectionSpacious,
+} from '@/styles/pageLayout.style';
 
 // View
 import {
-  PageHeader,
-  PageHeaderMain,
-  PageHeaderAside,
-  PageEyebrow,
-  PageTitle,
-  PageSubtitle,
   Toolbar,
   SearchInput,
-  ShowcaseSection,
   DrawerCaseBody,
   ErrorMessage,
   RetryButton,
@@ -144,27 +147,27 @@ export function Projects(): React.ReactElement {
   if (isError) {
     return (
       <PageContainerWide>
-        <PageHeader>
+        <PageHeaderEditorial>
           <PageHeaderMain>
             <PageTitle>{t('projects.title')}</PageTitle>
             <PageSubtitle>{t('projects.subtitle')}</PageSubtitle>
           </PageHeaderMain>
-        </PageHeader>
-        <ShowcaseSection>
+        </PageHeaderEditorial>
+        <PageSectionSpacious>
           <ErrorMessage>{t('projects.error')}</ErrorMessage>
           <RetryButton type="button" onClick={() => refetch()}>
             {t('common.retry')}
           </RetryButton>
-        </ShowcaseSection>
+        </PageSectionSpacious>
       </PageContainerWide>
     );
   }
 
   return (
     <PageContainerWide>
-      <PageHeader>
+      <PageHeaderEditorial>
         <PageHeaderMain>
-          <PageEyebrow>{t('projects.showcase.eyebrow')}</PageEyebrow>
+          <SectionEyebrowAnimated>{t('projects.showcase.eyebrow')}</SectionEyebrowAnimated>
           <PageTitle
             variants={motion.section}
             initial="hidden"
@@ -175,16 +178,16 @@ export function Projects(): React.ReactElement {
           </PageTitle>
         </PageHeaderMain>
         <PageHeaderAside>
-          <PageSubtitle
+          <PageLead
             variants={motion.section}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
           >
             {t('projects.showcase.lead')}
-          </PageSubtitle>
+          </PageLead>
         </PageHeaderAside>
-      </PageHeader>
+      </PageHeaderEditorial>
 
       <Toolbar>
         <FilterBar
@@ -205,9 +208,9 @@ export function Projects(): React.ReactElement {
         />
       </Toolbar>
 
-      <ShowcaseSection>
+      <PageSectionSpacious>
         {renderShowcaseContent()}
-      </ShowcaseSection>
+      </PageSectionSpacious>
 
       <Drawer
         open={selectedProject != null}

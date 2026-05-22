@@ -4,14 +4,25 @@
  */
 
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
+
+// Types
+import { SkillLayoutTier } from '@/domain/skills/skillLayout.domain';
 
 // Components
 import {
   cardHoverElevated,
+  cardInteractive,
   cardMarketingGlass,
+  cardOperationalCell,
   cardStatSignal,
+  cardPointerVars,
+  featuredSpotlight,
+  operationalGlass,
+  operationalGlassDeep,
+  panelChrome,
+  surfaceMotion,
 } from '@/styles/surfaces';
 import { scrollAnchorOffset } from '@/styles/sectionRhythm';
 
@@ -178,9 +189,106 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
 `;
 
 /**
- * Grid container for skill cards with responsive columns.
+ * Root editorial layout — vertical chapter rhythm (hero → core → peripheral).
  */
-export const SkillsGrid = styled(motion.div)`
+export const SkillsEditorialLayout = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xxl};
+`;
+
+/**
+ * Core architecture chapter — eyebrow + lead + asymmetric grid.
+ */
+export const SkillsCoreChapter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const SkillsCoreLead = styled.p`
+  margin: 0;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: ${({ theme }) => theme.layout.proseWide};
+`;
+
+/**
+ * Featured hero row — React / primary architectural capability (magazine opener).
+ */
+export const SkillsHeroBlock = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xl} 0
+    ${({ theme }) => theme.spacing.xxl};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 4.5rem minmax(0, 0.42fr) minmax(0, 1fr);
+    align-items: end;
+    gap: ${({ theme }) => theme.spacing.xxl};
+  }
+`;
+
+export const SkillsHeroSignal = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.accent};
+  opacity: 0.75;
+  font-variant-numeric: tabular-nums;
+`;
+
+export const SkillsHeroName = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+export const SkillsHeroIcon = styled.img`
+  width: 44px;
+  height: 44px;
+  opacity: 0.9;
+  flex-shrink: 0;
+  object-fit: contain;
+`;
+
+export const SkillsHeroMeta = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const SkillsHeroDesc = styled.p`
+  margin: 0;
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: 36ch;
+`;
+
+export const SkillsHeroDomain = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.accent};
+`;
+
+/**
+ * 12-column asymmetric grid for core + peripheral skill blocks.
+ */
+export const SkillsAsymmetricGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.md};
@@ -189,78 +297,276 @@ export const SkillsGrid = styled(motion.div)`
     grid-template-columns: repeat(12, 1fr);
     gap: ${({ theme }) => theme.spacing.lg};
   }
+`;
 
-  & > *:first-child {
-    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-      grid-column: 1 / span 6;
+export interface SkillGridPlacementProps {
+  $gridSpan: number;
+}
+
+export interface SkillEditorialCardProps extends SkillGridPlacementProps {
+  $tier: SkillLayoutTier;
+}
+
+const skillGridPlacement = css<SkillGridPlacementProps>`
+  grid-column: span 12;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-column: span ${({ $gridSpan }) => $gridSpan};
+  }
+`;
+
+const skillTierCoreLarge = css`
+  ${cardMarketingGlass};
+  ${featuredSpotlight};
+  ${cardInteractive};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing.xxl};
+  min-height: 9rem;
+`;
+
+const skillTierCoreMedium = css`
+  ${cardMarketingGlass};
+  ${cardHoverElevated};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing.xl};
+  min-height: 7.5rem;
+`;
+
+const skillTierPeripheralFeatured = css`
+  ${cardMarketingGlass};
+  ${cardHoverElevated};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.lg};
+  min-height: 6.5rem;
+`;
+
+const skillTierPeripheralStandard = css`
+  ${operationalGlass};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.lg};
+  ${surfaceMotion};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
+`;
 
-  & > *:nth-child(2) {
-    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-      grid-column: 7 / span 6;
+const skillTierPeripheralInstrument = css`
+  ${operationalGlassDeep};
+  ${cardPointerVars};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: 0;
+  min-height: 8.5rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  ${surfaceMotion};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
     }
   }
+`;
 
-  & > *:nth-child(n + 3) {
-    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-      grid-column: span 4;
+const skillTierPeripheralCompact = css`
+  ${cardOperationalCell};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  padding: ${({ theme }) => theme.spacing.md};
+`;
+
+const skillTierPeripheralMinimal = css`
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: 0;
+  padding: ${({ theme }) => theme.spacing.lg} 0;
+  box-shadow: none;
+  transition: border-color ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
 `;
 
 /**
- * Container for skill technology icon.
+ * Category label that slides up into view on editorial card hover (Framer spring).
  */
-export const SkillIcon = styled.div`
-  width: 50px;
-  height: 50px;
+export const SkillCategoryLabel = styled(motion.span)`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+  white-space: nowrap;
+`;
+
+/**
+ * Tier-driven skill card — each tier has a distinct visual weight.
+ */
+export const SkillEditorialCard = styled(motion.div)<SkillEditorialCardProps>`
+  ${skillGridPlacement};
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
+
+  & [data-skill-instrument-field] {
+    z-index: 0;
+  }
+
+  ${({ $tier }) => {
+    switch ($tier) {
+      case SkillLayoutTier.CoreLarge:
+        return skillTierCoreLarge;
+      case SkillLayoutTier.CoreMedium:
+        return skillTierCoreMedium;
+      case SkillLayoutTier.PeripheralFeatured:
+        return skillTierPeripheralFeatured;
+      case SkillLayoutTier.PeripheralInstrument:
+        return skillTierPeripheralInstrument;
+      case SkillLayoutTier.PeripheralStandard:
+        return skillTierPeripheralStandard;
+      case SkillLayoutTier.PeripheralCompact:
+        return skillTierPeripheralCompact;
+      case SkillLayoutTier.PeripheralMinimal:
+        return skillTierPeripheralMinimal;
+      default:
+        return skillTierPeripheralStandard;
+    }
+  }}
+`;
+
+export interface SkillIconSizeProps {
+  $tier: SkillLayoutTier;
+}
+
+/**
+ * Skill icon — scales with editorial tier hierarchy.
+ */
+export const SkillEditorialIcon = styled.div<SkillIconSizeProps>`
   flex-shrink: 0;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-  };
+  }
+
+  ${({ $tier }) => {
+    switch ($tier) {
+      case SkillLayoutTier.CoreLarge:
+        return css`
+          width: 64px;
+          height: 64px;
+        `;
+      case SkillLayoutTier.CoreMedium:
+        return css`
+          width: 52px;
+          height: 52px;
+        `;
+      case SkillLayoutTier.PeripheralFeatured:
+        return css`
+          width: 48px;
+          height: 48px;
+        `;
+      case SkillLayoutTier.PeripheralStandard:
+        return css`
+          width: 44px;
+          height: 44px;
+        `;
+      case SkillLayoutTier.PeripheralInstrument:
+        return css`
+          width: 40px;
+          height: 40px;
+        `;
+      case SkillLayoutTier.PeripheralCompact:
+        return css`
+          width: 36px;
+          height: 36px;
+        `;
+      case SkillLayoutTier.PeripheralMinimal:
+        return css`
+          width: 28px;
+          height: 28px;
+          opacity: 0.75;
+        `;
+      default:
+        return css`
+          width: 44px;
+          height: 44px;
+        `;
+    }
+  }}
 `;
 
+export interface SkillNameSizeProps {
+  $tier: SkillLayoutTier;
+}
+
 /**
- * Skill technology name heading.
+ * Skill name — typography scales with tier.
  */
-export const SkillName = styled.h3`
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
+export const SkillEditorialName = styled.h3<SkillNameSizeProps>`
   margin: 0;
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  color: ${({ theme }) => theme.colors.text};
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  ${({ $tier }) => {
+    switch ($tier) {
+      case SkillLayoutTier.CoreLarge:
+        return css`
+          font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+        `;
+      case SkillLayoutTier.CoreMedium:
+        return css`
+          font-size: ${({ theme }) => theme.typography.fontSize.xl};
+        `;
+      case SkillLayoutTier.PeripheralFeatured:
+        return css`
+          font-size: ${({ theme }) => theme.typography.fontSize.lg};
+        `;
+      case SkillLayoutTier.PeripheralInstrument:
+        return css`
+          font-size: ${({ theme }) => theme.typography.fontSize.md};
+        `;
+      case SkillLayoutTier.PeripheralMinimal:
+        return css`
+          font-size: ${({ theme }) => theme.typography.fontSize.sm};
+          font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+        `;
+      default:
+        return css`
+          font-size: ${({ theme }) => theme.typography.fontSize.md};
+        `;
+    }
+  }}
 `;
 
-/**
- * Category label that slides up into view on SkillCard hover.
- * Must be declared before SkillCard so it can be used as a styled-components selector.
- */
-export const SkillCategoryLabel = styled.span`
+export const SkillEditorialDomain = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.accent};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  transform: translateY(6px);
-  opacity: 0;
-  transition:
-    transform ${({ theme }) => theme.transitions.normal},
-    opacity ${({ theme }) => theme.transitions.normal};
-  white-space: nowrap;
-
-  @media (prefers-reduced-motion: reduce) {
-    transform: none;
-  };
+  color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-/**
- * Container for skill name. Flex layout centers text vertically with the icon.
- */
-export const SkillInfo = styled.div`
+export const SkillEditorialInfo = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -271,30 +577,41 @@ export const SkillInfo = styled.div`
 `;
 
 /**
- * Individual skill card with hover effects.
- * On hover, reveals the SkillCategoryLabel via transform and opacity transition.
+ * Bottom chrome row for instrument-tier skill cards (icon + copy above telemetry wash).
  */
-export const SkillCard = styled(motion.div)`
-  ${cardMarketingGlass};
-  ${cardHoverElevated};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  padding: ${({ theme }) => theme.spacing.xl};
+export const SkillInstrumentBody = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zIndex.content};
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
-  position: relative;
-  overflow: hidden;
+  margin-top: auto;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+`;
 
-  & > * {
-    position: relative;
-    z-index: ${({ theme }) => theme.zIndex.content};
-  }
+export const SkillsPeripheralChapter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.lg};
+  padding-top: ${({ theme }) => theme.spacing.md};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+`;
 
-  @media (hover: hover) {
-    &:hover ${SkillCategoryLabel} {
-      transform: translateY(0);
-      opacity: 1;
-    }
+/**
+ * Legacy grid — certificate loading skeleton only.
+ */
+export const SkillsGrid = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing.md};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(12, 1fr);
+    gap: ${({ theme }) => theme.spacing.lg};
   }
 `;
 
@@ -363,39 +680,17 @@ export interface CertificateCardProps {
  */
 export const CertificateCard = styled(motion.div)<CertificateCardProps>`
   ${cardMarketingGlass};
+  ${cardHoverElevated};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.lg};
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  box-shadow: ${({ theme }) => theme.elevation.sm};
-  transition:
-    box-shadow ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast},
-    transform ${({ theme }) => theme.transitions.normal};
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
-    opacity: 0;
-    transition: opacity ${({ theme }) => theme.transitions.fast};
-    z-index: 1;
-  }
+  border-left: 3px solid transparent;
+  transition: border-color ${({ theme }) => theme.transitions.fast};
 
   @media (hover: hover) {
     &:hover {
       border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primaryBorderFaint};
-      box-shadow: ${({ theme }) => theme.elevation.lg};
-      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-
-      &::before {
-        opacity: 1;
-      }
+      border-left-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
     }
   }
 
@@ -577,6 +872,7 @@ export const ErrorMessage = styled.p`
  * Retry button for error states.
  */
 export const RetryButton = styled.button`
+  position: relative;
   display: block;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
@@ -587,9 +883,19 @@ export const RetryButton = styled.button`
   cursor: pointer;
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+  };
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.elevation.md};
+    filter: brightness(1.04);
   };
 `;
 
@@ -643,13 +949,12 @@ export const ModalOverlay = styled(motion.div)`
  */
 export const ModalContent = styled(motion.div)`
   position: relative;
+  ${panelChrome};
   background-color: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   max-width: 500px;
   width: 100%;
   overflow: hidden;
-  box-shadow: ${({ theme }) => theme.elevation.xl};
-  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 /**
@@ -803,7 +1108,6 @@ export const ModalButton = styled.button<ModalButtonProps>`
 
           &:hover {
             filter: brightness(1.1);
-            transform: translateY(-2px);
           }
         `
     : `
