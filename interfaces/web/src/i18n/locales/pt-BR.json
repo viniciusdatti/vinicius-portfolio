@@ -32,9 +32,9 @@
   "header": {
     "logoAria": "Vinicius Datti — início do portfólio",
     "status": {
-      "apiOnline": "API online",
-      "apiOffline": "API offline",
-      "apiChecking": "Sync"
+      "apiOnline": "API no ar",
+      "apiOffline": "API fora do ar",
+      "apiChecking": "Sincronizando"
     }
   },
   "nav": {
@@ -45,8 +45,8 @@
     "liveLab": "Live Lab",
     "contact": "Contato",
     "console": "Console",
-    "cases": "Cases",
-    "capabilities": "Stack",
+    "cases": "Projetos",
+    "capabilities": "Competências",
     "profile": "Perfil",
     "channel": "Contato"
   },
@@ -61,40 +61,40 @@
       "about": "Sobre",
       "console": "Console",
       "profile": "Identidade",
-      "capabilities": "Stack",
-      "cases": "Cases",
+      "capabilities": "Competências",
+      "cases": "Projetos",
       "liveLab": "Live Lab",
-      "channel": "Outbound",
+      "channel": "Contato",
       "contact": "Contato"
     },
     "status": {
-      "apiOnline": "API online",
-      "apiOffline": "API offline",
-      "apiChecking": "Sync API",
-      "wsLive": "Canal live",
+      "apiOnline": "API no ar",
+      "apiOffline": "API fora do ar",
+      "apiChecking": "Sincronizando API",
+      "wsLive": "Canal ao vivo",
       "wsSynchronized": "Sincronizado",
       "wsConnecting": "Conectando",
       "wsReconnecting": "Reconectando",
-      "wsIdle": "Transporte idle",
-      "telemetryLive": "Telemetria live",
+      "wsIdle": "Transporte inativo",
+      "telemetryLive": "Telemetria ao vivo",
       "telemetryIdle": "Telemetria conectando",
-      "telemetryTick": "Tick #{{tick}}",
-      "presenceOnline": "Operador online",
+      "telemetryTick": "Pulso #{{tick}}",
+      "presenceOnline": "Operador conectado",
       "presenceOffline": "Operador ausente",
       "session": "Sessão {{id}}",
       "sessionNone": "Sem sessão",
-      "latencyLive": "Realtime",
-      "build": "Build {{version}}",
-      "buildUnknown": "Build —"
+      "latencyLive": "Tempo real",
+      "build": "Versão {{version}}",
+      "buildUnknown": "Versão —"
     }
   },
   "workspace": {
     "boot": {
-      "title": "Superfície de comando realtime",
+      "title": "Superfície de comando em tempo real",
       "lead": "Você está dentro de um canal WebSocket ativo. Explore os módulos à esquerda — o sistema permanece conectado.",
-      "handshakeTitle": "Boot do sistema",
+      "handshakeTitle": "Inicialização do sistema",
       "transportStatus": "Status do transporte",
-      "showcaseBadge": "Showcase de engenharia",
+      "showcaseBadge": "Vitrine de engenharia",
       "showcaseBadgeTooltip": "Demonstração funcional com WebSocket real — sensores industriais ao vivo",
       "phases": {
         "initializing": "Inicializando transporte…",
@@ -104,39 +104,39 @@
       }
     },
     "events": {
-      "transportInit": "Stack de transporte inicializada",
-      "transportLive": "Canal WebSocket live",
+      "transportInit": "Pilha de transporte inicializada",
+      "transportLive": "Canal WebSocket ao vivo",
       "transportDown": "Transporte desconectado",
       "transportReconnect": "Reconectando transporte…",
       "sessionOpen": "Sessão {{id}} aberta",
       "sessionResume": "Sessão {{id}} retomada",
       "sessionClosed": "Sessão encerrada",
-      "sessionRequested": "Handshake de sessão solicitado",
+      "sessionRequested": "Negociação de sessão solicitada",
       "messageIn": "Mensagem recebida",
       "messageOut": "Mensagem enviada",
-      "presenceOnline": "Operador online",
+      "presenceOnline": "Operador conectado",
       "presenceOffline": "Operador ausente",
       "typing": "Operador digitando",
-      "contextAttach": "Contexto do case: {{title}}",
-      "contextDetach": "Contexto do case removido",
-      "contextActive": "Case ativo · {{title}}",
-      "contextDraft": "Discutindo o case: {{title}} — arquitetura, stack e entrega.",
-      "contextInject": "Contexto do case enviado ao canal live"
+      "contextAttach": "Contexto do projeto: {{title}}",
+      "contextDetach": "Contexto do projeto removido",
+      "contextActive": "Projeto ativo · {{title}}",
+      "contextDraft": "Discutindo o projeto: {{title}} — arquitetura, stack e entrega.",
+      "contextInject": "Contexto do projeto enviado ao canal ao vivo"
     },
     "rail": {
       "label": "Módulos do Live Lab",
       "identity": "Identidade",
-      "cases": "Cases",
-      "capabilities": "Stack",
+      "cases": "Projetos",
+      "capabilities": "Competências",
       "channel": "Contato"
     },
     "channel": {
-      "title": "Canal live",
+      "title": "Canal ao vivo",
       "transport": "Transporte WebSocket",
       "events": "Log de eventos"
     },
     "identity": {
-      "role": "Front-end Engineer",
+      "role": "Engenheiro front-end",
       "focus": "React · WebSocket · interfaces que não podem quebrar",
       "statProjects": "Anos em produção",
       "statRealtime": "Ciclo do sensor",
@@ -146,15 +146,15 @@
       "statFocusValue": "2"
     },
     "cases": {
-      "title": "Módulos de case",
-      "lead": "Escolha um projeto e traga uma pergunta para o canal live — eu respondo em tempo real.",
+      "title": "Módulos de projeto",
+      "lead": "Escolha um projeto e traga uma pergunta para o canal ao vivo — eu respondo em tempo real.",
       "inspect": "Inspecionar módulo",
-      "demo": "Abrir caminho live",
+      "demo": "Abrir caminho ao vivo",
       "repository": "Fonte",
-      "empty": "Nenhum case carregado.",
-      "loading": "Carregando registry…",
-      "error": "Registry indisponível.",
-      "back": "Voltar ao registry"
+      "empty": "Nenhum projeto carregado.",
+      "loading": "Carregando cadastro…",
+      "error": "Cadastro indisponível.",
+      "back": "Voltar ao cadastro"
     },
     "capabilities": {
       "title": "Stack de engenharia",
@@ -162,9 +162,9 @@
       "empty": "Nenhuma competência retornada."
     },
     "channelModule": {
-      "title": "Canal outbound",
-      "lead": "Mensagem estruturada quando o canal live não bastar.",
-      "note": "Prefira o canal live para diálogo realtime — este caminho persiste por e-mail."
+      "title": "Canal de contato",
+      "lead": "Mensagem estruturada quando o canal ao vivo não bastar.",
+      "note": "Prefira o canal ao vivo para diálogo em tempo real — este caminho persiste por e-mail."
     },
     "sidebar": {
       "label": "Contexto",
@@ -173,7 +173,7 @@
     }
   },
   "showcase": {
-    "title": "Showcase",
+    "title": "Vitrine",
     "subtitle": "Padrões de UI em produção: status, tabela + drawer e métricas.",
     "filters": {
       "all": "Todos",
@@ -203,7 +203,7 @@
       "name": "Vinicius Datti",
       "eyebrow": "Portfólio · engenharia frontend",
       "headline": "Front-end para dados em tempo real e interfaces de produção.",
-      "description": "Desenvolvedor Front-end com 3+ anos construindo aplicações React e TypeScript em produção — dashboards de monitoramento industrial com telemetria contínua via WebSocket, validação dinâmica de thresholds, múltiplos estados na UI e layouts responsivos.",
+      "description": "Desenvolvedor Front-end com 3+ anos construindo aplicações React e TypeScript em produção — dashboards de monitoramento industrial com telemetria contínua via WebSocket, validação dinâmica de limites, múltiplos estados na UI e layouts responsivos.",
       "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explorar o portfólio",
@@ -213,7 +213,7 @@
         "production": "anos de experiência",
         "productionValue": "3+",
         "realtime": "WebSocket em produção",
-        "realtimeValue": "✓",
+        "realtimeValue": "Ao vivo",
         "architecture": "Jest · Playwright",
         "architectureValue": "2"
       },
@@ -221,26 +221,28 @@
         "apiLive": "API sincronizada",
         "apiAway": "API indisponível",
         "apiSync": "Verificando API",
-        "channelHint": "Telemetria live no Live Lab",
-        "build": "Build {{version}}"
+        "channelHint": "Telemetria ao vivo no Live Lab",
+        "build": "Versão {{version}}"
       }
     },
     "manifesto": {
       "aria": "Tese do portfólio",
-      "line": "Interfaces onde telemetria, thresholds e estado permanecem legíveis sob carga — não demos que só funcionam no screenshot.",
-      "meta": "Engenharia front-end · sistemas realtime · UI de produção"
+      "index": "00",
+      "linePrimary": "Interfaces onde telemetria, limites e estado permanecem legíveis sob carga —",
+      "lineEmphasis": "não demonstrações que só funcionam no screenshot.",
+      "meta": "Engenharia front-end · sistemas em tempo real · UI de produção"
     },
     "realtime": {
-      "lead": "Demo de telemetria neste portfólio — padrão parecido com dashboards industriais em produção que mantive. Abra o Live Lab.",
-      "apiLive": "API online",
-      "apiAway": "API offline",
-      "apiSync": "Sync API",
-      "channelIdle": "Stream de telemetria",
+      "lead": "Demonstração de telemetria neste portfólio — padrão parecido com dashboards industriais em produção que mantive. Abra o Live Lab.",
+      "apiLive": "API no ar",
+      "apiAway": "API fora do ar",
+      "apiSync": "Sincronizando API",
+      "channelIdle": "Fluxo de telemetria",
       "openLab": "Abrir Live Lab →",
       "micro": {
         "checking": "Sincronizando transporte…",
-        "build": "Build {{version}} · serviço de telemetria",
-        "channel": "Socket.io · namespace /telemetry"
+        "build": "Versão {{version}} · serviço de telemetria",
+        "channel": "Socket.io · espaço /telemetry"
       }
     },
     "sections": {
@@ -251,11 +253,11 @@
       "projects": {
         "eyebrow": "01 — Trabalhos selecionados",
         "index": "01",
-        "story": "Cada case documenta escopo, decisões de engenharia e o que o repositório demonstra — estudos e experimentos, não trabalho privado em produção.",
+        "story": "Cada projeto documenta escopo, decisões de engenharia e o que o repositório demonstra — estudos e experimentos, não trabalho privado em produção.",
         "viewAll": "Explorar todos os cases"
       },
       "liveLab": {
-        "eyebrow": "02 — Engenharia realtime",
+        "eyebrow": "02 — Engenharia em tempo real",
         "index": "02"
       },
       "about": {
@@ -279,21 +281,34 @@
     },
     "liveLabPreview": {
       "title": "Live Lab",
-      "badge": "Demo ao vivo",
-      "description": "Demo deste portfólio: sensores industriais (RPM, temperatura, pressão, vibração) via WebSocket — inspirado em dashboards industriais em produção, sem ser produto real de cliente.",
+      "badge": "Demonstração ao vivo",
+      "description": "Demonstração deste portfólio: sensores industriais (RPM, temperatura, pressão, vibração) via WebSocket — inspirado em dashboards industriais em produção, sem ser produto real de cliente.",
+      "sensors": {
+        "temp": "Temperatura",
+        "vib": "Vibração",
+        "press": "Pressão",
+        "amp": "Corrente"
+      },
+      "observatoryTitle": "Operações · Telemetria",
+      "trendLabel": "Vazão agregada",
       "cta": "Abrir Live Lab",
+      "footer": {
+        "transport": "WebSocket",
+        "tick": "pulso",
+        "sensors": "sensores"
+      },
       "activity": {
-        "sync": "Handshake do transporte…",
-        "build": "Build {{version}} · telemetria FastAPI",
-        "ready": "Recebendo ticks de sensor"
+        "sync": "Sincronizando transporte…",
+        "build": "Versão {{version}} · telemetria FastAPI",
+        "ready": "Recebendo pulsos dos sensores"
       },
       "metrics": {
         "transportLabel": "Transporte",
-        "transportLive": "WebSocket live",
+        "transportLive": "WebSocket ao vivo",
         "transportIdle": "Aguardando API",
         "transportSync": "Verificando…",
         "stackLabel": "Contrato",
-        "stackValue": "thresholds · multi-state"
+        "stackValue": "limites · multiestado"
       },
       "context": {
         "transport": "Canal bidirecional com estados de conexão explícitos.",
@@ -303,10 +318,10 @@
     },
     "contactCta": {
       "title": "Vamos falar de engenharia?",
-      "description": "Em busca ativa de vagas remotas ou híbridas como Front-end Engineer ou Software Engineer.",
+      "description": "Em busca ativa de vagas remotas ou híbridas como engenheiro front-end ou engenheiro de software.",
       "cta": "Enviar mensagem"
     },
-    "projectsEmpty": "Nenhum case publicado no momento.",
+    "projectsEmpty": "Nenhum projeto publicado no momento.",
     "projectsLoading": "Carregando trabalhos...",
     "projectsError": "Não foi possível carregar os cases. Tente novamente."
   },
@@ -316,7 +331,7 @@
       "title": "Desenvolvedor Front-end",
       "lead": "Trabalhei 3+ anos desenvolvendo aplicações React e TypeScript em produção, com foco em interfaces de dados em tempo real, arquitetura de componentes e qualidade de engenharia.",
       "highlight": "WebSocket · Styled-components · Storybook · Jest · Playwright · Python · PostgreSQL",
-      "impact": "Nessa experiência, entreguei dashboards de monitoramento industrial com telemetria contínua, validação de thresholds e UI responsiva para mobile, tablet e desktop."
+      "impact": "Nessa experiência, entreguei dashboards de monitoramento industrial com telemetria contínua, validação de limites e UI responsiva para mobile, tablet e desktop."
     },
     "stats": {
       "experience": "Anos de experiência",
@@ -329,11 +344,11 @@
     },
     "superior": {
       "sectionTitle": "Experiência profissional",
-      "title": "Superior Industries Inc · fev 2023 – mai 2026",
+      "title": "Superior Industries Inc · fev 2023 – atual",
       "role": "Desenvolvedor Front-end · presencial",
       "summary": "Atuação em aplicações front-end escaláveis com React e TypeScript — dashboards de monitoramento industrial em produção, design system documentado e integrações REST com back-end Python e PostgreSQL.",
       "items": {
-        "realtime": "Dashboards com streams contínuos de telemetria via WebSocket, validação dinâmica de thresholds e renderização com múltiplos estados operacionais.",
+        "realtime": "Dashboards com fluxos contínuos de telemetria via WebSocket, validação dinâmica de limites e renderização com múltiplos estados operacionais.",
         "designSystem": "Arquitetura e evolução de biblioteca de componentes com Styled-components e documentação via Storybook — consistência visual e velocidade de entrega.",
         "auth": "Fluxos completos de autenticação: login, controle de sessão, refresh de token e recuperação de senha, com route guards e validações no cliente.",
         "quality": "Testes com Jest (unitário) e Playwright (E2E) em fluxos críticos; code review ativo; responsividade em todos os módulos (mobile, tablet e desktop)."
@@ -359,15 +374,15 @@
     },
     "categories": {
       "frontend": "UI & architecture",
-      "backend": "API & services",
+      "backend": "API e serviços",
       "testing": "Quality engineering",
-      "realtime": "Realtime systems",
+      "realtime": "Sistemas em tempo real",
       "tools": "Tooling",
       "iot": "IoT"
     },
     "experience": {
       "title": "Front-end em produção",
-      "intro": "Dashboards com telemetria WebSocket, validação de thresholds e UI multi-estado. Design system com Styled-components e Storybook; Jest e Playwright nos fluxos críticos.",
+      "intro": "Dashboards com telemetria WebSocket, validação de limites e UI multiestado. Design system com Styled-components e Storybook; Jest e Playwright nos fluxos críticos.",
       "subtitle": "Produção industrial · portfólio · estudos open-source",
       "items": {
         "auth": {
@@ -387,7 +402,7 @@
         },
         "realtime": {
           "title": "Dashboards industriais com WebSocket",
-          "description": "Streams contínuos de telemetria via WebSocket em produção — atualização de UI, thresholds dinâmicos e reconexão com cleanup de listeners.",
+          "description": "Fluxos contínuos de telemetria via WebSocket em produção — atualização de UI, limites dinâmicos e reconexão com cleanup de listeners.",
           "highlight": "Múltiplos estados de renderização e feedback claro quando o canal ou os dados degradam."
         },
         "api": {
@@ -463,7 +478,7 @@
       "modules": {
         "console": "Console operador",
         "dashboard": "Painel de comando",
-        "inbox": "Inbox live",
+        "inbox": "Caixa ao vivo",
         "login": "Portão de acesso"
       }
     },
@@ -472,7 +487,7 @@
       "checkingSession": "Verificando sessão..."
     },
     "login": {
-      "brand": "Admin",
+      "brand": "Administrador",
       "subtitle": "Área restrita do painel",
       "securityNote": "Acesso monitorado. Apenas contas com perfil administrador podem entrar.",
       "email": "E-mail",
@@ -493,7 +508,7 @@
     "dashboard": {
       "title": "Painel",
       "logout": "Sair",
-      "fallbackName": "Admin",
+      "fallbackName": "Administrador",
       "stats": {
         "activeChats": "Chats ativos",
         "unread": "Não lidas (chat)",
@@ -544,36 +559,36 @@
   },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "Demo de telemetria — ticks WebSocket, limiares e log de eventos. Inspirado em dashboards industriais em produção; não é produto real de cliente.",
+    "subtitle": "Demonstração de telemetria — pulsos WebSocket, limiares e log de eventos. Inspirado em dashboards industriais em produção; não é produto real de cliente.",
     "header": {
       "badge": "Demo · telemetria",
-      "badgeTooltip": "Stream de sensores ao vivo via Socket.io — não é mockup de UI",
-      "transportLive": "Transporte live · tick #{{tick}}",
-      "transportConnecting": "Handshake do transporte de telemetria…"
+      "badgeTooltip": "Fluxo de sensores ao vivo via Socket.io — não é mockup de UI",
+      "transportLive": "Transporte ao vivo · pulso #{{tick}}",
+      "transportConnecting": "Sincronizando transporte de telemetria…"
     },
     "boot": {
       "transportStatus": "Transporte de telemetria",
       "phases": {
         "initializing": "Inicializando cliente de telemetria…",
-        "connecting": "Abrindo WebSocket · namespace /telemetry",
-        "live": "Stream de sensores ativo",
-        "ready": "Operacional · recebendo ticks"
+        "connecting": "Abrindo WebSocket · espaço /telemetry",
+        "live": "Fluxo de sensores ativo",
+        "ready": "Operacional · recebendo pulsos"
       }
     },
     "monitor": {
       "title": "Sensores industriais",
-      "live": "WebSocket live",
+      "live": "WebSocket ao vivo",
       "connecting": "Conectando…",
-      "waitingData": "Aguardando primeiro tick de telemetria…",
+      "waitingData": "Aguardando primeiro pulso de telemetria…",
       "eventLog": "Log operacional de eventos",
-      "tick": "tick",
+      "tick": "pulso",
       "noEvents": "Nenhum evento ainda…",
       "trendChart": "Tendência · últimas amostras",
       "critLimit": "crít · {{value}} {{unit}}",
       "kpiStripLabel": "Métricas operacionais",
       "kpiStream": "Transporte",
-      "kpiLive": "LIVE",
-      "kpiTick": "tick #{{tick}}",
+      "kpiLive": "AO VIVO",
+      "kpiTick": "pulso #{{tick}}",
       "kpiSensors": "Canais",
       "kpiChannels": "sensores ativos",
       "kpiAlerts": "Alertas",
@@ -584,16 +599,16 @@
       "samples": "{{count}} amostras"
     },
     "chat": {
-      "title": "Canal realtime",
+      "title": "Canal em tempo real",
       "online": "Conectado",
-      "offline": "Offline",
+      "offline": "Desconectado",
       "connected": "WebSocket conectado",
       "connecting": "Conectando WebSocket...",
       "placeholder": "Mensagem...",
       "send": "Enviar",
       "intro": {
         "title": "Abrir sessão",
-        "description": "Canal realtime deste portfólio. Abre uma sessão e conversa — eu recebo em tempo real.",
+        "description": "Canal em tempo real deste portfólio. Abre uma sessão e conversa — eu recebo em tempo real.",
         "name": "Nome",
         "namePlaceholder": "Como devo te chamar?",
         "company": "Empresa",
@@ -608,25 +623,25 @@
       "description": "Eventos em tempo real entre cliente React e API FastAPI — conexão persistente, rooms por sessão e histórico em banco.",
       "stack": {
         "frontend": "React · Socket.io client · estado tipado",
-        "backend": "FastAPI · python-socketio · registry de conexões",
+        "backend": "FastAPI · python-socketio · registro de conexões",
         "database": "PostgreSQL · mensagens e sessões"
       }
     }
   },
   "contact": {
     "title": "Contato",
-    "subtitle": "Em busca ativa de vagas remotas ou híbridas como Front-end Engineer ou Software Engineer — fale comigo.",
+    "subtitle": "Em busca ativa de vagas remotas ou híbridas como engenheiro front-end ou engenheiro de software — fale comigo.",
     "form": {
       "name": "Nome",
       "namePlaceholder": "Seu nome",
-      "email": "Email",
+      "email": "E-mail",
       "emailPlaceholder": "seu@email.com",
       "company": "Empresa",
       "companyPlaceholder": "Time ou organização",
       "subject": "Assunto",
-      "subjectPlaceholder": "Ex.: oportunidade, arquitetura front-end, realtime",
+      "subjectPlaceholder": "Ex.: oportunidade ou Live Lab",
       "message": "Mensagem",
-      "messagePlaceholder": "Contexto, stack do time ou o que você quer explorar...",
+      "messagePlaceholder": "Contexto ou stack do time...",
       "submit": "Enviar mensagem",
       "sending": "Enviando...",
       "success": "Mensagem recebida. Respondo em breve.",
@@ -662,27 +677,27 @@
   },
   "projects": {
     "title": "Trabalho de engenharia",
-    "subtitle": "Cases selecionados — repositórios de estudo e experimentos. Trabalho em produção (privado) está documentado em Sobre.",
+    "subtitle": "Projetos selecionados — repositórios de estudo e experimentos. Trabalho em produção (privado) está documentado em Sobre.",
     "showcase": {
       "eyebrow": "Trabalhos selecionados",
-      "lead": "Cada case declara intenção, arquitetura e trade-off de engenharia. Trabalho em produção (repositório privado) não aparece aqui — veja Experiência em Sobre.",
-      "viewCase": "Ver case study",
-      "hostedDemo": "Demo hospedada",
+      "lead": "Cada projeto declara intenção, arquitetura e trade-off de engenharia. Trabalho em produção (repositório privado) não aparece aqui — veja Experiência em Sobre.",
+      "viewCase": "Ver estudo de caso",
+      "hostedDemo": "Demonstração hospedada",
       "repository": "Repositório"
     },
     "sectionTitle": "Trabalhos selecionados",
-    "sectionLead": "Cases de estudo e open-source com escopo honesto. Produção industrial está em Sobre.",
-    "sectionList": "Índice de cases",
+    "sectionLead": "Estudos de caso e open-source com escopo honesto. Produção industrial está em Sobre.",
+    "sectionList": "Índice de projetos",
     "filters": {
       "all": "Todos"
     },
-    "searchPlaceholder": "Buscar case ou capacidade...",
+    "searchPlaceholder": "Buscar projeto ou competência...",
     "table": {
-      "title": "Case",
+      "title": "Projeto",
       "technologies": "Sinais de engenharia"
     },
     "drawer": {
-      "description": "Narrativa do case",
+      "description": "Narrativa do projeto",
       "repository": "Código-fonte",
       "demo": "Experiência ao vivo"
     },
@@ -700,52 +715,52 @@
         "decision": "Priorizar legibilidade, estados de loading/erro honestos e composição sustentável em vez de ruído visual."
       },
       "ReactGram": {
-        "framing": "Case de estudo: feed social e mensagens para ensaiar ciclo de vida Socket.io, presença e UI otimista — padrões úteis em UIs realtime em produção.",
+        "framing": "Estudo de caso: feed social e mensagens para ensaiar ciclo de vida Socket.io, presença e UI otimista — padrões úteis em UIs em tempo real em produção.",
         "architecture": "Cliente React com stores dedicadas; serviço FastAPI; Socket.io como transporte principal com reconexão explícita.",
         "decision": "Estado de conexão faz parte do contrato de UI, não é detalhe de fundo."
       },
       "netflix_clone": {
-        "framing": "Case de estudo: catálogo estilo streaming para praticar trilhos horizontais, breakpoints de densidade e performance de scroll sem UI kit.",
+        "framing": "Estudo de caso: catálogo estilo streaming para praticar trilhos horizontais, breakpoints de densidade e performance de scroll sem UI kit.",
         "architecture": "Layout em camadas CSS, lazy loading de mídia, views por rota.",
         "decision": "Medir scroll e composição antes de efeitos visuais."
       },
       "movies_lib": {
-        "framing": "Case de estudo: catálogo de filmes com foco em limites REST, estados de carregamento e navegação lista/detalhe.",
+        "framing": "Estudo de caso: catálogo de filmes com foco em limites REST, estados de carregamento e navegação lista/detalhe.",
         "architecture": "Vite + React; camada de API tipada; caminhos explícitos de erro e skeleton.",
         "decision": "Superfícies vazias e de erro honestas — mesma disciplina de dashboard em produção."
       },
       "secret_word": {
-        "framing": "Case de estudo: jogo de adivinhação para praticar estado de componentes, teclado e fluxos de vitória/derrota.",
+        "framing": "Estudo de caso: jogo de adivinhação para praticar estado de componentes, teclado e fluxos de vitória/derrota.",
         "architecture": "UI React com regras localizadas; dependências mínimas; separação clara entre regras e apresentação.",
         "decision": "Regras testáveis e UI previsível antes de animações ou som."
       },
       "tasks-flask-crud": {
-        "framing": "Case de estudo: API CRUD de tarefas para praticar verbos REST, validação e persistência.",
+        "framing": "Estudo de caso: API CRUD de tarefas para praticar verbos REST, validação e persistência.",
         "architecture": "Serviço Flask com armazenamento relacional; contratos explícitos de request/response.",
         "decision": "Erros e status codes modelados de forma explícita — consumidores dependem de semântica estável."
       },
       "sample-flask-auth": {
-        "framing": "Case de estudo: autenticação — login, tokens e rotas protegidas em API Flask pequena.",
+        "framing": "Estudo de caso: autenticação — login, tokens e rotas protegidas em API Flask pequena.",
         "architecture": "Middleware de sessão ou token; credenciais hasheadas; guards em endpoints sensíveis.",
         "decision": "Auth como contrato transversal, não handler isolado."
       },
       "HTML-CSS": {
-        "framing": "Case de estudo: layout e CSS responsivo sem framework — espaçamento, grid e tipografia.",
+        "framing": "Estudo de caso: layout e CSS responsivo sem framework — espaçamento, grid e tipografia.",
         "architecture": "HTML semântico; breakpoints mobile-first; classes utilitárias reutilizáveis.",
         "decision": "Fundamentos de layout antes de bibliotecas de componentes."
       }
     },
     "viewCode": "Ver código-fonte",
     "viewDemo": "Abrir experiência",
-    "empty": "Nenhum case corresponde ao filtro.",
-    "loading": "Carregando cases...",
-    "error": "Não foi possível carregar os cases. Tente novamente.",
+    "empty": "Nenhum projeto corresponde ao filtro.",
+    "loading": "Carregando projetos...",
+    "error": "Não foi possível carregar os projetos. Tente novamente.",
     "caseCtas": {
-      "ReactGram": "Ver case study",
+      "ReactGram": "Ver estudo de caso",
       "netflix_clone": "Abrir experiência",
       "movies_lib": "Ver sistema",
       "secret_word": "Explorar arquitetura",
-      "tasks-flask-crud": "Ver case study",
+      "tasks-flask-crud": "Ver estudo de caso",
       "sample-flask-auth": "Explorar arquitetura",
       "HTML-CSS": "Abrir experiência"
     },

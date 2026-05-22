@@ -213,7 +213,7 @@
         "production": "years of experience",
         "productionValue": "3+",
         "realtime": "WebSocket in production",
-        "realtimeValue": "✓",
+        "realtimeValue": "Live",
         "architecture": "Jest · Playwright",
         "architectureValue": "2"
       },
@@ -227,7 +227,9 @@
     },
     "manifesto": {
       "aria": "Portfolio thesis",
-      "line": "Interfaces where telemetry, thresholds, and state stay legible under load — not demos that only look good in screenshots.",
+      "index": "00",
+      "linePrimary": "Interfaces where telemetry, thresholds, and state stay legible under load —",
+      "lineEmphasis": "not demos that only look good in screenshots.",
       "meta": "Front-end engineering · realtime systems · production UI"
     },
     "realtime": {
@@ -281,7 +283,20 @@
       "title": "Live Lab",
       "badge": "Live demo",
       "description": "Portfolio demo: industrial-style sensors (RPM, temperature, pressure, vibration) over WebSocket — inspired by production industrial dashboards, not a real client product.",
+      "sensors": {
+        "temp": "Temperature",
+        "vib": "Vibration",
+        "press": "Pressure",
+        "amp": "Current"
+      },
+      "observatoryTitle": "Operations · Telemetry",
+      "trendLabel": "Aggregate throughput",
       "cta": "Open Live Lab",
+      "footer": {
+        "transport": "WebSocket",
+        "tick": "tick",
+        "sensors": "sensors"
+      },
       "activity": {
         "sync": "Handshaking transport…",
         "build": "Build {{version}} · FastAPI telemetry",
@@ -329,7 +344,7 @@
     },
     "superior": {
       "sectionTitle": "Professional experience",
-      "title": "Superior Industries Inc · Feb 2023 – May 2026",
+      "title": "Superior Industries Inc · Feb 2023 – present",
       "role": "Front-end Developer · on-site",
       "summary": "Built scalable React and TypeScript front-end — production industrial monitoring dashboards, documented design system, and REST integrations with Python and PostgreSQL back-end.",
       "items": {
@@ -624,9 +639,9 @@
       "company": "Company",
       "companyPlaceholder": "Team or organization",
       "subject": "Subject",
-      "subjectPlaceholder": "e.g. role, front-end architecture, realtime",
+      "subjectPlaceholder": "e.g. role or Live Lab",
       "message": "Message",
-      "messagePlaceholder": "Context, team stack, or what you want to explore...",
+      "messagePlaceholder": "Context or team stack...",
       "submit": "Send message",
       "sending": "Sending...",
       "success": "Message received. I'll reply soon.",
