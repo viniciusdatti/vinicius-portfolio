@@ -17,6 +17,8 @@ import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { publicAssetUrl } from '@/config/env';
 
 // Components
+import { AboutTimelineCanvas } from '@/components/atmosphere/AboutTimelineCanvas';
+import { PortraitSceneR3D } from '@/components/atmosphere/PortraitSceneR3D';
 import {
   PageContainerNarrow,
   PageHeaderLeft,
@@ -35,6 +37,7 @@ import {
   StatLabel,
   Section,
   ExperienceSection,
+  ExperienceTimelineWrap,
   ExperienceTimeline,
   ExperienceSectionTitle,
   PhilosophySection,
@@ -106,11 +109,8 @@ export function About(): React.ReactElement {
         whileInView="visible"
         viewport={viewportSection}
       >
-        <Avatar variants={item}>
-          <img
-            src={publicAssetUrl('avatar.png')}
-            alt="Vinicius"
-          />
+        <Avatar variants={item} aria-label={t('home.hero.portraitAlt')}>
+          <PortraitSceneR3D imageSrc={publicAssetUrl('avatar.png')} />
         </Avatar>
         <IntroContent>
           <motion.h2 variants={item}>
@@ -141,26 +141,29 @@ export function About(): React.ReactElement {
 
       <ExperienceSection>
         <ExperienceSectionTitle>{t('about.superior.sectionTitle')}</ExperienceSectionTitle>
-        <ExperienceTimeline
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportTight}
-        >
-          <ExperienceCard variants={item}>
-            <ExperienceCardHeader>
-              <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
-            </ExperienceCardHeader>
-            <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
-            <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
-            <ExperienceBullets>
-              <ExperienceBullet>{t('about.superior.items.realtime')}</ExperienceBullet>
-              <ExperienceBullet>{t('about.superior.items.designSystem')}</ExperienceBullet>
-              <ExperienceBullet>{t('about.superior.items.auth')}</ExperienceBullet>
-              <ExperienceBullet>{t('about.superior.items.quality')}</ExperienceBullet>
-            </ExperienceBullets>
-          </ExperienceCard>
-        </ExperienceTimeline>
+        <ExperienceTimelineWrap>
+          <AboutTimelineCanvas />
+          <ExperienceTimeline
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportTight}
+          >
+            <ExperienceCard variants={item}>
+              <ExperienceCardHeader>
+                <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
+              </ExperienceCardHeader>
+              <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
+              <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
+              <ExperienceBullets>
+                <ExperienceBullet>{t('about.superior.items.realtime')}</ExperienceBullet>
+                <ExperienceBullet>{t('about.superior.items.designSystem')}</ExperienceBullet>
+                <ExperienceBullet>{t('about.superior.items.auth')}</ExperienceBullet>
+                <ExperienceBullet>{t('about.superior.items.quality')}</ExperienceBullet>
+              </ExperienceBullets>
+            </ExperienceCard>
+          </ExperienceTimeline>
+        </ExperienceTimelineWrap>
       </ExperienceSection>
 
       <PhilosophySection

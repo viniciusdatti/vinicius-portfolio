@@ -3,104 +3,12 @@
  */
 
 // Libraries
-import styled, { keyframes } from 'styled-components';
-import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
-export const PageHeader = styled.header`
-  margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
-  max-width: ${({ theme }) => theme.layout.proseWide};
-  text-align: center;
-  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: ${({ theme }) => theme.spacing.xxl};
-    align-items: end;
-    max-width: 100%;
-    text-align: left;
-  };
-`;
-
-export const PageHeaderMain = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: block;
-  };
-`;
-
-export const PageHeaderAside = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.lg};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    margin-top: 0;
-    display: block;
-  };
-`;
-
-export const PageTitle = styled(motion.h1)`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2.25rem, 5vw, 3.25rem);
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.gradientTextDisplay};
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-`;
-
-export const PageSubtitle = styled(motion.p)`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  max-width: ${({ theme }) => theme.layout.prose};
-  margin-left: auto;
-  margin-right: auto;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    margin-left: 0;
-    margin-right: 0;
-  };
-`;
-
-const eyebrowLine = keyframes`
-  from { width: 0; opacity: 0; }
-  to   { width: 24px; opacity: 1; }
-`;
-
-export const PageEyebrow = styled(motion.span)`
-  display: inline-flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.accent};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-
-  &::before {
-    content: '';
-    display: block;
-    height: 1px;
-    width: 0;
-    background: ${({ theme }) => theme.colors.accent};
-    animation: ${eyebrowLine} 500ms ${({ theme }) => theme.motion.easeOut} 200ms both;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-      width: 24px;
-    };
-  };
-`;
+// Components
+import {
+  operationalGlass,
+} from '@/styles/surfaces';
 
 export const Toolbar = styled.div`
   display: flex;
@@ -116,8 +24,7 @@ export const SearchInput = styled.input`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  ${operationalGlass};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   transition:
@@ -133,11 +40,6 @@ export const SearchInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.textMuted};
   };
-`;
-
-export const ShowcaseSection = styled.section`
-  margin-bottom: ${({ theme }) => theme.spacing.section};
-  padding-bottom: clamp(2rem, 6vw, 4rem);
 `;
 
 export const DrawerCaseBody = styled.div`
@@ -170,6 +72,7 @@ export const DrawerLinks = styled.div`
 `;
 
 export const DrawerLink = styled.a`
+  position: relative;
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   color: ${({ theme }) => theme.colors.onPrimary};
@@ -180,7 +83,7 @@ export const DrawerLink = styled.a`
   transition: box-shadow ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.elevation.md};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
   };
 `;
 
@@ -206,6 +109,7 @@ export const ErrorMessage = styled.p`
 `;
 
 export const RetryButton = styled.button`
+  position: relative;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   background: ${({ theme }) => theme.colors.gradientButtonPrimary};
   color: ${({ theme }) => theme.colors.onPrimary};
@@ -216,7 +120,7 @@ export const RetryButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.elevation.md};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
   };
 `;
 

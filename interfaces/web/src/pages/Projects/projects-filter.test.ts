@@ -54,7 +54,7 @@ describe('projects filtering', (): void => {
 
   it('should filter by technology slug', (): void => {
     const result: Project[] = filterProjects(projects, 'react', '', false);
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(1);
     expect(
       result.every((p) => p.technologies.some((t) => t.slug === 'react')),
     ).toBe(true);
@@ -67,40 +67,40 @@ describe('projects filtering', (): void => {
   // FILTER: search *******************************
 
   it('should filter by search query (case-insensitive)', (): void => {
-    const result: Project[] = filterProjects(projects, 'all', 'patriot', false);
+    const result: Project[] = filterProjects(projects, 'all', 'vault', false);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe('PatriotDashboard');
+    expect(result[0].title).toBe('Vault ERP Synchronizer');
   });
 
   it('should treat search as case-insensitive', (): void => {
-    const upper: Project[] = filterProjects(projects, 'all', 'PATRIOT', false);
-    const lower: Project[] = filterProjects(projects, 'all', 'patriot', false);
+    const upper: Project[] = filterProjects(projects, 'all', 'VAULT', false);
+    const lower: Project[] = filterProjects(projects, 'all', 'vault', false);
     expect(upper).toEqual(lower);
   });
 
   // FILTER: combined *******************************
 
   it('should combine tech filter and search', (): void => {
-    const result: Project[] = filterProjects(projects, 'react', 'patriot', false);
+    const result: Project[] = filterProjects(projects, 'react', 'live', false);
     expect(result).toHaveLength(1);
-    expect(result[0].id).toBe(1);
+    expect(result[0].id).toBe(2);
   });
 
   it('should return empty when combined filters match nothing', (): void => {
-    expect(filterProjects(projects, 'socketio', 'patriot', false)).toHaveLength(0);
+    expect(filterProjects(projects, 'storybook', 'vault', false)).toHaveLength(0);
   });
 
   // FILTER: locale *******************************
 
   it('should use title_pt when isPt is true', (): void => {
-    const result: Project[] = filterProjects(projects, 'all', 'patriot', true);
+    const result: Project[] = filterProjects(projects, 'all', 'sincronizador', true);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe('PatriotDashboard');
+    expect(result[0].title).toBe('Vault ERP Synchronizer');
   });
 
   it('should fall back to title when title_pt is null and isPt is true', (): void => {
-    const result: Project[] = filterProjects(projects, 'all', 'OtherProject', true);
+    const result: Project[] = filterProjects(projects, 'all', 'aesthetic', true);
     expect(result).toHaveLength(1);
-    expect(result[0].title).toBe('OtherProject');
+    expect(result[0].title).toBe('Aesthetic Nexus');
   });
 });
