@@ -200,7 +200,7 @@
       "name": "Vinicius Datti",
       "eyebrow": "Portfolio · frontend engineering",
       "headline": "Front-end for industrial systems that cannot stop.",
-      "description": "I spent 3 years at Vantage — a real-time crusher monitoring platform. Dashboards over WebSocket, multiple equipment states, and a layout that works from the operator's phone to the control room monitor.",
+      "description": "Three years at Vantage: Patriot and VSI dashboards from scratch — WebSocket, per-equipment states, layout from the operator's phone to the control room. When the data was wrong, the machine stopped.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explore the portfolio",
@@ -261,7 +261,7 @@
     },
     "aboutPreview": {
       "title": "3 years monitoring crushers in real production",
-      "description": "At Vantage I built the Patriot and VSI dashboards — WebSocket with per-equipment states, alerts based on readStatus and edgeStatus, and a full responsiveness refactor so operators could use it on their phones in the field.",
+      "description": "Patriot and VSI from scratch — WebSocket, JWT with role-based routing, responsiveness from field phone to control room. Bad data in the UI was not a cosmetic bug: the machine stopped.",
       "cta": "Read full experience"
     },
     "skillsPreview": {
@@ -321,7 +321,7 @@
       "sectionTitle": "Professional experience",
       "title": "Vantage · 2021–2024",
       "role": "Front-end Engineer — industrial crusher monitoring platform",
-      "summary": "Patriot (cone crusher) and VSI dashboards built from scratch. Data arriving via Socket.io every 10 seconds, alerts based on readStatus and edgeStatus, and a complete responsiveness refactor so operators could use it on their phones in the field.",
+      "summary": "Patriot and VSI built from scratch. Socket.io every 10s, readStatus and edgeStatus as an operational contract — when the machine stopped, the UI had to show it before the operator lost visibility.",
       "items": {
         "dashboards": "Patriot and VSI dashboards — hydraulics, lubrication, motor status, vibration, cavity level. Schema-based equipment detection (SchemaType). GPS with three fallback levels: live coordinates → static equipment location → no pin.",
         "realtime": "Promise.allSettled to load equipment unit, latest data, and socket in parallel. When a machine stopped, the UI communicated it immediately through readStatus and edgeStatus — not just a visual indicator, a data contract.",
@@ -340,6 +340,8 @@
   "skills": {
     "title": "Capabilities",
     "subtitle": "3 years writing front-end where a UI failure means machines stop and operators lose visibility. Industrial dashboards, full auth flow, and responsiveness rebuilt from scratch.",
+    "error": "Could not load capabilities. Please try again.",
+    "certificatesError": "Could not load certificates. Please try again.",
     "filterAll": "All",
     "toolNames": {
       "cursor": "Cursor",
@@ -416,6 +418,8 @@
       "viewCertificate": "View certificate",
       "close": "Close",
       "totalHours": "{{hours}}+ hours of study",
+      "count_one": "{{count}} certificate",
+      "count_other": "{{count}} certificates",
       "hours_one": "{{count}} hour",
       "hours_other": "{{count}} hours",
       "courses_one": "{{count}} course",
@@ -606,7 +610,7 @@
     }
   },
   "footer": {
-    "description": "I built front-end where industrial crushers depend on the UI being right. React · TypeScript · WebSocket.",
+    "description": "Front-end where wrong data on screen had consequences on the plant floor — the machine stopped. React · TypeScript · WebSocket.",
     "navigation": "Navigation",
     "contact": "Contact",
     "linkedin": "LinkedIn",
