@@ -3,16 +3,21 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+// Theme
+import { operationalGlass } from '@/styles/surfaces';
+
 export const ImmersionBand = styled.section`
   position: relative;
   z-index: 4;
   width: 100%;
-  margin-top: clamp(-4rem, -8vw, -2rem);
-  padding: clamp(5rem, 12vw, 9rem) ${({ theme }) => theme.spacing.pageX}
+  margin-top: 0;
+  padding: clamp(4rem, 10vw, 7rem) ${({ theme }) => theme.spacing.pageX}
     clamp(4rem, 9vw, 6rem);
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-  scroll-margin-top: ${({ theme }) => theme.sizes.layout.headerOffset};
-  overflow: visible;
+  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
+  padding-bottom: clamp(5rem, 12vw, 8rem);
+  overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 
   &::before {
     content: '';
@@ -62,7 +67,9 @@ export const ImmersionIndex = styled.span`
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   line-height: 0.85;
   color: ${({ theme }) => theme.colors.text};
-  opacity: 0.35;
+  opacity: 0.14;
+  pointer-events: none;
+  user-select: none;
 `;
 
 export const ImmersionEyebrow = styled.span`
@@ -117,38 +124,56 @@ export const ImmersionCta = styled(Link)`
   width: fit-content;
   margin-top: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
-  background: ${({ theme }) => theme.colors.primary};
+  background: ${({ theme }) => theme.colors.gradientButtonPrimary};
   color: ${({ theme }) => theme.colors.onPrimary};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  min-height: ${({ theme }) => theme.sizes.button.minHeight};
+  align-items: center;
+  position: relative;
+  overflow: hidden;
   transition:
-    background-color ${({ theme }) => theme.transitions.fast},
+    filter ${({ theme }) => theme.transitions.fast},
     transform ${({ theme }) => theme.transitions.normal};
 
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${({ theme }) => theme.colors.gradientButtonShine};
+    pointer-events: none;
+    opacity: ${({ theme }) => theme.effects.opacity.buttonShine};
+  }
+
   &:hover {
-    background: ${({ theme }) => theme.colors.primaryHover};
+    filter: brightness(1.08);
     transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+    color: ${({ theme }) => theme.colors.onPrimary};
   }
 `;
 
 export const ImmersionVisual = styled.div`
   position: relative;
   min-width: 0;
+  z-index: 1;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    margin-top: -4.5rem;
-    z-index: 2;
+    margin-top: 0;
+    align-self: center;
   }
 `;
 
 export const VisualFrame = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
-  background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
   padding: ${({ theme }) => theme.spacing.lg};
   overflow: hidden;
+  ${operationalGlass};
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 `;
