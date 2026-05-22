@@ -83,18 +83,29 @@ export const HeroColumnGuides = styled.div`
   };
 `;
 
+/**
+ * Clip container for the hero headline slide-up reveal.
+ * overflow: hidden creates the mask for the y: '105%' → 0 animation.
+ */
+export const HeroHeadlineClip = styled.div`
+  overflow: hidden;
+`;
+
 export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2rem, 4.2vw, 3.25rem);
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  font-weight: 800;
   margin: 0;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  letter-spacing: -0.035em;
+  line-height: 1;
+  hyphens: none;
   color: ${({ theme }) => theme.colors.text};
-  max-width: 22ch;
+  font-feature-settings: "ss01", "cv01";
+  max-width: 14ch;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     max-width: none;
+    font-size: clamp(2rem, 6vw, 3rem);
   };
 `;
 
@@ -109,19 +120,21 @@ export const HeroVisualCard = styled.div`
 export const HeroPortrait = styled.div`
   position: relative;
   width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
-  height: ${({ theme }) => theme.sizes.avatar.heroEditorial};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  aspect-ratio: 4 / 5;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow: ${({ theme }) => theme.elevation.lg};
+  box-shadow: ${({ theme }) => theme.elevation.lg},
+              inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center top;
+    object-position: center 15%;
     display: block;
+    filter: contrast(1.05) saturate(0.9);
   };
 `;
 
@@ -254,7 +267,6 @@ export const HeroVisualColumn = styled.div`
 export const HeroAvatarFrame = styled.div`
   position: relative;
   width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
-  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -275,12 +287,24 @@ export const HeroDecoTag = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.accent};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceGlass};
+  border-radius: 0;
+  border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  background: ${({ theme }) => theme.colors.primarySurface};
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+
+  &::before {
+    content: '';
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.accent};
+    opacity: 0.8;
+  };
 `;
 
 export const HeroGreeting = styled.span`
@@ -328,6 +352,23 @@ export const HeroStackLine = styled.p`
   color: ${({ theme }) => theme.colors.accent};
   margin: 0;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0;
+`;
+
+export const HeroStackTech = styled.span`
+  color: ${({ theme }) => theme.colors.accent};
+`;
+
+export const HeroStackSeparator = styled.span`
+  color: ${({ theme }) => theme.colors.accent};
+  opacity: 0.4;
+  margin: 0 ${({ theme }) => theme.spacing.sm};
+  user-select: none;
+  font-size: 0.6em;
+  line-height: 1;
 `;
 
 export const HeroDescription = styled.p`
@@ -369,17 +410,21 @@ export const HeroStat = styled.div`
 export const HeroStatValue = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xxl};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  color: ${({ theme }) => theme.colors.text};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  font-weight: 800;
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: -0.02em;
   line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 `;
 
 export const HeroStatLabel = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textMuted};
   margin-top: ${({ theme }) => theme.spacing.xs};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
 `;
 
 export const CtaWrapper = styled.div`
@@ -419,13 +464,25 @@ export const HeroScrollCue = styled.button`
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   padding: ${({ theme }) => theme.spacing.sm};
-  animation: ${({ theme }) => scrollCueBounce(theme)} 2.4s ease-in-out infinite;
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusRing};
     outline-offset: 4px;
     border-radius: ${({ theme }) => theme.borderRadius.sm};
   };
+`;
+
+/**
+ * Chevron that bounces independently below the scroll cue text.
+ * Separate from HeroScrollCue so only the chevron animates, not the label.
+ */
+export const HeroScrollChevron = styled.span`
+  display: block;
+  font-size: 0.65em;
+  opacity: ${({ theme }) => theme.effects.opacity.scrollCueMin};
+  animation: ${({ theme }) => scrollCueBounce(theme)} 2.4s ease-in-out infinite;
+  line-height: 1;
+  margin-top: 2px;
 `;
 
 export const ScrollCueLine = styled.span`

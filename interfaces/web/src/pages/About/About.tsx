@@ -9,15 +9,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-// Styles
-import {
-  staggerContainer,
-  staggerItem,
-  sectionReveal,
-} from '../../styles/animations';
-
 // Components
+import {
+  scrollReveal,
+  scrollRevealStagger,
+  scrollRevealItem,
+} from '../../styles/animations';
 import { publicAssetUrl } from '../../config/env';
+import { useCountUp } from '../../hooks';
 import {
   PageContainer,
   PageTitle,
@@ -40,30 +39,63 @@ import {
   ComplementaryText,
 } from './About.style';
 
+/* *************************************************************************************************
+ **************************************** COMPONENT HANDLING ***************************************
+ ************************************************************************************************ */
+
+interface StatCounterProps {
+  target: number;
+  suffix?: string;
+  label: string;
+}
+
+/**
+ * Individual stat card with count-up animation triggered on viewport enter.
+ */
+const StatCounter: React.FC<StatCounterProps> = ({
+  target,
+  suffix = '',
+  label,
+}): React.ReactElement => {
+  const { count, ref } = useCountUp({ target, duration: 1400 });
+
+  return (
+    <StatCard variants={scrollRevealItem} whileHover={{ y: -5 }}>
+      <StatNumber ref={ref}>
+        {count}
+        {suffix}
+      </StatNumber>
+      <StatLabel>{label}</StatLabel>
+    </StatCard>
+  );
+};
+
 /**
  * About page with personal introduction, stats, philosophy, and education.
  */
-export const About: React.FC = () => {
+export const About: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
 
   return (
     <PageContainer>
       <PageTitle
-        variants={sectionReveal}
-        initial="initial"
-        animate="animate"
+        variants={scrollReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: '-80px' }}
       >
         {t('about.title')}
       </PageTitle>
 
       <IntroSection
-        variants={staggerContainer}
-        initial="initial"
-        animate="animate"
+        variants={scrollRevealStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, margin: '-60px' }}
       >
         <Avatar
-          variants={staggerItem}
-          whileHover={{ scale: 1.03 }}
+          variants={scrollRevealItem}
+          whileHover={{ scale: 1.02 }}
         >
           <img
             src={publicAssetUrl('avatar.png')}
@@ -71,40 +103,31 @@ export const About: React.FC = () => {
           />
         </Avatar>
         <IntroContent>
-          <motion.h2 variants={staggerItem}>
+          <motion.h2 variants={scrollRevealItem}>
             {t('about.intro.title')}
           </motion.h2>
-          <motion.p variants={staggerItem}>
+          <motion.p variants={scrollRevealItem}>
             {t('about.intro.description')}
           </motion.p>
         </IntroContent>
       </IntroSection>
 
       <StatsGrid
-        variants={staggerContainer}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
+        variants={scrollRevealStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
       >
-        <StatCard variants={staggerItem} whileHover={{ y: -5 }}>
-          <StatNumber>3+</StatNumber>
-          <StatLabel>{t('about.stats.experience')}</StatLabel>
-        </StatCard>
-        <StatCard variants={staggerItem} whileHover={{ y: -5 }}>
-          <StatNumber>7</StatNumber>
-          <StatLabel>{t('about.stats.certificates')}</StatLabel>
-        </StatCard>
-        <StatCard variants={staggerItem} whileHover={{ y: -5 }}>
-          <StatNumber>10+</StatNumber>
-          <StatLabel>{t('about.stats.technologies')}</StatLabel>
-        </StatCard>
+        <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
+        <StatCounter target={7} label={t('about.stats.certificates')} />
+        <StatCounter target={10} suffix="+" label={t('about.stats.technologies')} />
       </StatsGrid>
 
       <PhilosophySection
-        variants={sectionReveal}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
+        variants={scrollReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
       >
         <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
         <PhilosophyCard>
@@ -113,10 +136,10 @@ export const About: React.FC = () => {
       </PhilosophySection>
 
       <Section
-        variants={sectionReveal}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true }}
+        variants={scrollReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
       >
         <SectionTitle>{t('about.education.title')}</SectionTitle>
         <EducationCard>

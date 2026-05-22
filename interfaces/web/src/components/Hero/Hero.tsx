@@ -1,5 +1,5 @@
 // Core
-import React, { useRef } from 'react';
+import React from 'react';
 
 // Libraries
 import { Link } from 'react-router-dom';
@@ -16,7 +16,6 @@ import {
   HeroSection,
   HeroAtmosphere,
   HeroDecoGrid,
-  HeroColumnGuides,
   GlowBackdrop,
   GlowBackdropSecondary,
   GlowBackdropTertiary,
@@ -24,8 +23,11 @@ import {
   HeroCopyColumn,
   HeroVisualColumn,
   HeroDecoTag,
+  HeroHeadlineClip,
   HeroHeadline,
   HeroStackLine,
+  HeroStackTech,
+  HeroStackSeparator,
   HeroDescription,
   HeroStatsRow,
   HeroStat,
@@ -34,10 +36,10 @@ import {
   CtaWrapper,
   CtaButtonWrapper,
   HeroScrollCue,
+  HeroScrollChevron,
   ScrollCueLine,
   HeroVisualCard,
   HeroAvatarFrame,
-  HeroAvatarRing,
   HeroPortrait,
 } from './Hero.style';
 
@@ -61,22 +63,17 @@ const itemVariants = {
   },
 };
 
-/* ***********************************************************************************************
- ****************************************** METHODS ***********************************************
- *********************************************************************************************** */
-
 const scrollToNarrative = (): void => {
   document.getElementById('section-capabilities')?.scrollIntoView({ behavior: 'smooth' });
 };
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
-
-export const Hero: React.FC = (): React.ReactElement => {
+/**
+ * Hero — wrapped in React.memo so language changes (i18n re-renders)
+ * do not trigger re-animation. The motion.div keeps its internal state
+ * stable across re-renders as long as the component stays mounted.
+ */
+const HeroComponent: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
-  const sectionRef = useRef<HTMLElement>(null);
-
   const avatarSrc: string = publicAssetUrl('avatar.png');
 
   const stats: { valueKey: string; labelKey: string }[] = [
@@ -86,13 +83,12 @@ export const Hero: React.FC = (): React.ReactElement => {
   ];
 
   return (
-    <HeroSection ref={sectionRef}>
+    <HeroSection>
       <HeroAtmosphere aria-hidden />
       <GlowBackdropSecondary aria-hidden />
       <GlowBackdropTertiary aria-hidden />
       <GlowBackdrop aria-hidden />
       <HeroDecoGrid aria-hidden />
-      <HeroColumnGuides aria-hidden />
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -103,11 +99,21 @@ export const Hero: React.FC = (): React.ReactElement => {
             <motion.div variants={itemVariants}>
               <HeroDecoTag>{t('home.hero.eyebrow')}</HeroDecoTag>
             </motion.div>
-            <motion.div variants={heroClipReveal}>
-              <HeroHeadline>{t('home.hero.headline')}</HeroHeadline>
-            </motion.div>
+            <HeroHeadlineClip>
+              <motion.div variants={heroClipReveal}>
+                <HeroHeadline>{t('home.hero.headline')}</HeroHeadline>
+              </motion.div>
+            </HeroHeadlineClip>
             <motion.div variants={itemVariants}>
-              <HeroStackLine>{t('home.hero.stackLine')}</HeroStackLine>
+              <HeroStackLine>
+                <HeroStackTech>React</HeroStackTech>
+                <HeroStackSeparator aria-hidden>●</HeroStackSeparator>
+                <HeroStackTech>TypeScript</HeroStackTech>
+                <HeroStackSeparator aria-hidden>●</HeroStackSeparator>
+                <HeroStackTech>WebSocket</HeroStackTech>
+                <HeroStackSeparator aria-hidden>●</HeroStackSeparator>
+                <HeroStackTech>FastAPI</HeroStackTech>
+              </HeroStackLine>
             </motion.div>
             <motion.div variants={itemVariants}>
               <HeroDescription>{t('home.hero.description')}</HeroDescription>
@@ -141,7 +147,6 @@ export const Hero: React.FC = (): React.ReactElement => {
             <motion.div variants={itemVariants}>
               <HeroVisualCard>
                 <HeroAvatarFrame>
-                  <HeroAvatarRing aria-hidden />
                   <HeroPortrait>
                     <img src={avatarSrc} alt={t('home.hero.portraitAlt')} />
                   </HeroPortrait>
@@ -159,7 +164,10 @@ export const Hero: React.FC = (): React.ReactElement => {
       >
         <ScrollCueLine aria-hidden />
         {t('home.hero.scrollCue')}
+        <HeroScrollChevron aria-hidden>▼</HeroScrollChevron>
       </HeroScrollCue>
     </HeroSection>
   );
 };
+
+export const Hero = React.memo(HeroComponent);

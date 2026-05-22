@@ -36,13 +36,13 @@ export const FooterSection = styled.div`
 export const FooterLogo = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  font-weight: 800;
   color: ${({ theme }) => theme.colors.text};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  letter-spacing: -0.01em;
   margin-bottom: ${({ theme }) => theme.spacing.sm};
 
   span {
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.accent};
   };
 `;
 

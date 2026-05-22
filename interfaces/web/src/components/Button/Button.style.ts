@@ -18,7 +18,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.sizes.button.paddingY}
     ${({ theme }) => theme.sizes.button.paddingX};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border-radius: 0;
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
@@ -54,6 +54,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
         `;
       case 'secondary':
         return `
+          border-radius: ${theme.borderRadius.sm};
           background: ${theme.colors.surfaceGlass};
           color: ${theme.colors.text};
           border-color: ${theme.colors.border};
@@ -72,6 +73,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
       case 'outline':
       default:
         return `
+          border-radius: ${theme.borderRadius.sm};
           background-color: transparent;
           color: ${theme.colors.primary};
           border-color: ${theme.colors.primaryBorderFaint};

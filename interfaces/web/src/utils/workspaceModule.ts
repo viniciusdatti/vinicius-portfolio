@@ -5,7 +5,6 @@ const PATH_BY_MODULE: Record<WorkspaceModule, string> = {
   [WorkspaceModule.Identity]: '/',
   [WorkspaceModule.Cases]: '/projects',
   [WorkspaceModule.Capabilities]: '/skills',
-  [WorkspaceModule.Channel]: '/contact',
 };
 
 const MODULE_BY_PATH: Record<string, WorkspaceModule> = {
@@ -13,7 +12,7 @@ const MODULE_BY_PATH: Record<string, WorkspaceModule> = {
   '/about': WorkspaceModule.Identity,
   '/projects': WorkspaceModule.Cases,
   '/skills': WorkspaceModule.Capabilities,
-  '/contact': WorkspaceModule.Channel,
+  '/contact': WorkspaceModule.Identity,
   '/live-lab': WorkspaceModule.Cases,
 };
 

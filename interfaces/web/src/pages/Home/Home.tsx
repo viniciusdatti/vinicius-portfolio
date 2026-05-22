@@ -8,22 +8,19 @@ import React from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
+// Components
 import { Language } from '../../types';
 import { ProjectShowcaseDetailMode } from '../../components/ProjectShowcase';
-
-// Components
 import { publicAssetUrl } from '../../config/env';
 import { Hero } from '../../components/Hero';
 import { RealtimePresence } from '../../components/home/RealtimePresence';
-import { LiveLabTeaser } from '../../components/home/LiveLabTeaser';
 import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
 import { useProjects } from '../../hooks';
 import {
-  editorialStaggerContainer,
-  editorialStaggerItem,
-  fadeIn,
+  scrollReveal,
+  scrollRevealStagger,
+  scrollRevealItem,
 } from '../../styles/animations';
 import {
   Section,
@@ -55,6 +52,11 @@ import {
   LiveLabSectionTitle,
   LiveLabDescription,
   CTAButton,
+  TelemetryPreview,
+  TelemetryPreviewCard,
+  TelemetryPreviewLabel,
+  TelemetryPreviewValue,
+  TelemetryPreviewBadge,
   AboutPreviewSection,
   AboutPreviewLayout,
   AboutPreviewMain,
@@ -65,13 +67,11 @@ import {
   ContactCtaActions,
 } from './Home.style';
 
-/** Represents a skill item with name and icon URL. */
 interface SkillItem {
   name: string;
   icon: string;
 }
 
-/** Preview skills displayed on the home page. */
 const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'React', icon: publicAssetUrl('icons/react.svg') },
   { name: 'TypeScript', icon: publicAssetUrl('icons/typescript.svg') },
@@ -81,23 +81,16 @@ const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'Docker', icon: publicAssetUrl('icons/docker.svg') },
 ];
 
-/* ***********************************************************************************************
- **************************************** DERIVED STATE ********************************************
- *********************************************************************************************** */
+// Viewport config reutilizável — once: false garante re-animação após navegação
+const vp = { once: false, margin: '-80px' };
+const vpSm = { once: false, margin: '-40px' };
 
-/**
- * Home — one-page cinematic portfolio with complementary deep routes.
- */
 export const Home: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: projects, isLoading, isError, refetch } = useProjects();
 
   const currentLanguage: Language =
     i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
-
-  /* ***********************************************************************************************
-  ****************************************** METHODS ***********************************************
-  *********************************************************************************************** */
 
   const renderProjects = (): React.ReactElement => {
     if (isLoading) {
@@ -132,10 +125,6 @@ export const Home: React.FC = (): React.ReactElement => {
     );
   };
 
-  /* ***********************************************************************************************
-  *************************************** COMPONENT HANDLING ***************************************
-  *********************************************************************************************** */
-
   return (
     <>
       <Hero />
@@ -146,9 +135,10 @@ export const Home: React.FC = (): React.ReactElement => {
           <SkillsEditorialIntro>
             <SectionEyebrow>{t('home.sections.skills.eyebrow')}</SectionEyebrow>
             <SectionTitle
-              variants={fadeIn}
-              initial="initial"
-              animate="animate"
+              variants={scrollReveal}
+              initial="hidden"
+              whileInView="visible"
+              viewport={vp}
             >
               {t('home.skillsPreview.title')}
             </SectionTitle>
@@ -162,12 +152,13 @@ export const Home: React.FC = (): React.ReactElement => {
             </ViewAllLinkWrapper>
           </SkillsEditorialIntro>
           <SkillsGrid
-            variants={editorialStaggerContainer}
-            initial="initial"
-            animate="animate"
+            variants={scrollRevealStagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={vpSm}
           >
             {PREVIEW_SKILLS.map((skill: SkillItem) => (
-              <SkillIcon key={skill.name} variants={editorialStaggerItem}>
+              <SkillIcon key={skill.name} variants={scrollRevealItem}>
                 <img src={skill.icon} alt={skill.name} />
                 <span>{skill.name}</span>
               </SkillIcon>
@@ -182,9 +173,10 @@ export const Home: React.FC = (): React.ReactElement => {
           <ProjectsSectionMain>
             <SectionEyebrow>{t('home.sections.projects.eyebrow')}</SectionEyebrow>
             <SectionTitle
-              variants={fadeIn}
-              initial="initial"
-              animate="animate"
+              variants={scrollReveal}
+              initial="hidden"
+              whileInView="visible"
+              viewport={vp}
             >
               {t('projects.sectionTitle')}
             </SectionTitle>
@@ -204,9 +196,10 @@ export const Home: React.FC = (): React.ReactElement => {
         <SectionEyebrow>{t('home.sections.liveLab.eyebrow')}</SectionEyebrow>
         <LiveLabSectionTitle>{t('home.liveLabPreview.title')}</LiveLabSectionTitle>
         <LiveLabCard
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={vp}
         >
           <LiveLabCopy>
             <LiveBadge>{t('home.liveLabPreview.badge')}</LiveBadge>
@@ -218,16 +211,35 @@ export const Home: React.FC = (): React.ReactElement => {
             </CTAButton>
           </LiveLabCopy>
           <LiveLabVisual>
-            <LiveLabTeaser />
+            <TelemetryPreview>
+              <TelemetryPreviewCard $status="ok">
+                <TelemetryPreviewLabel>Temperatura</TelemetryPreviewLabel>
+                <TelemetryPreviewValue $status="ok">72.4 °C</TelemetryPreviewValue>
+              </TelemetryPreviewCard>
+              <TelemetryPreviewCard $status="warn">
+                <TelemetryPreviewLabel>Vibração</TelemetryPreviewLabel>
+                <TelemetryPreviewValue $status="warn">8.1 mm/s</TelemetryPreviewValue>
+              </TelemetryPreviewCard>
+              <TelemetryPreviewCard $status="ok">
+                <TelemetryPreviewLabel>Pressão</TelemetryPreviewLabel>
+                <TelemetryPreviewValue $status="ok">3.2 bar</TelemetryPreviewValue>
+              </TelemetryPreviewCard>
+              <TelemetryPreviewCard $status="ok">
+                <TelemetryPreviewLabel>Corrente</TelemetryPreviewLabel>
+                <TelemetryPreviewValue $status="ok">14.8 A</TelemetryPreviewValue>
+              </TelemetryPreviewCard>
+            </TelemetryPreview>
+            <TelemetryPreviewBadge>WebSocket · 4 sensors · live</TelemetryPreviewBadge>
           </LiveLabVisual>
         </LiveLabCard>
       </LiveLabSection>
 
       <AboutPreviewSection id="section-about">
         <AboutPreviewLayout
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={vp}
         >
           <AboutPreviewMain>
             <SectionEyebrow>{t('home.sections.about.eyebrow')}</SectionEyebrow>
@@ -242,9 +254,10 @@ export const Home: React.FC = (): React.ReactElement => {
 
       <ContactCtaSection id="section-contact">
         <ContactCtaInner
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={vp}
         >
           <div>
             <SectionEyebrow>{t('home.sections.contact.eyebrow')}</SectionEyebrow>

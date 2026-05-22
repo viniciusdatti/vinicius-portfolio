@@ -60,15 +60,18 @@ export const StatusCluster = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   flex-shrink: 1;
   min-width: 0;
-  overflow-x: auto;
+  overflow: hidden;
   flex-wrap: nowrap;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    max-width: 280px;
+  @media (max-width: ${({ theme }) => theme.breakpoints.wide}) {
+    display: none;
   };
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: none;
+  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
+    max-width: 380px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; };
   };
 `;
 

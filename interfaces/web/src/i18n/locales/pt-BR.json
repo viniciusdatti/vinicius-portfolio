@@ -143,7 +143,7 @@
     },
     "cases": {
       "title": "Módulos de case",
-      "lead": "Inspecione contexto de arquitetura — abra demo quando disponível.",
+      "lead": "Escolha um projeto e traga uma pergunta para o canal live — eu respondo em tempo real.",
       "inspect": "Inspecionar módulo",
       "demo": "Abrir caminho live",
       "repository": "Fonte",
@@ -161,6 +161,11 @@
       "title": "Canal outbound",
       "lead": "Mensagem estruturada quando o canal live não bastar.",
       "note": "Prefira o canal live para diálogo realtime — este caminho persiste por e-mail."
+    },
+    "sidebar": {
+      "label": "Contexto",
+      "open": "Abrir painel de contexto",
+      "close": "Fechar painel de contexto"
     }
   },
   "showcase": {
@@ -192,20 +197,20 @@
   "home": {
     "hero": {
       "eyebrow": "Portfólio · engenharia frontend",
-      "headline": "Engenheiro Front-end especializado em sistemas modernos, interfaces realtime e arquitetura React.",
-      "description": "Construo interfaces de produção com React e TypeScript — arquitetura de componentes, canais WebSocket e qualidade de produto em ambientes reais.",
+      "headline": "React + WebSocket em interfaces industriais ao vivo.",
+      "description": "3 anos construindo dashboards que monitoram equipamentos em tempo real — thresholds dinâmicos, múltiplos estados e streams contínuos de telemetria via WebSocket.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explorar o portfólio",
       "ctaPrimary": "Ver trabalhos",
       "ctaSecondary": "Abrir Live Lab",
       "stats": {
-        "production": "Produção",
-        "productionValue": "3+ anos",
-        "realtime": "Sistemas realtime",
+        "production": "anos em produção",
+        "productionValue": "3+",
+        "realtime": "streams de telemetria",
         "realtimeValue": "WebSocket",
-        "architecture": "Arquitetura",
-        "architectureValue": "React · TS"
+        "architecture": "design system",
+        "architectureValue": "Storybook"
       },
       "liveMicro": {
         "apiLive": "API sincronizada",
@@ -236,7 +241,7 @@
       "projects": {
         "eyebrow": "02 — Trabalhos selecionados",
         "index": "02",
-        "story": "Sistemas front-end e superfícies de produto — cada case documenta problema, arquitetura e decisões técnicas.",
+        "story": "Cada projeto documenta o que foi construído, por que certas escolhas foram feitas e o que está em produção hoje.",
         "viewAll": "Explorar todos os cases"
       },
       "liveLab": {
@@ -253,8 +258,8 @@
       }
     },
     "aboutPreview": {
-      "title": "Front-end com sistemas em produção",
-      "description": "3+ anos entregando aplicações React + TypeScript — de telemetria industrial via WebSocket a painéis administrativos e este portfólio como referência de arquitetura.",
+      "title": "Front-end para sistemas que não podem falhar",
+      "description": "3 anos em monitoramento industrial: dashboards com telemetria ao vivo, thresholds dinâmicos e múltiplos estados de renderização. Pergunte sobre os dashboards.",
       "cta": "Ler experiência completa"
     },
     "skillsPreview": {
@@ -265,7 +270,7 @@
     "liveLabPreview": {
       "title": "Live Lab",
       "badge": "Engenharia ao vivo",
-      "description": "Experiência separada com canal WebSocket bidirecional, persistência de sessão e UX operacional — engenharia realtime em profundidade.",
+      "description": "A maioria dos portfólios mostra screenshots. Este roda o mesmo padrão WebSocket que usei em monitoramento industrial — sessão ativa, persistência real, log de eventos ao vivo.",
       "cta": "Abrir Live Lab completo",
       "activity": {
         "sync": "Sincronizando com API…",
@@ -298,8 +303,8 @@
   "about": {
     "title": "Sobre",
     "intro": {
-      "title": "Front-end com sistemas em produção",
-      "description": "Engenheiro Front-end com 3+ anos entregando aplicações React + TypeScript em ambientes reais — de dashboards industriais com telemetria via WebSocket a painéis administrativos e este portfólio como referência de arquitetura."
+      "title": "Front-end para sistemas que não podem falhar",
+      "description": "Trabalhei 3 anos em monitoramento industrial — quando o dado chega errado, a máquina para. Esse contexto moldou como penso sobre UI."
     },
     "stats": {
       "experience": "Anos em produção",
@@ -320,7 +325,7 @@
   },
   "skills": {
     "title": "Competências",
-    "subtitle": "Competências de engenharia front-end — arquitetura, realtime, qualidade e sistemas escaláveis.",
+    "subtitle": "Formado em produção real — dashboards industriais, design systems com Storybook e testes E2E com Playwright em fluxos críticos.",
     "filterAll": "Todas",
     "toolNames": {
       "cursor": "Cursor",
@@ -511,7 +516,16 @@
   },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "Sistema realtime ao vivo — WebSocket, persistência e UI de produto",
+    "subtitle": "O mesmo padrão WebSocket usado em monitoramento industrial — rodando agora no seu browser.",
+    "monitor": {
+      "title": "Telemetria · Sensores industriais",
+      "live": "WebSocket live",
+      "connecting": "Conectando…",
+      "waitingData": "Aguardando telemetria…",
+      "eventLog": "Log de eventos",
+      "tick": "tick",
+      "noEvents": "Nenhum evento ainda…"
+    },
     "chat": {
       "title": "Canal realtime",
       "online": "Conectado",
@@ -522,7 +536,7 @@
       "send": "Enviar",
       "intro": {
         "title": "Abrir sessão",
-        "description": "Canal bidirecional com Socket.io — o mesmo padrão usado em dashboards industriais e neste portfólio. Mensagens persistidas no backend.",
+        "description": "Mesmo canal que usei em dashboards industriais. Abre uma sessão e conversa — eu recebo em tempo real.",
         "name": "Nome",
         "namePlaceholder": "Como devo te chamar?",
         "company": "Empresa",
@@ -544,7 +558,7 @@
   },
   "contact": {
     "title": "Contato",
-    "subtitle": "Oportunidades em front-end engineering, arquitetura de UI ou sistemas realtime",
+    "subtitle": "Se você está construindo algo e precisa de um front-end que aguente — fale comigo.",
     "form": {
       "name": "Nome",
       "namePlaceholder": "Seu nome",
@@ -573,12 +587,12 @@
     },
     "chatCta": {
       "title": "Prefere um canal realtime?",
-      "description": "No Live Lab o handshake WebSocket e a UI de chat rodam como em produção.",
+      "description": "O Live Lab roda uma conexão WebSocket real — a mesma arquitetura que uso em produção, aberta no seu browser agora.",
       "cta": "Abrir Live Lab"
     }
   },
   "footer": {
-    "description": "Front-end Engineer — React, TypeScript e sistemas realtime em produção.",
+    "description": "Construí front-end onde equipamentos industriais dependem da UI estar certa. React · TypeScript · WebSocket.",
     "navigation": "Navegação",
     "contact": "Contato",
     "linkedin": "LinkedIn",
@@ -594,7 +608,7 @@
     "subtitle": "Estudos de caso em sistemas de UI, APIs e arquitetura de interface — com código-fonte e experiências ao vivo quando disponíveis.",
     "showcase": {
       "eyebrow": "Showcase de engenharia",
-      "lead": "Cases orientados a produto: o que foi construído, como está estruturado e quais sinais de engenharia importam. Leitura para pares, não catálogo de repositórios.",
+      "lead": "Projetos documentados como decisões de engenharia — o problema, a arquitetura escolhida e o que foi aprendido.",
       "viewCase": "Ver case study",
       "liveDemo": "Experiência ao vivo"
     },

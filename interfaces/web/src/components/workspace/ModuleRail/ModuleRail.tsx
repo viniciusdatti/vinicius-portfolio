@@ -33,11 +33,6 @@ const RAIL_ITEMS: RailItem[] = [
     labelKey: 'workspace.rail.capabilities',
     index: '03',
   },
-  {
-    module: WorkspaceModule.Channel,
-    labelKey: 'workspace.rail.channel',
-    index: '04',
-  },
 ];
 
 /* ***********************************************************************************************

@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 // Types
 import type { Project } from '../../data/types';
 import type { Technology } from '../../data/types';
-import { Language } from '../../types';
 
 // Components
+import { Language } from '../../types';
 import { FilterBar, Drawer } from '../../components/showcase';
 import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { useProjects } from '../../hooks';
@@ -22,9 +22,7 @@ import {
   resolveCaseStudyField,
   resolveTechnologyCapabilityLabel,
 } from '../../utils/projectCaseCopy';
-
-// Styles
-import { sectionReveal } from '../../styles/animations';
+import { scrollReveal } from '../../styles/animations';
 import {
   PageContainer,
   PageHeader,
@@ -49,9 +47,9 @@ import {
   LoadingMessage,
 } from './Projects.style';
 
-/* ***********************************************************************************************
- ****************************************** METHODS ***********************************************
- *********************************************************************************************** */
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
 
 const getUniqueTechnologies = (projects: Project[]): Technology[] => {
   const seen = new Map<string, Technology>();
@@ -160,18 +158,20 @@ export const Projects: React.FC = (): React.ReactElement => {
         <PageHeaderMain>
           <PageEyebrow>{t('projects.showcase.eyebrow')}</PageEyebrow>
           <PageTitle
-            variants={sectionReveal}
-            initial="initial"
-            animate="animate"
+            variants={scrollReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, margin: '-80px' }}
           >
             {t('projects.title')}
           </PageTitle>
         </PageHeaderMain>
         <PageHeaderAside>
           <PageSubtitle
-            variants={sectionReveal}
-            initial="initial"
-            animate="animate"
+            variants={scrollReveal}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, margin: '-60px' }}
           >
             {t('projects.showcase.lead')}
           </PageSubtitle>

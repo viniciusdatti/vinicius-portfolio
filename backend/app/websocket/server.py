@@ -23,6 +23,9 @@ from app.services.telegram import telegram_service
 from app.services.chat_service import ChatService
 from app.services import chat_connection_registry as registry
 
+# App - Telemetry
+from app.websocket.telemetry import start_telemetry_loop
+
 logger = logging.getLogger(__name__)
 settings = get_settings()
 
@@ -386,3 +389,30 @@ async def close_session(sid, data):
             logger.info(f"Session {session_id} closed")
     finally:
         db.close()
+
+
+# ============================================
+# Telemetry Namespace (/telemetry)
+# ============================================
+
+_telemetry_task = None
+_telemetry_clients = 0
+
+
+@sio.on("connect", namespace="/telemetry")
+async def telemetry_connect(sid, environ):
+    """Start telemetry loop when first client connects."""
+    global _telemetry_task, _telemetry_clients
+    _telemetry_clients += 1
+    logger.info(f"Telemetry client connected: {sid} (total: {_telemetry_clients})")
+    if _telemetry_task is None or _telemetry_task.done():
+        _telemetry_task = asyncio.create_task(start_telemetry_loop(sio))
+        logger.info("Telemetry loop started")
+
+
+@sio.on("disconnect", namespace="/telemetry")
+async def telemetry_disconnect(sid):
+    """Track client disconnections."""
+    global _telemetry_clients
+    _telemetry_clients = max(0, _telemetry_clients - 1)
+    logger.info(f"Telemetry client disconnected: {sid} (total: {_telemetry_clients})")

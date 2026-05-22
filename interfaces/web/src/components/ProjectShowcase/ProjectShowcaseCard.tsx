@@ -131,8 +131,8 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
           </MockWindowBar>
           <MockBody>
             <MockLineAccent />
-            <MockLine />
-            <MockLine $width="56%" />
+            <MockLine $delay="0.4s" />
+            <MockLine $width="56%" $delay="1.2s" />
           </MockBody>
         </MockWindow>
         <TechFloatingRow>

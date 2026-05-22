@@ -7,7 +7,15 @@
 // Libraries
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+// Types
+import type { SensorStatus } from '../../hooks/useTelemetry';
+
+const eyebrowLineExpand = keyframes`
+  from { width: 0; opacity: 0; }
+  to { width: 24px; opacity: 0.5; }
+`;
 
 /**
  * Base section container with responsive padding and max-width.
@@ -27,9 +35,10 @@ export const Section = styled.section`
  */
 export const SectionTitle = styled(motion.h2)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.0;
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
@@ -41,13 +50,25 @@ export const SectionLead = styled.p`
 `;
 
 export const SectionEyebrow = styled.span`
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.accent};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+
+  &::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: ${({ theme }) => theme.colors.accent};
+    opacity: 0.5;
+    flex-shrink: 0;
+    animation: ${eyebrowLineExpand} 0.5s ${({ theme }) => theme.motion.easeOut} both;
+  };
 `;
 
 export const SectionIndex = styled.span`
@@ -266,8 +287,9 @@ export const LiveLabCard = styled(motion.div)`
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-top: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  border-radius: 0;
   padding: ${({ theme }) => theme.spacing.xxl};
   position: relative;
   overflow: hidden;
@@ -292,6 +314,81 @@ export const LiveLabCopy = styled.div`
 export const LiveLabVisual = styled.div`
   width: 100%;
   min-width: 0;
+`;
+
+export const TelemetryPreview = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  overflow: hidden;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
+  };
+`;
+
+export const TelemetryPreviewCard = styled.div<{ $status: SensorStatus }>`
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: ${({ $status, theme }) =>
+      $status === 'critical'
+        ? theme.colors.error
+        : $status === 'warn'
+          ? theme.colors.warning
+          : theme.colors.success};
+  };
+`;
+
+export const TelemetryPreviewLabel = styled.div`
+  font-size: ${({ theme }) => theme.typography.fontSize.caption};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textMuted};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const TelemetryPreviewValue = styled.div<{ $status: SensorStatus }>`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: ${({ $status, theme }) =>
+    $status === 'critical'
+      ? theme.colors.error
+      : $status === 'warn'
+        ? theme.colors.warning
+        : theme.colors.text};
+`;
+
+export const TelemetryPreviewBadge = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.success};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  margin-top: ${({ theme }) => theme.spacing.sm};
+
+  &::before {
+    content: '';
+    width: ${({ theme }) => theme.sizes.badge.dotSm};
+    height: ${({ theme }) => theme.sizes.badge.dotSm};
+    background: ${({ theme }) => theme.colors.success};
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    flex-shrink: 0;
+  };
 `;
 
 export const LiveLabMetric = styled.div`
@@ -322,7 +419,7 @@ export const LiveBadge = styled.span`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
   background-color: ${({ theme }) => theme.colors.success};
-  color: white;
+  color: ${({ theme }) => theme.colors.onSuccess};
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
@@ -331,16 +428,17 @@ export const LiveBadge = styled.span`
 
   &::before {
     content: '';
-    width: 8px;
-    height: 8px;
-    background-color: white;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
+    width: ${({ theme }) => theme.sizes.badge.dotSm};
+    height: ${({ theme }) => theme.sizes.badge.dotSm};
+    background-color: ${({ theme }) => theme.colors.background};
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    animation: liveBadgePulse 2s ease-in-out infinite;
+    flex-shrink: 0;
   };
 
-  @keyframes pulse {
+  @keyframes liveBadgePulse {
     0%, 100% { opacity: 1; };
-    50% { opacity: 0.5; };
+    50% { opacity: ${({ theme }) => theme.effects.opacity.pulseMid}; };
   };
 `;
 
@@ -371,16 +469,20 @@ export const CTAButton = styled(Link)`
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border-radius: 0;
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-weight: 700;
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition: background-color ${({ theme }) => theme.transitions.fast},
               transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
     transform: translateY(-2px);
-    color: white;
+    color: ${({ theme }) => theme.colors.onPrimary};
   };
 `;
 

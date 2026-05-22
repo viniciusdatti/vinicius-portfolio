@@ -32,7 +32,6 @@ const LIVE_LAB_MODULE_LABEL_KEYS: Record<WorkspaceModule, string> = {
   [WorkspaceModule.Identity]: 'system.modules.profile',
   [WorkspaceModule.Cases]: 'system.modules.cases',
   [WorkspaceModule.Capabilities]: 'system.modules.capabilities',
-  [WorkspaceModule.Channel]: 'system.modules.channel',
 };
 
 const PORTFOLIO_MODULE_KEYS: Record<string, string> = {

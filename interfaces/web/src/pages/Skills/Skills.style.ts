@@ -91,9 +91,9 @@ export const ExperienceSection = styled(Section)`
 export const ExperienceIntro = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
-  line-height: 1.6;
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
-  max-width: 800px;
+  max-width: ${({ theme }) => theme.layout.proseWide};
 `;
 
 /**
@@ -103,7 +103,7 @@ export const ExperienceSubtitle = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  max-width: 720px;
+  max-width: ${({ theme }) => theme.layout.prose};
 `;
 
 /**
@@ -142,7 +142,7 @@ export const ExperienceCard = styled(motion.div)`
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    box-shadow: ${({ theme }) => theme.elevation.md};
 
     &::before {
       opacity: 1;
@@ -166,7 +166,7 @@ export const ExperienceCardTitle = styled.h3`
 export const ExperienceCardDescription = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: 1.5;
+  line-height: ${({ theme }) => theme.typography.lineHeight.normal};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
@@ -177,7 +177,7 @@ export const ExperienceCardHighlight = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.primary};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  line-height: 1.4;
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   margin-bottom: ${({ theme }) => theme.spacing.md};
   padding-left: ${({ theme }) => theme.spacing.sm};
   border-left: 2px solid ${({ theme }) => theme.colors.primary};
@@ -214,7 +214,7 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
   background-color: ${({ $active, theme }) =>
     $active ? theme.colors.primary : theme.colors.surface};
   color: ${({ $active, theme }) =>
-    $active ? 'white' : theme.colors.textSecondary};
+    $active ? theme.colors.onPrimary : theme.colors.textSecondary};
   border: 1px solid ${({ $active, theme }) =>
     $active ? theme.colors.primary : theme.colors.border};
   transition: all ${({ theme }) => theme.transitions.fast};
@@ -222,7 +222,7 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ $active, theme }) =>
-      $active ? 'white' : theme.colors.primary};
+      $active ? theme.colors.onPrimary : theme.colors.primary};
   };
 `;
 
@@ -231,27 +231,16 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
  */
 export const SkillsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
-`;
+  grid-template-columns: repeat(2, 1fr);
+  gap: ${({ theme }) => theme.spacing.md};
 
-/**
- * Individual skill card with hover effects.
- */
-export const SkillCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
-  transition: border-color ${({ theme }) => theme.transitions.fast},
-              transform ${({ theme }) => theme.transitions.fast};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: ${({ theme }) => theme.spacing.lg};
+  };
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateY(-4px);
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   };
 `;
 
@@ -271,20 +260,75 @@ export const SkillIcon = styled.div`
 `;
 
 /**
+ * Skill technology name heading.
+ */
+export const SkillName = styled.h3`
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+/**
+ * Category label that slides up into view on SkillCard hover.
+ * Must be declared before SkillCard so it can be used as a styled-components selector.
+ */
+export const SkillCategoryLabel = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+  transform: translateY(6px);
+  opacity: 0;
+  transition:
+    transform ${({ theme }) => theme.transitions.normal},
+    opacity ${({ theme }) => theme.transitions.normal};
+  white-space: nowrap;
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+  };
+`;
+
+/**
  * Container for skill name. Flex layout centers text vertically with the icon.
  */
 export const SkillInfo = styled.div`
   flex: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  gap: ${({ theme }) => theme.spacing.xs};
+  min-width: 0;
+  overflow: hidden;
 `;
 
 /**
- * Skill technology name heading.
+ * Individual skill card with hover effects.
+ * On hover, reveals the SkillCategoryLabel via transform and opacity transition.
  */
-export const SkillName = styled.h3`
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  margin: 0;
+export const SkillCard = styled(motion.div)`
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  transition: border-color ${({ theme }) => theme.transitions.fast},
+              transform ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    border-color: ${({ theme }) => theme.colors.primary};
+    transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
+
+    ${SkillCategoryLabel} {
+      transform: translateY(0);
+      opacity: 1;
+    };
+  };
 `;
 
 /**
