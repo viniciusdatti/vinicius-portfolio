@@ -23,6 +23,7 @@ import {
   IntroSection,
   Avatar,
   IntroContent,
+  IntroHighlight,
   StatsGrid,
   StatCard,
   StatNumber,
@@ -114,10 +115,27 @@ export function About(): React.ReactElement {
             {t('about.intro.title')}
           </motion.h2>
           <motion.p variants={scrollRevealItem}>
-            {t('about.intro.description')}
+            {t('about.intro.lead')}
+          </motion.p>
+          <IntroHighlight variants={scrollRevealItem}>
+            {t('about.intro.highlight')}
+          </IntroHighlight>
+          <motion.p variants={scrollRevealItem}>
+            {t('about.intro.impact')}
           </motion.p>
         </IntroContent>
       </IntroSection>
+
+      <StatsGrid
+        variants={scrollRevealStagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
+      >
+        <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
+        <StatCounter target={2} label={t('about.stats.dashboards')} />
+        <StatCounter target={5} label={t('about.stats.breakpoints')} />
+      </StatsGrid>
 
       <Section>
         <SectionTitle>{t('about.vantage.sectionTitle')}</SectionTitle>
@@ -141,17 +159,6 @@ export function About(): React.ReactElement {
           </VantageBullets>
         </VantageCard>
       </Section>
-
-      <StatsGrid
-        variants={scrollRevealStagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-      >
-        <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
-        <StatCounter target={2} label={t('about.stats.dashboards')} />
-        <StatCounter target={5} label={t('about.stats.breakpoints')} />
-      </StatsGrid>
 
       <PhilosophySection
         variants={scrollReveal}

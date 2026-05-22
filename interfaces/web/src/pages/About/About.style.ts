@@ -77,15 +77,38 @@ export const Avatar = styled(motion.div)`
 `;
 
 export const IntroContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
-    margin-bottom: ${({ theme }) => theme.spacing.md};
+    margin-bottom: 0;
+    line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   };
 
   p {
     color: ${({ theme }) => theme.colors.textSecondary};
     line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+    font-size: ${({ theme }) => theme.typography.fontSize.md};
+    margin-bottom: 0;
+    max-width: ${({ theme }) => theme.layout.proseWide};
   };
+`;
+
+export const IntroHighlight = styled(motion.p)`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  margin: 0;
+  max-width: ${({ theme }) => theme.layout.proseWide};
+
+  strong {
+    color: ${({ theme }) => theme.colors.accent};
+    font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  }
 `;
 
 export const StatsGrid = styled(motion.div)`
@@ -106,13 +129,17 @@ export const StatCard = styled(motion.div)`
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
+  box-shadow: ${({ theme }) => theme.elevation.sm};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
-    border-left-color ${({ theme }) => theme.transitions.fast};
+    border-left-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.border};
+    border-color: ${({ theme }) => theme.colors.borderLight};
     border-left-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: ${({ theme }) => theme.elevation.md};
   };
 `;
 
@@ -129,7 +156,9 @@ export const StatNumber = styled.div`
 
 export const StatLabel = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
 `;
 
 export const SectionTitle = styled.h3`
@@ -224,6 +253,7 @@ export const VantageCard = styled(motion.div)`
   border-left: 3px solid ${({ theme }) => theme.colors.primary};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
+  box-shadow: ${({ theme }) => theme.elevation.md};
 `;
 
 export const VantageCardHeader = styled.div`
@@ -268,8 +298,8 @@ export const VantageBullets = styled.ul`
 `;
 
 export const VantageBullet = styled.li`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   padding-left: ${({ theme }) => theme.spacing.lg};
   position: relative;
