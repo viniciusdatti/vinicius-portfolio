@@ -129,26 +129,6 @@ export interface AuthTokens {
   expires_in: number;
 }
 
-// Project Types (existing)
-export interface Technology {
-  id: number;
-  name: string;
-  color: string;
-}
-
-export interface Project {
-  id: number;
-  title: string;
-  title_pt: string | null;
-  description: string | null;
-  description_pt: string | null;
-  repository_url: string;
-  demo_url: string | null;
-  technologies: Technology[];
-  created_at: string;
-  updated_at: string;
-}
-
 // API Response Types
 export interface ApiResponse<T> {
   data: T;

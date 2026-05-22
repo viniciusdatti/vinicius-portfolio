@@ -1,6 +1,6 @@
 // Core
-import React from 'react';
 import './i18n/config';
+import React from 'react';
 
 // Libraries
 import { ThemeProvider } from 'styled-components';
@@ -8,11 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Theme
 import { GlobalStyles } from './styles/GlobalStyles';
-import {
-  darkTheme,
-  lightTheme,
-  Theme,
-} from './styles/theme';
+import { darkTheme, lightTheme, Theme } from './styles/theme';
 
 // Components
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -23,7 +19,8 @@ const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
-      retry: 1,
+      retry: 2,
+      refetchOnWindowFocus: false,
     },
   },
 });
