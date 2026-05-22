@@ -2,7 +2,7 @@
 import { Variants } from 'framer-motion';
 
 // Components
-import { motionPresets } from './motionPresets';
+import { motionPresets } from '@/styles/motionPresets';
 
 export const motionEase = motionPresets.ease.out;
 
@@ -20,11 +20,13 @@ export const pageEnter: Variants = {
   initial: {
     opacity: 0,
     y: motionPresets.distance.pageEnter,
-    filter: 'blur(4px)',
+    scale: 0.992,
+    filter: 'blur(6px)',
   },
   animate: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: 'blur(0px)',
     transition: {
       duration: motionPresets.duration.page,
@@ -34,7 +36,8 @@ export const pageEnter: Variants = {
   exit: {
     opacity: 0,
     y: -motionPresets.distance.pageExit,
-    filter: 'blur(2px)',
+    scale: 0.996,
+    filter: 'blur(3px)',
     transition: {
       duration: motionPresets.duration.normal,
       ease: motionEaseSoft,
@@ -68,10 +71,12 @@ export const scrollReveal: Variants = {
   hidden: {
     opacity: 0,
     y: motionPresets.distance.editorial,
+    filter: 'blur(8px)',
   },
   visible: {
     opacity: 1,
     y: 0,
+    filter: 'blur(0px)',
     transition: {
       duration: motionPresets.duration.slow,
       ease: motionEase,

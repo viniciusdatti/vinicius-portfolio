@@ -3,11 +3,13 @@ import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { livingSurface, featuredSpotlight } from '../../styles/surfaces';
+import {
+  glassSurface, livingSurface, featuredSpotlight, pointerSpotlight,
+} from '@/styles/surfaces';
 import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
-} from './ProjectShowcase.types';
+} from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 const getPreviewMinHeight = (
   variant: ProjectShowcaseVariant | undefined,
@@ -83,9 +85,11 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   cursor: pointer;
   position: relative;
   ${livingSurface};
+  ${glassSurface};
+  ${pointerSpotlight};
+  transform-style: preserve-3d;
   transition:
-    transform ${({ theme }) => theme.transitions.normal},
-    box-shadow ${({ theme }) => theme.transitions.normal},
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     border-color ${({ theme }) => theme.transitions.fast};
   border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primary : theme.colors.borderSubtle)};
   box-shadow: ${({ $selected, theme }) => ($selected ? theme.elevation.lg : theme.elevation.sm)};
@@ -95,7 +99,7 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   & > * {
     position: relative;
     z-index: ${({ theme }) => theme.zIndex.content};
-  };
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     ${({ $variant, theme }) => ($variant === ProjectShowcaseVariant.Featured
@@ -104,17 +108,18 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
           min-height: ${theme.sizes.project.previewHeightFeatured};
         `
     : '')};
-  };
+  }
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.borderLight};
-    box-shadow: ${({ theme }) => theme.shadows.lg};
-  };
+    border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+    --spot-opacity: 1;
+  }
 
   &:focus-visible {
     outline: 2px solid ${({ theme }) => theme.colors.focusRing};
     outline-offset: 2px;
-  };
+  }
 `;
 
 export const PreviewIndexWatermark = styled.span`
@@ -325,7 +330,16 @@ export const IndexLabel = styled.span`
   text-transform: uppercase;
 `;
 
-export const LivePill = styled.span`
+export const RepoSlug = styled.span`
+  display: block;
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+export const DemoPill = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.success};
   background: ${({ theme }) => theme.colors.successSurface};

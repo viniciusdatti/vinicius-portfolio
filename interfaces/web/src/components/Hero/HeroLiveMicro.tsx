@@ -5,13 +5,13 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useSystemHealth, SystemHealthStatus } from '../../hooks/useSystemHealth';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   LiveMicroRoot,
   LiveMicroDot,
   LiveMicroLabel,
   LiveMicroHint,
-} from './HeroLiveMicro.style';
+} from '@/components/Hero/HeroLiveMicro.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************

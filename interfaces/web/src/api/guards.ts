@@ -2,7 +2,7 @@
  * Type guards for API error handling (portfolio predicates).
  */
 
-import { ApiError } from './client';
+import { ApiError } from '@/api/client';
 
 export const isApiError = (error: unknown): error is ApiError => (
   error instanceof ApiError

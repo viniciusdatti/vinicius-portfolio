@@ -6,18 +6,18 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Types
-import type { Project } from '../../../data/types';
-import type { Skill } from '../../../types';
-import { Language, SkillCategory, WorkspaceModule } from '../../../types';
+import type { Project } from '@/data/types';
+import type { Skill } from '@/types';
+import { Language, SkillCategory, WorkspaceModule } from '@/types';
 
 // Components
-import { useProjects, useSkills } from '../../../hooks';
-import { useWorkspaceStore, useSystemEventStore } from '../../../store';
-import { modulePanelSwitch } from '../../../styles/animations';
+import { useProjects, useSkills } from '@/hooks';
+import { useWorkspaceStore, useSystemEventStore } from '@/store';
+import { modulePanelSwitch } from '@/styles/animations';
 import {
   SystemEventLevel,
   SystemEventType,
-} from '../../../types/system-events';
+} from '@/types/system-events';
 import {
   PanelScroll,
   PanelTitle,
@@ -37,7 +37,7 @@ import {
   CapabilityGroup,
   CapabilityHeading,
   CapabilityItem,
-} from './ContextPanel.style';
+} from '@/components/workspace/ContextPanel/ContextPanel.style';
 
 interface ContextPanelProps {
   module: WorkspaceModule;

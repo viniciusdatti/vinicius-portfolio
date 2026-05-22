@@ -3,15 +3,15 @@
  */
 
 // Types
-import type { AdminChatMessage, AdminChatSession } from './admin-chat';
+import type { AdminChatMessage, AdminChatSession } from '@/types/admin-chat';
 import type {
   ChatApiDateField,
   ChatApiMessageDto,
   ChatApiSessionDto,
   ChatApiVisitorMessageDto,
-} from './chat-api';
-import type { ChatMessage } from './chat-domain';
-import { ChatMessageSenderType } from './chat-domain';
+} from '@/types/chat-api';
+import type { ChatMessage } from '@/types/chat-domain';
+import { ChatMessageSenderType } from '@/types/chat-domain';
 
 /**
  * Normalizes API date fields to ISO strings.

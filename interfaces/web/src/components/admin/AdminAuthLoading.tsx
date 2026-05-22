@@ -6,10 +6,10 @@
 import React from 'react';
 
 // Components
-import { Spinner } from '../common/Spinner';
+import { Spinner } from '@/components/common/Spinner';
 
 // Styles
-import { LoadingRoot, LoadingText } from './AdminAuthLoading.style';
+import { LoadingRoot, LoadingText } from '@/components/admin/AdminAuthLoading.style';
 
 interface AdminAuthLoadingProps {
   message: string;

@@ -6,10 +6,10 @@ import {
   resolveWorkspaceModule,
   getWorkspaceModulePath,
   formatSessionLabel,
-} from './workspaceModule';
+} from '@/utils/workspaceModule';
 
 // Types
-import { WorkspaceModule } from '../types';
+import { WorkspaceModule } from '@/types';
 
 /* *************** TEST EXECUTION *************** */
 

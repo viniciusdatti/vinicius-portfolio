@@ -1,1 +1,1 @@
-export { ToastHost, showToast, ToastType } from './Toast';
+export { ToastHost, showToast, ToastType } from '@/components/common/Toast/Toast';

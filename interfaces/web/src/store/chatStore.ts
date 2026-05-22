@@ -7,9 +7,9 @@ import { create } from 'zustand';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
 // Types
-import type { ChatMessage } from '../types';
-import type { VisitorChatStoreData } from '../types/chat';
-import { initialVisitorChatStoreData } from '../types/chat';
+import type { ChatMessage } from '@/types';
+import type { VisitorChatStoreData } from '@/types/chat';
+import { initialVisitorChatStoreData } from '@/types/chat';
 
 interface ChatState extends VisitorChatStoreData {
   setSessionId: (id: string) => void;

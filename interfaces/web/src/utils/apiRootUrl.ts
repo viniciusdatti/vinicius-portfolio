@@ -1,5 +1,5 @@
 // Components
-import { env } from '../config/env';
+import { env } from '@/config/env';
 
 /**
  * API origin for sockets and /health (strips /api/v1 suffix from env.apiUrl).

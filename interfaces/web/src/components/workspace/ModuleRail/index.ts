@@ -1,1 +1,1 @@
-export * from './ModuleRail';
+export * from '@/components/workspace/ModuleRail/ModuleRail';

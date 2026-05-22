@@ -3,7 +3,7 @@
  */
 
 // Components
-import { env } from '../config/env';
+import { env } from '@/config/env';
 
 const API_BASE_URL: string = env.apiUrl;
 

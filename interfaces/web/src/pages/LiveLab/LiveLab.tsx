@@ -2,15 +2,16 @@
 import React from 'react';
 
 // Components
-import { WorkspaceShell } from '../../components/workspace/WorkspaceShell';
-
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
+import { TelemetryProvider } from '@/components/workspace/TelemetryProvider';
+import { WorkspaceShell } from '@/components/workspace/WorkspaceShell';
 
 /**
- * Live Lab — WebSocket telemetry showcase (industrial sensor stream).
+ * Live Lab — live industrial telemetry (portfolio transport + sensor surface).
  */
 export function LiveLab(): React.ReactElement {
-  return <WorkspaceShell />;
+  return (
+    <TelemetryProvider>
+      <WorkspaceShell />
+    </TelemetryProvider>
+  );
 }

@@ -7,22 +7,14 @@
 // Libraries
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import styled, { keyframes, DefaultTheme } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
-// Types
-import type { SensorStatus } from '../../hooks/useTelemetry';
-
-const getSensorAccentColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
-  return theme.colors.success;
-};
-
-const getSensorPreviewValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
-  return theme.colors.text;
-};
+// Components
+import {
+  glassSurface,
+  operationalGlass,
+  pointerSpotlight,
+} from '@/styles/surfaces';
 
 const eyebrowLineExpand = keyframes`
   from { width: 0; opacity: 0; }
@@ -33,13 +25,15 @@ const eyebrowLineExpand = keyframes`
  * Base section container with responsive padding and max-width.
  */
 export const Section = styled.section`
-  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
-  max-width: 1200px;
+  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.pageX};
+  max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
+  position: relative;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.sectionSm} ${({ theme }) => theme.spacing.xl};
-  };
+    padding-top: ${({ theme }) => theme.spacing.sectionSm};
+    padding-bottom: ${({ theme }) => theme.spacing.sectionSm};
+  }
 `;
 
 /**
@@ -47,11 +41,12 @@ export const Section = styled.section`
  */
 export const SectionTitle = styled(motion.h2)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2rem, 4.5vw, 3rem);
+  font-size: clamp(2.125rem, 4.8vw, 3.25rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
   margin-bottom: ${({ theme }) => theme.spacing.md};
+  text-wrap: balance;
 `;
 
 export const SectionLead = styled.p`
@@ -231,26 +226,37 @@ export const SkillIcon = styled(motion.div)`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.lg};
-  background-color: ${({ theme }) => theme.colors.surface};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  transition: border-color ${({ theme }) => theme.transitions.fast},
-              transform ${({ theme }) => theme.transitions.fast};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  ${glassSurface};
+  ${pointerSpotlight};
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateY(-4px);
-  };
+    border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+    --spot-opacity: 1;
+    transform: translateY(-6px) scale(1.02);
+  }
 
   img {
     width: 40px;
     height: 40px;
-  };
+    position: relative;
+    z-index: 2;
+  }
 
   span {
     font-size: ${({ theme }) => theme.typography.fontSize.sm};
     color: ${({ theme }) => theme.colors.textSecondary};
-  };
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.02em;
+  }
 `;
 
 /**
@@ -285,8 +291,11 @@ export const ViewAllLink = styled(Link)`
 `;
 
 export const LiveLabSection = styled(Section)`
-  max-width: ${({ theme }) => theme.layout.contentWide};
   scroll-margin-top: ${({ theme }) => theme.sizes.layout.headerOffset};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    padding-top: calc(${({ theme }) => theme.spacing.sectionSm} + 2rem);
+  }
 `;
 
 export const LiveLabSectionTitle = styled.h2`
@@ -306,18 +315,31 @@ export const LiveLabCard = styled(motion.div)`
   text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
-  background: ${({ theme }) => theme.colors.surfaceElevated};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-top: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  border-radius: 0;
+  ${operationalGlass};
+  border-radius: ${({ theme }) => theme.borderRadius.xxl};
   padding: ${({ theme }) => theme.spacing.xxl};
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(
+      ellipse 70% 50% at 80% 0%,
+      ${({ theme }) => theme.colors.primary}14,
+      transparent 60%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 0.95fr 1.05fr;
     text-align: left;
-  };
+    margin-top: -1.5rem;
+  }
 `;
 
 export const LiveLabCopy = styled.div`
@@ -325,80 +347,23 @@ export const LiveLabCopy = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
+  position: relative;
+  z-index: 1;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     align-items: flex-start;
-  };
+  }
 `;
 
 export const LiveLabVisual = styled.div`
   width: 100%;
   min-width: 0;
-`;
-
-export const TelemetryPreview = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.md};
-  overflow: hidden;
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr 1fr;
-  };
-`;
-
-export const TelemetryPreviewCard = styled.div<{ $status: SensorStatus }>`
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   position: relative;
-  overflow: hidden;
+  z-index: 1;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: ${({ $status, theme }) => getSensorAccentColor($status, theme)};
-  };
-`;
-
-export const TelemetryPreviewLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSize.caption};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
-  text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`;
-
-export const TelemetryPreviewValue = styled.div<{ $status: SensorStatus }>`
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: ${({ $status, theme }) => getSensorPreviewValueColor($status, theme)};
-`;
-
-export const TelemetryPreviewBadge = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.xs};
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.success};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
-  margin-top: ${({ theme }) => theme.spacing.sm};
-
-  &::before {
-    content: '';
-    width: ${({ theme }) => theme.sizes.badge.dotSm};
-    height: ${({ theme }) => theme.sizes.badge.dotSm};
-    background: ${({ theme }) => theme.colors.success};
-    border-radius: ${({ theme }) => theme.borderRadius.full};
-    flex-shrink: 0;
-  };
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    transform: translateY(-0.75rem);
+  }
 `;
 
 export const LiveLabMetric = styled.div`
@@ -480,7 +445,7 @@ export const CTAButton = styled(Link)`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background-color: ${({ theme }) => theme.colors.primary};
   color: ${({ theme }) => theme.colors.onPrimary};
-  border-radius: 0;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-weight: 700;
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -507,14 +472,19 @@ export const ContactCtaInner = styled(motion.div)`
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
   padding: ${({ theme }) => theme.spacing.xxl};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceElevated};
+  border-radius: ${({ theme }) => theme.borderRadius.xxl};
+  ${operationalGlass};
+  ${pointerSpotlight};
+  --spot-opacity: 0.35;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: 1fr auto;
     text-align: left;
-  };
+  }
+
+  &:hover {
+    --spot-opacity: 0.85;
+  }
 `;
 
 export const ContactCtaActions = styled.div`

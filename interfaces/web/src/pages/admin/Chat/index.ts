@@ -3,4 +3,4 @@
  * Re-exports the Chat component and related types.
  */
 
-export * from './Chat';
+export * from '@/pages/admin/Chat/Chat';

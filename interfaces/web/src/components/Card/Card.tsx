@@ -2,10 +2,10 @@
 import React from 'react';
 
 // Types
-import type { CardProps } from './Card.types';
+import type { CardProps } from '@/components/Card/Card.types';
 
 // Components
-import { StyledCard } from './Card.style';
+import { StyledCard } from '@/components/Card/Card.style';
 
 export function Card({
   children,

@@ -1,5 +1,5 @@
 // Types
-import { WorkspaceModule } from '../types';
+import { WorkspaceModule } from '@/types';
 
 const PATH_BY_MODULE: Record<WorkspaceModule, string> = {
   [WorkspaceModule.Identity]: '/',

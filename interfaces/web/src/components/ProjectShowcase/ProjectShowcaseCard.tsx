@@ -5,22 +5,23 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Technology } from '../../data/types';
-import { Language } from '../../types';
+import type { Technology } from '@/data/types';
+import { Language } from '@/types';
 import {
   MockWindowScene,
   ProjectCanvasTone,
   ProjectShowcaseVariant,
-} from './ProjectShowcase.types';
-import type { ProjectShowcaseCardProps } from './ProjectShowcase.types';
+} from '@/components/ProjectShowcase/ProjectShowcase.types';
+import type { ProjectShowcaseCardProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
-import { getTechIconUrl } from '../../utils/techIcon';
+import { getTechIconUrl } from '@/utils/techIcon';
 import {
   getProjectCaseCtaKey,
+  getProjectRepoSlug,
   resolveTechnologyCapabilityLabel,
-} from '../../utils/projectCaseCopy';
-import { showcaseStaggerItem } from '../../styles/animations';
+} from '@/utils/projectCaseCopy';
+import { showcaseStaggerItem } from '@/styles/animations';
 import {
   ShowcaseCard,
   PreviewPanel,
@@ -39,7 +40,8 @@ import {
   CardBody,
   CardMetaRow,
   IndexLabel,
-  LivePill,
+  DemoPill,
+  RepoSlug,
   CardTitle,
   CardDescription,
   CardFooter,
@@ -47,7 +49,7 @@ import {
   ArrowIcon,
   TechStackLine,
   TechStackSep,
-} from './ProjectShowcase.style';
+} from '@/components/ProjectShowcase/ProjectShowcase.style';
 
 /* ***********************************************************************************************
  ****************************************** METHODS ***********************************************
@@ -170,6 +172,7 @@ export function ProjectShowcaseCard({
   });
   const isFeatured: boolean = variant === ProjectShowcaseVariant.Featured;
   const scene: MockWindowScene = resolveMockScene(variant, canvasTone);
+  const repoSlug: string = getProjectRepoSlug(project.repository_url);
 
   const handleClick = (): void => {
     onSelect(project);
@@ -189,8 +192,11 @@ export function ProjectShowcaseCard({
       onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void => (
         handleCardKeyDown(event, onSelect, project)
       )}
-      whileHover={{ scale: isFeatured ? 1.005 : 1.015, y: isFeatured ? -2 : -4 }}
-      whileTap={{ scale: 0.99, y: 0 }}
+      whileHover={{
+        y: isFeatured ? -8 : -10,
+        transition: { type: 'spring', stiffness: 420, damping: 30 },
+      }}
+      whileTap={{ y: -2, transition: { duration: 0.12 } }}
     >
       <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
         <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>
@@ -224,9 +230,10 @@ export function ProjectShowcaseCard({
         <CardMetaRow>
           <IndexLabel>{indexLabel}</IndexLabel>
           {project.demo_url ? (
-            <LivePill>{t('projects.showcase.liveDemo')}</LivePill>
+            <DemoPill>{t('projects.showcase.hostedDemo')}</DemoPill>
           ) : null}
         </CardMetaRow>
+        <RepoSlug title={project.repository_url}>{repoSlug}</RepoSlug>
         <CardTitle>{title}</CardTitle>
         {description ? <CardDescription>{description}</CardDescription> : null}
         {isFeatured ? (

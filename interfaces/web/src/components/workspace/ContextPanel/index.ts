@@ -1,1 +1,1 @@
-export * from './ContextPanel';
+export * from '@/components/workspace/ContextPanel/ContextPanel';

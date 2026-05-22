@@ -1,1 +1,1 @@
-export * from './MobileMenu';
+export * from '@/components/layout/MobileMenu/MobileMenu';

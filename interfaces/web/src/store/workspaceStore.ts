@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
 // Types
-import { WorkspaceModule } from '../types';
+import { WorkspaceModule } from '@/types';
 
 interface WorkspaceState {
   activeLiveLabModule: WorkspaceModule;

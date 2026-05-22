@@ -7,7 +7,7 @@ import {
   SystemEvent,
   SystemEventLevel,
   SystemEventType,
-} from '../types/system-events';
+} from '@/types/system-events';
 
 const MAX_EVENTS: number = 48;
 

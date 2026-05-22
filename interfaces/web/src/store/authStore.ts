@@ -8,7 +8,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 // Types
-import type { User, AuthTokens } from '../types';
+import type { User, AuthTokens } from '@/types';
 
 /**
  * Authentication state interface with actions.

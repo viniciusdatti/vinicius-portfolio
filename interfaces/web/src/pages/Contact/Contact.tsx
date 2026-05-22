@@ -12,14 +12,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+// API
+import { submitContact, ApiError } from '@/api';
+
 // Components
-import { submitContact, ApiError } from '../../api';
-import { showToast, ToastType } from '../../components/common/Toast';
+import { showToast, ToastType } from '@/components/common/Toast';
 import {
   scrollReveal,
   scrollRevealStagger,
   scrollRevealItem,
-} from '../../styles/animations';
+} from '@/styles/animations';
 import {
   PageContainer,
   PageHeader,
@@ -45,7 +47,7 @@ import {
   ChatCTATitle,
   ChatCTADescription,
   ChatCTAButton,
-} from './Contact.style';
+} from '@/pages/Contact/Contact.style';
 
 // ============================================================================
 // Icons

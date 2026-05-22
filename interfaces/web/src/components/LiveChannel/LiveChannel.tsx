@@ -8,23 +8,23 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // Types
-import { ChatMessageSenderType } from '../../types';
+import { ChatMessageSenderType } from '@/types';
 import {
   LiveChannelStep,
   initialLiveChannelState,
   type LiveChannelState,
-} from './LiveChannel.types';
+} from '@/components/LiveChannel/LiveChannel.types';
 
 // Components
-import { useChat } from '../../hooks/useChat';
-import { useWorkspaceStore, useSystemEventStore } from '../../store';
-import { scrollToContainerEnd } from '../../utils/scrollToContainerEnd';
-import { messageEnter, typingDot } from '../../styles/animations';
+import { useChat } from '@/hooks/useChat';
+import { useWorkspaceStore, useSystemEventStore } from '@/store';
+import { scrollToContainerEnd } from '@/utils/scrollToContainerEnd';
+import { messageEnter, typingDot } from '@/styles/animations';
 import {
   SystemEventLevel,
   SystemEventType,
-} from '../../types/system-events';
-import { EventLog } from './EventLog';
+} from '@/types/system-events';
+import { EventLog } from '@/components/LiveChannel/EventLog';
 import {
   ChannelSurface,
   ChannelMain,
@@ -52,7 +52,7 @@ import {
   ChatFooter,
   MessageInput,
   SendButton,
-} from './LiveChannel.style';
+} from '@/components/LiveChannel/LiveChannel.style';
 
 /* ***********************************************************************************************
  **************************************** INITIAL STATE *******************************************

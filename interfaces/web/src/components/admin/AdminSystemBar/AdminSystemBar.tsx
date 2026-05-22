@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useAdminChatStore } from '../../../store/adminChatStore';
+import { useAdminChatStore } from '@/store/adminChatStore';
 import {
   AdminBarRoot,
   AdminBarInner,
@@ -14,7 +14,7 @@ import {
   AdminBarId,
   AdminBarModule,
   AdminBarPill,
-} from './AdminSystemBar.style';
+} from '@/components/admin/AdminSystemBar/AdminSystemBar.style';
 
 const ADMIN_MODULE_KEYS: Record<string, string> = {
   '/admin': 'admin.system.modules.dashboard',

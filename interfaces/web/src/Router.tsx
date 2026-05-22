@@ -5,11 +5,11 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 // Components
-import { AdminGuestRoute } from './components/admin';
-import { Layout } from './components/layout';
-import { RouteError } from './components/RouteError';
-import { Spinner } from './components/common/Spinner';
-import { PageLoaderWrapper } from './Router.style';
+import { AdminGuestRoute } from '@/components/admin';
+import { Layout } from '@/components/layout';
+import { RouteError } from '@/components/RouteError';
+import { Spinner } from '@/components/common/Spinner';
+import { PageLoaderWrapper } from '@/Router.style';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));

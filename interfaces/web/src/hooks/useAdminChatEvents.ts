@@ -7,13 +7,13 @@
 import { useEffect, useState } from 'react';
 
 // Types
-import type { AdminChatReceivedEvent } from '../types/chat-socket';
+import type { AdminChatReceivedEvent } from '@/types/chat-socket';
 
 // Components
 import {
   getReceivedEvents,
   subscribeToAdminEvents,
-} from '../services/adminChatService';
+} from '@/services/adminChatService';
 
 /**
  * Returns the list of received events and keeps it updated when

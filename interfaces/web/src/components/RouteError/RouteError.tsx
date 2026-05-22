@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { useRouteError } from 'react-router-dom';
 
 // Components
-import { Button } from '../Button';
+import { Button } from '@/components/Button';
 import {
   RouteErrorContainer,
   RouteErrorText,
   RouteErrorTitle,
-} from './RouteError.style';
+} from '@/components/RouteError/RouteError.style';
 
 export function RouteError(): React.ReactElement {
   const { t } = useTranslation();

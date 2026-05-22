@@ -11,17 +11,17 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { UserRole } from '../../../types';
+import { UserRole } from '@/types';
 import {
   initialAdminLoginViewState,
   type AdminLoginForm,
   type AdminLoginViewState,
-} from './Login.types';
+} from '@/pages/admin/Login/Login.types';
 
 // Components
-import { env } from '../../../config/env';
-import { showToast, ToastType } from '../../../components/common/Toast';
-import { useAuthStore } from '../../../store';
+import { env } from '@/config/env';
+import { showToast, ToastType } from '@/components/common/Toast';
+import { useAuthStore } from '@/store';
 import {
   BackToSiteLink,
   Brand,
@@ -41,7 +41,7 @@ import {
   SubmitButton,
   TogglePasswordButton,
   TopBar,
-} from './Login.style';
+} from '@/pages/admin/Login/Login.style';
 
 const API_BASE: string = env.apiUrl;
 

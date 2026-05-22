@@ -6,29 +6,29 @@
 import type { Socket } from 'socket.io-client';
 
 // Types
-import type { ChatMessage } from '../types';
+import type { ChatMessage } from '@/types';
 import type {
   ChatSocketAdminStatusPayload,
   ChatSocketMessagePayload,
   ChatSocketSessionStartedPayload,
-} from '../types/chat-socket';
-import { ChatMessageSenderType } from '../types';
+} from '@/types/chat-socket';
+import { ChatMessageSenderType } from '@/types';
 import {
   SystemEventLevel,
   SystemEventType,
-} from '../types/system-events';
-import { parseSocketSenderType } from '../types/chat-mappers';
+} from '@/types/system-events';
+import { parseSocketSenderType } from '@/types/chat-mappers';
 
 // Components
-import { fetchVisitorSessionMessages } from '../services/visitorChatApi';
-import { useChatStore } from '../store/chatStore';
-import { useSystemEventStore } from '../store/systemEventStore';
-import { socketService } from '../utils/socket';
+import { fetchVisitorSessionMessages } from '@/services/visitorChatApi';
+import { useChatStore } from '@/store/chatStore';
+import { useSystemEventStore } from '@/store/systemEventStore';
+import { socketService } from '@/utils/socket';
 import {
   clearStoredVisitorSessionId,
   getStoredVisitorSessionId,
   setStoredVisitorSessionId,
-} from '../utils/visitorChatStorage';
+} from '@/utils/visitorChatStorage';
 
 const logEvent = (
   type: SystemEventType,

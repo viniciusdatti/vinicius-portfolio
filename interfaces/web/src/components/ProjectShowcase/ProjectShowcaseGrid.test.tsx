@@ -8,18 +8,18 @@ import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
 
 // Config
-import i18n from '../../i18n/config';
-import { darkTheme } from '../../styles/theme';
+import i18n from '@/i18n/config';
+import { darkTheme } from '@/styles/theme';
 
 // Types
-import { Language } from '../../types';
-import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
+import { Language } from '@/types';
+import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Plugins
-import { MOCKED_PROJECT_LIST } from '../../plugins/testUtils';
+import { MOCKED_PROJECT_LIST } from '@/plugins/testUtils';
 
 // Components
-import { ProjectShowcaseGrid } from './ProjectShowcaseGrid';
+import { ProjectShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcaseGrid';
 
 /* *************** TEST SUPPORT VARS *************** */
 

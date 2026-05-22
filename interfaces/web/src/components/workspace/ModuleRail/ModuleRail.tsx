@@ -5,11 +5,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { WorkspaceModule } from '../../../types';
+import { WorkspaceModule } from '@/types';
 
 // Components
-import { useWorkspaceStore } from '../../../store';
-import { RailRoot, RailButton, RailIndex } from './ModuleRail.style';
+import { useWorkspaceStore } from '@/store';
+import { RailRoot, RailButton, RailIndex } from '@/components/workspace/ModuleRail/ModuleRail.style';
 
 interface RailItem {
   module: WorkspaceModule;

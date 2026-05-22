@@ -10,12 +10,12 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { UserRole } from '../../types';
+import { UserRole } from '@/types';
 
 // Components
-import { env } from '../../config/env';
-import { AdminAuthLoading } from './AdminAuthLoading';
-import { useAuthStore } from '../../store';
+import { env } from '@/config/env';
+import { AdminAuthLoading } from '@/components/admin/AdminAuthLoading';
+import { useAuthStore } from '@/store';
 
 const API_BASE: string = env.apiUrl;
 

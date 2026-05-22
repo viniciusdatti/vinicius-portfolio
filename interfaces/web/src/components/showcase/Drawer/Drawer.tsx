@@ -15,7 +15,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { DrawerProps } from './Drawer.types';
+import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
 
 // Components
 import {
@@ -25,7 +25,7 @@ import {
   DrawerTitle,
   DrawerCloseButton,
   DrawerBody,
-} from './Drawer.style';
+} from '@/components/showcase/Drawer/Drawer.style';
 
 export function Drawer({
   open,

@@ -2,8 +2,8 @@
  * Skills API functions.
  */
 
-import { apiClient } from './client';
-import type { Skill } from '../types';
+import { apiClient } from '@/api/client';
+import type { Skill } from '@/types';
 
 /**
  * Fetch all skills from the API, optionally filtered by category.

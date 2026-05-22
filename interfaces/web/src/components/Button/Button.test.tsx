@@ -6,13 +6,13 @@ import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
 // Config
-import { darkTheme } from '../../styles/theme';
+import { darkTheme } from '@/styles/theme';
 
 // Types
-import type { ButtonProps } from './Button.types';
+import type { ButtonProps } from '@/components/Button/Button.types';
 
 // Components
-import { Button } from './Button';
+import { Button } from '@/components/Button/Button';
 
 /* *************** TEST SUPPORT VARS *************** */
 

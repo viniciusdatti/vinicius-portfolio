@@ -2,7 +2,7 @@
 import styled, { keyframes } from 'styled-components';
 
 // Types
-import type { SpinnerContainerProps } from './Spinner.types';
+import type { SpinnerContainerProps } from '@/components/common/Spinner/Spinner.types';
 
 /* ************** SPINNER ANIMATION ******************* */
 

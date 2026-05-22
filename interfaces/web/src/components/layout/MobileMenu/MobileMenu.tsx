@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { mobileMenuVariants, staggerItem } from '../../../styles/animations';
+import { mobileMenuVariants, staggerItem } from '@/styles/animations';
 import {
   Overlay,
   MenuContainer,
@@ -15,7 +15,7 @@ import {
   MenuFooter,
   SocialLinks,
   SocialLink,
-} from './MobileMenu.style';
+} from '@/components/layout/MobileMenu/MobileMenu.style';
 
 interface NavItem {
   path: string;

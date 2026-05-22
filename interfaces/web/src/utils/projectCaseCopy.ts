@@ -1,12 +1,9 @@
 // Types
-import type { Project, Technology } from '../data/types';
-import { Language } from '../types';
+import type { Project, Technology } from '@/data/types';
+import { Language } from '@/types';
+import { ProjectCaseStudyField } from '@/types/projectCase';
 
-export enum ProjectCaseStudyField {
-  Framing = 'framing',
-  Architecture = 'architecture',
-  Decision = 'decision',
-}
+export { ProjectCaseStudyField };
 
 /**
  * Last path segment of a GitHub repository URL (stable key for i18n case copy).

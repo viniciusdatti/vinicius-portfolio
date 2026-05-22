@@ -6,6 +6,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+// Components
+import { glassSurface, pointerSpotlight } from '@/styles/surfaces';
+
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentNarrow};
   margin: 0 auto;
@@ -123,24 +126,28 @@ export const StatsGrid = styled(motion.div)`
 `;
 
 export const StatCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${glassSurface};
+  ${pointerSpotlight};
   border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
   box-shadow: ${({ theme }) => theme.elevation.sm};
+  position: relative;
+  overflow: hidden;
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     border-left-color ${({ theme }) => theme.transitions.fast},
-    box-shadow ${({ theme }) => theme.transitions.fast},
-    transform ${({ theme }) => theme.transitions.fast};
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.borderLight};
     border-left-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: ${({ theme }) => theme.elevation.md};
-  };
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+    transform: translateY(-6px);
+    --spot-opacity: 1;
+  }
 `;
 
 export const StatNumber = styled.div`
@@ -164,6 +171,16 @@ export const StatLabel = styled.div`
 export const SectionTitle = styled.h3`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const ExperienceSection = styled(Section)`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xxl};
+`;
+
+export const ExperienceSectionTitle = styled(SectionTitle)`
+  margin-bottom: 0;
 `;
 
 export const PhilosophyCard = styled(motion.div)`
@@ -245,7 +262,7 @@ export const ComplementaryText = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
 `;
 
-/* ************** INDUSTRIAL EXPERIENCE ******************* */
+/* ************** PROFESSIONAL EXPERIENCE ******************* */
 
 export const ExperienceCard = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};

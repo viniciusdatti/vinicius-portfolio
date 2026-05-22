@@ -5,16 +5,11 @@ import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Types
-import { WorkspaceModule } from '../../../types';
-
 // Components
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
-import { useChatStore, useWorkspaceStore } from '../../../store';
-import { formatSessionLabel } from '../../../utils/workspaceModule';
-
-import { ThemeToggle } from '../../common/ThemeToggle';
-import { LanguageToggle } from '../../LanguageToggle';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import { useTelemetryStore } from '@/store/telemetryStore';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { LanguageToggle } from '@/components/LanguageToggle';
 import {
   SystemBarRoot,
   SystemBarInner,
@@ -26,13 +21,7 @@ import {
   StatusPill,
   StatusDot,
   SystemBarActions,
-} from './SystemBar.style';
-
-const LIVE_LAB_MODULE_LABEL_KEYS: Record<WorkspaceModule, string> = {
-  [WorkspaceModule.Identity]: 'system.modules.profile',
-  [WorkspaceModule.Cases]: 'system.modules.cases',
-  [WorkspaceModule.Capabilities]: 'system.modules.capabilities',
-};
+} from '@/components/layout/SystemBar/SystemBar.style';
 
 const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
   '/': 'system.modules.home',
@@ -43,30 +32,21 @@ const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
   '/live-lab': 'system.modules.liveLab',
 };
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
-
 export function SystemBar(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const { status, version } = useSystemHealth();
 
   const isLiveLab: boolean = location.pathname === '/live-lab';
-  const isConnected: boolean = useChatStore((s) => s.isConnected);
-  const sessionId: string | null = useChatStore((s) => s.sessionId);
-  const isAdminOnline: boolean = useChatStore((s) => s.isAdminOnline);
-
-  const activeLiveLabModule: WorkspaceModule = useWorkspaceStore(
-    (s) => s.activeLiveLabModule,
-  );
+  const telemetryConnected: boolean = useTelemetryStore((s) => s.connected);
+  const telemetryTick: number = useTelemetryStore((s) => s.tickCount);
 
   const moduleKey: string = useMemo((): string => {
     if (isLiveLab) {
-      return LIVE_LAB_MODULE_LABEL_KEYS[activeLiveLabModule];
+      return 'system.modules.liveLab';
     }
     return PORTFOLIO_MODULE_KEYS[location.pathname] ?? 'system.modules.portfolio';
-  }, [isLiveLab, location.pathname, activeLiveLabModule]);
+  }, [isLiveLab, location.pathname]);
 
   const apiTone: 'ok' | 'warn' | 'idle' = useMemo(() => {
     if (status === SystemHealthStatus.Online) {
@@ -88,24 +68,18 @@ export function SystemBar(): React.ReactElement {
     return t('system.status.apiChecking');
   }, [status, t]);
 
-  const wsTone: 'ok' | 'warn' | 'idle' = isConnected ? 'ok' : 'warn';
-  const wsLabel: string = isConnected
-    ? t('system.status.wsLive')
-    : t('system.status.wsIdle');
-
-  const presenceTone: 'ok' | 'idle' = isAdminOnline ? 'ok' : 'idle';
-  const presenceLabel: string = isAdminOnline
-    ? t('system.status.presenceOnline')
-    : t('system.status.presenceOffline');
-
-  const sessionLabel: string | null = formatSessionLabel(sessionId);
-  const sessionText: string = sessionLabel
-    ? t('system.status.session', { id: sessionLabel })
-    : t('system.status.sessionNone');
+  const wsTone: 'ok' | 'warn' | 'idle' = telemetryConnected ? 'ok' : 'warn';
+  const wsLabel: string = telemetryConnected
+    ? t('system.status.telemetryLive')
+    : t('system.status.telemetryIdle');
 
   const buildLabel: string = version
     ? t('system.status.build', { version })
     : t('system.status.buildUnknown');
+
+  const tickLabel: string | null = isLiveLab && telemetryConnected
+    ? t('system.status.telemetryTick', { tick: telemetryTick })
+    : null;
 
   return (
     <SystemBarRoot role="status" aria-live="polite">
@@ -126,11 +100,9 @@ export function SystemBar(): React.ReactElement {
                 <StatusDot $tone={wsTone} aria-hidden />
                 {wsLabel}
               </StatusPill>
-              <StatusPill $tone={presenceTone}>
-                <StatusDot $tone={presenceTone} aria-hidden />
-                {presenceLabel}
-              </StatusPill>
-              <StatusPill $tone="idle">{sessionText}</StatusPill>
+              {tickLabel ? (
+                <StatusPill $tone="idle">{tickLabel}</StatusPill>
+              ) : null}
               <StatusPill $tone="idle">{buildLabel}</StatusPill>
             </>
           ) : (

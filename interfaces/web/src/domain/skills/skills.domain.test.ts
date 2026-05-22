@@ -1,21 +1,21 @@
 // Core
 import { describe, it, expect } from 'vitest';
 
-// Plugins
+// Domain
 import {
   resolveSkillIconUrl,
   resolveSkillDisplayName,
   resolveCertificateDisplayName,
   getPlatformConfig,
   sortCertificates,
-} from './skills.domain';
-import { buildFakeCertificate, buildFakeSkill } from './testUtils';
+} from '@/domain/skills/skills.domain';
+
+// Plugins
+import { buildFakeCertificate, buildFakeSkill } from '@/plugins/testUtils';
 
 /* *************** TEST EXECUTION *************** */
 
-describe('skills.domain plugin', (): void => {
-  // METHOD: resolveSkillIconUrl *******************************
-
+describe('skills.domain', (): void => {
   describe('resolveSkillIconUrl', (): void => {
     it('should use icon_url when provided as relative path', (): void => {
       const url: string = resolveSkillIconUrl(
@@ -31,8 +31,6 @@ describe('skills.domain plugin', (): void => {
       expect(url).toContain('icons/typescript.svg');
     });
   });
-
-  // METHOD: resolveSkillDisplayName *******************************
 
   describe('resolveSkillDisplayName', (): void => {
     it('should return Portuguese name when available', (): void => {
@@ -50,8 +48,6 @@ describe('skills.domain plugin', (): void => {
     });
   });
 
-  // METHOD: resolveCertificateDisplayName *******************************
-
   describe('resolveCertificateDisplayName', (): void => {
     it('should return Portuguese certificate name when available', (): void => {
       expect(resolveCertificateDisplayName(buildFakeCertificate(), true)).toBe('React Explorer');
@@ -65,8 +61,6 @@ describe('skills.domain plugin', (): void => {
     });
   });
 
-  // METHOD: getPlatformConfig *******************************
-
   describe('getPlatformConfig', (): void => {
     it('should return Rocketseat branding', (): void => {
       const config = getPlatformConfig('Rocketseat');
@@ -79,8 +73,6 @@ describe('skills.domain plugin', (): void => {
       expect(config.color).toBe('#64748b');
     });
   });
-
-  // METHOD: sortCertificates *******************************
 
   describe('sortCertificates', (): void => {
     it('should order by platform priority then display order', (): void => {

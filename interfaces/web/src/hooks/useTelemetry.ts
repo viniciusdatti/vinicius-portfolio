@@ -1,39 +1,29 @@
 /**
- * useTelemetry — connects to /telemetry namespace and streams sensor readings.
- * Labels are translated to Portuguese before being stored in state.
+ * useTelemetrySocket — single WebSocket client for /telemetry namespace.
+ * Consumed only via TelemetryProvider + useTelemetry().
  */
 
+// Core
 import { useEffect, useRef, useState } from 'react';
+
+// Libraries
 import { io, Socket } from 'socket.io-client';
-import { getApiRootUrl } from '../utils/apiRootUrl';
+
+// Types
+import {
+  SensorStatus,
+  TelemetryEventType,
+  TELEMETRY_EVENT_LOG_MAX,
+  type SensorReading,
+  type TelemetryEventLogEntry,
+  type TelemetryState,
+  type TelemetryTick,
+} from '@/types/telemetry';
+
+// Utils
+import { getApiRootUrl } from '@/utils/apiRootUrl';
 
 const SOCKET_URL: string = getApiRootUrl();
-
-export type SensorStatus = 'ok' | 'warn' | 'critical';
-
-export interface SensorReading {
-  id: string;
-  label: string;
-  unit: string;
-  value: number;
-  threshold_warn: number;
-  threshold_critical: number;
-  status: SensorStatus;
-  ts: number;
-}
-
-export interface TelemetryTick {
-  readings: SensorReading[];
-  ts: number;
-}
-
-export interface TelemetryState {
-  connected: boolean;
-  readings: SensorReading[];
-  history: Record<string, number[]>;
-  eventLog: { ts: number; message: string; type: 'info' | 'warn' | 'critical' }[];
-  tickCount: number;
-}
 
 /* ***********************************************************************************************
  **************************************** LABEL MAP **********************************************
@@ -55,20 +45,17 @@ const toLocalLabel = (raw: string): string => SENSOR_LABEL_PT[raw] ?? raw;
 
 const MAX_HISTORY: number = 30;
 
-/** Max event-log lines kept in memory and rendered (oldest dropped). */
-export const TELEMETRY_EVENT_LOG_MAX: number = 40;
-
-/** Pre-boot events shown immediately on mount before WebSocket connects. */
-const INITIAL_LOG: TelemetryState['eventLog'] = [
+/** Boot messages shown before the socket connects (transport lifecycle only). */
+const INITIAL_LOG: TelemetryEventLogEntry[] = [
   {
     ts: Date.now() - 1200,
     message: 'Inicializando cliente de telemetria…',
-    type: 'info',
+    type: TelemetryEventType.Info,
   },
   {
     ts: Date.now() - 600,
     message: 'Abrindo socket · namespace /telemetry',
-    type: 'info',
+    type: TelemetryEventType.Info,
   },
 ];
 
@@ -76,7 +63,7 @@ const INITIAL_LOG: TelemetryState['eventLog'] = [
  **************************************** HOOK ***************************************************
  *********************************************************************************************** */
 
-export const useTelemetry = (): TelemetryState => {
+export const useTelemetrySocket = (): TelemetryState => {
   const socketRef = useRef<Socket | null>(null);
   const [state, setState] = useState<TelemetryState>({
     connected: false,
@@ -105,17 +92,17 @@ export const useTelemetry = (): TelemetryState => {
           {
             ts: now,
             message: 'WebSocket conectado · namespace /telemetry',
-            type: 'info' as const,
+            type: TelemetryEventType.Info,
           },
           {
             ts: now - 80,
             message: 'Handshake concluído · aguardando telemetria',
-            type: 'info' as const,
+            type: TelemetryEventType.Info,
           },
           {
             ts: now - 160,
             message: 'Scan de sensores iniciado · intervalo 2s',
-            type: 'info' as const,
+            type: TelemetryEventType.Info,
           },
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
@@ -130,7 +117,7 @@ export const useTelemetry = (): TelemetryState => {
           {
             ts: Date.now(),
             message: 'Transporte desconectado — aguardando reconexão',
-            type: 'warn' as const,
+            type: TelemetryEventType.Warn,
           },
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
@@ -144,7 +131,7 @@ export const useTelemetry = (): TelemetryState => {
           {
             ts: Date.now(),
             message: `Tentativa de reconexão #${attempt}…`,
-            type: 'warn' as const,
+            type: TelemetryEventType.Warn,
           },
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
@@ -154,7 +141,7 @@ export const useTelemetry = (): TelemetryState => {
     socket.on('telemetry_tick', (tick: TelemetryTick) => {
       setState((prev) => {
         const newHistory: Record<string, number[]> = { ...prev.history };
-        const newLog: TelemetryState['eventLog'] = [...prev.eventLog];
+        const newLog: TelemetryEventLogEntry[] = [...prev.eventLog];
         const nextTick: number = prev.tickCount + 1;
 
         const localReadings: SensorReading[] = tick.readings.map(
@@ -168,32 +155,31 @@ export const useTelemetry = (): TelemetryState => {
           const prevHistory: number[] = newHistory[r.id] ?? [];
           newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
 
-          if (r.status === 'critical') {
+          if (r.status === SensorStatus.Critical) {
             newLog.unshift({
               ts: r.ts,
               message: `${r.label} CRÍTICO · ${r.value}${r.unit} (limite: ${r.threshold_critical}${r.unit})`,
-              type: 'critical' as const,
+              type: TelemetryEventType.Critical,
             });
-          } else if (r.status === 'warn' && Math.random() < 0.3) {
+          } else if (r.status === SensorStatus.Warn && Math.random() < 0.3) {
             newLog.unshift({
               ts: r.ts,
               message: `${r.label} alerta · ${r.value}${r.unit}`,
-              type: 'warn' as const,
+              type: TelemetryEventType.Warn,
             });
           }
         });
 
-        // Every 8 ticks log a stable sensor reading to keep the log alive
         if (nextTick % 8 === 0) {
           const stable: SensorReading[] = localReadings.filter(
-            (r: SensorReading) => r.status === 'ok',
+            (r: SensorReading) => r.status === SensorStatus.Ok,
           );
           if (stable.length > 0) {
             const pick: SensorReading = stable[nextTick % stable.length];
             newLog.unshift({
               ts: pick.ts,
               message: `${pick.label} nominal · ${pick.value}${pick.unit}`,
-              type: 'info' as const,
+              type: TelemetryEventType.Info,
             });
           }
         }

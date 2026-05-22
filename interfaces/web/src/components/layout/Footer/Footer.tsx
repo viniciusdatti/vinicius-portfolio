@@ -20,7 +20,7 @@ import {
   FooterBottom,
   Copyright,
   TechStack,
-} from './Footer.style';
+} from '@/components/layout/Footer/Footer.style';
 
 function GitHubIcon() {
   return (

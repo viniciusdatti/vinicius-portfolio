@@ -2,14 +2,14 @@
 import { describe, it, expect } from 'vitest';
 
 // Utils
+import { ProjectCaseStudyField } from '@/types/projectCase';
 import {
   getProjectRepoSlug,
   getProjectCaseStudyKey,
-  ProjectCaseStudyField,
-} from './projectCaseCopy';
+} from '@/utils/projectCaseCopy';
 
 // Plugins
-import { buildFakeProject } from '../plugins/testUtils';
+import { buildFakeProject } from '@/plugins/testUtils';
 
 /* *************** TEST EXECUTION *************** */
 

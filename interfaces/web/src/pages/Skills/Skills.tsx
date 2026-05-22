@@ -11,23 +11,29 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
 // Types
-import { SkillCategory, type Certificate, type Skill } from '../../types';
+import { SkillCategory, type Certificate, type Skill } from '@/types';
 
-// Components
-import { SkillCardSkeleton } from '../../components/SkillCardSkeleton';
-import {
-  scrollReveal,
-  scrollRevealStagger,
-  scrollRevealItem,
-} from '../../styles/animations';
-import { useSkills, useCertificates } from '../../hooks';
+// Hooks
+import { useSkills, useCertificates } from '@/hooks';
+
+// Domain
 import {
   getPlatformConfig,
   resolveCertificateDisplayName,
   resolveSkillDisplayName,
   resolveSkillIconUrl,
   sortCertificates,
-} from '../../plugins/skills.domain';
+} from '@/domain/skills';
+
+// Components
+import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
+import {
+  scrollReveal,
+  scrollRevealStagger,
+  scrollRevealItem,
+} from '@/styles/animations';
+
+// View
 import {
   PageContainer,
   PageHeader,
@@ -77,7 +83,7 @@ import {
   CertificateHours,
   ErrorMessage,
   RetryButton,
-} from './Skills.style';
+} from '@/pages/Skills/Skills.style';
 
 /**
  * Represents a category filter option.

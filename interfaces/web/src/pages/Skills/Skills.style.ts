@@ -527,18 +527,18 @@ export const CertificateType = styled.span<CertificateTypeProps>`
     switch ($type) {
       case 'trail':
         return `
-          background-color: rgba(34, 197, 94, 0.1);
-          color: #22c55e;
+          background-color: ${theme.colors.badgeTrailSurface};
+          color: ${theme.colors.badgeTrail};
         `;
       case 'course':
         return `
-          background-color: rgba(59, 130, 246, 0.1);
-          color: #3b82f6;
+          background-color: ${theme.colors.badgeCourseSurface};
+          color: ${theme.colors.badgeCourse};
         `;
       case 'micro':
         return `
-          background-color: rgba(168, 85, 247, 0.1);
-          color: #a855f7;
+          background-color: ${theme.colors.badgeMicroSurface};
+          color: ${theme.colors.badgeMicro};
         `;
       default:
         return `

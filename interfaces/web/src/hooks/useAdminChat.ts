@@ -7,7 +7,7 @@
 import { useCallback } from 'react';
 
 // Types
-import type { AdminChatMessage, AdminChatSession } from '../types/admin-chat';
+import type { AdminChatMessage, AdminChatSession } from '@/types/admin-chat';
 
 // Components
 import {
@@ -15,8 +15,8 @@ import {
   joinAdminChatSession,
   sendAdminChatMessage,
   sendAdminChatTyping,
-} from '../realtime/adminChatRealtime';
-import { useAdminChatStore } from '../store/adminChatStore';
+} from '@/realtime/adminChatRealtime';
+import { useAdminChatStore } from '@/store/adminChatStore';
 
 export type { AdminChatMessage, AdminChatSession };
 

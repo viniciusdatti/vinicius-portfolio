@@ -2,8 +2,8 @@
 import { describe, expect, it } from 'vitest';
 
 // API
-import { ApiError } from './client';
-import { isApiError, isNotFoundError, isUnauthorizedError } from './guards';
+import { ApiError } from '@/api/client';
+import { isApiError, isNotFoundError, isUnauthorizedError } from '@/api/guards';
 
 /* *************** TEST EXECUTION *************** */
 

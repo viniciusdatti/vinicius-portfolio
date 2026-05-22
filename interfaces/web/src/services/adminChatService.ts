@@ -2,15 +2,15 @@
  * Admin chat event log — records socket events for the admin debug panel.
  */
 
-import { useAdminChatStore } from '../store/adminChatStore';
-import { socketService } from '../utils/socket';
+import { useAdminChatStore } from '@/store/adminChatStore';
+import { socketService } from '@/utils/socket';
 
 // Types
 import type {
   AdminChatEventLogData,
   AdminChatReceivedEvent,
-} from '../types/chat-socket';
-import { AdminChatEventType } from '../types/chat-socket';
+} from '@/types/chat-socket';
+import { AdminChatEventType } from '@/types/chat-socket';
 
 type EventCallback = (event: AdminChatReceivedEvent) => void;
 

@@ -6,18 +6,13 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Types
-import type { Project, Technology } from '../../data/types';
-import { Language } from '../../types';
+import type { Project } from '@/data/types';
+import { Language } from '@/types';
 
 // Components
-import {
-  ProjectCaseStudyField,
-  getProjectRepoSlug,
-  resolveCaseStudyField,
-  resolveTechnologyCapabilityLabel,
-} from '../../utils/projectCaseCopy';
-import { motionEase } from '../../styles/animations';
-import { motionPresets } from '../../styles/motionPresets';
+import { ProjectCaseStudyContent } from '@/components/ProjectShowcase/ProjectCaseStudyContent';
+import { motionEase } from '@/styles/animations';
+import { motionPresets } from '@/styles/motionPresets';
 import {
   CasePanelRoot,
   CasePanelInner,
@@ -25,16 +20,7 @@ import {
   CasePanelIndex,
   CasePanelTitle,
   CasePanelClose,
-  CasePanelGrid,
-  CasePanelBlock,
-  CasePanelLabel,
-  CasePanelText,
-  CasePanelTechList,
-  CasePanelTech,
-  CasePanelActions,
-  CasePanelLink,
-  CasePanelSecondaryLink,
-} from './ProjectCasePanel.style';
+} from '@/components/ProjectShowcase/ProjectCasePanel.style';
 
 export interface ProjectCasePanelProps {
   project: Project | null;
@@ -75,9 +61,6 @@ const panelVariants = {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-/**
- * Inline contextual case panel — progressive engineering narrative, not a generic modal.
- */
 export function ProjectCasePanel({
   project,
   language,
@@ -116,75 +99,7 @@ export function ProjectCasePanel({
                 {t('projects.casePanel.close')}
               </CasePanelClose>
             </CasePanelHeader>
-            <CasePanelGrid>
-              <CasePanelBlock>
-                <CasePanelLabel>{t('projects.casePanel.framing')}</CasePanelLabel>
-                <CasePanelText>
-                  {resolveCaseStudyField(
-                    project,
-                    ProjectCaseStudyField.Framing,
-                    language,
-                    t,
-                  )}
-                </CasePanelText>
-              </CasePanelBlock>
-              <CasePanelBlock>
-                <CasePanelLabel>{t('projects.casePanel.architecture')}</CasePanelLabel>
-                <CasePanelText>
-                  {resolveCaseStudyField(
-                    project,
-                    ProjectCaseStudyField.Architecture,
-                    language,
-                    t,
-                  )}
-                </CasePanelText>
-              </CasePanelBlock>
-              <CasePanelBlock>
-                <CasePanelLabel>{t('projects.casePanel.decision')}</CasePanelLabel>
-                <CasePanelText>
-                  {resolveCaseStudyField(
-                    project,
-                    ProjectCaseStudyField.Decision,
-                    language,
-                    t,
-                  )}
-                </CasePanelText>
-              </CasePanelBlock>
-              <CasePanelBlock>
-                <CasePanelLabel>{t('projects.table.technologies')}</CasePanelLabel>
-                <CasePanelTechList>
-                  {project.technologies.map((tech: Technology) => (
-                    <CasePanelTech key={tech.id}>
-                      {resolveTechnologyCapabilityLabel(tech, t)}
-                    </CasePanelTech>
-                  ))}
-                </CasePanelTechList>
-              </CasePanelBlock>
-            </CasePanelGrid>
-            <CasePanelActions>
-              <CasePanelLink
-                href={project.repository_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('projects.drawer.repository')}
-              </CasePanelLink>
-              {project.demo_url ? (
-                <CasePanelLink
-                  href={project.demo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('projects.drawer.demo')}
-                </CasePanelLink>
-              ) : null}
-              <CasePanelSecondaryLink
-                to="/live-lab"
-                state={{ caseSlug: getProjectRepoSlug(project.repository_url) }}
-              >
-                {t('projects.casePanel.discussLive')}
-              </CasePanelSecondaryLink>
-            </CasePanelActions>
+            <ProjectCaseStudyContent project={project} language={language} />
           </CasePanelInner>
         </CasePanelRoot>
       ) : null}

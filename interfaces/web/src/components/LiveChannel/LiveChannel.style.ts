@@ -3,7 +3,7 @@ import styled, { keyframes, css, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { livingSurface } from '../../styles/surfaces';
+import { livingSurface } from '@/styles/surfaces';
 
 const connectionPulse = (theme: DefaultTheme) => keyframes`
   0%, 100% {

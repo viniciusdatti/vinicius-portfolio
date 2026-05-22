@@ -8,19 +8,28 @@ import React from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Types
+import { Language } from '@/types';
+
+// Hooks
+import { useProjects } from '@/hooks';
+
+// Config
+import { publicAssetUrl } from '@/config/env';
+
 // Components
-import { Language } from '../../types';
-import { ProjectShowcaseDetailMode, ProjectShowcaseGrid } from '../../components/ProjectShowcase';
-import { publicAssetUrl } from '../../config/env';
-import { Hero } from '../../components/Hero';
-import { RealtimePresence } from '../../components/home/RealtimePresence';
-import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
-import { useProjects } from '../../hooks';
+import { ProjectShowcaseDetailMode, ProjectShowcaseGrid } from '@/components/ProjectShowcase';
+import { Hero } from '@/components/Hero';
+import { LiveLabObservatory } from '@/components/home/LiveLabObservatory';
+import { RealtimePresence } from '@/components/home/RealtimePresence';
+import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
 import {
   scrollReveal,
   scrollRevealStagger,
   scrollRevealItem,
-} from '../../styles/animations';
+} from '@/styles/animations';
+
+// View
 import {
   Section,
   SectionTitle,
@@ -51,11 +60,6 @@ import {
   LiveLabSectionTitle,
   LiveLabDescription,
   CTAButton,
-  TelemetryPreview,
-  TelemetryPreviewCard,
-  TelemetryPreviewLabel,
-  TelemetryPreviewValue,
-  TelemetryPreviewBadge,
   AboutPreviewSection,
   AboutPreviewLayout,
   AboutPreviewMain,
@@ -64,7 +68,7 @@ import {
   ContactCtaInner,
   ContactCtaDescription,
   ContactCtaActions,
-} from './Home.style';
+} from '@/pages/Home/Home.style';
 
 interface SkillItem {
   name: string;
@@ -80,9 +84,8 @@ const PREVIEW_SKILLS: SkillItem[] = [
   { name: 'Docker', icon: publicAssetUrl('icons/docker.svg') },
 ];
 
-// Viewport config reutilizável — once: false garante re-animação após navegação
-const vp = { once: false, margin: '-80px' };
-const vpSm = { once: false, margin: '-40px' };
+const vp = { once: true, margin: '-80px' };
+const vpSm = { once: true, margin: '-40px' };
 
 export function Home(): React.ReactElement {
   const { t, i18n } = useTranslation();
@@ -215,25 +218,7 @@ export function Home(): React.ReactElement {
             </CTAButton>
           </LiveLabCopy>
           <LiveLabVisual>
-            <TelemetryPreview>
-              <TelemetryPreviewCard $status="ok">
-                <TelemetryPreviewLabel>Temperatura</TelemetryPreviewLabel>
-                <TelemetryPreviewValue $status="ok">72.4 °C</TelemetryPreviewValue>
-              </TelemetryPreviewCard>
-              <TelemetryPreviewCard $status="warn">
-                <TelemetryPreviewLabel>Vibração</TelemetryPreviewLabel>
-                <TelemetryPreviewValue $status="warn">8.1 mm/s</TelemetryPreviewValue>
-              </TelemetryPreviewCard>
-              <TelemetryPreviewCard $status="ok">
-                <TelemetryPreviewLabel>Pressão</TelemetryPreviewLabel>
-                <TelemetryPreviewValue $status="ok">3.2 bar</TelemetryPreviewValue>
-              </TelemetryPreviewCard>
-              <TelemetryPreviewCard $status="ok">
-                <TelemetryPreviewLabel>Corrente</TelemetryPreviewLabel>
-                <TelemetryPreviewValue $status="ok">14.8 A</TelemetryPreviewValue>
-              </TelemetryPreviewCard>
-            </TelemetryPreview>
-            <TelemetryPreviewBadge>WebSocket · 4 sensors · live</TelemetryPreviewBadge>
+            <LiveLabObservatory />
           </LiveLabVisual>
         </LiveLabCard>
       </LiveLabSection>

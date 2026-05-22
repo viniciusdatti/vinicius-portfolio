@@ -1,1 +1,1 @@
-export * from './SystemBar';
+export * from '@/components/layout/SystemBar/SystemBar';

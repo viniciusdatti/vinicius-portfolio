@@ -5,19 +5,19 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project } from '../../data/types';
+import type { Project } from '@/data/types';
 import {
   ProjectCanvasTone,
   ProjectShowcaseDetailMode,
   ProjectShowcaseVariant,
-} from './ProjectShowcase.types';
-import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
+} from '@/components/ProjectShowcase/ProjectShowcase.types';
+import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
-import { showcaseStaggerContainer } from '../../styles/animations';
-import { ProjectShowcaseCard } from './ProjectShowcaseCard';
-import { ProjectCasePanel } from './ProjectCasePanel';
-import { ShowcaseGrid } from './ProjectShowcase.style';
+import { showcaseStaggerContainer } from '@/styles/animations';
+import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
+import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
+import { ShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcase.style';
 
 /* ***********************************************************************************************
  ****************************************** METHODS ***********************************************

@@ -10,14 +10,14 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { env } from '../../../config/env';
+import { env } from '@/config/env';
 
 // Store
-import { useAdminChatStore } from '../../../store/adminChatStore';
-import { useAuthStore } from '../../../store';
+import { useAdminChatStore } from '@/store/adminChatStore';
+import { useAuthStore } from '@/store';
 
 // Styles
-import { staggerContainer, staggerItem } from '../../../styles/animations';
+import { staggerContainer, staggerItem } from '@/styles/animations';
 import {
   PageContainer,
   Header,
@@ -42,7 +42,7 @@ import {
   FormInput,
   SubmitButton,
   FormMessage,
-} from './Dashboard.style';
+} from '@/pages/admin/Dashboard/Dashboard.style';
 
 /**
  * Admin Dashboard component.

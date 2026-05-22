@@ -4,11 +4,11 @@ export {
   clearReceivedEvents,
   isAdminChatConnected,
   adminChatActions,
-} from './adminChatService';
-export type { AdminChatReceivedEvent } from '../types/chat-socket';
-export { AdminChatEventType } from '../types/chat-socket';
+} from '@/services/adminChatService';
+export type { AdminChatReceivedEvent } from '@/types/chat-socket';
+export { AdminChatEventType } from '@/types/chat-socket';
 export {
   fetchAdminChatSessions,
   fetchAdminSessionMessages,
-} from './adminChatApi';
-export { fetchVisitorSessionMessages } from './visitorChatApi';
+} from '@/services/adminChatApi';
+export { fetchVisitorSessionMessages } from '@/services/visitorChatApi';

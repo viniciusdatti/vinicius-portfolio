@@ -10,12 +10,12 @@ export const motionPresets = {
   },
   duration: {
     fast: 0.18,
-    normal: 0.28,
-    slow: 0.42,
-    page: 0.35,
-    hero: 0.48,
+    normal: 0.32,
+    slow: 0.52,
+    page: 0.42,
+    hero: 0.58,
     message: 0.28,
-    staggerItem: 0.45,
+    staggerItem: 0.48,
   },
   stagger: {
     child: 0.08,
