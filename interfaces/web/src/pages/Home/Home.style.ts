@@ -26,7 +26,7 @@ export const Section = styled.section`
   margin: 0 auto;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.section} ${({ theme }) => theme.spacing.xl};
+    padding: ${({ theme }) => theme.spacing.sectionSm} ${({ theme }) => theme.spacing.xl};
   };
 `;
 
