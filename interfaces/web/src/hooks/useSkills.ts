@@ -27,9 +27,8 @@ export const skillsQueryKey = (category?: string): string[] => [
  * @returns Query result with skills data, loading and error states
  */
 export const useSkills = (
-  category?: string
-): UseQueryResult<Skill[], Error> =>
-  useQuery<Skill[], Error>({
-    queryKey: skillsQueryKey(category),
-    queryFn: (): Promise<Skill[]> => getSkills(category),
-  });
+  category?: string,
+): UseQueryResult<Skill[], Error> => useQuery<Skill[], Error>({
+  queryKey: skillsQueryKey(category),
+  queryFn: (): Promise<Skill[]> => getSkills(category),
+});

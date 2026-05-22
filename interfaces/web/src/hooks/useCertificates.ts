@@ -22,8 +22,10 @@ export const certificatesQueryKey = (): string[] => ['certificates'];
  *
  * @returns Query result with certificates data, loading and error states
  */
-export const useCertificates = (): UseQueryResult<Certificate[], Error> =>
-  useQuery<Certificate[], Error>({
-    queryKey: certificatesQueryKey(),
-    queryFn: getCertificates,
-  });
+export const useCertificates = (): UseQueryResult<Certificate[], Error> => useQuery<
+Certificate[],
+Error
+>({
+  queryKey: certificatesQueryKey(),
+  queryFn: getCertificates,
+});
