@@ -49,8 +49,12 @@ export const PageTitle = styled(motion.h1)`
  * Animated subtitle with muted text color.
  */
 export const PageSubtitle = styled(motion.p)`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: ${({ theme }) => theme.layout.proseWide};
+  margin-left: auto;
+  margin-right: auto;
 `;
 
 /**

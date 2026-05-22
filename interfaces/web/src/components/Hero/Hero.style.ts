@@ -94,7 +94,7 @@ export const HeroHeadline = styled.h1`
   font-weight: 800;
   margin: 0;
   letter-spacing: -0.035em;
-  line-height: 1;
+  line-height: 1.17;
   hyphens: none;
   color: ${({ theme }) => theme.colors.text};
   font-feature-settings: "ss01", "cv01";
@@ -367,13 +367,14 @@ export const HeroStackSeparator = styled.span`
 `;
 
 export const HeroDescription = styled.p`
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  color: ${({ theme }) => theme.colors.textSecondary};
   max-width: ${({ theme }) => theme.layout.prose};
   margin-top: ${({ theme }) => theme.spacing.lg};
   margin-left: auto;
   margin-right: auto;
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
   text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
@@ -409,22 +410,24 @@ export const HeroStat = styled.div`
 
 export const HeroStatValue = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.xxl};
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
   font-weight: 800;
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: -0.02em;
-  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+  line-height: 1.1;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 `;
 
 export const HeroStatLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.textMuted};
-  margin-top: ${({ theme }) => theme.spacing.xs};
-  letter-spacing: 0.1em;
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-top: ${({ theme }) => theme.spacing.sm};
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
 `;
 
 export const CtaWrapper = styled.div`

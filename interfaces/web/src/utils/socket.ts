@@ -7,7 +7,7 @@
 import { io, Socket } from 'socket.io-client';
 
 // Components
-import { getApiRootUrl } from '../utils/apiRootUrl';
+import { getApiRootUrl } from './apiRootUrl';
 
 // Types
 import type {

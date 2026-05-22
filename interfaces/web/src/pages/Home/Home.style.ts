@@ -50,13 +50,13 @@ export const SectionTitle = styled(motion.h2)`
   font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 800;
   letter-spacing: -0.03em;
-  line-height: 1.0;
+  line-height: 1.15;
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
 export const SectionLead = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.prose};
 `;
@@ -257,7 +257,7 @@ export const SkillIcon = styled(motion.div)`
  * Centered description text below section title in skills preview.
  */
 export const SkillsPreviewDescription = styled.p`
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;

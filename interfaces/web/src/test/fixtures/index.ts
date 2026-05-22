@@ -27,4 +27,6 @@ export const mockSkillList = (): Skill[] => MOCKED_SKILL_LIST;
 export const mockCertificate = buildFakeCertificate;
 export const mockCertificateList = (): Certificate[] => MOCKED_CERTIFICATE_LIST;
 
-export type { Project, Technology, Certificate, ChatMessage, Skill };
+export type {
+  Project, Technology, Certificate, ChatMessage, Skill,
+};
