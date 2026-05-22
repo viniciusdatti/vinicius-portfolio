@@ -67,6 +67,10 @@ export const HeaderContent = styled.div<{ $isWorkspace?: boolean }>`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   min-width: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: ${({ theme }) => theme.spacing.sm};
+  };
 `;
 
 export const HeaderCenter = styled.div<{ $isWorkspace?: boolean }>`
@@ -112,6 +116,22 @@ export const LogoMark = styled.span`
 export const LogoSuffix = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: none;
+  };
+`;
+
+export const HeaderStatusWrap = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  flex-shrink: 1;
+  min-width: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.wide}) {
+    display: none;
+  };
 `;
 
 export const Nav = styled.nav`
@@ -181,6 +201,7 @@ export const HamburgerButton = styled(motion.button)`
   cursor: pointer;
   padding: 0;
   z-index: ${({ theme }) => theme.zIndex.modal + 1};
+  flex-shrink: 0;
   ${glassSurface};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {

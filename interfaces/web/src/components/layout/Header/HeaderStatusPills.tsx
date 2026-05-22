@@ -8,10 +8,10 @@ import { useTranslation } from 'react-i18next';
 // Components
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
-  StatusCluster,
   StatusPill,
   StatusDot,
 } from '@/components/layout/SystemBar/SystemBar.style';
+import { HeaderStatusWrap } from '@/components/layout/Header/Header.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
@@ -51,11 +51,11 @@ export function HeaderStatusPills(): React.ReactElement | null {
   }
 
   return (
-    <StatusCluster role="status" aria-live="polite">
+    <HeaderStatusWrap role="status" aria-live="polite">
       <StatusPill $tone={apiTone}>
         <StatusDot $tone={apiTone} aria-hidden />
         {apiLabel}
       </StatusPill>
-    </StatusCluster>
+    </HeaderStatusWrap>
   );
 }
