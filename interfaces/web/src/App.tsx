@@ -15,6 +15,7 @@ import { darkTheme, lightTheme, Theme } from '@/styles/theme';
 // Components
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { ToastHost } from '@/components/common/Toast';
+import { ObservatoryIdleLayer } from '@/components/motion/ObservatoryIdleLayer';
 import { Router } from '@/Router';
 import { useThemeStore } from '@/store';
 
@@ -35,6 +36,7 @@ function ThemedApp(): React.ReactElement {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
+      <ObservatoryIdleLayer />
       <ToastHost />
       <Router />
     </ThemeProvider>

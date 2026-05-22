@@ -31,6 +31,7 @@ export const darkEffects: ThemeEffects = {
     scrollCueMin: 0.45,
     scrollCueMax: 1,
     heroRing: 0.65,
+    glassCaustic: 0.38,
   },
 };
 

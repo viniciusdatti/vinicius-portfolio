@@ -67,6 +67,8 @@ export interface ThemeColors {
   gradientHeroRing: string;
   gradientScrollCue: string;
   gradientSurfaceRim: string;
+  gradientGlassCaustic: string;
+  gradientGlassDepth: string;
   gradientHeroAtmosphere: string;
   gradientFeaturedSpotlight: string;
 }
@@ -102,6 +104,7 @@ export interface ThemeEffects {
     scrollCueMin: number;
     scrollCueMax: number;
     heroRing: number;
+    glassCaustic: number;
   };
 }
 

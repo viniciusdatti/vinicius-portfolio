@@ -101,6 +101,10 @@ export const darkTheme: Theme = {
       'linear-gradient(180deg, rgba(139, 145, 156, 0.35) 0%, rgba(245, 158, 11, 0.65) 100%)',
     gradientSurfaceRim:
       'linear-gradient(180deg, rgba(255, 255, 255, 0.07) 0%, transparent 28%)',
+    gradientGlassCaustic:
+      'conic-gradient(from 140deg at 22% 18%, rgba(245, 158, 11, 0.14) 0deg, transparent 55deg, rgba(255, 255, 255, 0.05) 120deg, transparent 200deg)',
+    gradientGlassDepth:
+      'linear-gradient(180deg, transparent 0%, rgba(11, 13, 16, 0.35) 100%)',
     gradientHeroAtmosphere:
       'linear-gradient(118deg, rgba(245, 158, 11, 0.09) 0%, rgba(245, 158, 11, 0.02) 42%, transparent 72%)',
     gradientFeaturedSpotlight:
@@ -228,6 +232,10 @@ export const lightTheme: Theme = {
       'linear-gradient(180deg, rgba(138, 121, 104, 0.3) 0%, rgba(146, 104, 10, 0.55) 100%)',
     gradientSurfaceRim:
       'linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, transparent 32%)',
+    gradientGlassCaustic:
+      'conic-gradient(from 140deg at 22% 18%, rgba(146, 104, 10, 0.12) 0deg, transparent 55deg, rgba(255, 255, 255, 0.35) 120deg, transparent 200deg)',
+    gradientGlassDepth:
+      'linear-gradient(180deg, transparent 0%, rgba(23, 18, 10, 0.08) 100%)',
     gradientHeroAtmosphere:
       'linear-gradient(118deg, rgba(146, 104, 10, 0.08) 0%, rgba(146, 104, 10, 0.02) 42%, transparent 72%)',
     gradientFeaturedSpotlight:

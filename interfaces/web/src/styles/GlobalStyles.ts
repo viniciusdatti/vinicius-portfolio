@@ -1,5 +1,14 @@
 // Libraries
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle, keyframes } from 'styled-components';
+
+const observatoryGridPulse = keyframes`
+  0%, 100% {
+    opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
+  };
+  50% {
+    opacity: ${({ theme }) => theme.effects.opacity.decoGrid * 1.38};
+  };
+`;
 
 export const GlobalStyles = createGlobalStyle`
   *, *::before, *::after {
@@ -74,6 +83,13 @@ export const GlobalStyles = createGlobalStyle`
     background-size: 24px 24px;
     opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
     mask-image: ${({ theme }) => theme.colors.gradientBodyGridMask};
+    /* 1Hz system liveness — paired with ObservatoryIdleLayer 8s scanline sweep */
+    animation: ${observatoryGridPulse} 1s ease-in-out infinite;
+    will-change: opacity;
+  }
+
+  html[data-motion-paused='true'] body::after {
+    animation-play-state: paused;
   }
 
   /* Grain texture overlay */
@@ -232,6 +248,10 @@ export const GlobalStyles = createGlobalStyle`
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    };
+
+    body::after {
+      animation: none;
     };
   }
 
