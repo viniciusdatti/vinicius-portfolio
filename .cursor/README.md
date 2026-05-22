@@ -60,4 +60,4 @@ Ferramentas: `browser_navigate`, `browser_snapshot`, `browser_resize`, `browser_
 
 ## Git
 
-`main` (prod) · `develop` (integração) · `feature/*` — [docs/GIT_WORKFLOW.md](../docs/GIT_WORKFLOW.md)
+`master` (prod) · `develop` (integração) · `feature/*` — [docs/GIT_WORKFLOW.md](../docs/GIT_WORKFLOW.md)

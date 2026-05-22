@@ -12,7 +12,7 @@
 ## Target branch
 
 - [ ] `develop` (default for features)
-- [ ] `main` (release / hotfix only)
+- [ ] `master` (release / hotfix only)
 
 ## Test plan
 
