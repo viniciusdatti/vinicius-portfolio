@@ -68,17 +68,18 @@ export const HeroHeadlineClip = styled.div`
 
 export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
+  font-size: clamp(2.25rem, 8vw, 5.75rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   margin: 0;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   line-height: ${({ theme }) => theme.typography.lineHeight.tight};
   hyphens: none;
   color: ${({ theme }) => theme.colors.text};
-  max-width: none;
+  max-width: 100%;
   text-wrap: balance;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
     max-width: 14ch;
   }
 `;
@@ -97,6 +98,7 @@ export const HeroVisualCard = styled.div`
 export const HeroPortrait = styled.div`
   position: relative;
   width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
+  max-width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
@@ -130,7 +132,7 @@ export const HeroSection = styled.section`
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xl}
+  padding: ${({ theme }) => theme.sizes.layout.headerOffset}
     ${({ theme }) => theme.spacing.pageX}
     clamp(4rem, 10vw, 6rem);
   overflow: visible;
@@ -141,7 +143,7 @@ export const HeroSection = styled.section`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: ${({ theme }) => theme.sizes.hero.minHeight};
-    padding: ${({ theme }) => theme.spacing.xxl}
+    padding: ${({ theme }) => theme.sizes.layout.headerOffset}
       ${({ theme }) => theme.spacing.pageX}
       clamp(5rem, 11vw, 7rem);
   };
@@ -183,10 +185,10 @@ export const HeroEditorialGrid = styled.div`
   text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
     text-align: left;
-    gap: clamp(1rem, 3vw, 2rem);
-    align-items: end;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
   };
 `;
 
@@ -195,6 +197,14 @@ export const HeroCopyColumn = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
   align-items: center;
+  width: 100%;
+  max-width: 100%;
+  padding-inline: ${({ theme }) => theme.spacing.sm};
+  box-sizing: border-box;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    padding-inline: 0;
+  };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     align-items: flex-start;
@@ -208,22 +218,26 @@ export const HeroVisualColumn = styled.div`
   position: relative;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding-bottom: 0;
-    transform: translate(6%, 2rem);
-    z-index: 2;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: start;
+    padding-top: 0;
   };
 `;
 
 export const HeroAvatarFrame = styled(motion.div)`
   position: relative;
   width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
+  max-width: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
   transform-style: preserve-3d;
   will-change: transform;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    max-width: ${({ theme }) => theme.sizes.hero.avatarFrame};
+  }
 `;
 
 export const HeroDecoTag = styled.span`
@@ -232,6 +246,7 @@ export const HeroDecoTag = styled.span`
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  line-height: 1;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
@@ -242,6 +257,7 @@ export const HeroDecoTag = styled.span`
 
   &::before {
     content: '';
+    flex-shrink: 0;
     width: 5px;
     height: 5px;
     border-radius: 50%;
@@ -299,6 +315,17 @@ export const HeroStackLine = styled.p`
   align-items: center;
   flex-wrap: wrap;
   gap: 0;
+  max-width: 100%;
+  justify-content: center;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.fontSize.xs};
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-content: flex-start;
+  };
 `;
 
 export const HeroStackTech = styled.span`
@@ -318,7 +345,7 @@ export const HeroDescription = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   color: ${({ theme }) => theme.colors.textSecondary};
   max-width: ${({ theme }) => theme.layout.prose};
-  margin-top: ${({ theme }) => theme.spacing.lg};
+  margin: 0;
   margin-left: auto;
   margin-right: auto;
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
@@ -333,14 +360,20 @@ export const HeroDescription = styled.p`
 `;
 
 export const HeroStatsRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.lg};
-  margin-top: ${({ theme }) => theme.spacing.lg};
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.md};
   padding-top: ${({ theme }) => theme.spacing.lg};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   width: 100%;
   justify-content: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: ${({ theme }) => theme.spacing.xxl};
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     justify-content: flex-start;
@@ -348,8 +381,12 @@ export const HeroStatsRow = styled.div`
 `;
 
 export const HeroStat = styled.div`
-  min-width: ${({ theme }) => theme.sizes.hero.statMinWidth};
+  min-width: 0;
   text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    min-width: ${({ theme }) => theme.sizes.hero.statMinWidth};
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     text-align: left;
@@ -358,35 +395,52 @@ export const HeroStat = styled.div`
 
 export const HeroStatValue = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1;
+  min-height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-content: flex-start;
+  };
 `;
 
 export const HeroStatLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-top: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.xs};
   letter-spacing: 0.06em;
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    font-size: ${({ theme }) => theme.typography.fontSize.sm};
+    margin-top: ${({ theme }) => theme.spacing.sm};
+  };
 `;
 
 export const CtaWrapper = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.xl};
+  margin-top: ${({ theme }) => theme.spacing.lg};
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.md};
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
   align-items: center;
-  justify-content: center;
   width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: ${({ theme }) => theme.spacing.md};
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     justify-content: flex-start;
@@ -403,7 +457,11 @@ export const HeroScrollCue = styled.button`
   left: 50%;
   transform: translateX(-50%);
   z-index: ${({ theme }) => theme.zIndex.content};
-  display: flex;
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+  };
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -447,4 +505,5 @@ export const ScrollCueLine = styled.span`
   height: ${({ theme }) => theme.sizes.hero.scrollCueHeight};
   background: ${({ theme }) => theme.colors.gradientScrollCue};
   border-radius: ${({ theme }) => theme.borderRadius.full};
+  flex-shrink: 0;
 `;

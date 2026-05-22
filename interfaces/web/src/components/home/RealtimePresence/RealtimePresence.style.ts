@@ -2,6 +2,9 @@
 import styled, { DefaultTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
 
+// Theme
+import { operationalGlass } from '@/styles/surfaces';
+
 type PresenceTone = 'ok' | 'warn' | 'idle';
 
 const getPresenceBorderColor = (tone: PresenceTone, theme: DefaultTheme): string => {
@@ -22,9 +25,12 @@ const getPresenceBackground = (tone: PresenceTone, theme: DefaultTheme): string 
 };
 
 export const PresenceStrip = styled.div`
+  position: relative;
+  z-index: 3;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.pageX};
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
 
 export const PresenceInner = styled.div`
@@ -33,10 +39,14 @@ export const PresenceInner = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceElevated};
+  ${operationalGlass};
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 `;
 
 export const PresenceLead = styled.p`

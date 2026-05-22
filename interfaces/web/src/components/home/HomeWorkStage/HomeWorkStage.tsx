@@ -70,7 +70,7 @@ export function HomeWorkStage({
   onRetry,
 }: HomeWorkStageProps): React.ReactElement {
   const { t } = useTranslation();
-  const { section, item } = useScrollMotion();
+  const { section, stagger, item } = useScrollMotion();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const ordered: Project[] = useMemo(() => {
@@ -177,7 +177,12 @@ export function HomeWorkStage({
           </FeaturedRunway>
 
           {indexRows.length > 0 ? (
-            <CaseIndexList>
+            <CaseIndexList
+              variants={stagger}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewport}
+            >
               {indexRows.map((project: Project, idx: number) => {
                 const globalIndex = idx + 1;
                 return (
@@ -187,6 +192,7 @@ export function HomeWorkStage({
                     $active={highlightId === project.id}
                     onClick={() => handleSelect(project.id)}
                     aria-pressed={highlightId === project.id}
+                    variants={item}
                   >
                     <CaseIndexLabel>{formatIndex(globalIndex)}</CaseIndexLabel>
                     <CaseIndexTitle>{getProjectDisplayTitle(project, language)}</CaseIndexTitle>

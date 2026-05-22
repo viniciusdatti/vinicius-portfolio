@@ -42,18 +42,18 @@ interface SensorDef {
   status: SensorStatus;
 }
 
-const SENSORS: SensorDef[] = [
+const SENSORS = (t: (key: string) => string): SensorDef[] => [
   {
-    id: 'temp', label: 'Temperatura', unit: '°C', base: 72.4, variance: 1.2, status: SensorStatus.Ok,
+    id: 'temp', label: t('home.liveLabPreview.sensors.temp'), unit: '°C', base: 72.4, variance: 1.2, status: SensorStatus.Ok,
   },
   {
-    id: 'vib', label: 'Vibração', unit: 'mm/s', base: 8.1, variance: 0.4, status: SensorStatus.Warn,
+    id: 'vib', label: t('home.liveLabPreview.sensors.vib'), unit: 'mm/s', base: 8.1, variance: 0.4, status: SensorStatus.Warn,
   },
   {
-    id: 'press', label: 'Pressão', unit: 'bar', base: 3.2, variance: 0.08, status: SensorStatus.Ok,
+    id: 'press', label: t('home.liveLabPreview.sensors.press'), unit: 'bar', base: 3.2, variance: 0.08, status: SensorStatus.Ok,
   },
   {
-    id: 'amp', label: 'Corrente', unit: 'A', base: 14.8, variance: 0.6, status: SensorStatus.Ok,
+    id: 'amp', label: t('home.liveLabPreview.sensors.amp'), unit: 'A', base: 14.8, variance: 0.6, status: SensorStatus.Ok,
   },
 ];
 
@@ -165,6 +165,7 @@ export function LiveLabObservatory(): React.ReactElement {
   const reduced = usePrefersReducedMotion();
   const [logIndex, setLogIndex] = useState(0);
   const [tick, setTick] = useState(0);
+  const sensors = useMemo(() => SENSORS(t), [t]);
 
   const logs = useMemo(() => {
     const items: { time: string; msg: string; type?: 'info' | 'warn' }[] = [];
@@ -196,7 +197,7 @@ export function LiveLabObservatory(): React.ReactElement {
   return (
     <ObservatoryRoot>
       <ObservatoryChrome>
-        <ObservatoryTitle>{t('home.liveLabPreview.observatoryTitle', 'Operations · Telemetry')}</ObservatoryTitle>
+        <ObservatoryTitle>{t('home.liveLabPreview.observatoryTitle')}</ObservatoryTitle>
         <ObservatoryLive $live={isApiLive}>
           {isApiLive
             ? t('home.liveLabPreview.badge')
@@ -205,7 +206,7 @@ export function LiveLabObservatory(): React.ReactElement {
       </ObservatoryChrome>
       <ObservatoryBody>
         <SensorPanel>
-          {SENSORS.map((s, i) => (
+          {sensors.map((s, i) => (
             <SensorTile key={s.id} $status={s.status}>
               <SensorTileLabel>{s.label}</SensorTileLabel>
               <AnimatedValue
@@ -220,7 +221,7 @@ export function LiveLabObservatory(): React.ReactElement {
         </SensorPanel>
         <SidePanel>
           <ChartPane>
-            <ChartLabel>{t('home.liveLabPreview.trendLabel', 'Aggregate throughput')}</ChartLabel>
+            <ChartLabel>{t('home.liveLabPreview.trendLabel')}</ChartLabel>
             <SparklineSvg viewBox="0 0 200 64" aria-hidden>
               <defs>
                 <linearGradient id="obs-fill" x1="0" y1="0" x2="0" y2="1">
@@ -255,12 +256,12 @@ export function LiveLabObservatory(): React.ReactElement {
       </ObservatoryBody>
       <ObservatoryFooter>
         <OpsMetric>
-          WebSocket ·
-          {' '}
+          {t('home.liveLabPreview.footer.transport')}
+          {' · '}
           <strong>live</strong>
         </OpsMetric>
         <OpsMetric>
-          tick
+          {t('home.liveLabPreview.footer.tick')}
           {' '}
           <strong>
             #
@@ -268,7 +269,7 @@ export function LiveLabObservatory(): React.ReactElement {
           </strong>
         </OpsMetric>
         <OpsMetric>
-          sensors
+          {t('home.liveLabPreview.footer.sensors')}
           {' '}
           <strong>4</strong>
         </OpsMetric>

@@ -21,7 +21,7 @@ export const WorkStage = styled.section`
   width: 100%;
   padding: clamp(3rem, 7vw, 5rem) ${({ theme }) => theme.spacing.pageX}
     clamp(4rem, 10vw, 7rem);
-  scroll-margin-top: ${({ theme }) => theme.sizes.layout.headerOffset};
+  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
 `;
 
 export const WorkStageGrid = styled.div`
@@ -56,8 +56,10 @@ export const WorkRailIndex = styled.span`
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   line-height: 0.85;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  color: ${({ theme }) => theme.colors.primary};
-  opacity: 0.9;
+  color: ${({ theme }) => theme.colors.text};
+  opacity: 0.15;
+  pointer-events: none;
+  user-select: none;
 `;
 
 export const WorkEyebrow = styled.span`
@@ -120,11 +122,12 @@ export const FeaturedRunway = styled(motion.button)<RunwayProps>`
   width: 100%;
   text-align: left;
   border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
-  border-bottom: none;
+  border-bottom: 1px solid
+    ${({ $active, theme }) => ($active ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
   background: ${({ $tone, theme }) => canvasGradient($tone, theme)};
   aspect-ratio: 2.15 / 1;
   min-height: 200px;
-  padding: clamp(1.25rem, 3vw, 2rem);
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem) clamp(1.5rem, 4vw, 2.5rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -152,6 +155,7 @@ export const FeaturedRunway = styled(motion.button)<RunwayProps>`
     &:hover {
       border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
       box-shadow: ${({ theme }) => theme.elevation.lg};
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
     }
   }
 
@@ -198,17 +202,18 @@ export const RunwayTechTag = styled.span`
   letter-spacing: 0.06em;
 `;
 
-export const CaseIndexList = styled.div`
+export const CaseIndexList = styled(motion.div)`
   display: flex;
   flex-direction: column;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-top: none;
   border-radius: 0 0 ${({ theme }) => theme.borderRadius.xl} ${({ theme }) => theme.borderRadius.xl};
   background: ${({ theme }) => theme.colors.surface};
   box-shadow: ${({ theme }) => theme.elevation.sm};
   overflow: hidden;
 `;
 
-export const CaseIndexRow = styled.button<{ $active?: boolean }>`
+export const CaseIndexRow = styled(motion.button)<{ $active?: boolean }>`
   display: grid;
   grid-template-columns: 3rem minmax(0, 1fr) auto;
   align-items: center;
