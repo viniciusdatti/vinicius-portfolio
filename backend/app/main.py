@@ -63,9 +63,10 @@ async def lifespan(app: FastAPI):
             env_path if env_path.exists() else "FILE NOT FOUND",
         )
 
-    # Create database tables (in development)
-    if settings.is_development:
+    # Create database tables when not using Docker entrypoint seed (dev/SQLite).
+    if settings.is_development or settings.is_sqlite:
         logger.info("Creating database tables...")
+        import app.models  # noqa: F401 — register models on Base.metadata
         Base.metadata.create_all(bind=engine)
 
     yield
