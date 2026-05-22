@@ -39,13 +39,13 @@ const RAIL_ITEMS: RailItem[] = [
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const ModuleRail: React.FC = (): React.ReactElement => {
+export function ModuleRail(): React.ReactElement {
   const { t } = useTranslation();
   const activeModule: WorkspaceModule = useWorkspaceStore(
-    (s) => s.activeLiveLabModule
+    (s) => s.activeLiveLabModule,
   );
   const setActiveLiveLabModule = useWorkspaceStore(
-    (s) => s.setActiveLiveLabModule
+    (s) => s.setActiveLiveLabModule,
   );
 
   return (
@@ -63,4 +63,4 @@ export const ModuleRail: React.FC = (): React.ReactElement => {
       ))}
     </RailRoot>
   );
-};
+}

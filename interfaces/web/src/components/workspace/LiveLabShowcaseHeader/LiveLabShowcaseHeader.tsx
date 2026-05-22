@@ -14,7 +14,7 @@ import {
   ShowcaseBadge,
 } from './LiveLabShowcaseHeader.style';
 
-export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
+export function LiveLabShowcaseHeader(): React.ReactElement {
   const { t } = useTranslation();
 
   return (
@@ -30,4 +30,4 @@ export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
       </ShowcaseActions>
     </ShowcaseHeaderRoot>
   );
-};
+}

@@ -24,7 +24,7 @@ import {
  *********************************************************************************************** */
 
 const levelFromEvent = (
-  level: SystemEventLevel
+  level: SystemEventLevel,
 ): 'info' | 'success' | 'warning' | 'error' => {
   if (level === SystemEventLevel.Success) {
     return 'success';
@@ -47,7 +47,7 @@ const formatTime = (iso: string): string => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const EventLog: React.FC = (): React.ReactElement => {
+export function EventLog(): React.ReactElement {
   const { t } = useTranslation();
   const events: SystemEvent[] = useSystemEventStore((s) => s.events);
   const listRef = useRef<HTMLUListElement>(null);
@@ -74,4 +74,4 @@ export const EventLog: React.FC = (): React.ReactElement => {
       </EventLogList>
     </EventLogPanel>
   );
-};
+}

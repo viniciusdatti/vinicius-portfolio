@@ -56,14 +56,13 @@ const railItemStyles = css`
 export const RailButton = styled.button<{ $active: boolean }>`
   ${railItemStyles}
 
-  ${({ $active, theme }) =>
-    $active
-      ? css`
+  ${({ $active, theme }) => ($active
+    ? css`
           color: ${theme.colors.primary};
           border-color: ${theme.colors.primaryBorderFaint};
           background: ${theme.colors.primarySurface};
         `
-      : ''};
+    : '')};
 `;
 
 export const RailIndex = styled.span`

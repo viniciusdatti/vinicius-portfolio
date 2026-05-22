@@ -1,5 +1,7 @@
 // Core
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  useState, useRef, useEffect, useCallback,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
@@ -67,7 +69,7 @@ import {
 /**
  * Persistent realtime channel — core product surface (WebSocket visitor chat).
  */
-export const LiveChannel: React.FC = (): React.ReactElement => {
+export function LiveChannel(): React.ReactElement {
   const { t } = useTranslation();
   const [state, setState] = useState<LiveChannelState>(initialLiveChannelState);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -86,7 +88,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
 
   const activeCaseTitle: string | null = useWorkspaceStore((s) => s.activeCaseTitle);
   const pendingChannelDraft: string | null = useWorkspaceStore(
-    (s) => s.pendingChannelDraft
+    (s) => s.pendingChannelDraft,
   );
   const setPendingChannelDraft = useWorkspaceStore((s) => s.setPendingChannelDraft);
   const pushEvent = useSystemEventStore((s) => s.push);
@@ -101,7 +103,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
           SystemEventType.ContextInject,
           SystemEventLevel.Info,
           'workspace.events.contextInject',
-          { title: activeCaseTitle ?? '' }
+          { title: activeCaseTitle ?? '' },
         );
         return;
       }
@@ -124,7 +126,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
       activeCaseTitle,
       sendMessage,
       pushEvent,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -166,7 +168,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
       SystemEventType.ContextInject,
       SystemEventLevel.Info,
       'workspace.events.contextInject',
-      { title: activeCaseTitle ?? '' }
+      { title: activeCaseTitle ?? '' },
     );
   }, [sessionId, isConnected, activeCaseTitle, sendMessage, pushEvent]);
 
@@ -179,7 +181,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
     pushEvent(
       SystemEventType.SessionOpen,
       SystemEventLevel.Info,
-      'workspace.events.sessionRequested'
+      'workspace.events.sessionRequested',
     );
   };
 
@@ -189,7 +191,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
       pushEvent(
         SystemEventType.MessageOut,
         SystemEventLevel.Info,
-        'workspace.events.messageOut'
+        'workspace.events.messageOut',
       );
       setState((prev: LiveChannelState) => ({ ...prev, inputValue: '' }));
     }
@@ -214,13 +216,14 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
 
   const isSynchronized: boolean = isConnected && sessionId != null;
 
-  const connectionLabel: string = isSynchronized
-    ? t('system.status.wsSynchronized')
-    : isConnected
-      ? t('system.status.wsLive')
-      : isReconnecting
-        ? t('system.status.wsReconnecting')
-        : t('system.status.wsConnecting');
+  const getConnectionLabel = (): string => {
+    if (isSynchronized) return t('system.status.wsSynchronized');
+    if (isConnected) return t('system.status.wsLive');
+    if (isReconnecting) return t('system.status.wsReconnecting');
+    return t('system.status.wsConnecting');
+  };
+
+  const connectionLabel: string = getConnectionLabel();
 
   return (
     <ChannelSurface aria-label={t('workspace.channel.title')}>
@@ -230,133 +233,137 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
         </ContextStrip>
       ) : null}
       <ChannelMain>
-      <ChatHeader>
-        <ChatHeaderLead>
-          <ChatTitle>{t('workspace.channel.title')}</ChatTitle>
-          <ChatMetaRow>
-            <ConnectionStatus
-              $connected={isConnected}
-              $reconnecting={isReconnecting}
-              $synchronized={isSynchronized}
-            >
-              {connectionLabel}
-            </ConnectionStatus>
-            <StatusBadge $online={isAdminOnline}>
-              {isAdminOnline
-                ? t('system.status.presenceOnline')
-                : t('system.status.presenceOffline')}
-            </StatusBadge>
-          </ChatMetaRow>
-        </ChatHeaderLead>
-      </ChatHeader>
-
-      <AnimatePresence mode="wait">
-        {state.step === LiveChannelStep.Intro ? (
-          <IntroForm
-            key="intro"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <IntroTitle>{t('liveLab.chat.intro.title')}</IntroTitle>
-            <IntroDescription>
-              {t('liveLab.chat.intro.description')}
-            </IntroDescription>
-            <InputGroup>
-              <Label>{t('liveLab.chat.intro.name')}</Label>
-              <Input
-                value={state.visitorName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                  setState((prev: LiveChannelState) => ({
-                    ...prev,
-                    visitorName: e.target.value,
-                  }))
-                }
-                placeholder={t('liveLab.chat.intro.namePlaceholder')}
-              />
-            </InputGroup>
-            <InputGroup>
-              <Label>
-                {t('liveLab.chat.intro.company')} ({t('common.optional')})
-              </Label>
-              <Input
-                value={state.visitorCompany}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-                  setState((prev: LiveChannelState) => ({
-                    ...prev,
-                    visitorCompany: e.target.value,
-                  }))
-                }
-                placeholder={t('liveLab.chat.intro.companyPlaceholder')}
-              />
-            </InputGroup>
-            <StartButton type="button" onClick={handleStartChat}>
-              {t('liveLab.chat.intro.start')}
-            </StartButton>
-          </IntroForm>
-        ) : (
-          <ChatBody key="chat">
-            {messages.map((msg, index: number) => (
-              <Message
-                key={msg.id || index}
-                $isOwn={msg.sender_type === ChatMessageSenderType.Visitor}
-                variants={messageEnter}
-                initial="initial"
-                animate="animate"
+        <ChatHeader>
+          <ChatHeaderLead>
+            <ChatTitle>{t('workspace.channel.title')}</ChatTitle>
+            <ChatMetaRow>
+              <ConnectionStatus
+                $connected={isConnected}
+                $reconnecting={isReconnecting}
+                $synchronized={isSynchronized}
               >
-                <MessageContent>{msg.content}</MessageContent>
-                <MessageTime>
-                  {new Date(msg.created_at).toLocaleTimeString()}
-                </MessageTime>
-              </Message>
-            ))}
-            {isTyping ? (
-              <TypingIndicator aria-live="polite">
-                <TypingDot variants={typingDot} animate="animate" />
-                <TypingDot
-                  variants={typingDot}
-                  animate="animate"
-                  transition={{ delay: 0.15 }}
-                />
-                <TypingDot
-                  variants={typingDot}
-                  animate="animate"
-                  transition={{ delay: 0.3 }}
-                />
-              </TypingIndicator>
-            ) : null}
-            <div ref={messagesEndRef} />
-          </ChatBody>
-        )}
-      </AnimatePresence>
+                {connectionLabel}
+              </ConnectionStatus>
+              <StatusBadge $online={isAdminOnline}>
+                {isAdminOnline
+                  ? t('system.status.presenceOnline')
+                  : t('system.status.presenceOffline')}
+              </StatusBadge>
+            </ChatMetaRow>
+          </ChatHeaderLead>
+        </ChatHeader>
 
-      {state.step === LiveChannelStep.Chat ? (
-        <>
-          {!isAdminOnline ? (
-            <OfflineNotice>{t('liveLab.chat.offlineNotice')}</OfflineNotice>
-          ) : null}
-          <ChatFooter>
-            <MessageInput
-              value={state.inputValue}
-              onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
-              placeholder={t('liveLab.chat.placeholder')}
-              maxLength={1000}
-              disabled={!sessionId}
-            />
-            <SendButton
-              type="button"
-              onClick={handleSend}
-              disabled={!state.inputValue.trim() || !sessionId || !isConnected}
+        <AnimatePresence mode="wait">
+          {state.step === LiveChannelStep.Intro ? (
+            <IntroForm
+              key="intro"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              {t('liveLab.chat.send')}
-            </SendButton>
-          </ChatFooter>
-        </>
-      ) : null}
+              <IntroTitle>{t('liveLab.chat.intro.title')}</IntroTitle>
+              <IntroDescription>
+                {t('liveLab.chat.intro.description')}
+              </IntroDescription>
+              <InputGroup>
+                <Label>{t('liveLab.chat.intro.name')}</Label>
+                <Input
+                  value={state.visitorName}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                    setState((prev: LiveChannelState) => ({
+                      ...prev,
+                      visitorName: e.target.value,
+                    }));
+                  }}
+                  placeholder={t('liveLab.chat.intro.namePlaceholder')}
+                />
+              </InputGroup>
+              <InputGroup>
+                <Label>
+                  {t('liveLab.chat.intro.company')}
+                  {' '}
+                  (
+                  {t('common.optional')}
+                  )
+                </Label>
+                <Input
+                  value={state.visitorCompany}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>): void => {
+                    setState((prev: LiveChannelState) => ({
+                      ...prev,
+                      visitorCompany: e.target.value,
+                    }));
+                  }}
+                  placeholder={t('liveLab.chat.intro.companyPlaceholder')}
+                />
+              </InputGroup>
+              <StartButton type="button" onClick={handleStartChat}>
+                {t('liveLab.chat.intro.start')}
+              </StartButton>
+            </IntroForm>
+          ) : (
+            <ChatBody key="chat">
+              {messages.map((msg, index: number) => (
+                <Message
+                  key={msg.id || index}
+                  $isOwn={msg.sender_type === ChatMessageSenderType.Visitor}
+                  variants={messageEnter}
+                  initial="initial"
+                  animate="animate"
+                >
+                  <MessageContent>{msg.content}</MessageContent>
+                  <MessageTime>
+                    {new Date(msg.created_at).toLocaleTimeString()}
+                  </MessageTime>
+                </Message>
+              ))}
+              {isTyping ? (
+                <TypingIndicator aria-live="polite">
+                  <TypingDot variants={typingDot} animate="animate" />
+                  <TypingDot
+                    variants={typingDot}
+                    animate="animate"
+                    transition={{ delay: 0.15 }}
+                  />
+                  <TypingDot
+                    variants={typingDot}
+                    animate="animate"
+                    transition={{ delay: 0.3 }}
+                  />
+                </TypingIndicator>
+              ) : null}
+              <div ref={messagesEndRef} />
+            </ChatBody>
+          )}
+        </AnimatePresence>
+
+        {state.step === LiveChannelStep.Chat ? (
+          <>
+            {!isAdminOnline ? (
+              <OfflineNotice>{t('liveLab.chat.offlineNotice')}</OfflineNotice>
+            ) : null}
+            <ChatFooter>
+              <MessageInput
+                value={state.inputValue}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder={t('liveLab.chat.placeholder')}
+                maxLength={1000}
+                disabled={!sessionId}
+              />
+              <SendButton
+                type="button"
+                onClick={handleSend}
+                disabled={!state.inputValue.trim() || !sessionId || !isConnected}
+              >
+                {t('liveLab.chat.send')}
+              </SendButton>
+            </ChatFooter>
+          </>
+        ) : null}
       </ChannelMain>
       <EventLog />
     </ChannelSurface>
   );
-};
+}

@@ -43,7 +43,7 @@ interface ContextPanelProps {
   module: WorkspaceModule;
 }
 
-const IdentityModule: React.FC = (): React.ReactElement => {
+function IdentityModule(): React.ReactElement {
   const { t } = useTranslation();
 
   return (
@@ -67,11 +67,13 @@ const IdentityModule: React.FC = (): React.ReactElement => {
       </StatGrid>
     </>
   );
-};
+}
 
-const CasesModule: React.FC = (): React.ReactElement => {
+function CasesModule(): React.ReactElement {
   const { t, i18n } = useTranslation();
-  const { data: projects = [], isLoading, isError, refetch } = useProjects();
+  const {
+    data: projects = [], isLoading, isError, refetch,
+  } = useProjects();
   const setActiveCase = useWorkspaceStore((s) => s.setActiveCase);
   const setPendingChannelDraft = useWorkspaceStore((s) => s.setPendingChannelDraft);
   const pushEvent = useSystemEventStore((s) => s.push);
@@ -88,9 +90,8 @@ const CasesModule: React.FC = (): React.ReactElement => {
   }, [projects, selectedId]);
 
   const titleFor = useCallback(
-    (p: Project): string =>
-      language === Language.Pt && p.title_pt ? p.title_pt : p.title,
-    [language]
+    (p: Project): string => (language === Language.Pt && p.title_pt ? p.title_pt : p.title),
+    [language],
   );
 
   const descriptionFor = useCallback(
@@ -100,7 +101,7 @@ const CasesModule: React.FC = (): React.ReactElement => {
       }
       return p.description ?? null;
     },
-    [language]
+    [language],
   );
 
   if (isLoading) {
@@ -130,7 +131,7 @@ const CasesModule: React.FC = (): React.ReactElement => {
             pushEvent(
               SystemEventType.ContextDetach,
               SystemEventLevel.Info,
-              'workspace.events.contextDetach'
+              'workspace.events.contextDetach',
             );
           }}
         >
@@ -180,13 +181,13 @@ const CasesModule: React.FC = (): React.ReactElement => {
                 setSelectedId(project.id);
                 setActiveCase(project.id, title);
                 setPendingChannelDraft(
-                  t('workspace.events.contextDraft', { title })
+                  t('workspace.events.contextDraft', { title }),
                 );
                 pushEvent(
                   SystemEventType.ContextAttach,
                   SystemEventLevel.Info,
                   'workspace.events.contextAttach',
-                  { title }
+                  { title },
                 );
               }}
             >
@@ -198,7 +199,7 @@ const CasesModule: React.FC = (): React.ReactElement => {
       </CaseList>
     </>
   );
-};
+}
 
 const CATEGORY_ORDER: SkillCategory[] = [
   SkillCategory.Realtime,
@@ -209,13 +210,11 @@ const CATEGORY_ORDER: SkillCategory[] = [
   SkillCategory.Iot,
 ];
 
-const CapabilitiesModule: React.FC = (): React.ReactElement => {
+function CapabilitiesModule(): React.ReactElement {
   const { t, i18n } = useTranslation();
   const { data: skills = [], isLoading } = useSkills();
 
-  const labelForCategory = (category: SkillCategory): string => {
-    return t(`skills.categories.${category}`);
-  };
+  const labelForCategory = (category: SkillCategory): string => t(`skills.categories.${category}`);
 
   const nameFor = (skill: Skill): string => {
     const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
@@ -263,15 +262,15 @@ const CapabilitiesModule: React.FC = (): React.ReactElement => {
       })}
     </>
   );
-};
+}
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const ContextPanel: React.FC<ContextPanelProps> = ({
+export function ContextPanel({
   module,
-}): React.ReactElement => {
+}: ContextPanelProps): React.ReactElement {
   const renderModule = (): React.ReactElement => {
     switch (module) {
       case WorkspaceModule.Cases:
@@ -299,4 +298,4 @@ export const ContextPanel: React.FC<ContextPanelProps> = ({
       </AnimatePresence>
     </PanelScroll>
   );
-};
+}
