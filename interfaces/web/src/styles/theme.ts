@@ -727,6 +727,4 @@ export const lightTheme: Theme = {
   ...sharedTheme,
 };
 
-export const theme = darkTheme;
-
 export type { Theme as ThemeType };
