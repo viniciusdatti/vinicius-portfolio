@@ -57,7 +57,9 @@ const toLocalLabel = (raw: string): string => SENSOR_LABEL_PT[raw] ?? raw;
  *********************************************************************************************** */
 
 const MAX_HISTORY: number = 30;
-const MAX_LOG: number = 40;
+
+/** Max event-log lines kept in memory and rendered (oldest dropped). */
+export const TELEMETRY_EVENT_LOG_MAX: number = 40;
 
 /** Pre-boot events shown immediately on mount before WebSocket connects. */
 const INITIAL_LOG: TelemetryState['eventLog'] = [
@@ -119,7 +121,7 @@ export const useTelemetry = (): TelemetryState => {
             type: 'info' as const,
           },
           ...prev.eventLog,
-        ].slice(0, MAX_LOG),
+        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
     });
 
@@ -134,7 +136,7 @@ export const useTelemetry = (): TelemetryState => {
             type: 'warn' as const,
           },
           ...prev.eventLog,
-        ].slice(0, MAX_LOG),
+        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
     });
 
@@ -148,7 +150,7 @@ export const useTelemetry = (): TelemetryState => {
             type: 'warn' as const,
           },
           ...prev.eventLog,
-        ].slice(0, MAX_LOG),
+        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
     });
 
@@ -203,7 +205,7 @@ export const useTelemetry = (): TelemetryState => {
           ...prev,
           readings: localReadings,
           history: newHistory,
-          eventLog: newLog.slice(0, MAX_LOG),
+          eventLog: newLog.slice(0, TELEMETRY_EVENT_LOG_MAX),
           tickCount: nextTick,
         };
       });

@@ -29,6 +29,7 @@ export const MonitorRoot = styled.div`
   flex-direction: column;
   height: 100%;
   min-height: 0;
+  overflow: hidden;
   background: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
 `;
