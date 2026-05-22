@@ -40,7 +40,7 @@ vinicius-portfolio/
 
 ## Git workflow
 
-- **`main`** — produção
+- **`master`** — produção
 - **`develop`** — integração contínua
 - **`feature/*`** — desenvolvimento isolado
 

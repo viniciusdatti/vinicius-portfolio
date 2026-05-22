@@ -6,7 +6,7 @@ Este repositório segue um **Git Flow simplificado** para produção estável e 
 
 | Branch | Propósito | Deploy / ambiente |
 |--------|-----------|-------------------|
-| `main` | Produção — apenas código revisado e estável | Produção |
+| `master` | Produção — apenas código revisado e estável | Produção |
 | `develop` | Integração contínua — merge de features | Staging / preview (opcional) |
 | `feature/*` | Uma funcionalidade ou correção isolada | Local |
 
@@ -35,15 +35,15 @@ gitGraph
   commit id: "pronto"
   checkout develop
   merge feature/nova-tela
-  checkout main
+  checkout master
   merge develop tag: "release"
 ```
 
 1. **Atualize `develop`:** `git checkout develop` → `git pull origin develop`
 2. **Crie a feature:** `git checkout -b feature/nome-curto`
 3. **Desenvolva** com commits pequenos e mensagens claras
-4. **Abra PR** para `develop` (nunca direto em `main` para features)
-5. **Após QA em `develop`**, abra PR `develop` → `main` para release
+4. **Abra PR** para `develop` (nunca direto em `master` para features)
+5. **Após QA em `develop`**, abra PR `develop` → `master` para release
 
 ## Merge — boas práticas
 
@@ -54,34 +54,24 @@ gitGraph
 - Use **merge commit** quando a feature tiver commits semanticamente separados que valem preservar
 - Exija: lint/typecheck (`interfaces/web`), revisão de código, descrição do PR com escopo e test plan
 
-### Develop → main (release)
+### Develop → master (release)
 
 - Apenas quando `develop` estiver estável e testado
 - Tag opcional: `v0.2.0` após merge
-- **Nunca** force-push em `main` ou `develop`
-- Hotfix crítico em produção: `hotfix/*` a partir de `main` → merge em `main` **e** `develop`
+- **Nunca** force-push em `master` ou `develop`
+- Hotfix crítico em produção: `hotfix/*` a partir de `master` → merge em `master` **e** `develop`
 
 ### O que evitar
 
-- Commits diretos em `main` (exceto hotfix emergencial documentado)
+- Commits diretos em `master` (exceto hotfix emergencial documentado)
 - PRs grandes sem revisão incremental
 - `git push --force` em branches compartilhadas
 
-## Migração `master` → `main` (remoto)
-
-Se o GitHub ainda usa `master` como default:
-
-1. Local: `git branch -m master main` (já feito neste repo)
-2. `git push -u origin main`
-3. GitHub → **Settings → Branches** → default branch: `main`
-4. `git push origin develop`
-5. Opcional: apagar `master` remoto após validar deploys
-
 ## Proteção recomendada (GitHub)
 
-- `main`: require PR, 1 approval, status checks (build)
+- `master`: require PR, 1 approval, status checks (build)
 - `develop`: require PR, status checks
-- Bloquear force push em `main` e `develop`
+- Bloquear force push em `master` e `develop`
 
 ## Estrutura do monorepo
 
@@ -90,7 +80,7 @@ vinicius-portfolio/
 ├── backend/           # FastAPI
 ├── interfaces/web/    # React 19 + Vite — frontend no host (dev)
 ├── docs/              # Especificações e workflow
-└── .cursor/           # MCP e regras do agente
+└── .cursor/           # Regras do agente
 ```
 
 Frontend: sempre `yarn` em `interfaces/web/` (ver regra do projeto).
