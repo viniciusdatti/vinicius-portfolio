@@ -187,3 +187,22 @@ yarn dev
 - Global error handling
 - Design System with tokens
 - Dark Mode ready architecture
+
+## Frontend architecture (interfaces/web)
+
+Production-oriented patterns aligned with industrial SPA discipline:
+
+| Layer | Location | Role |
+|-------|----------|------|
+| API client + guards | `src/api/` | axios client, `ApiError`, type guards (`isNotFoundError`, etc.) |
+| Domain plugins | `src/plugins/` | Pure business logic (skills icons, chat mappers) — testable without React |
+| Server state | TanStack Query hooks in `src/hooks/` | Skills, projects, certificates, telemetry |
+| Client state | Zustand stores in `src/store/` | theme, auth, chat, workspace, toast |
+| Live Lab | `src/components/workspace/` | WorkspaceShell — module rail, context panel, chat, telemetry + recharts |
+| Design system | `src/components/` | Button, Card, Drawer (a11y), Spinner — `testId` prop via `TestableProps` |
+| Errors | `RouteError`, `ErrorBoundary` | route `errorElement` + React error boundary |
+| Tests | Vitest + RTL + MSW | unit/domain tests; handlers for projects, skills, certificates, chat |
+
+**Scripts:** `yarn lint` · `yarn typecheck` · `yarn test` · `yarn build` · `yarn analyze` (bundle report → `dist/stats.html`)
+
+Path alias: `@/` → `src/` (Vite + tsconfig + Vitest).
