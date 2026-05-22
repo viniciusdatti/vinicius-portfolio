@@ -92,11 +92,12 @@
       "handshakeTitle": "Boot do sistema",
       "transportStatus": "Status do transporte",
       "showcaseBadge": "Showcase de engenharia",
+      "showcaseBadgeTooltip": "Demonstração funcional com WebSocket real — sensores industriais ao vivo",
       "phases": {
         "initializing": "Inicializando transporte…",
-        "connecting": "Abrindo canal WebSocket…",
-        "live": "Canal live — realtime ativo",
-        "ready": "Operacional — inspecione módulos ou abra sessão"
+        "connecting": "Conectando ao servidor de telemetria…",
+        "live": "Canal WebSocket ativo — telemetria ao vivo",
+        "ready": "Telemetria operacional — dados em tempo real"
       }
     },
     "events": {
