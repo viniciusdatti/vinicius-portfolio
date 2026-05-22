@@ -155,6 +155,97 @@ export const resolveScrollReveal = (reducedMotion: boolean): Variants => (
 );
 
 // =================================================================================================
+// ================================= CHAPTER ORCHESTRATION =========================================
+// =================================================================================================
+
+/** Manifesto phrase container — staggered editorial reveal (orchestrated-sequences). */
+export const manifestoPhraseStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+/** Single manifesto phrase line — anticipation before full thesis lands. */
+export const manifestoPhrase: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 28,
+    filter: 'blur(4px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+    },
+  },
+};
+
+export const manifestoPhraseReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+};
+
+/** Left narrative rail — enters before panel (chapter choreography). */
+export const chapterAside: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -24,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+      delay: 0.06,
+    },
+  },
+};
+
+/** Operational / contact panel — follows rail with delay. */
+export const chapterPanel: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    filter: 'blur(3px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEase,
+      delay: 0.2,
+    },
+  },
+};
+
+export const chapterAsideReduced: Variants = scrollRevealReduced;
+
+export const chapterPanelReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEase,
+      delay: 0.08,
+    },
+  },
+};
+
+// =================================================================================================
 // ======================================== STAGGER LEGACY =========================================
 // =================================================================================================
 

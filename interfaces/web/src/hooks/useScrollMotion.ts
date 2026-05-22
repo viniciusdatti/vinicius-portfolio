@@ -3,6 +3,13 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Components
 import {
+  chapterAside,
+  chapterAsideReduced,
+  chapterPanel,
+  chapterPanelReduced,
+  manifestoPhrase,
+  manifestoPhraseReduced,
+  manifestoPhraseStagger,
   scrollReveal,
   scrollRevealReduced,
   scrollRevealItem,
@@ -17,6 +24,10 @@ export const useScrollMotion = (): {
   section: Variants;
   stagger: Variants;
   item: Variants;
+  manifestoStagger: Variants;
+  manifestoPhrase: Variants;
+  chapterAside: Variants;
+  chapterPanel: Variants;
 } => {
   const reduced = usePrefersReducedMotion();
 
@@ -24,5 +35,9 @@ export const useScrollMotion = (): {
     section: reduced ? scrollRevealReduced : scrollReveal,
     stagger: scrollRevealStagger,
     item: scrollRevealItem,
+    manifestoStagger: manifestoPhraseStagger,
+    manifestoPhrase: reduced ? manifestoPhraseReduced : manifestoPhrase,
+    chapterAside: reduced ? chapterAsideReduced : chapterAside,
+    chapterPanel: reduced ? chapterPanelReduced : chapterPanel,
   };
 };

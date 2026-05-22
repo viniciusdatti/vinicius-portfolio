@@ -2,20 +2,12 @@
  * Styles for SkillCardSkeleton component.
  */
 
-import styled, { keyframes } from 'styled-components';
-
-const shimmer = keyframes`
-  0% {
-    background-position: -200% 0;
-  };
-  100% {
-    background-position: 200% 0;
-  };
-`;
+import styled from 'styled-components';
+import { SkeletonBase } from '@/styles/skeleton';
 
 export const SkeletonCard = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
   display: flex;
@@ -24,17 +16,9 @@ export const SkeletonCard = styled.div`
 `;
 
 export const SkeletonElement = styled.div<{ width?: string; height?: string }>`
+  ${SkeletonBase};
   width: ${({ width }) => width || '100%'};
   height: ${({ height }) => height || '1rem'};
-  background: linear-gradient(
-    90deg,
-    ${({ theme }) => theme.colors.border} 25%,
-    ${({ theme }) => theme.colors.surface} 50%,
-    ${({ theme }) => theme.colors.border} 75%
-  );
-  background-size: 200% 100%;
-  animation: ${shimmer} 1.5s ease-in-out infinite;
-  border-radius: 4px;
   flex-shrink: 0;
 `;
 
