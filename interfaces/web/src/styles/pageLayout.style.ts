@@ -20,6 +20,7 @@ export const PageContainer = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
+  padding-bottom: clamp(3rem, 8vw, 5rem);
   ${pageShellPadding};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
@@ -51,6 +52,7 @@ export const PageHeader = styled.div`
   max-width: ${({ theme }) => theme.layout.proseWide};
   margin-left: auto;
   margin-right: auto;
+  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
 `;
 
 export const PageTitle = styled(motion.h1)`

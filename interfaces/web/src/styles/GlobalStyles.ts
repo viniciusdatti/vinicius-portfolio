@@ -14,6 +14,7 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: ${({ theme }) => theme.sizes.layout.headerOffset};
     font-size: 16px;
     text-rendering: optimizeLegibility;
 
@@ -22,8 +23,13 @@ export const GlobalStyles = createGlobalStyle`
     };
   }
 
-  body.menu-scroll-locked {
+  body.menu-scroll-locked,
+  body.workspace-scroll-locked {
     overflow: hidden;
+  }
+
+  body.workspace-scroll-locked {
+    height: 100vh;
   }
 
   body {

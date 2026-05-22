@@ -3,9 +3,9 @@
 export const sharedTheme = {
   typography: {
     fontFamily: {
-      display: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      heading: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      body: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      display: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      heading: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      body: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
       mono: '"JetBrains Mono", ui-monospace, monospace',
     },
     fontSize: {
@@ -149,7 +149,7 @@ export const sharedTheme = {
     layout: {
       systemBarHeight: '32px',
       headerShellTop: '0',
-      headerOffset: '5.25rem',
+      headerOffset: '6rem',
       moduleRailWidth: '4.5rem',
       workspaceGap: '1px',
       proseMax: '500px',

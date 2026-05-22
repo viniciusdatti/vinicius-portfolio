@@ -1,5 +1,6 @@
 // Libraries
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // =================================================================================================
 // =========================================== SKIP LINK ===========================================
@@ -45,12 +46,28 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
     ? css`
           min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
           height: calc(100vh - ${theme.sizes.layout.headerOffset});
+          max-height: calc(100vh - ${theme.sizes.layout.headerOffset});
           display: flex;
           flex-direction: column;
+          overflow: hidden;
         `
     : css`
           min-height: 100vh;
           overflow-x: hidden;
+        `)};
+`;
+
+export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
+  ${({ $workspace }) => ($workspace
+    ? css`
+          height: 100%;
+          min-height: 0;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        `
+    : css`
+          min-height: 0;
         `)};
 `;
 

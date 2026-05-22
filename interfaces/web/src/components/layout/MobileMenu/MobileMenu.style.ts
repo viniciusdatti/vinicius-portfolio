@@ -24,7 +24,7 @@ export const MenuContainer = styled(motion.nav)`
   -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.menu};
   z-index: ${({ theme }) => theme.zIndex.modal};
   padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.xl};
-  padding-top: 5.5rem;
+  padding-top: ${({ theme }) => theme.sizes.layout.headerOffset};
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
