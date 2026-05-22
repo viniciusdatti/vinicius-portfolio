@@ -200,7 +200,7 @@
       "name": "Vinicius Datti",
       "eyebrow": "Portfólio · engenharia frontend",
       "headline": "Front-end para sistemas industriais que não podem parar.",
-      "description": "Trabalhei 3 anos no portfolio — plataforma de monitoramento de britadores em tempo real. Dashboards com WebSocket, múltiplos estados de equipamento e layout que funciona do celular do operador até o monitor de controle.",
+      "description": "Três anos no portfolio: dashboards Patriot e VSI do zero — WebSocket, estados por equipamento, layout do celular do operador ao monitor de sala. Quando o dado chegava errado, a máquina parava.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explorar o portfólio",
@@ -261,7 +261,7 @@
     },
     "aboutPreview": {
       "title": "3 anos monitorando britadores em produção real",
-      "description": "No portfolio construí os dashboards do Patriot e VSI — WebSocket com estados por equipamento, alertas baseados em readStatus e edgeStatus, e um refactor completo de responsividade que permitiu que operadores usassem no campo pelo celular.",
+      "description": "Patriot e VSI do zero — WebSocket, JWT com roteamento por perfil, responsividade do operador à sala de controle. Dado errado na UI não era bug cosmético: a máquina parava.",
       "cta": "Ler experiência completa"
     },
     "skillsPreview": {
@@ -321,7 +321,7 @@
       "sectionTitle": "Experiência profissional",
       "title": "portfolio · 2021–2024",
       "role": "Front-end Engineer — plataforma industrial de monitoramento de britadores",
-      "summary": "Dashboards do Patriot (cone crusher) e VSI construídos do zero. Dados chegando via Socket.io a cada 10 segundos, alertas baseados em readStatus e edgeStatus, e um refactor completo de responsividade para uso no campo.",
+      "summary": "Patriot e VSI construídos do zero. Socket.io a cada 10s, readStatus e edgeStatus como contrato operacional — quando a máquina parava, a UI tinha que refletir isso antes do operador perder visibilidade.",
       "items": {
         "dashboards": "Dashboards Patriot e VSI — hidráulico, lubrificação, status do motor, vibração, cavity level. Detecção de equipamento por schema (SchemaType). GPS com três níveis de fallback: coordenadas ao vivo → localização estática do equipamento → sem pin.",
         "realtime": "Promise.allSettled para carregar equipment unit, latest data e socket em paralelo. Quando a máquina parava, a UI comunicava imediatamente via readStatus e edgeStatus — não só um indicador visual, um contrato de dados.",
@@ -340,6 +340,8 @@
   "skills": {
     "title": "Competências",
     "subtitle": "3 anos escrevendo front-end onde falha de UI tem consequência real — britadores parados, operadores sem dado. Dashboards industriais, auth completo e responsividade do zero.",
+    "error": "Não foi possível carregar as competências. Tente novamente.",
+    "certificatesError": "Não foi possível carregar os certificados. Tente novamente.",
     "filterAll": "Todas",
     "toolNames": {
       "cursor": "Cursor",
@@ -416,6 +418,8 @@
       "viewCertificate": "Ver certificado",
       "close": "Fechar",
       "totalHours": "{{hours}}+ horas de estudo",
+      "count_one": "{{count}} certificado",
+      "count_other": "{{count}} certificados",
       "hours_one": "{{count}} hora",
       "hours_other": "{{count}} horas",
       "courses_one": "{{count}} curso",
@@ -606,7 +610,7 @@
     }
   },
   "footer": {
-    "description": "Construí front-end onde britadores industriais dependem da UI estar certa. React · TypeScript · WebSocket.",
+    "description": "Front-end onde dado errado na tela tinha consequência na planta — a máquina parava. React · TypeScript · WebSocket.",
     "navigation": "Navegação",
     "contact": "Contato",
     "linkedin": "LinkedIn",
