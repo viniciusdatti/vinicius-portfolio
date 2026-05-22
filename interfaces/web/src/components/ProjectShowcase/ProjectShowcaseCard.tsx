@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import type { Technology } from '../../data/types';
 import { Language } from '../../types';
 import {
+  MockWindowScene,
   ProjectCanvasTone,
   ProjectShowcaseVariant,
 } from './ProjectShowcase.types';
@@ -30,6 +31,8 @@ import {
   MockBody,
   MockLine,
   MockLineAccent,
+  MockRowGroup,
+  MockCodeGroup,
   TechFloatingRow,
   TechChip,
   TechChipFallback,
@@ -42,6 +45,8 @@ import {
   CardFooter,
   ViewCaseLabel,
   ArrowIcon,
+  TechStackLine,
+  TechStackSep,
 } from './ProjectShowcase.style';
 
 /* ***********************************************************************************************
@@ -79,6 +84,70 @@ const handleCardKeyDown = (
   }
 };
 
+/**
+ * Resolves which MockWindow visual scene to render based on variant and canvas tone.
+ * Featured cards always use the Shell scene (richest visual).
+ */
+const resolveMockScene = (
+  variant: ProjectShowcaseVariant,
+  canvasTone: ProjectCanvasTone
+): MockWindowScene => {
+  if (variant === ProjectShowcaseVariant.Featured) {
+    return MockWindowScene.Shell;
+  }
+  if (canvasTone === ProjectCanvasTone.B) {
+    return MockWindowScene.Table;
+  }
+  if (canvasTone === ProjectCanvasTone.C) {
+    return MockWindowScene.Code;
+  }
+  return MockWindowScene.Shell;
+};
+
+/**
+ * Renders the appropriate MockWindow body content for the given scene.
+ */
+const renderMockScene = (scene: MockWindowScene): React.ReactElement => {
+  if (scene === MockWindowScene.Table) {
+    return (
+      <MockBody>
+        <MockLineAccent />
+        <MockRowGroup>
+          <MockLine $width="80%" $delay="0.3s" />
+          <MockLine $width="70%" $delay="0.5s" />
+          <MockLine $width="60%" $delay="0.7s" />
+        </MockRowGroup>
+        <MockRowGroup>
+          <MockLine $width="75%" $delay="0.8s" />
+          <MockLine $width="85%" $delay="1s" />
+          <MockLine $width="55%" $delay="1.2s" />
+        </MockRowGroup>
+      </MockBody>
+    );
+  }
+  if (scene === MockWindowScene.Code) {
+    return (
+      <MockBody>
+        <MockLine $width="42%" $delay="0s" />
+        <MockCodeGroup>
+          <MockLineAccent />
+          <MockLine $width="72%" $delay="0.4s" />
+          <MockLine $width="58%" $delay="0.8s" />
+        </MockCodeGroup>
+        <MockLine $width="34%" $delay="1.2s" />
+      </MockBody>
+    );
+  }
+  return (
+    <MockBody>
+      <MockLineAccent />
+      <MockLine $delay="0.3s" $width="82%" />
+      <MockLine $delay="0.9s" $width="65%" />
+      <MockLine $delay="1.5s" $width="48%" />
+    </MockBody>
+  );
+};
+
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
@@ -99,6 +168,8 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   const caseCtaLabel: string = t(getProjectCaseCtaKey(project), {
     defaultValue: t('projects.showcase.viewCase'),
   });
+  const isFeatured: boolean = variant === ProjectShowcaseVariant.Featured;
+  const scene: MockWindowScene = resolveMockScene(variant, canvasTone);
 
   const handleClick = (): void => {
     onSelect(project);
@@ -118,7 +189,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
       onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void =>
         handleCardKeyDown(event, onSelect, project)
       }
-      whileHover={{ scale: variant === ProjectShowcaseVariant.Featured ? 1.01 : 1.02 }}
+      whileHover={{ scale: isFeatured ? 1.005 : 1.02 }}
       whileTap={{ scale: 0.99 }}
     >
       <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
@@ -129,13 +200,9 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
             <MockDot />
             <MockDot />
           </MockWindowBar>
-          <MockBody>
-            <MockLineAccent />
-            <MockLine $delay="0.4s" />
-            <MockLine $width="56%" $delay="1.2s" />
-          </MockBody>
+          {renderMockScene(scene)}
         </MockWindow>
-        <TechFloatingRow>
+        <TechFloatingRow $hideOnDesktop={isFeatured}>
           {displayTechs.map((tech: Technology) => {
             const iconUrl: string | null = getTechIconUrl(tech.slug);
             return (
@@ -162,6 +229,20 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
         </CardMetaRow>
         <CardTitle>{title}</CardTitle>
         {description ? <CardDescription>{description}</CardDescription> : null}
+        {isFeatured ? (
+          <TechStackLine>
+            {project.technologies.slice(0, 5).map(
+              (tech: Technology, i: number, arr: Technology[]) => (
+                <React.Fragment key={tech.id}>
+                  <span>{tech.name}</span>
+                  {i < arr.length - 1 ? (
+                    <TechStackSep aria-hidden="true">·</TechStackSep>
+                  ) : null}
+                </React.Fragment>
+              )
+            )}
+          </TechStackLine>
+        ) : null}
         <CardFooter>
           <ViewCaseLabel>{caseCtaLabel}</ViewCaseLabel>
           <ArrowIcon aria-hidden>→</ArrowIcon>
