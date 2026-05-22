@@ -6,29 +6,28 @@ import { MemoryRouter } from 'react-router-dom';
 import { darkTheme } from '../../styles/theme';
 
 /** Creates a fresh QueryClient for each test — no shared cache between tests. */
-const createTestQueryClient = (): QueryClient =>
-  new QueryClient({
-    defaultOptions: {
-      queries: {
-        retry: false,
-        gcTime: 0,
-        staleTime: 0,
-      },
-      mutations: {
-        retry: false,
-      },
+const createTestQueryClient = (): QueryClient => new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      gcTime: 0,
+      staleTime: 0,
     },
-  });
+    mutations: {
+      retry: false,
+    },
+  },
+});
 
 interface WrapperProps {
   children: React.ReactNode;
   initialEntries?: string[];
 }
 
-const AllProviders = ({
+function AllProviders({
   children,
   initialEntries = ['/'],
-}: WrapperProps): ReactElement => {
+}: WrapperProps): ReactElement {
   const queryClient = createTestQueryClient();
 
   return (
@@ -38,7 +37,7 @@ const AllProviders = ({
       </ThemeProvider>
     </QueryClientProvider>
   );
-};
+}
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   initialEntries?: string[];
@@ -46,7 +45,7 @@ interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
 
 export const renderWithProviders = (
   ui: ReactElement,
-  options: CustomRenderOptions = {}
+  options: CustomRenderOptions = {},
 ): ReturnType<typeof render> => {
   const { initialEntries, ...rest } = options;
 

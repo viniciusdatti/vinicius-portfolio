@@ -1,5 +1,10 @@
 // Core
-import { describe, it, expect, beforeEach } from 'vitest';
+import {
+  describe, it, expect, beforeEach,
+} from 'vitest';
+
+// Plugins
+import { buildFakeChatMessage } from '../plugins/testUtils';
 
 // Store
 import { useChatStore } from './chatStore';
@@ -7,24 +12,19 @@ import { useChatStore } from './chatStore';
 // Types
 import type { ChatMessage } from '../types';
 
-// Fixtures
-import { mockChatMessage } from '../test/fixtures';
-
-/* ***********************************************************************************************
- *************************************** Setup ***************************************************
- *********************************************************************************************** */
+/* *************** SETUP *************** */
 
 beforeEach((): void => {
   useChatStore.getState().reset();
 });
 
-/* ***********************************************************************************************
- *************************************** Tests ***************************************************
- *********************************************************************************************** */
+/* *************** TEST EXECUTION *************** */
 
-describe('chatStore', () => {
-  describe('initial state', () => {
-    it('starts with correct defaults', (): void => {
+describe('chatStore', (): void => {
+  // STATE: initial *******************************
+
+  describe('initial state', (): void => {
+    it('should start with correct defaults', (): void => {
       const state = useChatStore.getState();
       expect(state.sessionId).toBeNull();
       expect(state.messages).toHaveLength(0);
@@ -34,37 +34,43 @@ describe('chatStore', () => {
     });
   });
 
-  describe('setSessionId', () => {
-    it('sets the session ID', (): void => {
+  // METHOD: setSessionId *******************************
+
+  describe('setSessionId', (): void => {
+    it('should set the session ID', (): void => {
       useChatStore.getState().setSessionId('sess-123');
       expect(useChatStore.getState().sessionId).toBe('sess-123');
     });
   });
 
-  describe('addMessage', () => {
-    it('appends messages to the list', (): void => {
-      const msg: ChatMessage = mockChatMessage({ id: 1 });
+  // METHOD: addMessage *******************************
+
+  describe('addMessage', (): void => {
+    it('should append messages to the list', (): void => {
+      const msg: ChatMessage = buildFakeChatMessage({ id: 1 });
       useChatStore.getState().addMessage(msg);
       expect(useChatStore.getState().messages).toHaveLength(1);
       expect(useChatStore.getState().messages[0].content).toBe(msg.content);
     });
 
-    it('preserves order of multiple messages', (): void => {
-      const m1: ChatMessage = mockChatMessage({ id: 1, content: 'first' });
-      const m2: ChatMessage = mockChatMessage({ id: 2, content: 'second' });
-      useChatStore.getState().addMessage(m1);
-      useChatStore.getState().addMessage(m2);
+    it('should preserve order of multiple messages', (): void => {
+      const first: ChatMessage = buildFakeChatMessage({ id: 1, content: 'first' });
+      const second: ChatMessage = buildFakeChatMessage({ id: 2, content: 'second' });
+      useChatStore.getState().addMessage(first);
+      useChatStore.getState().addMessage(second);
       const { messages } = useChatStore.getState();
       expect(messages[0].content).toBe('first');
       expect(messages[1].content).toBe('second');
     });
   });
 
-  describe('setMessages', () => {
-    it('replaces the messages array', (): void => {
-      useChatStore.getState().addMessage(mockChatMessage({ id: 1 }));
+  // METHOD: setMessages *******************************
+
+  describe('setMessages', (): void => {
+    it('should replace the messages array', (): void => {
+      useChatStore.getState().addMessage(buildFakeChatMessage({ id: 1 }));
       const newMessages: ChatMessage[] = [
-        mockChatMessage({ id: 10, content: 'replaced' }),
+        buildFakeChatMessage({ id: 10, content: 'replaced' }),
       ];
       useChatStore.getState().setMessages(newMessages);
       expect(useChatStore.getState().messages).toHaveLength(1);
@@ -72,27 +78,31 @@ describe('chatStore', () => {
     });
   });
 
-  describe('setConnected / setAdminOnline / setTyping', () => {
-    it('updates connection state', (): void => {
+  // METHOD: connection flags *******************************
+
+  describe('setConnected / setAdminOnline / setTyping', (): void => {
+    it('should update connection state', (): void => {
       useChatStore.getState().setConnected(true);
       expect(useChatStore.getState().isConnected).toBe(true);
       useChatStore.getState().setConnected(false);
       expect(useChatStore.getState().isConnected).toBe(false);
     });
 
-    it('updates admin online state', (): void => {
+    it('should update admin online state', (): void => {
       useChatStore.getState().setAdminOnline(true);
       expect(useChatStore.getState().isAdminOnline).toBe(true);
     });
 
-    it('updates typing state', (): void => {
+    it('should update typing state', (): void => {
       useChatStore.getState().setTyping(true);
       expect(useChatStore.getState().isTyping).toBe(true);
     });
   });
 
-  describe('toggleSound', () => {
-    it('toggles soundEnabled', (): void => {
+  // METHOD: toggleSound *******************************
+
+  describe('toggleSound', (): void => {
+    it('should toggle soundEnabled', (): void => {
       const initial: boolean = useChatStore.getState().soundEnabled;
       useChatStore.getState().toggleSound();
       expect(useChatStore.getState().soundEnabled).toBe(!initial);
@@ -101,10 +111,12 @@ describe('chatStore', () => {
     });
   });
 
-  describe('reset', () => {
-    it('clears session, messages and connection state', (): void => {
+  // METHOD: reset *******************************
+
+  describe('reset', (): void => {
+    it('should clear session, messages and connection state', (): void => {
       useChatStore.getState().setSessionId('sess-abc');
-      useChatStore.getState().addMessage(mockChatMessage());
+      useChatStore.getState().addMessage(buildFakeChatMessage());
       useChatStore.getState().setConnected(true);
       useChatStore.getState().reset();
 
