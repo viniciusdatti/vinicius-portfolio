@@ -13,14 +13,11 @@ import {
 
 export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
-  };
-
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(12, 1fr);
     ${({ $compact }) =>
       $compact
         ? `
@@ -37,10 +34,10 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
         `
         : `
           & > [data-variant='featured'] {
-            grid-column: span 7;
+            grid-column: span 8;
           };
           & > [data-variant='standard']:nth-of-type(2) {
-            grid-column: span 5;
+            grid-column: span 4;
           };
           & > [data-variant='standard'] {
             grid-column: span 4;
@@ -80,6 +77,16 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   & > * {
     position: relative;
     z-index: ${({ theme }) => theme.zIndex.content};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    ${({ $variant, theme }) =>
+      $variant === ProjectShowcaseVariant.Featured
+        ? `
+          flex-direction: row;
+          min-height: ${theme.sizes.project.previewHeightFeatured};
+        `
+        : ''};
   };
 
   &:hover {
@@ -133,6 +140,18 @@ export const PreviewPanel = styled.div<ShowcaseCardStyleProps>`
     inset: 0;
     background: ${({ theme }) => theme.colors.gradientLiveLabGlow};
     pointer-events: none;
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    ${({ $variant, theme }) =>
+      $variant === ProjectShowcaseVariant.Featured
+        ? `
+          flex: 0 0 44%;
+          min-height: unset;
+          border-bottom: none;
+          border-right: 1px solid ${theme.colors.borderSubtle};
+        `
+        : ''};
   };
 `;
 
@@ -201,7 +220,30 @@ export const MockLineAccent = styled(MockLine)`
   animation-delay: 0.8s;
 `;
 
-export const TechFloatingRow = styled.div`
+/**
+ * Grid layout for the data-table MockWindow scene.
+ * Arranges three MockLine items side by side as table columns.
+ */
+export const MockRowGroup = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: center;
+`;
+
+/**
+ * Left-accent block for the code/config MockWindow scene.
+ * Gives a terminal / editor feel via a left gold border.
+ */
+export const MockCodeGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
+  padding-left: ${({ theme }) => theme.spacing.sm};
+  border-left: 2px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+`;
+
+export const TechFloatingRow = styled.div<{ $hideOnDesktop?: boolean }>`
   position: absolute;
   right: ${({ theme }) => theme.spacing.lg};
   bottom: ${({ theme }) => theme.spacing.lg};
@@ -211,6 +253,10 @@ export const TechFloatingRow = styled.div`
   flex-wrap: wrap;
   justify-content: flex-end;
   max-width: 55%;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    ${({ $hideOnDesktop }) => ($hideOnDesktop ? 'display: none;' : '')};
+  };
 `;
 
 export const TechChip = styled.span`
@@ -250,6 +296,13 @@ export const CardBody = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
   flex: 1;
+
+  ${ShowcaseCard}[data-variant='featured'] & {
+    @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+      padding: ${({ theme }) => theme.spacing.xl} ${({ theme }) => theme.spacing.xxl};
+      gap: ${({ theme }) => theme.spacing.lg};
+    };
+  };
 `;
 
 export const CardMetaRow = styled.div`
@@ -283,7 +336,9 @@ export const CardTitle = styled.h3`
   color: ${({ theme }) => theme.colors.text};
 
   ${ShowcaseCard}[data-variant='featured'] & {
-    font-size: ${({ theme }) => theme.typography.fontSize.xxl};
+    font-size: clamp(1.5rem, 2.2vw, 2.125rem);
+    letter-spacing: -0.035em;
+    line-height: ${({ theme }) => theme.typography.lineHeight.tight};
   };
 `;
 
@@ -295,6 +350,13 @@ export const CardDescription = styled.p`
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+
+  ${ShowcaseCard}[data-variant='featured'] & {
+    display: block;
+    overflow: visible;
+    -webkit-box-orient: initial;
+    -webkit-line-clamp: unset;
+  };
 `;
 
 export const CardFooter = styled.div`
@@ -318,4 +380,30 @@ export const ArrowIcon = styled.span`
   ${ShowcaseCard}:hover & {
     transform: translateX(${({ theme }) => theme.motion.distance.liftSm});
   };
+`;
+
+/**
+ * Architecture stack thread — appears in featured card body on desktop.
+ * Replaces floating tech chips to give a cleaner engineering narrative.
+ */
+export const TechStackLine = styled.div`
+  display: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+    font-size: ${({ theme }) => theme.typography.fontSize.xs};
+    color: ${({ theme }) => theme.colors.textMuted};
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+    text-transform: uppercase;
+    opacity: ${({ theme }) => theme.effects.opacity.subtle};
+  };
+`;
+
+export const TechStackSep = styled.span`
+  margin: 0 ${({ theme }) => theme.spacing.xs};
+  color: ${({ theme }) => theme.colors.borderLight};
+  opacity: 1;
 `;

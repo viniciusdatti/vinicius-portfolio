@@ -19,6 +19,18 @@ export enum ProjectShowcaseDetailMode {
   Callback = 'callback',
 }
 
+/**
+ * Visual scene rendered inside the MockWindow preview panel.
+ * Shell = app shell skeleton (default / featured).
+ * Table = data-table layout (tone B cards).
+ * Code  = code/config editor feel (tone C cards).
+ */
+export enum MockWindowScene {
+  Shell = 'shell',
+  Table = 'table',
+  Code = 'code',
+}
+
 export interface ProjectShowcaseCardProps {
   project: Project;
   language: Language;
