@@ -105,7 +105,7 @@ export const Header: React.FC = (): React.ReactElement => {
               to="/"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              aria-label={t('home.hero.name')}
+              aria-label={t('header.logoAria')}
             >
               <LogoMark>{t('system.logoMark')}</LogoMark>
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>

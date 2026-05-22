@@ -212,11 +212,15 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
     }
   };
 
-  const connectionLabel: string = isConnected
-    ? t('system.status.wsLive')
-    : isReconnecting
-      ? t('system.status.wsReconnecting')
-      : t('system.status.wsConnecting');
+  const isSynchronized: boolean = isConnected && sessionId != null;
+
+  const connectionLabel: string = isSynchronized
+    ? t('system.status.wsSynchronized')
+    : isConnected
+      ? t('system.status.wsLive')
+      : isReconnecting
+        ? t('system.status.wsReconnecting')
+        : t('system.status.wsConnecting');
 
   return (
     <ChannelSurface aria-label={t('workspace.channel.title')}>
@@ -233,6 +237,7 @@ export const LiveChannel: React.FC = (): React.ReactElement => {
             <ConnectionStatus
               $connected={isConnected}
               $reconnecting={isReconnecting}
+              $synchronized={isSynchronized}
             >
               {connectionLabel}
             </ConnectionStatus>

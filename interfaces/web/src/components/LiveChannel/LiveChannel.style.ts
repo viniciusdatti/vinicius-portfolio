@@ -107,17 +107,20 @@ export const StatusBadge = styled.span<StatusBadgeProps>`
 export interface ConnectionStatusProps {
   $connected: boolean;
   $reconnecting?: boolean;
+  $synchronized?: boolean;
 }
 
 export const ConnectionStatus = styled.span<ConnectionStatusProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  color: ${({ $connected, $reconnecting, theme }) =>
-    $connected
-      ? theme.colors.success
-      : $reconnecting
-        ? theme.colors.warning
-        : theme.colors.error};
+  color: ${({ $connected, $reconnecting, $synchronized, theme }) =>
+    $synchronized
+      ? theme.colors.primary
+      : $connected
+        ? theme.colors.success
+        : $reconnecting
+          ? theme.colors.warning
+          : theme.colors.error};
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -128,8 +131,8 @@ export const ConnectionStatus = styled.span<ConnectionStatusProps>`
     height: ${({ theme }) => theme.sizes.badge.dotSm};
     border-radius: ${({ theme }) => theme.borderRadius.full};
     background-color: currentColor;
-    animation: ${({ $connected, theme }) =>
-      $connected
+    animation: ${({ $connected, $synchronized, theme }) =>
+      $connected || $synchronized
         ? 'none'
         : css`
             ${connectionPulse(theme)} 1.5s infinite;
@@ -222,6 +225,10 @@ export const Message = styled(motion.div)<MessageProps>`
   border: 1px solid
     ${({ $isOwn, theme }) =>
       $isOwn ? 'transparent' : theme.colors.borderSubtle};
+  border-left: ${({ $isOwn, theme }) =>
+    $isOwn ? '1px solid transparent' : `2px solid ${theme.colors.primary}`};
+  box-shadow: ${({ $isOwn, theme }) =>
+    $isOwn ? theme.shadows.sm : theme.elevation.sm};
 `;
 
 export const MessageContent = styled.p`
