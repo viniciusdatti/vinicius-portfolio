@@ -8,7 +8,10 @@ import { useTranslation } from 'react-i18next';
 import type { SensorReading } from '../../../hooks/useTelemetry';
 
 // Components
-import { useTelemetry } from '../../../hooks/useTelemetry';
+import {
+  useTelemetry,
+  TELEMETRY_EVENT_LOG_MAX,
+} from '../../../hooks/useTelemetry';
 import {
   MonitorRoot,
   MonitorHeader,
@@ -124,6 +127,8 @@ export const TelemetryMonitor: React.FC = (): React.ReactElement => {
             {t('liveLab.monitor.eventLog', 'Event log')}
           </EventLogTitle>
           <EventLogTick>
+            {eventLog.length}/{TELEMETRY_EVENT_LOG_MAX}
+            {' · '}
             {t('liveLab.monitor.tick', 'tick')} #{tickCount}
           </EventLogTick>
         </EventLogHeader>
