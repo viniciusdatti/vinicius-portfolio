@@ -2,29 +2,29 @@
 import styled, { keyframes, css, DefaultTheme } from 'styled-components';
 
 // Types
-import type { SensorStatus } from '../../../hooks/useTelemetry';
+import { SensorStatus } from '@/types/telemetry';
 
 const getSensorStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
+  if (status === SensorStatus.Critical) return theme.colors.error;
+  if (status === SensorStatus.Warn) return theme.colors.warning;
   return theme.colors.success;
 };
 
 const getSensorValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
+  if (status === SensorStatus.Critical) return theme.colors.error;
+  if (status === SensorStatus.Warn) return theme.colors.warning;
   return theme.colors.text;
 };
 
 const getThresholdFillColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
+  if (status === SensorStatus.Critical) return theme.colors.error;
+  if (status === SensorStatus.Warn) return theme.colors.warning;
   return theme.colors.accent;
 };
 
 const getThresholdStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === 'critical') return theme.colors.error;
-  if (status === 'warn') return theme.colors.warning;
+  if (status === SensorStatus.Critical) return theme.colors.error;
+  if (status === SensorStatus.Warn) return theme.colors.warning;
   return theme.colors.textMuted;
 };
 
@@ -56,6 +56,11 @@ const valueFlash = keyframes`
   100% { opacity: 1;    transform: scale(1); }
 `;
 
+const ambientPulse = keyframes`
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+`;
+
 export const MonitorRoot = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,6 +69,28 @@ export const MonitorRoot = styled.div`
   overflow: hidden;
   background: ${({ theme }) => theme.colors.background};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 0%, ${({ theme }) => theme.colors.primary}10, transparent 50%),
+      radial-gradient(ellipse 50% 35% at 90% 100%, ${({ theme }) => theme.colors.accent}08, transparent 45%);
+    animation: ${ambientPulse} 6s ease-in-out infinite;
+    z-index: 0;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
 `;
 
 export const MonitorHeader = styled.div`
@@ -101,46 +128,121 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
     && css`animation: ${blink} 2s ease-in-out infinite;`};
 `;
 
+export const MonitorBody = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    flex-direction: row;
+  };
+`;
+
+export const MonitorChartPane = styled.div`
+  flex: 1;
+  min-height: 220px;
+  min-width: 0;
+  padding: ${({ theme }) => theme.spacing.md};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    border-bottom: none;
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
+    min-height: 0;
+  };
+`;
+
+export const MonitorSensorsPane = styled.div`
+  flex-shrink: 0;
+  min-width: 0;
+  overflow-y: auto;
+  max-height: 42vh;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    width: min(420px, 38vw);
+    max-height: none;
+  };
+`;
+
 export const MonitorGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   gap: 1px;
   background: ${({ theme }) => theme.colors.border};
-  flex-shrink: 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr 1fr;
   };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(4, 1fr);
-  };
 `;
 
-export const SensorCard = styled.div<{ $status: 'ok' | 'warn' | 'critical' }>`
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
+const sensorSweep = keyframes`
+  0% { transform: translateX(-100%); opacity: 0; }
+  15% { opacity: 0.6; }
+  100% { transform: translateX(200%); opacity: 0; }
+`;
+
+export const SensorCard = styled.div<{ $status: SensorStatus }>`
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   position: relative;
   overflow: hidden;
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  box-shadow:
+    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight},
+    ${({ theme }) => theme.elevation.sm};
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 3px;
-    height: 100%;
+    width: 100%;
+    height: 2px;
     background: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
     transition: background ${({ theme }) => theme.transitions.normal};
-  };
+    box-shadow: 0 0 12px ${({ $status, theme }) => getSensorStatusColor($status, theme)}55;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 42%,
+      ${({ theme }) => theme.colors.primary}06 50%,
+      transparent 58%
+    );
+    animation: ${sensorSweep} 5s ease-in-out infinite;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
+`;
+
+export const SensorValueCell = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.5rem;
+  padding: 2px ${({ theme }) => theme.spacing.sm};
+  border-radius: 4px;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderSubtle};
 `;
 
 export const SensorLabel = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 `;
 
 export const SensorValueRow = styled.div`
@@ -150,9 +252,9 @@ export const SensorValueRow = styled.div`
 `;
 
 export const SensorValue = styled.span<{ $status: SensorStatus }>`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.xxl};
-  font-weight: 800;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: -0.02em;
   line-height: 1;
   color: ${({ $status, theme }) => getSensorValueColor($status, theme)};
@@ -210,11 +312,14 @@ export const ThresholdLimit = styled.span`
 `;
 
 export const EventLogRoot = styled.div`
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  max-height: min(28vh, 220px);
+  min-height: 140px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  box-shadow: inset 0 8px 24px -12px rgba(0, 0, 0, 0.35);
 `;
 
 export const EventLogHeader = styled.div`

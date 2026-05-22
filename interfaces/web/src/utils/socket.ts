@@ -6,8 +6,8 @@
 // Libraries
 import { io, Socket } from 'socket.io-client';
 
-// Components
-import { getApiRootUrl } from './apiRootUrl';
+// Utils
+import { getApiRootUrl } from '@/utils/apiRootUrl';
 
 // Types
 import type {
@@ -15,7 +15,7 @@ import type {
   ChatSocketMessagePayload,
   ChatSocketSessionScopePayload,
   ChatSocketSessionStartedPayload,
-} from '../types/chat-socket';
+} from '@/types/chat-socket';
 
 /** Base URL for Socket.IO (root, not /api/v1 - socket is mounted at server root) */
 const SOCKET_URL: string = getApiRootUrl();

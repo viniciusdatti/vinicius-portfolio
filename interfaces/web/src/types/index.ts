@@ -113,10 +113,12 @@ export interface PaginatedResponse<T> {
   total_pages: number;
 }
 
-export * from './chat-domain';
-export * from './system-events';
-export * from './chat';
-export * from './chat-api';
-export * from './chat-socket';
-export * from './chat-mappers';
-export * from './admin-chat';
+export * from '@/types/telemetry';
+export * from '@/types/projectCase';
+export * from '@/types/chat-domain';
+export * from '@/types/system-events';
+export * from '@/types/chat';
+export * from '@/types/chat-api';
+export * from '@/types/chat-socket';
+export * from '@/types/chat-mappers';
+export * from '@/types/admin-chat';

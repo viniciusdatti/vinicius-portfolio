@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Components
-import { Header } from '../Header';
-import { Footer } from '../Footer';
-import { SkipLink, Main, WorkspaceMotionShell } from './Layout.style';
-import { pageEnter, workspaceEnter } from '../../../styles/animations';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { SkipLink, Main, WorkspaceMotionShell } from '@/components/layout/Layout/Layout.style';
+import { pageEnter, workspaceEnter } from '@/styles/animations';
 
 /**
  * Public portfolio shell — cinematic pages with page transitions.

@@ -1,3 +1,3 @@
-export { AdminGuestRoute } from './AdminGuestRoute';
-export { AdminAuthLoading } from './AdminAuthLoading';
-export { AdminSystemBar, AdminMain } from './AdminSystemBar';
+export { AdminGuestRoute } from '@/components/admin/AdminGuestRoute';
+export { AdminAuthLoading } from '@/components/admin/AdminAuthLoading';
+export { AdminSystemBar, AdminMain } from '@/components/admin/AdminSystemBar';

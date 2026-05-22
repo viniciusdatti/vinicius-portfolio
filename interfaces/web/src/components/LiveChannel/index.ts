@@ -1,1 +1,1 @@
-export * from './LiveChannel';
+export * from '@/components/LiveChannel/LiveChannel';

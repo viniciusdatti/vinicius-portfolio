@@ -10,20 +10,20 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { UserRole } from '../../types';
+import { UserRole } from '@/types';
 
 // Components
 import {
   AdminAuthLoading,
   AdminSystemBar,
   AdminMain,
-} from '../../components/admin';
-import { env } from '../../config/env';
+} from '@/components/admin';
+import { env } from '@/config/env';
 import {
   startAdminChatRealtime,
   stopAdminChatRealtime,
-} from '../../realtime/adminChatRealtime';
-import { useAuthStore } from '../../store';
+} from '@/realtime/adminChatRealtime';
+import { useAuthStore } from '@/store';
 
 const API_BASE: string = env.apiUrl;
 

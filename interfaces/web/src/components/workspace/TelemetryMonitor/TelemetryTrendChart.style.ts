@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
 export const ChartRoot = styled.div`
-  margin-top: ${({ theme }) => theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 200px;
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.surface};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
 `;
 
 export const ChartTitle = styled.h3`
@@ -14,5 +18,11 @@ export const ChartTitle = styled.h3`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  flex-shrink: 0;
+`;
+
+export const ChartPlot = styled.div`
+  flex: 1;
+  min-height: 160px;
 `;

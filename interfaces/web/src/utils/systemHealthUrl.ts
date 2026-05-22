@@ -1,6 +1,6 @@
 // Components
-import { env } from '../config/env';
-import { getApiRootUrl } from './apiRootUrl';
+import { env } from '@/config/env';
+import { getApiRootUrl } from '@/utils/apiRootUrl';
 
 /**
  * Root health endpoint (outside /api/v1).

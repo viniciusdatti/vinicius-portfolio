@@ -1,5 +1,5 @@
 // Libraries
-import styled, { keyframes, DefaultTheme } from 'styled-components';
+import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 
 const progressPulse = (theme: DefaultTheme) => keyframes`
   0% {
@@ -65,5 +65,7 @@ export const BootFill = styled.div<{ $progress: number; $live: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background: ${({ theme }) => theme.colors.gradientLiveLabBar};
   transition: width ${({ theme }) => theme.transitions.slow};
-  animation: ${({ $live, theme }) => ($live ? progressPulse(theme) : 'none')} 2.4s ease-in-out infinite;
+  ${({ $live, theme }) => $live && css`
+    animation: ${progressPulse(theme)} 2.4s ease-in-out infinite;
+  `};
 `;

@@ -13,10 +13,10 @@ import {
 } from 'recharts';
 
 // Types
-import type { SensorReading } from '../../../hooks/useTelemetry';
+import type { SensorReading } from '@/types/telemetry';
 
 // Components
-import { ChartRoot, ChartTitle } from './TelemetryTrendChart.style';
+import { ChartPlot, ChartRoot, ChartTitle } from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart.style';
 
 interface TelemetryTrendChartProps {
   readings: SensorReading[];
@@ -58,33 +58,35 @@ export function TelemetryTrendChart({
   return (
     <ChartRoot data-testid="telemetry-trend-chart">
       <ChartTitle>{title}</ChartTitle>
-      <ResponsiveContainer width="100%" height={180}>
-        <LineChart
-          data={chartData}
-          margin={{
-            top: 8,
-            right: 8,
-            left: 0,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-          <XAxis dataKey="index" tick={{ fontSize: 10 }} />
-          <YAxis tick={{ fontSize: 10 }} width={36} />
-          <Tooltip />
-          {readings.map((r: SensorReading) => (
-            <Line
-              key={r.id}
-              type="monotone"
-              dataKey={r.id}
-              name={r.label}
-              dot={false}
-              strokeWidth={2}
-              isAnimationActive={false}
-            />
-          ))}
-        </LineChart>
-      </ResponsiveContainer>
+      <ChartPlot>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{
+              top: 8,
+              right: 8,
+              left: 0,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+            <XAxis dataKey="index" tick={{ fontSize: 10 }} />
+            <YAxis tick={{ fontSize: 10 }} width={36} />
+            <Tooltip />
+            {readings.map((r: SensorReading) => (
+              <Line
+                key={r.id}
+                type="monotone"
+                dataKey={r.id}
+                name={r.label}
+                dot={false}
+                strokeWidth={2}
+                isAnimationActive={false}
+              />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartPlot>
     </ChartRoot>
   );
 }

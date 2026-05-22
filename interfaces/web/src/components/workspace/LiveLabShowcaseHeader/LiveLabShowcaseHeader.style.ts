@@ -1,11 +1,16 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+
+const pulse = keyframes`
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+`;
 
 export const ShowcaseHeaderRoot = styled.div`
   flex-shrink: 0;
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -24,25 +29,37 @@ export const ShowcaseTitle = styled.h1`
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   margin: 0 0 ${({ theme }) => theme.spacing.xs};
-  background: ${({ theme }) => theme.colors.gradientTextDisplay};
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const ShowcaseLead = styled.p`
-  margin: 0;
+  margin: 0 0 ${({ theme }) => theme.spacing.sm};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.proseWide};
 `;
 
-export const ShowcaseActions = styled.div`
-  display: flex;
+export const ShowcaseMeta = styled.div`
+  display: inline-flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textSecondary};
+`;
+
+export const StatusDot = styled.span<{ $live: boolean }>`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
+  ${({ $live }) => $live && css`
+    animation: ${pulse} 2s ease-in-out infinite;
+  `};
 `;
 
 export const ShowcaseBadge = styled.span`

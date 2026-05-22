@@ -2,7 +2,7 @@
  * Contact form API.
  */
 
-import { apiClient } from './client';
+import { apiClient } from '@/api/client';
 
 /** Payload sent when submitting the contact form. */
 export interface ContactSubmitPayload {

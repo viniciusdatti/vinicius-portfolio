@@ -98,3 +98,46 @@ export const featuredSpotlight = css`
     z-index: 0;
   };
 `;
+
+/**
+ * Operational glass panel — control-room surfaces (Live Lab, observatory).
+ */
+export const operationalGlass = css`
+  ${glassSurface};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  box-shadow:
+    ${({ theme }) => theme.elevation.md},
+    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    pointer-events: none;
+    z-index: 0;
+  }
+`;
+
+/**
+ * Pointer-driven glow via CSS variables (--spot-x, --spot-y, --spot-opacity).
+ */
+export const pointerSpotlight = css`
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+      480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      ${({ theme }) => theme.colors.primary}18,
+      transparent 55%
+    );
+    opacity: var(--spot-opacity, 0);
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+`;

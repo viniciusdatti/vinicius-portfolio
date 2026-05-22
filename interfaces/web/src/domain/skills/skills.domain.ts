@@ -3,10 +3,10 @@
  */
 
 // Types
-import type { Certificate, Skill } from '../types';
+import type { Certificate, Skill } from '@/types';
 
 // Config
-import { publicAssetUrl } from '../config/env';
+import { publicAssetUrl } from '@/config/env';
 
 /** Platform badge styling and logo assets. */
 export interface PlatformConfig {
@@ -71,9 +71,6 @@ const platformConfigMap: Record<string, PlatformConfig> = {
   },
 };
 
-/**
- * Resolves icon URL from API field or known skill name mapping.
- */
 export function resolveSkillIconUrl(skill: Skill): string {
   if (skill.icon_url) {
     if (
@@ -91,9 +88,6 @@ export function resolveSkillIconUrl(skill: Skill): string {
   return publicAssetUrl(fallbackPath);
 }
 
-/**
- * Resolves localized skill display name.
- */
 export function resolveSkillDisplayName(skill: Skill, isPt: boolean): string {
   if (isPt && skill.name_pt) {
     return skill.name_pt;
@@ -101,9 +95,6 @@ export function resolveSkillDisplayName(skill: Skill, isPt: boolean): string {
   return skill.name;
 }
 
-/**
- * Resolves localized certificate display name.
- */
 export function resolveCertificateDisplayName(cert: Certificate, isPt: boolean): string {
   if (isPt && cert.name_pt) {
     return cert.name_pt;
@@ -111,16 +102,10 @@ export function resolveCertificateDisplayName(cert: Certificate, isPt: boolean):
   return cert.name;
 }
 
-/**
- * Returns platform branding config for certificate cards and modal.
- */
 export function getPlatformConfig(platform: string): PlatformConfig {
   return platformConfigMap[platform] ?? DEFAULT_PLATFORM_CONFIG;
 }
 
-/**
- * Sorts certificates by platform priority, display order, then year descending.
- */
 export function sortCertificates(certs: Certificate[]): Certificate[] {
   return [...certs].sort((a: Certificate, b: Certificate): number => {
     const platformDiff: number = (PLATFORM_ORDER[a.platform] ?? 99)

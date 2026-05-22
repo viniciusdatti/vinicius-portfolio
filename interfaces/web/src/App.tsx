@@ -7,14 +7,14 @@ import { ThemeProvider } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // Theme
-import { GlobalStyles } from './styles/GlobalStyles';
-import { darkTheme, lightTheme, Theme } from './styles/theme';
+import { GlobalStyles } from '@/styles/GlobalStyles';
+import { darkTheme, lightTheme, Theme } from '@/styles/theme';
 
 // Components
-import { ErrorBoundary } from './components/ErrorBoundary';
-import { ToastHost } from './components/common/Toast';
-import { Router } from './Router';
-import { useThemeStore } from './store';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { ToastHost } from '@/components/common/Toast';
+import { Router } from '@/Router';
+import { useThemeStore } from '@/store';
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {

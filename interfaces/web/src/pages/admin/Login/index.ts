@@ -3,4 +3,4 @@
  * Re-exports the Login component for external use.
  */
 
-export * from './Login';
+export * from '@/pages/admin/Login/Login';

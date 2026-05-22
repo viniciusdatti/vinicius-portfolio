@@ -6,17 +6,17 @@
 import { useCallback, useEffect, useRef } from 'react';
 
 // Types
-import type { ChatMessage } from '../types';
-import { ChatMessageSenderType } from '../types';
+import type { ChatMessage } from '@/types';
+import { ChatMessageSenderType } from '@/types';
 
 // Components
 import {
   endVisitorChatSession,
   startVisitorChatRealtime,
   stopVisitorChatRealtime,
-} from '../realtime/visitorChatRealtime';
-import { useChatStore } from '../store';
-import { socketService } from '../utils/socket';
+} from '@/realtime/visitorChatRealtime';
+import { useChatStore } from '@/store';
+import { socketService } from '@/utils/socket';
 
 const TYPING_DEBOUNCE_MS: number = 400;
 

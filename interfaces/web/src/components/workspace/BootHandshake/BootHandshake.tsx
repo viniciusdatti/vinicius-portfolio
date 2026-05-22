@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useChatStore } from '../../../store';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
 import {
   BootRoot,
   BootRow,
@@ -14,7 +14,7 @@ import {
   BootPhase,
   BootTrack,
   BootFill,
-} from './BootHandshake.style';
+} from '@/components/workspace/BootHandshake/BootHandshake.style';
 
 enum BootHandshakePhase {
   Initializing = 'initializing',
@@ -30,16 +30,12 @@ const getBootProgress = (phase: BootHandshakePhase): number => {
   return 100;
 };
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
-
 /**
- * Operational boot strip — handshake from init → transport live (behavior, not marketing copy).
+ * Transport boot strip — mirrors Vantage edge handshake: init → socket → live telemetry.
  */
 export function BootHandshake(): React.ReactElement {
   const { t } = useTranslation();
-  const isConnected: boolean = useChatStore((s) => s.isConnected);
+  const { connected } = useTelemetry();
   const [phase, setPhase] = useState<BootHandshakePhase>(
     BootHandshakePhase.Initializing,
   );
@@ -54,7 +50,7 @@ export function BootHandshake(): React.ReactElement {
   useEffect(() => {
     let readyTimer: ReturnType<typeof setTimeout> | undefined;
 
-    if (!isConnected) {
+    if (!connected) {
       setPhase((current: BootHandshakePhase) => (current === BootHandshakePhase.Initializing
         ? current
         : BootHandshakePhase.Connecting));
@@ -68,16 +64,16 @@ export function BootHandshake(): React.ReactElement {
     return () => {
       if (readyTimer) clearTimeout(readyTimer);
     };
-  }, [isConnected]);
+  }, [connected]);
 
-  const phaseKey: string = `workspace.boot.phases.${phase}`;
+  const phaseKey: string = `liveLab.boot.phases.${phase}`;
   const progress: number = getBootProgress(phase);
 
   return (
     <BootRoot aria-live="polite">
       <BootRow>
         <BootCopy>
-          <BootTitle>{t('workspace.boot.transportStatus')}</BootTitle>
+          <BootTitle>{t('liveLab.boot.transportStatus')}</BootTitle>
           <BootPhase>{t(phaseKey)}</BootPhase>
         </BootCopy>
         <BootTrack aria-hidden>

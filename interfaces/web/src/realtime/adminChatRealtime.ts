@@ -12,17 +12,17 @@ import type {
   ChatSocketNewSessionPayload,
   ChatSocketSessionScopePayload,
   ChatSocketSessionUpdatedPayload,
-} from '../types/chat-socket';
-import { AdminChatEventType } from '../types/chat-socket';
+} from '@/types/chat-socket';
+import { AdminChatEventType } from '@/types/chat-socket';
 
 // Components
 import {
   fetchAdminChatSessions,
   fetchAdminSessionMessages,
-} from '../services/adminChatApi';
-import { recordEvent } from '../services/adminChatService';
-import { useAdminChatStore } from '../store/adminChatStore';
-import { socketService } from '../utils/socket';
+} from '@/services/adminChatApi';
+import { recordEvent } from '@/services/adminChatService';
+import { useAdminChatStore } from '@/store/adminChatStore';
+import { socketService } from '@/utils/socket';
 
 enum AdminRealtimeStatus {
   Idle = 'idle',

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import type { DefaultTheme } from 'styled-components';
-import { ToastType } from '../../../store/toastStore';
+import { ToastType } from '@/store/toastStore';
 
 const toneColor = (type: ToastType, theme: DefaultTheme): string => {
   if (type === ToastType.Success) {

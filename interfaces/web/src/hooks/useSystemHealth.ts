@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 // Components
-import { getSystemHealthUrl } from '../utils/systemHealthUrl';
+import { getSystemHealthUrl } from '@/utils/systemHealthUrl';
 
 export enum SystemHealthStatus {
   Checking = 'checking',

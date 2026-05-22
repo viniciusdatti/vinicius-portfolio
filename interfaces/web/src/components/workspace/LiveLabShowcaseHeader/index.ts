@@ -1,1 +1,1 @@
-export * from './LiveLabShowcaseHeader';
+export * from '@/components/workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader';

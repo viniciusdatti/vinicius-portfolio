@@ -2,43 +2,25 @@
 import React from 'react';
 
 // Components
-import { useWorkspaceStore } from '../../../store';
-import { BootHandshake } from '../BootHandshake';
-import { ContextPanel } from '../ContextPanel';
-import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
-import { ModuleRail } from '../ModuleRail';
-import { TelemetryMonitor } from '../TelemetryMonitor';
-import { LiveChannel } from '../../LiveChannel';
+import { BootHandshake } from '@/components/workspace/BootHandshake';
+import { LiveLabShowcaseHeader } from '@/components/workspace/LiveLabShowcaseHeader';
+import { TelemetryMonitor } from '@/components/workspace/TelemetryMonitor';
 import {
-  ChannelColumn,
-  PanelColumn,
-  TelemetryColumn,
-  WorkspaceBody,
+  TelemetryWorkspace,
   WorkspaceRoot,
-} from './WorkspaceShell.style';
+} from '@/components/workspace/WorkspaceShell/WorkspaceShell.style';
 
 /**
- * Live Lab workspace — context panel, realtime chat, and telemetry (Vantage-style shell).
+ * Live Lab — operational telemetry surface (Vantage-style sensors + trend + event log).
  */
 export function WorkspaceShell(): React.ReactElement {
-  const activeModule = useWorkspaceStore((s) => s.activeLiveLabModule);
-
   return (
     <WorkspaceRoot data-testid="live-lab-workspace">
       <LiveLabShowcaseHeader />
       <BootHandshake />
-      <WorkspaceBody>
-        <ModuleRail />
-        <PanelColumn>
-          <ContextPanel module={activeModule} />
-        </PanelColumn>
-        <ChannelColumn>
-          <LiveChannel />
-        </ChannelColumn>
-        <TelemetryColumn>
-          <TelemetryMonitor />
-        </TelemetryColumn>
-      </WorkspaceBody>
+      <TelemetryWorkspace>
+        <TelemetryMonitor />
+      </TelemetryWorkspace>
     </WorkspaceRoot>
   );
 }

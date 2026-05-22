@@ -6,6 +6,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+// Components
+import { glassSurface, pointerSpotlight } from '@/styles/surfaces';
+
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentNarrow};
   margin: 0 auto;
@@ -123,24 +126,28 @@ export const StatsGrid = styled(motion.div)`
 `;
 
 export const StatCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${glassSurface};
+  ${pointerSpotlight};
   border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
   box-shadow: ${({ theme }) => theme.elevation.sm};
+  position: relative;
+  overflow: hidden;
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     border-left-color ${({ theme }) => theme.transitions.fast},
-    box-shadow ${({ theme }) => theme.transitions.fast},
-    transform ${({ theme }) => theme.transitions.fast};
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.borderLight};
     border-left-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: ${({ theme }) => theme.elevation.md};
-  };
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+    transform: translateY(-6px);
+    --spot-opacity: 1;
+  }
 `;
 
 export const StatNumber = styled.div`
@@ -164,6 +171,16 @@ export const StatLabel = styled.div`
 export const SectionTitle = styled.h3`
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const ExperienceSection = styled(Section)`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xxl};
+`;
+
+export const ExperienceSectionTitle = styled(SectionTitle)`
+  margin-bottom: 0;
 `;
 
 export const PhilosophyCard = styled(motion.div)`
@@ -245,9 +262,9 @@ export const ComplementaryText = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
 `;
 
-/* ************** VANTAGE EXPERIENCE ******************* */
+/* ************** PROFESSIONAL EXPERIENCE ******************* */
 
-export const VantageCard = styled(motion.div)`
+export const ExperienceCard = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-left: 3px solid ${({ theme }) => theme.colors.primary};
@@ -256,7 +273,7 @@ export const VantageCard = styled(motion.div)`
   box-shadow: ${({ theme }) => theme.elevation.md};
 `;
 
-export const VantageCardHeader = styled.div`
+export const ExperienceCardHeader = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -265,20 +282,20 @@ export const VantageCardHeader = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const VantageCardTitle = styled.h4`
+export const ExperienceCardTitle = styled.h4`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   margin: 0;
 `;
 
-export const VantageCardRole = styled.p`
+export const ExperienceCardRole = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.primary};
   margin: 0;
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;
 
-export const VantageCardSummary = styled.p`
+export const ExperienceCardSummary = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -288,7 +305,7 @@ export const VantageCardSummary = styled.p`
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-export const VantageBullets = styled.ul`
+export const ExperienceBullets = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
@@ -297,7 +314,7 @@ export const VantageBullets = styled.ul`
   gap: ${({ theme }) => theme.spacing.md};
 `;
 
-export const VantageBullet = styled.li`
+export const ExperienceBullet = styled.li`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};

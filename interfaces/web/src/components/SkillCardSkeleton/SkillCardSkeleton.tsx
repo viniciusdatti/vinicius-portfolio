@@ -9,7 +9,7 @@ import {
   SkeletonInfo,
   SkeletonName,
   SkeletonCategory,
-} from './SkillCardSkeleton.style';
+} from '@/components/SkillCardSkeleton/SkillCardSkeleton.style';
 
 export function SkillCardSkeleton(): React.ReactElement {
   return (

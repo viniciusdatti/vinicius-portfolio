@@ -4,14 +4,19 @@ import React from 'react';
 // Libraries
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+import { motion, useSpring } from 'framer-motion';
+
+// Hooks
+import { usePointerPosition } from '@/hooks/usePointerPosition';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Components
-import { motionPresets } from '../../styles/motionPresets';
-import { motionEase, heroClipReveal } from '../../styles/animations';
-import { publicAssetUrl } from '../../config/env';
-import { Button } from '../Button';
-import { HeroLiveMicro } from './HeroLiveMicro';
+import { motionPresets } from '@/styles/motionPresets';
+import { motionEase, heroClipReveal } from '@/styles/animations';
+import { publicAssetUrl } from '@/config/env';
+import { Button } from '@/components/Button';
+import { HeroLiveMicro } from '@/components/Hero/HeroLiveMicro';
+import { HeroAmbient } from '@/components/Hero/HeroAmbient';
 import {
   HeroSection,
   HeroAtmosphere,
@@ -41,7 +46,7 @@ import {
   HeroVisualCard,
   HeroAvatarFrame,
   HeroPortrait,
-} from './Hero.style';
+} from '@/components/Hero/Hero.style';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -74,7 +79,17 @@ const scrollToNarrative = (): void => {
  */
 function HeroComponent(): React.ReactElement {
   const { t } = useTranslation();
+  const reduced = usePrefersReducedMotion();
+  const { ref: heroRef, position, isActive } = usePointerPosition<HTMLElement>(reduced);
+  const portraitRotateX = useSpring(0, { stiffness: 200, damping: 26 });
+  const portraitRotateY = useSpring(0, { stiffness: 200, damping: 26 });
   const avatarSrc: string = publicAssetUrl('avatar.png');
+
+  React.useEffect(() => {
+    if (reduced) return;
+    portraitRotateX.set((position.y - 0.5) * -6);
+    portraitRotateY.set((position.x - 0.5) * 8);
+  }, [position.x, position.y, portraitRotateX, portraitRotateY, reduced]);
 
   const stats: { valueKey: string; labelKey: string }[] = [
     { valueKey: 'home.hero.stats.productionValue', labelKey: 'home.hero.stats.production' },
@@ -83,7 +98,8 @@ function HeroComponent(): React.ReactElement {
   ];
 
   return (
-    <HeroSection>
+    <HeroSection ref={heroRef}>
+      <HeroAmbient position={position} isActive={isActive} />
       <HeroAtmosphere aria-hidden />
       <GlowBackdropSecondary aria-hidden />
       <GlowBackdropTertiary aria-hidden />
@@ -146,8 +162,18 @@ function HeroComponent(): React.ReactElement {
           <HeroVisualColumn>
             <motion.div variants={itemVariants}>
               <HeroVisualCard>
-                <HeroAvatarFrame>
-                  <HeroPortrait>
+                <HeroAvatarFrame
+                  style={
+                    reduced
+                      ? undefined
+                      : {
+                        rotateX: portraitRotateX,
+                        rotateY: portraitRotateY,
+                        transformPerspective: 900,
+                      }
+                  }
+                >
+                  <HeroPortrait $glowX={position.x} $glowY={position.y}>
                     <img src={avatarSrc} alt={t('home.hero.portraitAlt')} />
                   </HeroPortrait>
                 </HeroAvatarFrame>

@@ -5,10 +5,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { LanguageToggleProps } from './LanguageToggle.types';
+import type { LanguageToggleProps } from '@/components/LanguageToggle/LanguageToggle.types';
 
 // Components
-import { ToggleWrapper, LangButton } from './LanguageToggle.style';
+import { ToggleWrapper, LangButton } from '@/components/LanguageToggle/LanguageToggle.style';
 
 export function LanguageToggle({ className }: LanguageToggleProps): React.ReactElement {
   const { i18n, t } = useTranslation();

@@ -5,11 +5,11 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { SystemEvent } from '../../types/system-events';
-import { SystemEventLevel } from '../../types/system-events';
+import type { SystemEvent } from '@/types/system-events';
+import { SystemEventLevel } from '@/types/system-events';
 
 // Components
-import { useSystemEventStore } from '../../store';
+import { useSystemEventStore } from '@/store';
 import {
   EventLogPanel,
   EventLogHeader,
@@ -17,7 +17,7 @@ import {
   EventLogItem,
   EventLogTime,
   EventLogMessage,
-} from './EventLog.style';
+} from '@/components/LiveChannel/EventLog.style';
 
 /* ***********************************************************************************************
  ****************************************** METHODS ***********************************************

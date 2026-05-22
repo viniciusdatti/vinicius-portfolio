@@ -3,7 +3,7 @@
  */
 
 // Types
-import type { ChatMessage } from './index';
+import type { ChatMessage } from '@/types/index';
 
 /** Sidebar session row in admin Chat page. */
 export interface AdminChatSession {

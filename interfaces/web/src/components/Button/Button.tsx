@@ -2,10 +2,10 @@
 import React from 'react';
 
 // Types
-import type { ButtonProps } from './Button.types';
+import type { ButtonProps } from '@/components/Button/Button.types';
 
 // Components
-import { StyledButton } from './Button.style';
+import { StyledButton } from '@/components/Button/Button.style';
 
 export function Button({
   variant = 'primary',

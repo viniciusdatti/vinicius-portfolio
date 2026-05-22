@@ -4,13 +4,13 @@ import {
 } from 'vitest';
 
 // Plugins
-import { buildFakeChatMessage } from '../plugins/testUtils';
+import { buildFakeChatMessage } from '@/plugins/testUtils';
 
 // Store
-import { useChatStore } from './chatStore';
+import { useChatStore } from '@/store/chatStore';
 
 // Types
-import type { ChatMessage } from '../types';
+import type { ChatMessage } from '@/types';
 
 /* *************** SETUP *************** */
 

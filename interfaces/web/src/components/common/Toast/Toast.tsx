@@ -2,10 +2,10 @@
 import React from 'react';
 
 // Components
-import { useToastStore } from '../../../store/toastStore';
-import { ToastHostRoot, ToastItemSurface } from './Toast.style';
+import { useToastStore } from '@/store/toastStore';
+import { ToastHostRoot, ToastItemSurface } from '@/components/common/Toast/Toast.style';
 
-export { showToast, ToastType } from '../../../store/toastStore';
+export { showToast, ToastType } from '@/store/toastStore';
 
 export function ToastHost(): React.ReactElement | null {
   const toasts = useToastStore((s) => s.toasts);

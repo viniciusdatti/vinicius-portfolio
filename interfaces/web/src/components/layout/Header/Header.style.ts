@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Components
-import { glassSurface } from '../../../styles/surfaces';
+import { glassSurface } from '@/styles/surfaces';
 
 const MotionLink = motion.create(Link);
 

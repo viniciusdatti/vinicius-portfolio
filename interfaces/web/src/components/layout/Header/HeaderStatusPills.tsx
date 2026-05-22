@@ -6,14 +6,14 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
-import { useChatStore } from '../../../store';
-import { formatSessionLabel } from '../../../utils/workspaceModule';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import { useChatStore } from '@/store';
+import { formatSessionLabel } from '@/utils/workspaceModule';
 import {
   StatusCluster,
   StatusPill,
   StatusDot,
-} from '../SystemBar/SystemBar.style';
+} from '@/components/layout/SystemBar/SystemBar.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************

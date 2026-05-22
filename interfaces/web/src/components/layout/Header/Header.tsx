@@ -12,12 +12,12 @@ import {
   hamburgerMiddle,
   hamburgerBottom,
   motionEase,
-} from '../../../styles/animations';
-import { motionPresets } from '../../../styles/motionPresets';
-import { ThemeToggle } from '../../common/ThemeToggle';
-import { LanguageToggle } from '../../LanguageToggle';
-import { MobileMenu } from '../MobileMenu';
-import { HeaderStatusPills } from './HeaderStatusPills';
+} from '@/styles/animations';
+import { motionPresets } from '@/styles/motionPresets';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import { MobileMenu } from '@/components/layout/MobileMenu';
+import { HeaderStatusPills } from '@/components/layout/Header/HeaderStatusPills';
 import {
   HeaderContainer,
   HeaderShell,
@@ -32,7 +32,7 @@ import {
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
-} from './Header.style';
+} from '@/components/layout/Header/Header.style';
 
 interface NavItem {
   path: string;

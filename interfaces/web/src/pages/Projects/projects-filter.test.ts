@@ -2,10 +2,10 @@
 import { describe, it, expect } from 'vitest';
 
 // Types
-import type { Project } from '../../data/types';
+import type { Project } from '@/data/types';
 
 // Plugins
-import { MOCKED_PROJECT_LIST } from '../../plugins/testUtils';
+import { MOCKED_PROJECT_LIST } from '@/plugins/testUtils';
 
 /* *************** TEST SUPPORT VARS *************** */
 

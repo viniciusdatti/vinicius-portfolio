@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   PresenceStrip,
   PresenceInner,
@@ -15,7 +15,7 @@ import {
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
-} from './RealtimePresence.style';
+} from '@/components/home/RealtimePresence/RealtimePresence.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************

@@ -68,6 +68,18 @@ export const CasePanelClose = styled.button`
   };
 `;
 
+export const CasePanelRepoSlug = styled.p`
+  margin: 0 0 ${({ theme }) => theme.spacing.lg};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  color: ${({ theme }) => theme.colors.textMuted};
+
+  span {
+    color: ${({ theme }) => theme.colors.textSecondary};
+  }
+`;
+
 export const CasePanelGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);

@@ -1,4 +1,5 @@
 // Libraries
+import { motion } from 'framer-motion';
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
 const pulseGlow = (theme: DefaultTheme) => keyframes`
@@ -90,20 +91,21 @@ export const HeroHeadlineClip = styled.div`
 
 export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2rem, 6vw, 3rem);
+  font-size: clamp(2.25rem, 6.5vw, 3.25rem);
   font-weight: 800;
   margin: 0;
-  letter-spacing: -0.035em;
-  line-height: 1.17;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
   hyphens: none;
   color: ${({ theme }) => theme.colors.text};
   font-feature-settings: "ss01", "cv01";
   max-width: none;
+  text-wrap: balance;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    max-width: 14ch;
-    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
-  };
+    max-width: 12ch;
+    font-size: clamp(2.75rem, 5.8vw, 4.5rem);
+  }
 `;
 
 export const HeroVisualCard = styled.div`
@@ -111,19 +113,42 @@ export const HeroVisualCard = styled.div`
   flex-direction: column;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
-  width: min(100%, 380px);
+  width: min(100%, 400px);
+  padding: ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.xxl};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  box-shadow: ${({ theme }) => theme.elevation.md};
 `;
 
-export const HeroPortrait = styled.div`
+export const HeroPortrait = styled.div<{ $glowX: number; $glowY: number }>`
   position: relative;
   width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
   aspect-ratio: 4 / 5;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  border: 1px solid ${({ theme }) => theme.colors.borderLight};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow: ${({ theme }) => theme.elevation.lg},
-              inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  box-shadow:
+    ${({ theme }) => theme.elevation.lg},
+    0 24px 48px -12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  transform-style: preserve-3d;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      280px circle at ${({ $glowX }) => $glowX * 100}% ${({ $glowY }) => $glowY * 100}%,
+      ${({ theme }) => theme.colors.primary}28,
+      transparent 55%
+    );
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: soft-light;
+  }
 
   img {
     width: 100%;
@@ -131,8 +156,9 @@ export const HeroPortrait = styled.div`
     object-fit: cover;
     object-position: center 15%;
     display: block;
-    filter: contrast(1.05) saturate(0.9);
-  };
+    filter: contrast(1.08) saturate(0.92);
+    transform: translateZ(12px);
+  }
 `;
 
 export const HeroSection = styled.section`
@@ -260,12 +286,14 @@ export const HeroVisualColumn = styled.div`
   };
 `;
 
-export const HeroAvatarFrame = styled.div`
+export const HeroAvatarFrame = styled(motion.div)`
   position: relative;
   width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
   display: flex;
   align-items: center;
   justify-content: center;
+  transform-style: preserve-3d;
+  will-change: transform;
 `;
 
 export const HeroAvatarRing = styled.div`
@@ -285,7 +313,7 @@ export const HeroDecoTag = styled.span`
   letter-spacing: 0.18em;
   text-transform: uppercase;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
-  border-radius: 0;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   background: ${({ theme }) => theme.colors.primarySurface};
   display: inline-flex;

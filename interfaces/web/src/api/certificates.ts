@@ -2,8 +2,8 @@
  * Certificates API functions.
  */
 
-import { apiClient } from './client';
-import type { Certificate } from '../types';
+import { apiClient } from '@/api/client';
+import type { Certificate } from '@/types';
 
 /**
  * Fetch all certificates from the API.

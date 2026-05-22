@@ -6,11 +6,11 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Store
-import { useThemeStore } from '../../../store';
+import { useThemeStore } from '@/store';
 
 // Components
-import { ToggleButton } from './ThemeToggle.style';
-import type { ThemeToggleProps } from './ThemeToggle.types';
+import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
+import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
 
 function SunIcon(): React.ReactElement {
   return (

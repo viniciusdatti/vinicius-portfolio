@@ -3,4 +3,4 @@
  * Re-exports the Dashboard component for cleaner imports.
  */
 
-export * from './Dashboard';
+export * from '@/pages/admin/Dashboard/Dashboard';

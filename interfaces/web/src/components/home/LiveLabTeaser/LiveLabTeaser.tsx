@@ -5,7 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   TeaserRoot,
   TeaserMetrics,
@@ -16,7 +16,7 @@ import {
   TeaserContextItem,
   TeaserActivity,
   TeaserActivityDot,
-} from './LiveLabTeaser.style';
+} from '@/components/home/LiveLabTeaser/LiveLabTeaser.style';
 
 const CONTEXT_KEYS: string[] = [
   'home.liveLabPreview.context.transport',

@@ -5,22 +5,23 @@ import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { SensorReading } from '../../../hooks/useTelemetry';
+import { TELEMETRY_EVENT_LOG_MAX, type SensorReading } from '@/types/telemetry';
 
 // Components
-import {
-  useTelemetry,
-  TELEMETRY_EVENT_LOG_MAX,
-} from '../../../hooks/useTelemetry';
-import { TelemetryTrendChart } from './TelemetryTrendChart';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+import { TelemetryTrendChart } from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart';
 import {
   MonitorRoot,
   MonitorHeader,
   MonitorTitle,
   MonitorStatus,
   StatusDot,
+  MonitorBody,
+  MonitorChartPane,
+  MonitorSensorsPane,
   MonitorGrid,
   SensorCard,
+  SensorValueCell,
   SensorLabel,
   SensorValueRow,
   SensorValue,
@@ -38,7 +39,7 @@ import {
   EventLogLine,
   EventLogTime,
   ConnectingState,
-} from './TelemetryMonitor.style';
+} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
 
 /* -------------------------------------------------------
  * Helpers
@@ -67,7 +68,9 @@ function Sensor({ reading: r }: { reading: SensorReading }): React.ReactElement 
     <SensorCard $status={r.status}>
       <SensorLabel>{r.label}</SensorLabel>
       <SensorValueRow>
-        <SensorValue key={r.value} $status={r.status}>{r.value}</SensorValue>
+        <SensorValueCell>
+          <SensorValue key={r.value} $status={r.status}>{r.value}</SensorValue>
+        </SensorValueCell>
         <SensorUnit>{r.unit}</SensorUnit>
       </SensorValueRow>
       <ThresholdBar>
@@ -123,20 +126,23 @@ export function TelemetryMonitor(): React.ReactElement {
           {t('liveLab.monitor.waitingData', 'Waiting for telemetry…')}
         </ConnectingState>
       ) : (
-        <MonitorGrid>
-          {readings.map((r) => (
-            <Sensor key={r.id} reading={r} />
-          ))}
-        </MonitorGrid>
+        <MonitorBody>
+          <MonitorChartPane>
+            <TelemetryTrendChart
+              readings={readings}
+              history={history}
+              title={t('liveLab.monitor.trendChart', 'Sensor trend · last samples')}
+            />
+          </MonitorChartPane>
+          <MonitorSensorsPane>
+            <MonitorGrid>
+              {readings.map((r) => (
+                <Sensor key={r.id} reading={r} />
+              ))}
+            </MonitorGrid>
+          </MonitorSensorsPane>
+        </MonitorBody>
       )}
-
-      {readings.length > 0 ? (
-        <TelemetryTrendChart
-          readings={readings}
-          history={history}
-          title={t('liveLab.monitor.trendChart', 'Sensor trend · last samples')}
-        />
-      ) : null}
 
       <EventLogRoot>
         <EventLogHeader>

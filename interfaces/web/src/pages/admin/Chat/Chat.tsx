@@ -11,13 +11,17 @@ import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { ChatMessageSenderType } from '../../../types';
+import { ChatMessageSenderType } from '@/types';
 
-// Components
-import { messageEnter } from '../../../styles/animations';
-import { useAdminChat } from '../../../hooks/useAdminChat';
-import { scrollToContainerEnd } from '../../../utils/scrollToContainerEnd';
-import { useAdminChatEvents } from '../../../hooks/useAdminChatEvents';
+// Hooks
+import { useAdminChat } from '@/hooks/useAdminChat';
+import { useAdminChatEvents } from '@/hooks/useAdminChatEvents';
+
+// Utils
+import { scrollToContainerEnd } from '@/utils/scrollToContainerEnd';
+
+// View
+import { messageEnter } from '@/styles/animations';
 import {
   PageContainer,
   Header,
@@ -60,7 +64,7 @@ import {
   EventItemContent,
   EventsListEmpty,
   SessionCompanyLine,
-} from './Chat.style';
+} from '@/pages/admin/Chat/Chat.style';
 
 /** Local UI state for the Chat view. */
 interface ChatState {

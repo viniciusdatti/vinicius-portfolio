@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw';
-import { mockCertificateList, mockProjectList, mockSkillList } from '../fixtures';
+import { mockCertificateList, mockProjectList, mockSkillList } from '@/test/fixtures';
 
 const API_BASE = 'http://localhost:8000/api/v1';
 

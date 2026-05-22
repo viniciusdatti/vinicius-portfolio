@@ -11,16 +11,16 @@ import type {
   AdminChatMessage,
   AdminChatSession,
   AdminChatStoreData,
-} from '../types/admin-chat';
-import { initialAdminChatStoreData } from '../types/admin-chat';
+} from '@/types/admin-chat';
+import { initialAdminChatStoreData } from '@/types/admin-chat';
 import type {
   ChatSocketNewMessagePayload,
   ChatSocketNewSessionPayload,
   ChatSocketSessionScopePayload,
   ChatSocketSessionUpdatedPayload,
-} from '../types/chat-socket';
-import { ChatMessageSenderType } from '../types';
-import { parseSocketSenderType } from '../types/chat-mappers';
+} from '@/types/chat-socket';
+import { ChatMessageSenderType } from '@/types';
+import { parseSocketSenderType } from '@/types/chat-mappers';
 
 interface AdminChatState extends AdminChatStoreData {
   setConnected: (connected: boolean) => void;

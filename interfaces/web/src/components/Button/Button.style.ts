@@ -2,10 +2,10 @@
 import styled from 'styled-components';
 
 // Types
-import type { ButtonVariant } from './Button.types';
+import type { ButtonVariant } from '@/components/Button/Button.types';
 
 // Components
-import { buttonShine } from '../../styles/surfaces';
+import { buttonShine } from '@/styles/surfaces';
 
 interface StyledButtonProps {
   $variant?: ButtonVariant;
@@ -18,7 +18,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.sizes.button.paddingY}
     ${({ theme }) => theme.sizes.button.paddingX};
-  border-radius: 0;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};

@@ -1,6 +1,6 @@
 // Types
-import type { Project } from '../../data/types';
-import { Language } from '../../types';
+import type { Project } from '@/data/types';
+import { Language } from '@/types';
 
 export enum ProjectShowcaseVariant {
   Featured = 'featured',

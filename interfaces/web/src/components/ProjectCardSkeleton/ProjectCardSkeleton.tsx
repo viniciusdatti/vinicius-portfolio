@@ -12,7 +12,7 @@ import {
   SkeletonTag,
   SkeletonLinks,
   SkeletonButton,
-} from './ProjectCardSkeleton.style';
+} from '@/components/ProjectCardSkeleton/ProjectCardSkeleton.style';
 
 export function ProjectCardSkeleton(): React.ReactElement {
   return (

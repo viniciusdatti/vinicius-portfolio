@@ -2,14 +2,14 @@
  * Shared test builders (Vantage-style). Reuse in unit tests instead of hand-building objects.
  */
 
-import type { Project, Technology } from '../data/types';
+import type { Project, Technology } from '@/data/types';
 import {
   ChatMessageSenderType,
   SkillCategory,
   type Certificate,
   type ChatMessage,
   type Skill,
-} from '../types';
+} from '@/types';
 
 export const buildFakeTechnology = (
   overrides: Partial<Technology> = {},

@@ -150,6 +150,10 @@ export const ShowcaseSection = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.section};
 `;
 
+export const DrawerCaseBody = styled.div`
+  padding-top: ${({ theme }) => theme.spacing.sm};
+`;
+
 export const DrawerDetailRow = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.md};
 `;

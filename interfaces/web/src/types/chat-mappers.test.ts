@@ -7,11 +7,11 @@ import {
   mapApiSessionToAdminChatSession,
   mapApiVisitorMessageToChatMessage,
   parseSocketSenderType,
-} from './chat-mappers';
+} from '@/types/chat-mappers';
 
 // Types
-import { ChatMessageSenderType } from './index';
-import type { ChatApiSessionDto, ChatApiVisitorMessageDto } from './chat-api';
+import { ChatMessageSenderType } from '@/types/index';
+import type { ChatApiSessionDto, ChatApiVisitorMessageDto } from '@/types/chat-api';
 
 /* *************** TEST SUPPORT VARS *************** */
 

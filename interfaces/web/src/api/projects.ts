@@ -2,8 +2,8 @@
  * Projects API functions.
  */
 
-import { apiClient } from './client';
-import type { Project } from '../data/types';
+import { apiClient } from '@/api/client';
+import type { Project } from '@/data/types';
 
 /**
  * Fetch all projects from the API.

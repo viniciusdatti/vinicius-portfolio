@@ -7,10 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 
 // Types
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { Project } from '../data/types';
+import type { Project } from '@/data/types';
 
 // Components
-import { getProjects } from '../api';
+import { getProjects } from '@/api';
 
 /**
  * Query key for projects.

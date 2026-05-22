@@ -7,10 +7,10 @@ import {
 import { http, HttpResponse } from 'msw';
 
 // Mocks
-import { server } from '../test/mocks/server';
+import { server } from '@/test/mocks/server';
 
 // API
-import { apiClient, ApiError } from './client';
+import { apiClient, ApiError } from '@/api/client';
 
 /* *************** TEST SUPPORT VARS *************** */
 

@@ -3,15 +3,15 @@
  */
 
 // Components
-import { env } from '../config/env';
+import { env } from '@/config/env';
 
 // Types
-import type { AdminChatMessage, AdminChatSession } from '../types/admin-chat';
-import type { ChatApiMessageDto, ChatApiSessionDto } from '../types/chat-api';
+import type { AdminChatMessage, AdminChatSession } from '@/types/admin-chat';
+import type { ChatApiMessageDto, ChatApiSessionDto } from '@/types/chat-api';
 import {
   mapApiMessageToAdminChatMessage,
   mapApiSessionToAdminChatSession,
-} from '../types/chat-mappers';
+} from '@/types/chat-mappers';
 
 const API_BASE: string = env.apiUrl;
 

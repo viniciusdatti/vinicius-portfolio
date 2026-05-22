@@ -9,19 +9,21 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project, Technology } from '../../data/types';
+import type { Project, Technology } from '@/data/types';
+import { Language } from '@/types';
+
+// Hooks
+import { useProjects } from '@/hooks';
 
 // Components
-import { Language } from '../../types';
-import { FilterBar, Drawer } from '../../components/showcase';
-import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
-import { useProjects } from '../../hooks';
+import { FilterBar, Drawer } from '@/components/showcase';
 import {
-  ProjectCaseStudyField,
-  resolveCaseStudyField,
-  resolveTechnologyCapabilityLabel,
-} from '../../utils/projectCaseCopy';
-import { scrollReveal } from '../../styles/animations';
+  ProjectShowcaseGrid,
+  ProjectCaseStudyContent,
+} from '@/components/ProjectShowcase';
+import { scrollReveal } from '@/styles/animations';
+
+// View
 import {
   PageContainer,
   PageHeader,
@@ -33,18 +35,12 @@ import {
   Toolbar,
   SearchInput,
   ShowcaseSection,
-  DrawerDetailRow,
-  DrawerDetailLabel,
-  DrawerDetailValue,
-  DrawerLinks,
-  DrawerLink,
-  TechList,
-  TechTag,
+  DrawerCaseBody,
   ErrorMessage,
   RetryButton,
   EmptyMessage,
   LoadingMessage,
-} from './Projects.style';
+} from '@/pages/Projects/Projects.style';
 
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************
@@ -116,11 +112,6 @@ export function Projects(): React.ReactElement {
 
   const projectTitle = useCallback(
     (p: Project): string => (isPt ? p.title_pt ?? p.title : p.title),
-    [isPt],
-  );
-
-  const projectDescription = useCallback(
-    (p: Project): string | null => (isPt ? p.description_pt ?? p.description : p.description),
     [isPt],
   );
 
@@ -222,89 +213,12 @@ export function Projects(): React.ReactElement {
         title={selectedProject ? projectTitle(selectedProject) : ''}
       >
         {selectedProject != null && (
-          <>
-            <DrawerDetailRow>
-              <DrawerDetailLabel>
-                {t('projects.casePanel.framing')}
-              </DrawerDetailLabel>
-              <DrawerDetailValue>
-                {resolveCaseStudyField(
-                  selectedProject,
-                  ProjectCaseStudyField.Framing,
-                  currentLanguage,
-                  t,
-                )}
-              </DrawerDetailValue>
-            </DrawerDetailRow>
-            <DrawerDetailRow>
-              <DrawerDetailLabel>
-                {t('projects.casePanel.architecture')}
-              </DrawerDetailLabel>
-              <DrawerDetailValue>
-                {resolveCaseStudyField(
-                  selectedProject,
-                  ProjectCaseStudyField.Architecture,
-                  currentLanguage,
-                  t,
-                )}
-              </DrawerDetailValue>
-            </DrawerDetailRow>
-            <DrawerDetailRow>
-              <DrawerDetailLabel>
-                {t('projects.casePanel.decision')}
-              </DrawerDetailLabel>
-              <DrawerDetailValue>
-                {resolveCaseStudyField(
-                  selectedProject,
-                  ProjectCaseStudyField.Decision,
-                  currentLanguage,
-                  t,
-                )}
-              </DrawerDetailValue>
-            </DrawerDetailRow>
-            {projectDescription(selectedProject) && (
-              <DrawerDetailRow>
-                <DrawerDetailLabel>
-                  {t('projects.drawer.description')}
-                </DrawerDetailLabel>
-                <DrawerDetailValue>
-                  {projectDescription(selectedProject)}
-                </DrawerDetailValue>
-              </DrawerDetailRow>
-            )}
-            <DrawerDetailRow>
-              <DrawerDetailLabel>
-                {t('projects.table.technologies')}
-              </DrawerDetailLabel>
-              <DrawerDetailValue>
-                <TechList>
-                  {selectedProject.technologies.map((tech: Technology) => (
-                    <TechTag key={tech.id}>
-                      {resolveTechnologyCapabilityLabel(tech, t)}
-                    </TechTag>
-                  ))}
-                </TechList>
-              </DrawerDetailValue>
-            </DrawerDetailRow>
-            <DrawerLinks>
-              <DrawerLink
-                href={selectedProject.repository_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {t('projects.drawer.repository')}
-              </DrawerLink>
-              {selectedProject.demo_url && (
-                <DrawerLink
-                  href={selectedProject.demo_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {t('projects.drawer.demo')}
-                </DrawerLink>
-              )}
-            </DrawerLinks>
-          </>
+          <DrawerCaseBody>
+            <ProjectCaseStudyContent
+              project={selectedProject}
+              language={currentLanguage}
+            />
+          </DrawerCaseBody>
         )}
       </Drawer>
     </PageContainer>
