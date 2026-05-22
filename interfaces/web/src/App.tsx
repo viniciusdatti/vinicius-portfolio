@@ -12,6 +12,7 @@ import { darkTheme, lightTheme, Theme } from './styles/theme';
 
 // Components
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastHost } from './components/common/Toast';
 import { Router } from './Router';
 import { useThemeStore } from './store';
 
@@ -25,24 +26,27 @@ const queryClient: QueryClient = new QueryClient({
   },
 });
 
-const ThemedApp: React.FC = (): React.ReactElement => {
+function ThemedApp(): React.ReactElement {
   const { mode } = useThemeStore();
   const theme: Theme = mode === 'dark' ? darkTheme : lightTheme;
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
+      <ToastHost />
       <Router />
     </ThemeProvider>
   );
-};
+}
 
-const App = (): React.ReactElement => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <ThemedApp />
-    </QueryClientProvider>
-  </ErrorBoundary>
-);
+function App(): React.ReactElement {
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <ThemedApp />
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+}
 
 export default App;

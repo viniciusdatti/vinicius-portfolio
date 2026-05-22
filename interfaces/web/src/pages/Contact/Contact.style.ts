@@ -137,17 +137,14 @@ export const Input = styled.input<InputStyleProps>`
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
-  border-color: ${({ $hasError, theme }) =>
-    $hasError ? theme.colors.error : theme.colors.border};
+  border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.border)};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
 
   &:focus {
-    border-color: ${({ $hasError, theme }) =>
-      $hasError ? theme.colors.error : theme.colors.primary};
-    background-color: ${({ $hasError, theme }) =>
-      $hasError ? 'inherit' : theme.colors.primarySurface};
+    border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.primary)};
+    background-color: ${({ $hasError, theme }) => ($hasError ? 'inherit' : theme.colors.primarySurface)};
   };
 `;
 
@@ -160,17 +157,14 @@ export const TextArea = styled.textarea<InputStyleProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   min-height: 150px;
   resize: vertical;
-  border-color: ${({ $hasError, theme }) =>
-    $hasError ? theme.colors.error : theme.colors.border};
+  border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.border)};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
 
   &:focus {
-    border-color: ${({ $hasError, theme }) =>
-      $hasError ? theme.colors.error : theme.colors.primary};
-    background-color: ${({ $hasError, theme }) =>
-      $hasError ? 'inherit' : theme.colors.primarySurface};
+    border-color: ${({ $hasError, theme }) => ($hasError ? theme.colors.error : theme.colors.primary)};
+    background-color: ${({ $hasError, theme }) => ($hasError ? 'inherit' : theme.colors.primarySurface)};
   };
 `;
 

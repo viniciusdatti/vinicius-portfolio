@@ -12,14 +12,15 @@ import { useTranslation } from 'react-i18next';
 
 // Types
 import { UserRole } from '../../../types';
-import type { AdminLoginForm } from './Login.types';
 import {
   initialAdminLoginViewState,
+  type AdminLoginForm,
   type AdminLoginViewState,
 } from './Login.types';
 
 // Components
 import { env } from '../../../config/env';
+import { showToast, ToastType } from '../../../components/common/Toast';
 import { useAuthStore } from '../../../store';
 import {
   BackToSiteLink,
@@ -44,22 +45,26 @@ import {
 
 const API_BASE: string = env.apiUrl;
 
-const isAdminRole = (role: string): boolean =>
-  role === UserRole.Admin || role === UserRole.SuperAdmin;
+const isAdminRole = (role: string): boolean => (
+  role === UserRole.Admin || role === UserRole.SuperAdmin
+);
 
 /**
  * Admin login page with server-side role validation.
  */
-export const Login: React.FC = (): React.ReactElement => {
+export function Login(): React.ReactElement {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setAuth, logout } = useAuthStore();
 
   const [viewState, setViewState] = useState<AdminLoginViewState>(
-    initialAdminLoginViewState
+    initialAdminLoginViewState,
   );
 
   const { register, handleSubmit } = useForm<AdminLoginForm>();
+
+  const emailField = register('email', { required: true });
+  const passwordField = register('password', { required: true });
 
   const onSubmit = async (data: AdminLoginForm): Promise<void> => {
     setViewState((prev: AdminLoginViewState) => ({
@@ -100,20 +105,22 @@ export const Login: React.FC = (): React.ReactElement => {
       }
 
       setAuth(
-        { id: user.id, email: user.email, name: user.name, role: user.role },
-        tokens
+        {
+          id: user.id, email: user.email, name: user.name, role: user.role,
+        },
+        tokens,
       );
 
       navigate('/admin', { replace: true });
     } catch (err: unknown) {
-      const errorMessage: string =
-        err instanceof Error && err.message === 'FORBIDDEN'
-          ? t('admin.login.errors.forbidden')
-          : t('admin.login.errors.invalidCredentials');
+      const errorMessage: string = err instanceof Error && err.message === 'FORBIDDEN'
+        ? t('admin.login.errors.forbidden')
+        : t('admin.login.errors.invalidCredentials');
       setViewState((prev: AdminLoginViewState) => ({
         ...prev,
         error: errorMessage,
       }));
+      showToast(errorMessage, ToastType.Error);
     } finally {
       setViewState((prev: AdminLoginViewState) => ({
         ...prev,
@@ -133,7 +140,8 @@ export const Login: React.FC = (): React.ReactElement => {
     <PageShell>
       <TopBar>
         <Brand>
-          Vinicius<span>.</span>
+          Vinicius
+          <span>.</span>
         </Brand>
         <BackToSiteLink to="/">{t('admin.login.backToSite')}</BackToSiteLink>
       </TopBar>
@@ -146,7 +154,8 @@ export const Login: React.FC = (): React.ReactElement => {
         >
           <Logo>
             <h1>
-              {t('admin.login.brand')}<span>.</span>
+              {t('admin.login.brand')}
+              <span>.</span>
             </h1>
             <Subtitle>{t('admin.login.subtitle')}</Subtitle>
           </Logo>
@@ -162,7 +171,10 @@ export const Login: React.FC = (): React.ReactElement => {
               <Label htmlFor="admin-email">{t('admin.login.email')}</Label>
               <Input
                 id="admin-email"
-                {...register('email', { required: true })}
+                name={emailField.name}
+                onChange={emailField.onChange}
+                onBlur={emailField.onBlur}
+                ref={emailField.ref}
                 type="email"
                 autoComplete="username"
                 placeholder={t('admin.login.emailPlaceholder')}
@@ -175,7 +187,10 @@ export const Login: React.FC = (): React.ReactElement => {
               <PasswordFieldWrap>
                 <Input
                   id="admin-password"
-                  {...register('password', { required: true })}
+                  name={passwordField.name}
+                  onChange={passwordField.onChange}
+                  onBlur={passwordField.onBlur}
+                  ref={passwordField.ref}
                   type={viewState.showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   placeholder={t('admin.login.passwordPlaceholder')}
@@ -214,4 +229,4 @@ export const Login: React.FC = (): React.ReactElement => {
       </PageContainer>
     </PageShell>
   );
-};
+}
