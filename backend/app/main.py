@@ -80,6 +80,7 @@ app = FastAPI(
     title="Portfolio API",
     description="REST API for the professional portfolio, serving projects and technologies data.",
     version="2.0.0",
+    redirect_slashes=False,
     docs_url="/docs" if settings.is_development else None,
     redoc_url="/redoc" if settings.is_development else None,
     openapi_url="/openapi.json" if settings.is_development else None,

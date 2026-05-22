@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[ProjectRead],
     summary="Get all projects",
     description="Retrieve all portfolio projects, optionally filtered by technology.",
