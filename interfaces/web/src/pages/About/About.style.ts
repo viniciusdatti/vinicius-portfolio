@@ -22,12 +22,17 @@ export const PageTitle = styled(motion.h1)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.display};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  margin-bottom: ${({ theme }) => theme.spacing.xl};
   text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    text-align: left;
+    margin-bottom: ${({ theme }) => theme.spacing.xxl};
+  };
 `;
 
 export const Section = styled(motion.section)`
-  margin-bottom: ${({ theme }) => theme.spacing.section};
+  margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
 `;
 
 export const PhilosophySection = styled(Section)`

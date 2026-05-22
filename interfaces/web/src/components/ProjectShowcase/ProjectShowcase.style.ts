@@ -90,7 +90,6 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   };
 
   &:hover {
-    transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
     border-color: ${({ theme }) => theme.colors.borderLight};
     box-shadow: ${({ theme }) => theme.shadows.lg};
   };

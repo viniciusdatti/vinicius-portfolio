@@ -189,8 +189,8 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
       onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void =>
         handleCardKeyDown(event, onSelect, project)
       }
-      whileHover={{ scale: isFeatured ? 1.005 : 1.02 }}
-      whileTap={{ scale: 0.99 }}
+      whileHover={{ scale: isFeatured ? 1.005 : 1.015, y: isFeatured ? -2 : -4 }}
+      whileTap={{ scale: 0.99, y: 0 }}
     >
       <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
         <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>

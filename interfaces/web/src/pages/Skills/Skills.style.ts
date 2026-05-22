@@ -32,7 +32,7 @@ export const PageContainer = styled.div`
  */
 export const PageHeader = styled.div`
   text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.section};
+  margin-bottom: ${({ theme }) => theme.spacing.xxl};
 `;
 
 /**
