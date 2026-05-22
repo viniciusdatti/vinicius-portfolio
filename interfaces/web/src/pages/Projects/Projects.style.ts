@@ -3,7 +3,7 @@
  */
 
 // Libraries
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
 export const PageContainer = styled.div`
@@ -77,14 +77,35 @@ export const PageSubtitle = styled(motion.p)`
   };
 `;
 
-export const PageEyebrow = styled.span`
-  display: inline-block;
+const eyebrowLine = keyframes`
+  from { width: 0; opacity: 0; }
+  to   { width: 24px; opacity: 1; }
+`;
+
+export const PageEyebrow = styled(motion.span)`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.accent};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+
+  &::before {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 0;
+    background: ${({ theme }) => theme.colors.accent};
+    animation: ${eyebrowLine} 500ms ${({ theme }) => theme.motion.easeOut} 200ms both;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+      width: 24px;
+    };
+  };
 `;
 
 export const Toolbar = styled.div`

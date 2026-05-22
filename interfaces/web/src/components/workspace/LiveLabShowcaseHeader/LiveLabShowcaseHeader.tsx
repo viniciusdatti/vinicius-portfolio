@@ -10,17 +10,17 @@ import {
   ShowcaseHeaderCopy,
   ShowcaseTitle,
   ShowcaseLead,
+  ShowcaseActions,
   ShowcaseBadge,
 } from './LiveLabShowcaseHeader.style';
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
+interface LiveLabShowcaseHeaderProps {
+  sidebarTrigger?: React.ReactNode;
+}
 
-/**
- * Page-level Live Lab title — portfolio showcase hierarchy (h1), not boot strip.
- */
-export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
+export const LiveLabShowcaseHeader: React.FC<LiveLabShowcaseHeaderProps> = ({
+  sidebarTrigger,
+}): React.ReactElement => {
   const { t } = useTranslation();
 
   return (
@@ -29,7 +29,10 @@ export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
         <ShowcaseTitle>{t('liveLab.title')}</ShowcaseTitle>
         <ShowcaseLead>{t('liveLab.subtitle')}</ShowcaseLead>
       </ShowcaseHeaderCopy>
-      <ShowcaseBadge>{t('workspace.boot.showcaseBadge')}</ShowcaseBadge>
+      <ShowcaseActions>
+        {sidebarTrigger}
+        <ShowcaseBadge>{t('workspace.boot.showcaseBadge')}</ShowcaseBadge>
+      </ShowcaseActions>
     </ShowcaseHeaderRoot>
   );
 };

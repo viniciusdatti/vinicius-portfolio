@@ -14,12 +14,10 @@ import { z } from 'zod';
 
 // Components
 import { submitContact, ApiError } from '../../api';
-
-// Styles
 import {
-  sectionReveal,
-  staggerContainer,
-  staggerItem,
+  scrollReveal,
+  scrollRevealStagger,
+  scrollRevealItem,
 } from '../../styles/animations';
 import {
   PageContainer,
@@ -172,16 +170,18 @@ export const Contact: React.FC = (): React.ReactElement => {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={sectionReveal}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: '-80px' }}
         >
           {t('contact.title')}
         </PageTitle>
         <PageSubtitle
-          variants={sectionReveal}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: '-60px' }}
         >
           {t('contact.subtitle')}
         </PageSubtitle>
@@ -189,9 +189,10 @@ export const Contact: React.FC = (): React.ReactElement => {
 
       <ContentGrid>
         <FormSection
-          variants={sectionReveal}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
         >
           {isSuccess ? (
             <SuccessMessage
@@ -275,9 +276,10 @@ export const Contact: React.FC = (): React.ReactElement => {
         </FormSection>
 
         <InfoSection
-          variants={staggerContainer}
-          initial="initial"
-          animate="animate"
+          variants={scrollRevealStagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
         >
           <InfoCard>
             <InfoTitle>{t('contact.info.title')}</InfoTitle>
@@ -310,7 +312,7 @@ export const Contact: React.FC = (): React.ReactElement => {
           </InfoCard>
 
           <ChatCTACard
-            variants={staggerItem}
+            variants={scrollRevealItem}
             whileHover={{ y: -4 }}
           >
             <ChatCTATitle>{t('contact.chatCta.title')}</ChatCTATitle>

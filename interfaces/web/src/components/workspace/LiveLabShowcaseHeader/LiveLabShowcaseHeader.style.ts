@@ -39,6 +39,12 @@ export const ShowcaseLead = styled.p`
   max-width: ${({ theme }) => theme.layout.proseWide};
 `;
 
+export const ShowcaseActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
 export const ShowcaseBadge = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};

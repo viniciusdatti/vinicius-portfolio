@@ -18,7 +18,6 @@ import {
   SystemEventLevel,
   SystemEventType,
 } from '../../../types/system-events';
-import { ContactFormEmbed } from '../ContactFormEmbed';
 import {
   PanelScroll,
   PanelTitle,
@@ -38,7 +37,6 @@ import {
   CapabilityGroup,
   CapabilityHeading,
   CapabilityItem,
-  ChannelNote,
 } from './ContextPanel.style';
 
 interface ContextPanelProps {
@@ -267,19 +265,6 @@ const CapabilitiesModule: React.FC = (): React.ReactElement => {
   );
 };
 
-const ChannelModule: React.FC = (): React.ReactElement => {
-  const { t } = useTranslation();
-
-  return (
-    <>
-      <PanelTitle>{t('workspace.channelModule.title')}</PanelTitle>
-      <PanelLead>{t('workspace.channelModule.lead')}</PanelLead>
-      <ChannelNote>{t('workspace.channelModule.note')}</ChannelNote>
-      <ContactFormEmbed />
-    </>
-  );
-};
-
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
@@ -293,8 +278,6 @@ export const ContextPanel: React.FC<ContextPanelProps> = ({
         return <CasesModule />;
       case WorkspaceModule.Capabilities:
         return <CapabilitiesModule />;
-      case WorkspaceModule.Channel:
-        return <ChannelModule />;
       case WorkspaceModule.Identity:
       default:
         return <IdentityModule />;

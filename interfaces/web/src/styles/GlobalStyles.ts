@@ -35,6 +35,7 @@ export const GlobalStyles = createGlobalStyle`
     background-color: ${({ theme }) => theme.colors.background};
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-weight: 300;
     transition:
       background-color var(--transition-theme),
       color var(--transition-theme);
@@ -69,6 +70,17 @@ export const GlobalStyles = createGlobalStyle`
     mask-image: ${({ theme }) => theme.colors.gradientBodyGridMask};
   }
 
+  /* Grain texture overlay */
+  #root::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.022;
+    pointer-events: none;
+    z-index: 9998;
+  }
+
   #root {
     position: relative;
     z-index: 1;
@@ -76,12 +88,13 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: ${({ theme }) => theme.typography.fontFamily.heading};
+    font-family: ${({ theme }) => theme.typography.fontFamily.display};
     font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
     line-height: ${({ theme }) => theme.typography.lineHeight.tight};
     letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
     color: ${({ theme }) => theme.colors.text};
     transition: color var(--transition-theme);
+    font-feature-settings: "ss01", "cv01";
   }
 
   h1 {
@@ -174,24 +187,27 @@ export const GlobalStyles = createGlobalStyle`
 
   ::selection {
     background-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ theme }) => theme.colors.onPrimary};
+    color: ${({ theme }) => theme.colors.background};
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
   }
 
   ::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.backgroundSecondary};
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.borderLight};
+    background: ${({ theme }) => theme.colors.primaryBorderFaint};
     border-radius: ${({ theme }) => theme.borderRadius.full};
+    border: 1px solid transparent;
+    background-clip: padding-box;
 
     &:hover {
-      background: ${({ theme }) => theme.colors.textMuted};
+      background: ${({ theme }) => theme.colors.primaryBorderStrong};
+      background-clip: padding-box;
     };
   }
 

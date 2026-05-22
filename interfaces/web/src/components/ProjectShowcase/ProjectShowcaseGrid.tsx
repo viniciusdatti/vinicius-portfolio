@@ -121,7 +121,8 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
       $compact={compact}
       variants={showcaseStaggerContainer}
       initial="initial"
-      animate="animate"
+      whileInView="animate"
+      viewport={{ once: false, margin: '-40px' }}
     >
       {orderedProjects.map((project: Project, index: number) => (
         <ProjectShowcaseCard

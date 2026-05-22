@@ -1,11 +1,9 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
 import { livingSurface, featuredSpotlight } from '../../styles/surfaces';
-
-// Types
 import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
@@ -171,16 +169,36 @@ export const MockBody = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
-export const MockLine = styled.div<{ $width?: string }>`
+/**
+ * Keyframe that simulates "data loading" activity by gently shifting the line width.
+ * Each MockLine gets a different animation-delay so they feel async.
+ */
+const lineActivity = keyframes`
+  0%   { width: var(--line-w); }
+  30%  { width: calc(var(--line-w) - 14%); }
+  60%  { width: calc(var(--line-w) + 8%); }
+  100% { width: var(--line-w); }
+`;
+
+export const MockLine = styled.div<{ $width?: string; $delay?: string }>`
   height: ${({ theme }) => theme.sizes.badge.dot};
   width: ${({ $width }) => $width ?? '72%'};
+  --line-w: ${({ $width }) => $width ?? '72%'};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background: ${({ theme }) => theme.colors.borderSubtle};
+  animation: ${lineActivity} 4s ease-in-out infinite;
+  animation-delay: ${({ $delay }) => $delay ?? '0s'};
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  };
 `;
 
 export const MockLineAccent = styled(MockLine)`
   background: ${({ theme }) => theme.colors.primaryLight};
+  --line-w: 48%;
   width: 48%;
+  animation-delay: 0.8s;
 `;
 
 export const TechFloatingRow = styled.div`

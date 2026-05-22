@@ -51,7 +51,7 @@ export const Avatar = styled(motion.div)`
   height: ${({ theme }) => theme.sizes.avatar.about};
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid ${({ theme }) => theme.colors.primary}40;
+  border: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   box-shadow: ${({ theme }) => theme.shadows.glow};
   flex-shrink: 0;
   margin: 0 auto;
@@ -62,7 +62,7 @@ export const Avatar = styled(motion.div)`
     object-fit: cover;
     object-position: center;
     display: block;
-  }
+  };
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     width: ${({ theme }) => theme.sizes.avatar.aboutMobile};
@@ -74,7 +74,7 @@ export const IntroContent = styled.div`
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
     margin-bottom: ${({ theme }) => theme.spacing.md};
-  }
+  };
 
   p {
     color: ${({ theme }) => theme.colors.textSecondary};
@@ -96,21 +96,29 @@ export const StatsGrid = styled(motion.div)`
 export const StatCard = styled(motion.div)`
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
+  border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
-  transition: border-color ${({ theme }) => theme.transitions.fast};
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    border-left-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${({ theme }) => theme.colors.border};
+    border-left-color: ${({ theme }) => theme.colors.primary};
   };
 `;
 
 export const StatNumber = styled.div`
-  font-size: 2.5rem;
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: ${({ theme }) => theme.typography.fontSize.display};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.primary};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
 `;
 
 export const StatLabel = styled.div`
@@ -157,14 +165,15 @@ export const EducationMain = styled.div`
 `;
 
 export const EducationIcon = styled.div`
-  width: 60px;
-  height: 60px;
+  width: ${({ theme }) => theme.sizes.icon.md};
+  height: ${({ theme }) => theme.sizes.icon.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   background-color: ${({ theme }) => theme.colors.primaryLight};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+  flex-shrink: 0;
 `;
 
 export const EducationInfo = styled.div`

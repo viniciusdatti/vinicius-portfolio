@@ -49,6 +49,8 @@ export const HeaderShell = styled.div<{ $scrolled: boolean }>`
     border-color ${({ theme }) => theme.transitions.normal},
     box-shadow ${({ theme }) => theme.transitions.normal},
     backdrop-filter ${({ theme }) => theme.transitions.normal};
+  min-width: 0;
+  overflow: hidden;
 `;
 
 export const HeaderContent = styled.div`
@@ -60,9 +62,9 @@ export const HeaderContent = styled.div`
   min-width: 0;
 `;
 
-export const HeaderCenter = styled.div`
-  flex: 1;
-  display: flex;
+export const HeaderCenter = styled.div<{ $isWorkspace?: boolean }>`
+  flex: 0 1 auto;
+  display: ${({ $isWorkspace }) => ($isWorkspace ? 'none' : 'flex')};
   align-items: center;
   justify-content: center;
   min-width: 0;
@@ -72,25 +74,30 @@ export const HeaderCenter = styled.div`
   };
 `;
 
-export const HeaderTrailing = styled.div`
+export const HeaderTrailing = styled.div<{ $isWorkspace?: boolean }>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
-  flex-shrink: 0;
+  flex-shrink: ${({ $isWorkspace }) => ($isWorkspace ? '0' : '1')};
+  flex: ${({ $isWorkspace }) => ($isWorkspace ? '1' : '0 1 auto')};
+  justify-content: ${({ $isWorkspace }) => ($isWorkspace ? 'flex-end' : 'flex-start')};
   min-width: 0;
+  overflow: hidden;
 `;
 
 export const Logo = styled(MotionLink)`
   display: inline-flex;
   align-items: baseline;
   gap: ${({ theme }) => theme.spacing.xs};
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.06em;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
 `;
 
 export const LogoMark = styled.span`
@@ -105,7 +112,9 @@ export const LogoSuffix = styled.span`
 export const Nav = styled.nav`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.xl};
+  gap: ${({ theme }) => theme.spacing.lg};
+  min-width: 0;
+  overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
@@ -118,16 +127,18 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   text-transform: uppercase;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
   color: ${({ $active, theme }) =>
     $active ? theme.colors.text : theme.colors.textMuted};
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.xs} 0;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
-  transition: color ${({ theme }) => theme.transitions.fast};
+  transition:
+    color ${({ theme }) => theme.transitions.fast},
+    letter-spacing ${({ theme }) => theme.transitions.normal};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
+    letter-spacing: 0.1em;
   };
 
   &::after {
@@ -139,7 +150,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
     height: 2px;
     border-radius: ${({ theme }) => theme.borderRadius.full};
     background: ${({ theme }) => theme.colors.gradientNavUnderline};
-    transition: width ${({ theme }) => theme.transitions.normal};
+    transition: width 380ms ${({ theme }) => theme.motion.easeSpring};
   };
 
   &:hover::after {
@@ -151,6 +162,7 @@ export const HeaderActions = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
+  flex-shrink: 0;
 `;
 
 export const HamburgerButton = styled(motion.button)`

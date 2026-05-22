@@ -8,7 +8,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Types
 export interface InputStyleProps {
   $hasError?: boolean;
 }
@@ -104,11 +103,12 @@ export const Form = styled.form`
  */
 export const FormRow = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: ${({ theme }) => theme.spacing.lg};
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
+    gap: ${({ theme }) => theme.spacing.lg};
   };
 `;
 
@@ -139,10 +139,15 @@ export const Input = styled.input<InputStyleProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   border-color: ${({ $hasError, theme }) =>
     $hasError ? theme.colors.error : theme.colors.border};
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    background-color ${({ theme }) => theme.transitions.fast};
 
   &:focus {
     border-color: ${({ $hasError, theme }) =>
       $hasError ? theme.colors.error : theme.colors.primary};
+    background-color: ${({ $hasError, theme }) =>
+      $hasError ? 'inherit' : theme.colors.primarySurface};
   };
 `;
 
@@ -157,10 +162,15 @@ export const TextArea = styled.textarea<InputStyleProps>`
   resize: vertical;
   border-color: ${({ $hasError, theme }) =>
     $hasError ? theme.colors.error : theme.colors.border};
+  transition:
+    border-color ${({ theme }) => theme.transitions.fast},
+    background-color ${({ theme }) => theme.transitions.fast};
 
   &:focus {
     border-color: ${({ $hasError, theme }) =>
       $hasError ? theme.colors.error : theme.colors.primary};
+    background-color: ${({ $hasError, theme }) =>
+      $hasError ? 'inherit' : theme.colors.primarySurface};
   };
 `;
 
@@ -178,8 +188,8 @@ export const ErrorText = styled.span`
 export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border-radius: 0;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   display: flex;
@@ -192,7 +202,7 @@ export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
   }
 
   &:disabled {
-    opacity: 0.7;
+    opacity: ${({ theme }) => theme.effects.opacity.disabled};
     cursor: not-allowed;
   };
 `;
@@ -262,9 +272,10 @@ export const InfoItem = styled.a`
   }
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: ${({ theme }) => theme.sizes.icon.sm};
+    height: ${({ theme }) => theme.sizes.icon.sm};
     color: ${({ theme }) => theme.colors.primary};
+    flex-shrink: 0;
   };
 `;
 
@@ -304,13 +315,15 @@ export const ChatCTAButton = styled(Link)`
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background-color: ${({ theme }) => theme.colors.primary};
-  color: white;
-  border-radius: ${({ theme }) => theme.borderRadius.md};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border-radius: 0;
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  transition: background-color ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.primaryHover};
-    color: white;
+    color: ${({ theme }) => theme.colors.onPrimary};
   };
 `;

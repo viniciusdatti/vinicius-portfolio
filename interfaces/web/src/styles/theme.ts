@@ -296,12 +296,10 @@ export interface Theme {
 const sharedTheme = {
   typography: {
     fontFamily: {
-      display:
-        '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      heading:
-        '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      body: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      mono: '"JetBrains Mono", "Fira Code", ui-monospace, monospace',
+      display: '"Syne", -apple-system, BlinkMacSystemFont, sans-serif',
+      heading: '"Syne", -apple-system, BlinkMacSystemFont, sans-serif',
+      body: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      mono: '"DM Mono", "JetBrains Mono", ui-monospace, monospace',
     },
     fontSize: {
       xs: '0.75rem',
@@ -508,111 +506,111 @@ const lightEffects: ThemeEffects = {
 export const darkTheme: Theme = {
   mode: 'dark',
   colors: {
-    background: '#07070b',
-    backgroundSecondary: '#0c0c14',
-    surface: 'rgba(16, 16, 24, 0.92)',
-    surfaceHover: 'rgba(26, 26, 38, 0.96)',
-    surfaceElevated: 'rgba(22, 22, 34, 0.98)',
-    surfaceGlass: 'rgba(255, 255, 255, 0.035)',
-    text: '#f5f5f7',
-    textSecondary: '#c4c4d0',
-    textMuted: '#8b8b9a',
-    onPrimary: '#ffffff',
+    background: '#080808',
+    backgroundSecondary: '#0e0e0e',
+    surface: 'rgba(15, 15, 15, 0.95)',
+    surfaceHover: 'rgba(22, 22, 22, 0.98)',
+    surfaceElevated: 'rgba(18, 18, 18, 0.99)',
+    surfaceGlass: 'rgba(255, 255, 255, 0.03)',
+    text: '#f0ede8',
+    textSecondary: '#a09a92',
+    textMuted: '#5a5550',
+    onPrimary: '#080808',
     onSuccess: '#ffffff',
-    primary: '#5b7cfa',
-    primaryHover: '#7b94ff',
-    primaryLight: 'rgba(91, 124, 250, 0.14)',
-    primarySurface: 'rgba(91, 124, 250, 0.08)',
-    primaryBorderFaint: 'rgba(91, 124, 250, 0.33)',
-    primaryBorderStrong: 'rgba(91, 124, 250, 0.19)',
-    accent: '#6ee7d6',
-    accentMuted: 'rgba(110, 231, 214, 0.12)',
+    primary: '#c4a97d',
+    primaryHover: '#d4b98d',
+    primaryLight: 'rgba(196, 169, 125, 0.12)',
+    primarySurface: 'rgba(196, 169, 125, 0.07)',
+    primaryBorderFaint: 'rgba(196, 169, 125, 0.25)',
+    primaryBorderStrong: 'rgba(196, 169, 125, 0.15)',
+    accent: '#c4a97d',
+    accentMuted: 'rgba(196, 169, 125, 0.1)',
     success: '#34d399',
-    successSurface: 'rgba(52, 211, 153, 0.12)',
-    mutedSurface: 'rgba(139, 139, 154, 0.12)',
+    successSurface: 'rgba(52, 211, 153, 0.1)',
+    mutedSurface: 'rgba(255, 255, 255, 0.04)',
     error: '#f87171',
-    errorSurface: 'rgba(248, 113, 113, 0.12)',
-    errorSurfaceHover: 'rgba(248, 113, 113, 0.18)',
+    errorSurface: 'rgba(248, 113, 113, 0.1)',
+    errorSurfaceHover: 'rgba(248, 113, 113, 0.16)',
     warning: '#fbbf24',
-    warningSurface: 'rgba(251, 191, 36, 0.12)',
+    warningSurface: 'rgba(251, 191, 36, 0.1)',
     gradientContactChatCta:
-      'linear-gradient(135deg, rgba(91, 124, 250, 0.08) 0%, rgba(16, 16, 24, 0.92) 100%)',
+      'linear-gradient(135deg, rgba(196, 169, 125, 0.06) 0%, rgba(15, 15, 15, 0.95) 100%)',
     gradientPhilosophyCard:
-      'linear-gradient(135deg, rgba(91, 124, 250, 0.06) 0%, rgba(16, 16, 24, 0.92) 100%)',
+      'linear-gradient(135deg, rgba(196, 169, 125, 0.04) 0%, rgba(15, 15, 15, 0.95) 100%)',
     info: '#60a5fa',
-    border: 'rgba(255, 255, 255, 0.09)',
-    borderLight: 'rgba(255, 255, 255, 0.14)',
-    borderSubtle: 'rgba(255, 255, 255, 0.05)',
-    focusRing: 'rgba(91, 124, 250, 0.45)',
-    overlay: 'rgba(4, 4, 8, 0.72)',
+    border: 'rgba(255, 255, 255, 0.08)',
+    borderLight: 'rgba(255, 255, 255, 0.12)',
+    borderSubtle: 'rgba(255, 255, 255, 0.04)',
+    focusRing: 'rgba(196, 169, 125, 0.4)',
+    overlay: 'rgba(4, 4, 4, 0.8)',
     gradientHero:
-      'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(91, 124, 250, 0.22), transparent 65%)',
+      'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(196, 169, 125, 0.1), transparent 65%)',
     gradientAccent:
-      'linear-gradient(135deg, rgba(91, 124, 250, 0.35) 0%, rgba(110, 231, 214, 0.12) 100%)',
+      'linear-gradient(135deg, rgba(196, 169, 125, 0.2) 0%, rgba(196, 169, 125, 0.05) 100%)',
     gradientButtonPrimary:
-      'linear-gradient(165deg, #5b7cfa 0%, #7b94ff 100%)',
+      'linear-gradient(165deg, #c4a97d 0%, #d4b98d 100%)',
     gradientMessageOwn:
-      'linear-gradient(145deg, #5b7cfa 0%, #7b94ff 100%)',
+      'linear-gradient(145deg, #c4a97d 0%, #d4b98d 100%)',
     gradientTextHero:
-      'linear-gradient(120deg, #f5f5f7 0%, #5b7cfa 48%, #6ee7d6 100%)',
+      'linear-gradient(120deg, #f0ede8 0%, #c4a97d 55%, #e8d5b0 100%)',
     gradientTextDisplay:
-      'linear-gradient(165deg, #f5f5f7 0%, #c4c4d0 100%)',
+      'linear-gradient(165deg, #f0ede8 0%, #a09a92 100%)',
     gradientNavUnderline:
-      'linear-gradient(90deg, #5b7cfa 0%, #6ee7d6 100%)',
+      'linear-gradient(90deg, #c4a97d 0%, #e8d5b0 100%)',
     gradientSectionFade:
-      'linear-gradient(180deg, transparent 0%, #0c0c14 12%, #0c0c14 88%, transparent 100%)',
+      'linear-gradient(180deg, transparent 0%, #0e0e0e 12%, #0e0e0e 88%, transparent 100%)',
     gradientFooter:
-      'linear-gradient(180deg, transparent 0%, #0c0c14 24%)',
+      'linear-gradient(180deg, transparent 0%, #0e0e0e 24%)',
     gradientHeroCenter:
-      'radial-gradient(ellipse 75% 55% at 50% 50%, rgba(91, 124, 250, 0.25) 0%, rgba(110, 231, 214, 0.07) 42%, transparent 72%)',
+      'radial-gradient(ellipse 75% 55% at 55% 45%, rgba(196, 169, 125, 0.12) 0%, rgba(196, 169, 125, 0.03) 42%, transparent 72%)',
     gradientHeroOrbAccent:
-      'radial-gradient(circle, rgba(110, 231, 214, 0.09) 0%, transparent 68%)',
+      'radial-gradient(circle, rgba(196, 169, 125, 0.07) 0%, transparent 68%)',
     gradientHeroOrbPrimary:
-      'radial-gradient(circle, rgba(91, 124, 250, 0.09) 0%, transparent 70%)',
+      'radial-gradient(circle, rgba(196, 169, 125, 0.06) 0%, transparent 70%)',
     gradientLiveLabBar:
-      'linear-gradient(90deg, #5b7cfa 0%, #6ee7d6 100%)',
+      'linear-gradient(90deg, #c4a97d 0%, #e8d5b0 100%)',
     gradientLiveLabGlow:
-      'radial-gradient(circle at 80% 0%, rgba(91, 124, 250, 0.07) 0%, transparent 45%)',
+      'radial-gradient(circle at 80% 0%, rgba(196, 169, 125, 0.06) 0%, transparent 45%)',
     gradientButtonShine:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, transparent 48%)',
+      'linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 48%)',
     gradientGridMask:
       'radial-gradient(ellipse 80% 70% at 50% 40%, #000000 0%, transparent 100%)',
     gradientBodyGridMask:
       'linear-gradient(180deg, #000000 0%, transparent 85%)',
     gradientProjectCanvasA:
-      'linear-gradient(145deg, rgba(91, 124, 250, 0.22) 0%, rgba(16, 16, 24, 0.4) 55%, transparent 100%)',
+      'linear-gradient(145deg, rgba(196, 169, 125, 0.14) 0%, rgba(15, 15, 15, 0.4) 55%, transparent 100%)',
     gradientProjectCanvasB:
-      'linear-gradient(145deg, rgba(110, 231, 214, 0.14) 0%, rgba(91, 124, 250, 0.08) 50%, transparent 100%)',
+      'linear-gradient(145deg, rgba(196, 169, 125, 0.08) 0%, rgba(196, 169, 125, 0.04) 50%, transparent 100%)',
     gradientProjectCanvasC:
-      'linear-gradient(160deg, rgba(16, 16, 24, 0.95) 0%, rgba(91, 124, 250, 0.12) 100%)',
+      'linear-gradient(160deg, rgba(15, 15, 15, 0.98) 0%, rgba(196, 169, 125, 0.08) 100%)',
     gradientHeroRing:
-      'conic-gradient(from 200deg, rgba(91, 124, 250, 0.35), rgba(110, 231, 214, 0.2), transparent 55%)',
+      'conic-gradient(from 200deg, rgba(196, 169, 125, 0.28), rgba(232, 213, 176, 0.12), transparent 55%)',
     gradientScrollCue:
-      'linear-gradient(180deg, rgba(139, 139, 154, 0.2) 0%, rgba(91, 124, 250, 0.55) 100%)',
+      'linear-gradient(180deg, rgba(90, 85, 80, 0.3) 0%, rgba(196, 169, 125, 0.6) 100%)',
     gradientSurfaceRim:
-      'linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, transparent 28%)',
+      'linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, transparent 28%)',
     gradientHeroAtmosphere:
-      'linear-gradient(118deg, rgba(91, 124, 250, 0.14) 0%, rgba(110, 231, 214, 0.06) 42%, transparent 72%)',
+      'linear-gradient(118deg, rgba(196, 169, 125, 0.1) 0%, rgba(196, 169, 125, 0.03) 42%, transparent 72%)',
     gradientFeaturedSpotlight:
-      'linear-gradient(180deg, rgba(91, 124, 250, 0.12) 0%, transparent 38%)',
+      'linear-gradient(180deg, rgba(196, 169, 125, 0.09) 0%, transparent 38%)',
   },
   effects: darkEffects,
   focus: {
-    ringShadow: '0 0 0 3px rgba(91, 124, 250, 0.45)',
+    ringShadow: '0 0 0 3px rgba(196, 169, 125, 0.35)',
   },
   shadows: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.04)',
-    md: '0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-    lg: '0 16px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06)',
-    xl: '0 24px 64px rgba(0, 0, 0, 0.55)',
-    glow: '0 0 32px rgba(91, 124, 250, 0.28)',
-    glowAccent: '0 0 40px rgba(110, 231, 214, 0.15)',
+    sm: '0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04)',
+    md: '0 8px 24px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04)',
+    lg: '0 16px 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+    xl: '0 24px 64px rgba(0, 0, 0, 0.7)',
+    glow: '0 0 32px rgba(196, 169, 125, 0.18)',
+    glowAccent: '0 0 40px rgba(196, 169, 125, 0.12)',
   },
   elevation: {
-    sm: '0 1px 2px rgba(0, 0, 0, 0.35)',
-    md: '0 8px 24px rgba(0, 0, 0, 0.4)',
-    lg: '0 16px 40px rgba(0, 0, 0, 0.48)',
-    xl: '0 24px 56px rgba(0, 0, 0, 0.52)',
+    sm: '0 1px 2px rgba(0, 0, 0, 0.5)',
+    md: '0 8px 24px rgba(0, 0, 0, 0.55)',
+    lg: '0 16px 40px rgba(0, 0, 0, 0.6)',
+    xl: '0 24px 56px rgba(0, 0, 0, 0.65)',
   },
   ...sharedTheme,
 };

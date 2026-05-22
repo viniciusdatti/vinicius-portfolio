@@ -62,6 +62,7 @@ export const Header: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
+  const isLiveLab: boolean = location.pathname === '/live-lab';
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -111,7 +112,7 @@ export const Header: React.FC = (): React.ReactElement => {
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
             </Logo>
 
-            <HeaderCenter>
+            <HeaderCenter $isWorkspace={isLiveLab}>
               <Nav>
                 {navItems.map((item) => (
                   <NavLink
@@ -125,7 +126,7 @@ export const Header: React.FC = (): React.ReactElement => {
               </Nav>
             </HeaderCenter>
 
-            <HeaderTrailing>
+            <HeaderTrailing $isWorkspace={isLiveLab}>
               <HeaderStatusPills />
               <HeaderActions>
                 <LanguageToggle />

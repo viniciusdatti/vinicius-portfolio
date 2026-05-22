@@ -45,7 +45,6 @@ export enum WorkspaceModule {
   Identity = 'identity',
   Cases = 'cases',
   Capabilities = 'capabilities',
-  Channel = 'channel',
 }
 
 /** Status for showcase status cards (HighlightCard-style). */

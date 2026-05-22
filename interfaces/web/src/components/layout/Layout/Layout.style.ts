@@ -42,10 +42,23 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
       ? css`
           min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
           height: calc(100vh - ${theme.sizes.layout.headerOffset});
-          overflow: hidden;
+          display: flex;
+          flex-direction: column;
         `
       : css`
           min-height: 100vh;
           overflow-x: hidden;
         `};
+`;
+
+/* ************** WORKSPACE MOTION SHELL ******************* */
+
+/**
+ * Flex column wrapper for the Live Lab page transition motion.div.
+ * Replaces the inline style={{ height: '100%', display: 'flex', flexDirection: 'column' }}.
+ */
+export const WorkspaceMotionShell = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;

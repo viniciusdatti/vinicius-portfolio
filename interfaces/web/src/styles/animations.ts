@@ -9,23 +9,106 @@ export const motionEase = motionPresets.ease.out;
 export const motionEaseSoft = motionPresets.ease.inOut;
 
 // ============================================
-// Page Transitions
+// Page Transitions — cinematic, non-AI
 // ============================================
 
-export const pageVariants: Variants = {
-  initial: { opacity: 0, y: motionPresets.distance.pageEnter },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -motionPresets.distance.pageExit },
+/**
+ * Slide-up com fade — entrada suave, saída para cima.
+ * Funciona em todas as páginas exceto Live Lab.
+ */
+export const pageEnter: Variants = {
+  initial: {
+    opacity: 0,
+    y: motionPresets.distance.pageEnter,
+    filter: 'blur(4px)',
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.page,
+      ease: motionEase,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -motionPresets.distance.pageExit,
+    filter: 'blur(2px)',
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEaseSoft,
+    },
+  },
 };
 
-export const pageTransition: Transition = {
-  type: 'tween',
-  ease: motionEase,
-  duration: motionPresets.duration.page,
+/**
+ * Fade limpo — para o Live Lab (workspace não deve ter slide).
+ */
+export const workspaceEnter: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: motionPresets.duration.fast, ease: motionEaseSoft },
+  },
 };
 
 // ============================================
-// Stagger Animations
+// Scroll Reveal — seções internas das páginas
+// ============================================
+
+/**
+ * Reveal de seção ao entrar na viewport — editorial, sem bounce.
+ */
+export const scrollReveal: Variants = {
+  hidden: {
+    opacity: 0,
+    y: motionPresets.distance.editorial,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+    },
+  },
+};
+
+/**
+ * Stagger container para listas de cards em scroll reveal.
+ */
+export const scrollRevealStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: motionPresets.stagger.editorialChild,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+/**
+ * Item filho do stagger de scroll reveal.
+ */
+export const scrollRevealItem: Variants = {
+  hidden: { opacity: 0, y: motionPresets.distance.item },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+    },
+  },
+};
+
+// ============================================
+// Page Transitions (legacy — mantidos para compatibilidade)
 // ============================================
 
 export const staggerContainer: Variants = {
@@ -95,10 +178,13 @@ export const showcaseStaggerItem: Variants = {
   },
 };
 
+/**
+ * Clip-masked slide reveal for the Hero headline.
+ * The wrapper must have overflow: hidden so text slides up from below the clip.
+ */
 export const heroClipReveal: Variants = {
-  hidden: { opacity: 0, y: motionPresets.distance.heroReveal },
+  hidden: { y: '105%' },
   visible: {
-    opacity: 1,
     y: 0,
     transition: {
       duration: motionPresets.duration.hero,

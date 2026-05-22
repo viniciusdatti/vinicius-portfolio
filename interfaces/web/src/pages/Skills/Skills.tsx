@@ -10,14 +10,14 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
-// Styles
+// Components
 import {
-  staggerContainer,
-  staggerItem,
-  sectionReveal,
+  scrollReveal,
+  scrollRevealStagger,
+  scrollRevealItem,
 } from '../../styles/animations';
-
-// Components (styled)
+import { SkillCategory } from '../../types';
+import { publicAssetUrl } from '../../config/env';
 import {
   PageContainer,
   PageHeader,
@@ -32,6 +32,7 @@ import {
   SkillIcon,
   SkillInfo,
   SkillName,
+  SkillCategoryLabel,
   ExperienceSection,
   ExperienceIntro,
   ExperienceSubtitle,
@@ -67,12 +68,6 @@ import {
   ModalButton,
   CertificateCoursesCount,
 } from './Skills.style';
-
-// Types
-import { SkillCategory } from '../../types';
-
-// Components
-import { publicAssetUrl } from '../../config/env';
 
 const skillIconUrl = (file: string): string => publicAssetUrl(file);
 
@@ -407,6 +402,16 @@ const categories: CategoryOption[] = [
   { key: SkillCategory.Realtime, label: 'Real-time' },
 ];
 
+/** Human-readable labels for each skill category (displayed on SkillCard hover). */
+const CATEGORY_LABELS: Record<SkillCategory, string> = {
+  [SkillCategory.Frontend]: 'Frontend',
+  [SkillCategory.Backend]: 'Backend',
+  [SkillCategory.Testing]: 'Testing',
+  [SkillCategory.Realtime]: 'Real-time',
+  [SkillCategory.Tools]: 'Tools',
+  [SkillCategory.Iot]: 'IoT',
+};
+
 /** Order of experience items to display (matches i18n keys under skills.experience.items). */
 const EXPERIENCE_ITEM_KEYS: readonly string[] = [
   'auth',
@@ -469,16 +474,18 @@ export const Skills: React.FC = () => {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={sectionReveal}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: '-80px' }}
         >
           {t('skills.title')}
         </PageTitle>
         <PageSubtitle
-          variants={sectionReveal}
-          initial="initial"
-          animate="animate"
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: false, margin: '-60px' }}
         >
           {t('skills.subtitle')}
         </PageSubtitle>
@@ -502,9 +509,9 @@ export const Skills: React.FC = () => {
         <AnimatePresence mode="wait">
           <SkillsGrid
             key={activeCategory}
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
+            variants={scrollRevealStagger}
+            initial="hidden"
+            animate="visible"
             exit={{ opacity: 0 }}
           >
             {filteredSkills.map((skill: SkillItem, index: number) => {
@@ -512,7 +519,7 @@ export const Skills: React.FC = () => {
               return (
               <SkillCard
                 key={skill.nameKey ?? skill.name}
-                variants={staggerItem}
+                variants={scrollRevealItem}
                 layout
               >
                 <SkillIcon>
@@ -520,6 +527,9 @@ export const Skills: React.FC = () => {
                 </SkillIcon>
                 <SkillInfo>
                   <SkillName>{displayName}</SkillName>
+                  <SkillCategoryLabel>
+                    {CATEGORY_LABELS[skill.category]}
+                  </SkillCategoryLabel>
                 </SkillInfo>
               </SkillCard>
               );
@@ -533,15 +543,15 @@ export const Skills: React.FC = () => {
         <ExperienceIntro>{t('skills.experience.intro')}</ExperienceIntro>
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
+          variants={scrollRevealStagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
             <ExperienceCard
               key={key}
-              variants={staggerItem}
+              variants={scrollRevealItem}
               whileHover={{ y: -4 }}
             >
               <ExperienceCardTitle>
@@ -566,17 +576,17 @@ export const Skills: React.FC = () => {
           </CertificateHours>
         </SectionTitle>
         <CertificatesGrid
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
+          variants={scrollRevealStagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
         >
           {sortedCertificates.map((cert: CertificateItem) => {
             const platform = platformConfig[cert.platform];
             return (
               <CertificateCard
                 key={cert.id}
-                variants={staggerItem}
+                variants={scrollRevealItem}
                 whileHover={{ y: -8, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => handleCertificateClick(cert)}
