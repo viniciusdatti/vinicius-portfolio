@@ -2,7 +2,7 @@
  * Centralized Vite environment variables (browser-safe).
  * Use import.meta.env.VITE_* in .env — never commit secrets.
  */
-const DEFAULT_API_URL: string = 'http://localhost:8000/api/v1';
+const DEFAULT_API_URL: string = '/api/v1';
 
 export const env = {
   apiUrl: import.meta.env.VITE_API_URL ?? DEFAULT_API_URL,
