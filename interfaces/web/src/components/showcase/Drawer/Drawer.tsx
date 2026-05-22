@@ -3,7 +3,12 @@
  */
 
 // Core
-import React, { useCallback } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+} from 'react';
 
 // Libraries
 import { AnimatePresence } from 'framer-motion';
@@ -22,37 +27,70 @@ import {
   DrawerBody,
 } from './Drawer.style';
 
-export const Drawer: React.FC<DrawerProps> = ({
+export function Drawer({
   open,
   onClose,
   title,
   children,
-}) => {
+  testId,
+}: DrawerProps): React.ReactElement {
   const { t } = useTranslation();
+  const titleId: string = useId();
+  const panelRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+
   const handleOverlayClick = useCallback(() => {
     onClose();
   }, [onClose]);
+
+  useEffect(() => {
+    if (!open) {
+      return undefined;
+    }
+
+    previousFocusRef.current = document.activeElement as HTMLElement | null;
+    closeButtonRef.current?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      previousFocusRef.current?.focus();
+    };
+  }, [open, onClose]);
 
   return (
     <AnimatePresence>
       {open && (
         <>
           <DrawerOverlay
-            data-open={open}
+            data-open="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleOverlayClick}
           />
           <DrawerPanel
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            data-testid={testId}
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           >
             <DrawerHeader>
-              <DrawerTitle>{title}</DrawerTitle>
+              <DrawerTitle id={titleId}>{title}</DrawerTitle>
               <DrawerCloseButton
+                ref={closeButtonRef}
                 type="button"
                 onClick={onClose}
                 aria-label={t('a11y.drawerClose')}
@@ -76,4 +114,4 @@ export const Drawer: React.FC<DrawerProps> = ({
       )}
     </AnimatePresence>
   );
-};
+}

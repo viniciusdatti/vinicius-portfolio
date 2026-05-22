@@ -5,9 +5,18 @@ import React from 'react';
 import { SpinnerContainer } from './Spinner.style';
 import type { SpinnerProps } from './Spinner.types';
 
-export const Spinner: React.FC<SpinnerProps> = ({
+export function Spinner({
   size = 'md',
   className,
-}) => {
-  return <SpinnerContainer $size={size} className={className} />;
-};
+  testId,
+}: SpinnerProps): React.ReactElement {
+  return (
+    <SpinnerContainer
+      $size={size}
+      className={className}
+      data-testid={testId}
+      role="status"
+      aria-live="polite"
+    />
+  );
+}
