@@ -392,6 +392,7 @@ const TYPE_ORDER: Record<CertificateItem['type'], number> = {
 
 /**
  * Available category filter options.
+ * IoT is defined in SkillCategory but has no skills yet — excluded from the filter.
  */
 const categories: CategoryOption[] = [
   { key: 'all', label: '' },

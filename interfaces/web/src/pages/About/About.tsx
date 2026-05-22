@@ -37,6 +37,13 @@ import {
   EducationInfo,
   EducationStatus,
   ComplementaryText,
+  ExperienceCard,
+  ExperienceCardHeader,
+  ExperienceCardTitle,
+  ExperienceCardRole,
+  ExperienceCardSummary,
+  ExperienceBullets,
+  ExperienceBullet,
 } from './About.style';
 
 /* *************************************************************************************************
@@ -112,6 +119,29 @@ export const About: React.FC = (): React.ReactElement => {
         </IntroContent>
       </IntroSection>
 
+      <Section>
+        <SectionTitle>{t('about.industrialExperience.sectionTitle')}</SectionTitle>
+        <ExperienceCard
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          whileHover={{ y: -2 }}
+        >
+          <ExperienceCardHeader>
+            <ExperienceCardTitle>{t('about.industrialExperience.title')}</ExperienceCardTitle>
+          </ExperienceCardHeader>
+          <ExperienceCardRole>{t('about.industrialExperience.role')}</ExperienceCardRole>
+          <ExperienceCardSummary>{t('about.industrialExperience.summary')}</ExperienceCardSummary>
+          <ExperienceBullets>
+            <ExperienceBullet>{t('about.industrialExperience.items.dashboards')}</ExperienceBullet>
+            <ExperienceBullet>{t('about.industrialExperience.items.realtime')}</ExperienceBullet>
+            <ExperienceBullet>{t('about.industrialExperience.items.responsive')}</ExperienceBullet>
+            <ExperienceBullet>{t('about.industrialExperience.items.auth')}</ExperienceBullet>
+          </ExperienceBullets>
+        </ExperienceCard>
+      </Section>
+
       <StatsGrid
         variants={scrollRevealStagger}
         initial="hidden"
@@ -119,8 +149,8 @@ export const About: React.FC = (): React.ReactElement => {
         viewport={{ once: true, margin: '-60px' }}
       >
         <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
-        <StatCounter target={7} label={t('about.stats.certificates')} />
-        <StatCounter target={10} suffix="+" label={t('about.stats.technologies')} />
+        <StatCounter target={2} label={t('about.stats.dashboards')} />
+        <StatCounter target={5} label={t('about.stats.breakpoints')} />
       </StatsGrid>
 
       <PhilosophySection

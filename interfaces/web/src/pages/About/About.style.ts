@@ -215,3 +215,69 @@ export const ComplementaryText = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
 `;
+
+/* ************** INDUSTRIAL EXPERIENCE ******************* */
+
+export const ExperienceCard = styled(motion.div)`
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-left: 3px solid ${({ theme }) => theme.colors.primary};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  padding: ${({ theme }) => theme.spacing.xl};
+`;
+
+export const ExperienceCardHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const ExperienceCardTitle = styled.h4`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  margin: 0;
+`;
+
+export const ExperienceCardRole = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+`;
+
+export const ExperienceCardSummary = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  margin: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  padding-bottom: ${({ theme }) => theme.spacing.lg};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+`;
+
+export const ExperienceBullets = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+`;
+
+export const ExperienceBullet = styled.li`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textMuted};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  padding-left: ${({ theme }) => theme.spacing.lg};
+  position: relative;
+
+  &::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: ${({ theme }) => theme.colors.primary};
+  };
+`;
