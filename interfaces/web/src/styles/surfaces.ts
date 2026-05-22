@@ -2,18 +2,33 @@
 import { css } from 'styled-components';
 
 /**
+ * High-contrast internal inset rim — 1px hairline on ::before (Stripe/Vercel panel physics).
+ * Prefer merging into an existing ::before when the surface already defines one.
+ */
+export const surfaceInsetRim = css`
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 1;
+  }
+`;
+
+/**
  * Standard surface motion — align with theme.transitions / motionPresets.
  */
 export const surfaceMotion = css`
   transition:
-    transform ${({ theme }) => theme.transitions.normal},
-    box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast},
-    background-color ${({ theme }) => theme.transitions.fast};
+    background-color ${({ theme }) => theme.transitions.fast},
+    opacity ${({ theme }) => theme.transitions.fast};
 `;
 
 /**
- * CSS variables for pointer-driven card lighting.
+ * CSS variables for pointer-driven card lighting and operational caustic sweep.
  */
 export const cardPointerVars = css`
   --spot-x: 50%;
@@ -37,43 +52,49 @@ export const glassSurface = css`
 export const elevatedSurface = css`
   background-color: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 0;
+  }
 `;
 
 /**
- * Premium hover lift for cards and tiles.
+ * Premium hover lift for cards and tiles — transform handled by usePhysicalInteraction.
  */
 export const interactiveLift = css`
-  transition:
-    transform ${({ theme }) => theme.transitions.normal},
-    box-shadow ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast};
+  ${surfaceMotion};
 
   @media (hover: hover) {
     &:hover {
-      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-      box-shadow: ${({ theme }) => theme.elevation.lg};
       border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
 `;
 
 /**
- * Marketing glass card — rim + optional featured wash (no living+glass stack).
+ * Marketing glass card — rim light via ::before (no drop shadow stack).
  */
-/** Solid elevated panel — rim light without frosted blur (premium, not template glass). */
 export const cardMarketingGlass = css`
   background-color: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   position: relative;
   overflow: hidden;
-  box-shadow: ${({ theme }) => theme.elevation.md};
 
   &::before {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
     z-index: 0;
   }
@@ -97,12 +118,12 @@ export const buttonShine = css`
 `;
 
 /**
- * Shared hover lift utility (smaller displacement).
+ * Shared hover lift utility — transform via Framer spring (usePhysicalInteraction).
  */
 export const hoverLiftSm = css`
   @media (hover: hover) {
     &:hover {
-      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+      border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
 `;
@@ -113,7 +134,6 @@ export const hoverLiftSm = css`
 export const livingSurface = css`
   background: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  box-shadow: ${({ theme }) => theme.elevation.md};
   position: relative;
   overflow: hidden;
 
@@ -121,7 +141,9 @@ export const livingSurface = css`
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
     z-index: 0;
   };
@@ -146,13 +168,11 @@ export const featuredSpotlight = css`
 
 /**
  * Operational glass panel — control-room surfaces (Live Lab, observatory).
+ * ::before = 1px inset rim + rim wash; ::after = pointer-tracked caustic sweep.
  */
 export const operationalGlass = css`
   ${glassSurface};
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  box-shadow:
-    ${({ theme }) => theme.elevation.md},
-    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  ${cardPointerVars};
   position: relative;
   overflow: hidden;
 
@@ -160,10 +180,47 @@ export const operationalGlass = css`
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
     z-index: 0;
   }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background:
+      radial-gradient(
+        320px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+        ${({ theme }) => theme.colors.primary}16 0%,
+        transparent 58%
+      ),
+      conic-gradient(
+        from 140deg at var(--spot-x, 50%) var(--spot-y, 50%),
+        ${({ theme }) => theme.colors.primary}12 0deg,
+        transparent 55deg,
+        rgba(255, 255, 255, 0.05) 120deg,
+        transparent 200deg
+      );
+    opacity: var(--spot-opacity, 0);
+    mix-blend-mode: soft-light;
+    transition: opacity ${({ theme }) => theme.transitions.normal};
+    pointer-events: none;
+    z-index: 1;
+  }
+`;
+
+/**
+ * Deep instrument glass — hero portrait, immersion observatory frame (depth via gradient).
+ */
+export const operationalGlassDeep = css`
+  ${operationalGlass};
+  background:
+    ${({ theme }) => theme.colors.gradientGlassDepth},
+    ${({ theme }) => theme.colors.surfaceGlass};
 `;
 
 /**
@@ -171,13 +228,10 @@ export const operationalGlass = css`
  */
 export const cardOperationalCell = css`
   ${operationalGlass};
-  transition:
-    box-shadow ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast};
+  ${surfaceMotion};
 
   @media (hover: hover) {
     &:hover {
-      box-shadow: ${({ theme }) => theme.elevation.lg};
       border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
     }
   }
@@ -185,6 +239,7 @@ export const cardOperationalCell = css`
 
 /**
  * Pointer-driven glow via CSS variables (--spot-x, --spot-y, --spot-opacity).
+ * Use on marketing cards that do not already consume ::after via operationalGlass.
  */
 export const pointerSpotlight = css`
   &::after {
@@ -205,22 +260,20 @@ export const pointerSpotlight = css`
 `;
 
 /**
- * Hover lift + depth — no pointer glow (showcase, tiles).
+ * Hover lift + depth — transform via spring physics layer.
  */
 export const cardHoverElevated = css`
   ${surfaceMotion};
 
   @media (hover: hover) {
     &:hover {
-      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-      box-shadow: ${({ theme }) => theme.elevation.lg};
       border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
 `;
 
 /**
- * Premium hover + subtle spotlight (sparse marketing cards only).
+ * Premium hover + directional light sweep — motion via usePhysicalInteraction.
  */
 export const cardInteractive = css`
   ${cardPointerVars};
@@ -229,10 +282,7 @@ export const cardInteractive = css`
 
   @media (hover: hover) {
     &:hover {
-      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-      box-shadow: ${({ theme }) => theme.elevation.lg};
       border-color: ${({ theme }) => theme.colors.borderLight};
-      --spot-opacity: 0.55;
     }
   }
 `;
@@ -245,14 +295,15 @@ export const cardStatSignal = css`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   position: relative;
   overflow: hidden;
-  box-shadow: ${({ theme }) => theme.elevation.sm};
   border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
 
   &::before {
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
     z-index: 0;
   }
@@ -260,7 +311,7 @@ export const cardStatSignal = css`
   @media (hover: hover) {
     &:hover {
       border-left-color: ${({ theme }) => theme.colors.primary};
-      box-shadow: ${({ theme }) => theme.elevation.md};
+      border-color: ${({ theme }) => theme.colors.borderLight};
     }
   }
 `;
@@ -272,4 +323,54 @@ export const cardShowcaseSurface = css`
   ${cardMarketingGlass};
   transform-style: preserve-3d;
   ${cardHoverElevated};
+`;
+
+/**
+ * Inset rim on ::before — for panels that reserve ::after for scan/sweep layers.
+ */
+export const panelInsetRim = css`
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 0;
+  };
+`;
+
+/**
+ * Standard panel chrome — border + inset rim, no drop shadow.
+ */
+export const panelChrome = css`
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  ${panelInsetRim};
+`;
+
+/**
+ * Primary CTA inset highlight — pairs with buttonShine (::before).
+ */
+export const buttonPrimaryRim = css`
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+    pointer-events: none;
+    z-index: 2;
+  };
+`;
+
+/**
+ * Drawer / slide-over panel — left edge + inset rim.
+ */
+export const drawerPanelChrome = css`
+  border-left: 1px solid ${({ theme }) => theme.colors.border};
+  ${panelInsetRim};
 `;

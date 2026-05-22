@@ -10,6 +10,17 @@ export const motionEase = motionPresets.ease.out;
 
 export const motionEaseSoft = motionPresets.ease.inOut;
 
+/** Shared physical spring — stiffness 150, damping 20, mass 0.8. */
+export const physicalSpringTransition = motionPresets.spring.physical;
+
+/** Live Lab socket ticks — quick scale snap on value/counter changes. */
+export const telemetryMicroSnapTransition = motionPresets.spring.physical;
+
+/** Emil Kowalski-style layout morph — projector transitions between states. */
+export const layoutMorphTransition = {
+  layout: motionPresets.spring.physical,
+};
+
 // =================================================================================================
 // ======================================= PAGE TRANSITIONS ========================================
 // =================================================================================================
@@ -140,10 +151,15 @@ export const scrollRevealItem: Variants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: motionPresets.duration.slow,
-      ease: motionEase,
-    },
+    transition: physicalSpringTransition,
+  },
+};
+
+export const scrollRevealItemReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.fast },
   },
 };
 
@@ -264,10 +280,7 @@ export const staggerItem: Variants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: motionPresets.duration.staggerItem,
-      ease: motionEase,
-    },
+    transition: physicalSpringTransition,
   },
 };
 
@@ -286,10 +299,7 @@ export const editorialStaggerItem: Variants = {
   animate: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: motionPresets.duration.slow,
-      ease: motionEase,
-    },
+    transition: physicalSpringTransition,
   },
 };
 
@@ -309,10 +319,18 @@ export const showcaseStaggerItem: Variants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
-      duration: motionPresets.duration.slow,
-      ease: motionEase,
-    },
+    transition: physicalSpringTransition,
+  },
+};
+
+/** Category label reveal on editorial skill card hover. */
+export const skillCategoryLabelVariants: Variants = {
+  hidden: { y: 6, opacity: 0 },
+  visible: { y: 6, opacity: 0 },
+  hover: {
+    y: 0,
+    opacity: 1,
+    transition: physicalSpringTransition,
   },
 };
 
@@ -327,6 +345,188 @@ export const heroClipReveal: Variants = {
     transition: {
       duration: motionPresets.duration.hero,
       ease: motionEase,
+    },
+  },
+};
+
+// =================================================================================================
+// =================================== HERO BOOT ORCHESTRATION =====================================
+// =================================================================================================
+
+/** Control-room master sequence — modules boot in deliberate order. */
+export const heroBootSequence: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: motionPresets.stagger.heroBootModule,
+      delayChildren: motionPresets.stagger.heroDelay,
+    },
+  },
+};
+
+/** Mono status rail container — first signals in the boot sequence. */
+export const heroBootStatusStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: motionPresets.stagger.heroBootChip,
+      delayChildren: 0,
+    },
+  },
+};
+
+/** Mono status rail — first signal before copy lands. */
+export const heroBootStatus: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -motionPresets.distance.fadeSide,
+    filter: 'blur(2px)',
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEase,
+    },
+  },
+};
+
+/** Single headline word — clip-masked boot reveal (custom index = orchestrated delay). */
+export const heroBootWord: Variants = {
+  hidden: {
+    opacity: 0,
+    y: '112%',
+    filter: 'blur(4px)',
+  },
+  visible: (wordIndex: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.hero,
+      ease: motionEase,
+      delay: motionPresets.delay.heroWordBase + wordIndex * motionPresets.stagger.heroWord,
+    },
+  }),
+};
+
+/** Single headline character — fast vertical mask reveal (no opacity fade). */
+export const heroBootChar: Variants = {
+  hidden: { y: '108%' },
+  visible: (charIndex: number) => ({
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.heroChar,
+      ease: motionEase,
+      delay: motionPresets.delay.heroCharBase + charIndex * motionPresets.stagger.heroChar,
+    },
+  }),
+};
+
+/** Operational module — description, stats, CTAs. */
+export const heroBootModule: Variants = {
+  hidden: {
+    opacity: 0,
+    y: motionPresets.distance.item,
+    filter: 'blur(2px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEase,
+    },
+  },
+};
+
+/** Stack chip stagger — runtime labels boot sequentially. */
+export const heroBootChipStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: motionPresets.stagger.heroBootChip,
+      delayChildren: motionPresets.delay.heroBootChip,
+    },
+  },
+};
+
+/** Single stack technology chip. */
+export const heroBootChip: Variants = {
+  hidden: {
+    opacity: 0,
+    y: motionPresets.distance.message,
+    filter: 'blur(2px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.fast,
+      ease: motionEase,
+    },
+  },
+};
+
+/** Portrait / telemetry panel — enters the right void after copy stabilizes. */
+export const heroBootPanel: Variants = {
+  hidden: {
+    opacity: 0,
+    x: motionPresets.distance.heroReveal,
+    filter: 'blur(3px)',
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: motionPresets.duration.slow,
+      ease: motionEase,
+      delay: motionPresets.delay.heroBootPanel,
+    },
+  },
+};
+
+export const heroBootStatusReduced: Variants = scrollRevealReduced;
+
+export const heroBootWordReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+};
+
+export const heroBootCharReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.fast, ease: motionEase },
+  },
+};
+
+export const heroBootModuleReduced: Variants = scrollRevealReduced;
+
+export const heroBootChipReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.fast, ease: motionEase },
+  },
+};
+
+export const heroBootPanelReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: motionPresets.duration.normal,
+      ease: motionEase,
+      delay: 0.12,
     },
   },
 };
@@ -407,8 +607,14 @@ export const scaleIn: Variants = {
 
 export const scaleOnHover: Variants = {
   initial: { scale: 1 },
-  hover: { scale: 1.02 },
-  tap: { scale: 0.98 },
+  hover: {
+    scale: 1.02,
+    transition: physicalSpringTransition,
+  },
+  tap: {
+    scale: 0.98,
+    transition: physicalSpringTransition,
+  },
 };
 
 // =================================================================================================
@@ -556,9 +762,53 @@ export const cardHover: Variants = {
   initial: { y: 0 },
   hover: {
     y: -4,
-    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+    transition: physicalSpringTransition,
   },
 };
+
+/** Projector-style panel expansion — opacity + layout spring, no height tween. */
+export const layoutMorphPanel: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.985,
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      opacity: {
+        duration: motionPresets.duration.normal,
+        ease: motionEase,
+      },
+      scale: physicalSpringTransition,
+      layout: physicalSpringTransition,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.985,
+    transition: {
+      duration: motionPresets.duration.fast,
+      ease: motionEaseSoft,
+    },
+  },
+};
+
+export const layoutMorphPanelReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: motionPresets.duration.fast, ease: motionEaseSoft },
+  },
+};
+
+export const resolveLayoutMorphPanel = (reducedMotion: boolean): Variants => (
+  reducedMotion ? layoutMorphPanelReduced : layoutMorphPanel
+);
 
 // =================================================================================================
 // ======================================= UTILITY FUNCTIONS =======================================
