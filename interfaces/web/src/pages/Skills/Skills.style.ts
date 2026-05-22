@@ -211,18 +211,14 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  background-color: ${({ $active, theme }) =>
-    $active ? theme.colors.primary : theme.colors.surface};
-  color: ${({ $active, theme }) =>
-    $active ? theme.colors.onPrimary : theme.colors.textSecondary};
-  border: 1px solid ${({ $active, theme }) =>
-    $active ? theme.colors.primary : theme.colors.border};
+  background-color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.surface)};
+  color: ${({ $active, theme }) => ($active ? theme.colors.onPrimary : theme.colors.textSecondary)};
+  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.border)};
   transition: all ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ $active, theme }) =>
-      $active ? theme.colors.onPrimary : theme.colors.primary};
+    color: ${({ $active, theme }) => ($active ? theme.colors.onPrimary : theme.colors.primary)};
   };
 `;
 
@@ -586,6 +582,35 @@ export const CertificateHours = styled.span`
 `;
 
 /**
+ * Error message for failed API loads.
+ */
+export const ErrorMessage = styled.p`
+  color: ${({ theme }) => theme.colors.error};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  text-align: center;
+`;
+
+/**
+ * Retry button for error states.
+ */
+export const RetryButton = styled.button`
+  display: block;
+  margin: 0 auto;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  background: ${({ theme }) => theme.colors.gradientButtonPrimary};
+  color: ${({ theme }) => theme.colors.onPrimary};
+  border: none;
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  cursor: pointer;
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.shadows.glow};
+  };
+`;
+
+/**
  * External link icon on certificate card.
  */
 export const CertificateLink = styled.div`
@@ -781,9 +806,8 @@ export const ModalButton = styled.button<ModalButtonProps>`
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   transition: all ${({ theme }) => theme.transitions.fast};
 
-  ${({ $variant, $platformColor, theme }) =>
-    $variant === 'primary'
-      ? `
+  ${({ $variant, $platformColor, theme }) => ($variant === 'primary'
+    ? `
           background-color: ${$platformColor || theme.colors.primary};
           color: white;
 
@@ -792,12 +816,12 @@ export const ModalButton = styled.button<ModalButtonProps>`
             transform: translateY(-2px);
           }
         `
-      : `
+    : `
           background-color: ${theme.colors.backgroundSecondary};
           color: ${theme.colors.textSecondary};
 
           &:hover {
             background-color: ${theme.colors.border};
           }
-        `}
+        `)}
 `;
