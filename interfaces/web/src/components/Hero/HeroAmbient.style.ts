@@ -77,7 +77,7 @@ export const HeroScanLine = styled.div`
     ${({ theme }) => theme.colors.accent}55 80%,
     transparent
   );
-  box-shadow: 0 0 24px ${({ theme }) => theme.colors.accent}44;
+  box-shadow: 0 0 12px ${({ theme }) => theme.colors.accent}28;
   animation: ${({ theme }) => scanSweep(theme)} 9s linear infinite;
 
   @media (prefers-reduced-motion: reduce) {
@@ -88,5 +88,5 @@ export const HeroScanLine = styled.div`
 export const HeroMouseGlow = styled(motion.div)`
   position: absolute;
   inset: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity ${({ theme }) => theme.transitions.slow};
 `;

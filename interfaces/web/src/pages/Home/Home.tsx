@@ -1,5 +1,5 @@
 /**
- * @fileoverview Home page — cinematic one-page narrative with premium sections.
+ * @fileoverview Home — cinematic product narrative (not a card grid portfolio).
  */
 
 // Core
@@ -14,256 +14,45 @@ import { Language } from '@/types';
 // Hooks
 import { useProjects } from '@/hooks';
 
-// Config
-import { publicAssetUrl } from '@/config/env';
-
 // Components
-import { ProjectShowcaseDetailMode, ProjectShowcaseGrid } from '@/components/ProjectShowcase';
 import { Hero } from '@/components/Hero';
-import { LiveLabObservatory } from '@/components/home/LiveLabObservatory';
 import { RealtimePresence } from '@/components/home/RealtimePresence';
-import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
-import {
-  scrollReveal,
-  scrollRevealStagger,
-  scrollRevealItem,
-} from '@/styles/animations';
+import { HomeManifestoStrip } from '@/components/home/HomeManifestoStrip';
+import { HomeWorkStage } from '@/components/home/HomeWorkStage';
+import { HomeLiveLabImmersion } from '@/components/home/HomeLiveLabImmersion';
+import { HomeCapabilityRail } from '@/components/home/HomeCapabilityRail';
+import { HomeChapterClose } from '@/components/home/HomeChapterClose';
 
-// View
-import {
-  Section,
-  SectionTitle,
-  SectionLead,
-  SectionEyebrow,
-  SectionIndex,
-  SectionStory,
-  ProjectsSectionHeader,
-  ProjectsSectionMain,
-  EditorialHeaderAside,
-  ViewAllProjectsLink,
-  SkeletonGrid,
-  ErrorMessage,
-  RetryButton,
-  SkillsPreviewSection,
-  SkillsPreviewDescription,
-  SkillsEditorialLayout,
-  SkillsEditorialIntro,
-  SkillsGrid,
-  SkillIcon,
-  ViewAllLinkWrapper,
-  ViewAllLink,
-  LiveLabSection,
-  LiveLabCard,
-  LiveLabCopy,
-  LiveLabVisual,
-  LiveBadge,
-  LiveLabSectionTitle,
-  LiveLabDescription,
-  CTAButton,
-  AboutPreviewSection,
-  AboutPreviewLayout,
-  AboutPreviewMain,
-  AboutPreviewLink,
-  ContactCtaSection,
-  ContactCtaInner,
-  ContactCtaDescription,
-  ContactCtaActions,
-} from '@/pages/Home/Home.style';
-
-interface SkillItem {
-  name: string;
-  icon: string;
-}
-
-const PREVIEW_SKILLS: SkillItem[] = [
-  { name: 'React', icon: publicAssetUrl('icons/react.svg') },
-  { name: 'TypeScript', icon: publicAssetUrl('icons/typescript.svg') },
-  { name: 'Python', icon: publicAssetUrl('icons/python.svg') },
-  { name: 'FastAPI', icon: publicAssetUrl('icons/fastapi.svg') },
-  { name: 'PostgreSQL', icon: publicAssetUrl('icons/postgresql.svg') },
-  { name: 'Docker', icon: publicAssetUrl('icons/docker.svg') },
-];
-
-const vp = { once: true, margin: '-80px' };
-const vpSm = { once: true, margin: '-40px' };
+// =================================================================================================
+// ========================================== COMPONENT ============================================
+// =================================================================================================
 
 export function Home(): React.ReactElement {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const {
-    data: projects, isLoading, isError, refetch,
+    data: projects,
+    isLoading,
+    isError,
+    refetch,
   } = useProjects();
 
   const currentLanguage: Language = i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
-
-  const renderProjects = (): React.ReactElement => {
-    if (isLoading) {
-      return (
-        <SkeletonGrid>
-          {[1, 2, 3].map((i: number) => (
-            <ProjectCardSkeleton key={i} />
-          ))}
-        </SkeletonGrid>
-      );
-    }
-
-    if (isError) {
-      return (
-        <ErrorMessage>
-          <p>{t('home.projectsError')}</p>
-          <RetryButton onClick={() => refetch()}>
-            {t('common.retry')}
-          </RetryButton>
-        </ErrorMessage>
-      );
-    }
-
-    const list = (projects || []).slice(0, 4);
-    return (
-      <ProjectShowcaseGrid
-        projects={list}
-        language={currentLanguage}
-        compact
-        detailMode={ProjectShowcaseDetailMode.Inline}
-      />
-    );
-  };
 
   return (
     <>
       <Hero />
       <RealtimePresence />
-
-      <SkillsPreviewSection id="section-capabilities">
-        <SkillsEditorialLayout>
-          <SkillsEditorialIntro>
-            <SectionEyebrow>{t('home.sections.skills.eyebrow')}</SectionEyebrow>
-            <SectionTitle
-              variants={scrollReveal}
-              initial="hidden"
-              whileInView="visible"
-              viewport={vp}
-            >
-              {t('home.skillsPreview.title')}
-            </SectionTitle>
-            <SkillsPreviewDescription>
-              {t('home.skillsPreview.description')}
-            </SkillsPreviewDescription>
-            <ViewAllLinkWrapper>
-              <ViewAllLink to="/skills">
-                {t('home.skillsPreview.viewAll')}
-                {' '}
-                →
-              </ViewAllLink>
-            </ViewAllLinkWrapper>
-          </SkillsEditorialIntro>
-          <SkillsGrid
-            variants={scrollRevealStagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={vpSm}
-          >
-            {PREVIEW_SKILLS.map((skill: SkillItem) => (
-              <SkillIcon key={skill.name} variants={scrollRevealItem}>
-                <img src={skill.icon} alt={skill.name} />
-                <span>{skill.name}</span>
-              </SkillIcon>
-            ))}
-          </SkillsGrid>
-        </SkillsEditorialLayout>
-      </SkillsPreviewSection>
-
-      <Section id="section-work">
-        <ProjectsSectionHeader>
-          <SectionIndex>{t('home.sections.projects.index')}</SectionIndex>
-          <ProjectsSectionMain>
-            <SectionEyebrow>{t('home.sections.projects.eyebrow')}</SectionEyebrow>
-            <SectionTitle
-              variants={scrollReveal}
-              initial="hidden"
-              whileInView="visible"
-              viewport={vp}
-            >
-              {t('projects.sectionTitle')}
-            </SectionTitle>
-            <SectionLead>{t('projects.sectionLead')}</SectionLead>
-          </ProjectsSectionMain>
-          <EditorialHeaderAside>
-            <SectionStory>{t('home.sections.projects.story')}</SectionStory>
-            <ViewAllProjectsLink to="/projects">
-              {t('home.sections.projects.viewAll')}
-              {' '}
-              →
-            </ViewAllProjectsLink>
-          </EditorialHeaderAside>
-        </ProjectsSectionHeader>
-        {renderProjects()}
-      </Section>
-
-      <LiveLabSection id="live-lab-preview">
-        <SectionEyebrow>{t('home.sections.liveLab.eyebrow')}</SectionEyebrow>
-        <LiveLabSectionTitle>{t('home.liveLabPreview.title')}</LiveLabSectionTitle>
-        <LiveLabCard
-          variants={scrollReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={vp}
-        >
-          <LiveLabCopy>
-            <LiveBadge>{t('home.liveLabPreview.badge')}</LiveBadge>
-            <LiveLabDescription>
-              {t('home.liveLabPreview.description')}
-            </LiveLabDescription>
-            <CTAButton to="/live-lab">
-              {t('home.liveLabPreview.cta')}
-            </CTAButton>
-          </LiveLabCopy>
-          <LiveLabVisual>
-            <LiveLabObservatory />
-          </LiveLabVisual>
-        </LiveLabCard>
-      </LiveLabSection>
-
-      <AboutPreviewSection id="section-about">
-        <AboutPreviewLayout
-          variants={scrollReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={vp}
-        >
-          <AboutPreviewMain>
-            <SectionEyebrow>{t('home.sections.about.eyebrow')}</SectionEyebrow>
-            <SectionTitle>{t('home.aboutPreview.title')}</SectionTitle>
-            <SectionLead>{t('home.aboutPreview.description')}</SectionLead>
-          </AboutPreviewMain>
-          <AboutPreviewLink to="/about">
-            {t('home.aboutPreview.cta')}
-            {' '}
-            →
-          </AboutPreviewLink>
-        </AboutPreviewLayout>
-      </AboutPreviewSection>
-
-      <ContactCtaSection id="section-contact">
-        <ContactCtaInner
-          variants={scrollReveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={vp}
-        >
-          <div>
-            <SectionEyebrow>{t('home.sections.contact.eyebrow')}</SectionEyebrow>
-            <SectionTitle>{t('home.contactCta.title')}</SectionTitle>
-            <ContactCtaDescription>
-              {t('home.contactCta.description')}
-            </ContactCtaDescription>
-          </div>
-          <ContactCtaActions>
-            <CTAButton to="/contact">
-              {t('home.contactCta.cta')}
-            </CTAButton>
-          </ContactCtaActions>
-        </ContactCtaInner>
-      </ContactCtaSection>
+      <HomeManifestoStrip />
+      <HomeWorkStage
+        projects={projects}
+        language={currentLanguage}
+        isLoading={isLoading}
+        isError={isError}
+        onRetry={() => refetch()}
+      />
+      <HomeLiveLabImmersion />
+      <HomeCapabilityRail />
+      <HomeChapterClose />
     </>
   );
 }

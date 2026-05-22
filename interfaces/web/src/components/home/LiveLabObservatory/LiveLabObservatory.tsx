@@ -10,6 +10,7 @@ import { SensorStatus } from '@/types/telemetry';
 
 // Hooks
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 
 // Components
 import {
@@ -159,6 +160,8 @@ function AnimatedValue({
  */
 export function LiveLabObservatory(): React.ReactElement {
   const { t } = useTranslation();
+  const { status } = useSystemHealth();
+  const isApiLive = status === SystemHealthStatus.Online;
   const reduced = usePrefersReducedMotion();
   const [logIndex, setLogIndex] = useState(0);
   const [tick, setTick] = useState(0);
@@ -194,7 +197,11 @@ export function LiveLabObservatory(): React.ReactElement {
     <ObservatoryRoot>
       <ObservatoryChrome>
         <ObservatoryTitle>{t('home.liveLabPreview.observatoryTitle', 'Operations · Telemetry')}</ObservatoryTitle>
-        <ObservatoryLive>{t('home.liveLabPreview.badge')}</ObservatoryLive>
+        <ObservatoryLive $live={isApiLive}>
+          {isApiLive
+            ? t('home.liveLabPreview.badge')
+            : t('home.hero.liveMicro.apiSync')}
+        </ObservatoryLive>
       </ObservatoryChrome>
       <ObservatoryBody>
         <SensorPanel>

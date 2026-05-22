@@ -16,7 +16,9 @@ import { env } from '@/config/env';
 import { useAdminChatStore } from '@/store/adminChatStore';
 import { useAuthStore } from '@/store';
 
-// Styles
+// =================================================================================================
+// ============================================ STYLES =============================================
+// =================================================================================================
 import { staggerContainer, staggerItem } from '@/styles/animations';
 import {
   PageContainer,

@@ -4,7 +4,9 @@ import styled, { keyframes } from 'styled-components';
 // Types
 import type { SpinnerContainerProps } from '@/components/common/Spinner/Spinner.types';
 
-/* ************** SPINNER ANIMATION ******************* */
+// =================================================================================================
+// ======================================= SPINNER ANIMATION =======================================
+// =================================================================================================
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }

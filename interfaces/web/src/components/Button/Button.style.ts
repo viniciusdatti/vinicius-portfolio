@@ -40,11 +40,11 @@ export const StyledButton = styled.button<StyledButtonProps>`
           background: ${theme.colors.gradientButtonPrimary};
           color: ${theme.colors.onPrimary};
           border-color: transparent;
-          box-shadow: ${theme.shadows.sm}, ${theme.shadows.glow};
+          box-shadow: ${theme.elevation.sm};
           ${buttonShine};
 
           &:hover {
-            box-shadow: ${theme.shadows.md}, ${theme.shadows.glow};
+            box-shadow: ${theme.elevation.md};
             transform: translateY(-${theme.motion.distance.liftSm});
           };
 

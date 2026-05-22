@@ -25,34 +25,46 @@ export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
   };
 `;
 
-export const HeaderShell = styled.div<{ $scrolled: boolean }>`
+export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boolean }>`
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme, $isWorkspace }) => ($isWorkspace
+    ? `${theme.spacing.sm} ${theme.spacing.md}`
+    : `${theme.spacing.sm} ${theme.spacing.lg}`)};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   border: 1px solid
-    ${({ $scrolled, theme }) => ($scrolled ? theme.colors.border : 'transparent')};
-  background: ${({ $scrolled, theme }) => ($scrolled ? theme.colors.surfaceGlass : 'transparent')};
-  backdrop-filter: ${({ $scrolled, theme }) => ($scrolled ? theme.effects.backdrop.header : 'none')};
-  -webkit-backdrop-filter: ${({ $scrolled, theme }) => ($scrolled ? theme.effects.backdrop.header : 'none')};
-  box-shadow: ${({ $scrolled, theme }) => ($scrolled ? theme.shadows.md : 'none')};
+    ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.colors.border
+    : 'transparent')};
+  background: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.colors.surfaceGlass
+    : 'transparent')};
+  backdrop-filter: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.effects.backdrop.header
+    : 'none')};
+  -webkit-backdrop-filter: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.effects.backdrop.header
+    : 'none')};
+  box-shadow: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.shadows.md
+    : 'none')};
   transition:
     background ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.normal},
     box-shadow ${({ theme }) => theme.transitions.normal},
     backdrop-filter ${({ theme }) => theme.transitions.normal};
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
 `;
 
-export const HeaderContent = styled.div`
+export const HeaderContent = styled.div<{ $isWorkspace?: boolean }>`
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: ${({ $isWorkspace }) => ($isWorkspace ? 'auto 1fr auto' : 'auto 1fr auto')};
   align-items: center;
-  justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.md};
   min-width: 0;
 `;
@@ -72,12 +84,10 @@ export const HeaderCenter = styled.div<{ $isWorkspace?: boolean }>`
 export const HeaderTrailing = styled.div<{ $isWorkspace?: boolean }>`
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: ${({ theme }) => theme.spacing.sm};
-  flex-shrink: ${({ $isWorkspace }) => ($isWorkspace ? '0' : '1')};
-  flex: ${({ $isWorkspace }) => ($isWorkspace ? '1' : '0 1 auto')};
-  justify-content: ${({ $isWorkspace }) => ($isWorkspace ? 'flex-end' : 'flex-start')};
+  flex-shrink: 0;
   min-width: 0;
-  overflow: hidden;
 `;
 
 export const Logo = styled(MotionLink)`
@@ -132,7 +142,6 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
-    letter-spacing: 0.1em;
   };
 
   &::after {
@@ -144,7 +153,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
     height: 2px;
     border-radius: ${({ theme }) => theme.borderRadius.full};
     background: ${({ theme }) => theme.colors.gradientNavUnderline};
-    transition: width 380ms ${({ theme }) => theme.motion.easeSpring};
+    transition: width ${({ theme }) => theme.transitions.normal};
   };
 
   &:hover::after {

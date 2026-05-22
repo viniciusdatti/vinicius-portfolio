@@ -1,23 +1,51 @@
 // Libraries
 import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 
+// Components
+import { glassSurface } from '@/styles/surfaces';
+
 const progressPulse = (theme: DefaultTheme) => keyframes`
   0% {
     opacity: ${theme.effects.opacity.heroGlowMin};
-  };
+  }
   50% {
     opacity: ${theme.effects.opacity.heroGlowMax};
-  };
+  }
   100% {
     opacity: ${theme.effects.opacity.heroGlowMin};
-  };
+  }
+`;
+
+const shimmer = keyframes`
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
 `;
 
 export const BootRoot = styled.div`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceElevated};
+  ${glassSurface};
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      ${({ theme }) => theme.colors.primary}12 50%,
+      transparent
+    );
+    animation: ${shimmer} 3.5s ease-in-out infinite;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  }
 `;
 
 export const BootRow = styled.div`
@@ -26,6 +54,8 @@ export const BootRow = styled.div`
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.lg};
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 `;
 
 export const BootCopy = styled.div`
@@ -36,7 +66,7 @@ export const BootTitle = styled.p`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin: 0 0 ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.colors.textMuted};
@@ -44,19 +74,21 @@ export const BootTitle = styled.p`
 
 export const BootPhase = styled.p`
   margin: 0;
-  font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.textMuted};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.text};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  letter-spacing: 0.04em;
 `;
 
 export const BootTrack = styled.div`
   flex: 1;
-  min-width: 120px;
-  max-width: 280px;
-  height: 3px;
+  min-width: 140px;
+  max-width: 360px;
+  height: 4px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background: ${({ theme }) => theme.colors.borderSubtle};
   overflow: hidden;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
 `;
 
 export const BootFill = styled.div<{ $progress: number; $live: boolean }>`
@@ -65,6 +97,7 @@ export const BootFill = styled.div<{ $progress: number; $live: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background: ${({ theme }) => theme.colors.gradientLiveLabBar};
   transition: width ${({ theme }) => theme.transitions.slow};
+  box-shadow: 0 0 6px ${({ theme }) => theme.colors.primary}33;
   ${({ $live, theme }) => $live && css`
     animation: ${progressPulse(theme)} 2.4s ease-in-out infinite;
   `};

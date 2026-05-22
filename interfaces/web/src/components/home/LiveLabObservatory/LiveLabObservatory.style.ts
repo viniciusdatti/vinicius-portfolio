@@ -1,5 +1,5 @@
 // Libraries
-import styled, { keyframes, DefaultTheme } from 'styled-components';
+import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
@@ -69,12 +69,12 @@ export const ObservatoryTitle = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-export const ObservatoryLive = styled.span`
+export const ObservatoryLive = styled.span<{ $live?: boolean }>`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.success};
+  color: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
   letter-spacing: 0.08em;
 
   &::before {
@@ -82,9 +82,11 @@ export const ObservatoryLive = styled.span`
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: ${({ theme }) => theme.colors.success};
-    box-shadow: 0 0 8px ${({ theme }) => theme.colors.success};
-    animation: ${pulseRing} 2.2s ease-out infinite;
+    background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
+    box-shadow: ${({ $live, theme }) => ($live ? `0 0 8px ${theme.colors.success}` : 'none')};
+    ${({ $live }) => $live && css`
+      animation: ${pulseRing} 2.2s ease-out infinite;
+    `}
   }
 `;
 

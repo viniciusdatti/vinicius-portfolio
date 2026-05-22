@@ -16,14 +16,14 @@ export const LiveMicroRoot = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: ${({ theme }) => theme.spacing.lg};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
-  -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  background: ${({ theme }) => theme.colors.surfaceElevated};
   width: 100%;
   max-width: 280px;
+  box-shadow: ${({ theme }) => theme.elevation.sm};
 `;
 
 export const LiveMicroDot = styled.span<{ $live: boolean }>`

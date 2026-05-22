@@ -22,12 +22,6 @@ const getThresholdFillColor = (status: SensorStatus, theme: DefaultTheme): strin
   return theme.colors.accent;
 };
 
-const getThresholdStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === SensorStatus.Critical) return theme.colors.error;
-  if (status === SensorStatus.Warn) return theme.colors.warning;
-  return theme.colors.textMuted;
-};
-
 type EventLogType = 'info' | 'warn' | 'critical';
 
 const getEventLogLineColor = (type: EventLogType, theme: DefaultTheme): string => {
@@ -50,15 +44,25 @@ const slideIn = keyframes`
  * Subtle flash that plays when a sensor value updates.
  * Applied by re-mounting the element via React key change.
  */
-const valueFlash = keyframes`
-  0%   { opacity: 0.45; transform: scale(0.97); }
-  40%  { opacity: 1;    transform: scale(1.02); }
-  100% { opacity: 1;    transform: scale(1); }
+const valueFlash = (theme: DefaultTheme) => keyframes`
+  0%   { background-color: ${theme.colors.primarySurface}; }
+  100% { background-color: transparent; }
 `;
 
 const ambientPulse = keyframes`
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.7; }
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.55; }
+`;
+
+const headerScan = keyframes`
+  0% { left: -30%; opacity: 0; }
+  12% { opacity: 0.5; }
+  100% { left: 130%; opacity: 0; }
+`;
+
+const cursorBlink = keyframes`
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
 `;
 
 export const MonitorRoot = styled.div`
@@ -97,8 +101,59 @@ export const MonitorHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  flex-shrink: 0;
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 28%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      ${({ theme }) => theme.colors.accent}88,
+      transparent
+    );
+    animation: ${headerScan} 8s ease-in-out infinite;
+    pointer-events: none;
+
+    @media (prefers-reduced-motion: reduce) {
+      display: none;
+    }
+  }
+`;
+
+export const MonitorHeaderGroup = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  flex-wrap: wrap;
+  min-width: 0;
+`;
+
+export const MonitorToolbar = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.md};
+  font-size: ${({ theme }) => theme.typography.fontSize.caption};
+  color: ${({ theme }) => theme.colors.textMuted};
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+`;
+
+export const ToolbarSep = styled.span`
+  width: 1px;
+  height: 12px;
+  background: ${({ theme }) => theme.colors.borderSubtle};
   flex-shrink: 0;
 `;
 
@@ -125,7 +180,7 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
   flex-shrink: 0;
   background: ${({ $connected, theme }) => ($connected ? theme.colors.success : theme.colors.textMuted)};
   ${({ $connected }) => $connected
-    && css`animation: ${blink} 2s ease-in-out infinite;`};
+    && css`animation: ${blink} 2.2s ease-in-out infinite;`};
 `;
 
 export const MonitorBody = styled.div`
@@ -142,16 +197,17 @@ export const MonitorBody = styled.div`
 
 export const MonitorChartPane = styled.div`
   flex: 1;
-  min-height: 220px;
+  min-height: 280px;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.md};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     border-bottom: none;
-    border-right: 1px solid ${({ theme }) => theme.colors.border};
+    border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
     min-height: 0;
-  };
+  }
 `;
 
 export const MonitorSensorsPane = styled.div`
@@ -159,22 +215,20 @@ export const MonitorSensorsPane = styled.div`
   min-width: 0;
   overflow-y: auto;
   max-height: 42vh;
+  padding: ${({ theme }) => theme.spacing.md};
+  background: ${({ theme }) => theme.colors.background};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    width: min(420px, 38vw);
+    width: min(340px, 34vw);
     max-height: none;
-  };
+  }
 `;
 
 export const MonitorGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1px;
-  background: ${({ theme }) => theme.colors.border};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr 1fr;
-  };
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+  min-width: 0;
 `;
 
 const sensorSweep = keyframes`
@@ -183,15 +237,25 @@ const sensorSweep = keyframes`
   100% { transform: translateX(200%); opacity: 0; }
 `;
 
-export const SensorCard = styled.div<{ $status: SensorStatus }>`
-  background: ${({ theme }) => theme.colors.surfaceElevated};
+export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: number }>`
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   position: relative;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
   box-shadow:
     inset 0 1px 0 ${({ theme }) => theme.colors.borderLight},
-    ${({ theme }) => theme.elevation.sm};
+    ${({ theme }) => theme.elevation.md};
+  transition:
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast};
+
+  &:hover {
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+    border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+  }
 
   &::before {
     content: '';
@@ -202,7 +266,7 @@ export const SensorCard = styled.div<{ $status: SensorStatus }>`
     height: 2px;
     background: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
     transition: background ${({ theme }) => theme.transitions.normal};
-    box-shadow: 0 0 12px ${({ $status, theme }) => getSensorStatusColor($status, theme)}55;
+    opacity: 0.9;
   }
 
   &::after {
@@ -212,10 +276,11 @@ export const SensorCard = styled.div<{ $status: SensorStatus }>`
     background: linear-gradient(
       105deg,
       transparent 42%,
-      ${({ theme }) => theme.colors.primary}06 50%,
+      ${({ theme }) => theme.colors.primary}05 50%,
       transparent 58%
     );
-    animation: ${sensorSweep} 5s ease-in-out infinite;
+    animation: ${sensorSweep} 7s ease-in-out infinite;
+    animation-delay: ${({ $sweepDelay }) => ($sweepDelay ?? 0)}s;
     pointer-events: none;
 
     @media (prefers-reduced-motion: reduce) {
@@ -224,16 +289,32 @@ export const SensorCard = styled.div<{ $status: SensorStatus }>`
   }
 `;
 
-export const SensorValueCell = styled.div`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 3.5rem;
+export const SensorCardInner = styled.div`
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+  min-width: 0;
+`;
+
+export const SensorHeader = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const SensorStatusBadge = styled.span<{ $status: SensorStatus }>`
+  flex-shrink: 0;
+  font-size: ${({ theme }) => theme.typography.fontSize.caption};
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   padding: 2px ${({ theme }) => theme.spacing.sm};
-  border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-  box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border: 1px solid ${({ $status, theme }) => getSensorStatusColor($status, theme)}55;
+  color: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
+  background: ${({ $status, theme }) => getSensorStatusColor($status, theme)}14;
 `;
 
 export const SensorLabel = styled.div`
@@ -241,31 +322,36 @@ export const SensorLabel = styled.div`
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
+  line-height: 1.3;
+  min-width: 0;
 `;
 
 export const SensorValueRow = styled.div`
   display: flex;
   align-items: baseline;
-  gap: ${({ theme }) => theme.spacing.xs};
+  flex-wrap: wrap;
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 export const SensorValue = styled.span<{ $status: SensorStatus }>`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: ${({ theme }) => theme.typography.fontSize.xl};
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.1;
   color: ${({ $status, theme }) => getSensorValueColor($status, theme)};
   transition: color ${({ theme }) => theme.transitions.normal};
   font-variant-numeric: tabular-nums;
-  display: inline-block;
-  animation: ${valueFlash} 260ms ${({ theme }) => theme.motion.easeOut} both;
+  white-space: nowrap;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  padding: 2px 4px;
+  margin: -2px -4px;
+  animation: ${({ theme }) => valueFlash(theme)} 320ms ${({ theme }) => theme.motion.easeOut} both;
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;
-  };
+  }
 `;
 
 export const SensorUnit = styled.span`
@@ -274,11 +360,11 @@ export const SensorUnit = styled.span`
 `;
 
 export const ThresholdBar = styled.div`
-  height: 2px;
+  position: relative;
+  height: 4px;
   background: ${({ theme }) => theme.colors.border};
-  border-radius: 1px;
-  overflow: hidden;
-  margin-top: ${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  overflow: visible;
 `;
 
 export const ThresholdFill = styled.div<{
@@ -287,39 +373,46 @@ export const ThresholdFill = styled.div<{
 }>`
   height: 100%;
   width: ${({ $pct }) => Math.min($pct, 100)}%;
+  border-radius: inherit;
   background: ${({ $status, theme }) => getThresholdFillColor($status, theme)};
-  transition: width 0.5s ${({ theme }) => theme.motion.easeOut},
+  transition: width 0.55s ${({ theme }) => theme.motion.easeOut},
               background ${({ theme }) => theme.transitions.fast};
+  box-shadow: ${({ $status, theme }) => ($status === SensorStatus.Critical
+    ? `0 0 8px ${theme.colors.error}44`
+    : 'none')};
 `;
 
-export const ThresholdMeta = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: ${({ theme }) => theme.spacing.xs};
-`;
-
-export const ThresholdStatus = styled.span<{ $status: SensorStatus }>`
-  font-size: ${({ theme }) => theme.typography.fontSize.caption};
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: ${({ $status, theme }) => getThresholdStatusColor($status, theme)};
+export const ThresholdCritMarker = styled.span<{ $pct: number }>`
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: ${({ $pct }) => `${Math.min($pct, 100)}%`};
+  width: 2px;
+  transform: translateX(-1px);
+  background: ${({ theme }) => theme.colors.error};
+  border-radius: 1px;
+  opacity: 0.65;
+  pointer-events: none;
 `;
 
 export const ThresholdLimit = styled.span`
+  display: block;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
+  letter-spacing: 0.06em;
   color: ${({ theme }) => theme.colors.textMuted};
-  opacity: 0.6;
+  white-space: nowrap;
 `;
 
 export const EventLogRoot = styled.div`
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
-  max-height: min(28vh, 220px);
-  min-height: 140px;
+  max-height: min(32vh, 240px);
+  min-height: 152px;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
-  box-shadow: inset 0 8px 24px -12px rgba(0, 0, 0, 0.35);
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
 `;
 
 export const EventLogHeader = styled.div`
@@ -360,13 +453,40 @@ export const EventLogScroll = styled.div`
   };
 `;
 
-export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical' }>`
+export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical'; $isLatest?: boolean }>`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.md};
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: flex-start;
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  animation: ${slideIn} 0.2s ease-out;
+  animation: ${slideIn} 0.24s ${({ theme }) => theme.motion.easeOut} both;
   color: ${({ $type, theme }) => getEventLogLineColor($type, theme)};
+  padding: ${({ theme }) => theme.spacing.xs} 0;
+  border-left: 2px solid ${({ $type, theme }) => getEventLogLineColor($type, theme)}44;
+  padding-left: ${({ theme }) => theme.spacing.sm};
+  margin-left: 1px;
+
+  ${({ $isLatest }) => $isLatest && css`
+    &::after {
+      content: '▋';
+      margin-left: 2px;
+      font-size: 0.85em;
+      opacity: 0.7;
+      animation: ${cursorBlink} 1.1s step-end infinite;
+
+      @media (prefers-reduced-motion: reduce) {
+        display: none;
+      }
+    }
+  `}
+`;
+
+export const EventLogPrefix = styled.span<{ $type: 'info' | 'warn' | 'critical' }>`
+  flex-shrink: 0;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  letter-spacing: 0.06em;
+  color: ${({ $type, theme }) => getEventLogLineColor($type, theme)};
+  min-width: 2.75rem;
 `;
 
 export const EventLogTime = styled.span`

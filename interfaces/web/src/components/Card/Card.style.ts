@@ -1,23 +1,53 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+// Types
+import { CardVariant } from '@/components/Card/Card.types';
 
 // Components
-import { glassSurface, livingSurface, pointerSpotlight } from '@/styles/surfaces';
+import {
+  cardMarketingGlass,
+  cardStatSignal,
+  cardOperationalCell,
+  cardShowcaseSurface,
+  cardInteractive,
+  cardPointerVars,
+} from '@/styles/surfaces';
 
-export const StyledCard = styled.div`
-  ${livingSurface};
-  ${glassSurface};
-  ${pointerSpotlight};
+const variantStyles = {
+  [CardVariant.MarketingGlass]: css`
+    ${cardMarketingGlass};
+  `,
+  [CardVariant.StatSignal]: css`
+    ${cardStatSignal};
+  `,
+  [CardVariant.Operational]: css`
+    ${cardOperationalCell};
+  `,
+  [CardVariant.Showcase]: css`
+    ${cardShowcaseSurface};
+  `,
+};
+
+export const StyledCard = styled.div<{
+  $variant: CardVariant;
+  $interactive: boolean;
+}>`
+  ${cardPointerVars};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.lg};
-  transition:
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color ${({ theme }) => theme.transitions.fast};
+  position: relative;
+  overflow: hidden;
 
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: ${({ theme }) => theme.elevation.lg};
-    --spot-opacity: 1;
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
   }
+
+  ${({ $variant }) => variantStyles[$variant]};
+
+  ${({ $interactive, $variant }) => ($interactive && $variant !== CardVariant.StatSignal
+    && $variant !== CardVariant.Showcase
+    ? cardInteractive
+    : '')};
 `;

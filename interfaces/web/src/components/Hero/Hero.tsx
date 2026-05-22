@@ -19,11 +19,8 @@ import { HeroLiveMicro } from '@/components/Hero/HeroLiveMicro';
 import { HeroAmbient } from '@/components/Hero/HeroAmbient';
 import {
   HeroSection,
-  HeroAtmosphere,
+  HeroColumnGuides,
   HeroDecoGrid,
-  GlowBackdrop,
-  GlowBackdropSecondary,
-  GlowBackdropTertiary,
   HeroEditorialGrid,
   HeroCopyColumn,
   HeroVisualColumn,
@@ -43,7 +40,6 @@ import {
   HeroScrollCue,
   HeroScrollChevron,
   ScrollCueLine,
-  HeroVisualCard,
   HeroAvatarFrame,
   HeroPortrait,
 } from '@/components/Hero/Hero.style';
@@ -69,7 +65,7 @@ const itemVariants = {
 };
 
 const scrollToNarrative = (): void => {
-  document.getElementById('section-capabilities')?.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('section-work')?.scrollIntoView({ behavior: 'smooth' });
 };
 
 /**
@@ -80,15 +76,15 @@ const scrollToNarrative = (): void => {
 function HeroComponent(): React.ReactElement {
   const { t } = useTranslation();
   const reduced = usePrefersReducedMotion();
-  const { ref: heroRef, position, isActive } = usePointerPosition<HTMLElement>(reduced);
+  const { ref: heroRef, position } = usePointerPosition<HTMLElement>(reduced);
   const portraitRotateX = useSpring(0, { stiffness: 200, damping: 26 });
   const portraitRotateY = useSpring(0, { stiffness: 200, damping: 26 });
   const avatarSrc: string = publicAssetUrl('avatar.png');
 
   React.useEffect(() => {
     if (reduced) return;
-    portraitRotateX.set((position.y - 0.5) * -6);
-    portraitRotateY.set((position.x - 0.5) * 8);
+    portraitRotateX.set((position.y - 0.5) * -4);
+    portraitRotateY.set((position.x - 0.5) * 5);
   }, [position.x, position.y, portraitRotateX, portraitRotateY, reduced]);
 
   const stats: { valueKey: string; labelKey: string }[] = [
@@ -99,11 +95,8 @@ function HeroComponent(): React.ReactElement {
 
   return (
     <HeroSection ref={heroRef}>
-      <HeroAmbient position={position} isActive={isActive} />
-      <HeroAtmosphere aria-hidden />
-      <GlowBackdropSecondary aria-hidden />
-      <GlowBackdropTertiary aria-hidden />
-      <GlowBackdrop aria-hidden />
+      <HeroAmbient />
+      <HeroColumnGuides aria-hidden />
       <HeroDecoGrid aria-hidden />
       <motion.div
         variants={containerVariants}
@@ -161,24 +154,22 @@ function HeroComponent(): React.ReactElement {
           </HeroCopyColumn>
           <HeroVisualColumn>
             <motion.div variants={itemVariants}>
-              <HeroVisualCard>
-                <HeroAvatarFrame
-                  style={
-                    reduced
-                      ? undefined
-                      : {
-                        rotateX: portraitRotateX,
-                        rotateY: portraitRotateY,
-                        transformPerspective: 900,
-                      }
-                  }
-                >
-                  <HeroPortrait $glowX={position.x} $glowY={position.y}>
-                    <img src={avatarSrc} alt={t('home.hero.portraitAlt')} />
-                  </HeroPortrait>
-                </HeroAvatarFrame>
-                <HeroLiveMicro />
-              </HeroVisualCard>
+              <HeroAvatarFrame
+                style={
+                  reduced
+                    ? undefined
+                    : {
+                      rotateX: portraitRotateX,
+                      rotateY: portraitRotateY,
+                      transformPerspective: 900,
+                    }
+                }
+              >
+                <HeroPortrait>
+                  <img src={avatarSrc} alt={t('home.hero.portraitAlt')} />
+                </HeroPortrait>
+              </HeroAvatarFrame>
+              <HeroLiveMicro />
             </motion.div>
           </HeroVisualColumn>
         </HeroEditorialGrid>

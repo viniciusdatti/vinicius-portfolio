@@ -100,11 +100,10 @@ export function Header(): React.ReactElement {
           ease: motionEase,
         }}
       >
-        <HeaderShell $scrolled={state.scrolled}>
-          <HeaderContent>
+        <HeaderShell $scrolled={state.scrolled} $isWorkspace={isLiveLab}>
+          <HeaderContent $isWorkspace={isLiveLab}>
             <Logo
               to="/"
-              whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               aria-label={t('header.logoAria')}
             >
@@ -112,19 +111,21 @@ export function Header(): React.ReactElement {
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
             </Logo>
 
-            <HeaderCenter $isWorkspace={isLiveLab}>
-              <Nav>
-                {navItems.map((item) => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    $active={location.pathname === item.path}
-                  >
-                    {t(item.labelKey)}
-                  </NavLink>
-                ))}
-              </Nav>
-            </HeaderCenter>
+            {!isLiveLab && (
+              <HeaderCenter>
+                <Nav>
+                  {navItems.map((item) => (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      $active={location.pathname === item.path}
+                    >
+                      {t(item.labelKey)}
+                    </NavLink>
+                  ))}
+                </Nav>
+              </HeaderCenter>
+            )}
 
             <HeaderTrailing $isWorkspace={isLiveLab}>
               <HeaderStatusPills />

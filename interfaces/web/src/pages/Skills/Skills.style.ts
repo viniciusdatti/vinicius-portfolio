@@ -7,55 +7,12 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-/**
- * Main container for the Skills page content.
- * Centers content with responsive padding.
- */
-export const PageContainer = styled.div`
-  max-width: ${({ theme }) => theme.layout.contentMax};
-  margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl}
-    ${({ theme }) => theme.spacing.lg};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.pageY}
-      ${({ theme }) => theme.spacing.pageX};
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
-    max-width: ${({ theme }) => theme.layout.contentWide};
-  };
-`;
-
-/**
- * Header section containing title and subtitle.
- */
-export const PageHeader = styled.div`
-  text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
-`;
-
-/**
- * Animated page title with responsive font sizing.
- */
-export const PageTitle = styled(motion.h1)`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.display};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
-
-/**
- * Animated subtitle with muted text color.
- */
-export const PageSubtitle = styled(motion.p)`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
-  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  max-width: ${({ theme }) => theme.layout.proseWide};
-  margin-left: auto;
-  margin-right: auto;
-`;
+// Components
+import {
+  cardHoverElevated,
+  cardMarketingGlass,
+  cardStatSignal,
+} from '@/styles/surfaces';
 
 /**
  * Generic section wrapper with bottom margin.
@@ -123,35 +80,10 @@ export const ExperienceGrid = styled(motion.div)`
  * Single experience card with left accent.
  */
 export const ExperienceCard = styled(motion.div)`
-  position: relative;
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${cardStatSignal};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
-  transition: border-color ${({ theme }) => theme.transitions.fast},
-              box-shadow ${({ theme }) => theme.transitions.fast};
   overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    background: ${({ theme }) => theme.colors.primary};
-    opacity: 0;
-    transition: opacity ${({ theme }) => theme.transitions.fast};
-  };
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: ${({ theme }) => theme.elevation.md};
-
-    &::before {
-      opacity: 1;
-    };
-  };
 `;
 
 /**
@@ -218,7 +150,10 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
   background-color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.surface)};
   color: ${({ $active, theme }) => ($active ? theme.colors.onPrimary : theme.colors.textSecondary)};
   border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.border)};
-  transition: all ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
@@ -231,17 +166,31 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
  */
 export const SkillsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(12, 1fr);
     gap: ${({ theme }) => theme.spacing.lg};
-  };
+  }
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  };
+  & > *:first-child {
+    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      grid-column: 1 / span 6;
+    }
+  }
+
+  & > *:nth-child(2) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      grid-column: 7 / span 6;
+    }
+  }
+
+  & > *:nth-child(n + 3) {
+    @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+      grid-column: span 4;
+    }
+  }
 `;
 
 /**
@@ -310,25 +259,27 @@ export const SkillInfo = styled.div`
  * On hover, reveals the SkillCategoryLabel via transform and opacity transition.
  */
 export const SkillCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  ${cardMarketingGlass};
+  ${cardHoverElevated};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
-  transition: border-color ${({ theme }) => theme.transitions.fast},
-              transform ${({ theme }) => theme.transitions.fast};
+  position: relative;
+  overflow: hidden;
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 
-    ${SkillCategoryLabel} {
+  @media (hover: hover) {
+    &:hover ${SkillCategoryLabel} {
       transform: translateY(0);
       opacity: 1;
-    };
-  };
+    }
+  }
 `;
 
 /**
@@ -395,35 +346,47 @@ export interface CertificateCardProps {
  * Individual certificate card with hover effect.
  */
 export const CertificateCard = styled(motion.div)<CertificateCardProps>`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${cardMarketingGlass};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.md};
-  transition: all ${({ theme }) => theme.transitions.fast};
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  transition:
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.normal};
 
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 4px;
+    width: 3px;
     height: 100%;
     background-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
     opacity: 0;
     transition: opacity ${({ theme }) => theme.transitions.fast};
-  };
+    z-index: 1;
+  }
 
-  &:hover {
-    border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primaryBorderFaint};
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
 
-    &::before {
-      opacity: 1;
-    };
-  };
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 `;
 
 /**
@@ -610,7 +573,7 @@ export const RetryButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.glow};
+    box-shadow: ${({ theme }) => theme.elevation.md};
   };
 `;
 
@@ -655,8 +618,8 @@ export const ModalOverlay = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
+  background-color: ${({ theme }) => theme.colors.overlay};
+  backdrop-filter: blur(${({ theme }) => theme.effects.blur.sm});
 `;
 
 /**
@@ -669,7 +632,8 @@ export const ModalContent = styled(motion.div)`
   max-width: 500px;
   width: 100%;
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: ${({ theme }) => theme.elevation.xl};
+  border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 /**
@@ -694,7 +658,10 @@ export const ModalCloseButton = styled.button`
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.colors.textMuted};
-  transition: all ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.backgroundSecondary};
@@ -808,7 +775,10 @@ export const ModalButton = styled.button<ModalButtonProps>`
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  transition: all ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast};
 
   ${({ $variant, $platformColor, theme }) => ($variant === 'primary'
     ? `

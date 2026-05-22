@@ -36,7 +36,7 @@ export const FooterSection = styled.div`
 export const FooterLogo = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
-  font-weight: 800;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
   letter-spacing: -0.01em;
   margin-bottom: ${({ theme }) => theme.spacing.sm};

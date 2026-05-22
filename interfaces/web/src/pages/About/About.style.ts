@@ -7,32 +7,12 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { glassSurface, pointerSpotlight } from '@/styles/surfaces';
-
-export const PageContainer = styled.div`
-  max-width: ${({ theme }) => theme.layout.contentNarrow};
-  margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl}
-    ${({ theme }) => theme.spacing.lg};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.pageY}
-      ${({ theme }) => theme.spacing.pageX};
-  };
-`;
-
-export const PageTitle = styled(motion.h1)`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.display};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  margin-bottom: ${({ theme }) => theme.spacing.xl};
-  text-align: center;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    text-align: left;
-    margin-bottom: ${({ theme }) => theme.spacing.xxl};
-  };
-`;
+import {
+  cardMarketingGlass,
+  interactiveLift,
+  surfaceMotion,
+} from '@/styles/surfaces';
+import { editorialAccentRail } from '@/styles/sectionRhythm';
 
 export const Section = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
@@ -45,14 +25,13 @@ export const PhilosophySection = styled(Section)`
 export const IntroSection = styled(Section)`
   display: grid;
   grid-template-columns: 1fr;
-  text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
-  align-items: center;
+  align-items: start;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr 2fr;
-    text-align: left;
-  };
+    grid-template-columns: minmax(140px, 0.38fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+  }
 `;
 
 export const Avatar = styled(motion.div)`
@@ -61,9 +40,17 @@ export const Avatar = styled(motion.div)`
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  box-shadow: ${({ theme }) => theme.shadows.glow};
+  box-shadow: ${({ theme }) => theme.elevation.lg};
   flex-shrink: 0;
   margin: 0 auto;
+  ${surfaceMotion};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.primary};
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+    }
+  }
 
   img {
     width: 100%;
@@ -115,38 +102,33 @@ export const IntroHighlight = styled(motion.p)`
 `;
 
 export const StatsGrid = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
   margin-top: ${({ theme }) => theme.spacing.xxl};
+  padding: ${({ theme }) => theme.spacing.xl} 0;
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(3, 1fr);
-  };
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: ${({ theme }) => theme.spacing.xxl};
+  }
 `;
 
 export const StatCard = styled(motion.div)`
-  ${glassSurface};
-  ${pointerSpotlight};
-  border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  padding: ${({ theme }) => theme.spacing.xl};
-  text-align: center;
-  box-shadow: ${({ theme }) => theme.elevation.sm};
-  position: relative;
-  overflow: hidden;
-  transition:
-    border-color ${({ theme }) => theme.transitions.fast},
-    border-left-color ${({ theme }) => theme.transitions.fast},
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  padding: 0;
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.borderLight};
-    border-left-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: ${({ theme }) => theme.elevation.lg};
-    transform: translateY(-6px);
-    --spot-opacity: 1;
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    &:not(:last-child) {
+      border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+      padding-right: ${({ theme }) => theme.spacing.xxl};
+    }
   }
 `;
 
@@ -176,7 +158,15 @@ export const SectionTitle = styled.h3`
 export const ExperienceSection = styled(Section)`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xxl};
+  gap: ${({ theme }) => theme.spacing.xl};
+`;
+
+export const ExperienceTimeline = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  padding-left: ${({ theme }) => theme.spacing.xl};
+  border-left: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 `;
 
 export const ExperienceSectionTitle = styled(SectionTitle)`
@@ -184,24 +174,31 @@ export const ExperienceSectionTitle = styled(SectionTitle)`
 `;
 
 export const PhilosophyCard = styled(motion.div)`
-  background: ${({ theme }) => theme.colors.gradientPhilosophyCard};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  padding: ${({ theme }) => theme.spacing.xxl};
+  ${editorialAccentRail};
+  padding: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.lg}
+    ${({ theme }) => theme.spacing.xl};
+  max-width: ${({ theme }) => theme.layout.proseWide};
 
   p {
-    color: ${({ theme }) => theme.colors.textSecondary};
+    color: ${({ theme }) => theme.colors.text};
     line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-    font-size: ${({ theme }) => theme.typography.fontSize.lg};
+    font-size: clamp(1.125rem, 2.5vw, 1.35rem);
     font-style: italic;
-  };
+    margin: 0;
+  }
 `;
 
 export const EducationCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  ${cardMarketingGlass};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  ${interactiveLift};
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 `;
 
 export const EducationMain = styled.div`
@@ -262,15 +259,30 @@ export const ComplementaryText = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
 `;
 
-/* ************** PROFESSIONAL EXPERIENCE ******************* */
+// =================================================================================================
+// ==================================== PROFESSIONAL EXPERIENCE ====================================
+// =================================================================================================
 
 export const ExperienceCard = styled(motion.div)`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  border-left: 3px solid ${({ theme }) => theme.colors.primary};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  padding: ${({ theme }) => theme.spacing.xl};
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  position: relative;
+  padding: 0 0 ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.lg};
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * ${({ theme }) => theme.spacing.xl} - 1px);
+    top: 0.35rem;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.background};
+    transform: translateX(-50%);
+  }
 `;
 
 export const ExperienceCardHeader = styled.div`

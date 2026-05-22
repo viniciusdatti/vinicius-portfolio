@@ -78,21 +78,13 @@ export const StatusCluster = styled.div`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
-  flex-shrink: 1;
-  min-width: 0;
-  overflow: hidden;
-  flex-wrap: nowrap;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.wide}) {
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    max-width: 380px;
-    overflow-x: auto;
-    scrollbar-width: none;
-    &::-webkit-scrollbar { display: none; };
-  };
+  }
 `;
 
 export const SystemBarActions = styled.div`

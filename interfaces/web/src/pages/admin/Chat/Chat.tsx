@@ -17,7 +17,9 @@ import { ChatMessageSenderType } from '@/types';
 import { useAdminChat } from '@/hooks/useAdminChat';
 import { useAdminChatEvents } from '@/hooks/useAdminChatEvents';
 
-// Utils
+// =================================================================================================
+// ============================================= UTILS =============================================
+// =================================================================================================
 import { scrollToContainerEnd } from '@/utils/scrollToContainerEnd';
 
 // View

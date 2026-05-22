@@ -53,10 +53,22 @@ Ferramentas: `browser_navigate`, `browser_snapshot`, `browser_resize`, `browser_
 
 `codegen: none` — não gerar arquivos de teste automaticamente.
 
+## Agent Skills
+
+Skills em `.cursor/skills/` (descoberta automática). Skills **do portfólio** (fonte canônica): `skills/` na raiz do repo.
+
+| Tipo | Pastas |
+|------|--------|
+| Portfólio | `portfolio-visual-language`, `premium-card-system`, `editorial-layout-system`, `realtime-dashboard-motion`, `frontend-architecture` |
+| Referência | `frontend-design`, `web-design-guidelines`, `react-best-practices`, `shadcn-ui-patterns`, `motion-animation-patterns`, `accessibility-patterns`, `advanced-component-architecture`, `ui-design-brain`, `web-design-engineer`, + pacote flitzrrr |
+
+Detalhes: [skills/README.md](../skills/README.md)
+
 ## Regras do agente
 
 - `.cursor/rules/fullstack-mcp.mdc` — workflow geral
 - `.cursor/rules/frontend-mcp.mdc` — convenções `interfaces/web/**`
+- `.cursor/rules/premium-visual-system.mdc` — sistema visual premium
 
 ## Git
 

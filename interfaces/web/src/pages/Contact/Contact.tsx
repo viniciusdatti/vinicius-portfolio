@@ -12,22 +12,22 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-// API
+// =================================================================================================
+// ============================================== API ==============================================
+// =================================================================================================
 import { submitContact, ApiError } from '@/api';
 
 // Components
 import { showToast, ToastType } from '@/components/common/Toast';
-import {
-  scrollReveal,
-  scrollRevealStagger,
-  scrollRevealItem,
-} from '@/styles/animations';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
   PageHeader,
   PageTitle,
   PageSubtitle,
   ContentGrid,
+} from '@/styles/pageLayout.style';
+import {
   FormSection,
   Form,
   FormRow,
@@ -49,10 +49,9 @@ import {
   ChatCTAButton,
 } from '@/pages/Contact/Contact.style';
 
-// ============================================================================
-// Icons
-// ============================================================================
-
+// =================================================================================================
+// ============================================= ICONS =============================================
+// =================================================================================================
 /**
  * Email envelope icon component.
  */
@@ -99,10 +98,9 @@ function LocationIcon(): React.ReactElement {
   );
 }
 
-// ============================================================================
-// Types
-// ============================================================================
-
+// =================================================================================================
+// ============================================= TYPES =============================================
+// =================================================================================================
 /**
  * Zod schema for contact form validation.
  */
@@ -129,10 +127,9 @@ const getContactSubmitErrorMessage = (
   return error.message;
 };
 
-// ============================================================================
-// Component
-// ============================================================================
-
+// =================================================================================================
+// =========================================== COMPONENT ===========================================
+// =================================================================================================
 /**
  * Contact page component.
  * Displays a contact form and contact information with social links.
@@ -194,22 +191,25 @@ export function Contact(): React.ReactElement {
     }
   };
 
+  const motion = useScrollMotion();
+  const viewport = { once: true, margin: '-60px' as const };
+
   return (
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={scrollReveal}
+          variants={motion.section}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: '-80px' }}
+          viewport={viewport}
         >
           {t('contact.title')}
         </PageTitle>
         <PageSubtitle
-          variants={scrollReveal}
+          variants={motion.section}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: '-60px' }}
+          viewport={viewport}
         >
           {t('contact.subtitle')}
         </PageSubtitle>
@@ -217,7 +217,7 @@ export function Contact(): React.ReactElement {
 
       <ContentGrid>
         <FormSection
-          variants={scrollReveal}
+          variants={motion.section}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -323,7 +323,6 @@ export function Contact(): React.ReactElement {
               <SubmitButton
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isSubmitting ? t('contact.form.sending') : t('contact.form.submit')}
@@ -333,7 +332,7 @@ export function Contact(): React.ReactElement {
         </FormSection>
 
         <InfoSection
-          variants={scrollRevealStagger}
+          variants={motion.stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -368,10 +367,7 @@ export function Contact(): React.ReactElement {
             </InfoList>
           </InfoCard>
 
-          <ChatCTACard
-            variants={scrollRevealItem}
-            whileHover={{ y: -4 }}
-          >
+          <ChatCTACard variants={motion.item}>
             <ChatCTATitle>{t('contact.chatCta.title')}</ChatCTATitle>
             <ChatCTADescription>
               {t('contact.chatCta.description')}

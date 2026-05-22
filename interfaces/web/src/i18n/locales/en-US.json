@@ -225,6 +225,11 @@
         "build": "Build {{version}}"
       }
     },
+    "manifesto": {
+      "aria": "Portfolio thesis",
+      "line": "Interfaces where telemetry, thresholds, and state stay legible under load — not demos that only look good in screenshots.",
+      "meta": "Front-end engineering · realtime systems · production UI"
+    },
     "realtime": {
       "lead": "Portfolio telemetry demo — similar patterns to production industrial dashboards I maintained. Open Live Lab.",
       "apiLive": "API online",
@@ -240,18 +245,18 @@
     },
     "sections": {
       "skills": {
-        "eyebrow": "01 — Engineering capabilities",
-        "index": "01"
+        "eyebrow": "03 — Engineering capabilities",
+        "index": "03"
       },
       "projects": {
-        "eyebrow": "02 — Selected work",
-        "index": "02",
+        "eyebrow": "01 — Selected work",
+        "index": "01",
         "story": "Each case documents scope, engineering choices, and what the repository demonstrates — study and experiments, not private production work.",
         "viewAll": "Explore all cases"
       },
       "liveLab": {
-        "eyebrow": "03 — Realtime engineering",
-        "index": "03"
+        "eyebrow": "02 — Realtime engineering",
+        "index": "02"
       },
       "about": {
         "eyebrow": "04 — Experience",
@@ -563,7 +568,20 @@
       "eventLog": "Operational event log",
       "tick": "tick",
       "noEvents": "No events yet…",
-      "trendChart": "Trend · last samples"
+      "trendChart": "Trend · last samples",
+      "critLimit": "crit · {{value}} {{unit}}",
+      "kpiStripLabel": "Operational metrics",
+      "kpiStream": "Transport",
+      "kpiLive": "LIVE",
+      "kpiTick": "tick #{{tick}}",
+      "kpiSensors": "Channels",
+      "kpiChannels": "active sensors",
+      "kpiAlerts": "Alerts",
+      "kpiCritWarn": "crit / warn",
+      "kpiLoad": "Avg load",
+      "kpiAvgThreshold": "vs critical threshold",
+      "window": "Window",
+      "samples": "{{count}} samples"
     },
     "chat": {
       "title": "Realtime channel",
