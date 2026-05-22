@@ -3,17 +3,22 @@ import React, { useCallback } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import type { TFunction } from 'i18next';
+
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Types
-import type { Project } from '@/data/types';
+import type {
+  ProjectCasePanelCloseHandler,
+  ProjectCasePanelComponent,
+} from '@/components/ProjectShowcase/ProjectCasePanel.types';
 import { getProjectDisplayTitle } from '@/domain/projects';
-import { Language } from '@/types';
 
 // Components
 import { ProjectCaseStudyContent } from '@/components/ProjectShowcase/ProjectCaseStudyContent';
-import { motionEase } from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
+import { resolveLayoutMorphPanel } from '@/styles/animations';
 import {
   CasePanelRoot,
   CasePanelInner,
@@ -23,61 +28,39 @@ import {
   CasePanelClose,
 } from '@/components/ProjectShowcase/ProjectCasePanel.style';
 
-export interface ProjectCasePanelProps {
-  project: Project | null;
-  language: Language;
-  indexLabel: string;
-  onClose: () => void;
-}
-
 // ======================================================
 // ======================= METHODS ======================
 // ======================================================
-
-const panelVariants = {
-  hidden: { opacity: 0, height: 0 },
-  visible: {
-    opacity: 1,
-    height: 'auto',
-    transition: {
-      duration: motionPresets.duration.slow,
-      ease: motionEase,
-    },
-  },
-  exit: {
-    opacity: 0,
-    height: 0,
-    transition: { duration: motionPresets.duration.fast, ease: motionEase },
-  },
-};
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function ProjectCasePanel({
+export const ProjectCasePanel: ProjectCasePanelComponent = function ProjectCasePanel({
   project,
   language,
   indexLabel,
   onClose,
-}: ProjectCasePanelProps): React.ReactElement {
-  const { t } = useTranslation();
+}): React.ReactElement {
+  const { t }: { t: TFunction } = useTranslation();
+  const reduced: boolean = usePrefersReducedMotion();
+  const panelVariants: Variants = resolveLayoutMorphPanel(reduced);
 
-  const handleCloseClick = useCallback((): void => {
+  const handleCloseClick: ProjectCasePanelCloseHandler = useCallback((): void => {
     onClose();
   }, [onClose]);
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       {project != null ? (
         <CasePanelRoot
           key={project.id}
           as={motion.div}
+          layout
           variants={panelVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
-          layout
         >
           <CasePanelInner>
             <CasePanelHeader>
@@ -99,4 +82,4 @@ export function ProjectCasePanel({
       ) : null}
     </AnimatePresence>
   );
-}
+};

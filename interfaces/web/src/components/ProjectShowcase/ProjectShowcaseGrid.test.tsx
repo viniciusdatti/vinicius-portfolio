@@ -56,7 +56,7 @@ describe('ProjectShowcaseGrid Component', (): void => {
   it('should render project cards from [projects] prop', (): void => {
     render(<ProjectShowcaseGridComponent {...defaultProps} />);
 
-    expect(screen.getByText('PatriotDashboard')).toBeInTheDocument();
-    expect(screen.getByText('PortfolioV2')).toBeInTheDocument();
+    expect(screen.getByText('Vault ERP Synchronizer')).toBeInTheDocument();
+    expect(screen.getByText('Live Lab Matrix')).toBeInTheDocument();
   });
 });

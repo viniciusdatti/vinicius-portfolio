@@ -15,6 +15,7 @@ const TECH_SLUG_ICON_MAP: Record<string, string> = {
   playwright: 'icons/playwright.svg',
   'styled-components': 'icons/styled-components.svg',
   socketio: 'icons/socketio.svg',
+  websocket: 'icons/socketio.svg',
   jest: 'icons/jest.svg',
 };
 

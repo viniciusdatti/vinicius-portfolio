@@ -199,6 +199,8 @@ export const Input = styled.input`
 `;
 
 export const StartButton = styled.button`
+  position: relative;
+  overflow: hidden;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background: ${({ theme }) => theme.colors.gradientButtonPrimary};
   color: ${({ theme }) => theme.colors.onPrimary};
@@ -206,10 +208,19 @@ export const StartButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   margin-top: ${({ theme }) => theme.spacing.sm};
-  transition: box-shadow ${({ theme }) => theme.transitions.fast};
+  transition: filter ${({ theme }) => theme.transitions.fast};
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+  };
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.sm};
+    filter: brightness(1.04);
   };
 `;
 
@@ -218,6 +229,8 @@ export interface MessageProps {
 }
 
 export const Message = styled(motion.div)<MessageProps>`
+  position: relative;
+  overflow: hidden;
   max-width: min(82%, ${({ theme }) => theme.sizes.chat.messageMaxWidth});
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
@@ -227,7 +240,16 @@ export const Message = styled(motion.div)<MessageProps>`
   border: 1px solid
     ${({ $isOwn, theme }) => ($isOwn ? 'transparent' : theme.colors.borderSubtle)};
   border-left: ${({ $isOwn, theme }) => ($isOwn ? '1px solid transparent' : `2px solid ${theme.colors.primary}`)};
-  box-shadow: ${({ $isOwn, theme }) => ($isOwn ? theme.shadows.sm : theme.elevation.sm)};
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    opacity: ${({ $isOwn }) => ($isOwn ? 0.35 : 1)};
+  };
 `;
 
 export const MessageContent = styled.p`

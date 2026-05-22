@@ -2,9 +2,14 @@
 import React from 'react';
 
 // Libraries
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+
 // Types
+import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 import type { Technology } from '@/data/types';
 import { getProjectDisplayTitle } from '@/domain/projects';
 import { Language } from '@/types';
@@ -16,12 +21,14 @@ import {
 import type { ProjectShowcaseCardProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
+import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
 import { getTechIconUrl } from '@/utils/techIcon';
 import {
   getProjectCaseCtaKey,
   getProjectRepoSlug,
   resolveTechnologyCapabilityLabel,
 } from '@/utils/projectCaseCopy';
+import { PHYSICAL_LIFT_PX } from '@/lib/motionPhysics';
 import { showcaseStaggerItem } from '@/styles/animations';
 import {
   ShowcaseCard,
@@ -165,27 +172,40 @@ export function ProjectShowcaseCard({
   const scene: MockWindowScene = resolveMockScene(variant, canvasTone);
   const repoSlug: string = getProjectRepoSlug(project.repository_url);
 
+  const { ref, isPointerActive, motionProps }: UsePhysicalInteractionResult<HTMLElement> = (
+    usePhysicalInteraction<HTMLElement>({
+      enableSpotlight: true,
+    })
+  );
+
   const handleClick = (): void => {
     onSelect(project);
   };
 
+  const arrowLiftPx: number = PHYSICAL_LIFT_PX;
+
   return (
-    <ShowcaseCard
-      data-variant={variant}
-      $variant={variant}
-      $canvasTone={canvasTone}
-      $selected={isSelected}
-      variants={showcaseStaggerItem}
-      tabIndex={0}
-      role="button"
-      aria-label={title}
-      onClick={handleClick}
-      onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void => (
-        handleCardKeyDown(event, onSelect, project)
-      )}
-      whileTap={{ scale: 0.998, transition: { duration: 0.12, ease: [0.22, 1, 0.36, 1] } }}
-    >
+    <motion.div variants={showcaseStaggerItem} style={{ display: 'contents' }}>
+      <ShowcaseCard
+        ref={ref}
+        data-variant={variant}
+        $variant={variant}
+        $canvasTone={canvasTone}
+        $selected={isSelected}
+        style={motionProps.style}
+        animate={motionProps.animate}
+        transition={motionProps.transition}
+        whileTap={motionProps.whileTap}
+        tabIndex={0}
+        role="button"
+        aria-label={title}
+        onClick={handleClick}
+        onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void => (
+          handleCardKeyDown(event, onSelect, project)
+        )}
+      >
       <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
+        <WorkCanvasPreview tone={canvasTone} active={isSelected} />
         <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>
         <MockWindow>
           <MockWindowBar>
@@ -239,9 +259,16 @@ export function ProjectShowcaseCard({
         ) : null}
         <CardFooter>
           <ViewCaseLabel>{caseCtaLabel}</ViewCaseLabel>
-          <ArrowIcon aria-hidden>→</ArrowIcon>
+          <motion.span
+            aria-hidden
+            animate={{ x: isPointerActive ? arrowLiftPx : 0 }}
+            transition={motionProps.transition}
+          >
+            <ArrowIcon>→</ArrowIcon>
+          </motion.span>
         </CardFooter>
       </CardBody>
     </ShowcaseCard>
+    </motion.div>
   );
 }

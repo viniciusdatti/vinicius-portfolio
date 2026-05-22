@@ -202,20 +202,39 @@
     "hero": {
       "name": "Vinicius Datti",
       "eyebrow": "Portfolio · frontend engineering",
+      "aria": "Home — control room",
       "headline": "Front-end for real-time data and production-grade interfaces.",
+      "headlineLine1": "Front-end for real-time data",
+      "headlineLine2": "and production-grade interfaces.",
       "description": "Front-end developer with 3+ years building production React and TypeScript applications — industrial monitoring dashboards with continuous telemetry over WebSocket, dynamic threshold validation, multi-state UI, and responsive layouts.",
       "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explore the portfolio",
       "ctaPrimary": "View work",
       "ctaSecondary": "Open Live Lab",
-      "stats": {
-        "production": "years of experience",
-        "productionValue": "3+",
-        "realtime": "WebSocket in production",
-        "realtimeValue": "Live",
-        "architecture": "Jest · Playwright",
-        "architectureValue": "2"
+      "boot": {
+        "channel": "CHANNEL · HOME / CONTROL",
+        "status": "INITIALIZING TELEMETRY LAYER…"
+      },
+      "telemetry": {
+        "stripLabel": "Operational telemetry readout",
+        "headerTitle": "Telemetry // Readout",
+        "headerFeed": "Feed active",
+        "headerFeedIdle": "Feed standby",
+        "statusLabel": "SYS",
+        "statusOnline": "ONLINE",
+        "statusOffline": "OFFLINE",
+        "statusChecking": "SYNC",
+        "statusMeta": "Health channel",
+        "buildLabel": "BUILD",
+        "buildFallback": "dev-local",
+        "buildMeta": "Release {{version}}",
+        "buildMetaFallback": "Local build",
+        "clockLabel": "CLK",
+        "clockMeta": "Session cycles",
+        "stackLabel": "STACK",
+        "stackChannels": "WS · TS · RT",
+        "stackMeta": "Active channels"
       },
       "liveMicro": {
         "apiLive": "API synchronized",
@@ -258,7 +277,8 @@
       },
       "liveLab": {
         "eyebrow": "02 — Realtime engineering",
-        "index": "02"
+        "index": "02",
+        "aria": "Live Lab — scroll to expand telemetry observatory"
       },
       "about": {
         "eyebrow": "04 — Experience",
@@ -296,6 +316,13 @@
         "transport": "WebSocket",
         "tick": "tick",
         "sensors": "sensors"
+      },
+      "log": {
+        "tick": "telemetry.tick · sensors=4",
+        "heartbeat": "ws.channel · heartbeat ok",
+        "threshold": "threshold.check · vibration warn",
+        "buffer": "buffer.flush · 128 samples",
+        "sync": "observer.sync · latency 12ms"
       },
       "activity": {
         "sync": "Handshaking transport…",
@@ -368,6 +395,21 @@
     "error": "Could not load capabilities. Please try again.",
     "certificatesError": "Could not load certificates. Please try again.",
     "filterAll": "All",
+    "layout": {
+      "coreEyebrow": "Core architecture",
+      "coreLead": "Full-stack foundation — typed UI, services, and persistence that scale with the product.",
+      "peripheralEyebrow": "Supporting stack",
+      "heroSignal": "SIG-01",
+      "heroDomain": "UI Architecture",
+      "heroDescription": "Component systems, realtime state, and design-system integration across production surfaces.",
+      "coreDomains": {
+        "TypeScript": "Type Safety",
+        "Python": "Services",
+        "FastAPI": "API Layer",
+        "PostgreSQL": "Data",
+        "Docker": "Ops"
+      }
+    },
     "toolNames": {
       "cursor": "Cursor",
       "aiTools": "AI tools"
@@ -584,6 +626,17 @@
       "tick": "tick",
       "noEvents": "No events yet…",
       "trendChart": "Trend · last samples",
+      "sensors": {
+        "crusher_rpm": "Crusher RPM",
+        "motor_temp": "Motor temp",
+        "feed_pressure": "Feed pressure",
+        "vibration": "Vibration"
+      },
+      "statusLabels": {
+        "ok": "OK",
+        "warn": "WARN",
+        "critical": "CRIT"
+      },
       "critLimit": "crit · {{value}} {{unit}}",
       "kpiStripLabel": "Operational metrics",
       "kpiStream": "Transport",
@@ -596,7 +649,8 @@
       "kpiLoad": "Avg load",
       "kpiAvgThreshold": "vs critical threshold",
       "window": "Window",
-      "samples": "{{count}} samples"
+      "samples": "{{count}} samples",
+      "sampleAxis": "sample"
     },
     "chat": {
       "title": "Realtime channel",
@@ -677,7 +731,7 @@
   },
   "projects": {
     "title": "Engineering work",
-    "subtitle": "Selected engineering cases — study repos and experiments. Private production work is documented in About.",
+    "subtitle": "Signal registry — production-grade automation, realtime telemetry, and design-system infrastructure.",
     "showcase": {
       "eyebrow": "Selected work",
       "lead": "Each case states intent, architecture, and engineering trade-off. Private production work is not listed here — see Experience in About.",
@@ -714,40 +768,20 @@
         "architecture": "Layered UI with typed boundaries between views, state, and API or static data.",
         "decision": "Favor legibility, honest loading/error states, and maintainable composition over visual noise."
       },
-      "ReactGram": {
-        "framing": "Study case: social feed and messaging to rehearse Socket.io lifecycle, presence, and optimistic UI — patterns useful in production realtime UIs.",
-        "architecture": "React client with dedicated stores; FastAPI service; Socket.io as primary transport with explicit reconnect handling.",
-        "decision": "Treat connection state as part of the UI contract, not a background detail."
+      "vault-erp-sync": {
+        "framing": "Core automation: bridge Autodesk Vault PLM data with corporate ERP stock and thumbnail truth — scheduled, idempotent, concurrency-safe.",
+        "architecture": "Python service layer over Vault REST; Windows Task Scheduler orchestration; async job queue with explicit lock boundaries per asset revision.",
+        "decision": "Serialize thumbnail and stock-number writes through scheduler windows instead of optimistic parallel sync — trade latency for zero collision failures."
       },
-      "netflix_clone": {
-        "framing": "Study case: streaming-style catalog to practice horizontal rails, density breakpoints, and scroll performance without a UI kit.",
-        "architecture": "Layered CSS layout, lazy media loading, route-driven catalog views.",
-        "decision": "Measure scroll and composition before adding visual effects."
+      "live-lab-telemetry": {
+        "framing": "Telemetry / Live Lab core: operational matrix for high-frequency WebSocket streams with render budget enforced on the client.",
+        "architecture": "React + TypeScript consumer; Socket.io transport; 100ms render throttle decoupled from socket ingress; typed event envelope and connection-state UI contract.",
+        "decision": "Cap paint frequency at 10Hz while accepting full event throughput in memory — preserve 60fps under burst load without dropping transport fidelity."
       },
-      "movies_lib": {
-        "framing": "Study case: film catalog SPA focused on REST boundaries, loading states, and list/detail navigation.",
-        "architecture": "Vite + React; typed API layer; explicit error and skeleton paths.",
-        "decision": "Ship honest empty and error surfaces — same discipline as production dashboards."
-      },
-      "secret_word": {
-        "framing": "Study case: word-guessing game to practice component state, keyboard input, and win/lose flows.",
-        "architecture": "React UI with localized game logic; minimal dependencies; clear separation of rules vs presentation.",
-        "decision": "Keep game rules testable and UI predictable before adding animations or sound."
-      },
-      "tasks-flask-crud": {
-        "framing": "Study case: task CRUD API to practice REST verbs, validation, and persistence boundaries.",
-        "architecture": "Flask service with relational storage; explicit request/response contracts.",
-        "decision": "Model errors and status codes explicitly — front-end consumers depend on stable semantics."
-      },
-      "sample-flask-auth": {
-        "framing": "Study case: authentication sample — login, tokens, and protected routes on a small Flask API.",
-        "architecture": "Session or token middleware; hashed credentials; route guards on sensitive endpoints.",
-        "decision": "Treat auth as a cross-cutting contract, not a one-off route handler."
-      },
-      "HTML-CSS": {
-        "framing": "Study case: layout and responsive CSS without a framework — spacing, grid, and typography discipline.",
-        "architecture": "Semantic HTML structure; mobile-first breakpoints; reusable utility classes.",
-        "decision": "Master layout fundamentals before leaning on component libraries."
+      "design-system-core": {
+        "framing": "Design System infrastructure: proprietary token rigor, motion choreography, and component APIs that resist prop explosion.",
+        "architecture": "Styled-components theme contract; Storybook isolation per primitive; variant maps co-located with surfaces and motion presets.",
+        "decision": "Compose through compound slots and enums — block boolean prop sprawl before it forces cascade re-renders across observatory surfaces."
       }
     },
     "viewCode": "View source",
@@ -756,25 +790,21 @@
     "loading": "Loading cases...",
     "error": "Could not load cases. Please try again.",
     "caseCtas": {
-      "ReactGram": "View case study",
-      "netflix_clone": "Launch experience",
-      "movies_lib": "View system",
-      "secret_word": "Explore architecture",
-      "tasks-flask-crud": "View case study",
-      "sample-flask-auth": "Explore architecture",
-      "HTML-CSS": "Open experience"
+      "vault-erp-sync": "Inspect synchronizer",
+      "live-lab-telemetry": "Open telemetry matrix",
+      "design-system-core": "View design system"
     },
     "capabilities": {
       "react": "Component architecture",
-      "javascript": "Client runtime",
-      "css": "Layout & styling",
-      "html": "Semantic structure",
+      "typescript": "Type-safe contracts",
       "python": "Service runtime",
-      "flask": "HTTP API layer",
-      "rest-api": "REST integration",
-      "vite": "Build pipeline",
-      "docker": "Container runtime",
-      "mysql": "Relational persistence"
+      "websocket": "Realtime transport",
+      "performance": "Render budget control",
+      "styled-components": "Token-driven styling",
+      "storybook": "Component isolation",
+      "autodesk-vault-api": "PLM integration",
+      "task-scheduler": "Scheduled orchestration",
+      "erp-integration": "Enterprise sync"
     }
   },
   "validation": {

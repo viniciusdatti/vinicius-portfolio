@@ -1,17 +1,25 @@
 // Core
 import React from 'react';
 
+// Libraries
+import { motion } from 'framer-motion';
+
 // Hooks
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
 
 // Types
-import { CardVariant, type CardProps } from '@/components/Card/Card.types';
+import {
+  CardVariant,
+  type CardComponent,
+} from '@/components/Card/Card.types';
+import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 
 // Components
 import { StyledCard } from '@/components/Card/Card.style';
 
-export function Card({
+const MotionStyledCard = motion.create(StyledCard);
+
+export const Card: CardComponent = function Card({
   children,
   className,
   id,
@@ -26,25 +34,24 @@ export function Card({
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
-}: CardProps): React.ReactElement {
-  const reduced = usePrefersReducedMotion();
-  const useSpotlight = interactive
+}): React.ReactElement {
+  const usePhysical: boolean = interactive
     && (variant === CardVariant.MarketingGlass || variant === CardVariant.StatSignal);
-  const { ref, position } = usePointerPosition<HTMLDivElement>(!useSpotlight || reduced);
 
-  const pointerStyle = useSpotlight && !reduced
-    ? ({
-      '--spot-x': `${position.x * 100}%`,
-      '--spot-y': `${position.y * 100}%`,
-    } as React.CSSProperties)
-    : undefined;
+  const {
+    ref,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
+    disabled: !usePhysical,
+    enableSpotlight: variant === CardVariant.MarketingGlass,
+  });
 
   return (
-    <StyledCard
+    <MotionStyledCard
       ref={ref}
       className={className}
       id={id}
-      style={{ ...pointerStyle, ...style }}
+      style={{ ...motionProps.style, ...style }}
       role={role}
       onClick={onClick}
       onKeyDown={onKeyDown}
@@ -55,8 +62,11 @@ export function Card({
       aria-describedby={ariaDescribedby}
       $variant={variant}
       $interactive={interactive}
+      animate={motionProps.animate}
+      transition={motionProps.transition}
+      whileTap={motionProps.whileTap}
     >
       {children}
-    </StyledCard>
+    </MotionStyledCard>
   );
-}
+};

@@ -14,6 +14,7 @@ import {
 import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
+import { formatProjectSignalCode } from '@/domain/projects';
 import { showcaseStaggerContainer } from '@/styles/animations';
 import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
@@ -51,10 +52,7 @@ const resolveCanvasTone = (index: number): ProjectCanvasTone => {
   return ProjectCanvasTone.A;
 };
 
-const formatIndexLabel = (index: number): string => {
-  const padded: string = String(index + 1).padStart(2, '0');
-  return padded;
-};
+const formatIndexLabel = (index: number): string => formatProjectSignalCode(index);
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************

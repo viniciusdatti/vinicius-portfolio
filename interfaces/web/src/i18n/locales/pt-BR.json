@@ -202,20 +202,39 @@
     "hero": {
       "name": "Vinicius Datti",
       "eyebrow": "Portfólio · engenharia frontend",
+      "aria": "Início — sala de controle",
       "headline": "Front-end para dados em tempo real e interfaces de produção.",
+      "headlineLine1": "Front-end para dados em tempo real",
+      "headlineLine2": "e interfaces de produção.",
       "description": "Desenvolvedor Front-end com 3+ anos construindo aplicações React e TypeScript em produção — dashboards de monitoramento industrial com telemetria contínua via WebSocket, validação dinâmica de limites, múltiplos estados na UI e layouts responsivos.",
       "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explorar o portfólio",
       "ctaPrimary": "Ver trabalhos",
       "ctaSecondary": "Abrir Live Lab",
-      "stats": {
-        "production": "anos de experiência",
-        "productionValue": "3+",
-        "realtime": "WebSocket em produção",
-        "realtimeValue": "Ao vivo",
-        "architecture": "Jest · Playwright",
-        "architectureValue": "2"
+      "boot": {
+        "channel": "CANAL · HOME / CONTROLE",
+        "status": "INICIALIZANDO CAMADA DE TELEMETRIA…"
+      },
+      "telemetry": {
+        "stripLabel": "Painel de telemetria operacional",
+        "headerTitle": "Telemetria // Leitura",
+        "headerFeed": "Feed ativo",
+        "headerFeedIdle": "Feed em espera",
+        "statusLabel": "SYS",
+        "statusOnline": "ONLINE",
+        "statusOffline": "OFFLINE",
+        "statusChecking": "SYNC",
+        "statusMeta": "Canal de saúde",
+        "buildLabel": "BUILD",
+        "buildFallback": "dev-local",
+        "buildMeta": "Release {{version}}",
+        "buildMetaFallback": "Build local",
+        "clockLabel": "CLK",
+        "clockMeta": "Ciclos de sessão",
+        "stackLabel": "STACK",
+        "stackChannels": "WS · TS · RT",
+        "stackMeta": "Canais ativos"
       },
       "liveMicro": {
         "apiLive": "API sincronizada",
@@ -258,7 +277,8 @@
       },
       "liveLab": {
         "eyebrow": "02 — Engenharia em tempo real",
-        "index": "02"
+        "index": "02",
+        "aria": "Live Lab — role para expandir o observatório de telemetria"
       },
       "about": {
         "eyebrow": "04 — Experiência",
@@ -296,6 +316,13 @@
         "transport": "WebSocket",
         "tick": "pulso",
         "sensors": "sensores"
+      },
+      "log": {
+        "tick": "telemetria.pulso · sensores=4",
+        "heartbeat": "ws.canal · heartbeat ok",
+        "threshold": "limiar.check · vibração alerta",
+        "buffer": "buffer.flush · 128 amostras",
+        "sync": "observador.sync · latência 12ms"
       },
       "activity": {
         "sync": "Sincronizando transporte…",
@@ -368,16 +395,31 @@
     "error": "Não foi possível carregar as competências. Tente novamente.",
     "certificatesError": "Não foi possível carregar os certificados. Tente novamente.",
     "filterAll": "Todas",
+    "layout": {
+      "coreEyebrow": "Arquitetura central",
+      "coreLead": "Base full-stack — UI tipada, serviços e persistência que escalam com o produto.",
+      "peripheralEyebrow": "Stack de suporte",
+      "heroSignal": "SIG-01",
+      "heroDomain": "Arquitetura de UI",
+      "heroDescription": "Sistemas de componentes, estado em tempo real e integração com design system em superfícies de produção.",
+      "coreDomains": {
+        "TypeScript": "Segurança de tipos",
+        "Python": "Serviços",
+        "FastAPI": "Camada de API",
+        "PostgreSQL": "Dados",
+        "Docker": "Operações"
+      }
+    },
     "toolNames": {
       "cursor": "Cursor",
       "aiTools": "Ferramentas de IA"
     },
     "categories": {
-      "frontend": "UI & architecture",
+      "frontend": "UI e arquitetura",
       "backend": "API e serviços",
-      "testing": "Quality engineering",
+      "testing": "Engenharia de qualidade",
       "realtime": "Sistemas em tempo real",
-      "tools": "Tooling",
+      "tools": "Ferramentas",
       "iot": "IoT"
     },
     "experience": {
@@ -584,6 +626,17 @@
       "tick": "pulso",
       "noEvents": "Nenhum evento ainda…",
       "trendChart": "Tendência · últimas amostras",
+      "sensors": {
+        "crusher_rpm": "RPM do britador",
+        "motor_temp": "Temp. do motor",
+        "feed_pressure": "Pressão de alimentação",
+        "vibration": "Vibração"
+      },
+      "statusLabels": {
+        "ok": "OK",
+        "warn": "ALERTA",
+        "critical": "CRÍT"
+      },
       "critLimit": "crít · {{value}} {{unit}}",
       "kpiStripLabel": "Métricas operacionais",
       "kpiStream": "Transporte",
@@ -592,11 +645,12 @@
       "kpiSensors": "Canais",
       "kpiChannels": "sensores ativos",
       "kpiAlerts": "Alertas",
-      "kpiCritWarn": "crít / warn",
+      "kpiCritWarn": "crít / alerta",
       "kpiLoad": "Carga média",
       "kpiAvgThreshold": "vs limiar crítico",
       "window": "Janela",
-      "samples": "{{count}} amostras"
+      "samples": "{{count}} amostras",
+      "sampleAxis": "amostra"
     },
     "chat": {
       "title": "Canal em tempo real",
@@ -677,7 +731,7 @@
   },
   "projects": {
     "title": "Trabalho de engenharia",
-    "subtitle": "Projetos selecionados — repositórios de estudo e experimentos. Trabalho em produção (privado) está documentado em Sobre.",
+    "subtitle": "Registro de sinais — automação em produção, telemetria realtime e infraestrutura de design system.",
     "showcase": {
       "eyebrow": "Trabalhos selecionados",
       "lead": "Cada projeto declara intenção, arquitetura e trade-off de engenharia. Trabalho em produção (repositório privado) não aparece aqui — veja Experiência em Sobre.",
@@ -714,40 +768,20 @@
         "architecture": "UI em camadas com limites tipados entre views, estado e API ou dados estáticos.",
         "decision": "Priorizar legibilidade, estados de loading/erro honestos e composição sustentável em vez de ruído visual."
       },
-      "ReactGram": {
-        "framing": "Estudo de caso: feed social e mensagens para ensaiar ciclo de vida Socket.io, presença e UI otimista — padrões úteis em UIs em tempo real em produção.",
-        "architecture": "Cliente React com stores dedicadas; serviço FastAPI; Socket.io como transporte principal com reconexão explícita.",
-        "decision": "Estado de conexão faz parte do contrato de UI, não é detalhe de fundo."
+      "vault-erp-sync": {
+        "framing": "Automação core: integrar dados PLM do Autodesk Vault com estoque e miniaturas do ERP corporativo — agendado, idempotente e seguro contra concorrência.",
+        "architecture": "Camada Python sobre REST do Vault; orquestração via Task Scheduler no Windows; fila assíncrona com locks explícitos por revisão de ativo.",
+        "decision": "Serializar gravações de miniatura e número de estoque em janelas do scheduler em vez de sync paralelo otimista — trocar latência por zero falhas de colisão."
       },
-      "netflix_clone": {
-        "framing": "Estudo de caso: catálogo estilo streaming para praticar trilhos horizontais, breakpoints de densidade e performance de scroll sem UI kit.",
-        "architecture": "Layout em camadas CSS, lazy loading de mídia, views por rota.",
-        "decision": "Medir scroll e composição antes de efeitos visuais."
+      "live-lab-telemetry": {
+        "framing": "Telemetria / Live Lab core: matriz operacional para streams WebSocket de alta frequência com orçamento de render no cliente.",
+        "architecture": "Consumidor React + TypeScript; transporte Socket.io; throttle de render a 100ms desacoplado do ingresso; envelope tipado e contrato de UI para estado de conexão.",
+        "decision": "Limitar pintura a 10Hz mantendo throughput completo em memória — preservar 60fps sob rajadas sem perder fidelidade do transporte."
       },
-      "movies_lib": {
-        "framing": "Estudo de caso: catálogo de filmes com foco em limites REST, estados de carregamento e navegação lista/detalhe.",
-        "architecture": "Vite + React; camada de API tipada; caminhos explícitos de erro e skeleton.",
-        "decision": "Superfícies vazias e de erro honestas — mesma disciplina de dashboard em produção."
-      },
-      "secret_word": {
-        "framing": "Estudo de caso: jogo de adivinhação para praticar estado de componentes, teclado e fluxos de vitória/derrota.",
-        "architecture": "UI React com regras localizadas; dependências mínimas; separação clara entre regras e apresentação.",
-        "decision": "Regras testáveis e UI previsível antes de animações ou som."
-      },
-      "tasks-flask-crud": {
-        "framing": "Estudo de caso: API CRUD de tarefas para praticar verbos REST, validação e persistência.",
-        "architecture": "Serviço Flask com armazenamento relacional; contratos explícitos de request/response.",
-        "decision": "Erros e status codes modelados de forma explícita — consumidores dependem de semântica estável."
-      },
-      "sample-flask-auth": {
-        "framing": "Estudo de caso: autenticação — login, tokens e rotas protegidas em API Flask pequena.",
-        "architecture": "Middleware de sessão ou token; credenciais hasheadas; guards em endpoints sensíveis.",
-        "decision": "Auth como contrato transversal, não handler isolado."
-      },
-      "HTML-CSS": {
-        "framing": "Estudo de caso: layout e CSS responsivo sem framework — espaçamento, grid e tipografia.",
-        "architecture": "HTML semântico; breakpoints mobile-first; classes utilitárias reutilizáveis.",
-        "decision": "Fundamentos de layout antes de bibliotecas de componentes."
+      "design-system-core": {
+        "framing": "Infraestrutura de Design System: rigor de tokens, motion choreography e APIs que resistem à explosão de props.",
+        "architecture": "Contrato de tema em Styled-components; isolamento Storybook por primitivo; mapas de variantes co-localizados com surfaces e motion presets.",
+        "decision": "Compor via compound slots e enums — bloquear prop sprawl antes que force re-renders em cascata nas superfícies do observatório."
       }
     },
     "viewCode": "Ver código-fonte",
@@ -756,25 +790,21 @@
     "loading": "Carregando projetos...",
     "error": "Não foi possível carregar os projetos. Tente novamente.",
     "caseCtas": {
-      "ReactGram": "Ver estudo de caso",
-      "netflix_clone": "Abrir experiência",
-      "movies_lib": "Ver sistema",
-      "secret_word": "Explorar arquitetura",
-      "tasks-flask-crud": "Ver estudo de caso",
-      "sample-flask-auth": "Explorar arquitetura",
-      "HTML-CSS": "Abrir experiência"
+      "vault-erp-sync": "Inspecionar sincronizador",
+      "live-lab-telemetry": "Abrir matriz de telemetria",
+      "design-system-core": "Ver design system"
     },
     "capabilities": {
       "react": "Arquitetura de componentes",
-      "javascript": "Runtime no cliente",
-      "css": "Layout e estilo",
-      "html": "Estrutura semântica",
+      "typescript": "Contratos tipados",
       "python": "Runtime de serviço",
-      "flask": "Camada HTTP API",
-      "rest-api": "Integração REST",
-      "vite": "Pipeline de build",
-      "docker": "Runtime containerizado",
-      "mysql": "Persistência relacional"
+      "websocket": "Transporte realtime",
+      "performance": "Controle de render",
+      "styled-components": "Estilo orientado a tokens",
+      "storybook": "Isolamento de componentes",
+      "autodesk-vault-api": "Integração PLM",
+      "task-scheduler": "Orquestração agendada",
+      "erp-integration": "Sync corporativo"
     }
   },
   "validation": {

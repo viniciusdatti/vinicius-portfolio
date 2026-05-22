@@ -39,24 +39,33 @@ export const buildFakeProject = (overrides: Partial<Project> = {}): Project => (
 });
 
 export const MOCKED_PROJECT_LIST: Project[] = [
-  buildFakeProject({ id: 1, title: 'PatriotDashboard' }),
+  buildFakeProject({
+    id: 1,
+    title: 'Vault ERP Synchronizer',
+    title_pt: 'Sincronizador Vault ERP',
+    repository_url: 'https://github.com/viniciusdatti/vault-erp-sync',
+    technologies: [
+      buildFakeTechnology({ id: 1, name: 'Python', slug: 'python' }),
+      buildFakeTechnology({ id: 2, name: 'Autodesk Vault API', slug: 'autodesk-vault-api' }),
+    ],
+  }),
   buildFakeProject({
     id: 2,
-    title: 'PortfolioV2',
-    title_pt: 'PortfolioV2',
-    repository_url: 'https://github.com/viniciusdati/portfolio',
+    title: 'Live Lab Matrix',
+    repository_url: 'https://github.com/viniciusdatti/live-lab-telemetry',
     technologies: [
-      buildFakeTechnology({ id: 1, name: 'React', slug: 'react' }),
-      buildFakeTechnology({ id: 4, name: 'Socket.io', slug: 'socketio' }),
+      buildFakeTechnology({ id: 3, name: 'React', slug: 'react' }),
+      buildFakeTechnology({ id: 4, name: 'WebSockets', slug: 'websocket' }),
     ],
   }),
   buildFakeProject({
     id: 3,
-    title: 'OtherProject',
+    title: 'Aesthetic Nexus',
     title_pt: null,
-    repository_url: 'https://github.com/viniciusdati/other',
+    repository_url: 'https://github.com/viniciusdatti/design-system-core',
     technologies: [
-      buildFakeTechnology({ id: 2, name: 'TypeScript', slug: 'typescript' }),
+      buildFakeTechnology({ id: 5, name: 'TypeScript', slug: 'typescript' }),
+      buildFakeTechnology({ id: 6, name: 'Storybook', slug: 'storybook' }),
     ],
   }),
 ];

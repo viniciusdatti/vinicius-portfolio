@@ -50,7 +50,7 @@ export const FormSection = styled(motion.div)`
 
   &:focus-within {
     --spot-opacity: 0.65;
-    box-shadow: ${({ theme }) => theme.elevation.lg};
+    border-color: ${({ theme }) => theme.colors.borderLight};
   }
 
   & > * {
@@ -261,21 +261,19 @@ export const InfoItem = styled.a`
  * Call-to-action card for live chat feature.
  */
 export const ChatCTACard = styled(motion.div)`
+  ${cardMarketingGlass};
   background: ${({ theme }) => theme.colors.gradientContactChatCta};
   border: 1px solid ${({ theme }) => theme.colors.primaryBorderStrong};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
-  box-shadow: ${({ theme }) => theme.elevation.sm};
   transition:
-    box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast},
     transform ${({ theme }) => theme.transitions.normal};
 
   @media (hover: hover) {
     &:hover {
       transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-      box-shadow: ${({ theme }) => theme.elevation.md};
       border-color: ${({ theme }) => theme.colors.primary};
     }
   }

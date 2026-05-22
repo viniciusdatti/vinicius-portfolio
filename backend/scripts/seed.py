@@ -64,15 +64,23 @@ def seed_data(force: bool = False):
 
             technologies = {
                 "react": Technology(name="React", slug="react"),
-                "javascript": Technology(name="JavaScript", slug="javascript"),
-                "css": Technology(name="CSS", slug="css"),
-                "html": Technology(name="HTML", slug="html"),
+                "typescript": Technology(name="TypeScript", slug="typescript"),
                 "python": Technology(name="Python", slug="python"),
-                "flask": Technology(name="Flask", slug="flask"),
-                "rest_api": Technology(name="REST API", slug="rest-api"),
-                "vite": Technology(name="Vite", slug="vite"),
-                "docker": Technology(name="Docker", slug="docker"),
-                "mysql": Technology(name="MySQL", slug="mysql"),
+                "websocket": Technology(name="WebSockets", slug="websocket"),
+                "styled_components": Technology(
+                    name="Styled-Components", slug="styled-components"
+                ),
+                "storybook": Technology(name="Storybook", slug="storybook"),
+                "autodesk_vault_api": Technology(
+                    name="Autodesk Vault API", slug="autodesk-vault-api"
+                ),
+                "task_scheduler": Technology(
+                    name="Task Scheduler", slug="task-scheduler"
+                ),
+                "erp_integration": Technology(
+                    name="ERP Integration", slug="erp-integration"
+                ),
+                "performance": Technology(name="Performance", slug="performance"),
             }
 
             for tech in technologies.values():
@@ -84,115 +92,79 @@ def seed_data(force: bool = False):
             print("Seeding projects...")
 
             project_data = [
-            {
-                "title": "Pulse Feed",
-                "title_pt": "Pulse Feed",
-                "description": (
-                    "Social content surface: composable feed cards, interaction state "
-                    "(likes, comments), and responsive layouts aligned with production "
-                    "social product patterns."
-                ),
-                "description_pt": (
-                    "Superfície de conteúdo social: cards de feed composáveis, estado de "
-                    "interação (curtidas, comentários) e layouts responsivos no padrão de "
-                    "produtos sociais em produção."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/ReactGram",
-                "techs": ["react", "javascript", "css"],
-            },
-            {
-                "title": "Streamline",
-                "title_pt": "Streamline",
-                "description": (
-                    "Media catalog browsing: horizontal category rails, density-aware "
-                    "grids, and layered CSS for streaming-style layouts without an "
-                    "external UI kit."
-                ),
-                "description_pt": (
-                    "Navegação em catálogo de mídia: trilhos horizontais por categoria, "
-                    "grids com densidade controlada e CSS em camadas para layouts no "
-                    "padrão streaming, sem UI kit externo."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/netflix_clone",
-                "techs": ["react", "javascript", "css"],
-            },
-            {
-                "title": "CineScope",
-                "title_pt": "CineScope",
-                "description": (
-                    "Film discovery client on Vite: REST integration, explicit loading "
-                    "and error boundaries, list/detail navigation, and metadata views "
-                    "for ratings and synopsis."
-                ),
-                "description_pt": (
-                    "Cliente de descoberta de filmes em Vite: integração REST, estados "
-                    "de carregamento e erro explícitos, navegação lista/detalhe e "
-                    "apresentação de ratings e sinopse."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/movies_lib",
-                "techs": ["react", "javascript", "vite", "rest_api"],
-            },
-            {
-                "title": "Cipher Play",
-                "title_pt": "Cipher Play",
-                "description": (
-                    "Word-guess experience driven by an explicit state machine: letter "
-                    "input, scoring tiers, controlled re-renders, and immediate UI "
-                    "feedback loops."
-                ),
-                "description_pt": (
-                    "Experiência de adivinhação com máquina de estados explícita: "
-                    "entrada por letras, níveis de pontuação, re-renders controlados e "
-                    "feedback imediato na interface."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/secret_word",
-                "techs": ["react", "javascript", "css"],
-            },
-            {
-                "title": "Taskline API",
-                "title_pt": "Taskline API",
-                "description": (
-                    "Task lifecycle backend: Flask routing, request validation, and unit "
-                    "tests documenting CRUD contracts for a future admin surface."
-                ),
-                "description_pt": (
-                    "Backend de ciclo de tarefas: rotas Flask, validação de requests e "
-                    "testes unitários que documentam contratos CRUD para uma superfície "
-                    "admin futura."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/tasks-flask-crud",
-                "techs": ["python", "flask", "rest_api"],
-            },
-            {
-                "title": "Gatekeeper Auth",
-                "title_pt": "Gatekeeper Auth",
-                "description": (
-                    "Identity service with JWT: registration, login, refresh flows, "
-                    "MySQL persistence, and containerized runtime for dev/prod parity."
-                ),
-                "description_pt": (
-                    "Serviço de identidade com JWT: registro, login, fluxos de refresh, "
-                    "persistência MySQL e runtime containerizado para paridade dev/prod."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/sample-flask-auth",
-                "techs": ["python", "flask", "docker", "mysql"],
-            },
-            {
-                "title": "Layout Atlas",
-                "title_pt": "Layout Atlas",
-                "description": (
-                    "Interface foundations: semantic markup, responsive grids, forms, "
-                    "and landing compositions that establish layout discipline before "
-                    "the React production stack."
-                ),
-                "description_pt": (
-                    "Fundamentos de interface: marcação semântica, grids responsivos, "
-                    "formulários e composições de landing que estabelecem disciplina de "
-                    "layout antes da stack React em produção."
-                ),
-                "repository_url": "https://github.com/viniciusdatti/HTML-CSS",
-                "techs": ["html", "css", "javascript"],
-            },
+                {
+                    "title": "Vault ERP Synchronizer",
+                    "title_pt": "Vault ERP Synchronizer",
+                    "description": (
+                        "Mid-level automation service integrating the Autodesk Vault API "
+                        "with the corporate ERP. Orchestrates Windows Task Scheduler for "
+                        "continuous asynchronous sync of 3D model thumbnails and stock "
+                        "numbers, eliminating concurrency failures."
+                    ),
+                    "description_pt": (
+                        "Serviço de automação em nível Pleno que integra a API do Autodesk "
+                        "Vault com o sistema ERP corporativo. Orquestra um Task Scheduler "
+                        "para sincronização contínua de miniaturas 3D de modelos e "
+                        "números de estoque de forma assíncrona, eliminando falhas de "
+                        "concorrência."
+                    ),
+                    "repository_url": (
+                        "https://github.com/viniciusdatti/vault-erp-sync"
+                    ),
+                    "techs": [
+                        "python",
+                        "autodesk_vault_api",
+                        "task_scheduler",
+                        "erp_integration",
+                    ],
+                },
+                {
+                    "title": "Live Lab Matrix",
+                    "title_pt": "Live Lab Matrix",
+                    "description": (
+                        "Realtime operational environment focused on WebSocket data "
+                        "streaming. Implements an optimized consumption pipeline with "
+                        "100ms render throttling on the frontend to lock 60fps "
+                        "performance under high event density."
+                    ),
+                    "description_pt": (
+                        "Ambiente operacional realtime focado em streaming de dados via "
+                        "WebSockets. Implementa um pipeline de consumo otimizado com "
+                        "throttling de renderização a cada 100ms no frontend para "
+                        "garantir performance cravada em 60fps sob alta densidade de "
+                        "eventos."
+                    ),
+                    "repository_url": (
+                        "https://github.com/viniciusdatti/live-lab-telemetry"
+                    ),
+                    "techs": ["react", "typescript", "websocket", "performance"],
+                },
+                {
+                    "title": "Aesthetic Nexus",
+                    "title_pt": "Aesthetic Nexus",
+                    "description": (
+                        "Scalable proprietary Design System architecture built with "
+                        "Styled-components and isolated via Storybook. Focused on rigid "
+                        "visual performance tokens, motion choreography, and strict "
+                        "prevention of re-render side effects (prop explosion)."
+                    ),
+                    "description_pt": (
+                        "Arquitetura de Design System proprietária escalável "
+                        "desenvolvida com Styled-components e isolada via Storybook. "
+                        "Focada em tokens rígidos de performance visual, motion "
+                        "choreography e prevenção estrita de efeitos colaterais de "
+                        "re-render (prop explosion)."
+                    ),
+                    "repository_url": (
+                        "https://github.com/viniciusdatti/design-system-core"
+                    ),
+                    "techs": [
+                        "react",
+                        "typescript",
+                        "styled_components",
+                        "storybook",
+                    ],
+                },
             ]
 
             for data in project_data:

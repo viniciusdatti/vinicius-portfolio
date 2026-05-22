@@ -2,6 +2,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+// Components
+import { panelChrome } from '@/styles/surfaces';
+
 export const CasePanelRoot = styled.div`
   grid-column: 1 / -1;
   overflow: hidden;
@@ -11,9 +14,9 @@ export const CasePanelInner = styled.div`
   margin-top: ${({ theme }) => theme.spacing.lg};
   padding: ${({ theme }) => theme.spacing.xxl};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
-  border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  ${panelChrome};
 `;
 
 export const CasePanelHeader = styled.div`

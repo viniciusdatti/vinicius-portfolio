@@ -7,6 +7,9 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+// Components
+import { panelChrome } from '@/styles/surfaces';
+
 export const PageShell = styled.div`
   min-height: 100vh;
   display: flex;
@@ -53,13 +56,12 @@ export const PageContainer = styled.div`
 `;
 
 export const LoginCard = styled(motion.div)`
+  ${panelChrome};
   background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
   width: 100%;
   max-width: 420px;
-  box-shadow: ${({ theme }) => theme.shadows.lg};
 `;
 
 export const Logo = styled.div`
