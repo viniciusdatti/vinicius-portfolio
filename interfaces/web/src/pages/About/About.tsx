@@ -37,6 +37,13 @@ import {
   EducationInfo,
   EducationStatus,
   ComplementaryText,
+  VantageCard,
+  VantageCardHeader,
+  VantageCardTitle,
+  VantageCardRole,
+  VantageCardSummary,
+  VantageBullets,
+  VantageBullet,
 } from './About.style';
 
 /* *************************************************************************************************
@@ -112,6 +119,29 @@ export const About: React.FC = (): React.ReactElement => {
         </IntroContent>
       </IntroSection>
 
+      <Section>
+        <SectionTitle>{t('about.vantage.sectionTitle')}</SectionTitle>
+        <VantageCard
+          variants={scrollReveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-40px' }}
+          whileHover={{ y: -2 }}
+        >
+          <VantageCardHeader>
+            <VantageCardTitle>{t('about.vantage.title')}</VantageCardTitle>
+          </VantageCardHeader>
+          <VantageCardRole>{t('about.vantage.role')}</VantageCardRole>
+          <VantageCardSummary>{t('about.vantage.summary')}</VantageCardSummary>
+          <VantageBullets>
+            <VantageBullet>{t('about.vantage.items.dashboards')}</VantageBullet>
+            <VantageBullet>{t('about.vantage.items.realtime')}</VantageBullet>
+            <VantageBullet>{t('about.vantage.items.responsive')}</VantageBullet>
+            <VantageBullet>{t('about.vantage.items.auth')}</VantageBullet>
+          </VantageBullets>
+        </VantageCard>
+      </Section>
+
       <StatsGrid
         variants={scrollRevealStagger}
         initial="hidden"
@@ -119,8 +149,8 @@ export const About: React.FC = (): React.ReactElement => {
         viewport={{ once: true, margin: '-60px' }}
       >
         <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
-        <StatCounter target={7} label={t('about.stats.certificates')} />
-        <StatCounter target={10} suffix="+" label={t('about.stats.technologies')} />
+        <StatCounter target={2} label={t('about.stats.dashboards')} />
+        <StatCounter target={5} label={t('about.stats.breakpoints')} />
       </StatsGrid>
 
       <PhilosophySection

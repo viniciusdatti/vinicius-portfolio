@@ -134,13 +134,13 @@
     },
     "identity": {
       "role": "Front-end Engineer",
-      "focus": "Realtime systems · product engineering · operational UI",
-      "statProjects": "Cases shipped",
-      "statRealtime": "Live transport",
-      "statFocus": "Product focus",
-      "statProjectsValue": "12+",
-      "statRealtimeValue": "WS",
-      "statFocusValue": "UX"
+      "focus": "React · WebSocket · interfaces that cannot break",
+      "statProjects": "Years in production",
+      "statRealtime": "Sensor refresh cycle",
+      "statFocus": "Crusher dashboards",
+      "statProjectsValue": "3",
+      "statRealtimeValue": "10s",
+      "statFocusValue": "2"
     },
     "cases": {
       "title": "Case modules",
@@ -154,8 +154,8 @@
       "back": "Back to registry"
     },
     "capabilities": {
-      "title": "Capability surface",
-      "lead": "Engineering stack grouped by domain.",
+      "title": "Engineering stack",
+      "lead": "Technologies grouped by domain.",
       "empty": "No capabilities returned."
     },
     "channelModule": {
@@ -197,21 +197,22 @@
   },
   "home": {
     "hero": {
+      "name": "Vinicius Datti",
       "eyebrow": "Portfolio · frontend engineering",
-      "headline": "React + WebSocket on live industrial interfaces.",
-      "description": "3 years building dashboards that monitor equipment in real time — dynamic thresholds, multiple render states, and continuous WebSocket telemetry streams.",
+      "headline": "Front-end for industrial systems that cannot stop.",
+      "description": "I spent 3 years at Vantage — a real-time crusher monitoring platform. Dashboards over WebSocket, multiple equipment states, and a layout that works from the operator's phone to the control room monitor.",
       "stackLine": "React · TypeScript · WebSocket · FastAPI",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explore the portfolio",
       "ctaPrimary": "View work",
       "ctaSecondary": "Open Live Lab",
       "stats": {
-        "production": "years in production",
+        "production": "years at Vantage",
         "productionValue": "3+",
-        "realtime": "fullstack projects",
-        "realtimeValue": "5+",
-        "architecture": "TypeScript strict",
-        "architectureValue": "100%"
+        "realtime": "industrial dashboards (Patriot + VSI)",
+        "realtimeValue": "2",
+        "architecture": "responsive breakpoints",
+        "architectureValue": "5"
       },
       "liveMicro": {
         "apiLive": "API synchronized",
@@ -259,19 +260,19 @@
       }
     },
     "aboutPreview": {
-      "title": "Front-end for systems that cannot fail",
-      "description": "3 years in industrial monitoring: dashboards processing live telemetry, dynamic thresholds, and multiple render states. Ask me about the dashboards.",
+      "title": "3 years monitoring crushers in real production",
+      "description": "At Vantage I built the Patriot and VSI dashboards — WebSocket with per-equipment states, alerts based on readStatus and edgeStatus, and a full responsiveness refactor so operators could use it on their phones in the field.",
       "cta": "Read full experience"
     },
     "skillsPreview": {
       "title": "Engineering capabilities",
-      "description": "Component architecture, realtime interfaces, type safety, and product quality.",
+      "description": "From responsive layout with useBreakpoint to socket lifecycle with cleanup on unmount — focused on code the team can maintain.",
       "viewAll": "View capabilities"
     },
     "liveLabPreview": {
       "title": "Live Lab",
       "badge": "Live engineering",
-      "description": "Most portfolios show screenshots. This one runs the same WebSocket pattern I used in industrial monitoring — live session, real persistence, event log streaming now.",
+      "description": "Most portfolios show screenshots. This one runs the same WebSocket pattern I used at Vantage — live session, real persistence, event log streaming now.",
       "cta": "Open full Live Lab",
       "activity": {
         "sync": "Syncing with API…",
@@ -288,13 +289,13 @@
       },
       "context": {
         "transport": "Bidirectional channel with explicit connection states.",
-        "persistence": "Persistent session and elegant resume on the client.",
+        "persistence": "Persistent session and graceful resume on the client.",
         "operational": "Event log and operational feedback — not decorative chat."
       }
     },
     "contactCta": {
-      "title": "Let's talk engineering?",
-      "description": "Open to product engineering, front-end architecture, and realtime systems.",
+      "title": "Want to talk engineering?",
+      "description": "Open to product engineering, front-end, and realtime systems.",
       "cta": "Send a message"
     },
     "projectsEmpty": "No published cases at the moment.",
@@ -304,29 +305,41 @@
   "about": {
     "title": "About",
     "intro": {
-      "title": "Front-end for systems that cannot fail",
-      "description": "I spent 3 years in industrial monitoring — when the data is wrong, machines stop. That context shaped how I think about UI."
+      "title": "3 years at Vantage — industrial crusher monitoring platform",
+      "description": "I built the Patriot and VSI dashboards from scratch: WebSocket with multiple states per equipment, layout adapted from the operator's phone to the control room monitor, auth with JWT decoding and routing by user type. When the data came in wrong, machines stopped — that shaped how I think about interfaces."
     },
     "stats": {
-      "experience": "Years in production",
-      "certificates": "Continuous learning",
-      "technologies": "Engineering domains"
+      "experience": "Years at Vantage",
+      "dashboards": "Industrial dashboards",
+      "breakpoints": "Responsive breakpoints"
     },
     "philosophy": {
       "title": "How I work",
-      "description": "Type safety, component architecture, and automated tests as a quality contract — reviewable code that scales with the product."
+      "description": "Typed contracts between layers, file conventions the team follows without asking me, and tests on the paths that actually matter — not to hit a number."
+    },
+    "vantage": {
+      "sectionTitle": "Professional experience",
+      "title": "Vantage · 2021–2024",
+      "role": "Front-end Engineer — industrial crusher monitoring platform",
+      "summary": "Patriot (cone crusher) and VSI dashboards built from scratch. Data arriving via Socket.io every 10 seconds, alerts based on readStatus and edgeStatus, and a complete responsiveness refactor so operators could use it on their phones in the field.",
+      "items": {
+        "dashboards": "Patriot and VSI dashboards — hydraulics, lubrication, motor status, vibration, cavity level. Schema-based equipment detection (SchemaType). GPS with three fallback levels: live coordinates → static equipment location → no pin.",
+        "realtime": "Promise.allSettled to load equipment unit, latest data, and socket in parallel. When a machine stopped, the UI communicated it immediately through readStatus and edgeStatus — not just a visual indicator, a data contract.",
+        "responsive": "Full responsiveness refactor from zero: useBreakpoint hook with xs/sm/md/lg/xl. Five intentional layouts for Patriot alone — modules reordered, columns collapsed, panels stacked for field use.",
+        "auth": "JWT decoded with jwtDecode, user extracted from payload, routing by UserType (admin / service / customer). RegisterPassword validates the token in the backend before showing the form and auto-logs in after creation."
+      }
     },
     "education": {
       "title": "Education",
       "degree": "Software Engineering",
       "institution": "UniCesumar",
       "status": "In progress",
-      "complementary": "Ongoing specialization on Udemy, RocketSeat, and Alura — React, TypeScript, testing, and applied backend."
+      "complementary": "Ongoing specialization on Udemy, RocketSeat and Alura. Over 400 certified hours in React, TypeScript, automated testing and backend with Python."
     }
   },
   "skills": {
     "title": "Capabilities",
-    "subtitle": "Trained in real production — industrial dashboards, design systems with Storybook, and E2E tests with Playwright on critical flows.",
+    "subtitle": "3 years writing front-end where a UI failure means machines stop and operators lose visibility. Industrial dashboards, full auth flow, and responsiveness rebuilt from scratch.",
     "filterAll": "All",
     "toolNames": {
       "cursor": "Cursor",
@@ -342,13 +355,13 @@
     },
     "experience": {
       "title": "Front-end in production",
-      "intro": "On industrial dashboards and admin panels I built component libraries, equipment status mapping, and UIs that consume continuous telemetry streams over WebSocket.",
+      "intro": "Industrial dashboards over bidirectional WebSocket — per-equipment state mapping, alerts based on readStatus and edgeStatus, and responsive layout with useBreakpoint for field use. From component library down to Playwright on the critical paths.",
       "subtitle": "Industrial monitoring, admin panels, and this portfolio.",
       "items": {
         "auth": {
-          "title": "End-to-end authentication flows",
-          "description": "JWT, protected routes, 401 redirect, and password recovery with typed contracts between UI and API.",
-          "highlight": "Reusable auth wrapper; login, register, and recovery as isolated modules."
+          "title": "JWT auth with role-based routing",
+          "description": "Login with JWT decoding via jwtDecode, user extraction from the token payload, and automatic redirect by UserType — admin, service, and customer on separate routes.",
+          "highlight": "RegisterPassword validates the token against the backend before showing the form, then performs auto-login after password creation."
         },
         "state": {
           "title": "Global state and persistence",
@@ -361,9 +374,9 @@
           "highlight": "Domain namespaces; unified locale across UI and utilities."
         },
         "realtime": {
-          "title": "Realtime interfaces",
-          "description": "WebSocket/Socket.io for live dashboards and chat; presence, typing, and per-equipment events.",
-          "highlight": "Real-time UI with status indicators and synchronized controls."
+          "title": "Industrial dashboards with WebSocket",
+          "description": "Socket.io at Vantage for Patriot and VSI crusher monitoring — per-equipment states, alerts based on readStatus and edgeStatus, reconnection with listener cleanup on unmount.",
+          "highlight": "Promise.allSettled to load equipment unit, latest data, and socket in parallel — graceful degradation if any request fails."
         },
         "api": {
           "title": "Centralized API layer",
@@ -372,13 +385,13 @@
         },
         "theming": {
           "title": "Design Systems",
-          "description": "Styled-components with semantic tokens; dark/light; zero inline styles; documentable components.",
-          "highlight": "UI in .style.ts; Storybook-ready; Ant Design aligned to theme."
+          "description": "Styled-components with semantic tokens, dark/light mode, zero inline styles — architecture that scales without losing consistency.",
+          "highlight": ".tsx + .style.ts separation by convention; Ant Design integrated to the theme without CSS overrides."
         },
         "dashboards": {
-          "title": "Dashboards and telemetry",
-          "description": "Charts, maps, and panels fed by continuous streams — equipment status in real time.",
-          "highlight": "Crusher, Patriot, VSI modules; domain-specific status mapping functions."
+          "title": "Patriot and VSI dashboards",
+          "description": "Crusher monitoring screens for cone crusher (Patriot) and VSI — each with its own modules, schema-based detection (SchemaType), and data arriving via WebSocket every 10 seconds.",
+          "highlight": "GPS with multiple fallbacks: latestUnitData → static equipment coordinates → no pin."
         },
         "crud": {
           "title": "Admin & data interfaces",
@@ -386,13 +399,13 @@
           "highlight": "Reusable patterns for complex production listings."
         },
         "architecture": {
-          "title": "Component architecture",
-          "description": ".tsx + .style.ts + .types.ts structure; sectioned imports; domain enums.",
-          "highlight": "Scalable component libraries; strict TypeScript conventions."
+          "title": "Responsiveness and mobile first",
+          "description": "Full responsiveness refactor at Vantage — a desktop-only system rebuilt to work from the operator's phone to the control room monitor, using useBreakpoint to adapt layout, module order, and visibility per breakpoint.",
+          "highlight": "Patriot with columns and modules reordered across xs/sm/md/lg/xl — each breakpoint with an intentional layout."
         },
         "testing": {
           "title": "Automated testing",
-          "description": "Jest + React Testing Library; Playwright for E2E; Storybook for UI contracts.",
+          "description": "Jest + React Testing Library on components; Playwright for E2E; Storybook for UI contracts.",
           "highlight": "Engineering quality on critical flows and shared components."
         }
       }
@@ -517,7 +530,7 @@
   },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "The same WebSocket pattern used in industrial monitoring — running in your browser right now.",
+    "subtitle": "The same WebSocket pattern I used at Vantage for industrial monitoring — running in your browser right now.",
     "monitor": {
       "title": "Telemetry · Industrial sensors",
       "live": "WebSocket live",
@@ -537,7 +550,7 @@
       "send": "Send",
       "intro": {
         "title": "Open session",
-        "description": "Same channel pattern I used on industrial dashboards. Open a session and talk — I receive it in real time.",
+        "description": "Same channel pattern I used at Vantage. Open a session and talk — I receive it in real time.",
         "name": "Name",
         "namePlaceholder": "What should I call you?",
         "company": "Company",
@@ -588,12 +601,12 @@
     },
     "chatCta": {
       "title": "Prefer a realtime channel?",
-      "description": "Live Lab runs a real WebSocket connection — the same architecture I use in production, open in your browser right now.",
+      "description": "Live Lab runs a real WebSocket connection — the same architecture I used at Vantage, open in your browser right now.",
       "cta": "Open Live Lab"
     }
   },
   "footer": {
-    "description": "I built front-end where industrial equipment depends on the UI being right. React · TypeScript · WebSocket.",
+    "description": "I built front-end where industrial crushers depend on the UI being right. React · TypeScript · WebSocket.",
     "navigation": "Navigation",
     "contact": "Contact",
     "linkedin": "LinkedIn",
@@ -606,15 +619,15 @@
   },
   "projects": {
     "title": "Engineering work",
-    "subtitle": "Case studies across UI systems, APIs, and interface architecture — with source and live paths where available.",
+    "subtitle": "Cases across UI systems, APIs, and interface architecture — with source and live paths where available.",
     "showcase": {
       "eyebrow": "Engineering showcase",
-      "lead": "Projects documented as engineering decisions — the problem, the architecture chosen, and what was learned.",
+      "lead": "Study projects and open-source work. Each one was built to practice specific patterns. Vantage — 3 years of production engineering, private repo — is referenced in About and Skills.",
       "viewCase": "View case study",
       "liveDemo": "Live experience"
     },
     "sectionTitle": "Engineering showcase",
-    "sectionLead": "Modern front-end systems — composition, state, data boundaries, and layout architecture documented as cases.",
+    "sectionLead": "Open-source and study projects. The Vantage industrial platform — 3 years, private repository — is documented in About and Skills.",
     "sectionList": "Case index",
     "filters": {
       "all": "All"
@@ -643,17 +656,17 @@
         "decision": "Prioritizing legibility, perceived performance, and predictable data contracts on the front-end."
       },
       "ReactGram": {
-        "framing": "Realtime social network — feed, messaging, and presence with low-latency expectations.",
+        "framing": "Study project exploring Socket.io patterns — the same real-time architecture applied later at Vantage. Feed, messaging, and presence.",
         "architecture": "React + Socket.io on the client; FastAPI and persistence on the service; chat state in dedicated stores.",
         "decision": "WebSocket as primary transport with reconnection and explicit operational feedback in the UI."
       },
       "netflix_clone": {
-        "framing": "Streaming experience focused on content discovery and cinematic visual hierarchy.",
+        "framing": "Study project: streaming UI built to practice responsive layout, scroll performance, and cinematic visual hierarchy.",
         "architecture": "Responsive layout components, lazy media, and catalog routing.",
         "decision": "Scroll performance and editorial composition before decorative effects."
       },
       "movies_lib": {
-        "framing": "Film catalog with search and filters — fast metadata scanning.",
+        "framing": "Study project: catalog SPA built to practice REST integration, request caching, and skeleton loading states.",
         "architecture": "React SPA consuming REST API; listing state with request caching.",
         "decision": "Skeleton loading and honest error states for a real product feel."
       }
