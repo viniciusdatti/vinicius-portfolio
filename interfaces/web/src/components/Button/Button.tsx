@@ -1,13 +1,22 @@
 // Core
 import React from 'react';
 
+// Libraries
+import { motion } from 'framer-motion';
+
+// Hooks
+import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+
 // Types
-import type { ButtonProps } from '@/components/Button/Button.types';
+import type { ButtonComponent } from '@/components/Button/Button.types';
+import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 
 // Components
 import { StyledButton } from '@/components/Button/Button.style';
 
-export function Button({
+const MotionStyledButton = motion.create(StyledButton);
+
+export const Button: ButtonComponent = function Button({
   variant = 'primary',
   children,
   type,
@@ -37,9 +46,19 @@ export function Button({
   title,
   style,
   testId,
-}: ButtonProps): React.ReactElement {
+}): React.ReactElement {
+  const { ref, motionProps }: UsePhysicalInteractionResult<HTMLButtonElement> = (
+    usePhysicalInteraction<HTMLButtonElement>({
+      disabled: Boolean(disabled),
+      enableTilt: false,
+      enableSpotlight: false,
+      enableLift: true,
+    })
+  );
+
   return (
-    <StyledButton
+    <MotionStyledButton
+      ref={ref}
       $variant={variant}
       data-testid={testId}
       type={type}
@@ -67,9 +86,12 @@ export function Button({
       tabIndex={tabIndex}
       autoFocus={autoFocus}
       title={title}
-      style={style}
+      style={{ ...motionProps.style, ...style }}
+      animate={motionProps.animate}
+      transition={motionProps.transition}
+      whileTap={motionProps.whileTap}
     >
       {children}
-    </StyledButton>
+    </MotionStyledButton>
   );
-}
+};

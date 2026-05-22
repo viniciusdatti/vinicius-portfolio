@@ -26,6 +26,7 @@ export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
 `;
 
 export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boolean }>`
+  position: relative;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   display: flex;
@@ -48,14 +49,22 @@ export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boole
   -webkit-backdrop-filter: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
     ? theme.effects.backdrop.header
     : 'none')};
-  box-shadow: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
-    ? theme.shadows.md
-    : 'none')};
   transition:
     background ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.normal},
-    box-shadow ${({ theme }) => theme.transitions.normal},
     backdrop-filter ${({ theme }) => theme.transitions.normal};
+
+  ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace) && `
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px ${theme.colors.borderLight};
+      pointer-events: none;
+      z-index: 0;
+    };
+  `}
   min-width: 0;
   overflow: visible;
 `;

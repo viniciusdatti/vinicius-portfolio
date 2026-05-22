@@ -18,6 +18,7 @@ import { useTranslation } from 'react-i18next';
 import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
 
 // Components
+import { motionPresets } from '@/styles/motionPresets';
 import {
   DrawerOverlay,
   DrawerPanel,
@@ -85,7 +86,7 @@ export function Drawer({
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            transition={motionPresets.spring.physical}
           >
             <DrawerHeader>
               <DrawerTitle id={titleId}>{title}</DrawerTitle>

@@ -1,5 +1,10 @@
 // Core
-import type { HTMLAttributes, ReactNode } from 'react';
+import type {
+  FC,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 // Types
 import type { TestableProps } from '@/types/testable';
@@ -16,3 +21,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement>, TestableProps
   variant?: CardVariant;
   interactive?: boolean;
 }
+
+export type CardComponent = FC<CardProps>;
+
+export type CardRenderFn = (props: CardProps) => ReactElement;

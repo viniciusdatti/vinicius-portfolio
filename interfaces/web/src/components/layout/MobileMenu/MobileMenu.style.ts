@@ -2,6 +2,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+// Components
+import { drawerPanelChrome } from '@/styles/surfaces';
+
 export const Overlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -28,8 +31,7 @@ export const MenuContainer = styled(motion.nav)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
-  border-left: 1px solid ${({ theme }) => theme.colors.border};
-  box-shadow: ${({ theme }) => theme.elevation.xl};
+  ${drawerPanelChrome};
 `;
 
 export const MenuNav = styled.div`

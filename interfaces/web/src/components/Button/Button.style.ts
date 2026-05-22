@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import type { ButtonVariant } from '@/components/Button/Button.types';
 
 // Components
-import { buttonShine } from '@/styles/surfaces';
+import { buttonPrimaryRim, buttonShine } from '@/styles/surfaces';
 
 interface StyledButtonProps {
   $variant?: ButtonVariant;
@@ -29,27 +29,26 @@ export const StyledButton = styled.button<StyledButtonProps>`
   transition:
     background-color ${({ theme }) => theme.transitions.fast},
     color ${({ theme }) => theme.transitions.fast},
-    border-color ${({ theme }) => theme.transitions.fast},
-    box-shadow ${({ theme }) => theme.transitions.fast},
-    transform ${({ theme }) => theme.transitions.fast};
+    border-color ${({ theme }) => theme.transitions.fast};
 
   ${({ $variant = 'primary', theme }) => {
     switch ($variant) {
       case 'primary':
         return `
+          position: relative;
+          overflow: hidden;
           background: ${theme.colors.gradientButtonPrimary};
           color: ${theme.colors.onPrimary};
           border-color: transparent;
-          box-shadow: ${theme.elevation.sm};
           ${buttonShine};
+          ${buttonPrimaryRim};
 
           &:hover {
-            box-shadow: ${theme.elevation.md};
-            transform: translateY(-${theme.motion.distance.liftSm});
+            filter: brightness(1.04);
           };
 
           &:active {
-            transform: translateY(0);
+            filter: brightness(0.98);
           };
         `;
       case 'secondary':
@@ -63,11 +62,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
           &:hover {
             border-color: ${theme.colors.borderLight};
             background: ${theme.colors.surfaceHover};
-            transform: translateY(-${theme.motion.distance.liftSm});
-          };
-
-          &:active {
-            transform: translateY(0);
           };
         `;
       case 'outline':
@@ -81,11 +75,6 @@ export const StyledButton = styled.button<StyledButtonProps>`
           &:hover {
             background-color: ${theme.colors.primaryLight};
             border-color: ${theme.colors.primary};
-            transform: translateY(-${theme.motion.distance.liftSm});
-          };
-
-          &:active {
-            transform: translateY(0);
           };
         `;
     }

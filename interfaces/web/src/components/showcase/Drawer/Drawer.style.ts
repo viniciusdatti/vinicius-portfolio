@@ -6,6 +6,9 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+// Components
+import { drawerPanelChrome } from '@/styles/surfaces';
+
 export const DrawerOverlay = styled(motion.div)`
   position: fixed;
   top: 0;
@@ -28,8 +31,7 @@ export const DrawerPanel = styled(motion.aside)`
   bottom: 0;
   width: min(400px, 100vw);
   background-color: ${({ theme }) => theme.colors.surface};
-  border-left: 1px solid ${({ theme }) => theme.colors.border};
-  box-shadow: ${({ theme }) => theme.shadows.lg};
+  ${drawerPanelChrome};
   z-index: ${({ theme }) => theme.zIndex.modal + 1};
   display: flex;
   flex-direction: column;

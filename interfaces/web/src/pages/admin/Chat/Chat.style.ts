@@ -275,6 +275,8 @@ export const MessagesContainer = styled.div`
 `;
 
 export const Message = styled(motion.div)<MessageProps>`
+  position: relative;
+  overflow: hidden;
   max-width: min(72%, ${({ theme }) => theme.sizes.chat.messageMaxWidthAdmin});
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
@@ -283,7 +285,16 @@ export const Message = styled(motion.div)<MessageProps>`
   align-self: ${({ $isAdmin }) => ($isAdmin ? 'flex-end' : 'flex-start')};
   border: 1px solid
     ${({ $isAdmin, theme }) => ($isAdmin ? 'transparent' : theme.colors.borderSubtle)};
-  box-shadow: ${({ $isAdmin, theme }) => ($isAdmin ? theme.shadows.sm : theme.elevation.sm)};
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    opacity: ${({ $isAdmin }) => ($isAdmin ? 0.35 : 1)};
+  };
 `;
 
 export const MessageContent = styled.p`
@@ -332,11 +343,22 @@ export const MessageInput = styled.input`
 `;
 
 export const SendButton = styled(motion.button)`
+  position: relative;
+  overflow: hidden;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   background: ${({ theme }) => theme.colors.gradientButtonPrimary};
   color: ${({ theme }) => theme.colors.onPrimary};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+  };
 
   &:disabled {
     opacity: ${({ theme }) => theme.effects.opacity.disabled};
@@ -344,7 +366,7 @@ export const SendButton = styled(motion.button)`
   };
 
   &:hover:not(:disabled) {
-    box-shadow: ${({ theme }) => theme.shadows.glow};
+    filter: brightness(1.04);
   };
 `;
 

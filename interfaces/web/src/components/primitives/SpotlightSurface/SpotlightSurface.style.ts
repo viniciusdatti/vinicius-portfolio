@@ -18,7 +18,6 @@ export const SpotlightRoot = styled.div<{
   transform-style: preserve-3d;
   transition:
     transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.28s ease;
 
   &::before {
@@ -48,7 +47,7 @@ export const SpotlightRoot = styled.div<{
   }
 
   @media (prefers-reduced-motion: reduce) {
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: border-color 0.2s ease;
   }
 `;
 

@@ -3,7 +3,7 @@ import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { cardShowcaseSurface } from '@/styles/surfaces';
+import { cardShowcaseSurface, cardPointerVars, pointerSpotlight } from '@/styles/surfaces';
 import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
@@ -92,12 +92,11 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   overflow: hidden;
   cursor: pointer;
   position: relative;
+  ${cardPointerVars};
+  ${pointerSpotlight};
   ${cardShowcaseSurface};
   border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
-  box-shadow: ${({ $selected, theme }) => ($selected ? theme.elevation.md : theme.elevation.sm)};
-  transition:
-    box-shadow ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast};
+  transition: border-color ${({ theme }) => theme.transitions.fast};
 
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
@@ -142,6 +141,7 @@ export const PreviewPanel = styled.div<ShowcaseCardStyleProps>`
     content: '';
     position: absolute;
     inset: 0;
+    z-index: 1;
     background: ${({ theme }) => theme.colors.gradientLiveLabGlow};
     pointer-events: none;
   };
@@ -164,8 +164,17 @@ export const MockWindow = styled.div`
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow: ${({ theme }) => theme.elevation.md};
   overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 1;
+  };
 `;
 
 export const MockWindowBar = styled.div`
@@ -387,11 +396,6 @@ export const ViewCaseLabel = styled.span`
 
 export const ArrowIcon = styled.span`
   color: ${({ theme }) => theme.colors.primary};
-  transition: transform ${({ theme }) => theme.transitions.fast};
-
-  ${ShowcaseCard}:hover & {
-    transform: translateX(${({ theme }) => theme.motion.distance.liftSm});
-  };
 `;
 
 /**

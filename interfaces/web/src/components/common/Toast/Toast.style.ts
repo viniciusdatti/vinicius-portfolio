@@ -1,5 +1,9 @@
+// Libraries
 import styled from 'styled-components';
 import type { DefaultTheme } from 'styled-components';
+
+// Components
+import { panelInsetRim } from '@/styles/surfaces';
 import { ToastType } from '@/store/toastStore';
 
 const toneColor = (type: ToastType, theme: DefaultTheme): string => {
@@ -33,5 +37,5 @@ export const ToastItemSurface = styled.div<{ $type: ToastType }>`
   background: ${({ theme }) => theme.colors.surfaceElevated};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  box-shadow: ${({ theme }) => theme.shadows.md};
+  ${panelInsetRim};
 `;
