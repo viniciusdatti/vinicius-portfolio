@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { SensorStatus, type SensorReading } from '@/types/telemetry';
 
 // Components
+import { TelemetryMetricSnap } from '@/components/workspace/TelemetryMonitor/TelemetryMetricSnap';
 import {
   KpiLabel,
   KpiMeta,
@@ -57,33 +58,43 @@ export function OperationalKpiStrip({
     <KpiStripRoot aria-label={t('liveLab.monitor.kpiStripLabel')}>
       <KpiTile $accent={connected ? 'live' : 'default'}>
         <KpiLabel>{t('liveLab.monitor.kpiStream')}</KpiLabel>
-        <KpiValue $live={connected}>
-          {connected ? t('liveLab.monitor.kpiLive') : '—'}
-        </KpiValue>
+        <TelemetryMetricSnap snapKey={connected ? 'live' : 'off'}>
+          <KpiValue $live={connected}>
+            {connected ? t('liveLab.monitor.kpiLive') : '—'}
+          </KpiValue>
+        </TelemetryMetricSnap>
         <KpiMeta>
-          {t('liveLab.monitor.kpiTick', { tick: tickCount })}
+          <TelemetryMetricSnap snapKey={tickCount}>
+            {t('liveLab.monitor.kpiTick', { tick: tickCount })}
+          </TelemetryMetricSnap>
         </KpiMeta>
       </KpiTile>
       <KpiTile>
         <KpiLabel>{t('liveLab.monitor.kpiSensors')}</KpiLabel>
-        <KpiValue>{stats.sensorCount}</KpiValue>
+        <TelemetryMetricSnap snapKey={stats.sensorCount}>
+          <KpiValue>{stats.sensorCount}</KpiValue>
+        </TelemetryMetricSnap>
         <KpiMeta>{t('liveLab.monitor.kpiChannels')}</KpiMeta>
       </KpiTile>
       <KpiTile $accent={alertAccent}>
         <KpiLabel>{t('liveLab.monitor.kpiAlerts')}</KpiLabel>
-        <KpiValue>
-          {stats.critCount}
-          /
-          {stats.warnCount}
-        </KpiValue>
+        <TelemetryMetricSnap snapKey={`${stats.critCount}-${stats.warnCount}`}>
+          <KpiValue>
+            {stats.critCount}
+            /
+            {stats.warnCount}
+          </KpiValue>
+        </TelemetryMetricSnap>
         <KpiMeta>{t('liveLab.monitor.kpiCritWarn')}</KpiMeta>
       </KpiTile>
       <KpiTile>
         <KpiLabel>{t('liveLab.monitor.kpiLoad')}</KpiLabel>
-        <KpiValue>
-          {stats.avgLoad.toFixed(0)}
-          %
-        </KpiValue>
+        <TelemetryMetricSnap snapKey={stats.avgLoad.toFixed(0)}>
+          <KpiValue>
+            {stats.avgLoad.toFixed(0)}
+            %
+          </KpiValue>
+        </TelemetryMetricSnap>
         <KpiMeta>{t('liveLab.monitor.kpiAvgThreshold')}</KpiMeta>
       </KpiTile>
     </KpiStripRoot>

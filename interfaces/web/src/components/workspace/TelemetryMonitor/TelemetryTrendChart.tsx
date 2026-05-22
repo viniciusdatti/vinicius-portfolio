@@ -12,6 +12,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 
 // Hooks
@@ -22,6 +23,7 @@ import type { SensorReading } from '@/types/telemetry';
 import { SensorStatus } from '@/types/telemetry';
 
 // Components
+import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
 import { ChartPlot, ChartRoot, ChartTitle } from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart.style';
 
 interface TelemetryTrendChartProps {
@@ -49,8 +51,10 @@ export function TelemetryTrendChart({
   history,
   title,
 }: TelemetryTrendChartProps): React.ReactElement | null {
+  const { t } = useTranslation();
   const theme = useTheme();
   const reduced = usePrefersReducedMotion();
+  const sampleAxisLabel: string = t('liveLab.monitor.sampleAxis');
   const gradientPrefix = useId().replace(/:/g, '');
 
   const chartData: ChartPoint[] = useMemo(() => {
@@ -121,7 +125,7 @@ export function TelemetryTrendChart({
               axisLine={{ stroke: gridStroke }}
               tickLine={false}
               label={{
-                value: 'sample',
+                value: sampleAxisLabel,
                 position: 'insideBottomRight',
                 offset: -2,
                 style: {
@@ -141,11 +145,10 @@ export function TelemetryTrendChart({
               cursor={{ stroke: theme.colors.borderLight, strokeWidth: 1 }}
               contentStyle={{
                 background: theme.colors.surfaceElevated,
-                border: `1px solid ${theme.colors.border}`,
+                border: `1px solid ${theme.colors.borderLight}`,
                 borderRadius: theme.borderRadius.md,
                 fontFamily: theme.typography.fontFamily.mono,
                 fontSize: theme.typography.fontSize.xs,
-                boxShadow: theme.elevation.md,
               }}
             />
             {readings.map((r: SensorReading) => {
@@ -165,7 +168,11 @@ export function TelemetryTrendChart({
                   <Line
                     type="monotone"
                     dataKey={r.id}
-                    name={r.label}
+                    name={resolveI18nKeyOrFallback(
+                      `liveLab.monitor.sensors.${r.id}`,
+                      r.label,
+                      t,
+                    )}
                     dot={false}
                     strokeWidth={1.75}
                     stroke={stroke}

@@ -1,32 +1,44 @@
 // Core
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
 
 // Components
-import {
-  AtmosphereOrb,
-  AtmosphereOrbSecondary,
-  AtmosphereRoot,
-  GridFloor,
-  HorizonLine,
-  NoiseVeil,
-  PerspectiveStage,
-  ScanBeam,
-} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+import { LiveLabAtmosphereCss } from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
+
+// =================================================================================================
+// ============================================= CONSTANTS =========================================
+// =================================================================================================
+
+const LiveLabAtmosphereGL = lazy(
+  async (): Promise<{ default: React.ComponentType }> => {
+    const module = await import(
+      '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
+    );
+    return { default: module.LiveLabAtmosphereGL };
+  },
+);
+
+// =================================================================================================
+// ============================================ COMPONENT ==========================================
+// =================================================================================================
 
 /**
- * 3D operational atmosphere — perspective grid, horizon glow, scan beam (CSS 3D, perf-safe).
+ * Live Lab atmosphere — WebGL grid when supported, CSS 3D fallback otherwise.
  */
 export function LiveLabAtmosphere(): React.ReactElement {
-  return (
-    <AtmosphereRoot aria-hidden>
-      <AtmosphereOrb />
-      <AtmosphereOrbSecondary />
-      <PerspectiveStage>
-        <GridFloor />
-        <HorizonLine />
-      </PerspectiveStage>
-      <ScanBeam />
-      <NoiseVeil />
-    </AtmosphereRoot>
-  );
+  const reduced: boolean = usePrefersReducedMotion();
+  const webglAvailable: boolean = useWebGLAvailable();
+
+  if (!reduced && webglAvailable) {
+    return (
+      <Suspense fallback={<LiveLabAtmosphereCss />}>
+        <LiveLabAtmosphereGL />
+      </Suspense>
+    );
+  }
+
+  return <LiveLabAtmosphereCss />;
 }

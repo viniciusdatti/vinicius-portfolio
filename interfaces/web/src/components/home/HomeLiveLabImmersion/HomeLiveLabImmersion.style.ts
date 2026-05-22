@@ -4,18 +4,14 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Theme
-import { operationalGlass } from '@/styles/surfaces';
+import { operationalGlassDeep } from '@/styles/surfaces';
 
 export const ImmersionBand = styled.section`
   position: relative;
   z-index: 4;
   width: 100%;
   margin-top: 0;
-  padding: clamp(4rem, 10vw, 7rem) ${({ theme }) => theme.spacing.pageX}
-    clamp(4rem, 9vw, 6rem);
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
-  padding-bottom: clamp(5rem, 12vw, 8rem);
-  overflow: hidden;
   isolation: isolate;
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 
@@ -36,7 +32,49 @@ export const ImmersionBand = styled.section`
   }
 `;
 
+export const ImmersionPinStage = styled.div`
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+  min-height: calc(100svh - ${({ theme }) => theme.sizes.layout.headerOffset});
+  display: flex;
+  align-items: center;
+  padding: clamp(3rem, 8vw, 5rem) ${({ theme }) => theme.spacing.pageX};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    min-height: auto;
+    padding: clamp(4rem, 10vw, 7rem) ${({ theme }) => theme.spacing.pageX}
+      clamp(4rem, 9vw, 6rem);
+  }
+`;
+
+export const ImmersionAtmosphere = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 50% at 65% 8%,
+      ${({ theme }) => theme.colors.primary}14,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 40% at 30% 90%,
+      ${({ theme }) => theme.colors.accent}0a,
+      transparent 50%
+    );
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+`;
+
 export const ImmersionGrid = styled(motion.div)`
+  position: relative;
+  z-index: 2;
+  width: 100%;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   display: grid;
@@ -46,7 +84,7 @@ export const ImmersionGrid = styled(motion.div)`
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr);
     gap: clamp(1rem, 3vw, 2rem);
-    align-items: end;
+    align-items: center;
   }
 `;
 
@@ -166,14 +204,77 @@ export const ImmersionVisual = styled.div`
   }
 `;
 
-export const VisualFrame = styled.div`
-  border-radius: ${({ theme }) => theme.borderRadius.xl};
-  padding: ${({ theme }) => theme.spacing.lg};
-  overflow: hidden;
-  ${operationalGlass};
+export const ObservatoryCanvas = styled.div`
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  transform-origin: 50% 50%;
+  will-change: transform;
 
-  & > * {
-    position: relative;
-    z-index: 1;
+  @media (prefers-reduced-motion: reduce) {
+    will-change: auto;
+  }
+`;
+
+export const ImmersionFieldParallax = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  border-radius: inherit;
+`;
+
+export const VisualFrame = styled.div`
+  --immersion-t: 0;
+  position: relative;
+  border-radius: calc(
+    ${({ theme }) => theme.borderRadius.xl} * (1 - var(--immersion-t, 0))
+  );
+  padding: calc(
+    ${({ theme }) => theme.spacing.lg} * (1 - var(--immersion-t, 0))
+  );
+  overflow: hidden;
+  ${operationalGlassDeep};
+`;
+
+export const VisualFrameForeground = styled.div`
+  position: relative;
+  z-index: 1;
+`;
+
+export const NarrativeProgressTrack = styled.div`
+  position: absolute;
+  bottom: ${({ theme }) => theme.spacing.lg};
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(12rem, 40vw);
+  height: 2px;
+  background: ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  overflow: hidden;
+  z-index: 5;
+  opacity: 0.65;
+  pointer-events: none;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+`;
+
+export const NarrativeProgressFill = styled.div`
+  width: 100%;
+  height: 100%;
+  background: ${({ theme }) => theme.colors.accent};
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+
+  @media (prefers-reduced-motion: reduce) {
+    will-change: auto;
   }
 `;

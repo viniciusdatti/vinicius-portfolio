@@ -2,7 +2,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 // Components
-import { glassSurface, operationalGlass } from '@/styles/surfaces';
+import { glassSurface } from '@/styles/surfaces';
 
 const pulse = keyframes`
   0%, 100% { opacity: 1; transform: scale(1); }
@@ -10,15 +10,15 @@ const pulse = keyframes`
 `;
 
 const badgeGlow = keyframes`
-  0%, 100% { box-shadow: 0 0 0 rgba(245, 158, 11, 0); }
-  50% { box-shadow: 0 0 12px rgba(245, 158, 11, 0.12); }
+  0%, 100% { border-color: rgba(245, 158, 11, 0.28); }
+  50% { border-color: rgba(245, 158, 11, 0.55); }
 `;
 
 export const ShowcaseHeaderRoot = styled.div`
   flex-shrink: 0;
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  ${operationalGlass};
+  ${glassSurface};
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -36,13 +36,16 @@ export const ShowcaseHeaderRoot = styled.div`
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: inherit;
     background: linear-gradient(
       135deg,
       ${({ theme }) => theme.colors.primary}10 0%,
       transparent 45%,
       ${({ theme }) => theme.colors.accent}06 100%
     );
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
+    z-index: 0;
   }
 `;
 

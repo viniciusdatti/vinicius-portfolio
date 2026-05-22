@@ -31,12 +31,36 @@ const orbDrift = keyframes`
   }
 `;
 
+export const AtmosphereDepthVeil = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 75% at 50% 100%, rgba(0, 0, 0, 0.5) 0%, transparent 65%),
+    linear-gradient(0deg, rgba(6, 7, 8, 0.85) 0%, transparent 42%);
+  z-index: 2;
+`;
+
 export const AtmosphereRoot = styled.div`
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
+  background: linear-gradient(180deg, transparent 0%, rgba(4, 5, 6, 0.55) 100%);
+`;
+
+export const GlCanvasWrap = styled.div`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+
+  canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+  }
 `;
 
 export const AtmosphereOrb = styled.div`
@@ -122,7 +146,6 @@ export const HorizonLine = styled.div`
     ${({ theme }) => theme.colors.accent}66 70%,
     transparent
   );
-  box-shadow: 0 0 16px ${({ theme }) => theme.colors.primary}22;
   opacity: 0.55;
 `;
 

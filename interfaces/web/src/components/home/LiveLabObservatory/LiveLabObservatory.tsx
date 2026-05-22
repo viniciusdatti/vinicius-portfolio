@@ -13,6 +13,9 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 
 // Components
+import { formatClockTime } from '@/lib/i18nDisplay';
+
+// Components
 import {
   ObservatoryRoot,
   ObservatoryChrome,
@@ -57,13 +60,13 @@ const SENSORS = (t: (key: string) => string): SensorDef[] => [
   },
 ];
 
-const LOG_MESSAGES = [
-  'telemetry.tick · sensors=4',
-  'ws.channel · heartbeat ok',
-  'threshold.check · vibration warn',
-  'buffer.flush · 128 samples',
-  'observer.sync · latency 12ms',
-] as const;
+const LOG_MESSAGE_KEYS: readonly string[] = [
+  'home.liveLabPreview.log.tick',
+  'home.liveLabPreview.log.heartbeat',
+  'home.liveLabPreview.log.threshold',
+  'home.liveLabPreview.log.buffer',
+  'home.liveLabPreview.log.sync',
+];
 
 function buildSparkline(seed: number, len: number): number[] {
   const out: number[] = [];
@@ -159,7 +162,7 @@ function AnimatedValue({
  * Premium observability showcase — live motion without requiring WebSocket on home.
  */
 export function LiveLabObservatory(): React.ReactElement {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { status } = useSystemHealth();
   const isApiLive = status === SystemHealthStatus.Online;
   const reduced = usePrefersReducedMotion();
@@ -170,21 +173,23 @@ export function LiveLabObservatory(): React.ReactElement {
   const logs = useMemo(() => {
     const items: { time: string; msg: string; type?: 'info' | 'warn' }[] = [];
     for (let i = 0; i < 4; i += 1) {
-      const idx = (logIndex + i) % LOG_MESSAGES.length;
+      const idx = (logIndex + i) % LOG_MESSAGE_KEYS.length;
+      const messageKey: string = LOG_MESSAGE_KEYS[idx];
+      const message: string = t(messageKey);
       const now = new Date();
       now.setSeconds(now.getSeconds() - i * 2);
       items.push({
-        time: now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-        msg: LOG_MESSAGES[idx],
-        type: LOG_MESSAGES[idx].includes('warn') ? 'warn' : 'info',
+        time: formatClockTime(now.getTime(), i18n.language),
+        msg: message,
+        type: messageKey.includes('threshold') ? 'warn' : 'info',
       });
     }
     return items;
-  }, [logIndex]);
+  }, [logIndex, i18n.language, t]);
 
   useEffect(() => {
     if (reduced) return undefined;
-    const logId = window.setInterval(() => setLogIndex((n) => (n + 1) % LOG_MESSAGES.length), 3200);
+    const logId = window.setInterval(() => setLogIndex((n) => (n + 1) % LOG_MESSAGE_KEYS.length), 3200);
     const tickId = window.setInterval(() => setTick((n) => n + 1), 1000);
     return () => {
       window.clearInterval(logId);

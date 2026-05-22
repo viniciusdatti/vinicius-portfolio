@@ -6,13 +6,17 @@ import { useTranslation } from 'react-i18next';
 
 // Types
 import type { Project } from '@/data/types';
-import { getProjectDisplayTitle } from '@/domain/projects';
+import {
+  formatProjectSignalCode,
+  getProjectDisplayTitle,
+} from '@/domain/projects';
 import { Language } from '@/types';
 import {
   ProjectCanvasTone,
 } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
+import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
 import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
@@ -33,6 +37,7 @@ import {
   RunwayTitle,
   RunwayTech,
   RunwayTechTag,
+  RunwayContent,
   CaseIndexList,
   CaseIndexRow,
   CaseIndexLabel,
@@ -51,7 +56,7 @@ export interface HomeWorkStageProps {
   onRetry: () => void;
 }
 
-const formatIndex = (index: number): string => String(index + 1).padStart(2, '0');
+const formatIndex = (index: number): string => formatProjectSignalCode(index);
 
 const resolveTone = (index: number): ProjectCanvasTone => {
   const mod = index % 3;
@@ -167,13 +172,19 @@ export function HomeWorkStage({
             aria-pressed={highlightId === featured.id}
             aria-label={getProjectDisplayTitle(featured, language)}
           >
-            <RunwayIndex>{formatIndex(0)}</RunwayIndex>
-            <RunwayTitle>{getProjectDisplayTitle(featured, language)}</RunwayTitle>
-            <RunwayTech>
-              {featured.technologies.slice(0, 5).map((tech) => (
-                <RunwayTechTag key={tech.slug}>{tech.name}</RunwayTechTag>
-              ))}
-            </RunwayTech>
+            <WorkCanvasPreview
+              tone={resolveTone(0)}
+              active={highlightId === featured.id}
+            />
+            <RunwayContent>
+              <RunwayIndex>{formatIndex(0)}</RunwayIndex>
+              <RunwayTitle>{getProjectDisplayTitle(featured, language)}</RunwayTitle>
+              <RunwayTech>
+                {featured.technologies.slice(0, 5).map((tech) => (
+                  <RunwayTechTag key={tech.slug}>{tech.name}</RunwayTechTag>
+                ))}
+              </RunwayTech>
+            </RunwayContent>
           </FeaturedRunway>
 
           {indexRows.length > 0 ? (

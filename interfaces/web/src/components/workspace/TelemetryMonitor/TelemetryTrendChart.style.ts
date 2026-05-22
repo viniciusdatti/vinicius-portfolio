@@ -2,7 +2,7 @@
 import styled, { keyframes } from 'styled-components';
 
 // Components
-import { operationalGlass } from '@/styles/surfaces';
+import { glassSurface } from '@/styles/surfaces';
 
 const panelScan = keyframes`
   0% { transform: translateX(-100%); opacity: 0; }
@@ -17,20 +17,23 @@ export const ChartRoot = styled.div`
   min-height: 260px;
   padding: ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  ${operationalGlass};
+  ${glassSurface};
   position: relative;
   overflow: hidden;
-  box-shadow: ${({ theme }) => theme.elevation.md};
 
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      ellipse 90% 55% at 50% 0%,
-      ${({ theme }) => theme.colors.primary}0c,
-      transparent 65%
-    );
+    border-radius: inherit;
+    background:
+      radial-gradient(
+        ellipse 90% 55% at 50% 0%,
+        ${({ theme }) => theme.colors.primary}0c,
+        transparent 65%
+      ),
+      ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
     z-index: 0;
   }

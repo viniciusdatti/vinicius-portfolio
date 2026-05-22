@@ -31,9 +31,7 @@ export const ObservatoryRoot = styled.div`
   overflow: hidden;
   background: ${({ theme }) => theme.colors.background};
   border: 1px solid ${({ theme }) => theme.colors.border};
-  box-shadow:
-    ${({ theme }) => theme.elevation.lg},
-    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
 
   &::before {
@@ -83,7 +81,7 @@ export const ObservatoryLive = styled.span<{ $live?: boolean }>`
     height: 6px;
     border-radius: 50%;
     background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
-    box-shadow: ${({ $live, theme }) => ($live ? `0 0 8px ${theme.colors.success}` : 'none')};
+    outline: ${({ $live, theme }) => ($live ? `1px solid ${theme.colors.success}55` : 'none')};
     ${({ $live }) => $live && css`
       animation: ${pulseRing} 2.2s ease-out infinite;
     `}
