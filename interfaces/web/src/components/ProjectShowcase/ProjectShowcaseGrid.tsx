@@ -26,7 +26,7 @@ import { ShowcaseGrid } from './ProjectShowcase.style';
 const resolveVariant = (
   index: number,
   compact: boolean,
-  hasFeatured: boolean
+  hasFeatured: boolean,
 ): ProjectShowcaseVariant => {
   if (compact) {
     if (hasFeatured && index === 0) {
@@ -60,13 +60,13 @@ const formatIndexLabel = (index: number): string => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
+export function ProjectShowcaseGrid({
   projects,
   language,
   compact = false,
   detailMode = ProjectShowcaseDetailMode.Callback,
   onSelectProject,
-}): React.ReactElement => {
+}: ProjectShowcaseGridProps): React.ReactElement {
   const { t } = useTranslation();
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
@@ -90,7 +90,7 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
       return '';
     }
     const index: number = orderedProjects.findIndex(
-      (p: Project) => p.id === selectedProject.id
+      (p: Project) => p.id === selectedProject.id,
     );
     return formatIndexLabel(index >= 0 ? index : 0);
   }, [orderedProjects, selectedProject]);
@@ -101,11 +101,9 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
         onSelectProject?.(project);
         return;
       }
-      setSelectedProjectId((prev: number | null) =>
-        prev === project.id ? null : project.id
-      );
+      setSelectedProjectId((prev: number | null) => (prev === project.id ? null : project.id));
     },
-    [detailMode, onSelectProject]
+    [detailMode, onSelectProject],
   );
 
   const handleClosePanel = useCallback((): void => {
@@ -146,4 +144,4 @@ export const ProjectShowcaseGrid: React.FC<ProjectShowcaseGridProps> = ({
       ) : null}
     </ShowcaseGrid>
   );
-};
+}

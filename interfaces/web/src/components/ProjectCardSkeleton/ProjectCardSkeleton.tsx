@@ -14,7 +14,7 @@ import {
   SkeletonButton,
 } from './ProjectCardSkeleton.style';
 
-export const ProjectCardSkeleton: React.FC = () => {
+export function ProjectCardSkeleton(): React.ReactElement {
   return (
     <SkeletonCard>
       <SkeletonTitle />
@@ -35,4 +35,4 @@ export const ProjectCardSkeleton: React.FC = () => {
       </SkeletonLinks>
     </SkeletonCard>
   );
-};
+}

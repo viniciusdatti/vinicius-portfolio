@@ -41,10 +41,8 @@ let onDisconnectHandler: (() => void) | null = null;
 let onNewSessionHandler: ((data: ChatSocketNewSessionPayload) => void) | null = null;
 let onNewMessageHandler: ((data: ChatSocketNewMessagePayload) => void) | null = null;
 let onVisitorTypingHandler: ((data: ChatSocketSessionScopePayload) => void) | null = null;
-let onVisitorDisconnectedHandler: ((data: ChatSocketSessionScopePayload) => void) | null =
-  null;
-let onSessionUpdatedHandler: ((data: ChatSocketSessionUpdatedPayload) => void) | null =
-  null;
+let onVisitorDisconnectedHandler: ((data: ChatSocketSessionScopePayload) => void) | null = null;
+let onSessionUpdatedHandler: ((data: ChatSocketSessionUpdatedPayload) => void) | null = null;
 
 const clearTypingTimeouts = (): void => {
   typingTimeouts.forEach((timeout: ReturnType<typeof setTimeout>) => {
@@ -62,8 +60,7 @@ const syncSessionsFromApi = async (): Promise<void> => {
 };
 
 const rejoinActiveSessionRoom = (): void => {
-  const activeSessionId: string | null =
-    useAdminChatStore.getState().activeSessionId;
+  const { activeSessionId } = useAdminChatStore.getState();
   if (activeSessionId) {
     socketService.joinSession(activeSessionId);
   }
@@ -72,7 +69,7 @@ const rejoinActiveSessionRoom = (): void => {
 const handleConnect = (): void => {
   useAdminChatStore.getState().setConnected(true);
   recordEvent(AdminChatEventType.Connect, {});
-  void syncSessionsFromApi();
+  syncSessionsFromApi().catch(() => undefined);
   rejoinActiveSessionRoom();
 };
 
@@ -126,8 +123,7 @@ const attachSocketListeners = (socket: Socket): void => {
     const store = useAdminChatStore.getState();
     store.handleVisitorTyping(data);
 
-    const existing: ReturnType<typeof setTimeout> | undefined =
-      typingTimeouts.get(data.session_id);
+    const existing: ReturnType<typeof setTimeout> | undefined = typingTimeouts.get(data.session_id);
     if (existing) {
       clearTimeout(existing);
     }
@@ -160,13 +156,28 @@ const attachSocketListeners = (socket: Socket): void => {
 };
 
 /**
+ * Stops admin realtime: removes listeners, disconnects, resets store.
+ */
+export const stopAdminChatRealtime = (): void => {
+  if (boundSocket) {
+    detachSocketListeners(boundSocket);
+  }
+  clearTypingTimeouts();
+  socketService.disconnectAdmin();
+  boundSocket = null;
+  accessToken = null;
+  status = AdminRealtimeStatus.Idle;
+  useAdminChatStore.getState().reset();
+};
+
+/**
  * Starts admin realtime: connects socket and attaches listeners once.
  */
 export const startAdminChatRealtime = (token: string): void => {
   if (
-    status === AdminRealtimeStatus.Active &&
-    accessToken === token &&
-    boundSocket?.connected
+    status === AdminRealtimeStatus.Active
+    && accessToken === token
+    && boundSocket?.connected
   ) {
     return;
   }
@@ -184,21 +195,6 @@ export const startAdminChatRealtime = (token: string): void => {
   if (socket.connected) {
     handleConnect();
   }
-};
-
-/**
- * Stops admin realtime: removes listeners, disconnects, resets store.
- */
-export const stopAdminChatRealtime = (): void => {
-  if (boundSocket) {
-    detachSocketListeners(boundSocket);
-  }
-  clearTypingTimeouts();
-  socketService.disconnectAdmin();
-  boundSocket = null;
-  accessToken = null;
-  status = AdminRealtimeStatus.Idle;
-  useAdminChatStore.getState().reset();
 };
 
 /**
@@ -225,7 +221,7 @@ export const joinAdminChatSession = async (sessionId: string): Promise<void> => 
  */
 export const sendAdminChatMessage = (
   sessionId: string,
-  content: string
+  content: string,
 ): void => {
   if (content.trim()) {
     socketService.adminSendMessage(sessionId, content.trim());
@@ -250,5 +246,4 @@ export const closeAdminChatSession = (sessionId: string): void => {
 /**
  * Whether admin realtime controller is active.
  */
-export const isAdminChatRealtimeActive = (): boolean =>
-  status === AdminRealtimeStatus.Active;
+export const isAdminChatRealtimeActive = (): boolean => status === AdminRealtimeStatus.Active;

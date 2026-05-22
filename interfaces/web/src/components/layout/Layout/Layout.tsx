@@ -20,7 +20,7 @@ import { pageEnter, workspaceEnter } from '../../../styles/animations';
  * navigating back to the same route forces a full re-mount of the page tree,
  * resetting all whileInView animation states correctly.
  */
-export const Layout: React.FC = (): React.ReactElement => {
+export function Layout(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const isLiveLab: boolean = location.pathname === '/live-lab';
@@ -55,4 +55,4 @@ export const Layout: React.FC = (): React.ReactElement => {
       {!isLiveLab ? <Footer /> : null}
     </>
   );
-};
+}

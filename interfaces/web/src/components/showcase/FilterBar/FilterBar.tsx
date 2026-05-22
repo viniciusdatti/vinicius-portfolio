@@ -15,11 +15,11 @@ import {
   FilterCount,
 } from './FilterBar.style';
 
-export const FilterBar: React.FC<FilterBarProps> = ({
+export function FilterBar({
   filters,
   selectedKey,
   onSelect,
-}) => {
+}: FilterBarProps): React.ReactElement {
   return (
     <FilterBarWrapper>
       {filters.map((filter) => (
@@ -31,10 +31,14 @@ export const FilterBar: React.FC<FilterBarProps> = ({
         >
           {filter.label}
           {filter.count != null && (
-            <FilterCount>({filter.count})</FilterCount>
+            <FilterCount>
+              (
+              {filter.count}
+              )
+            </FilterCount>
           )}
         </FilterChip>
       ))}
     </FilterBarWrapper>
   );
-};
+}

@@ -34,7 +34,7 @@ const logEvent = (
   type: SystemEventType,
   level: SystemEventLevel,
   messageKey: string,
-  messageParams?: Record<string, string>
+  messageParams?: Record<string, string>,
 ): void => {
   useSystemEventStore
     .getState()
@@ -57,8 +57,8 @@ let onDisconnectHandler: (() => void) | null = null;
 let onReconnectHandler: (() => void) | null = null;
 let onAdminStatusHandler: ((data: ChatSocketAdminStatusPayload) => void) | null = null;
 let onSessionStartedHandler:
-  | ((data: ChatSocketSessionStartedPayload) => void)
-  | null = null;
+| ((data: ChatSocketSessionStartedPayload) => void)
+| null = null;
 let onMessageHandler: ((data: ChatSocketMessagePayload) => void) | null = null;
 let onAdminTypingHandler: (() => void) | null = null;
 let onSessionClosedHandler: (() => void) | null = null;
@@ -74,7 +74,7 @@ const resumeStoredSession = async (sessionId: string): Promise<void> => {
     SystemEventType.SessionResume,
     SystemEventLevel.Info,
     'workspace.events.sessionResume',
-    { id: sessionId.slice(-6).toUpperCase() }
+    { id: sessionId.slice(-6).toUpperCase() },
   );
 };
 
@@ -83,9 +83,9 @@ const handleReconnect = (): void => {
   logEvent(
     SystemEventType.TransportReconnect,
     SystemEventLevel.Warning,
-    'workspace.events.transportReconnect'
+    'workspace.events.transportReconnect',
   );
-  const sessionId: string | null = useChatStore.getState().sessionId;
+  const { sessionId } = useChatStore.getState();
   if (sessionId) {
     socketService.rejoinSession(sessionId);
   }
@@ -96,26 +96,26 @@ const handleConnect = (): void => {
   logEvent(
     SystemEventType.TransportLive,
     SystemEventLevel.Success,
-    'workspace.events.transportLive'
+    'workspace.events.transportLive',
   );
   const storedId: string | null = getStoredVisitorSessionId();
   const currentId: string | null = useChatStore.getState().sessionId;
   const resumeId: string | null = currentId ?? storedId;
   if (resumeId && !currentId) {
-    void resumeStoredSession(resumeId);
+    resumeStoredSession(resumeId).catch(() => undefined);
   } else if (resumeId) {
     socketService.rejoinSession(resumeId);
     logEvent(
       SystemEventType.SessionResume,
       SystemEventLevel.Info,
       'workspace.events.sessionResume',
-      { id: resumeId.slice(-6).toUpperCase() }
+      { id: resumeId.slice(-6).toUpperCase() },
     );
   }
 };
 
 const mapSocketMessageToChatMessage = (
-  data: ChatSocketMessagePayload
+  data: ChatSocketMessagePayload,
 ): ChatMessage | null => {
   const senderType = parseSocketSenderType(data.sender_type);
   if (!senderType) {
@@ -171,14 +171,13 @@ const attachSocketListeners = (socket: Socket): void => {
     logEvent(
       SystemEventType.TransportDown,
       SystemEventLevel.Error,
-      'workspace.events.transportDown'
+      'workspace.events.transportDown',
     );
   };
   onReconnectHandler = handleReconnect;
 
   onAdminStatusHandler = (data: ChatSocketAdminStatusPayload): void => {
-    const adminCount: number =
-      typeof data.admin_count === 'number' ? data.admin_count : 0;
+    const adminCount: number = typeof data.admin_count === 'number' ? data.admin_count : 0;
     const online: boolean = data.is_online && adminCount > 0;
     store().setAdminOnline(online);
     logEvent(
@@ -186,7 +185,7 @@ const attachSocketListeners = (socket: Socket): void => {
       online ? SystemEventLevel.Success : SystemEventLevel.Info,
       online
         ? 'workspace.events.presenceOnline'
-        : 'workspace.events.presenceOffline'
+        : 'workspace.events.presenceOffline',
     );
   };
 
@@ -197,7 +196,7 @@ const attachSocketListeners = (socket: Socket): void => {
       SystemEventType.SessionOpen,
       SystemEventLevel.Success,
       'workspace.events.sessionOpen',
-      { id: data.session_id.slice(-6).toUpperCase() }
+      { id: data.session_id.slice(-6).toUpperCase() },
     );
   };
 
@@ -209,7 +208,7 @@ const attachSocketListeners = (socket: Socket): void => {
     if (message.sender_type === ChatMessageSenderType.Visitor) {
       const state = store();
       const idx: number = state.messages.findIndex(
-        (m) => m.id < 0 && m.content === data.content
+        (m) => m.id < 0 && m.content === data.content,
       );
       if (idx >= 0) {
         const next: ChatMessage[] = [...state.messages];
@@ -223,7 +222,7 @@ const attachSocketListeners = (socket: Socket): void => {
       logEvent(
         SystemEventType.MessageIn,
         SystemEventLevel.Info,
-        'workspace.events.messageIn'
+        'workspace.events.messageIn',
       );
     }
   };
@@ -246,12 +245,12 @@ const attachSocketListeners = (socket: Socket): void => {
     logEvent(
       SystemEventType.SessionClosed,
       SystemEventLevel.Warning,
-      'workspace.events.sessionClosed'
+      'workspace.events.sessionClosed',
     );
   };
 
   onRejoinOkHandler = (): void => {
-    const sessionId: string | null = store().sessionId;
+    const { sessionId } = store();
     if (sessionId) {
       setStoredVisitorSessionId(sessionId);
     }
@@ -279,7 +278,7 @@ export const startVisitorChatRealtime = (): void => {
   logEvent(
     SystemEventType.TransportInit,
     SystemEventLevel.Info,
-    'workspace.events.transportInit'
+    'workspace.events.transportInit',
   );
 
   const socket: Socket = socketService.connectVisitor();
@@ -288,7 +287,7 @@ export const startVisitorChatRealtime = (): void => {
   status = VisitorRealtimeStatus.Active;
 
   if (socket.connected) {
-    void handleConnect();
+    handleConnect();
   }
 };
 

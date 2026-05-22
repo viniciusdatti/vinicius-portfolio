@@ -27,9 +27,7 @@ export const resolveWorkspaceModule = (pathname: string): WorkspaceModule => {
 /**
  * Returns the route path for a workspace module.
  */
-export const getWorkspaceModulePath = (module: WorkspaceModule): string => {
-  return PATH_BY_MODULE[module];
-};
+export const getWorkspaceModulePath = (module: WorkspaceModule): string => PATH_BY_MODULE[module];
 
 /**
  * Short session label for system chrome (last 6 chars).

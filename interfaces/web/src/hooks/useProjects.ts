@@ -27,9 +27,8 @@ export const projectsQueryKey = (technology?: string): string[] => [
  * @returns Query result with projects data, loading and error states
  */
 export const useProjects = (
-  technology?: string
-): UseQueryResult<Project[], Error> =>
-  useQuery<Project[], Error>({
-    queryKey: projectsQueryKey(technology),
-    queryFn: (): Promise<Project[]> => getProjects(technology),
-  });
+  technology?: string,
+): UseQueryResult<Project[], Error> => useQuery<Project[], Error>({
+  queryKey: projectsQueryKey(technology),
+  queryFn: (): Promise<Project[]> => getProjects(technology),
+});

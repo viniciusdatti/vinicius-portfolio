@@ -37,18 +37,17 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
   box-sizing: border-box;
   padding-top: ${({ theme }) => theme.sizes.layout.headerOffset};
 
-  ${({ $workspaceMode, theme }) =>
-    $workspaceMode
-      ? css`
+  ${({ $workspaceMode, theme }) => ($workspaceMode
+    ? css`
           min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
           height: calc(100vh - ${theme.sizes.layout.headerOffset});
           display: flex;
           flex-direction: column;
         `
-      : css`
+    : css`
           min-height: 100vh;
           overflow-x: hidden;
-        `};
+        `)};
 `;
 
 /* ************** WORKSPACE MOTION SHELL ******************* */

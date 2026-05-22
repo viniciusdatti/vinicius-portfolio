@@ -36,11 +36,13 @@ enum AdminGateStatus {
 /**
  * Layout gate for /admin/* (except login). Starts chat realtime when authorized.
  */
-export const AdminLayout: React.FC = (): React.ReactElement => {
+export function AdminLayout(): React.ReactElement {
   const { t } = useTranslation();
-  const { tokens, user, setAuth, logout } = useAuthStore();
+  const {
+    tokens, user, setAuth, logout,
+  } = useAuthStore();
   const [gateStatus, setGateStatus] = useState<AdminGateStatus>(
-    AdminGateStatus.Loading
+    AdminGateStatus.Loading,
   );
   const accessToken: string | undefined = tokens?.access_token;
 
@@ -64,8 +66,7 @@ export const AdminLayout: React.FC = (): React.ReactElement => {
           return;
         }
         const me = await res.json();
-        const isAdmin: boolean =
-          me.role === UserRole.Admin || me.role === UserRole.SuperAdmin;
+        const isAdmin: boolean = me.role === UserRole.Admin || me.role === UserRole.SuperAdmin;
         if (!isAdmin) {
           logout();
           setGateStatus(AdminGateStatus.Unauthorized);
@@ -77,8 +78,10 @@ export const AdminLayout: React.FC = (): React.ReactElement => {
           return;
         }
         setAuth(
-          { id: me.id, email: me.email, name: me.name, role: me.role },
-          tokens
+          {
+            id: me.id, email: me.email, name: me.name, role: me.role,
+          },
+          tokens,
         );
         setGateStatus(AdminGateStatus.Authorized);
       } catch {
@@ -87,12 +90,12 @@ export const AdminLayout: React.FC = (): React.ReactElement => {
       }
     };
 
-    void checkAdmin();
+    checkAdmin().catch(() => undefined);
   }, [accessToken, logout, setAuth, tokens]);
 
   useEffect(() => {
     if (gateStatus !== AdminGateStatus.Authorized || !accessToken || !user) {
-      return;
+      return () => {};
     }
     startAdminChatRealtime(accessToken);
     return () => {
@@ -116,4 +119,4 @@ export const AdminLayout: React.FC = (): React.ReactElement => {
       </AdminMain>
     </>
   );
-};
+}

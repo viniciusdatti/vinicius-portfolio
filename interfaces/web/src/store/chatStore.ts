@@ -22,35 +22,31 @@ interface ChatState extends VisitorChatStoreData {
   reset: () => void;
 }
 
-export const useChatStore: UseBoundStore<StoreApi<ChatState>> =
-  create<ChatState>((set) => ({
-    ...initialVisitorChatStoreData,
+export const useChatStore: UseBoundStore<StoreApi<ChatState>> = create<ChatState>((set) => ({
+  ...initialVisitorChatStoreData,
 
-    setSessionId: (sessionId: string): void => set({ sessionId }),
+  setSessionId: (sessionId: string): void => set({ sessionId }),
 
-    addMessage: (message: ChatMessage): void =>
-      set((state: ChatState) => ({
-        messages: [...state.messages, message],
-      })),
+  addMessage: (message: ChatMessage): void => set((state: ChatState) => ({
+    messages: [...state.messages, message],
+  })),
 
-    setMessages: (messages: ChatMessage[]): void => set({ messages }),
+  setMessages: (messages: ChatMessage[]): void => set({ messages }),
 
-    setConnected: (isConnected: boolean): void => set({ isConnected }),
+  setConnected: (isConnected: boolean): void => set({ isConnected }),
 
-    setAdminOnline: (isAdminOnline: boolean): void => set({ isAdminOnline }),
+  setAdminOnline: (isAdminOnline: boolean): void => set({ isAdminOnline }),
 
-    setTyping: (isTyping: boolean): void => set({ isTyping }),
+  setTyping: (isTyping: boolean): void => set({ isTyping }),
 
-    toggleSound: (): void =>
-      set((state: ChatState) => ({ soundEnabled: !state.soundEnabled })),
+  toggleSound: (): void => set((state: ChatState) => ({ soundEnabled: !state.soundEnabled })),
 
-    reset: (): void =>
-      set({
-        sessionId: null,
-        messages: [],
-        isConnected: false,
-        isTyping: false,
-        isAdminOnline: initialVisitorChatStoreData.isAdminOnline,
-        soundEnabled: initialVisitorChatStoreData.soundEnabled,
-      }),
-  }));
+  reset: (): void => set({
+    sessionId: null,
+    messages: [],
+    isConnected: false,
+    isTyping: false,
+    isAdminOnline: initialVisitorChatStoreData.isAdminOnline,
+    soundEnabled: initialVisitorChatStoreData.soundEnabled,
+  }),
+}));

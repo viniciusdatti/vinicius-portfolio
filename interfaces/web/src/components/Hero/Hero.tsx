@@ -72,7 +72,7 @@ const scrollToNarrative = (): void => {
  * do not trigger re-animation. The motion.div keeps its internal state
  * stable across re-renders as long as the component stays mounted.
  */
-const HeroComponent: React.FC = (): React.ReactElement => {
+function HeroComponent(): React.ReactElement {
   const { t } = useTranslation();
   const avatarSrc: string = publicAssetUrl('avatar.png');
 
@@ -168,6 +168,6 @@ const HeroComponent: React.FC = (): React.ReactElement => {
       </HeroScrollCue>
     </HeroSection>
   );
-};
+}
 
 export const Hero = React.memo(HeroComponent);

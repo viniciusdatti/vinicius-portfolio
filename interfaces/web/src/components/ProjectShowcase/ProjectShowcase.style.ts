@@ -1,5 +1,5 @@
 // Libraries
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
@@ -8,6 +8,28 @@ import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
 } from './ProjectShowcase.types';
+
+const getPreviewMinHeight = (
+  variant: ProjectShowcaseVariant | undefined,
+  theme: DefaultTheme,
+): string => {
+  if (variant === ProjectShowcaseVariant.Featured) {
+    return theme.sizes.project.previewHeightFeatured;
+  }
+  if (variant === ProjectShowcaseVariant.Compact) {
+    return theme.sizes.project.previewHeightCompact;
+  }
+  return theme.sizes.project.previewHeight;
+};
+
+const getCanvasBackground = (
+  canvasTone: ProjectCanvasTone | undefined,
+  theme: DefaultTheme,
+): string => {
+  if (canvasTone === ProjectCanvasTone.B) return theme.colors.gradientProjectCanvasB;
+  if (canvasTone === ProjectCanvasTone.C) return theme.colors.gradientProjectCanvasC;
+  return theme.colors.gradientProjectCanvasA;
+};
 
 /* ************** GRID ******************* */
 
@@ -18,9 +40,8 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: repeat(12, 1fr);
-    ${({ $compact }) =>
-      $compact
-        ? `
+    ${({ $compact }) => ($compact
+    ? `
           & > [data-variant='featured'] {
             grid-column: span 12;
           };
@@ -32,7 +53,7 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
             grid-column: span 12;
           };
         `
-        : `
+    : `
           & > [data-variant='featured'] {
             grid-column: span 8;
           };
@@ -42,7 +63,7 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
           & > [data-variant='standard'] {
             grid-column: span 4;
           };
-        `};
+        `)};
   };
 `;
 
@@ -66,13 +87,10 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
     transform ${({ theme }) => theme.transitions.normal},
     box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast};
-  border-color: ${({ $selected, theme }) =>
-    $selected ? theme.colors.primary : theme.colors.borderSubtle};
-  box-shadow: ${({ $selected, theme }) =>
-    $selected ? theme.elevation.lg : theme.elevation.sm};
+  border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primary : theme.colors.borderSubtle)};
+  box-shadow: ${({ $selected, theme }) => ($selected ? theme.elevation.lg : theme.elevation.sm)};
 
-  ${({ $variant }) =>
-    $variant === ProjectShowcaseVariant.Featured ? featuredSpotlight : ''};
+  ${({ $variant }) => ($variant === ProjectShowcaseVariant.Featured ? featuredSpotlight : '')};
 
   & > * {
     position: relative;
@@ -80,13 +98,12 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    ${({ $variant, theme }) =>
-      $variant === ProjectShowcaseVariant.Featured
-        ? `
+    ${({ $variant, theme }) => ($variant === ProjectShowcaseVariant.Featured
+    ? `
           flex-direction: row;
           min-height: ${theme.sizes.project.previewHeightFeatured};
         `
-        : ''};
+    : '')};
   };
 
   &:hover {
@@ -117,18 +134,8 @@ export const PreviewIndexWatermark = styled.span`
 
 export const PreviewPanel = styled.div<ShowcaseCardStyleProps>`
   position: relative;
-  min-height: ${({ theme, $variant }) =>
-    $variant === ProjectShowcaseVariant.Featured
-      ? theme.sizes.project.previewHeightFeatured
-      : $variant === ProjectShowcaseVariant.Compact
-        ? theme.sizes.project.previewHeightCompact
-        : theme.sizes.project.previewHeight};
-  background: ${({ theme, $canvasTone }) =>
-    $canvasTone === ProjectCanvasTone.B
-      ? theme.colors.gradientProjectCanvasB
-      : $canvasTone === ProjectCanvasTone.C
-        ? theme.colors.gradientProjectCanvasC
-        : theme.colors.gradientProjectCanvasA};
+  min-height: ${({ theme, $variant }) => getPreviewMinHeight($variant, theme)};
+  background: ${({ theme, $canvasTone }) => getCanvasBackground($canvasTone, theme)};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   padding: ${({ theme }) => theme.spacing.lg};
   overflow: hidden;
@@ -142,15 +149,14 @@ export const PreviewPanel = styled.div<ShowcaseCardStyleProps>`
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    ${({ $variant, theme }) =>
-      $variant === ProjectShowcaseVariant.Featured
-        ? `
+    ${({ $variant, theme }) => ($variant === ProjectShowcaseVariant.Featured
+    ? `
           flex: 0 0 44%;
           min-height: unset;
           border-bottom: none;
           border-right: 1px solid ${theme.colors.borderSubtle};
         `
-        : ''};
+    : '')};
   };
 `;
 

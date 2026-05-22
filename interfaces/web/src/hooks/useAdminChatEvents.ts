@@ -20,9 +20,7 @@ import {
  * new events arrive (active connection).
  */
 export const useAdminChatEvents = (): AdminChatReceivedEvent[] => {
-  const [events, setEvents] = useState<AdminChatReceivedEvent[]>(() =>
-    getReceivedEvents()
-  );
+  const [events, setEvents] = useState<AdminChatReceivedEvent[]>(() => getReceivedEvents());
 
   useEffect(() => {
     setEvents(getReceivedEvents());

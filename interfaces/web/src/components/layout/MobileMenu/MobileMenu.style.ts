@@ -47,14 +47,12 @@ export const MenuLink = styled(motion.a)<MenuLinkProps>`
   display: block;
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  color: ${({ $active, theme }) =>
-    $active ? theme.colors.primary : theme.colors.text};
+  color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.text)};
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.md} 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   transition: color ${({ theme }) => theme.transitions.fast};
-  transition-delay: ${({ $delay }) =>
-    $delay !== undefined ? `${$delay}s` : '0s'};
+  transition-delay: ${({ $delay }) => ($delay !== undefined ? `${$delay}s` : '0s')};
 
   &:hover {
     color: ${({ theme }) => theme.colors.primary};

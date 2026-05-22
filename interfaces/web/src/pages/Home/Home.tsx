@@ -10,11 +10,10 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { Language } from '../../types';
-import { ProjectShowcaseDetailMode } from '../../components/ProjectShowcase';
+import { ProjectShowcaseDetailMode, ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { publicAssetUrl } from '../../config/env';
 import { Hero } from '../../components/Hero';
 import { RealtimePresence } from '../../components/home/RealtimePresence';
-import { ProjectShowcaseGrid } from '../../components/ProjectShowcase';
 import { ProjectCardSkeleton } from '../../components/ProjectCardSkeleton';
 import { useProjects } from '../../hooks';
 import {
@@ -85,12 +84,13 @@ const PREVIEW_SKILLS: SkillItem[] = [
 const vp = { once: false, margin: '-80px' };
 const vpSm = { once: false, margin: '-40px' };
 
-export const Home: React.FC = (): React.ReactElement => {
+export function Home(): React.ReactElement {
   const { t, i18n } = useTranslation();
-  const { data: projects, isLoading, isError, refetch } = useProjects();
+  const {
+    data: projects, isLoading, isError, refetch,
+  } = useProjects();
 
-  const currentLanguage: Language =
-    i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
+  const currentLanguage: Language = i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
 
   const renderProjects = (): React.ReactElement => {
     if (isLoading) {
@@ -147,7 +147,9 @@ export const Home: React.FC = (): React.ReactElement => {
             </SkillsPreviewDescription>
             <ViewAllLinkWrapper>
               <ViewAllLink to="/skills">
-                {t('home.skillsPreview.viewAll')} →
+                {t('home.skillsPreview.viewAll')}
+                {' '}
+                →
               </ViewAllLink>
             </ViewAllLinkWrapper>
           </SkillsEditorialIntro>
@@ -185,7 +187,9 @@ export const Home: React.FC = (): React.ReactElement => {
           <EditorialHeaderAside>
             <SectionStory>{t('home.sections.projects.story')}</SectionStory>
             <ViewAllProjectsLink to="/projects">
-              {t('home.sections.projects.viewAll')} →
+              {t('home.sections.projects.viewAll')}
+              {' '}
+              →
             </ViewAllProjectsLink>
           </EditorialHeaderAside>
         </ProjectsSectionHeader>
@@ -247,7 +251,9 @@ export const Home: React.FC = (): React.ReactElement => {
             <SectionLead>{t('home.aboutPreview.description')}</SectionLead>
           </AboutPreviewMain>
           <AboutPreviewLink to="/about">
-            {t('home.aboutPreview.cta')} →
+            {t('home.aboutPreview.cta')}
+            {' '}
+            →
           </AboutPreviewLink>
         </AboutPreviewLayout>
       </AboutPreviewSection>
@@ -275,4 +281,4 @@ export const Home: React.FC = (): React.ReactElement => {
       </ContactCtaSection>
     </>
   );
-};
+}

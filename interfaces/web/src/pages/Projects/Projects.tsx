@@ -9,8 +9,7 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project } from '../../data/types';
-import type { Technology } from '../../data/types';
+import type { Project, Technology } from '../../data/types';
 
 // Components
 import { Language } from '../../types';
@@ -60,8 +59,8 @@ const getUniqueTechnologies = (projects: Project[]): Technology[] => {
       }
     });
   });
-  return Array.from(seen.values()).sort((a: Technology, b: Technology) =>
-    a.name.localeCompare(b.name)
+  return Array.from(seen.values()).sort(
+    (a: Technology, b: Technology) => a.name.localeCompare(b.name),
   );
 };
 
@@ -69,9 +68,11 @@ const getUniqueTechnologies = (projects: Project[]): Technology[] => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const Projects: React.FC = (): React.ReactElement => {
+export function Projects(): React.ReactElement {
   const { t, i18n } = useTranslation();
-  const { data: projects = [], isLoading, isError, refetch } = useProjects();
+  const {
+    data: projects = [], isLoading, isError, refetch,
+  } = useProjects();
   const [techFilter, setTechFilter] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -81,7 +82,7 @@ export const Projects: React.FC = (): React.ReactElement => {
 
   const technologies: Technology[] = useMemo(
     () => getUniqueTechnologies(projects),
-    [projects]
+    [projects],
   );
 
   const filters = useMemo(() => {
@@ -90,8 +91,8 @@ export const Projects: React.FC = (): React.ReactElement => {
       { key: 'all', label: allLabel, count: projects.length },
     ];
     technologies.forEach((tech: Technology) => {
-      const count: number = projects.filter((p: Project) =>
-        p.technologies.some((item: Technology) => item.slug === tech.slug)
+      const count: number = projects.filter(
+        (p: Project) => p.technologies.some((item: Technology) => item.slug === tech.slug),
       ).length;
       items.push({ key: tech.slug, label: tech.name, count });
     });
@@ -101,14 +102,13 @@ export const Projects: React.FC = (): React.ReactElement => {
   const filteredProjects = useMemo(() => {
     let list: Project[] = projects;
     if (techFilter !== 'all') {
-      list = list.filter((p: Project) =>
-        p.technologies.some((item: Technology) => item.slug === techFilter)
+      list = list.filter(
+        (p: Project) => p.technologies.some((item: Technology) => item.slug === techFilter),
       );
     }
     const q: string = search.trim().toLowerCase();
     if (q) {
-      const title = (p: Project): string =>
-        (isPt ? p.title_pt ?? p.title : p.title).toLowerCase();
+      const title = (p: Project): string => (isPt ? p.title_pt ?? p.title : p.title).toLowerCase();
       list = list.filter((p: Project) => title(p).includes(q));
     }
     return list;
@@ -116,13 +116,12 @@ export const Projects: React.FC = (): React.ReactElement => {
 
   const projectTitle = useCallback(
     (p: Project): string => (isPt ? p.title_pt ?? p.title : p.title),
-    [isPt]
+    [isPt],
   );
 
   const projectDescription = useCallback(
-    (p: Project): string | null =>
-      isPt ? p.description_pt ?? p.description : p.description,
-    [isPt]
+    (p: Project): string | null => (isPt ? p.description_pt ?? p.description : p.description),
+    [isPt],
   );
 
   const handleCloseDrawer = useCallback((): void => {
@@ -132,6 +131,22 @@ export const Projects: React.FC = (): React.ReactElement => {
   const handleSelectProject = useCallback((project: Project): void => {
     setSelectedProject(project);
   }, []);
+
+  const renderShowcaseContent = (): React.ReactNode => {
+    if (isLoading) {
+      return <LoadingMessage>{t('projects.loading')}</LoadingMessage>;
+    }
+    if (filteredProjects.length === 0) {
+      return <EmptyMessage>{t('projects.empty')}</EmptyMessage>;
+    }
+    return (
+      <ProjectShowcaseGrid
+        projects={filteredProjects}
+        language={currentLanguage}
+        onSelectProject={handleSelectProject}
+      />
+    );
+  };
 
   if (isError) {
     return (
@@ -192,25 +207,13 @@ export const Projects: React.FC = (): React.ReactElement => {
           type="search"
           placeholder={t('projects.searchPlaceholder')}
           value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>): void =>
-            setSearch(e.target.value)
-          }
+          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setSearch(e.target.value)}
           aria-label={t('projects.searchPlaceholder')}
         />
       </Toolbar>
 
       <ShowcaseSection>
-        {isLoading ? (
-          <LoadingMessage>{t('projects.loading')}</LoadingMessage>
-        ) : filteredProjects.length === 0 ? (
-          <EmptyMessage>{t('projects.empty')}</EmptyMessage>
-        ) : (
-          <ProjectShowcaseGrid
-            projects={filteredProjects}
-            language={currentLanguage}
-            onSelectProject={handleSelectProject}
-          />
-        )}
+        {renderShowcaseContent()}
       </ShowcaseSection>
 
       <Drawer
@@ -229,7 +232,7 @@ export const Projects: React.FC = (): React.ReactElement => {
                   selectedProject,
                   ProjectCaseStudyField.Framing,
                   currentLanguage,
-                  t
+                  t,
                 )}
               </DrawerDetailValue>
             </DrawerDetailRow>
@@ -242,7 +245,7 @@ export const Projects: React.FC = (): React.ReactElement => {
                   selectedProject,
                   ProjectCaseStudyField.Architecture,
                   currentLanguage,
-                  t
+                  t,
                 )}
               </DrawerDetailValue>
             </DrawerDetailRow>
@@ -255,7 +258,7 @@ export const Projects: React.FC = (): React.ReactElement => {
                   selectedProject,
                   ProjectCaseStudyField.Decision,
                   currentLanguage,
-                  t
+                  t,
                 )}
               </DrawerDetailValue>
             </DrawerDetailRow>
@@ -306,4 +309,4 @@ export const Projects: React.FC = (): React.ReactElement => {
       </Drawer>
     </PageContainer>
   );
-};
+}

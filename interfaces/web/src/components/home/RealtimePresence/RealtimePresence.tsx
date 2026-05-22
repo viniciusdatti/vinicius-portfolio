@@ -24,7 +24,7 @@ import {
 /**
  * Subtle live strip on home — connection truth and micro-activity without console chrome.
  */
-export const RealtimePresence: React.FC = (): React.ReactElement => {
+export function RealtimePresence(): React.ReactElement {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
@@ -46,12 +46,13 @@ export const RealtimePresence: React.FC = (): React.ReactElement => {
     return 'idle';
   }, [status]);
 
-  const apiLabel: string =
-    status === SystemHealthStatus.Online
-      ? t('home.realtime.apiLive')
-      : status === SystemHealthStatus.Offline
-        ? t('home.realtime.apiAway')
-        : t('home.realtime.apiSync');
+  const getApiLabel = (): string => {
+    if (status === SystemHealthStatus.Online) return t('home.realtime.apiLive');
+    if (status === SystemHealthStatus.Offline) return t('home.realtime.apiAway');
+    return t('home.realtime.apiSync');
+  };
+
+  const apiLabel: string = getApiLabel();
 
   const microLabel: string = useMemo(() => {
     if (status === SystemHealthStatus.Checking) {
@@ -79,4 +80,4 @@ export const RealtimePresence: React.FC = (): React.ReactElement => {
       </PresenceInner>
     </PresenceStrip>
   );
-};
+}

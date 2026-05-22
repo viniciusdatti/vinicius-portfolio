@@ -38,10 +38,12 @@ export const useCountUp = ({
 
   useEffect(() => {
     const element: HTMLDivElement | null = ref.current;
-    if (!element) return;
+    if (!element) {
+      return () => {};
+    }
 
     const prefersReducedMotion: boolean = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
+      '(prefers-reduced-motion: reduce)',
     ).matches;
 
     const observer: IntersectionObserver = new IntersectionObserver(
@@ -65,8 +67,7 @@ export const useCountUp = ({
         const step = (currentTime: number): void => {
           const elapsed: number = currentTime - startTime;
           const progress: number = Math.min(elapsed / duration, 1);
-          const easedProgress: number =
-            progress < 1 ? 1 - Math.pow(1 - progress, 3) : 1;
+          const easedProgress: number = progress < 1 ? 1 - (1 - progress) ** 3 : 1;
 
           setCount(Math.round(easedProgress * target));
 
@@ -78,7 +79,7 @@ export const useCountUp = ({
         requestAnimationFrame(step);
         observer.disconnect();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
 
     observer.observe(element);

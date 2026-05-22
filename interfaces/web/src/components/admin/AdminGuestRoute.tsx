@@ -28,9 +28,11 @@ enum GuestGateStatus {
 /**
  * Renders login routes only for guests; valid admin sessions go to /admin.
  */
-export const AdminGuestRoute: React.FC = (): React.ReactElement => {
+export function AdminGuestRoute(): React.ReactElement {
   const { t } = useTranslation();
-  const { tokens, user, logout, setAuth } = useAuthStore();
+  const {
+    tokens, user, logout, setAuth,
+  } = useAuthStore();
   const [status, setStatus] = useState<GuestGateStatus>(GuestGateStatus.Checking);
 
   useEffect(() => {
@@ -40,8 +42,9 @@ export const AdminGuestRoute: React.FC = (): React.ReactElement => {
       return;
     }
 
-    const isAdminUser: boolean =
-      user?.role === UserRole.Admin || user?.role === UserRole.SuperAdmin;
+    const isAdminUser: boolean = (
+      user?.role === UserRole.Admin || user?.role === UserRole.SuperAdmin
+    );
     if (isAdminUser && tokens) {
       setStatus(GuestGateStatus.RedirectAdmin);
       return;
@@ -59,8 +62,7 @@ export const AdminGuestRoute: React.FC = (): React.ReactElement => {
           return;
         }
         const me = await res.json();
-        const isAdmin: boolean =
-          me.role === UserRole.Admin || me.role === UserRole.SuperAdmin;
+        const isAdmin: boolean = me.role === UserRole.Admin || me.role === UserRole.SuperAdmin;
         if (!isAdmin) {
           logout();
           setStatus(GuestGateStatus.AllowGuest);
@@ -68,8 +70,10 @@ export const AdminGuestRoute: React.FC = (): React.ReactElement => {
         }
         if (tokens) {
           setAuth(
-            { id: me.id, email: me.email, name: me.name, role: me.role },
-            tokens
+            {
+              id: me.id, email: me.email, name: me.name, role: me.role,
+            },
+            tokens,
           );
         }
         setStatus(GuestGateStatus.RedirectAdmin);
@@ -79,7 +83,7 @@ export const AdminGuestRoute: React.FC = (): React.ReactElement => {
       }
     };
 
-    void verifySession();
+    verifySession().catch(() => undefined);
   }, [tokens, user, logout, setAuth]);
 
   if (status === GuestGateStatus.Checking) {
@@ -91,4 +95,4 @@ export const AdminGuestRoute: React.FC = (): React.ReactElement => {
   }
 
   return <Outlet />;
-};
+}

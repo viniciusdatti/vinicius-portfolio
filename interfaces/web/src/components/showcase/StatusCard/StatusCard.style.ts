@@ -14,8 +14,8 @@ type ThemeColors = {
 };
 
 const statusColorMap = (theme: ThemeColors): Record<
-  HighlightCardStatus,
-  string
+HighlightCardStatus,
+string
 > => ({
   [HighlightCardStatus.Success]: theme.colors.success,
   [HighlightCardStatus.Error]: theme.colors.error,

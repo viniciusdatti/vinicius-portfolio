@@ -61,10 +61,10 @@ export const useSystemHealth = (): SystemHealthState => {
       }
     };
 
-    void fetchHealth();
+    fetchHealth().catch(() => undefined);
     const intervalId: ReturnType<typeof setInterval> = setInterval(
       fetchHealth,
-      30000
+      30000,
     );
 
     return () => {

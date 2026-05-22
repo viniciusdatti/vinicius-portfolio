@@ -22,7 +22,7 @@ import {
 /**
  * Header status — minimal API signal on portfolio routes; full transport chrome only in Live Lab.
  */
-export const HeaderStatusPills: React.FC = (): React.ReactElement => {
+export function HeaderStatusPills(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const { status } = useSystemHealth();
@@ -94,4 +94,4 @@ export const HeaderStatusPills: React.FC = (): React.ReactElement => {
       <StatusPill $tone="idle">{sessionText}</StatusPill>
     </StatusCluster>
   );
-};
+}

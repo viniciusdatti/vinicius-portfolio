@@ -26,14 +26,13 @@ const ADMIN_MODULE_KEYS: Record<string, string> = {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const AdminSystemBar: React.FC = (): React.ReactElement => {
+export function AdminSystemBar(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const isConnected: boolean = useAdminChatStore((s) => s.isConnected);
   const sessions = useAdminChatStore((s) => s.sessions);
 
-  const moduleKey: string =
-    ADMIN_MODULE_KEYS[location.pathname] ?? 'admin.system.modules.console';
+  const moduleKey: string = ADMIN_MODULE_KEYS[location.pathname] ?? 'admin.system.modules.console';
 
   const inboxLabel: string = useMemo((): string => {
     const count: number = sessions.length;
@@ -59,4 +58,4 @@ export const AdminSystemBar: React.FC = (): React.ReactElement => {
       </AdminBarInner>
     </AdminBarRoot>
   );
-};
+}

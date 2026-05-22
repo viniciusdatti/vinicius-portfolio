@@ -19,7 +19,7 @@ const API_BASE: string = env.apiUrl;
  * Fetches all chat sessions for the authenticated admin.
  */
 export const fetchAdminChatSessions = async (
-  accessToken: string
+  accessToken: string,
 ): Promise<AdminChatSession[]> => {
   const res: Response = await fetch(`${API_BASE}/chat/sessions`, {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -36,11 +36,11 @@ export const fetchAdminChatSessions = async (
  */
 export const fetchAdminSessionMessages = async (
   accessToken: string,
-  sessionId: string
+  sessionId: string,
 ): Promise<AdminChatMessage[]> => {
   const res: Response = await fetch(
     `${API_BASE}/chat/sessions/${sessionId}/messages`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    { headers: { Authorization: `Bearer ${accessToken}` } },
   );
   if (!res.ok) {
     return [];

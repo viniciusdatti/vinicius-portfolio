@@ -16,10 +16,10 @@ const API_BASE: string = env.apiUrl;
  * Loads message history for an active visitor session (no auth).
  */
 export const fetchVisitorSessionMessages = async (
-  sessionId: string
+  sessionId: string,
 ): Promise<ChatMessage[]> => {
   const res: Response = await fetch(
-    `${API_BASE}/chat/sessions/${sessionId}/visitor-messages`
+    `${API_BASE}/chat/sessions/${sessionId}/visitor-messages`,
   );
   if (!res.ok) {
     return [];
