@@ -1,5 +1,25 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
+
+type StatusTone = 'ok' | 'warn' | 'idle';
+
+const getToneBorderColor = (tone: StatusTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.success;
+  if (tone === 'warn') return theme.colors.warning;
+  return theme.colors.borderSubtle;
+};
+
+const getToneTextColor = (tone: StatusTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.success;
+  if (tone === 'warn') return theme.colors.warning;
+  return theme.colors.textMuted;
+};
+
+const getToneBackground = (tone: StatusTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.successSurface;
+  if (tone === 'warn') return theme.colors.warningSurface;
+  return theme.colors.mutedSurface;
+};
 
 export const SystemBarRoot = styled.div`
   position: fixed;
@@ -89,24 +109,9 @@ export const StatusPill = styled.span<{ $tone: 'ok' | 'warn' | 'idle' }>`
   padding: 2px ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid
-    ${({ $tone, theme }) =>
-      $tone === 'ok'
-        ? theme.colors.success
-        : $tone === 'warn'
-          ? theme.colors.warning
-          : theme.colors.borderSubtle};
-  color: ${({ $tone, theme }) =>
-    $tone === 'ok'
-      ? theme.colors.success
-      : $tone === 'warn'
-        ? theme.colors.warning
-        : theme.colors.textMuted};
-  background: ${({ $tone, theme }) =>
-    $tone === 'ok'
-      ? theme.colors.successSurface
-      : $tone === 'warn'
-        ? theme.colors.warningSurface
-        : theme.colors.mutedSurface};
+    ${({ $tone, theme }) => getToneBorderColor($tone, theme)};
+  color: ${({ $tone, theme }) => getToneTextColor($tone, theme)};
+  background: ${({ $tone, theme }) => getToneBackground($tone, theme)};
   white-space: nowrap;
 `;
 
@@ -114,10 +119,5 @@ export const StatusDot = styled.span<{ $tone: 'ok' | 'warn' | 'idle' }>`
   width: 6px;
   height: 6px;
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  background: ${({ $tone, theme }) =>
-    $tone === 'ok'
-      ? theme.colors.success
-      : $tone === 'warn'
-        ? theme.colors.warning
-        : theme.colors.textMuted};
+  background: ${({ $tone, theme }) => getToneTextColor($tone, theme)};
 `;

@@ -4,11 +4,9 @@ import React, { useCallback } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 
 // Types
-import type { Project } from '../../data/types';
-import type { Technology } from '../../data/types';
+import type { Project, Technology } from '../../data/types';
 import { Language } from '../../types';
 
 // Components
@@ -80,12 +78,12 @@ const panelVariants = {
 /**
  * Inline contextual case panel — progressive engineering narrative, not a generic modal.
  */
-export const ProjectCasePanel: React.FC<ProjectCasePanelProps> = ({
+export function ProjectCasePanel({
   project,
   language,
   indexLabel,
   onClose,
-}): React.ReactElement => {
+}: ProjectCasePanelProps): React.ReactElement {
   const { t } = useTranslation();
 
   const handleCloseClick = useCallback((): void => {
@@ -126,7 +124,7 @@ export const ProjectCasePanel: React.FC<ProjectCasePanelProps> = ({
                     project,
                     ProjectCaseStudyField.Framing,
                     language,
-                    t
+                    t,
                   )}
                 </CasePanelText>
               </CasePanelBlock>
@@ -137,7 +135,7 @@ export const ProjectCasePanel: React.FC<ProjectCasePanelProps> = ({
                     project,
                     ProjectCaseStudyField.Architecture,
                     language,
-                    t
+                    t,
                   )}
                 </CasePanelText>
               </CasePanelBlock>
@@ -148,7 +146,7 @@ export const ProjectCasePanel: React.FC<ProjectCasePanelProps> = ({
                     project,
                     ProjectCaseStudyField.Decision,
                     language,
-                    t
+                    t,
                   )}
                 </CasePanelText>
               </CasePanelBlock>
@@ -192,4 +190,4 @@ export const ProjectCasePanel: React.FC<ProjectCasePanelProps> = ({
       ) : null}
     </AnimatePresence>
   );
-};
+}

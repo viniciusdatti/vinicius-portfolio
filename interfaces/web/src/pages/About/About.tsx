@@ -59,11 +59,11 @@ interface StatCounterProps {
 /**
  * Individual stat card with count-up animation triggered on viewport enter.
  */
-const StatCounter: React.FC<StatCounterProps> = ({
+function StatCounter({
   target,
   suffix = '',
   label,
-}): React.ReactElement => {
+}: StatCounterProps): React.ReactElement {
   const { count, ref } = useCountUp({ target, duration: 1400 });
 
   return (
@@ -75,12 +75,12 @@ const StatCounter: React.FC<StatCounterProps> = ({
       <StatLabel>{label}</StatLabel>
     </StatCard>
   );
-};
+}
 
 /**
  * About page with personal introduction, stats, philosophy, and education.
  */
-export const About: React.FC = (): React.ReactElement => {
+export function About(): React.ReactElement {
   const { t } = useTranslation();
 
   return (
@@ -161,7 +161,11 @@ export const About: React.FC = (): React.ReactElement => {
       >
         <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
         <PhilosophyCard>
-          <p>"{t('about.philosophy.description')}"</p>
+          <p>
+            &ldquo;
+            {t('about.philosophy.description')}
+            &rdquo;
+          </p>
         </PhilosophyCard>
       </PhilosophySection>
 
@@ -188,4 +192,4 @@ export const About: React.FC = (): React.ReactElement => {
       </Section>
     </PageContainer>
   );
-};
+}

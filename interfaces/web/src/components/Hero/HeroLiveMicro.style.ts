@@ -31,8 +31,7 @@ export const LiveMicroDot = styled.span<{ $live: boolean }>`
   height: ${({ theme }) => theme.sizes.badge.dot};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   flex-shrink: 0;
-  background: ${({ $live, theme }) =>
-    $live ? theme.colors.success : theme.colors.textMuted};
+  background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
   animation: ${({ $live, theme }) => ($live ? livePulse(theme) : 'none')} 2.4s
     ease-in-out infinite;
 `;

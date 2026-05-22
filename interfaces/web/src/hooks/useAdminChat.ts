@@ -36,10 +36,10 @@ export const useAdminChat = (): {
 } => {
   const sessions: AdminChatSession[] = useAdminChatStore((s) => s.sessions);
   const activeSessionId: string | null = useAdminChatStore(
-    (s) => s.activeSessionId
+    (s) => s.activeSessionId,
   );
   const activeMessages: AdminChatMessage[] = useAdminChatStore(
-    (s) => s.activeMessages
+    (s) => s.activeMessages,
   );
   const isConnected: boolean = useAdminChatStore((s) => s.isConnected);
 
@@ -53,7 +53,7 @@ export const useAdminChat = (): {
         sendAdminChatMessage(activeSessionId, content);
       }
     },
-    [activeSessionId]
+    [activeSessionId],
   );
 
   const sendTyping = useCallback((): void => {
@@ -67,7 +67,7 @@ export const useAdminChat = (): {
   }, []);
 
   const activeSession: AdminChatSession | undefined = sessions.find(
-    (s) => s.session_id === activeSessionId
+    (s) => s.session_id === activeSessionId,
   );
 
   return {

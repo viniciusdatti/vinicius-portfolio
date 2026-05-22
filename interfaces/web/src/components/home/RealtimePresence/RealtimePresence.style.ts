@@ -1,6 +1,25 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 import { Link } from 'react-router-dom';
+
+type PresenceTone = 'ok' | 'warn' | 'idle';
+
+const getPresenceBorderColor = (tone: PresenceTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.success;
+  if (tone === 'warn') return theme.colors.warning;
+  return theme.colors.borderSubtle;
+};
+
+const getPresenceTextColor = (tone: PresenceTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.success;
+  if (tone === 'warn') return theme.colors.warning;
+  return theme.colors.textMuted;
+};
+
+const getPresenceBackground = (tone: PresenceTone, theme: DefaultTheme): string => {
+  if (tone === 'ok') return theme.colors.successSurface;
+  return theme.colors.mutedSurface;
+};
 
 export const PresenceStrip = styled.div`
   max-width: ${({ theme }) => theme.layout.contentWide};
@@ -41,22 +60,9 @@ export const PresencePill = styled.span<{ $tone: 'ok' | 'idle' | 'warn' }>`
   padding: 4px ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid
-    ${({ $tone, theme }) =>
-      $tone === 'ok'
-        ? theme.colors.success
-        : $tone === 'warn'
-          ? theme.colors.warning
-          : theme.colors.borderSubtle};
-  color: ${({ $tone, theme }) =>
-    $tone === 'ok'
-      ? theme.colors.success
-      : $tone === 'warn'
-        ? theme.colors.warning
-        : theme.colors.textMuted};
-  background: ${({ $tone, theme }) =>
-    $tone === 'ok'
-      ? theme.colors.successSurface
-      : theme.colors.mutedSurface};
+    ${({ $tone, theme }) => getPresenceBorderColor($tone, theme)};
+  color: ${({ $tone, theme }) => getPresenceTextColor($tone, theme)};
+  background: ${({ $tone, theme }) => getPresenceBackground($tone, theme)};
 `;
 
 export const PresenceMicro = styled.div`
@@ -73,8 +79,7 @@ export const PresenceMicroDot = styled.span<{ $live: boolean }>`
   width: ${({ theme }) => theme.sizes.badge.dotSm};
   height: ${({ theme }) => theme.sizes.badge.dotSm};
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  background: ${({ $live, theme }) =>
-    $live ? theme.colors.success : theme.colors.textMuted};
+  background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
 `;
 
 export const PresenceLink = styled(Link)`

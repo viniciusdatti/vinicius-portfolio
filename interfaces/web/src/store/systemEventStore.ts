@@ -22,33 +22,32 @@ interface SystemEventState {
   clear: () => void;
 }
 
-const createEventId = (): string => {
-  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-};
+const createEventId = (): string => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
 
-export const useSystemEventStore: UseBoundStore<StoreApi<SystemEventState>> =
-  create<SystemEventState>((set) => ({
-    events: [],
+export const useSystemEventStore: UseBoundStore<StoreApi<SystemEventState>> = create<
+SystemEventState
+>((set) => ({
+  events: [],
 
-    push: (
-      type: SystemEventType,
-      level: SystemEventLevel,
-      messageKey: string,
-      messageParams?: Record<string, string>
-    ): void => {
-      const entry: SystemEvent = {
-        id: createEventId(),
-        type,
-        level,
-        messageKey,
-        messageParams,
-        at: new Date().toISOString(),
-      };
-      set((state: SystemEventState) => {
-        const next: SystemEvent[] = [...state.events, entry].slice(-MAX_EVENTS);
-        return { events: next };
-      });
-    },
+  push: (
+    type: SystemEventType,
+    level: SystemEventLevel,
+    messageKey: string,
+    messageParams?: Record<string, string>,
+  ): void => {
+    const entry: SystemEvent = {
+      id: createEventId(),
+      type,
+      level,
+      messageKey,
+      messageParams,
+      at: new Date().toISOString(),
+    };
+    set((state: SystemEventState) => {
+      const next: SystemEvent[] = [...state.events, entry].slice(-MAX_EVENTS);
+      return { events: next };
+    });
+  },
 
-    clear: (): void => set({ events: [] }),
-  }));
+  clear: (): void => set({ events: [] }),
+}));

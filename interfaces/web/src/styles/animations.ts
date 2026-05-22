@@ -1,5 +1,5 @@
 // Libraries
-import { Variants, Transition } from 'framer-motion';
+import { Variants } from 'framer-motion';
 
 // Components
 import { motionPresets } from './motionPresets';
@@ -427,7 +427,7 @@ export const cardHover: Variants = {
 // ============================================
 
 export const parallaxY = (
-  offset: number
+  offset: number,
 ): { y: number; transition: { type: string; stiffness: number } } => ({
   y: offset,
   transition: { type: 'spring', stiffness: 120 },
@@ -435,7 +435,7 @@ export const parallaxY = (
 
 export const createStaggerDelay = (
   index: number,
-  baseDelay: number = motionPresets.stagger.child
+  baseDelay: number = motionPresets.stagger.child,
 ): { transition: { delay: number } } => ({
   transition: { delay: index * baseDelay },
 });

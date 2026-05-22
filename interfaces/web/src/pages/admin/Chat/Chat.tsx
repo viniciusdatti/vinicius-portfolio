@@ -72,7 +72,7 @@ interface ChatState {
  * Admin Chat component for managing real-time conversations with visitors.
  * Displays a list of active chat sessions and provides an interface for responding.
  */
-export const Chat: React.FC = (): React.ReactElement => {
+export function Chat(): React.ReactElement {
   const { t, i18n } = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const receivedEvents = useAdminChatEvents();
@@ -149,12 +149,13 @@ export const Chat: React.FC = (): React.ReactElement => {
   /**
    * Formats a date string to time format (HH:MM).
    */
-  const formatTime = (dateString: string): string => {
-    return new Date(dateString).toLocaleTimeString(dateLocale, {
+  const formatTime = (dateString: string): string => new Date(dateString).toLocaleTimeString(
+    dateLocale,
+    {
       hour: '2-digit',
       minute: '2-digit',
-    });
-  };
+    },
+  );
 
   /**
    * Formats a date string to a relative format.
@@ -164,11 +165,11 @@ export const Chat: React.FC = (): React.ReactElement => {
     const date = new Date(dateString);
     const today = new Date();
     const isToday = date.toDateString() === today.toDateString();
-    
+
     if (isToday) {
       return formatTime(dateString);
     }
-    
+
     return date.toLocaleDateString(dateLocale, {
       day: '2-digit',
       month: '2-digit',
@@ -186,7 +187,10 @@ export const Chat: React.FC = (): React.ReactElement => {
       <Header>
         <BackLink to="/admin">{t('admin.chat.back')}</BackLink>
         <HeaderTitle>
-          <Title>💬 {t('admin.chat.title')}</Title>
+          <Title>
+            💬
+            {t('admin.chat.title')}
+          </Title>
           <ConnectionBadge $connected={isConnected}>
             {isConnected ? t('admin.chat.connected') : t('admin.chat.disconnected')}
           </ConnectionBadge>
@@ -204,7 +208,10 @@ export const Chat: React.FC = (): React.ReactElement => {
           <SessionList>
             {sessions.length === 0 ? (
               <EmptyState>
-                <p>🔔 {t('admin.chat.emptyTitle')}</p>
+                <p>
+                  🔔
+                  {t('admin.chat.emptyTitle')}
+                </p>
                 <EmptyStateDescription>
                   {t('admin.chat.emptyDescription')}
                 </EmptyStateDescription>
@@ -218,23 +225,31 @@ export const Chat: React.FC = (): React.ReactElement => {
                 >
                   <SessionInfo>
                     <VisitorName>
-                      👤 {session.visitor_name}
+                      👤
+                      {' '}
+                      {session.visitor_name}
                     </VisitorName>
                     <SessionTime>{formatDate(session.started_at)}</SessionTime>
                   </SessionInfo>
                   {session.visitor_company && (
                     <SessionCompanyLine>
-                      🏢 {session.visitor_company}
+                      🏢
+                      {' '}
+                      {session.visitor_company}
                     </SessionCompanyLine>
                   )}
                   <SessionMeta>
-                    {session.is_typing ? (
-                      <TypingBadge>{t('admin.chat.typing')}</TypingBadge>
-                    ) : session.last_message ? (
-                      <LastMessage>{session.last_message}</LastMessage>
-                    ) : (
-                      <LastMessage>{t('admin.chat.newConversation')}</LastMessage>
-                    )}
+                    {(() => {
+                      if (session.is_typing) {
+                        return <TypingBadge>{t('admin.chat.typing')}</TypingBadge>;
+                      }
+                      if (session.last_message) {
+                        return <LastMessage>{session.last_message}</LastMessage>;
+                      }
+                      return (
+                        <LastMessage>{t('admin.chat.newConversation')}</LastMessage>
+                      );
+                    })()}
                     {session.unread_count > 0 && (
                       <UnreadBadge>{session.unread_count}</UnreadBadge>
                     )}
@@ -246,12 +261,10 @@ export const Chat: React.FC = (): React.ReactElement => {
           <EventsSection>
             <EventsToggle
               type="button"
-              onClick={() =>
-                setState((prev: ChatState) => ({
-                  ...prev,
-                  eventsOpen: !prev.eventsOpen,
-                }))
-              }
+              onClick={() => setState((prev: ChatState) => ({
+                ...prev,
+                eventsOpen: !prev.eventsOpen,
+              }))}
               aria-expanded={state.eventsOpen}
             >
               {t('admin.chat.eventsToggle', { count: receivedEvents.length })}
@@ -261,16 +274,16 @@ export const Chat: React.FC = (): React.ReactElement => {
                 {receivedEvents.length === 0 ? (
                   <EventsListEmpty>{t('admin.chat.eventsEmpty')}</EventsListEmpty>
                 ) : (
-                  [...receivedEvents].reverse().map((ev, i) => (
-                    <EventItem key={`${ev.at}-${i}`}>
+                  [...receivedEvents].reverse().map((ev) => (
+                    <EventItem key={`${ev.at}-${ev.type}-${JSON.stringify(ev.data)}`}>
                       <span data-type={ev.type}>{ev.type}</span>
                       <span data-time={ev.at}>
                         {new Date(ev.at).toLocaleTimeString(dateLocale)}
                       </span>
-                      {ev.type === 'new_message' &&
-                        typeof ev.data === 'object' &&
-                        ev.data !== null &&
-                        'content' in ev.data && (
+                      {ev.type === 'new_message'
+                        && typeof ev.data === 'object'
+                        && ev.data !== null
+                        && 'content' in ev.data && (
                         <EventItemContent>
                           {(ev.data as { content?: string }).content}
                         </EventItemContent>
@@ -288,7 +301,10 @@ export const Chat: React.FC = (): React.ReactElement => {
             <>
               <ChatHeader>
                 <ChatHeaderInfo>
-                  <h3>👤 {activeSession.visitor_name}</h3>
+                  <h3>
+                    👤
+                    {activeSession.visitor_name}
+                  </h3>
                   <span>
                     {activeSession.visitor_company && `🏢 ${activeSession.visitor_company} • `}
                     {t('admin.chat.startedAt', {
@@ -339,7 +355,10 @@ export const Chat: React.FC = (): React.ReactElement => {
             </>
           ) : (
             <NoChatSelected>
-              <h3>💬 {t('admin.chat.noChatTitle')}</h3>
+              <h3>
+                💬
+                {t('admin.chat.noChatTitle')}
+              </h3>
               <p>{t('admin.chat.noChatDescription')}</p>
               <NoChatSelectedDescription>
                 {t('admin.chat.noChatHint')}
@@ -350,4 +369,4 @@ export const Chat: React.FC = (): React.ReactElement => {
       </Content>
     </PageContainer>
   );
-};
+}

@@ -246,7 +246,6 @@ export const SubmitButton = styled.button`
 
 export const FormMessage = styled.p<{ $error?: boolean }>`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ $error, theme }) =>
-    $error ? theme.colors.error : theme.colors.success};
+  color: ${({ $error, theme }) => ($error ? theme.colors.error : theme.colors.success)};
   margin: 0;
 `;

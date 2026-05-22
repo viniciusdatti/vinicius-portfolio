@@ -58,7 +58,7 @@ const initialState: HeaderState = {
   mobileMenuOpen: false,
 };
 
-export const Header: React.FC = (): React.ReactElement => {
+export function Header(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
@@ -132,12 +132,10 @@ export const Header: React.FC = (): React.ReactElement => {
                 <LanguageToggle />
                 <ThemeToggle />
                 <HamburgerButton
-                  onClick={() =>
-                    setState((prev: HeaderState) => ({
-                      ...prev,
-                      mobileMenuOpen: !prev.mobileMenuOpen,
-                    }))
-                  }
+                  onClick={() => setState((prev: HeaderState) => ({
+                    ...prev,
+                    mobileMenuOpen: !prev.mobileMenuOpen,
+                  }))}
                   aria-label={
                     state.mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')
                   }
@@ -167,12 +165,10 @@ export const Header: React.FC = (): React.ReactElement => {
           <MobileMenu
             navItems={navItems}
             currentPath={location.pathname}
-            onClose={() =>
-              setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }))
-            }
+            onClose={() => setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }))}
           />
         )}
       </AnimatePresence>
     </>
   );
-};
+}

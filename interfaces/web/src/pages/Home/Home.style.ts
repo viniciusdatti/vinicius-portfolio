@@ -7,10 +7,22 @@
 // Libraries
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, DefaultTheme } from 'styled-components';
 
 // Types
 import type { SensorStatus } from '../../hooks/useTelemetry';
+
+const getSensorAccentColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.success;
+};
+
+const getSensorPreviewValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.text;
+};
 
 const eyebrowLineExpand = keyframes`
   from { width: 0; opacity: 0; }
@@ -351,12 +363,7 @@ export const TelemetryPreviewCard = styled.div<{ $status: SensorStatus }>`
     left: 0;
     width: 3px;
     height: 100%;
-    background: ${({ $status, theme }) =>
-      $status === 'critical'
-        ? theme.colors.error
-        : $status === 'warn'
-          ? theme.colors.warning
-          : theme.colors.success};
+    background: ${({ $status, theme }) => getSensorAccentColor($status, theme)};
   };
 `;
 
@@ -372,12 +379,7 @@ export const TelemetryPreviewValue = styled.div<{ $status: SensorStatus }>`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   font-weight: 800;
   letter-spacing: -0.02em;
-  color: ${({ $status, theme }) =>
-    $status === 'critical'
-      ? theme.colors.error
-      : $status === 'warn'
-        ? theme.colors.warning
-        : theme.colors.text};
+  color: ${({ $status, theme }) => getSensorPreviewValueColor($status, theme)};
 `;
 
 export const TelemetryPreviewBadge = styled.div`

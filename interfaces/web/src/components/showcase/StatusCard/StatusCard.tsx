@@ -17,12 +17,12 @@ import {
   StatusCardUnit,
 } from './StatusCard.style';
 
-export const StatusCard: React.FC<StatusCardProps> = ({
+export function StatusCard({
   title,
   value,
   unit,
   status,
-}) => {
+}: StatusCardProps): React.ReactElement {
   return (
     <StyledStatusCard $status={status}>
       <StatusCardTitle>{title}</StatusCardTitle>
@@ -32,4 +32,4 @@ export const StatusCard: React.FC<StatusCardProps> = ({
       </StatusCardValue>
     </StyledStatusCard>
   );
-};
+}

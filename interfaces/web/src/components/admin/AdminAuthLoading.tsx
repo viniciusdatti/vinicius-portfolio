@@ -18,11 +18,13 @@ interface AdminAuthLoadingProps {
 /**
  * Centered spinner used while admin routes validate JWT/session.
  */
-export const AdminAuthLoading: React.FC<AdminAuthLoadingProps> = ({
+export function AdminAuthLoading({
   message,
-}): React.ReactElement => (
-  <LoadingRoot role="status" aria-live="polite">
-    <Spinner size="lg" />
-    <LoadingText>{message}</LoadingText>
-  </LoadingRoot>
-);
+}: AdminAuthLoadingProps): React.ReactElement {
+  return (
+    <LoadingRoot role="status" aria-live="polite">
+      <Spinner size="lg" />
+      <LoadingText>{message}</LoadingText>
+    </LoadingRoot>
+  );
+}

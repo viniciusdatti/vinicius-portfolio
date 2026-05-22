@@ -64,23 +64,22 @@ const initialChangePasswordState: ChangePasswordState = {
   confirmPassword: '',
 };
 
-export const Dashboard: React.FC = (): React.ReactElement => {
+export function Dashboard(): React.ReactElement {
   const { t } = useTranslation();
   const { user, tokens, logout } = useAuthStore();
   const chatSessions = useAdminChatStore((s) => s.sessions);
   const chatUnreadTotal: number = chatSessions.reduce(
     (sum, session) => sum + session.unread_count,
-    0
+    0,
   );
   const [passwordForm, setPasswordForm] = useState<ChangePasswordState>(
-    initialChangePasswordState
+    initialChangePasswordState,
   );
   const [passwordMessage, setPasswordMessage] = useState<{
     text: string;
     error: boolean;
   } | null>(null);
-  const [passwordSubmitting, setPasswordSubmitting] =
-    useState<boolean>(false);
+  const [passwordSubmitting, setPasswordSubmitting] = useState<boolean>(false);
 
   /**
    * Handles user logout action.
@@ -138,10 +137,9 @@ export const Dashboard: React.FC = (): React.ReactElement => {
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok) {
-          const detail: string =
-            typeof data?.detail === 'string'
-              ? data.detail
-              : t('admin.dashboard.errors.generic');
+          const detail: string = typeof data?.detail === 'string'
+            ? data.detail
+            : t('admin.dashboard.errors.generic');
           setPasswordMessage({ text: detail, error: true });
           return;
         }
@@ -159,14 +157,15 @@ export const Dashboard: React.FC = (): React.ReactElement => {
         setPasswordSubmitting(false);
       }
     },
-    [passwordForm, t, tokens?.access_token]
+    [passwordForm, t, tokens?.access_token],
   );
 
   return (
     <PageContainer>
       <Header>
         <Logo to="/admin">
-          Admin<span>.</span>
+          Admin
+          <span>.</span>
         </Logo>
         <UserInfo>
           <UserName>{user?.name || t('admin.dashboard.fallbackName')}</UserName>
@@ -232,12 +231,10 @@ export const Dashboard: React.FC = (): React.ReactElement => {
                 type="password"
                 autoComplete="current-password"
                 value={passwordForm.currentPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    currentPassword: e.target.value,
-                  }))
-                }
+                onChange={(e) => setPasswordForm((prev) => ({
+                  ...prev,
+                  currentPassword: e.target.value,
+                }))}
                 required
               />
             </FormGroup>
@@ -250,12 +247,10 @@ export const Dashboard: React.FC = (): React.ReactElement => {
                 type="password"
                 autoComplete="new-password"
                 value={passwordForm.newPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    newPassword: e.target.value,
-                  }))
-                }
+                onChange={(e) => setPasswordForm((prev) => ({
+                  ...prev,
+                  newPassword: e.target.value,
+                }))}
                 required
               />
             </FormGroup>
@@ -268,12 +263,10 @@ export const Dashboard: React.FC = (): React.ReactElement => {
                 type="password"
                 autoComplete="new-password"
                 value={passwordForm.confirmPassword}
-                onChange={(e) =>
-                  setPasswordForm((prev) => ({
-                    ...prev,
-                    confirmPassword: e.target.value,
-                  }))
-                }
+                onChange={(e) => setPasswordForm((prev) => ({
+                  ...prev,
+                  confirmPassword: e.target.value,
+                }))}
                 required
               />
             </FormGroup>
@@ -292,4 +285,4 @@ export const Dashboard: React.FC = (): React.ReactElement => {
       </Content>
     </PageContainer>
   );
-};
+}

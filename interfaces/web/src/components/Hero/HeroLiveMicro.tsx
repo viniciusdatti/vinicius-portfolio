@@ -20,7 +20,7 @@ import {
 /**
  * Subtle realtime signal embedded in the hero portrait — connection truth without console UI.
  */
-export const HeroLiveMicro: React.FC = (): React.ReactElement => {
+export function HeroLiveMicro(): React.ReactElement {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();
 
@@ -52,4 +52,4 @@ export const HeroLiveMicro: React.FC = (): React.ReactElement => {
       </div>
     </LiveMicroRoot>
   );
-};
+}

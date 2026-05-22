@@ -57,7 +57,7 @@ export const useChat = (): {
     (visitorName: string, visitorCompany?: string): void => {
       socketService.startSession(visitorName, visitorCompany);
     },
-    []
+    [],
   );
 
   const sendMessage = useCallback(
@@ -75,7 +75,7 @@ export const useChat = (): {
       });
       socketService.sendMessage(sessionId, trimmed);
     },
-    [sessionId, addMessage]
+    [sessionId, addMessage],
   );
 
   const sendTyping = useCallback((): void => {

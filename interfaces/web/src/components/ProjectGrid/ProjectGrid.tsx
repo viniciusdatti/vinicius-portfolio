@@ -43,10 +43,10 @@ const getProjectDescription = (project: Project, language: Language): string => 
   return project.description || '';
 };
 
-export const ProjectGrid: React.FC<ProjectGridProps> = ({
+export function ProjectGrid({
   projects,
   language = Language.En,
-}) => {
+}: ProjectGridProps): React.ReactElement {
   const { t } = useTranslation();
 
   if (projects.length === 0) {
@@ -78,7 +78,9 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({
               target="_blank"
               rel="noopener noreferrer"
             >
-              {t('projects.viewCode')} →
+              {t('projects.viewCode')}
+              {' '}
+              →
             </ProjectLink>
             {project.demo_url && (
               <ProjectLink
@@ -86,7 +88,9 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {t('projects.viewDemo')} →
+                {t('projects.viewDemo')}
+                {' '}
+                →
               </ProjectLink>
             )}
           </ProjectLinks>
@@ -94,4 +98,4 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({
       ))}
     </Grid>
   );
-};
+}

@@ -48,12 +48,9 @@ export const AdminBarPill = styled.span<{ $tone: 'ok' | 'idle' }>`
   padding: 2px ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   border: 1px solid
-    ${({ $tone, theme }) =>
-      $tone === 'ok' ? theme.colors.success : theme.colors.borderSubtle};
-  color: ${({ $tone, theme }) =>
-    $tone === 'ok' ? theme.colors.success : theme.colors.textMuted};
-  background: ${({ $tone, theme }) =>
-    $tone === 'ok' ? theme.colors.successSurface : theme.colors.mutedSurface};
+    ${({ $tone, theme }) => ($tone === 'ok' ? theme.colors.success : theme.colors.borderSubtle)};
+  color: ${({ $tone, theme }) => ($tone === 'ok' ? theme.colors.success : theme.colors.textMuted)};
+  background: ${({ $tone, theme }) => ($tone === 'ok' ? theme.colors.successSurface : theme.colors.mutedSurface)};
 `;
 
 export const AdminMain = styled.main`

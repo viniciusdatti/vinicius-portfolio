@@ -23,7 +23,7 @@ const subscribers: Set<EventCallback> = new Set();
  */
 export const recordEvent = (
   type: AdminChatEventType,
-  data: AdminChatEventLogData
+  data: AdminChatEventLogData,
 ): void => {
   const event: AdminChatReceivedEvent = {
     type,
@@ -48,7 +48,7 @@ export const getReceivedEvents = (): AdminChatReceivedEvent[] => [
  * Subscribes to each new event in real time.
  */
 export const subscribeToAdminEvents = (
-  callback: EventCallback
+  callback: EventCallback,
 ): (() => void) => {
   subscribers.add(callback);
   return (): boolean => subscribers.delete(callback);
@@ -64,19 +64,17 @@ export const clearReceivedEvents = (): void => {
 /**
  * Returns whether the admin chat socket is connected (from store).
  */
-export const isAdminChatConnected = (): boolean =>
-  useAdminChatStore.getState().isConnected;
+export const isAdminChatConnected = (): boolean => useAdminChatStore.getState().isConnected;
 
 /**
  * Admin socket actions (transport only).
  */
 export const adminChatActions = {
   joinSession: (sessionId: string): void => socketService.joinSession(sessionId),
-  sendMessage: (sessionId: string, content: string): void =>
-    socketService.adminSendMessage(sessionId, content),
-  sendTyping: (sessionId: string): void =>
-    socketService.adminSendTyping(sessionId),
+  sendMessage: (sessionId: string, content: string): void => (
+    socketService.adminSendMessage(sessionId, content)
+  ),
+  sendTyping: (sessionId: string): void => socketService.adminSendTyping(sessionId),
   markRead: (sessionId: string): void => socketService.markRead(sessionId),
-  closeSession: (sessionId: string): void =>
-    socketService.closeSession(sessionId),
+  closeSession: (sessionId: string): void => socketService.closeSession(sessionId),
 };

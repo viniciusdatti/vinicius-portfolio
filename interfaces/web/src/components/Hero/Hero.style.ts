@@ -1,9 +1,6 @@
 // Libraries
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
-// Components
-import { glassSurface } from '../../styles/surfaces';
-
 const pulseGlow = (theme: DefaultTheme) => keyframes`
   0%, 100% {
     opacity: ${theme.effects.opacity.heroGlowMin};
@@ -280,7 +277,6 @@ export const HeroAvatarRing = styled.div`
   opacity: ${({ theme }) => theme.effects.opacity.heroRing};
   pointer-events: none;
 `;
-
 
 export const HeroDecoTag = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

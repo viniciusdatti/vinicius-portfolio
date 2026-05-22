@@ -21,10 +21,8 @@ export const FilterChip = styled.button<FilterChipProps>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  background-color: ${({ $active, theme }) =>
-    $active ? theme.colors.primary : theme.colors.surface};
-  color: ${({ $active, theme }) =>
-    $active ? 'white' : theme.colors.textSecondary};
+  background-color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.surface)};
+  color: ${({ $active, theme }) => ($active ? 'white' : theme.colors.textSecondary)};
   border: 1px solid
     ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.border)};
   transition: all ${({ theme }) => theme.transitions.fast};

@@ -55,7 +55,7 @@ import {
 
 const getProjectTitle = (
   project: ProjectShowcaseCardProps['project'],
-  language: Language
+  language: Language,
 ): string => {
   if (language === Language.Pt && project.title_pt) {
     return project.title_pt;
@@ -65,7 +65,7 @@ const getProjectTitle = (
 
 const getProjectDescription = (
   project: ProjectShowcaseCardProps['project'],
-  language: Language
+  language: Language,
 ): string => {
   if (language === Language.Pt && project.description_pt) {
     return project.description_pt ?? '';
@@ -76,7 +76,7 @@ const getProjectDescription = (
 const handleCardKeyDown = (
   event: React.KeyboardEvent<HTMLElement>,
   onSelect: (project: ProjectShowcaseCardProps['project']) => void,
-  project: ProjectShowcaseCardProps['project']
+  project: ProjectShowcaseCardProps['project'],
 ): void => {
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault();
@@ -90,7 +90,7 @@ const handleCardKeyDown = (
  */
 const resolveMockScene = (
   variant: ProjectShowcaseVariant,
-  canvasTone: ProjectCanvasTone
+  canvasTone: ProjectCanvasTone,
 ): MockWindowScene => {
   if (variant === ProjectShowcaseVariant.Featured) {
     return MockWindowScene.Shell;
@@ -152,7 +152,7 @@ const renderMockScene = (scene: MockWindowScene): React.ReactElement => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
+export function ProjectShowcaseCard({
   project,
   language,
   variant,
@@ -160,7 +160,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   indexLabel,
   isSelected,
   onSelect,
-}): React.ReactElement => {
+}: ProjectShowcaseCardProps): React.ReactElement {
   const { t } = useTranslation();
   const title: string = getProjectTitle(project, language);
   const description: string = getProjectDescription(project, language);
@@ -186,9 +186,9 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
       role="button"
       aria-label={title}
       onClick={handleClick}
-      onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void =>
+      onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void => (
         handleCardKeyDown(event, onSelect, project)
-      }
+      )}
       whileHover={{ scale: isFeatured ? 1.005 : 1.015, y: isFeatured ? -2 : -4 }}
       whileTap={{ scale: 0.99, y: 0 }}
     >
@@ -239,7 +239,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
                     <TechStackSep aria-hidden="true">·</TechStackSep>
                   ) : null}
                 </React.Fragment>
-              )
+              ),
             )}
           </TechStackLine>
         ) : null}
@@ -250,4 +250,4 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
       </CardBody>
     </ShowcaseCard>
   );
-};
+}

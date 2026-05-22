@@ -10,9 +10,9 @@ import { WorkspaceModule } from '../../../types';
 
 // Components
 import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
-import { useChatStore } from '../../../store';
+import { useChatStore, useWorkspaceStore } from '../../../store';
 import { formatSessionLabel } from '../../../utils/workspaceModule';
-import { useWorkspaceStore } from '../../../store';
+
 import { ThemeToggle } from '../../common/ThemeToggle';
 import { LanguageToggle } from '../../LanguageToggle';
 import {
@@ -47,7 +47,7 @@ const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const SystemBar: React.FC = (): React.ReactElement => {
+export function SystemBar(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const { status, version } = useSystemHealth();
@@ -58,7 +58,7 @@ export const SystemBar: React.FC = (): React.ReactElement => {
   const isAdminOnline: boolean = useChatStore((s) => s.isAdminOnline);
 
   const activeLiveLabModule: WorkspaceModule = useWorkspaceStore(
-    (s) => s.activeLiveLabModule
+    (s) => s.activeLiveLabModule,
   );
 
   const moduleKey: string = useMemo((): string => {
@@ -144,4 +144,4 @@ export const SystemBar: React.FC = (): React.ReactElement => {
       </SystemBarInner>
     </SystemBarRoot>
   );
-};
+}

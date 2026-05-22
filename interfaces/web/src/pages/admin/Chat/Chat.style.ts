@@ -100,10 +100,8 @@ export const ConnectionBadge = styled.span<ConnectionBadgeProps>`
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  background-color: ${({ $connected, theme }) =>
-    $connected ? theme.colors.successSurface : theme.colors.errorSurface};
-  color: ${({ $connected, theme }) =>
-    $connected ? theme.colors.success : theme.colors.error};
+  background-color: ${({ $connected, theme }) => ($connected ? theme.colors.successSurface : theme.colors.errorSurface)};
+  color: ${({ $connected, theme }) => ($connected ? theme.colors.success : theme.colors.error)};
 
   &::before {
     content: '';
@@ -147,11 +145,9 @@ export const SessionItem = styled.button<SessionItemProps>`
   text-align: left;
   padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  background-color: ${({ $active, theme }) =>
-    $active ? theme.colors.primaryLight : 'transparent'};
+  background-color: ${({ $active, theme }) => ($active ? theme.colors.primaryLight : 'transparent')};
   border: 1px solid
-    ${({ $active, theme }) =>
-      $active ? theme.colors.primary : theme.colors.borderSubtle};
+    ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.borderSubtle)};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   transition:
     background-color ${({ theme }) => theme.transitions.fast},
@@ -159,8 +155,7 @@ export const SessionItem = styled.button<SessionItemProps>`
     transform ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    background-color: ${({ $active, theme }) =>
-      $active ? theme.colors.primaryLight : theme.colors.surfaceHover};
+    background-color: ${({ $active, theme }) => ($active ? theme.colors.primaryLight : theme.colors.surfaceHover)};
     transform: translateX(${({ theme }) => theme.motion.distance.liftSm});
   };
 `;
@@ -289,16 +284,12 @@ export const Message = styled(motion.div)<MessageProps>`
   max-width: min(72%, ${({ theme }) => theme.sizes.chat.messageMaxWidthAdmin});
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
-  background: ${({ $isAdmin, theme }) =>
-    $isAdmin ? theme.colors.gradientMessageOwn : theme.colors.surfaceElevated};
-  color: ${({ $isAdmin, theme }) =>
-    $isAdmin ? theme.colors.onPrimary : theme.colors.text};
+  background: ${({ $isAdmin, theme }) => ($isAdmin ? theme.colors.gradientMessageOwn : theme.colors.surfaceElevated)};
+  color: ${({ $isAdmin, theme }) => ($isAdmin ? theme.colors.onPrimary : theme.colors.text)};
   align-self: ${({ $isAdmin }) => ($isAdmin ? 'flex-end' : 'flex-start')};
   border: 1px solid
-    ${({ $isAdmin, theme }) =>
-      $isAdmin ? 'transparent' : theme.colors.borderSubtle};
-  box-shadow: ${({ $isAdmin, theme }) =>
-    $isAdmin ? theme.shadows.sm : theme.elevation.sm};
+    ${({ $isAdmin, theme }) => ($isAdmin ? 'transparent' : theme.colors.borderSubtle)};
+  box-shadow: ${({ $isAdmin, theme }) => ($isAdmin ? theme.shadows.sm : theme.elevation.sm)};
 `;
 
 export const MessageContent = styled.p`

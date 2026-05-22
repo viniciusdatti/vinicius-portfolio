@@ -34,16 +34,11 @@ export const HeaderShell = styled.div<{ $scrolled: boolean }>`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   border: 1px solid
-    ${({ $scrolled, theme }) =>
-      $scrolled ? theme.colors.border : 'transparent'};
-  background: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.colors.surfaceGlass : 'transparent'};
-  backdrop-filter: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.effects.backdrop.header : 'none'};
-  -webkit-backdrop-filter: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.effects.backdrop.header : 'none'};
-  box-shadow: ${({ $scrolled, theme }) =>
-    $scrolled ? theme.shadows.md : 'none'};
+    ${({ $scrolled, theme }) => ($scrolled ? theme.colors.border : 'transparent')};
+  background: ${({ $scrolled, theme }) => ($scrolled ? theme.colors.surfaceGlass : 'transparent')};
+  backdrop-filter: ${({ $scrolled, theme }) => ($scrolled ? theme.effects.backdrop.header : 'none')};
+  -webkit-backdrop-filter: ${({ $scrolled, theme }) => ($scrolled ? theme.effects.backdrop.header : 'none')};
+  box-shadow: ${({ $scrolled, theme }) => ($scrolled ? theme.shadows.md : 'none')};
   transition:
     background ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.normal},
@@ -128,8 +123,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   text-transform: uppercase;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
-  color: ${({ $active, theme }) =>
-    $active ? theme.colors.text : theme.colors.textMuted};
+  color: ${({ $active, theme }) => ($active ? theme.colors.text : theme.colors.textMuted)};
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.xs} 0;
   transition:
