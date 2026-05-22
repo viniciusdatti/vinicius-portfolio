@@ -18,7 +18,7 @@ import {
   ManifestoMeta,
 } from '@/components/home/HomeManifestoStrip/HomeManifestoStrip.style';
 
-const viewport = { once: true, margin: '-40px' as const };
+const viewport = { once: true, amount: 0.25 as const };
 
 export function HomeManifestoStrip(): React.ReactElement {
   const { t } = useTranslation();

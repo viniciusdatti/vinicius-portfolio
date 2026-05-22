@@ -1,5 +1,6 @@
 // Libraries
 import styled, { keyframes, css, DefaultTheme } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
@@ -40,15 +41,6 @@ const slideIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-/**
- * Subtle flash that plays when a sensor value updates.
- * Applied by re-mounting the element via React key change.
- */
-const valueFlash = (theme: DefaultTheme) => keyframes`
-  0%   { background-color: ${theme.colors.primarySurface}; }
-  100% { background-color: transparent; }
-`;
-
 const ambientPulse = keyframes`
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.55; }
@@ -71,7 +63,7 @@ export const MonitorRoot = styled.div`
   height: 100%;
   min-height: 0;
   overflow: hidden;
-  background: ${({ theme }) => theme.colors.background};
+  background: transparent;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   position: relative;
 
@@ -81,8 +73,9 @@ export const MonitorRoot = styled.div`
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 60% 40% at 10% 0%, ${({ theme }) => theme.colors.primary}10, transparent 50%),
-      radial-gradient(ellipse 50% 35% at 90% 100%, ${({ theme }) => theme.colors.accent}08, transparent 45%);
+      radial-gradient(ellipse 70% 50% at 12% 0%, ${({ theme }) => theme.colors.primary}12, transparent 52%),
+      radial-gradient(ellipse 55% 40% at 92% 100%, ${({ theme }) => theme.colors.accent}0a, transparent 48%),
+      linear-gradient(180deg, rgba(11, 13, 16, 0.72) 0%, rgba(7, 8, 10, 0.92) 100%);
     animation: ${ambientPulse} 6s ease-in-out infinite;
     z-index: 0;
 
@@ -91,7 +84,7 @@ export const MonitorRoot = styled.div`
     }
   }
 
-  & > * {
+  & > *:not([data-telemetry-field]) {
     position: relative;
     z-index: 1;
   }
@@ -201,7 +194,8 @@ export const MonitorChartPane = styled.div`
   min-width: 0;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  background: rgba(11, 13, 16, 0.82);
+  backdrop-filter: blur(6px);
 
   @media (max-height: 800px) {
     min-height: 160px;
@@ -223,7 +217,8 @@ export const MonitorSensorsPane = styled.div`
   overflow-x: hidden;
   max-height: 42vh;
   padding: ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.background};
+  background: rgba(11, 13, 16, 0.78);
+  backdrop-filter: blur(4px);
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     flex: 1 1 auto;
@@ -254,15 +249,12 @@ export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: numb
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow:
-    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight},
-    ${({ theme }) => theme.elevation.md};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
   transition:
-    box-shadow ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast};
+    border-color ${({ theme }) => theme.transitions.fast},
+    background-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.elevation.lg};
     border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
   }
 
@@ -344,6 +336,7 @@ export const SensorValueRow = styled.div`
 `;
 
 export const SensorValue = styled.span<{ $status: SensorStatus }>`
+  display: inline-block;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: clamp(1.25rem, 2.5vw, 1.5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -356,11 +349,6 @@ export const SensorValue = styled.span<{ $status: SensorStatus }>`
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   padding: 2px 4px;
   margin: -2px -4px;
-  animation: ${({ theme }) => valueFlash(theme)} 320ms ${({ theme }) => theme.motion.easeOut} both;
-
-  @media (prefers-reduced-motion: reduce) {
-    animation: none;
-  }
 `;
 
 export const SensorUnit = styled.span`
@@ -376,18 +364,15 @@ export const ThresholdBar = styled.div`
   overflow: visible;
 `;
 
-export const ThresholdFill = styled.div<{
-  $pct: number;
+export const ThresholdFill = styled(motion.div)<{
   $status: SensorStatus;
 }>`
   height: 100%;
-  width: ${({ $pct }) => Math.min($pct, 100)}%;
   border-radius: inherit;
   background: ${({ $status, theme }) => getThresholdFillColor($status, theme)};
-  transition: width 0.55s ${({ theme }) => theme.motion.easeOut},
-              background ${({ theme }) => theme.transitions.fast};
-  box-shadow: ${({ $status, theme }) => ($status === SensorStatus.Critical
-    ? `0 0 8px ${theme.colors.error}44`
+  transition: background ${({ theme }) => theme.transitions.fast};
+  outline: ${({ $status, theme }) => ($status === SensorStatus.Critical
+    ? `1px solid ${theme.colors.error}55`
     : 'none')};
 `;
 

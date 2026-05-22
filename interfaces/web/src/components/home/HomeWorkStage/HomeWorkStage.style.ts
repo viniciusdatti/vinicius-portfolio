@@ -117,6 +117,16 @@ export interface RunwayProps {
   $active?: boolean;
 }
 
+export const RunwayContent = styled.div`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+`;
+
 export const FeaturedRunway = styled(motion.button)<RunwayProps>`
   position: relative;
   width: 100%;
@@ -134,27 +144,36 @@ export const FeaturedRunway = styled(motion.button)<RunwayProps>`
   cursor: pointer;
   overflow: hidden;
   border-radius: ${({ theme }) => theme.borderRadius.xl} ${({ theme }) => theme.borderRadius.xl} 0 0;
-  box-shadow: ${({ theme }) => theme.elevation.md};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
-    box-shadow ${({ theme }) => theme.transitions.normal};
+    transform ${({ theme }) => theme.transitions.normal};
 
   &::before {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: 1;
     background: linear-gradient(
       180deg,
       transparent 35%,
       ${({ theme }) => theme.colors.background}dd 100%
     );
     pointer-events: none;
-  }
+  };
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 2;
+  };
 
   @media (hover: hover) {
     &:hover {
       border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
-      box-shadow: ${({ theme }) => theme.elevation.lg};
       transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
     }
   }
@@ -209,13 +228,23 @@ export const CaseIndexList = styled(motion.div)`
   border-top: none;
   border-radius: 0 0 ${({ theme }) => theme.borderRadius.xl} ${({ theme }) => theme.borderRadius.xl};
   background: ${({ theme }) => theme.colors.surface};
-  box-shadow: ${({ theme }) => theme.elevation.sm};
   overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    border-radius: inherit;
+    z-index: 1;
+  };
 `;
 
 export const CaseIndexRow = styled(motion.button)<{ $active?: boolean }>`
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  grid-template-columns: 4.75rem minmax(0, 1fr) auto;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   width: 100%;

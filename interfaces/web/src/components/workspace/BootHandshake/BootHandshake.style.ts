@@ -97,7 +97,8 @@ export const BootFill = styled.div<{ $progress: number; $live: boolean }>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   background: ${({ theme }) => theme.colors.gradientLiveLabBar};
   transition: width ${({ theme }) => theme.transitions.slow};
-  box-shadow: 0 0 6px ${({ theme }) => theme.colors.primary}33;
+  outline: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  outline-offset: -1px;
   ${({ $live, theme }) => $live && css`
     animation: ${progressPulse(theme)} 2.4s ease-in-out infinite;
   `};

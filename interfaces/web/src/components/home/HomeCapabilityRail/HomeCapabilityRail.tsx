@@ -10,6 +10,9 @@ import { publicAssetUrl } from '@/config/env';
 // Hooks
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
+// Components
+import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
+
 // View
 import {
   CapabilityBand,
@@ -35,26 +38,17 @@ import {
 interface CapabilityItem {
   name: string;
   icon: string;
-  domain: string;
   signal: string;
-  desc?: string;
   featured?: boolean;
 }
 
 const ITEMS: CapabilityItem[] = [
-  {
-    name: 'React',
-    icon: 'react.svg',
-    domain: 'UI Architecture',
-    signal: 'SIG-01',
-    desc: 'Component systems, realtime state, design-system integration',
-    featured: true,
-  },
-  { name: 'TypeScript', icon: 'typescript.svg', domain: 'Type Safety', signal: 'SIG-02' },
-  { name: 'Python', icon: 'python.svg', domain: 'Services', signal: 'SIG-03' },
-  { name: 'FastAPI', icon: 'fastapi.svg', domain: 'API', signal: 'SIG-04' },
-  { name: 'PostgreSQL', icon: 'postgresql.svg', domain: 'Data', signal: 'SIG-05' },
-  { name: 'Docker', icon: 'docker.svg', domain: 'Ops', signal: 'SIG-06' },
+  { name: 'React', icon: 'react.svg', signal: 'SIG-01', featured: true },
+  { name: 'TypeScript', icon: 'typescript.svg', signal: 'SIG-02' },
+  { name: 'Python', icon: 'python.svg', signal: 'SIG-03' },
+  { name: 'FastAPI', icon: 'fastapi.svg', signal: 'SIG-04' },
+  { name: 'PostgreSQL', icon: 'postgresql.svg', signal: 'SIG-05' },
+  { name: 'Docker', icon: 'docker.svg', signal: 'SIG-06' },
 ];
 
 const viewport = { once: true, margin: '-60px' as const };
@@ -65,6 +59,11 @@ export function HomeCapabilityRail(): React.ReactElement {
 
   const featured = ITEMS.find((i) => i.featured);
   const rest = ITEMS.filter((i) => !i.featured);
+
+  const resolveCapabilityDomain = (skillName: string): string => {
+    const domainKey: string = `skills.layout.coreDomains.${skillName}`;
+    return resolveI18nKeyOrFallback(domainKey, skillName, t);
+  };
 
   return (
     <CapabilityBand id="section-capabilities">
@@ -98,10 +97,8 @@ export function HomeCapabilityRail(): React.ReactElement {
               {featured.name}
             </CapabilityFeaturedName>
             <CapabilityFeaturedMeta>
-              {featured.desc ? (
-                <CapabilityFeaturedDesc>{featured.desc}</CapabilityFeaturedDesc>
-              ) : null}
-              <CapabilityFeaturedDomain>{featured.domain}</CapabilityFeaturedDomain>
+              <CapabilityFeaturedDesc>{t('skills.layout.heroDescription')}</CapabilityFeaturedDesc>
+              <CapabilityFeaturedDomain>{t('skills.layout.heroDomain')}</CapabilityFeaturedDomain>
             </CapabilityFeaturedMeta>
           </CapabilityFeaturedRow>
         ) : null}
@@ -122,7 +119,7 @@ export function HomeCapabilityRail(): React.ReactElement {
                   alt=""
                   aria-hidden
                 />
-                <CapabilityDomain>{cap.domain}</CapabilityDomain>
+                <CapabilityDomain>{resolveCapabilityDomain(cap.name)}</CapabilityDomain>
               </CapabilityMeta>
             </CapabilityRow>
           ))}
