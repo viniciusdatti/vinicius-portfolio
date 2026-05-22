@@ -225,6 +225,11 @@
         "build": "Build {{version}}"
       }
     },
+    "manifesto": {
+      "aria": "Tese do portfólio",
+      "line": "Interfaces onde telemetria, thresholds e estado permanecem legíveis sob carga — não demos que só funcionam no screenshot.",
+      "meta": "Engenharia front-end · sistemas realtime · UI de produção"
+    },
     "realtime": {
       "lead": "Demo de telemetria neste portfólio — padrão parecido com dashboards industriais em produção que mantive. Abra o Live Lab.",
       "apiLive": "API online",
@@ -240,18 +245,18 @@
     },
     "sections": {
       "skills": {
-        "eyebrow": "01 — Competências de engenharia",
-        "index": "01"
+        "eyebrow": "03 — Competências de engenharia",
+        "index": "03"
       },
       "projects": {
-        "eyebrow": "02 — Trabalhos selecionados",
-        "index": "02",
+        "eyebrow": "01 — Trabalhos selecionados",
+        "index": "01",
         "story": "Cada case documenta escopo, decisões de engenharia e o que o repositório demonstra — estudos e experimentos, não trabalho privado em produção.",
         "viewAll": "Explorar todos os cases"
       },
       "liveLab": {
-        "eyebrow": "03 — Engenharia realtime",
-        "index": "03"
+        "eyebrow": "02 — Engenharia realtime",
+        "index": "02"
       },
       "about": {
         "eyebrow": "04 — Experiência",
@@ -563,7 +568,20 @@
       "eventLog": "Log operacional de eventos",
       "tick": "tick",
       "noEvents": "Nenhum evento ainda…",
-      "trendChart": "Tendência · últimas amostras"
+      "trendChart": "Tendência · últimas amostras",
+      "critLimit": "crít · {{value}} {{unit}}",
+      "kpiStripLabel": "Métricas operacionais",
+      "kpiStream": "Transporte",
+      "kpiLive": "LIVE",
+      "kpiTick": "tick #{{tick}}",
+      "kpiSensors": "Canais",
+      "kpiChannels": "sensores ativos",
+      "kpiAlerts": "Alertas",
+      "kpiCritWarn": "crít / warn",
+      "kpiLoad": "Carga média",
+      "kpiAvgThreshold": "vs limiar crítico",
+      "window": "Janela",
+      "samples": "{{count}} amostras"
     },
     "chat": {
       "title": "Canal realtime",

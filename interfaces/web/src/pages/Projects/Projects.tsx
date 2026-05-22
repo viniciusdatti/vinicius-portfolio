@@ -21,11 +21,11 @@ import {
   ProjectShowcaseGrid,
   ProjectCaseStudyContent,
 } from '@/components/ProjectShowcase';
-import { scrollReveal } from '@/styles/animations';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { PageContainerWide } from '@/styles/pageLayout.style';
 
 // View
 import {
-  PageContainer,
   PageHeader,
   PageHeaderMain,
   PageHeaderAside,
@@ -72,6 +72,8 @@ export function Projects(): React.ReactElement {
   const [techFilter, setTechFilter] = useState<string>('all');
   const [search, setSearch] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const motion = useScrollMotion();
+  const viewport = { once: true, margin: '-60px' as const };
 
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const currentLanguage: Language = isPt ? Language.Pt : Language.En;
@@ -141,7 +143,7 @@ export function Projects(): React.ReactElement {
 
   if (isError) {
     return (
-      <PageContainer>
+      <PageContainerWide>
         <PageHeader>
           <PageHeaderMain>
             <PageTitle>{t('projects.title')}</PageTitle>
@@ -154,30 +156,30 @@ export function Projects(): React.ReactElement {
             {t('common.retry')}
           </RetryButton>
         </ShowcaseSection>
-      </PageContainer>
+      </PageContainerWide>
     );
   }
 
   return (
-    <PageContainer>
+    <PageContainerWide>
       <PageHeader>
         <PageHeaderMain>
           <PageEyebrow>{t('projects.showcase.eyebrow')}</PageEyebrow>
           <PageTitle
-            variants={scrollReveal}
+            variants={motion.section}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, margin: '-80px' }}
+            viewport={viewport}
           >
             {t('projects.title')}
           </PageTitle>
         </PageHeaderMain>
         <PageHeaderAside>
           <PageSubtitle
-            variants={scrollReveal}
+            variants={motion.section}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: false, margin: '-60px' }}
+            viewport={viewport}
           >
             {t('projects.showcase.lead')}
           </PageSubtitle>
@@ -221,6 +223,6 @@ export function Projects(): React.ReactElement {
           </DrawerCaseBody>
         )}
       </Drawer>
-    </PageContainer>
+    </PageContainerWide>
   );
 }

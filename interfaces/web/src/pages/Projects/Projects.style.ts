@@ -6,18 +6,6 @@
 import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
-export const PageContainer = styled.div`
-  max-width: ${({ theme }) => theme.layout.contentWide};
-  margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl}
-    ${({ theme }) => theme.spacing.lg};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.pageY}
-      ${({ theme }) => theme.spacing.pageX};
-  };
-`;
-
 export const PageHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
   max-width: ${({ theme }) => theme.layout.proseWide};
@@ -190,7 +178,7 @@ export const DrawerLink = styled.a`
   transition: box-shadow ${({ theme }) => theme.transitions.fast};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.glow};
+    box-shadow: ${({ theme }) => theme.elevation.md};
   };
 `;
 
@@ -226,7 +214,7 @@ export const RetryButton = styled.button`
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.glow};
+    box-shadow: ${({ theme }) => theme.elevation.md};
   };
 `;
 

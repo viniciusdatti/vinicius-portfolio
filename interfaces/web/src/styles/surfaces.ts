@@ -2,6 +2,26 @@
 import { css } from 'styled-components';
 
 /**
+ * Standard surface motion — align with theme.transitions / motionPresets.
+ */
+export const surfaceMotion = css`
+  transition:
+    transform ${({ theme }) => theme.transitions.normal},
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast},
+    background-color ${({ theme }) => theme.transitions.fast};
+`;
+
+/**
+ * CSS variables for pointer-driven card lighting.
+ */
+export const cardPointerVars = css`
+  --spot-x: 50%;
+  --spot-y: 50%;
+  --spot-opacity: 0;
+`;
+
+/**
  * Frosted glass panel with subtle border and depth.
  */
 export const glassSurface = css`
@@ -29,11 +49,34 @@ export const interactiveLift = css`
     box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast};
 
-  &:hover {
-    transform: translateY(-${({ theme }) => theme.motion.distance.liftMd});
-    box-shadow: ${({ theme }) => theme.elevation.lg};
-    border-color: ${({ theme }) => theme.colors.borderLight};
-  };
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      border-color: ${({ theme }) => theme.colors.borderLight};
+    }
+  }
+`;
+
+/**
+ * Marketing glass card — rim + optional featured wash (no living+glass stack).
+ */
+/** Solid elevated panel — rim light without frosted blur (premium, not template glass). */
+export const cardMarketingGlass = css`
+  background-color: ${({ theme }) => theme.colors.surfaceElevated};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  position: relative;
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.elevation.md};
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    pointer-events: none;
+    z-index: 0;
+  }
 `;
 
 /**
@@ -57,9 +100,11 @@ export const buttonShine = css`
  * Shared hover lift utility (smaller displacement).
  */
 export const hoverLiftSm = css`
-  &:hover {
-    transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
-  };
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+    }
+  }
 `;
 
 /**
@@ -122,6 +167,23 @@ export const operationalGlass = css`
 `;
 
 /**
+ * Operational cell — hover border only (dense grids).
+ */
+export const cardOperationalCell = css`
+  ${operationalGlass};
+  transition:
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+    }
+  }
+`;
+
+/**
  * Pointer-driven glow via CSS variables (--spot-x, --spot-y, --spot-opacity).
  */
 export const pointerSpotlight = css`
@@ -131,13 +193,83 @@ export const pointerSpotlight = css`
     inset: 0;
     border-radius: inherit;
     background: radial-gradient(
-      480px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      ${({ theme }) => theme.colors.primary}18,
-      transparent 55%
+      360px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      ${({ theme }) => theme.colors.primary}0c,
+      transparent 58%
     );
     opacity: var(--spot-opacity, 0);
-    transition: opacity 0.35s ease;
+    transition: opacity ${({ theme }) => theme.transitions.normal};
     pointer-events: none;
     z-index: 1;
   }
+`;
+
+/**
+ * Hover lift + depth — no pointer glow (showcase, tiles).
+ */
+export const cardHoverElevated = css`
+  ${surfaceMotion};
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      border-color: ${({ theme }) => theme.colors.borderLight};
+    }
+  }
+`;
+
+/**
+ * Premium hover + subtle spotlight (sparse marketing cards only).
+ */
+export const cardInteractive = css`
+  ${cardPointerVars};
+  ${pointerSpotlight};
+  ${surfaceMotion};
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      border-color: ${({ theme }) => theme.colors.borderLight};
+      --spot-opacity: 0.55;
+    }
+  }
+`;
+
+/**
+ * KPI / stat tile — left signal bar (Datadog metric widget).
+ */
+export const cardStatSignal = css`
+  background-color: ${({ theme }) => theme.colors.surfaceElevated};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  position: relative;
+  overflow: hidden;
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-left-color: ${({ theme }) => theme.colors.primary};
+      box-shadow: ${({ theme }) => theme.elevation.md};
+    }
+  }
+`;
+
+/**
+ * Selectable showcase row — solid rim + restrained hover (no pointer glow).
+ */
+export const cardShowcaseSurface = css`
+  ${cardMarketingGlass};
+  transform-style: preserve-3d;
+  ${cardHoverElevated};
 `;

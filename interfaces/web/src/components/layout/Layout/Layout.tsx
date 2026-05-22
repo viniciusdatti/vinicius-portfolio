@@ -10,7 +10,10 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { SkipLink, Main, WorkspaceMotionShell } from '@/components/layout/Layout/Layout.style';
-import { pageEnter, workspaceEnter } from '@/styles/animations';
+import { resolvePageTransition } from '@/styles/animations';
+
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 /**
  * Public portfolio shell — cinematic pages with page transitions.
@@ -24,6 +27,8 @@ export function Layout(): React.ReactElement {
   const { t } = useTranslation();
   const location = useLocation();
   const isLiveLab: boolean = location.pathname === '/live-lab';
+  const reducedMotion = usePrefersReducedMotion();
+  const pageVariants = resolvePageTransition(isLiveLab, reducedMotion);
 
   return (
     <>
@@ -37,7 +42,7 @@ export function Layout(): React.ReactElement {
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={location.key}
-            variants={isLiveLab ? workspaceEnter : pageEnter}
+            variants={pageVariants}
             initial="initial"
             animate="animate"
             exit="exit"

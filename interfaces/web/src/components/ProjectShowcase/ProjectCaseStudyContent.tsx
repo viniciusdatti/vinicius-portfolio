@@ -9,7 +9,9 @@ import type { Project, Technology } from '@/data/types';
 import { Language } from '@/types';
 import { ProjectCaseStudyField } from '@/types/projectCase';
 
-// Utils
+// =================================================================================================
+// ============================================= UTILS =============================================
+// =================================================================================================
 import {
   getProjectRepoSlug,
   resolveCaseStudyField,

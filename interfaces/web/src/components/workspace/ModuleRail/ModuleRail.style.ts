@@ -9,7 +9,8 @@ export const RailRoot = styled.nav`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.sm};
   gap: ${({ theme }) => theme.spacing.xs};
   border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.background};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  box-shadow: inset -1px 0 0 ${({ theme }) => theme.colors.borderLight};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     flex-direction: row;

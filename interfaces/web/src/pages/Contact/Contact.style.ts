@@ -8,6 +8,13 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+// Components
+import {
+  cardInteractive,
+  cardMarketingGlass,
+  operationalGlass,
+} from '@/styles/surfaces';
+
 export interface InputStyleProps {
   $hasError?: boolean;
 }
@@ -15,56 +22,6 @@ export interface InputStyleProps {
 export interface SubmitButtonStyleProps {
   $loading?: boolean;
 }
-
-/**
- * Main container for the Contact page content.
- * Centers content with responsive padding.
- */
-export const PageContainer = styled.div`
-  max-width: ${({ theme }) => theme.layout.contentMax};
-  margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl}
-    ${({ theme }) => theme.spacing.lg};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.pageY}
-      ${({ theme }) => theme.spacing.pageX};
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
-    max-width: ${({ theme }) => theme.layout.contentWide};
-  };
-`;
-
-/**
- * Header section containing title and subtitle.
- */
-export const PageHeader = styled.div`
-  text-align: center;
-  margin-bottom: ${({ theme }) => theme.spacing.xxl};
-`;
-
-/**
- * Animated page title with responsive font sizing.
- */
-export const PageTitle = styled(motion.h1)`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.display};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
-
-/**
- * Animated subtitle with muted text color.
- */
-export const PageSubtitle = styled(motion.p)`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
-  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  max-width: ${({ theme }) => theme.layout.prose};
-  margin-left: auto;
-  margin-right: auto;
-`;
 
 /**
  * Two-column grid layout for form and info sections.
@@ -76,20 +33,30 @@ export const ContentGrid = styled.div`
   gap: ${({ theme }) => theme.spacing.xxl};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr 1fr;
-  };
+    grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+    gap: clamp(2rem, 6vw, 5rem);
+  }
 `;
 
 /**
  * Container for the contact form with surface styling.
  */
 export const FormSection = styled(motion.div)`
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${operationalGlass};
+  ${cardInteractive};
   border-radius: ${({ theme }) => theme.borderRadius.xxl};
   padding: ${({ theme }) => theme.spacing.xxl};
-  box-shadow: ${({ theme }) => theme.elevation.md};
+  --spot-opacity: 0.2;
+
+  &:focus-within {
+    --spot-opacity: 0.65;
+    box-shadow: ${({ theme }) => theme.elevation.lg};
+  }
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 `;
 
 /**
@@ -229,10 +196,15 @@ export const InfoSection = styled(motion.div)`
  * Card container for contact information items.
  */
 export const InfoCard = styled.div`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.border};
+  ${cardMarketingGlass};
+  ${cardInteractive};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 `;
 
 /**
@@ -286,6 +258,19 @@ export const ChatCTACard = styled(motion.div)`
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   text-align: center;
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  transition:
+    box-shadow ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast},
+    transform ${({ theme }) => theme.transitions.normal};
+
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-${({ theme }) => theme.motion.distance.liftSm});
+      box-shadow: ${({ theme }) => theme.elevation.md};
+      border-color: ${({ theme }) => theme.colors.primary};
+    }
+  }
 `;
 
 /**

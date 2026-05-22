@@ -94,8 +94,6 @@ export function MobileMenu({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t('a11y.github')}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
             >
               <GitHubIcon />
             </SocialLink>
@@ -104,8 +102,6 @@ export function MobileMenu({
               target="_blank"
               rel="noopener noreferrer"
               aria-label={t('a11y.linkedin')}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
             >
               <LinkedInIcon />
             </SocialLink>

@@ -8,7 +8,9 @@ import React from 'react';
 // Components
 import { Spinner } from '@/components/common/Spinner';
 
-// Styles
+// =================================================================================================
+// ============================================ STYLES =============================================
+// =================================================================================================
 import { LoadingRoot, LoadingText } from '@/components/admin/AdminAuthLoading.style';
 
 interface AdminAuthLoadingProps {

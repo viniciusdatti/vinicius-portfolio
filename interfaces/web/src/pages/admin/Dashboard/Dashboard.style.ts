@@ -186,7 +186,9 @@ export const SectionTitle = styled.h2`
   margin-bottom: 1.5rem;
 `;
 
-/* ************** SECURITY (CHANGE PASSWORD) ******************* */
+// =================================================================================================
+// ================================== SECURITY (CHANGE PASSWORD) ===================================
+// =================================================================================================
 
 export const SecuritySection = styled(motion.section)`
   margin-top: ${({ theme }) => theme.spacing.xxl};

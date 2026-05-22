@@ -2,16 +2,8 @@
 import { motion } from 'framer-motion';
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
-const pulseGlow = (theme: DefaultTheme) => keyframes`
-  0%, 100% {
-    opacity: ${theme.effects.opacity.heroGlowMin};
-    transform: translate(-50%, -50%) scale(1);
-  };
-  50% {
-    opacity: ${theme.effects.opacity.heroGlowMax};
-    transform: translate(-50%, -50%) scale(1.04);
-  };
-`;
+// Components
+import { operationalGlass } from '@/styles/surfaces';
 
 const gridDrift = (theme: DefaultTheme) => keyframes`
   0% {
@@ -31,21 +23,6 @@ const scrollCueBounce = (theme: DefaultTheme) => keyframes`
     transform: translateY(${theme.motion.distance.scrollCue});
     opacity: ${theme.effects.opacity.scrollCueMax};
   };
-`;
-
-export const HeroAtmosphere = styled.div`
-  position: absolute;
-  top: 8%;
-  right: -8%;
-  width: ${({ theme }) => theme.sizes.hero.atmosphereWidth};
-  height: ${({ theme }) => theme.sizes.hero.atmosphereHeight};
-  background: ${({ theme }) => theme.colors.gradientHeroAtmosphere};
-  transform: rotate(-12deg);
-  pointer-events: none;
-  z-index: 0;
-  opacity: ${({ theme }) => theme.effects.opacity.heroGlowMin};
-  filter: blur(${({ theme }) => theme.effects.blur.md});
-  mask-image: ${({ theme }) => theme.colors.gradientGridMask};
 `;
 
 export const HeroColumnGuides = styled.div`
@@ -91,24 +68,23 @@ export const HeroHeadlineClip = styled.div`
 
 export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2.25rem, 6.5vw, 3.25rem);
-  font-weight: 800;
+  font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   margin: 0;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
   hyphens: none;
   color: ${({ theme }) => theme.colors.text};
-  font-feature-settings: "ss01", "cv01";
   max-width: none;
   text-wrap: balance;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    max-width: 12ch;
-    font-size: clamp(2.75rem, 5.8vw, 4.5rem);
+    max-width: 14ch;
   }
 `;
 
 export const HeroVisualCard = styled.div`
+  ${operationalGlass};
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -116,38 +92,25 @@ export const HeroVisualCard = styled.div`
   width: min(100%, 400px);
   padding: ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.xxl};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
-  box-shadow: ${({ theme }) => theme.elevation.md};
 `;
 
-export const HeroPortrait = styled.div<{ $glowX: number; $glowY: number }>`
+export const HeroPortrait = styled.div`
   position: relative;
   width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
   aspect-ratio: 4 / 5;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.borderLight};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow:
-    ${({ theme }) => theme.elevation.lg},
-    0 24px 48px -12px rgba(0, 0, 0, 0.45),
-    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
-  transform-style: preserve-3d;
+  box-shadow: ${({ theme }) => theme.elevation.lg};
 
-  &::before {
+  &::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-      280px circle at ${({ $glowX }) => $glowX * 100}% ${({ $glowY }) => $glowY * 100}%,
-      ${({ theme }) => theme.colors.primary}28,
-      transparent 55%
-    );
     pointer-events: none;
-    z-index: 1;
-    mix-blend-mode: soft-light;
+    box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+    border-radius: inherit;
   }
 
   img {
@@ -156,21 +119,21 @@ export const HeroPortrait = styled.div<{ $glowX: number; $glowY: number }>`
     object-fit: cover;
     object-position: center 15%;
     display: block;
-    filter: contrast(1.08) saturate(0.92);
-    transform: translateZ(12px);
+    filter: contrast(1.05) saturate(0.94);
   }
 `;
 
 export const HeroSection = styled.section`
   position: relative;
+  z-index: 5;
   min-height: ${({ theme }) => theme.sizes.hero.minHeightMobile};
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.xl}
     ${({ theme }) => theme.spacing.pageX}
-    ${({ theme }) => theme.spacing.sectionSm};
-  overflow: hidden;
+    clamp(4rem, 10vw, 6rem);
+  overflow: visible;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -180,7 +143,7 @@ export const HeroSection = styled.section`
     min-height: ${({ theme }) => theme.sizes.hero.minHeight};
     padding: ${({ theme }) => theme.spacing.xxl}
       ${({ theme }) => theme.spacing.pageX}
-      ${({ theme }) => theme.spacing.section};
+      clamp(5rem, 11vw, 7rem);
   };
 `;
 
@@ -202,46 +165,10 @@ export const HeroDecoGrid = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     animation: ${({ theme }) => gridDrift(theme)} 12s ease-in-out infinite alternate;
   };
-`;
 
-export const GlowBackdrop = styled.div`
-  position: absolute;
-  top: 38%;
-  left: 62%;
-  transform: translate(-50%, -50%);
-  width: ${({ theme }) => theme.sizes.hero.glowWidth};
-  height: ${({ theme }) => theme.sizes.hero.glowHeight};
-  max-width: 100%;
-  background: ${({ theme }) => theme.colors.gradientHeroCenter};
-  pointer-events: none;
-  animation: ${({ theme }) => pulseGlow(theme)} 5s ease-in-out infinite;
-  z-index: 1;
-  filter: blur(${({ theme }) => theme.effects.blur.xs});
-  will-change: transform;
-`;
-
-export const GlowBackdropSecondary = styled.div`
-  position: absolute;
-  top: 12%;
-  left: 4%;
-  width: ${({ theme }) => theme.sizes.hero.orbAccent};
-  height: ${({ theme }) => theme.sizes.hero.orbAccent};
-  background: ${({ theme }) => theme.colors.gradientHeroOrbAccent};
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
-`;
-
-export const GlowBackdropTertiary = styled.div`
-  position: absolute;
-  bottom: 8%;
-  right: 8%;
-  width: ${({ theme }) => theme.sizes.hero.orbPrimary};
-  height: ${({ theme }) => theme.sizes.hero.orbPrimary};
-  background: ${({ theme }) => theme.colors.gradientHeroOrbPrimary};
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export const HeroEditorialGrid = styled.div`
@@ -256,9 +183,10 @@ export const HeroEditorialGrid = styled.div`
   text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1.18fr 0.82fr;
+    grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
     text-align: left;
-    gap: ${({ theme }) => theme.spacing.sectionSm};
+    gap: clamp(1rem, 3vw, 2rem);
+    align-items: end;
   };
 `;
 
@@ -281,8 +209,10 @@ export const HeroVisualColumn = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     align-items: flex-end;
-    padding-bottom: ${({ theme }) => theme.spacing.xxl};
-    transform: translateY(${({ theme }) => theme.spacing.lg});
+    justify-content: flex-end;
+    padding-bottom: 0;
+    transform: translate(6%, 2rem);
+    z-index: 2;
   };
 `;
 
@@ -294,16 +224,6 @@ export const HeroAvatarFrame = styled(motion.div)`
   justify-content: center;
   transform-style: preserve-3d;
   will-change: transform;
-`;
-
-export const HeroAvatarRing = styled.div`
-  position: absolute;
-  inset: -${({ theme }) => theme.spacing.md};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.gradientHeroRing};
-  opacity: ${({ theme }) => theme.effects.opacity.heroRing};
-  pointer-events: none;
 `;
 
 export const HeroDecoTag = styled.span`
@@ -439,7 +359,7 @@ export const HeroStat = styled.div`
 export const HeroStatValue = styled.div`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(1.75rem, 4vw, 2.25rem);
-  font-weight: 800;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -515,6 +435,10 @@ export const HeroScrollChevron = styled.span`
   animation: ${({ theme }) => scrollCueBounce(theme)} 2.4s ease-in-out infinite;
   line-height: 1;
   margin-top: 2px;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
 `;
 
 export const ScrollCueLine = styled.span`

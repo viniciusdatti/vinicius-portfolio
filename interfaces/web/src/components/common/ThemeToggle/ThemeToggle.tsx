@@ -61,8 +61,6 @@ export function ThemeToggle({ className }: ThemeToggleProps): React.ReactElement
     <ToggleButton
       className={className}
       onClick={toggleTheme}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
       aria-label={themeLabel}
       title={themeLabel}
     >
@@ -71,7 +69,7 @@ export function ThemeToggle({ className }: ThemeToggleProps): React.ReactElement
         initial={{ rotate: -90, opacity: 0 }}
         animate={{ rotate: 0, opacity: 1 }}
         exit={{ rotate: 90, opacity: 0 }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
       >
         {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
       </motion.div>

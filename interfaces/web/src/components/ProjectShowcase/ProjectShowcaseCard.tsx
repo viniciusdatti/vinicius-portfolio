@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 // Types
 import type { Technology } from '@/data/types';
+import { getProjectDisplayTitle } from '@/domain/projects';
 import { Language } from '@/types';
 import {
   MockWindowScene,
@@ -51,19 +52,9 @@ import {
   TechStackSep,
 } from '@/components/ProjectShowcase/ProjectShowcase.style';
 
-/* ***********************************************************************************************
- ****************************************** METHODS ***********************************************
- *********************************************************************************************** */
-
-const getProjectTitle = (
-  project: ProjectShowcaseCardProps['project'],
-  language: Language,
-): string => {
-  if (language === Language.Pt && project.title_pt) {
-    return project.title_pt;
-  }
-  return project.title;
-};
+// ======================================================
+// ======================= METHODS ======================
+// ======================================================
 
 const getProjectDescription = (
   project: ProjectShowcaseCardProps['project'],
@@ -164,7 +155,7 @@ export function ProjectShowcaseCard({
   onSelect,
 }: ProjectShowcaseCardProps): React.ReactElement {
   const { t } = useTranslation();
-  const title: string = getProjectTitle(project, language);
+  const title: string = getProjectDisplayTitle(project, language);
   const description: string = getProjectDescription(project, language);
   const displayTechs: Technology[] = project.technologies.slice(0, 4);
   const caseCtaLabel: string = t(getProjectCaseCtaKey(project), {
@@ -192,11 +183,7 @@ export function ProjectShowcaseCard({
       onKeyDown={(event: React.KeyboardEvent<HTMLElement>): void => (
         handleCardKeyDown(event, onSelect, project)
       )}
-      whileHover={{
-        y: isFeatured ? -8 : -10,
-        transition: { type: 'spring', stiffness: 420, damping: 30 },
-      }}
-      whileTap={{ y: -2, transition: { duration: 0.12 } }}
+      whileTap={{ scale: 0.998, transition: { duration: 0.12, ease: [0.22, 1, 0.36, 1] } }}
     >
       <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
         <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>

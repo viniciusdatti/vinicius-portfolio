@@ -74,7 +74,10 @@ export function BootHandshake(): React.ReactElement {
       <BootRow>
         <BootCopy>
           <BootTitle>{t('liveLab.boot.transportStatus')}</BootTitle>
-          <BootPhase>{t(phaseKey)}</BootPhase>
+          <BootPhase>
+            <span aria-hidden>{'› '}</span>
+            {t(phaseKey)}
+          </BootPhase>
         </BootCopy>
         <BootTrack aria-hidden>
           <BootFill

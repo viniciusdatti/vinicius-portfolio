@@ -76,15 +76,16 @@ export const GlobalStyles = createGlobalStyle`
     position: fixed;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.028;
+    opacity: 0.022;
     pointer-events: none;
-    z-index: 9998;
+    z-index: 1;
   }
 
   #root {
     position: relative;
-    z-index: 1;
+    z-index: 0;
     min-height: 100vh;
+    isolation: isolate;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -105,8 +106,8 @@ export const GlobalStyles = createGlobalStyle`
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
     font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
-    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
-    line-height: 1.25;
+    letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+    line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   }
 
   p {

@@ -15,13 +15,17 @@ import { darkTheme } from '@/styles/theme';
 import { Language } from '@/types';
 import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
-// Plugins
+// =================================================================================================
+// ============================================ PLUGINS ============================================
+// =================================================================================================
 import { MOCKED_PROJECT_LIST } from '@/plugins/testUtils';
 
 // Components
 import { ProjectShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcaseGrid';
 
-/* *************** TEST SUPPORT VARS *************** */
+// =================================================================================================
+// ======================================= TEST SUPPORT VARS =======================================
+// =================================================================================================
 
 const defaultProps: ProjectShowcaseGridProps = {
   projects: MOCKED_PROJECT_LIST,
@@ -42,7 +46,9 @@ function ProjectShowcaseGridComponent(
   );
 }
 
-/* *************** TEST EXECUTION *************** */
+// =================================================================================================
+// ======================================== TEST EXECUTION =========================================
+// =================================================================================================
 
 describe('ProjectShowcaseGrid Component', (): void => {
   // RENDER *******************************

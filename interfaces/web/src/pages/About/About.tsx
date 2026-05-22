@@ -11,21 +11,20 @@ import { motion } from 'framer-motion';
 
 // Hooks
 import { useCountUp } from '@/hooks';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Config
 import { publicAssetUrl } from '@/config/env';
 
 // Components
 import {
-  scrollReveal,
-  scrollRevealStagger,
-  scrollRevealItem,
-} from '@/styles/animations';
+  PageContainerNarrow,
+  PageHeaderLeft,
+  PageTitleLeft,
+} from '@/styles/pageLayout.style';
 
 // View
 import {
-  PageContainer,
-  PageTitle,
   IntroSection,
   Avatar,
   IntroContent,
@@ -36,6 +35,7 @@ import {
   StatLabel,
   Section,
   ExperienceSection,
+  ExperienceTimeline,
   ExperienceSectionTitle,
   PhilosophySection,
   SectionTitle,
@@ -55,9 +55,8 @@ import {
   ExperienceBullet,
 } from '@/pages/About/About.style';
 
-/* *************************************************************************************************
- **************************************** COMPONENT HANDLING ***************************************
- ************************************************************************************************ */
+const viewportSection = { once: true, margin: '-60px' as const };
+const viewportTight = { once: true, margin: '-40px' as const };
 
 interface StatCounterProps {
   target: number;
@@ -65,18 +64,16 @@ interface StatCounterProps {
   label: string;
 }
 
-/**
- * Individual stat card with count-up animation triggered on viewport enter.
- */
 function StatCounter({
   target,
   suffix = '',
   label,
 }: StatCounterProps): React.ReactElement {
   const { count, ref } = useCountUp({ target, duration: 1400 });
+  const { item } = useScrollMotion();
 
   return (
-    <StatCard variants={scrollRevealItem} whileHover={{ y: -5 }}>
+    <StatCard variants={item}>
       <StatNumber ref={ref}>
         {count}
         {suffix}
@@ -86,59 +83,56 @@ function StatCounter({
   );
 }
 
-/**
- * About page with personal introduction, stats, philosophy, and education.
- */
 export function About(): React.ReactElement {
   const { t } = useTranslation();
+  const { section, stagger, item } = useScrollMotion();
 
   return (
-    <PageContainer>
-      <PageTitle
-        variants={scrollReveal}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: false, margin: '-80px' }}
-      >
-        {t('about.title')}
-      </PageTitle>
+    <PageContainerNarrow>
+      <PageHeaderLeft>
+        <PageTitleLeft
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSection}
+        >
+          {t('about.title')}
+        </PageTitleLeft>
+      </PageHeaderLeft>
 
       <IntroSection
-        variants={scrollRevealStagger}
+        variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: false, margin: '-60px' }}
+        viewport={viewportSection}
       >
-        <Avatar
-          variants={scrollRevealItem}
-          whileHover={{ scale: 1.02 }}
-        >
+        <Avatar variants={item}>
           <img
             src={publicAssetUrl('avatar.png')}
             alt="Vinicius"
           />
         </Avatar>
         <IntroContent>
-          <motion.h2 variants={scrollRevealItem}>
+          <motion.h2 variants={item}>
             {t('about.intro.title')}
           </motion.h2>
-          <motion.p variants={scrollRevealItem}>
+          <motion.p variants={item}>
             {t('about.intro.lead')}
           </motion.p>
-          <IntroHighlight variants={scrollRevealItem}>
+          <IntroHighlight variants={item}>
             {t('about.intro.highlight')}
           </IntroHighlight>
-          <motion.p variants={scrollRevealItem}>
+          <motion.p variants={item}>
             {t('about.intro.impact')}
           </motion.p>
         </IntroContent>
       </IntroSection>
 
       <StatsGrid
-        variants={scrollRevealStagger}
+        variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
+        viewport={viewportSection}
       >
         <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
         <StatCounter target={2} label={t('about.stats.testing')} />
@@ -147,32 +141,33 @@ export function About(): React.ReactElement {
 
       <ExperienceSection>
         <ExperienceSectionTitle>{t('about.superior.sectionTitle')}</ExperienceSectionTitle>
-        <ExperienceCard
-          variants={scrollReveal}
+        <ExperienceTimeline
+          variants={stagger}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-40px' }}
-          whileHover={{ y: -2 }}
+          viewport={viewportTight}
         >
-          <ExperienceCardHeader>
-            <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
-          </ExperienceCardHeader>
-          <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
-          <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
-          <ExperienceBullets>
-            <ExperienceBullet>{t('about.superior.items.realtime')}</ExperienceBullet>
-            <ExperienceBullet>{t('about.superior.items.designSystem')}</ExperienceBullet>
-            <ExperienceBullet>{t('about.superior.items.auth')}</ExperienceBullet>
-            <ExperienceBullet>{t('about.superior.items.quality')}</ExperienceBullet>
-          </ExperienceBullets>
-        </ExperienceCard>
+          <ExperienceCard variants={item}>
+            <ExperienceCardHeader>
+              <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
+            </ExperienceCardHeader>
+            <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
+            <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
+            <ExperienceBullets>
+              <ExperienceBullet>{t('about.superior.items.realtime')}</ExperienceBullet>
+              <ExperienceBullet>{t('about.superior.items.designSystem')}</ExperienceBullet>
+              <ExperienceBullet>{t('about.superior.items.auth')}</ExperienceBullet>
+              <ExperienceBullet>{t('about.superior.items.quality')}</ExperienceBullet>
+            </ExperienceBullets>
+          </ExperienceCard>
+        </ExperienceTimeline>
       </ExperienceSection>
 
       <PhilosophySection
-        variants={scrollReveal}
+        variants={section}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
+        viewport={viewportSection}
       >
         <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
         <PhilosophyCard>
@@ -185,10 +180,10 @@ export function About(): React.ReactElement {
       </PhilosophySection>
 
       <Section
-        variants={scrollReveal}
+        variants={section}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
+        viewport={viewportSection}
       >
         <SectionTitle>{t('about.education.title')}</SectionTitle>
         <EducationCard>
@@ -205,6 +200,6 @@ export function About(): React.ReactElement {
           </ComplementaryText>
         </EducationCard>
       </Section>
-    </PageContainer>
+    </PageContainerNarrow>
   );
 }

@@ -1,16 +1,18 @@
 // Libraries
 import { Variants } from 'framer-motion';
 
-// Components
+// =================================================================================================
+// ============================================ STYLES =============================================
+// =================================================================================================
 import { motionPresets } from '@/styles/motionPresets';
 
 export const motionEase = motionPresets.ease.out;
 
 export const motionEaseSoft = motionPresets.ease.inOut;
 
-// ============================================
-// Page Transitions — cinematic, non-AI
-// ============================================
+// =================================================================================================
+// ======================================= PAGE TRANSITIONS ========================================
+// =================================================================================================
 
 /**
  * Slide-up com fade — entrada suave, saída para cima.
@@ -21,7 +23,7 @@ export const pageEnter: Variants = {
     opacity: 0,
     y: motionPresets.distance.pageEnter,
     scale: 0.992,
-    filter: 'blur(6px)',
+    filter: 'blur(4px)',
   },
   animate: {
     opacity: 1,
@@ -37,7 +39,7 @@ export const pageEnter: Variants = {
     opacity: 0,
     y: -motionPresets.distance.pageExit,
     scale: 0.996,
-    filter: 'blur(3px)',
+    filter: 'blur(2px)',
     transition: {
       duration: motionPresets.duration.normal,
       ease: motionEaseSoft,
@@ -60,9 +62,42 @@ export const workspaceEnter: Variants = {
   },
 };
 
-// ============================================
-// Scroll Reveal — seções internas das páginas
-// ============================================
+/** Reduced motion — no blur/scale (accessibility + performance). */
+export const pageEnterReduced: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.fast, ease: motionEase },
+  },
+  exit: {
+    opacity: 0,
+    transition: { duration: motionPresets.duration.fast, ease: motionEaseSoft },
+  },
+};
+
+export const scrollRevealReduced: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+  },
+};
+
+/**
+ * Route transition variants respecting prefers-reduced-motion.
+ */
+export const resolvePageTransition = (
+  isWorkspace: boolean,
+  reducedMotion: boolean,
+): Variants => {
+  if (isWorkspace) return workspaceEnter;
+  if (reducedMotion) return pageEnterReduced;
+  return pageEnter;
+};
+
+// =================================================================================================
+// ========================================= SCROLL REVEAL =========================================
+// =================================================================================================
 
 /**
  * Reveal de seção ao entrar na viewport — editorial, sem bounce.
@@ -71,7 +106,7 @@ export const scrollReveal: Variants = {
   hidden: {
     opacity: 0,
     y: motionPresets.distance.editorial,
-    filter: 'blur(8px)',
+    filter: 'blur(3px)',
   },
   visible: {
     opacity: 1,
@@ -92,7 +127,7 @@ export const scrollRevealStagger: Variants = {
   visible: {
     transition: {
       staggerChildren: motionPresets.stagger.editorialChild,
-      delayChildren: 0.05,
+      delayChildren: motionPresets.stagger.editorialDelay,
     },
   },
 };
@@ -112,9 +147,16 @@ export const scrollRevealItem: Variants = {
   },
 };
 
-// ============================================
-// Page Transitions (legacy — mantidos para compatibilidade)
-// ============================================
+/**
+ * Scroll reveal variants respecting prefers-reduced-motion.
+ */
+export const resolveScrollReveal = (reducedMotion: boolean): Variants => (
+  reducedMotion ? scrollRevealReduced : scrollReveal
+);
+
+// =================================================================================================
+// ======================================== STAGGER LEGACY =========================================
+// =================================================================================================
 
 export const staggerContainer: Variants = {
   initial: {},
@@ -171,7 +213,7 @@ export const showcaseStaggerContainer: Variants = {
 };
 
 export const showcaseStaggerItem: Variants = {
-  initial: { opacity: 0, y: motionPresets.distance.showcase, scale: 0.98 },
+  initial: { opacity: 0, y: motionPresets.distance.showcase, scale: 0.99 },
   animate: {
     opacity: 1,
     y: 0,
@@ -198,9 +240,9 @@ export const heroClipReveal: Variants = {
   },
 };
 
-// ============================================
-// Fade Animations
-// ============================================
+// =================================================================================================
+// ======================================== FADE ANIMATIONS ========================================
+// =================================================================================================
 
 export const fadeIn: Variants = {
   initial: { opacity: 0 },
@@ -254,9 +296,9 @@ export const fadeInRight: Variants = {
   },
 };
 
-// ============================================
-// Scale Animations
-// ============================================
+// =================================================================================================
+// ======================================= SCALE ANIMATIONS ========================================
+// =================================================================================================
 
 export const scaleIn: Variants = {
   initial: { opacity: 0, scale: 0.96 },
@@ -278,9 +320,9 @@ export const scaleOnHover: Variants = {
   tap: { scale: 0.98 },
 };
 
-// ============================================
-// Hero Animations
-// ============================================
+// =================================================================================================
+// ======================================== HERO ANIMATIONS ========================================
+// =================================================================================================
 
 export const heroTextReveal: Variants = {
   initial: { y: '100%' },
@@ -306,9 +348,9 @@ export const heroSubtitle: Variants = {
   },
 };
 
-// ============================================
-// Interactive Animations
-// ============================================
+// =================================================================================================
+// ==================================== INTERACTIVE ANIMATIONS =====================================
+// =================================================================================================
 
 export const pulse: {
   scale: number[];
@@ -372,9 +414,9 @@ export const shimmer: Variants = {
   },
 };
 
-// ============================================
-// Navigation Animations
-// ============================================
+// =================================================================================================
+// ===================================== NAVIGATION ANIMATIONS =====================================
+// =================================================================================================
 
 export const navLinkHover: Variants = {
   initial: { width: 0 },
@@ -415,9 +457,9 @@ export const hamburgerBottom: Variants = {
   open: { rotate: -45, y: -8 },
 };
 
-// ============================================
-// Card Animations
-// ============================================
+// =================================================================================================
+// ======================================== CARD ANIMATIONS ========================================
+// =================================================================================================
 
 export const cardHover: Variants = {
   initial: { y: 0 },
@@ -427,9 +469,9 @@ export const cardHover: Variants = {
   },
 };
 
-// ============================================
-// Utility Functions
-// ============================================
+// =================================================================================================
+// ======================================= UTILITY FUNCTIONS =======================================
+// =================================================================================================
 
 export const parallaxY = (
   offset: number,

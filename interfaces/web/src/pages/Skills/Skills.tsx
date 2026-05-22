@@ -16,7 +16,9 @@ import { SkillCategory, type Certificate, type Skill } from '@/types';
 // Hooks
 import { useSkills, useCertificates } from '@/hooks';
 
-// Domain
+// =================================================================================================
+// ============================================ DOMAIN =============================================
+// =================================================================================================
 import {
   getPlatformConfig,
   resolveCertificateDisplayName,
@@ -27,18 +29,16 @@ import {
 
 // Components
 import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
-import {
-  scrollReveal,
-  scrollRevealStagger,
-  scrollRevealItem,
-} from '@/styles/animations';
-
-// View
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
   PageHeader,
   PageTitle,
   PageSubtitle,
+} from '@/styles/pageLayout.style';
+
+// View
+import {
   Section,
   SectionTitle,
   CategoryTabs,
@@ -135,6 +135,8 @@ export function Skills(): React.ReactElement {
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const [activeCategory, setActiveCategory] = useState<SkillCategory | 'all'>('all');
   const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
+  const motion = useScrollMotion();
+  const viewport = { once: true, margin: '-60px' as const };
 
   const {
     data: skills = [],
@@ -179,7 +181,7 @@ export function Skills(): React.ReactElement {
     if (skillsLoading) {
       return (
         <SkillsGrid
-          variants={scrollRevealStagger}
+          variants={motion.stagger}
           initial="hidden"
           animate="visible"
         >
@@ -205,7 +207,7 @@ export function Skills(): React.ReactElement {
       <AnimatePresence mode="wait">
         <SkillsGrid
           key={activeCategory}
-          variants={scrollRevealStagger}
+          variants={motion.stagger}
           initial="hidden"
           animate="visible"
           exit={{ opacity: 0 }}
@@ -215,7 +217,7 @@ export function Skills(): React.ReactElement {
             return (
               <SkillCard
                 key={skill.id}
-                variants={scrollRevealItem}
+                variants={motion.item}
                 layout
               >
                 <SkillIcon>
@@ -239,7 +241,7 @@ export function Skills(): React.ReactElement {
     if (certificatesLoading) {
       return (
         <SkillsGrid
-          variants={scrollRevealStagger}
+          variants={motion.stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -264,7 +266,7 @@ export function Skills(): React.ReactElement {
 
     return (
       <CertificatesGrid
-        variants={scrollRevealStagger}
+        variants={motion.stagger}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
@@ -275,8 +277,7 @@ export function Skills(): React.ReactElement {
           return (
             <CertificateCard
               key={cert.id}
-              variants={scrollRevealItem}
-              whileHover={{ y: -8, scale: 1.02 }}
+              variants={motion.item}
               whileTap={{ scale: 0.98 }}
               onClick={() => handleCertificateClick(cert)}
               $platformColor={platform.color}
@@ -320,18 +321,18 @@ export function Skills(): React.ReactElement {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={scrollReveal}
+          variants={motion.section}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: '-80px' }}
+          viewport={viewport}
         >
           {t('skills.title')}
         </PageTitle>
         <PageSubtitle
-          variants={scrollReveal}
+          variants={motion.section}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: false, margin: '-60px' }}
+          viewport={viewport}
         >
           {t('skills.subtitle')}
         </PageSubtitle>
@@ -344,8 +345,7 @@ export function Skills(): React.ReactElement {
               key={cat.key}
               $active={activeCategory === cat.key}
               onClick={() => setActiveCategory(cat.key)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.98 }}
             >
               {cat.key === 'all' ? t('skills.filterAll') : t(`skills.categories.${cat.key}`)}
             </CategoryTab>
@@ -360,7 +360,7 @@ export function Skills(): React.ReactElement {
         <ExperienceIntro>{t('skills.experience.intro')}</ExperienceIntro>
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
-          variants={scrollRevealStagger}
+          variants={motion.stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -368,8 +368,7 @@ export function Skills(): React.ReactElement {
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
             <ExperienceCard
               key={key}
-              variants={scrollRevealItem}
-              whileHover={{ y: -4 }}
+              variants={motion.item}
             >
               <ExperienceCardTitle>
                 {t(`skills.experience.items.${key}.title`)}

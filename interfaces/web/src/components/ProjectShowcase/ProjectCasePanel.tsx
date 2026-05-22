@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Types
 import type { Project } from '@/data/types';
+import { getProjectDisplayTitle } from '@/domain/projects';
 import { Language } from '@/types';
 
 // Components
@@ -29,16 +30,9 @@ export interface ProjectCasePanelProps {
   onClose: () => void;
 }
 
-/* ***********************************************************************************************
- ****************************************** METHODS ***********************************************
- *********************************************************************************************** */
-
-const getProjectTitle = (project: Project, language: Language): string => {
-  if (language === Language.Pt && project.title_pt) {
-    return project.title_pt;
-  }
-  return project.title;
-};
+// ======================================================
+// ======================= METHODS ======================
+// ======================================================
 
 const panelVariants = {
   hidden: { opacity: 0, height: 0 },
@@ -89,7 +83,7 @@ export function ProjectCasePanel({
             <CasePanelHeader>
               <div>
                 <CasePanelIndex>{indexLabel}</CasePanelIndex>
-                <CasePanelTitle>{getProjectTitle(project, language)}</CasePanelTitle>
+                <CasePanelTitle>{getProjectDisplayTitle(project, language)}</CasePanelTitle>
               </div>
               <CasePanelClose
                 type="button"

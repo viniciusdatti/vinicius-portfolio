@@ -120,7 +120,7 @@ export function ProjectShowcaseGrid({
       variants={showcaseStaggerContainer}
       initial="initial"
       whileInView="animate"
-      viewport={{ once: false, margin: '-40px' }}
+      viewport={{ once: true, margin: '-60px' }}
     >
       {orderedProjects.map((project: Project, index: number) => (
         <ProjectShowcaseCard

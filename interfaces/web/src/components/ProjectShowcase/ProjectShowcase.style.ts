@@ -3,9 +3,7 @@ import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import {
-  glassSurface, livingSurface, featuredSpotlight, pointerSpotlight,
-} from '@/styles/surfaces';
+import { cardShowcaseSurface } from '@/styles/surfaces';
 import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
@@ -33,7 +31,9 @@ const getCanvasBackground = (
   return theme.colors.gradientProjectCanvasA;
 };
 
-/* ************** GRID ******************* */
+// =================================================================================================
+// ============================================= GRID ==============================================
+// =================================================================================================
 
 export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   display: grid;
@@ -45,14 +45,20 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
     ${({ $compact }) => ($compact
     ? `
           & > [data-variant='featured'] {
-            grid-column: span 12;
+            grid-column: 1 / span 7;
+            grid-row: span 2;
           };
-          & > [data-variant='compact']:nth-of-type(2),
+          & > [data-variant='compact']:nth-of-type(2) {
+            grid-column: 8 / span 5;
+            grid-row: 1;
+          };
           & > [data-variant='compact']:nth-of-type(3) {
-            grid-column: span 6;
+            grid-column: 8 / span 5;
+            grid-row: 2;
           };
           & > [data-variant='compact']:nth-of-type(4) {
-            grid-column: span 12;
+            grid-column: 1 / -1;
+            grid-row: 3;
           };
         `
     : `
@@ -69,7 +75,9 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   };
 `;
 
-/* ************** CARD ******************* */
+// =================================================================================================
+// ============================================= CARD ==============================================
+// =================================================================================================
 
 export interface ShowcaseCardStyleProps {
   $variant: ProjectShowcaseVariant;
@@ -84,22 +92,13 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  ${livingSurface};
-  ${glassSurface};
-  ${pointerSpotlight};
-  transform-style: preserve-3d;
+  ${cardShowcaseSurface};
+  border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
+  box-shadow: ${({ $selected, theme }) => ($selected ? theme.elevation.md : theme.elevation.sm)};
   transition:
-    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast};
-  border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primary : theme.colors.borderSubtle)};
-  box-shadow: ${({ $selected, theme }) => ($selected ? theme.elevation.lg : theme.elevation.sm)};
 
-  ${({ $variant }) => ($variant === ProjectShowcaseVariant.Featured ? featuredSpotlight : '')};
-
-  & > * {
-    position: relative;
-    z-index: ${({ theme }) => theme.zIndex.content};
-  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     ${({ $variant, theme }) => ($variant === ProjectShowcaseVariant.Featured
@@ -108,12 +107,6 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
           min-height: ${theme.sizes.project.previewHeightFeatured};
         `
     : '')};
-  }
-
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
-    box-shadow: ${({ theme }) => theme.elevation.lg};
-    --spot-opacity: 1;
   }
 
   &:focus-visible {

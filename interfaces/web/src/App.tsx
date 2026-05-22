@@ -6,7 +6,9 @@ import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// Theme
+// =================================================================================================
+// ============================================= THEME =============================================
+// =================================================================================================
 import { GlobalStyles } from '@/styles/GlobalStyles';
 import { darkTheme, lightTheme, Theme } from '@/styles/theme';
 

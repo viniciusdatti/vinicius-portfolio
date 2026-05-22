@@ -3,10 +3,10 @@
 export const sharedTheme = {
   typography: {
     fontFamily: {
-      display: '"Syne", -apple-system, BlinkMacSystemFont, sans-serif',
-      heading: '"Syne", -apple-system, BlinkMacSystemFont, sans-serif',
-      body: '"DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-      mono: '"DM Mono", "JetBrains Mono", ui-monospace, monospace',
+      display: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      heading: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      body: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+      mono: '"JetBrains Mono", ui-monospace, monospace',
     },
     fontSize: {
       xs: '0.75rem',

@@ -67,8 +67,6 @@ export function Footer(): React.ReactElement {
               href="https://github.com/viniciusdatti"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               aria-label={t('a11y.github')}
             >
               <GitHubIcon />
@@ -77,16 +75,12 @@ export function Footer(): React.ReactElement {
               href="https://www.linkedin.com/in/vinicius-datti-791482267/"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               aria-label={t('a11y.linkedin')}
             >
               <LinkedInIcon />
             </SocialLink>
             <SocialLink
               href="mailto:viniciusdatti@gmail.com"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               aria-label={t('a11y.email')}
             >
               <EmailIcon />

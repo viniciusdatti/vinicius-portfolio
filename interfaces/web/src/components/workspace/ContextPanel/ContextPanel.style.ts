@@ -1,6 +1,9 @@
 // Libraries
 import styled from 'styled-components';
 
+// Components
+import { glassSurface } from '@/styles/surfaces';
+
 export const PanelScroll = styled.div`
   flex: 1;
   overflow-y: auto;
@@ -41,6 +44,10 @@ export const StatCell = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.md};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  ${glassSurface};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 `;
 
 export const StatValue = styled.span`
