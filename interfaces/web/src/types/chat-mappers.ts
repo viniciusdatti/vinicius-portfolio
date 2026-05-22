@@ -10,8 +10,8 @@ import type {
   ChatApiSessionDto,
   ChatApiVisitorMessageDto,
 } from './chat-api';
-import type { ChatMessage } from './index';
-import { ChatMessageSenderType } from './index';
+import type { ChatMessage } from './chat-domain';
+import { ChatMessageSenderType } from './chat-domain';
 
 /**
  * Normalizes API date fields to ISO strings.
@@ -24,10 +24,25 @@ export const mapChatApiDateToIso = (value: ChatApiDateField): string => {
 };
 
 /**
+ * Parses socket sender_type string into enum (server contract).
+ */
+export const parseSocketSenderType = (
+  value: string,
+): ChatMessageSenderType | null => {
+  if (value === ChatMessageSenderType.Visitor) {
+    return ChatMessageSenderType.Visitor;
+  }
+  if (value === ChatMessageSenderType.Admin) {
+    return ChatMessageSenderType.Admin;
+  }
+  return null;
+};
+
+/**
  * Maps admin sessions list DTO to sidebar models.
  */
 export const mapApiSessionToAdminChatSession = (
-  dto: ChatApiSessionDto
+  dto: ChatApiSessionDto,
 ): AdminChatSession => ({
   session_id: dto.session_id,
   visitor_name: dto.visitor_name,
@@ -42,10 +57,10 @@ export const mapApiSessionToAdminChatSession = (
  * Maps admin message DTO to panel message model.
  */
 export const mapApiMessageToAdminChatMessage = (
-  dto: ChatApiMessageDto
+  dto: ChatApiMessageDto,
 ): AdminChatMessage | null => {
   const senderType: ChatMessageSenderType | null = parseSocketSenderType(
-    dto.sender_type
+    dto.sender_type,
   );
   if (!senderType) {
     return null;
@@ -64,10 +79,10 @@ export const mapApiMessageToAdminChatMessage = (
  * Maps public visitor history DTO to visitor ChatMessage.
  */
 export const mapApiVisitorMessageToChatMessage = (
-  dto: ChatApiVisitorMessageDto
+  dto: ChatApiVisitorMessageDto,
 ): ChatMessage | null => {
   const senderType: ChatMessageSenderType | null = parseSocketSenderType(
-    dto.sender_type
+    dto.sender_type,
   );
   if (!senderType) {
     return null;
@@ -79,19 +94,4 @@ export const mapApiVisitorMessageToChatMessage = (
     is_read: dto.is_read,
     created_at: dto.created_at,
   };
-};
-
-/**
- * Parses socket sender_type string into enum (server contract).
- */
-export const parseSocketSenderType = (
-  value: string
-): ChatMessageSenderType | null => {
-  if (value === ChatMessageSenderType.Visitor) {
-    return ChatMessageSenderType.Visitor;
-  }
-  if (value === ChatMessageSenderType.Admin) {
-    return ChatMessageSenderType.Admin;
-  }
-  return null;
 };

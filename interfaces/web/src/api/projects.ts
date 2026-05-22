@@ -12,6 +12,5 @@ import type { Project } from '../data/types';
  * @returns Promise with array of projects
  */
 export const getProjects = async (
-  technology?: string
-): Promise<Project[]> =>
-  apiClient.get<Project[]>('/projects', { technology });
+  technology?: string,
+): Promise<Project[]> => apiClient.get<Project[]>('/projects', { technology });

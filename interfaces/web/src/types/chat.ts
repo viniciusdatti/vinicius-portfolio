@@ -3,7 +3,7 @@
  */
 
 // Types
-import type { ChatMessage } from './index';
+import type { ChatMessage } from './chat-domain';
 
 /** Visitor chat store state (data fields only). */
 export interface VisitorChatStoreData {

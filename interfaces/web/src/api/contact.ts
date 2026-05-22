@@ -34,6 +34,5 @@ export interface ContactSubmitResponse {
  * @returns The created contact submission from the API
  */
 export const submitContact = (
-  payload: ContactSubmitPayload
-): Promise<ContactSubmitResponse> =>
-  apiClient.post<ContactSubmitResponse>('/contact', payload);
+  payload: ContactSubmitPayload,
+): Promise<ContactSubmitResponse> => apiClient.post<ContactSubmitResponse>('/contact', payload);
