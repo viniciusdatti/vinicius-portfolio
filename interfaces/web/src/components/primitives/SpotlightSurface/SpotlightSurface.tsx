@@ -1,79 +1,16 @@
-// Core
-import React, { useEffect, useMemo } from 'react';
-
-// Libraries
-import { motion, useSpring } from 'framer-motion';
-
-// Hooks
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Components
-import { SpotlightContent, SpotlightRoot } from '@/components/primitives/SpotlightSurface/SpotlightSurface.style';
-
-const MotionSpotlight = motion.create(SpotlightRoot);
-
-interface SpotlightSurfaceProps {
-  children: React.ReactNode;
-  className?: string;
-  /** Spring tilt on hover (degrees) */
-  tilt?: number;
-}
-
 /**
- * Premium interactive surface — mouse-tracking glow + physics tilt.
+ * @deprecated DEAD CODE — zero usos no codebase.
+ * Duplica funcionalidade de `cardInteractive` + `pointerSpotlight` em surfaces.ts.
+ * Skill `frontend-architecture` P1: deletar este diretório.
+ * Substituir qualquer uso futuro por `cardInteractive` mixin de surfaces.ts.
+ *
+ * Para deletar: rm -rf src/components/primitives/SpotlightSurface
  */
-export function SpotlightSurface({
-  children,
-  className,
-  tilt = 4,
-}: SpotlightSurfaceProps): React.ReactElement {
-  const reduced = usePrefersReducedMotion();
-  const { ref, position, isActive } = usePointerPosition<HTMLDivElement>(reduced);
 
-  const rotateX = useSpring(0, { stiffness: 280, damping: 28 });
-  const rotateY = useSpring(0, { stiffness: 280, damping: 28 });
+// Core
+import React from 'react';
 
-  const tiltX = useMemo(
-    () => (isActive && !reduced ? (position.y - 0.5) * -tilt : 0),
-    [isActive, position.y, reduced, tilt],
-  );
-  const tiltY = useMemo(
-    () => (isActive && !reduced ? (position.x - 0.5) * tilt : 0),
-    [isActive, position.x, reduced, tilt],
-  );
-
-  useEffect(() => {
-    rotateX.set(tiltX);
-    rotateY.set(tiltY);
-  }, [tiltX, tiltY, rotateX, rotateY]);
-
-  return (
-    <MotionSpotlight
-      ref={ref}
-      className={className}
-      $glowX={position.x}
-      $glowY={position.y}
-      $active={isActive}
-      style={
-        reduced
-          ? undefined
-          : {
-            rotateX,
-            rotateY,
-            transformPerspective: 1200,
-          }
-      }
-      whileHover={
-        reduced
-          ? undefined
-          : {
-            y: -6,
-            transition: { type: 'spring', stiffness: 400, damping: 30 },
-          }
-      }
-    >
-      <SpotlightContent>{children}</SpotlightContent>
-    </MotionSpotlight>
-  );
+/** @deprecated Use cardInteractive mixin from surfaces.ts instead. */
+export function SpotlightSurface({ children }: { children: React.ReactNode }): React.ReactElement {
+  return <>{children}</>;
 }
