@@ -305,8 +305,10 @@
   "about": {
     "title": "About",
     "intro": {
-      "title": "3 years at portfolio — industrial crusher monitoring platform",
-      "description": "I built the Patriot and VSI dashboards from scratch: WebSocket with multiple states per equipment, layout adapted from the operator's phone to the control room monitor, auth with JWT decoding and routing by user type. When the data came in wrong, machines stopped — that shaped how I think about interfaces."
+      "title": "3 years at portfolio — industrial crusher monitoring",
+      "lead": "I built the Patriot and VSI dashboards from scratch for operators on the plant floor — where wrong data on screen had real consequences.",
+      "highlight": "WebSocket per equipment · responsive layouts (phone → control room) · JWT auth by role",
+      "impact": "When machines stopped, the UI had to reflect it immediately. That experience shaped how I design interfaces today."
     },
     "stats": {
       "experience": "Years at portfolio",

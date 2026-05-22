@@ -305,8 +305,10 @@
   "about": {
     "title": "Sobre",
     "intro": {
-      "title": "3 anos no portfolio — plataforma industrial de monitoramento de britadores",
-      "description": "Construí os dashboards do Patriot e VSI do zero: WebSocket com múltiplos estados por equipamento, layout adaptado do celular do operador ao monitor de sala de controle, auth com decodificação de JWT e roteamento por tipo de usuário. Quando o dado chegava errado, a máquina parava — isso moldou como penso sobre interface."
+      "title": "3 anos no portfolio — monitoramento industrial de britadores",
+      "lead": "Construí os dashboards Patriot e VSI do zero para operadores no chão de fábrica — onde dado errado na tela tinha consequência real.",
+      "highlight": "WebSocket por equipamento · layout responsivo (celular → sala de controle) · auth JWT por perfil",
+      "impact": "Quando a máquina parava, a UI precisava refletir isso na hora. Essa experiência molda como desenho interfaces hoje."
     },
     "stats": {
       "experience": "Anos no portfolio",

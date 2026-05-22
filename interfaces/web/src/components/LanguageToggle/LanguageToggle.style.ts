@@ -12,8 +12,7 @@ export const LangButton = styled.button<{ $active?: boolean }>`
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
   color: ${({ theme, $active }) => ($active ? theme.colors.text : theme.colors.textSecondary)};
-  background: ${({ theme, $active }) =>
-    $active ? theme.colors.primarySurface : 'transparent'};
+  background: ${({ theme, $active }) => ($active ? theme.colors.primarySurface : 'transparent')};
   border: 1px solid
     ${({ theme, $active }) => ($active ? theme.colors.primaryBorderFaint : theme.colors.border)};
   border-radius: ${({ theme }) => theme.borderRadius.md};

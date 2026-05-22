@@ -417,7 +417,7 @@ export const LiveLabMetricValue = styled.div`
 
 export const LiveLabMetricLabel = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
   margin-top: ${({ theme }) => theme.spacing.xs};
 `;
 
