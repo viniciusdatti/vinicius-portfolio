@@ -1,8 +1,17 @@
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(rootDir, 'src'),
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',
@@ -13,7 +22,7 @@ export default defineConfig({
   },
   define: {
     'import.meta.env.VITE_API_URL': JSON.stringify(
-      'http://localhost:8000/api/v1'
+      'http://localhost:8000/api/v1',
     ),
     'import.meta.env.VITE_APP_ENV': JSON.stringify('test'),
     'import.meta.env.BASE_URL': JSON.stringify('/'),

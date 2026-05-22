@@ -5,12 +5,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { env } from '../config/env';
+import { getApiRootUrl } from '../utils/apiRootUrl';
 
-const SOCKET_URL: string = (() => {
-  const apiUrl: string = env.apiUrl;
-  return apiUrl.replace(/\/api\/v1\/?$/, '') || 'http://localhost:8000';
-})();
+const SOCKET_URL: string = getApiRootUrl();
 
 export type SensorStatus = 'ok' | 'warn' | 'critical';
 
@@ -47,7 +44,7 @@ const SENSOR_LABEL_PT: Readonly<Record<string, string>> = {
   'CRUSHER RPM': 'RPM DO BRITADOR',
   'MOTOR TEMP': 'TEMP DO MOTOR',
   'FEED PRESSURE': 'PRESSÃO DE ALIMENTAÇÃO',
-  'VIBRATION': 'VIBRAÇÃO',
+  VIBRATION: 'VIBRAÇÃO',
 };
 
 const toLocalLabel = (raw: string): string => SENSOR_LABEL_PT[raw] ?? raw;
@@ -164,10 +161,10 @@ export const useTelemetry = (): TelemetryState => {
           (r: SensorReading): SensorReading => ({
             ...r,
             label: toLocalLabel(r.label),
-          })
+          }),
         );
 
-        for (const r of localReadings) {
+        localReadings.forEach((r: SensorReading) => {
           const prevHistory: number[] = newHistory[r.id] ?? [];
           newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
 
@@ -184,12 +181,12 @@ export const useTelemetry = (): TelemetryState => {
               type: 'warn' as const,
             });
           }
-        }
+        });
 
         // Every 8 ticks log a stable sensor reading to keep the log alive
         if (nextTick % 8 === 0) {
           const stable: SensorReading[] = localReadings.filter(
-            (r: SensorReading) => r.status === 'ok'
+            (r: SensorReading) => r.status === 'ok',
           );
           if (stable.length > 0) {
             const pick: SensorReading = stable[nextTick % stable.length];

@@ -18,7 +18,7 @@ export class ApiError extends Error {
   constructor(
     message: string,
     public status: number,
-    public data?: unknown
+    public data?: unknown,
   ) {
     super(message);
     this.name = 'ApiError';
@@ -31,7 +31,7 @@ export class ApiError extends Error {
  */
 const parseApiErrorMessage = (
   status: number,
-  errorData: Record<string, unknown> | null
+  errorData: Record<string, unknown> | null,
 ): string => {
   const detail: unknown = errorData?.detail;
   if (typeof detail === 'string') return detail;
@@ -50,9 +50,12 @@ const parseApiErrorMessage = (
  */
 const buildUrl = (
   endpoint: string,
-  params?: Record<string, string | undefined>
+  params?: Record<string, string | undefined>,
 ): string => {
-  const url: URL = new URL(`${API_BASE_URL}${endpoint}`);
+  const path: string = `${API_BASE_URL}${endpoint}`;
+  const url: URL = API_BASE_URL.startsWith('http')
+    ? new URL(path)
+    : new URL(path, window.location.origin);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -70,7 +73,7 @@ const buildUrl = (
  */
 const request = async <T>(
   endpoint: string,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Promise<T> => {
   const { params, ...fetchOptions }: RequestOptions = options;
 
@@ -94,7 +97,7 @@ const request = async <T>(
 
     const errorMessage: string = parseApiErrorMessage(
       response.status,
-      errorData
+      errorData,
     );
     throw new ApiError(errorMessage, response.status, errorData);
   }
@@ -121,21 +124,18 @@ interface ApiClient {
 export const apiClient: ApiClient = {
   get: <T>(
     endpoint: string,
-    params?: Record<string, string | undefined>
+    params?: Record<string, string | undefined>,
   ): Promise<T> => request<T>(endpoint, { method: 'GET', params }),
 
-  post: <T>(endpoint: string, data?: unknown): Promise<T> =>
-    request<T>(endpoint, {
-      method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
-    }),
+  post: <T>(endpoint: string, data?: unknown): Promise<T> => request<T>(endpoint, {
+    method: 'POST',
+    body: data ? JSON.stringify(data) : undefined,
+  }),
 
-  put: <T>(endpoint: string, data?: unknown): Promise<T> =>
-    request<T>(endpoint, {
-      method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
-    }),
+  put: <T>(endpoint: string, data?: unknown): Promise<T> => request<T>(endpoint, {
+    method: 'PUT',
+    body: data ? JSON.stringify(data) : undefined,
+  }),
 
-  delete: <T>(endpoint: string): Promise<T> =>
-    request<T>(endpoint, { method: 'DELETE' }),
+  delete: <T>(endpoint: string): Promise<T> => request<T>(endpoint, { method: 'DELETE' }),
 };

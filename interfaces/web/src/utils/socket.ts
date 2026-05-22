@@ -7,7 +7,7 @@
 import { io, Socket } from 'socket.io-client';
 
 // Components
-import { env } from '../config/env';
+import { getApiRootUrl } from '../utils/apiRootUrl';
 
 // Types
 import type {
@@ -18,10 +18,7 @@ import type {
 } from '../types/chat-socket';
 
 /** Base URL for Socket.IO (root, not /api/v1 - socket is mounted at server root) */
-const SOCKET_URL: string = (() => {
-  const apiUrl: string = env.apiUrl;
-  return apiUrl.replace(/\/api\/v1\/?$/, '') || 'http://localhost:8000';
-})();
+const SOCKET_URL: string = getApiRootUrl();
 
 /**
  * Singleton service for managing WebSocket connections.
@@ -29,6 +26,7 @@ const SOCKET_URL: string = (() => {
  */
 class SocketService {
   private socket: Socket | null = null;
+
   private adminSocket: Socket | null = null;
 
   // ============================================
@@ -52,22 +50,6 @@ class SocketService {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
-    });
-
-    this.socket.on('connect', () => {
-      console.log('Connected to chat server');
-    });
-
-    this.socket.on('disconnect', (reason) => {
-      console.log('Disconnected from chat server:', reason);
-    });
-
-    this.socket.on('reconnect', () => {
-      console.log('Reconnected to chat server');
-    });
-
-    this.socket.on('connect_error', (error) => {
-      console.error('Connection error:', error);
     });
 
     return this.socket;
@@ -156,7 +138,7 @@ class SocketService {
    * Registers callback for session started event.
    */
   onSessionStarted(
-    callback: (data: ChatSocketSessionStartedPayload) => void
+    callback: (data: ChatSocketSessionStartedPayload) => void,
   ): void {
     if (this.socket) {
       this.socket.on('session_started', callback);
@@ -193,18 +175,6 @@ class SocketService {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       timeout: 20000,
-    });
-
-    this.adminSocket.on('connect', () => {
-      console.log('Admin connected to chat server');
-    });
-
-    this.adminSocket.on('disconnect', (reason) => {
-      console.log('Admin disconnected from chat server:', reason);
-    });
-
-    this.adminSocket.on('connect_error', (error) => {
-      console.error('Admin connection error:', error);
     });
 
     return this.adminSocket;
