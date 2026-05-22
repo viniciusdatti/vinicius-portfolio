@@ -1,15 +1,20 @@
 // Core
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Libraries
 import { Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 // Components
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
-import { SkipLink, Main, WorkspaceMotionShell } from '@/components/layout/Layout/Layout.style';
+import {
+  SkipLink,
+  Main,
+  PageMotionLayer,
+  WorkspaceMotionShell,
+} from '@/components/layout/Layout/Layout.style';
 import { resolvePageTransition } from '@/styles/animations';
 
 // Hooks
@@ -30,6 +35,13 @@ export function Layout(): React.ReactElement {
   const reducedMotion = usePrefersReducedMotion();
   const pageVariants = resolvePageTransition(isLiveLab, reducedMotion);
 
+  useEffect(() => {
+    document.body.classList.toggle('workspace-scroll-locked', isLiveLab);
+    return () => {
+      document.body.classList.remove('workspace-scroll-locked');
+    };
+  }, [isLiveLab]);
+
   return (
     <>
       <SkipLink href="#main-content">{t('a11y.skipToContent')}</SkipLink>
@@ -40,8 +52,9 @@ export function Layout(): React.ReactElement {
         $workspaceMode={isLiveLab}
       >
         <AnimatePresence mode="wait" initial={false}>
-          <motion.div
+          <PageMotionLayer
             key={location.key}
+            $workspace={isLiveLab}
             variants={pageVariants}
             initial="initial"
             animate="animate"
@@ -54,7 +67,7 @@ export function Layout(): React.ReactElement {
             ) : (
               <Outlet />
             )}
-          </motion.div>
+          </PageMotionLayer>
         </AnimatePresence>
       </Main>
       {!isLiveLab ? <Footer /> : null}

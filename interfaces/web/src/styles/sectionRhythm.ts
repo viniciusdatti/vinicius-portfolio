@@ -28,3 +28,8 @@ export const editorialAccentRail = css`
   border-left: 2px solid ${({ theme }) => theme.colors.accent};
   padding-left: ${({ theme }) => theme.spacing.xl};
 `;
+
+/** Fixed header clearance for in-page anchor scroll (header + breathing room). */
+export const scrollAnchorOffset = css`
+  scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
+`;
