@@ -207,10 +207,10 @@
       "stats": {
         "production": "anos em produção",
         "productionValue": "3+",
-        "realtime": "streams de telemetria",
-        "realtimeValue": "WebSocket",
-        "architecture": "design system",
-        "architectureValue": "Storybook"
+        "realtime": "projetos fullstack",
+        "realtimeValue": "5+",
+        "architecture": "TypeScript strict",
+        "architectureValue": "100%"
       },
       "liveMicro": {
         "apiLive": "API sincronizada",

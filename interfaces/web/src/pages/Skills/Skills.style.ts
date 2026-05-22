@@ -14,12 +14,12 @@ import { motion } from 'framer-motion';
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.pageY}
-    ${({ theme }) => theme.spacing.pageX};
+  padding: ${({ theme }) => theme.spacing.xxl}
+    ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xxl}
-      ${({ theme }) => theme.spacing.lg};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.pageY}
+      ${({ theme }) => theme.spacing.pageX};
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
@@ -375,12 +375,12 @@ export const CertificatesSection = styled(Section)`
  */
 export const CertificatesGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: ${({ theme }) => theme.spacing.md};
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing.sm};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
-    gap: ${({ theme }) => theme.spacing.sm};
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: ${({ theme }) => theme.spacing.md};
   };
 `;
 
