@@ -20,6 +20,7 @@ export const WorkspaceChrome = styled.div`
   flex: 1;
   min-height: 0;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const TelemetryWorkspace = styled.div`

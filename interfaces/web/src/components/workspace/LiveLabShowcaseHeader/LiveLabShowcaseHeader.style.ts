@@ -21,11 +21,16 @@ export const ShowcaseHeaderRoot = styled.div`
   ${operationalGlass};
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
   gap: ${({ theme }) => theme.spacing.lg};
   position: relative;
   overflow: hidden;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+    gap: ${({ theme }) => theme.spacing.md};
+  };
 
   &::before {
     content: '';
