@@ -13,19 +13,24 @@ import {
   cardMarketingGlass,
   cardStatSignal,
 } from '@/styles/surfaces';
+import { scrollAnchorOffset } from '@/styles/sectionRhythm';
 
 /**
  * Generic section wrapper with bottom margin.
  */
 export const Section = styled.section`
   margin-bottom: ${({ theme }) => theme.spacing.section};
+  ${scrollAnchorOffset};
 `;
 
 /**
  * Section title with decorative line extending to the right.
  */
 export const SectionTitle = styled.h2`
+  font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xxl};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   display: flex;
   align-items: center;
@@ -35,7 +40,7 @@ export const SectionTitle = styled.h2`
     content: '';
     flex: 1;
     height: 1px;
-    background-color: ${({ theme }) => theme.colors.border};
+    background: ${({ theme }) => theme.colors.borderSubtle};
   };
 `;
 
@@ -72,7 +77,7 @@ export const ExperienceSubtitle = styled.p`
  */
 export const ExperienceGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
@@ -129,6 +134,7 @@ export const CategoryTabs = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
   justify-content: center;
+  ${scrollAnchorOffset};
 `;
 
 /**
@@ -147,18 +153,28 @@ export const CategoryTab = styled(motion.button)<CategoryTabProps>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  background-color: ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.surface)};
-  color: ${({ $active, theme }) => ($active ? theme.colors.onPrimary : theme.colors.textSecondary)};
-  border: 1px solid ${({ $active, theme }) => ($active ? theme.colors.primary : theme.colors.border)};
+  background: ${({ $active, theme }) => ($active
+    ? theme.colors.gradientButtonPrimary
+    : theme.colors.surface)};
+  color: ${({ $active, theme }) => ($active
+    ? theme.colors.onPrimary
+    : theme.colors.textSecondary)};
+  border: 1px solid ${({ $active, theme }) => ($active
+    ? theme.colors.primaryBorderFaint
+    : theme.colors.border)};
   transition:
-    background-color ${({ theme }) => theme.transitions.fast},
+    background ${({ theme }) => theme.transitions.fast},
     color ${({ theme }) => theme.transitions.fast},
     border-color ${({ theme }) => theme.transitions.fast};
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.primary};
-    color: ${({ $active, theme }) => ($active ? theme.colors.onPrimary : theme.colors.primary)};
-  };
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+      color: ${({ $active, theme }) => ($active
+        ? theme.colors.onPrimary
+        : theme.colors.primary)};
+    }
+  }
 `;
 
 /**
@@ -330,7 +346,7 @@ export const CertificatesGrid = styled(motion.div)`
   gap: ${({ theme }) => theme.spacing.sm};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
     gap: ${({ theme }) => theme.spacing.md};
   };
 `;
