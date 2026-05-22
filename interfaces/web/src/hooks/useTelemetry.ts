@@ -1,5 +1,6 @@
 /**
  * useTelemetry — connects to /telemetry namespace and streams sensor readings.
+ * Labels are translated to Portuguese before being stored in state.
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -37,8 +38,44 @@ export interface TelemetryState {
   tickCount: number;
 }
 
-const MAX_HISTORY = 30;
-const MAX_LOG = 40;
+/* ***********************************************************************************************
+ **************************************** LABEL MAP **********************************************
+ *********************************************************************************************** */
+
+/** Maps backend sensor label strings to Portuguese display names. */
+const SENSOR_LABEL_PT: Readonly<Record<string, string>> = {
+  'CRUSHER RPM': 'RPM DO BRITADOR',
+  'MOTOR TEMP': 'TEMP DO MOTOR',
+  'FEED PRESSURE': 'PRESSÃO DE ALIMENTAÇÃO',
+  'VIBRATION': 'VIBRAÇÃO',
+};
+
+const toLocalLabel = (raw: string): string => SENSOR_LABEL_PT[raw] ?? raw;
+
+/* ***********************************************************************************************
+ **************************************** CONSTANTS **********************************************
+ *********************************************************************************************** */
+
+const MAX_HISTORY: number = 30;
+const MAX_LOG: number = 40;
+
+/** Pre-boot events shown immediately on mount before WebSocket connects. */
+const INITIAL_LOG: TelemetryState['eventLog'] = [
+  {
+    ts: Date.now() - 1200,
+    message: 'Inicializando cliente de telemetria…',
+    type: 'info',
+  },
+  {
+    ts: Date.now() - 600,
+    message: 'Abrindo socket · namespace /telemetry',
+    type: 'info',
+  },
+];
+
+/* ***********************************************************************************************
+ **************************************** HOOK ***************************************************
+ *********************************************************************************************** */
 
 export const useTelemetry = (): TelemetryState => {
   const socketRef = useRef<Socket | null>(null);
@@ -46,7 +83,7 @@ export const useTelemetry = (): TelemetryState => {
     connected: false,
     readings: [],
     history: {},
-    eventLog: [],
+    eventLog: INITIAL_LOG,
     tickCount: 0,
   });
 
@@ -61,13 +98,24 @@ export const useTelemetry = (): TelemetryState => {
     socketRef.current = socket;
 
     socket.on('connect', () => {
+      const now: number = Date.now();
       setState((prev) => ({
         ...prev,
         connected: true,
         eventLog: [
           {
-            ts: Date.now(),
-            message: 'WebSocket connected · namespace /telemetry',
+            ts: now,
+            message: 'WebSocket conectado · namespace /telemetry',
+            type: 'info' as const,
+          },
+          {
+            ts: now - 80,
+            message: 'Handshake concluído · aguardando telemetria',
+            type: 'info' as const,
+          },
+          {
+            ts: now - 160,
+            message: 'Scan de sensores iniciado · intervalo 2s',
             type: 'info' as const,
           },
           ...prev.eventLog,
@@ -80,7 +128,25 @@ export const useTelemetry = (): TelemetryState => {
         ...prev,
         connected: false,
         eventLog: [
-          { ts: Date.now(), message: 'Transport disconnected', type: 'warn' as const },
+          {
+            ts: Date.now(),
+            message: 'Transporte desconectado — aguardando reconexão',
+            type: 'warn' as const,
+          },
+          ...prev.eventLog,
+        ].slice(0, MAX_LOG),
+      }));
+    });
+
+    socket.io.on('reconnect_attempt', (attempt: number) => {
+      setState((prev) => ({
+        ...prev,
+        eventLog: [
+          {
+            ts: Date.now(),
+            message: `Tentativa de reconexão #${attempt}…`,
+            type: 'warn' as const,
+          },
           ...prev.eventLog,
         ].slice(0, MAX_LOG),
       }));
@@ -88,34 +154,57 @@ export const useTelemetry = (): TelemetryState => {
 
     socket.on('telemetry_tick', (tick: TelemetryTick) => {
       setState((prev) => {
-        const newHistory = { ...prev.history };
-        const newLog = [...prev.eventLog];
+        const newHistory: Record<string, number[]> = { ...prev.history };
+        const newLog: TelemetryState['eventLog'] = [...prev.eventLog];
+        const nextTick: number = prev.tickCount + 1;
 
-        for (const r of tick.readings) {
-          const prev_readings = newHistory[r.id] ?? [];
-          newHistory[r.id] = [...prev_readings, r.value].slice(-MAX_HISTORY);
+        const localReadings: SensorReading[] = tick.readings.map(
+          (r: SensorReading): SensorReading => ({
+            ...r,
+            label: toLocalLabel(r.label),
+          })
+        );
+
+        for (const r of localReadings) {
+          const prevHistory: number[] = newHistory[r.id] ?? [];
+          newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
 
           if (r.status === 'critical') {
             newLog.unshift({
               ts: r.ts,
-              message: `${r.label} CRITICAL · ${r.value}${r.unit} (threshold: ${r.threshold_critical}${r.unit})`,
+              message: `${r.label} CRÍTICO · ${r.value}${r.unit} (limite: ${r.threshold_critical}${r.unit})`,
               type: 'critical' as const,
             });
           } else if (r.status === 'warn' && Math.random() < 0.3) {
             newLog.unshift({
               ts: r.ts,
-              message: `${r.label} warn · ${r.value}${r.unit}`,
+              message: `${r.label} alerta · ${r.value}${r.unit}`,
               type: 'warn' as const,
+            });
+          }
+        }
+
+        // Every 8 ticks log a stable sensor reading to keep the log alive
+        if (nextTick % 8 === 0) {
+          const stable: SensorReading[] = localReadings.filter(
+            (r: SensorReading) => r.status === 'ok'
+          );
+          if (stable.length > 0) {
+            const pick: SensorReading = stable[nextTick % stable.length];
+            newLog.unshift({
+              ts: pick.ts,
+              message: `${pick.label} nominal · ${pick.value}${pick.unit}`,
+              type: 'info' as const,
             });
           }
         }
 
         return {
           ...prev,
-          readings: tick.readings,
+          readings: localReadings,
           history: newHistory,
           eventLog: newLog.slice(0, MAX_LOG),
-          tickCount: prev.tickCount + 1,
+          tickCount: nextTick,
         };
       });
     });

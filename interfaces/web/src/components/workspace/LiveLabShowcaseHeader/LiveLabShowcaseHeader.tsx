@@ -14,13 +14,7 @@ import {
   ShowcaseBadge,
 } from './LiveLabShowcaseHeader.style';
 
-interface LiveLabShowcaseHeaderProps {
-  sidebarTrigger?: React.ReactNode;
-}
-
-export const LiveLabShowcaseHeader: React.FC<LiveLabShowcaseHeaderProps> = ({
-  sidebarTrigger,
-}): React.ReactElement => {
+export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
 
   return (
@@ -30,8 +24,9 @@ export const LiveLabShowcaseHeader: React.FC<LiveLabShowcaseHeaderProps> = ({
         <ShowcaseLead>{t('liveLab.subtitle')}</ShowcaseLead>
       </ShowcaseHeaderCopy>
       <ShowcaseActions>
-        {sidebarTrigger}
-        <ShowcaseBadge>{t('workspace.boot.showcaseBadge')}</ShowcaseBadge>
+        <ShowcaseBadge title={t('workspace.boot.showcaseBadgeTooltip')}>
+          {t('workspace.boot.showcaseBadge')}
+        </ShowcaseBadge>
       </ShowcaseActions>
     </ShowcaseHeaderRoot>
   );

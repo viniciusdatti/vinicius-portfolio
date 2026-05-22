@@ -81,6 +81,10 @@ export const MonitorGrid = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     grid-template-columns: 1fr 1fr;
   };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(4, 1fr);
+  };
 `;
 
 export const SensorCard = styled.div<{ $status: 'ok' | 'warn' | 'critical' }>`
