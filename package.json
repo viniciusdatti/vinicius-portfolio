@@ -16,5 +16,15 @@
     "docker:validate": "powershell -ExecutionPolicy Bypass -File scripts/docker/validate-stack.ps1",
     "docker:qa": "yarn qa:audit",
     "dev:stack": "yarn docker:up && yarn dev:web"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
+    "postprocessing": "^6.39.1",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.1"
   }
 }
