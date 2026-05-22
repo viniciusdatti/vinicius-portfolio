@@ -9,22 +9,19 @@ import { motion } from 'framer-motion';
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.pageY}
-    ${({ theme }) => theme.spacing.pageX};
+  padding: ${({ theme }) => theme.spacing.xxl}
+    ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xxl}
-      ${({ theme }) => theme.spacing.lg};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.pageY}
+      ${({ theme }) => theme.spacing.pageX};
   };
 `;
 
 export const PageHeader = styled.header`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
   max-width: ${({ theme }) => theme.layout.proseWide};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    text-align: center;
-  };
+  text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: grid;
@@ -32,23 +29,29 @@ export const PageHeader = styled.header`
     gap: ${({ theme }) => theme.spacing.xxl};
     align-items: end;
     max-width: 100%;
+    text-align: left;
   };
 `;
 
 export const PageHeaderMain = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: block;
   };
 `;
 
 export const PageHeaderAside = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    margin-top: ${({ theme }) => theme.spacing.lg};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-top: ${({ theme }) => theme.spacing.lg};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    margin-top: 0;
+    display: block;
   };
 `;
 
@@ -70,10 +73,12 @@ export const PageSubtitle = styled(motion.p)`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.prose};
+  margin-left: auto;
+  margin-right: auto;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    margin-left: auto;
-    margin-right: auto;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    margin-left: 0;
+    margin-right: 0;
   };
 `;
 

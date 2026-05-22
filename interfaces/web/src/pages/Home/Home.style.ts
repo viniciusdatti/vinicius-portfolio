@@ -21,12 +21,12 @@ const eyebrowLineExpand = keyframes`
  * Base section container with responsive padding and max-width.
  */
 export const Section = styled.section`
-  padding: ${({ theme }) => theme.spacing.section} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
   max-width: 1200px;
   margin: 0 auto;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.md};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.section} ${({ theme }) => theme.spacing.xl};
   };
 `;
 
@@ -86,30 +86,35 @@ export const SectionStory = styled.p`
 
 export const ProjectsSectionHeader = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr 1fr;
+  grid-template-columns: 1fr;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.xl};
   align-items: end;
   margin-bottom: ${({ theme }) => theme.spacing.xxl};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: auto 1fr 1fr;
+    text-align: left;
   };
 `;
 
 export const ProjectsSectionMain = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: block;
   };
 `;
 
 export const EditorialHeaderAside = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: block;
   };
 `;
 
@@ -126,20 +131,22 @@ export const ViewAllProjectsLink = styled(Link)`
 
 export const SkillsEditorialLayout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr 1.2fr;
   };
 `;
 
 export const SkillsEditorialIntro = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    text-align: center;
+  text-align: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    text-align: left;
   };
 `;
 
@@ -194,12 +201,12 @@ export const SkillsPreviewSection = styled(Section)`
  */
 export const SkillsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: ${({ theme }) => theme.spacing.lg};
+  grid-template-columns: repeat(3, 1fr);
+  gap: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: ${({ theme }) => theme.spacing.md};
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: ${({ theme }) => theme.spacing.lg};
   };
 `;
 
@@ -283,7 +290,8 @@ export const LiveLabSectionTitle = styled.h2`
  */
 export const LiveLabCard = styled(motion.div)`
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 1fr;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
   background: ${({ theme }) => theme.colors.surfaceElevated};
@@ -294,20 +302,20 @@ export const LiveLabCard = styled(motion.div)`
   position: relative;
   overflow: hidden;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1.1fr 0.9fr;
+    text-align: left;
   };
 `;
 
 export const LiveLabCopy = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    align-items: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    align-items: flex-start;
   };
 `;
 
@@ -492,7 +500,8 @@ export const ContactCtaSection = styled(Section)`
 
 export const ContactCtaInner = styled(motion.div)`
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
   padding: ${({ theme }) => theme.spacing.xxl};
@@ -500,9 +509,9 @@ export const ContactCtaInner = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.surfaceElevated};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr auto;
+    text-align: left;
   };
 `;
 
@@ -510,9 +519,10 @@ export const ContactCtaActions = styled.div`
   display: flex;
   gap: ${({ theme }) => theme.spacing.md};
   flex-shrink: 0;
+  justify-content: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    justify-content: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    justify-content: flex-start;
   };
 `;
 
@@ -529,7 +539,8 @@ export const AboutPreviewSection = styled(Section)`
 
 export const AboutPreviewLayout = styled(motion.div)`
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: end;
   padding: ${({ theme }) => theme.spacing.xxl};
@@ -537,17 +548,19 @@ export const AboutPreviewLayout = styled(motion.div)`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr auto;
+    text-align: left;
   };
 `;
 
 export const AboutPreviewMain = styled.div`
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: block;
   };
 `;
 

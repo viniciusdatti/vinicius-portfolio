@@ -93,7 +93,7 @@ export const HeroHeadlineClip = styled.div`
 
 export const HeroHeadline = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+  font-size: clamp(2rem, 6vw, 3rem);
   font-weight: 800;
   margin: 0;
   letter-spacing: -0.035em;
@@ -101,11 +101,11 @@ export const HeroHeadline = styled.h1`
   hyphens: none;
   color: ${({ theme }) => theme.colors.text};
   font-feature-settings: "ss01", "cv01";
-  max-width: 14ch;
+  max-width: none;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    max-width: none;
-    font-size: clamp(2rem, 6vw, 3rem);
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    max-width: 14ch;
+    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
   };
 `;
 
@@ -140,22 +140,24 @@ export const HeroPortrait = styled.div`
 
 export const HeroSection = styled.section`
   position: relative;
-  min-height: ${({ theme }) => theme.sizes.hero.minHeight};
+  min-height: ${({ theme }) => theme.sizes.hero.minHeightMobile};
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.xxl}
+  padding: ${({ theme }) => theme.spacing.xl}
     ${({ theme }) => theme.spacing.pageX}
-    ${({ theme }) => theme.spacing.section};
+    ${({ theme }) => theme.spacing.sectionSm};
   overflow: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    min-height: ${({ theme }) => theme.sizes.hero.minHeightMobile};
-    padding-top: ${({ theme }) => theme.spacing.xl};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    min-height: ${({ theme }) => theme.sizes.hero.minHeight};
+    padding: ${({ theme }) => theme.spacing.xxl}
+      ${({ theme }) => theme.spacing.pageX}
+      ${({ theme }) => theme.spacing.section};
   };
 `;
 
@@ -228,15 +230,12 @@ export const HeroEditorialGrid = styled.div`
   margin: 0 auto;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
+  text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1.18fr 0.82fr;
     text-align: left;
     gap: ${({ theme }) => theme.spacing.sectionSm};
-  };
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    text-align: center;
   };
 `;
 
@@ -244,10 +243,10 @@ export const HeroCopyColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  align-items: flex-start;
+  align-items: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    align-items: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    align-items: flex-start;
   };
 `;
 
@@ -376,12 +375,15 @@ export const HeroDescription = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
   max-width: ${({ theme }) => theme.layout.prose};
   margin-top: ${({ theme }) => theme.spacing.lg};
+  margin-left: auto;
+  margin-right: auto;
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  text-align: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    text-align: left;
+    margin-left: 0;
+    margin-right: 0;
   };
 `;
 
@@ -393,17 +395,19 @@ export const HeroStatsRow = styled.div`
   padding-top: ${({ theme }) => theme.spacing.lg};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   width: 100%;
+  justify-content: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    justify-content: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-content: flex-start;
   };
 `;
 
 export const HeroStat = styled.div`
   min-width: ${({ theme }) => theme.sizes.hero.statMinWidth};
+  text-align: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    text-align: left;
   };
 `;
 
@@ -434,10 +438,11 @@ export const CtaWrapper = styled.div`
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.md};
   align-items: center;
+  justify-content: center;
   width: 100%;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    justify-content: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-content: flex-start;
   };
 `;
 

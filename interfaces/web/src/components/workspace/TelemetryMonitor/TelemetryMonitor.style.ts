@@ -73,13 +73,13 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
 
 export const MonitorGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1px;
   background: ${({ theme }) => theme.colors.border};
   flex-shrink: 0;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr 1fr;
   };
 `;
 

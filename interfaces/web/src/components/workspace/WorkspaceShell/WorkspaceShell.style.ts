@@ -12,30 +12,32 @@ export const WorkspaceRoot = styled.div`
 
 export const WorkspaceBody = styled.div`
   display: grid;
-  grid-template-columns: 260px 1fr;
+  grid-template-columns: 1fr;
   flex: 1;
   min-height: 0;
   border-top: 1px solid ${({ theme }) => theme.colors.border};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 260px 1fr;
   };
 `;
 
 export const SidebarColumn = styled.aside<{ $open: boolean }>`
-  display: flex;
+  display: ${({ $open }) => ($open ? 'flex' : 'none')};
   flex-direction: column;
-  border-right: 1px solid ${({ theme }) => theme.colors.border};
+  position: fixed;
+  inset: 0;
+  z-index: ${({ theme }) => theme.zIndex.modal};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
   min-height: 0;
   overflow: hidden;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: ${({ $open }) => ($open ? 'flex' : 'none')};
-    position: fixed;
-    inset: 0;
-    z-index: ${({ theme }) => theme.zIndex.modal};
-    border-right: none;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+    position: static;
+    inset: auto;
+    z-index: auto;
+    border-right: 1px solid ${({ theme }) => theme.colors.border};
   };
 `;
 
@@ -57,7 +59,7 @@ export const SidebarTitle = styled.span`
 `;
 
 export const SidebarClose = styled.button`
-  display: none;
+  display: block;
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.colors.textMuted};
@@ -66,8 +68,8 @@ export const SidebarClose = styled.button`
   padding: ${({ theme }) => theme.spacing.xs};
   line-height: 1;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: block;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
   };
 `;
 
@@ -88,7 +90,7 @@ export const ChatColumn = styled.main`
 `;
 
 export const MobileSidebarTrigger = styled.button`
-  display: none;
+  display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
@@ -110,20 +112,20 @@ export const MobileSidebarTrigger = styled.button`
     color: ${({ theme }) => theme.colors.accent};
   };
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: inline-flex;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
   };
 `;
 
 export const SidebarOverlay = styled.div<{ $visible: boolean }>`
-  display: none;
+  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
+  position: fixed;
+  inset: 0;
+  background: ${({ theme }) => theme.colors.overlay};
+  z-index: ${({ theme }) => theme.zIndex.modal - 1};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    display: ${({ $visible }) => ($visible ? 'block' : 'none')};
-    position: fixed;
-    inset: 0;
-    background: ${({ theme }) => theme.colors.overlay};
-    z-index: ${({ theme }) => theme.zIndex.modal - 1};
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
   };
 `;
 

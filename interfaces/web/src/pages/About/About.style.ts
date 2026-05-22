@@ -9,12 +9,12 @@ import { motion } from 'framer-motion';
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentNarrow};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.pageY}
-    ${({ theme }) => theme.spacing.pageX};
+  padding: ${({ theme }) => theme.spacing.xxl}
+    ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xxl}
-      ${({ theme }) => theme.spacing.lg};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.pageY}
+      ${({ theme }) => theme.spacing.pageX};
   };
 `;
 
@@ -36,19 +36,20 @@ export const PhilosophySection = styled(Section)`
 
 export const IntroSection = styled(Section)`
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 1fr;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.xxl};
   align-items: center;
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: 1fr;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: 1fr 2fr;
+    text-align: left;
   };
 `;
 
 export const Avatar = styled(motion.div)`
-  width: ${({ theme }) => theme.sizes.avatar.about};
-  height: ${({ theme }) => theme.sizes.avatar.about};
+  width: ${({ theme }) => theme.sizes.avatar.aboutMobile};
+  height: ${({ theme }) => theme.sizes.avatar.aboutMobile};
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
@@ -64,9 +65,9 @@ export const Avatar = styled(motion.div)`
     display: block;
   };
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    width: ${({ theme }) => theme.sizes.avatar.aboutMobile};
-    height: ${({ theme }) => theme.sizes.avatar.aboutMobile};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    width: ${({ theme }) => theme.sizes.avatar.about};
+    height: ${({ theme }) => theme.sizes.avatar.about};
   };
 `;
 
@@ -84,12 +85,12 @@ export const IntroContent = styled.div`
 
 export const StatsGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg};
   margin-top: ${({ theme }) => theme.spacing.xxl};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(3, 1fr);
   };
 `;
 
@@ -154,13 +155,16 @@ export const EducationCard = styled(motion.div)`
 
 export const EducationMain = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
+  text-align: center;
   gap: ${({ theme }) => theme.spacing.lg};
   margin-bottom: ${({ theme }) => theme.spacing.md};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
-    flex-direction: column;
-    text-align: center;
+  @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
   };
 `;
 

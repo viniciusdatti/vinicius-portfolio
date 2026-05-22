@@ -23,12 +23,12 @@ export interface SubmitButtonStyleProps {
 export const PageContainer = styled.div`
   max-width: ${({ theme }) => theme.layout.contentMax};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.pageY}
-    ${({ theme }) => theme.spacing.pageX};
+  padding: ${({ theme }) => theme.spacing.xxl}
+    ${({ theme }) => theme.spacing.lg};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.xxl}
-      ${({ theme }) => theme.spacing.lg};
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.pageY}
+      ${({ theme }) => theme.spacing.pageX};
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.ultraWide}) {
@@ -68,11 +68,11 @@ export const PageSubtitle = styled(motion.p)`
  */
 export const ContentGrid = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.xxl};
 
-  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 1fr;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr;
   };
 `;
 
