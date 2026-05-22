@@ -13,6 +13,9 @@ from app.db.session import SessionLocal, engine
 from app.models.project import Project
 from app.models.technology import Technology
 
+# Register every model on Base.metadata before create_all (Postgres/Docker prod).
+import app.models  # noqa: F401
+
 
 def create_tables():
     """Create all database tables."""

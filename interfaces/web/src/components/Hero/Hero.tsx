@@ -11,16 +11,20 @@ import { motionPresets } from '../../styles/motionPresets';
 import { motionEase, heroClipReveal } from '../../styles/animations';
 import { publicAssetUrl } from '../../config/env';
 import { Button } from '../Button';
+import { HeroLiveMicro } from './HeroLiveMicro';
 import {
   HeroSection,
+  HeroAtmosphere,
   HeroDecoGrid,
   HeroColumnGuides,
+  GlowBackdrop,
+  GlowBackdropSecondary,
+  GlowBackdropTertiary,
   HeroEditorialGrid,
   HeroCopyColumn,
   HeroVisualColumn,
   HeroDecoTag,
-  HeroWorkspaceTitle,
-  HeroOperatorLine,
+  HeroHeadline,
   HeroStackLine,
   HeroDescription,
   HeroStatsRow,
@@ -31,15 +35,10 @@ import {
   CtaButtonWrapper,
   HeroScrollCue,
   ScrollCueLine,
-  SystemPanel,
-  SystemPanelHeader,
-  SystemPanelTitle,
-  SystemPanelBody,
-  SystemReadoutRow,
-  SystemReadoutLabel,
-  SystemReadoutValue,
-  SystemOperatorRow,
-  HeroAvatar,
+  HeroVisualCard,
+  HeroAvatarFrame,
+  HeroAvatarRing,
+  HeroPortrait,
 } from './Hero.style';
 
 const containerVariants = {
@@ -66,8 +65,8 @@ const itemVariants = {
  ****************************************** METHODS ***********************************************
  *********************************************************************************************** */
 
-const scrollToModules = (): void => {
-  document.getElementById('workspace-modules')?.scrollIntoView({ behavior: 'smooth' });
+const scrollToNarrative = (): void => {
+  document.getElementById('section-capabilities')?.scrollIntoView({ behavior: 'smooth' });
 };
 
 /* ***********************************************************************************************
@@ -81,19 +80,17 @@ export const Hero: React.FC = (): React.ReactElement => {
   const avatarSrc: string = publicAssetUrl('avatar.png');
 
   const stats: { valueKey: string; labelKey: string }[] = [
-    { valueKey: 'home.hero.stats.transportValue', labelKey: 'home.hero.stats.transport' },
-    { valueKey: 'home.hero.stats.stackValue', labelKey: 'home.hero.stats.stack' },
     { valueKey: 'home.hero.stats.productionValue', labelKey: 'home.hero.stats.production' },
-  ];
-
-  const readouts: { labelKey: string; valueKey: string }[] = [
-    { labelKey: 'home.hero.panel.focusLabel', valueKey: 'home.hero.panel.focusValue' },
-    { labelKey: 'home.hero.panel.domainLabel', valueKey: 'home.hero.panel.domainValue' },
-    { labelKey: 'home.hero.panel.surfaceLabel', valueKey: 'home.hero.panel.surfaceValue' },
+    { valueKey: 'home.hero.stats.realtimeValue', labelKey: 'home.hero.stats.realtime' },
+    { valueKey: 'home.hero.stats.architectureValue', labelKey: 'home.hero.stats.architecture' },
   ];
 
   return (
     <HeroSection ref={sectionRef}>
+      <HeroAtmosphere aria-hidden />
+      <GlowBackdropSecondary aria-hidden />
+      <GlowBackdropTertiary aria-hidden />
+      <GlowBackdrop aria-hidden />
       <HeroDecoGrid aria-hidden />
       <HeroColumnGuides aria-hidden />
       <motion.div
@@ -104,13 +101,10 @@ export const Hero: React.FC = (): React.ReactElement => {
         <HeroEditorialGrid>
           <HeroCopyColumn>
             <motion.div variants={itemVariants}>
-              <HeroDecoTag>{t('home.hero.systemTag')}</HeroDecoTag>
+              <HeroDecoTag>{t('home.hero.eyebrow')}</HeroDecoTag>
             </motion.div>
             <motion.div variants={heroClipReveal}>
-              <HeroWorkspaceTitle>{t('home.hero.workspaceTitle')}</HeroWorkspaceTitle>
-            </motion.div>
-            <motion.div variants={itemVariants}>
-              <HeroOperatorLine>{t('home.hero.operatorLine')}</HeroOperatorLine>
+              <HeroHeadline>{t('home.hero.headline')}</HeroHeadline>
             </motion.div>
             <motion.div variants={itemVariants}>
               <HeroStackLine>{t('home.hero.stackLine')}</HeroStackLine>
@@ -145,35 +139,22 @@ export const Hero: React.FC = (): React.ReactElement => {
           </HeroCopyColumn>
           <HeroVisualColumn>
             <motion.div variants={itemVariants}>
-              <SystemPanel>
-                <SystemPanelHeader>
-                  <SystemPanelTitle>{t('home.hero.panel.title')}</SystemPanelTitle>
-                </SystemPanelHeader>
-                <SystemPanelBody>
-                  {readouts.map((row) => (
-                    <SystemReadoutRow key={row.labelKey}>
-                      <SystemReadoutLabel>{t(row.labelKey)}</SystemReadoutLabel>
-                      <SystemReadoutValue>{t(row.valueKey)}</SystemReadoutValue>
-                    </SystemReadoutRow>
-                  ))}
-                  <SystemOperatorRow>
-                    <HeroAvatar>
-                      <img src={avatarSrc} alt={t('home.hero.operatorName')} />
-                    </HeroAvatar>
-                    <div>
-                      <SystemReadoutLabel>{t('home.hero.panel.operatorLabel')}</SystemReadoutLabel>
-                      <SystemReadoutValue>{t('home.hero.operatorName')}</SystemReadoutValue>
-                    </div>
-                  </SystemOperatorRow>
-                </SystemPanelBody>
-              </SystemPanel>
+              <HeroVisualCard>
+                <HeroAvatarFrame>
+                  <HeroAvatarRing aria-hidden />
+                  <HeroPortrait>
+                    <img src={avatarSrc} alt={t('home.hero.portraitAlt')} />
+                  </HeroPortrait>
+                </HeroAvatarFrame>
+                <HeroLiveMicro />
+              </HeroVisualCard>
             </motion.div>
           </HeroVisualColumn>
         </HeroEditorialGrid>
       </motion.div>
       <HeroScrollCue
         type="button"
-        onClick={scrollToModules}
+        onClick={scrollToNarrative}
         aria-label={t('home.hero.scrollCue')}
       >
         <ScrollCueLine aria-hidden />
