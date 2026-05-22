@@ -12,17 +12,6 @@ export enum SkillCategory {
   Iot = 'iot',
 }
 
-export enum ChatSessionStatus {
-  Active = 'active',
-  Closed = 'closed',
-  Archived = 'archived',
-}
-
-export enum ChatMessageSenderType {
-  Visitor = 'visitor',
-  Admin = 'admin',
-}
-
 export enum ContactSubmissionStatus {
   Pending = 'pending',
   Read = 'read',
@@ -80,25 +69,6 @@ export interface Certificate {
   is_active: boolean;
 }
 
-// Chat Types
-export interface ChatSession {
-  session_id: string;
-  visitor_name: string;
-  visitor_company: string | null;
-  status: ChatSessionStatus;
-  unread_count: number;
-  last_message: string | null;
-  started_at: string;
-}
-
-export interface ChatMessage {
-  id: number;
-  content: string;
-  sender_type: ChatMessageSenderType;
-  is_read: boolean;
-  created_at: string;
-}
-
 // Contact Types
 export interface ContactFormData {
   name: string;
@@ -143,6 +113,7 @@ export interface PaginatedResponse<T> {
   total_pages: number;
 }
 
+export * from './chat-domain';
 export * from './system-events';
 export * from './chat';
 export * from './chat-api';
