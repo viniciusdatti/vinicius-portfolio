@@ -1,8 +1,40 @@
 // Libraries
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes, css, DefaultTheme } from 'styled-components';
 
 // Types
 import type { SensorStatus } from '../../../hooks/useTelemetry';
+
+const getSensorStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.success;
+};
+
+const getSensorValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.text;
+};
+
+const getThresholdFillColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.accent;
+};
+
+const getThresholdStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
+  if (status === 'critical') return theme.colors.error;
+  if (status === 'warn') return theme.colors.warning;
+  return theme.colors.textMuted;
+};
+
+type EventLogType = 'info' | 'warn' | 'critical';
+
+const getEventLogLineColor = (type: EventLogType, theme: DefaultTheme): string => {
+  if (type === 'critical') return theme.colors.error;
+  if (type === 'warn') return theme.colors.warning;
+  return theme.colors.textMuted;
+};
 
 const blink = keyframes`
   0%, 100% { opacity: 1; }
@@ -55,8 +87,7 @@ export const MonitorStatus = styled.div<{ $connected: boolean }>`
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ $connected, theme }) =>
-    $connected ? theme.colors.success : theme.colors.textMuted};
+  color: ${({ $connected, theme }) => ($connected ? theme.colors.success : theme.colors.textMuted)};
   letter-spacing: 0.08em;
 `;
 
@@ -65,11 +96,9 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
   height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
-  background: ${({ $connected, theme }) =>
-    $connected ? theme.colors.success : theme.colors.textMuted};
-  ${({ $connected }) =>
-    $connected &&
-    css`animation: ${blink} 2s ease-in-out infinite;`};
+  background: ${({ $connected, theme }) => ($connected ? theme.colors.success : theme.colors.textMuted)};
+  ${({ $connected }) => $connected
+    && css`animation: ${blink} 2s ease-in-out infinite;`};
 `;
 
 export const MonitorGrid = styled.div`
@@ -101,12 +130,7 @@ export const SensorCard = styled.div<{ $status: 'ok' | 'warn' | 'critical' }>`
     left: 0;
     width: 3px;
     height: 100%;
-    background: ${({ $status, theme }) =>
-      $status === 'critical'
-        ? theme.colors.error
-        : $status === 'warn'
-          ? theme.colors.warning
-          : theme.colors.success};
+    background: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
     transition: background ${({ theme }) => theme.transitions.normal};
   };
 `;
@@ -131,12 +155,7 @@ export const SensorValue = styled.span<{ $status: SensorStatus }>`
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: ${({ $status, theme }) =>
-    $status === 'critical'
-      ? theme.colors.error
-      : $status === 'warn'
-        ? theme.colors.warning
-        : theme.colors.text};
+  color: ${({ $status, theme }) => getSensorValueColor($status, theme)};
   transition: color ${({ theme }) => theme.transitions.normal};
   font-variant-numeric: tabular-nums;
   display: inline-block;
@@ -166,12 +185,7 @@ export const ThresholdFill = styled.div<{
 }>`
   height: 100%;
   width: ${({ $pct }) => Math.min($pct, 100)}%;
-  background: ${({ $status, theme }) =>
-    $status === 'critical'
-      ? theme.colors.error
-      : $status === 'warn'
-        ? theme.colors.warning
-        : theme.colors.accent};
+  background: ${({ $status, theme }) => getThresholdFillColor($status, theme)};
   transition: width 0.5s ${({ theme }) => theme.motion.easeOut},
               background ${({ theme }) => theme.transitions.fast};
 `;
@@ -186,12 +200,7 @@ export const ThresholdStatus = styled.span<{ $status: SensorStatus }>`
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: ${({ $status, theme }) =>
-    $status === 'critical'
-      ? theme.colors.error
-      : $status === 'warn'
-        ? theme.colors.warning
-        : theme.colors.textMuted};
+  color: ${({ $status, theme }) => getThresholdStatusColor($status, theme)};
 `;
 
 export const ThresholdLimit = styled.span`
@@ -252,12 +261,7 @@ export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical' }>`
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   animation: ${slideIn} 0.2s ease-out;
-  color: ${({ $type, theme }) =>
-    $type === 'critical'
-      ? theme.colors.error
-      : $type === 'warn'
-        ? theme.colors.warning
-        : theme.colors.textMuted};
+  color: ${({ $type, theme }) => getEventLogLineColor($type, theme)};
 `;
 
 export const EventLogTime = styled.span`

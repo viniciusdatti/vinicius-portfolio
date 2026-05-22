@@ -12,6 +12,7 @@ import {
   useTelemetry,
   TELEMETRY_EVENT_LOG_MAX,
 } from '../../../hooks/useTelemetry';
+import { TelemetryTrendChart } from './TelemetryTrendChart';
 import {
   MonitorRoot,
   MonitorHeader,
@@ -61,30 +62,38 @@ const calcPct = (r: SensorReading): number => {
  * Sub-components
  * ----------------------------------------------------- */
 
-const Sensor: React.FC<{ reading: SensorReading }> = ({ reading: r }) => (
-  <SensorCard $status={r.status}>
-    <SensorLabel>{r.label}</SensorLabel>
-    <SensorValueRow>
-      <SensorValue key={r.value} $status={r.status}>{r.value}</SensorValue>
-      <SensorUnit>{r.unit}</SensorUnit>
-    </SensorValueRow>
-    <ThresholdBar>
-      <ThresholdFill $pct={calcPct(r)} $status={r.status} />
-    </ThresholdBar>
-    <ThresholdMeta>
-      <ThresholdStatus $status={r.status}>{r.status}</ThresholdStatus>
-      <ThresholdLimit>crit {r.threshold_critical}{r.unit}</ThresholdLimit>
-    </ThresholdMeta>
-  </SensorCard>
-);
+function Sensor({ reading: r }: { reading: SensorReading }): React.ReactElement {
+  return (
+    <SensorCard $status={r.status}>
+      <SensorLabel>{r.label}</SensorLabel>
+      <SensorValueRow>
+        <SensorValue key={r.value} $status={r.status}>{r.value}</SensorValue>
+        <SensorUnit>{r.unit}</SensorUnit>
+      </SensorValueRow>
+      <ThresholdBar>
+        <ThresholdFill $pct={calcPct(r)} $status={r.status} />
+      </ThresholdBar>
+      <ThresholdMeta>
+        <ThresholdStatus $status={r.status}>{r.status}</ThresholdStatus>
+        <ThresholdLimit>
+          crit
+          {r.threshold_critical}
+          {r.unit}
+        </ThresholdLimit>
+      </ThresholdMeta>
+    </SensorCard>
+  );
+}
 
 /* -------------------------------------------------------
  * Main component
  * ----------------------------------------------------- */
 
-export const TelemetryMonitor: React.FC = (): React.ReactElement => {
+export function TelemetryMonitor(): React.ReactElement {
   const { t } = useTranslation();
-  const { connected, readings, eventLog, tickCount } = useTelemetry();
+  const {
+    connected, readings, history, eventLog, tickCount,
+  } = useTelemetry();
   const logRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll event log to top (newest first)
@@ -121,20 +130,33 @@ export const TelemetryMonitor: React.FC = (): React.ReactElement => {
         </MonitorGrid>
       )}
 
+      {readings.length > 0 ? (
+        <TelemetryTrendChart
+          readings={readings}
+          history={history}
+          title={t('liveLab.monitor.trendChart', 'Sensor trend · last samples')}
+        />
+      ) : null}
+
       <EventLogRoot>
         <EventLogHeader>
           <EventLogTitle>
             {t('liveLab.monitor.eventLog', 'Event log')}
           </EventLogTitle>
           <EventLogTick>
-            {eventLog.length}/{TELEMETRY_EVENT_LOG_MAX}
+            {eventLog.length}
+            /
+            {TELEMETRY_EVENT_LOG_MAX}
             {' · '}
-            {t('liveLab.monitor.tick', 'tick')} #{tickCount}
+            {t('liveLab.monitor.tick', 'tick')}
+            {' '}
+            #
+            {tickCount}
           </EventLogTick>
         </EventLogHeader>
         <EventLogScroll ref={logRef}>
-          {eventLog.map((entry, i) => (
-            <EventLogLine key={i} $type={entry.type}>
+          {eventLog.map((entry) => (
+            <EventLogLine key={`${entry.ts}-${entry.message}`} $type={entry.type}>
               <EventLogTime>{formatTime(entry.ts)}</EventLogTime>
               <span>{entry.message}</span>
             </EventLogLine>
@@ -149,4 +171,4 @@ export const TelemetryMonitor: React.FC = (): React.ReactElement => {
       </EventLogRoot>
     </MonitorRoot>
   );
-};
+}

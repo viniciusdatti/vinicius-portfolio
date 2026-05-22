@@ -23,6 +23,13 @@ enum BootHandshakePhase {
   Ready = 'ready',
 }
 
+const getBootProgress = (phase: BootHandshakePhase): number => {
+  if (phase === BootHandshakePhase.Initializing) return 18;
+  if (phase === BootHandshakePhase.Connecting) return 42;
+  if (phase === BootHandshakePhase.Live) return 78;
+  return 100;
+};
+
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
@@ -30,11 +37,11 @@ enum BootHandshakePhase {
 /**
  * Operational boot strip — handshake from init → transport live (behavior, not marketing copy).
  */
-export const BootHandshake: React.FC = (): React.ReactElement => {
+export function BootHandshake(): React.ReactElement {
   const { t } = useTranslation();
   const isConnected: boolean = useChatStore((s) => s.isConnected);
   const [phase, setPhase] = useState<BootHandshakePhase>(
-    BootHandshakePhase.Initializing
+    BootHandshakePhase.Initializing,
   );
 
   useEffect(() => {
@@ -45,30 +52,26 @@ export const BootHandshake: React.FC = (): React.ReactElement => {
   }, []);
 
   useEffect(() => {
+    let readyTimer: ReturnType<typeof setTimeout> | undefined;
+
     if (!isConnected) {
-      setPhase((current: BootHandshakePhase) =>
-        current === BootHandshakePhase.Initializing
-          ? current
-          : BootHandshakePhase.Connecting
-      );
-      return;
+      setPhase((current: BootHandshakePhase) => (current === BootHandshakePhase.Initializing
+        ? current
+        : BootHandshakePhase.Connecting));
+    } else {
+      setPhase(BootHandshakePhase.Live);
+      readyTimer = setTimeout(() => {
+        setPhase(BootHandshakePhase.Ready);
+      }, 900);
     }
-    setPhase(BootHandshakePhase.Live);
-    const readyTimer: ReturnType<typeof setTimeout> = setTimeout(() => {
-      setPhase(BootHandshakePhase.Ready);
-    }, 900);
-    return () => clearTimeout(readyTimer);
+
+    return () => {
+      if (readyTimer) clearTimeout(readyTimer);
+    };
   }, [isConnected]);
 
   const phaseKey: string = `workspace.boot.phases.${phase}`;
-  const progress: number =
-    phase === BootHandshakePhase.Initializing
-      ? 18
-      : phase === BootHandshakePhase.Connecting
-        ? 42
-        : phase === BootHandshakePhase.Live
-          ? 78
-          : 100;
+  const progress: number = getBootProgress(phase);
 
   return (
     <BootRoot aria-live="polite">
@@ -86,4 +89,4 @@ export const BootHandshake: React.FC = (): React.ReactElement => {
       </BootRow>
     </BootRoot>
   );
-};
+}

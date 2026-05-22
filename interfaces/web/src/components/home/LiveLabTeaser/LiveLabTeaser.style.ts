@@ -32,8 +32,7 @@ export const TeaserActivityDot = styled.span<{ $live: boolean }>`
   width: ${({ theme }) => theme.sizes.badge.dotSm};
   height: ${({ theme }) => theme.sizes.badge.dotSm};
   border-radius: ${({ theme }) => theme.borderRadius.full};
-  background: ${({ $live, theme }) =>
-    $live ? theme.colors.success : theme.colors.textMuted};
+  background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
   animation: ${({ $live, theme }) => ($live ? activityPulse(theme) : 'none')} 2s
     ease-in-out infinite;
 `;

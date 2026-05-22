@@ -31,7 +31,7 @@ const CONTEXT_KEYS: string[] = [
 /**
  * Contextual Live Lab preview on home — real health signals, no decorative mock console.
  */
-export const LiveLabTeaser: React.FC = (): React.ReactElement => {
+export function LiveLabTeaser(): React.ReactElement {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
@@ -89,4 +89,4 @@ export const LiveLabTeaser: React.FC = (): React.ReactElement => {
       </TeaserContextList>
     </TeaserRoot>
   );
-};
+}

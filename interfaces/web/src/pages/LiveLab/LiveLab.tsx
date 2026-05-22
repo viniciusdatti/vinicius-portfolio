@@ -11,6 +11,6 @@ import { WorkspaceShell } from '../../components/workspace/WorkspaceShell';
 /**
  * Live Lab — WebSocket telemetry showcase (industrial sensor stream).
  */
-export const LiveLab: React.FC = (): React.ReactElement => {
+export function LiveLab(): React.ReactElement {
   return <WorkspaceShell />;
-};
+}

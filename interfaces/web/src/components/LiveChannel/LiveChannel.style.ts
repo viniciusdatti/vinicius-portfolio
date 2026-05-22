@@ -14,6 +14,18 @@ const connectionPulse = (theme: DefaultTheme) => keyframes`
   };
 `;
 
+const getConnectionStatusColor = (
+  connected: boolean,
+  reconnecting: boolean | undefined,
+  synchronized: boolean | undefined,
+  theme: DefaultTheme,
+): string => {
+  if (synchronized) return theme.colors.primary;
+  if (connected) return theme.colors.success;
+  if (reconnecting) return theme.colors.warning;
+  return theme.colors.error;
+};
+
 export const ChannelSurface = styled.div`
   display: flex;
   flex-direction: column;
@@ -90,10 +102,8 @@ export const StatusBadge = styled.span<StatusBadgeProps>`
   border-radius: ${({ theme }) => theme.borderRadius.full};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  background-color: ${({ $online, theme }) =>
-    $online ? theme.colors.successSurface : theme.colors.mutedSurface};
-  color: ${({ $online, theme }) =>
-    $online ? theme.colors.success : theme.colors.textMuted};
+  background-color: ${({ $online, theme }) => ($online ? theme.colors.successSurface : theme.colors.mutedSurface)};
+  color: ${({ $online, theme }) => ($online ? theme.colors.success : theme.colors.textMuted)};
 
   &::before {
     content: '';
@@ -113,14 +123,9 @@ export interface ConnectionStatusProps {
 export const ConnectionStatus = styled.span<ConnectionStatusProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  color: ${({ $connected, $reconnecting, $synchronized, theme }) =>
-    $synchronized
-      ? theme.colors.primary
-      : $connected
-        ? theme.colors.success
-        : $reconnecting
-          ? theme.colors.warning
-          : theme.colors.error};
+  color: ${({
+    $connected, $reconnecting, $synchronized, theme,
+  }) => getConnectionStatusColor($connected, $reconnecting, $synchronized, theme)};
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -131,12 +136,11 @@ export const ConnectionStatus = styled.span<ConnectionStatusProps>`
     height: ${({ theme }) => theme.sizes.badge.dotSm};
     border-radius: ${({ theme }) => theme.borderRadius.full};
     background-color: currentColor;
-    animation: ${({ $connected, $synchronized, theme }) =>
-      $connected || $synchronized
-        ? 'none'
-        : css`
+    animation: ${({ $connected, $synchronized, theme }) => ($connected || $synchronized
+    ? 'none'
+    : css`
             ${connectionPulse(theme)} 1.5s infinite;
-          `};
+          `)};
   };
 `;
 
@@ -217,18 +221,13 @@ export const Message = styled(motion.div)<MessageProps>`
   max-width: min(82%, ${({ theme }) => theme.sizes.chat.messageMaxWidth});
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  background: ${({ $isOwn, theme }) =>
-    $isOwn ? theme.colors.gradientMessageOwn : theme.colors.surfaceElevated};
-  color: ${({ $isOwn, theme }) =>
-    $isOwn ? theme.colors.onPrimary : theme.colors.text};
+  background: ${({ $isOwn, theme }) => ($isOwn ? theme.colors.gradientMessageOwn : theme.colors.surfaceElevated)};
+  color: ${({ $isOwn, theme }) => ($isOwn ? theme.colors.onPrimary : theme.colors.text)};
   align-self: ${({ $isOwn }) => ($isOwn ? 'flex-end' : 'flex-start')};
   border: 1px solid
-    ${({ $isOwn, theme }) =>
-      $isOwn ? 'transparent' : theme.colors.borderSubtle};
-  border-left: ${({ $isOwn, theme }) =>
-    $isOwn ? '1px solid transparent' : `2px solid ${theme.colors.primary}`};
-  box-shadow: ${({ $isOwn, theme }) =>
-    $isOwn ? theme.shadows.sm : theme.elevation.sm};
+    ${({ $isOwn, theme }) => ($isOwn ? 'transparent' : theme.colors.borderSubtle)};
+  border-left: ${({ $isOwn, theme }) => ($isOwn ? '1px solid transparent' : `2px solid ${theme.colors.primary}`)};
+  box-shadow: ${({ $isOwn, theme }) => ($isOwn ? theme.shadows.sm : theme.elevation.sm)};
 `;
 
 export const MessageContent = styled.p`

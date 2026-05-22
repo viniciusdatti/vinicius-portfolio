@@ -1,5 +1,14 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
+
+type EventLogLevel = 'info' | 'success' | 'warning' | 'error';
+
+const getEventLogItemColor = (level: EventLogLevel, theme: DefaultTheme): string => {
+  if (level === 'success') return theme.colors.success;
+  if (level === 'warning') return theme.colors.warning;
+  if (level === 'error') return theme.colors.error;
+  return theme.colors.textMuted;
+};
 
 export const EventLogPanel = styled.aside`
   flex-shrink: 0;
@@ -40,14 +49,7 @@ export const EventLogItem = styled.li<{ $level: 'info' | 'success' | 'warning' |
   align-items: baseline;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ $level, theme }) =>
-    $level === 'success'
-      ? theme.colors.success
-      : $level === 'warning'
-        ? theme.colors.warning
-        : $level === 'error'
-          ? theme.colors.error
-          : theme.colors.textMuted};
+  color: ${({ $level, theme }) => getEventLogItemColor($level, theme)};
 `;
 
 export const EventLogTime = styled.span`

@@ -15,25 +15,26 @@ interface WorkspaceState {
   setPendingChannelDraft: (draft: string | null) => void;
 }
 
-export const useWorkspaceStore: UseBoundStore<StoreApi<WorkspaceState>> =
-  create<WorkspaceState>((set) => ({
-    activeLiveLabModule: WorkspaceModule.Cases,
-    activeCaseId: null,
-    activeCaseTitle: null,
-    pendingChannelDraft: null,
+export const useWorkspaceStore: UseBoundStore<StoreApi<WorkspaceState>> = create<
+WorkspaceState
+>((set) => ({
+  activeLiveLabModule: WorkspaceModule.Cases,
+  activeCaseId: null,
+  activeCaseTitle: null,
+  pendingChannelDraft: null,
 
-    setActiveLiveLabModule: (activeLiveLabModule: WorkspaceModule): void => {
-      set({ activeLiveLabModule });
-    },
+  setActiveLiveLabModule: (activeLiveLabModule: WorkspaceModule): void => {
+    set({ activeLiveLabModule });
+  },
 
-    setActiveCase: (
-      activeCaseId: number | null,
-      activeCaseTitle: string | null
-    ): void => {
-      set({ activeCaseId, activeCaseTitle });
-    },
+  setActiveCase: (
+    activeCaseId: number | null,
+    activeCaseTitle: string | null,
+  ): void => {
+    set({ activeCaseId, activeCaseTitle });
+  },
 
-    setPendingChannelDraft: (pendingChannelDraft: string | null): void => {
-      set({ pendingChannelDraft });
-    },
-  }));
+  setPendingChannelDraft: (pendingChannelDraft: string | null): void => {
+    set({ pendingChannelDraft });
+  },
+}));
