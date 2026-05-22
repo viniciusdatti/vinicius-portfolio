@@ -197,11 +197,15 @@ export const MonitorBody = styled.div`
 
 export const MonitorChartPane = styled.div`
   flex: 1;
-  min-height: 280px;
+  min-height: 200px;
   min-width: 0;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
+
+  @media (max-height: 800px) {
+    min-height: 160px;
+  };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     border-bottom: none;
@@ -211,16 +215,21 @@ export const MonitorChartPane = styled.div`
 `;
 
 export const MonitorSensorsPane = styled.div`
-  flex-shrink: 0;
+  flex: 1;
+  flex-shrink: 1;
   min-width: 0;
+  min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 42vh;
   padding: ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.background};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    flex: 1 1 auto;
     width: min(340px, 34vw);
     max-height: none;
+    min-height: 0;
   }
 `;
 
@@ -410,6 +419,11 @@ export const EventLogRoot = styled.div`
   flex-direction: column;
   max-height: min(32vh, 240px);
   min-height: 152px;
+
+  @media (max-height: 800px) {
+    max-height: min(24vh, 180px);
+    min-height: 120px;
+  };
   border-top: 1px solid ${({ theme }) => theme.colors.border};
   background: ${({ theme }) => theme.colors.background};
   box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
@@ -438,6 +452,7 @@ export const EventLogTick = styled.span`
 
 export const EventLogScroll = styled.div`
   flex: 1;
+  overflow-x: hidden;
   overflow-y: auto;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
   min-height: 0;
@@ -457,6 +472,9 @@ export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical'; $i
   display: flex;
   gap: ${({ theme }) => theme.spacing.sm};
   align-items: flex-start;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   animation: ${slideIn} 0.24s ${({ theme }) => theme.motion.easeOut} both;
