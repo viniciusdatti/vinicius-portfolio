@@ -1,6 +1,4 @@
-/**
- * Types for Spinner component.
- */
+import type { TestableProps } from '../../../types/testable';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
 
@@ -8,7 +6,7 @@ export interface SpinnerContainerProps {
   $size: SpinnerSize;
 }
 
-export interface SpinnerProps {
+export interface SpinnerProps extends TestableProps {
   size?: SpinnerSize;
   className?: string;
 }
