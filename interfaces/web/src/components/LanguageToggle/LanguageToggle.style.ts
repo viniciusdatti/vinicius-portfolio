@@ -11,13 +11,17 @@ export const LangButton = styled.button<{ $active?: boolean }>`
   padding: 0.35rem 0.75rem;
   font-size: 0.875rem;
   font-weight: ${({ $active }) => ($active ? 600 : 500)};
-  color: ${({ theme, $active }) => ($active ? theme.colors.text : theme.colors.textMuted)};
-  background: ${({ $active }) => ($active ? 'rgba(0, 112, 243, 0.2)' : 'transparent')};
+  color: ${({ theme, $active }) => ($active ? theme.colors.text : theme.colors.textSecondary)};
+  background: ${({ theme, $active }) =>
+    $active ? theme.colors.primarySurface : 'transparent'};
   border: 1px solid
-    ${({ theme, $active }) => ($active ? theme.colors.primary : theme.colors.border)};
-  border-radius: ${({ theme }) => theme.borderRadius?.sm ?? '4px'};
+    ${({ theme, $active }) => ($active ? theme.colors.primaryBorderFaint : theme.colors.border)};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
   cursor: pointer;
-  transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  transition:
+    color ${({ theme }) => theme.transitions.fast},
+    background ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};

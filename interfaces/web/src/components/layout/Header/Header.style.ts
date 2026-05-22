@@ -123,7 +123,7 @@ export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   text-transform: uppercase;
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
-  color: ${({ $active, theme }) => ($active ? theme.colors.text : theme.colors.textMuted)};
+  color: ${({ $active, theme }) => ($active ? theme.colors.text : theme.colors.textSecondary)};
   text-decoration: none;
   padding: ${({ theme }) => theme.spacing.xs} 0;
   transition:

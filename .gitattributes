@@ -1,2 +1,8 @@
 # Shell entrypoints must use LF inside Linux containers
 backend/scripts/docker-entrypoint*.sh text eol=lf
+
+# Frontend: ESLint enforces unix linebreaks (CI runs on Linux)
+interfaces/web/src/** text eol=lf
+interfaces/web/*.{ts,tsx,cjs,json,html} text eol=lf
+interfaces/web/.eslintrc.cjs text eol=lf
+interfaces/web/tsconfig*.json text eol=lf
