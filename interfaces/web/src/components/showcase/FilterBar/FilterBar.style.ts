@@ -5,6 +5,9 @@
 // Libraries
 import styled from 'styled-components';
 
+// Components
+import { scrollAnchorOffset } from '@/styles/sectionRhythm';
+
 // =================================================================================================
 // ============================================= STYLES ============================================
 // =================================================================================================
@@ -13,19 +16,29 @@ export const FilterBarWrapper = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  flex: 1;
-  min-width: min(100%, 280px);
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   background: ${({ theme }) => theme.colors.surfaceGlass};
   backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
   -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  ${scrollAnchorOffset};
 
   &::-webkit-scrollbar {
     display: none;
   }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex: 1 1 auto;
+    width: auto;
+  };
 `;
 
 export interface FilterChipProps {

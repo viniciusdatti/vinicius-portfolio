@@ -1,5 +1,5 @@
 /**
- * Drawer component. Side panel with overlay, header and body.
+ * @fileoverview Drawer — portaled to document.body so fixed positioning stays viewport-true.
  */
 
 // Core
@@ -7,12 +7,18 @@ import React, {
   useCallback,
   useEffect,
   useId,
+  useMemo,
   useRef,
 } from 'react';
 
 // Libraries
+import { createPortal } from 'react-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+
+// Hooks
+import { useDrawerSlideAxis } from '@/hooks/useDrawerSlideAxis';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Types
 import type { DrawerProps } from '@/components/Showcase/Drawer/Drawer.types';
@@ -20,6 +26,7 @@ import type { DrawerProps } from '@/components/Showcase/Drawer/Drawer.types';
 // Components
 import { motionPresets } from '@/styles/motionPresets';
 import {
+  DrawerViewport,
   DrawerOverlay,
   DrawerPanel,
   DrawerHeader,
@@ -34,14 +41,41 @@ export const Drawer = ({
   title,
   children,
   testId,
-}: DrawerProps): React.ReactElement => {
+}: DrawerProps): React.ReactElement | null => {
   const { t } = useTranslation();
+  const reducedMotion: boolean = usePrefersReducedMotion();
+  const slideAxis: 'x' | 'y' = useDrawerSlideAxis();
   const titleId: string = useId();
   const panelRef = useRef<HTMLElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const handleOverlayClick = useCallback(() => {
+  const panelMotion = useMemo(() => {
+    if (reducedMotion) {
+      return {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+        transition: { duration: motionPresets.duration.fast },
+      };
+    }
+    if (slideAxis === 'y') {
+      return {
+        initial: { y: '100%', x: 0, opacity: 1 },
+        animate: { y: 0, x: 0, opacity: 1 },
+        exit: { y: '100%', x: 0, opacity: 1 },
+        transition: motionPresets.spring.physical,
+      };
+    }
+    return {
+      initial: { x: '100%', y: 0, opacity: 1 },
+      animate: { x: 0, y: 0, opacity: 1 },
+      exit: { x: '100%', y: 0, opacity: 1 },
+      transition: motionPresets.spring.physical,
+    };
+  }, [reducedMotion, slideAxis]);
+
+  const handleOverlayClick = useCallback((): void => {
     onClose();
   }, [onClose]);
 
@@ -53,6 +87,8 @@ export const Drawer = ({
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     closeButtonRef.current?.focus();
 
+    document.body.classList.add('drawer-scroll-locked');
+
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         onClose();
@@ -62,31 +98,38 @@ export const Drawer = ({
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.body.classList.remove('drawer-scroll-locked');
       previousFocusRef.current?.focus();
     };
   }, [open, onClose]);
 
-  return (
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  return createPortal(
     <AnimatePresence>
-      {open && (
-        <>
+      {open ? (
+        <DrawerViewport>
           <DrawerOverlay
             data-open="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: motionPresets.duration.normal }}
             onClick={handleOverlayClick}
           />
           <DrawerPanel
+            key={slideAxis}
             ref={panelRef}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
             data-testid={testId}
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={motionPresets.spring.physical}
+            initial={panelMotion.initial}
+            animate={panelMotion.animate}
+            exit={panelMotion.exit}
+            transition={panelMotion.transition}
           >
             <DrawerHeader>
               <DrawerTitle id={titleId}>{title}</DrawerTitle>
@@ -103,6 +146,7 @@ export const Drawer = ({
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  aria-hidden
                 >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
@@ -111,8 +155,9 @@ export const Drawer = ({
             </DrawerHeader>
             <DrawerBody>{children}</DrawerBody>
           </DrawerPanel>
-        </>
-      )}
-    </AnimatePresence>
+        </DrawerViewport>
+      ) : null}
+    </AnimatePresence>,
+    document.body,
   );
 };
