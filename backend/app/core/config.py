@@ -38,12 +38,6 @@ class Settings(BaseSettings):
     # Logging
     log_level: str = "INFO"
 
-    # JWT Authentication
-    jwt_secret_key: str = "your-super-secret-key-change-in-production"
-    jwt_algorithm: str = "HS256"
-    jwt_access_token_expire_minutes: int = 30
-    jwt_refresh_token_expire_days: int = 7
-
     # Email (Resend)
     resend_api_key: Optional[str] = None
     email_from: str = "noreply@viniciusdatti.dev"

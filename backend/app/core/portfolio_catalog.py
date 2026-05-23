@@ -30,12 +30,12 @@ PORTFOLIO_PROJECTS: Tuple[PortfolioProjectEntry, ...] = (
         description_en=(
             "Full-stack portfolio monorepo for this site: FastAPI REST API + Socket.IO, "
             "React 19 with Vite, PostgreSQL/SQLite, pt-BR/en-US i18n, Live Lab telemetry "
-            "demo, admin chat, and project/skills content served from the API."
+            "demo, and project/skills content served from the API."
         ),
         description_pt=(
             "Monorepo full-stack deste portfólio: API REST FastAPI + Socket.IO, "
             "React 19 com Vite, PostgreSQL/SQLite, i18n pt-BR/en-US, demo de telemetria "
-            "Live Lab, chat admin e conteúdo de projetos/skills via API."
+            "Live Lab e conteúdo de projetos/skills via API."
         ),
         technology_slugs=("react", "typescript", "python", "websocket"),
     ),

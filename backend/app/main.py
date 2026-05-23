@@ -5,7 +5,7 @@ from contextlib import asynccontextmanager
 
 # Libraries
 import socketio
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -23,9 +23,6 @@ from app.core.rate_limit import limiter
 from app.db.base import Base
 from app.db.session import engine
 
-# App - Services (for health diagnostic in dev)
-from app.services import email_service
-
 # App - WebSocket
 from app.websocket.server import sio
 
@@ -40,28 +37,6 @@ async def lifespan(app: FastAPI):
     """Application lifespan events."""
     # Startup
     logger.info("Starting Portfolio API...")
-
-    # Log email (Resend) status so we can confirm contact form emails will be sent
-    if settings.resend_api_key:
-        key_suffix: str = (
-            settings.resend_api_key[-4:]
-            if len(settings.resend_api_key) >= 4
-            else "****"
-        )
-        logger.info(
-            "Email (Resend): enabled. Notifications to %s (key ends with ...%s)",
-            settings.email_to_admin,
-            key_suffix,
-        )
-    else:
-        from app.core.config import BACKEND_DIR
-        env_path = BACKEND_DIR / ".env"
-        logger.warning(
-            "Email (Resend): disabled. Set RESEND_API_KEY in backend/.env to receive "
-            "contact form emails at %s. (Loaded .env from: %s)",
-            settings.email_to_admin,
-            env_path if env_path.exists() else "FILE NOT FOUND",
-        )
 
     # Create database tables when not using Docker entrypoint seed (dev/SQLite).
     if settings.is_development or settings.is_sqlite:
@@ -109,28 +84,8 @@ app.include_router(api_router, prefix="/api/v1")
 
 @app.get("/health", tags=["health"])
 async def health_check():
-    """Health check endpoint. In development, includes email_configured for debugging."""
-    payload: dict = {"status": "healthy", "version": "2.0.0"}
-    if settings.is_development:
-        payload["email_configured"] = email_service.enabled
-        payload["email_to_admin"] = settings.email_to_admin
-    return payload
-
-
-@app.get("/debug-email", tags=["debug"], include_in_schema=False)
-async def debug_email():
-    """
-    Test Resend email (development only). No auth required.
-    Returns ok/error so you can see why emails are not arriving.
-    """
-    if not settings.is_development:
-        raise HTTPException(status_code=404, detail="Not found")
-    ok: bool
-    err: str
-    ok, err = await email_service.send_test_email()
-    if ok:
-        return {"ok": True, "message": "Test email sent. Check your inbox (and spam)."}
-    return {"ok": False, "error": err}
+    """Health check endpoint."""
+    return {"status": "healthy", "version": "2.0.0"}
 
 
 # Create ASGI app with Socket.IO
