@@ -140,7 +140,7 @@
       "focus": "React · WebSocket · interfaces que não podem quebrar",
       "statProjects": "Anos em produção",
       "statRealtime": "Ciclo do sensor",
-      "statFocus": "Dashboards de britador",
+      "statFocus": "Superfícies de telemetria",
       "statProjectsValue": "3",
       "statRealtimeValue": "10s",
       "statFocusValue": "2"
@@ -298,7 +298,7 @@
     "liveLabPreview": {
       "title": "Live Lab",
       "badge": "Demonstração ao vivo",
-      "description": "Demonstração deste portfólio: sensores industriais (RPM, temperatura, pressão, vibração) via WebSocket — inspirado em dashboards industriais em produção, sem ser produto real de cliente.",
+      "description": "Demonstração deste portfólio: canais simulados (rotação, temperatura, pressão, vibração) via WebSocket — padrões de observabilidade em tempo real, sem vínculo com produto real.",
       "sensors": {
         "temp": "Temperatura",
         "vib": "Vibração",
@@ -370,7 +370,7 @@
     },
     "philosophy": {
       "title": "Como trabalho",
-      "description": "Tipagem que alinha front e API, pastas com intenção para o time e automação focada no que não pode regredir em produção."
+      "description": "Contratos tipados entre camadas, estrutura que o time escala junto e testes nos fluxos que a produção não pode perder."
     },
     "superior": {
       "sectionTitle": "Experiência profissional",
@@ -639,7 +639,7 @@
       }
     },
     "monitor": {
-      "title": "Sensores industriais",
+      "title": "Canais simulados",
       "live": "WebSocket ao vivo",
       "connecting": "Conectando…",
       "waitingData": "Aguardando primeiro pulso de telemetria…",
@@ -648,9 +648,9 @@
       "noEvents": "Nenhum evento ainda…",
       "trendChart": "Tendência · últimas amostras",
       "sensors": {
-        "crusher_rpm": "RPM do britador",
-        "motor_temp": "Temp. do motor",
-        "feed_pressure": "Pressão de alimentação",
+        "spin_rate": "Taxa de rotação",
+        "thermal": "Térmico",
+        "pressure": "Pressão",
         "vibration": "Vibração"
       },
       "statusLabels": {
@@ -714,7 +714,7 @@
       "company": "Empresa",
       "companyPlaceholder": "Time ou organização",
       "subject": "Assunto",
-      "subjectPlaceholder": "Ex.: oportunidade ou Live Lab",
+      "subjectPlaceholder": "Vaga, projeto ou Live Lab",
       "message": "Mensagem",
       "messagePlaceholder": "Contexto ou stack do time...",
       "submit": "Enviar mensagem",

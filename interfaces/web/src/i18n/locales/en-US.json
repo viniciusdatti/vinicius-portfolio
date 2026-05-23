@@ -140,7 +140,7 @@
       "focus": "React · WebSocket · interfaces that cannot break",
       "statProjects": "Years in production",
       "statRealtime": "Sensor refresh cycle",
-      "statFocus": "Crusher dashboards",
+      "statFocus": "Telemetry surfaces",
       "statProjectsValue": "3",
       "statRealtimeValue": "10s",
       "statFocusValue": "2"
@@ -298,7 +298,7 @@
     "liveLabPreview": {
       "title": "Live Lab",
       "badge": "Live demo",
-      "description": "Portfolio demo: industrial-style sensors (RPM, temperature, pressure, vibration) over WebSocket — inspired by production industrial dashboards, not a real client product.",
+      "description": "Portfolio demo: simulated channels (spin, thermal, pressure, vibration) over WebSocket — real-time observability patterns, not tied to a real product.",
       "sensors": {
         "temp": "Temperature",
         "vib": "Vibration",
@@ -370,7 +370,7 @@
     },
     "philosophy": {
       "title": "How I work",
-      "description": "Types that align front-end and API, folders with intent for the team, and automation focused on what cannot regress in production."
+      "description": "Typed contracts across layers, structure the team can scale with, and tests on the flows production cannot afford to lose."
     },
     "superior": {
       "sectionTitle": "Professional experience",
@@ -639,7 +639,7 @@
       }
     },
     "monitor": {
-      "title": "Industrial sensors",
+      "title": "Simulated channels",
       "live": "WebSocket live",
       "connecting": "Connecting…",
       "waitingData": "Awaiting first telemetry tick…",
@@ -648,9 +648,9 @@
       "noEvents": "No events yet…",
       "trendChart": "Trend · last samples",
       "sensors": {
-        "crusher_rpm": "Crusher RPM",
-        "motor_temp": "Motor temp",
-        "feed_pressure": "Feed pressure",
+        "spin_rate": "Spin rate",
+        "thermal": "Thermal",
+        "pressure": "Pressure",
         "vibration": "Vibration"
       },
       "statusLabels": {
@@ -714,7 +714,7 @@
       "company": "Company",
       "companyPlaceholder": "Team or organization",
       "subject": "Subject",
-      "subjectPlaceholder": "e.g. role or Live Lab",
+      "subjectPlaceholder": "Role, project, or Live Lab",
       "message": "Message",
       "messagePlaceholder": "Context or team stack...",
       "submit": "Send message",
