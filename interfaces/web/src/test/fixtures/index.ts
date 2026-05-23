@@ -4,11 +4,9 @@
  */
 
 import type { Project, Technology } from '@/data/types';
-import type { Certificate, ChatMessage, Skill } from '@/types';
+import type { Certificate, Skill } from '@/types';
 import {
-  buildFakeAdminChatMessage,
   buildFakeCertificate,
-  buildFakeChatMessage,
   buildFakeProject,
   buildFakeSkill,
   buildFakeTechnology,
@@ -20,13 +18,11 @@ import {
 export const mockTechnology = buildFakeTechnology;
 export const mockProject = buildFakeProject;
 export const mockProjectList = (): Project[] => MOCKED_PROJECT_LIST;
-export const mockChatMessage = buildFakeChatMessage;
-export const mockAdminMessage = buildFakeAdminChatMessage;
 export const mockSkill = buildFakeSkill;
 export const mockSkillList = (): Skill[] => MOCKED_SKILL_LIST;
 export const mockCertificate = buildFakeCertificate;
 export const mockCertificateList = (): Certificate[] => MOCKED_CERTIFICATE_LIST;
 
 export type {
-  Project, Technology, Certificate, ChatMessage, Skill,
+  Project, Technology, Certificate, Skill,
 };
