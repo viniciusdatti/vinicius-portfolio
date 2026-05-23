@@ -16,20 +16,20 @@ import { useTheme } from 'styled-components';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
-import type { LiveLabObservatoryLogLine } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.types';
+import type { LiveLabObservatoryLogLine } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
 
 // Components
 import { formatClockTime } from '@/lib/i18nDisplay';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
-import { LiveLabObservatoryAnimatedValue } from '@/components/Home/LiveLabObservatory/LiveLabObservatoryAnimatedValue';
-import { LiveLabObservatorySparkline } from '@/components/Home/LiveLabObservatory/LiveLabObservatorySparkline';
+import { LiveLabObservatoryAnimatedValue } from '@/components/home/LiveLabObservatory/LiveLabObservatoryAnimatedValue';
+import { LiveLabObservatorySparkline } from '@/components/home/LiveLabObservatory/LiveLabObservatorySparkline';
 import {
   buildObservatorySparkline,
   getObservatorySensors,
   LOG_MESSAGE_KEYS,
   sparkPathFromValues,
-} from '@/components/Home/LiveLabObservatory/LiveLabObservatory.helpers';
+} from '@/components/home/LiveLabObservatory/LiveLabObservatory.helpers';
 import {
   ChartLabel,
   ChartPane,
@@ -47,7 +47,7 @@ import {
   SensorTileLabel,
   SidePanel,
   SparklineSvg,
-} from '@/components/Home/LiveLabObservatory/LiveLabObservatory.style';
+} from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************

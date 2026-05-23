@@ -8,13 +8,13 @@ import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 import {
   resolveAmbientVariant,
   type PageAmbientFieldProps,
-} from '@/components/Atmosphere/PageAmbientField/PageAmbientField.types';
+} from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
 
 // Components
 import {
   PageAmbientCanvas,
   PageAmbientLayer,
-} from '@/components/Atmosphere/PageAmbientField/PageAmbientField.style';
+} from '@/components/atmosphere/PageAmbientField/PageAmbientField.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

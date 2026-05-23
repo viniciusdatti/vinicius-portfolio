@@ -14,8 +14,8 @@ import { Language } from '@/types';
 
 // Hooks
 import { useProjects } from '@/hooks';
+
 // Components
-import { Drawer } from '@/components/Showcase';
 import {
   ProjectShowcaseGrid,
   ProjectCaseStudyContent,
@@ -47,10 +47,7 @@ import {
   EmptyMessage,
   LoadingMessage,
 } from '@/pages/Projects/Projects.style';
-
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
+import { Drawer } from '@/components/showcase';
 
 export const Projects = (): React.ReactElement => {
   const { t, i18n } = useTranslation();

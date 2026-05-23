@@ -5,12 +5,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
-// Store
-import { useThemeStore } from '@/store';
+// Types
+import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
 
 // Components
-import { ToggleButton } from '@/components/Common/ThemeToggle/ThemeToggle.style';
-import type { ThemeToggleProps } from '@/components/Common/ThemeToggle/ThemeToggle.types';
+import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
+import { useThemeStore } from '@/store';
 
 const SunIcon = (): React.ReactElement => (
   <svg

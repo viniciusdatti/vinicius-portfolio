@@ -16,11 +16,11 @@ import { useTranslation } from 'react-i18next';
 import {
   TELEMETRY_EVENT_LOG_MAX,
 } from '@/types/telemetry';
-import type { OperationalEventLogProps } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.types';
+import type { OperationalEventLogProps } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
 
 // Components
-import { TelemetryEventLogLine } from '@/components/Workspace/TelemetryMonitor/TelemetryEventLogLine';
-import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
+import { TelemetryEventLogLine } from '@/components/workspace/TelemetryMonitor/TelemetryEventLogLine';
+import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
 import {
   EventLogHeader,
   EventLogLine,
@@ -30,7 +30,7 @@ import {
   EventLogTick,
   EventLogTime,
   EventLogTitle,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.style';
+} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
 
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************

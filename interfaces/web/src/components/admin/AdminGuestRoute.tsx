@@ -14,7 +14,7 @@ import { UserRole } from '@/types';
 
 // Components
 import { env } from '@/config/env';
-import { AdminAuthLoading } from '@/components/Admin/AdminAuthLoading';
+import { AdminAuthLoading } from '@/components/admin/AdminAuthLoading';
 import { useAuthStore } from '@/store';
 
 const API_BASE: string = env.apiUrl;

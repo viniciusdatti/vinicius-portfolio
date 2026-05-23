@@ -37,7 +37,7 @@ import {
   CapabilityGroup,
   CapabilityHeading,
   CapabilityItem,
-} from '@/components/Workspace/ContextPanel/ContextPanel.style';
+} from '@/components/workspace/ContextPanel/ContextPanel.style';
 
 interface ContextPanelProps {
   module: WorkspaceModule;

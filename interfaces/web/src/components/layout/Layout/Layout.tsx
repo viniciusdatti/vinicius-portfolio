@@ -20,15 +20,15 @@ import {
   ScrollMotionViewportProvider,
   useScrollMotionViewport,
 } from '@/hooks/scrollMotionViewport';
-import { Header } from '@/components/Layout/Header';
-import { Footer } from '@/components/Layout/Footer';
-import { LayoutAmbientBackdrop } from '@/components/Layout/LayoutAmbientBackdrop';
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
+import { LayoutAmbientBackdrop } from '@/components/layout/LayoutAmbientBackdrop';
 import {
   SkipLink,
   Main,
   PageMotionLayer,
   WorkspaceMotionShell,
-} from '@/components/Layout/Layout/Layout.style';
+} from '@/components/layout/Layout/Layout.style';
 import { resolvePageTransition } from '@/styles/animations';
 
 /* *************************************************************************************************

@@ -3,7 +3,7 @@ import React from 'react';
 
 // Components
 import { useToastStore } from '@/store/toastStore';
-import { ToastHostRoot, ToastItemSurface } from '@/components/Common/Toast/Toast.style';
+import { ToastHostRoot, ToastItemSurface } from '@/components/common/Toast/Toast.style';
 
 export { showToast, ToastType } from '@/store/toastStore';
 

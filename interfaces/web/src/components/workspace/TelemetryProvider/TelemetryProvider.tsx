@@ -37,12 +37,12 @@ const TelemetryProvider = ({
   );
 };
 
-function useTelemetry(): TelemetryState {
+const useTelemetry = (): TelemetryState => {
   const ctx = useContext(TelemetryContext);
   if (!ctx) {
     throw new Error('useTelemetry must be used within TelemetryProvider');
   }
   return ctx;
-}
+};
 
 export { TelemetryProvider, useTelemetry };

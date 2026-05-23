@@ -11,7 +11,7 @@ import { publicAssetUrl } from '@/config/env';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
-import { HomeSectionReveal } from '@/components/Home/HomeSectionReveal';
+import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
 
 // View
@@ -35,7 +35,7 @@ import {
   CapabilityFeaturedMeta,
   CapabilityFeaturedDomain,
   CapabilityFeaturedDesc,
-} from '@/components/Home/HomeCapabilityRail/HomeCapabilityRail.style';
+} from '@/components/home/HomeCapabilityRail/HomeCapabilityRail.style';
 
 interface CapabilityItem {
   name: string;

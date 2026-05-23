@@ -6,14 +6,14 @@
 import React from 'react';
 
 // Types
-import type { FilterBarProps } from '@/components/Showcase/FilterBar/FilterBar.types';
+import type { FilterBarProps } from '@/components/showcase/FilterBar/FilterBar.types';
 
 // Components
 import {
   FilterBarWrapper,
   FilterChip,
   FilterCount,
-} from '@/components/Showcase/FilterBar/FilterBar.style';
+} from '@/components/showcase/FilterBar/FilterBar.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

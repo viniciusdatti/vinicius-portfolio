@@ -10,11 +10,11 @@
 import React, { useEffect, useState } from 'react';
 
 // Types
-import type { LiveLabObservatoryAnimatedValueProps } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.types';
+import type { LiveLabObservatoryAnimatedValueProps } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { SensorTileValue } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.style';
+import { SensorTileValue } from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************

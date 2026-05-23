@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 // Components
-import { showToast, ToastType } from '@/components/Common/Toast';
+import { showToast, ToastType } from '@/components/common/Toast';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { submitContact, ApiError } from '@/api';
 import { motionPresets } from '@/styles/motionPresets';

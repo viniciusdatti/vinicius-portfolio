@@ -15,14 +15,15 @@ import { useTranslation } from 'react-i18next';
 // Types
 import type { SensorReading } from '@/types/telemetry';
 import { SensorStatus } from '@/types/telemetry';
-import type { SensorProps } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.types';
+import type { SensorProps } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
 
 // Components
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
+import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
 import { telemetryMicroSnapTransition } from '@/styles/animations';
-import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
-import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
-import { SensorSparkline } from '@/components/Workspace/TelemetryMonitor/SensorSparkline';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
+import { SensorSparkline } from '@/components/workspace/TelemetryMonitor/SensorSparkline';
 import {
   SensorCard,
   SensorCardInner,
@@ -36,20 +37,11 @@ import {
   ThresholdCritMarker,
   ThresholdFill,
   ThresholdLimit,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.style';
+} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
 
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************
  ************************************************************************************************ */
-
-const resolveSensorLabel = (
-  reading: SensorReading,
-  translate: (key: string) => string,
-): string => resolveI18nKeyOrFallback(
-  `liveLab.monitor.sensors.${reading.id}`,
-  reading.label,
-  translate,
-);
 
 const resolveSensorStatusLabel = (
   status: SensorStatus,
@@ -83,7 +75,7 @@ export const TelemetrySensorCard: React.FC<SensorProps> = ({
   const { t } = useTranslation();
   const { history } = useTelemetry();
   const samples: number[] = history[r.id] ?? [];
-  const sensorLabel: string = resolveSensorLabel(r, t);
+  const sensorLabel: string = resolveTelemetrySensorLabel(r, t);
   const statusLabel: string = resolveSensorStatusLabel(r.status, t);
 
   return (

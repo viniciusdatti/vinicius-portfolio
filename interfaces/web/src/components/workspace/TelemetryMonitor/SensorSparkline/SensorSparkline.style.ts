@@ -10,7 +10,7 @@
 import styled, { keyframes } from 'styled-components';
 
 // Types
-import type { SensorSparklineSvgProps } from '@/components/Workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
+import type { SensorSparklineSvgProps } from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
 import { SensorStatus } from '@/types/telemetry';
 
 // Components

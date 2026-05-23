@@ -648,10 +648,11 @@
       "noEvents": "No events yet…",
       "trendChart": "Trend · last samples",
       "sensors": {
-        "spin_rate": "Spin rate",
-        "thermal": "Thermal",
+        "spin_rate": "Rotation",
+        "thermal": "Temperature",
         "pressure": "Pressure",
-        "vibration": "Vibration"
+        "vibration": "Vibration",
+        "unknown": "Channel"
       },
       "statusLabels": {
         "ok": "OK",

@@ -9,10 +9,10 @@ import React from 'react';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Types
-import type { HomeSectionRevealProps } from '@/components/Home/HomeSectionReveal/HomeSectionReveal.types';
+import type { HomeSectionRevealProps } from '@/components/home/HomeSectionReveal/HomeSectionReveal.types';
 
 // Components
-import { HomeSectionRevealRoot } from '@/components/Home/HomeSectionReveal/HomeSectionReveal.style';
+import { HomeSectionRevealRoot } from '@/components/home/HomeSectionReveal/HomeSectionReveal.style';
 
 // =================================================================================================
 // ========================================== COMPONENT ============================================

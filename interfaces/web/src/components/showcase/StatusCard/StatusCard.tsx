@@ -7,7 +7,7 @@
 import React from 'react';
 
 // Types
-import type { StatusCardProps } from '@/components/Showcase/StatusCard/StatusCard.types';
+import type { StatusCardProps } from '@/components/showcase/StatusCard/StatusCard.types';
 
 // Components
 import {
@@ -15,7 +15,7 @@ import {
   StatusCardTitle,
   StatusCardValue,
   StatusCardUnit,
-} from '@/components/Showcase/StatusCard/StatusCard.style';
+} from '@/components/showcase/StatusCard/StatusCard.style';
 
 export const StatusCard = ({
   title,

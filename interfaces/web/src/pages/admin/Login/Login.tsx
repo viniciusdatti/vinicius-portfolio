@@ -16,11 +16,11 @@ import {
   initialAdminLoginViewState,
   type AdminLoginForm,
   type AdminLoginViewState,
-} from '@/pages/Admin/Login/Login.types';
+} from '@/pages/admin/Login/Login.types';
 
 // Components
 import { env } from '@/config/env';
-import { showToast, ToastType } from '@/components/Common/Toast';
+import { showToast, ToastType } from '@/components/common/Toast';
 import { useAuthStore } from '@/store';
 import {
   BackToSiteLink,
@@ -41,7 +41,7 @@ import {
   SubmitButton,
   TogglePasswordButton,
   TopBar,
-} from '@/pages/Admin/Login/Login.style';
+} from '@/pages/admin/Login/Login.style';
 
 const API_BASE: string = env.apiUrl;
 

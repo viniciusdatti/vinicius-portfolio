@@ -11,7 +11,7 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   TimelineCanvasElement,
   TimelineCanvasLayer,
-} from '@/components/Atmosphere/AboutTimelineCanvas/AboutTimelineCanvas.style';
+} from '@/components/atmosphere/AboutTimelineCanvas/AboutTimelineCanvas.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

@@ -20,8 +20,8 @@ import {
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
-import { HomeSectionReveal } from '@/components/Home/HomeSectionReveal';
-import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
+import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
+import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
 import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
 
@@ -50,7 +50,7 @@ import {
   CasePanelSlot,
   WorkError,
   WorkRetry,
-} from '@/components/Home/HomeWorkStage/HomeWorkStage.style';
+} from '@/components/home/HomeWorkStage/HomeWorkStage.style';
 
 export interface HomeWorkStageProps {
   projects: Project[] | undefined;

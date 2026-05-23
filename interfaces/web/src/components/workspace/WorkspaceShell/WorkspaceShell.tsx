@@ -15,12 +15,12 @@ import { useTranslation } from 'react-i18next';
 // Components
 import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { BootHandshake } from '@/components/Workspace/BootHandshake';
-import { LiveLabStreamField } from '@/components/Atmosphere/LiveLabStreamField';
-import { LiveLabAtmosphere } from '@/components/Workspace/LiveLabAtmosphere';
-import { LiveLabShowcaseHeader } from '@/components/Workspace/LiveLabShowcaseHeader';
-import { TelemetryMonitor } from '@/components/Workspace/TelemetryMonitor';
-import { TelemetryEventLogPlacement } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.types';
+import { BootHandshake } from '@/components/workspace/BootHandshake';
+import { LiveLabStreamField } from '@/components/atmosphere/LiveLabStreamField';
+import { LiveLabAtmosphere } from '@/components/workspace/LiveLabAtmosphere';
+import { LiveLabShowcaseHeader } from '@/components/workspace/LiveLabShowcaseHeader';
+import { TelemetryMonitor } from '@/components/workspace/TelemetryMonitor';
+import { TelemetryEventLogPlacement } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
 import {
   ImmersionProgressFill,
   ImmersionProgressTrack,
@@ -30,7 +30,7 @@ import {
   TelemetryWorkspace,
   WorkspaceChrome,
   WorkspaceRoot,
-} from '@/components/Workspace/WorkspaceShell/WorkspaceShell.style';
+} from '@/components/workspace/WorkspaceShell/WorkspaceShell.style';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************
@@ -41,8 +41,8 @@ import {
  *
  * @roadmap ModuleRail + ContextPanel exist in workspace/ but are not wired yet.
  * When ready to activate multi-module workspace:
- * 1. Import ModuleRail from '@/components/Workspace/ModuleRail'
- * 2. Import ContextPanel from '@/components/Workspace/ContextPanel'
+ * 1. Import ModuleRail from '@/components/workspace/ModuleRail'
+ * 2. Import ContextPanel from '@/components/workspace/ContextPanel'
  * 3. Add WorkspaceLayout grid: ModuleRail (4.5rem) | main | ContextPanel
  * 4. Wire useWorkspaceStore activeModule to TelemetryMonitor/ContextPanel
  * See skill: frontend-architecture P2

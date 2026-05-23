@@ -1,2 +1,2 @@
-export * from '@/components/Showcase/FilterBar/FilterBar';
-export * from '@/components/Showcase/FilterBar/FilterBar.types';
+export * from '@/components/showcase/FilterBar/FilterBar';
+export * from '@/components/showcase/FilterBar/FilterBar.types';

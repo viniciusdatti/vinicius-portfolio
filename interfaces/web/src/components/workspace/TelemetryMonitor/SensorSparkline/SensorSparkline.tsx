@@ -14,13 +14,13 @@ import type {
   SensorSparklinePaths,
   SensorSparklinePoint,
   SensorSparklineProps,
-} from '@/components/Workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
+} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
 
 // Components
 import {
   SparklineSvg,
   SparklineWrap,
-} from '@/components/Workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.style';
+} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.style';
 
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************

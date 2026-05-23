@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 // Hooks
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 import { useSocketThrottledValue } from '@/hooks/useSocketThrottledValue';
-import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 
 // Types
 import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
@@ -13,7 +12,8 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   MonitorFieldCanvas,
   MonitorFieldLayer,
-} from '@/components/Atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
+} from '@/components/atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

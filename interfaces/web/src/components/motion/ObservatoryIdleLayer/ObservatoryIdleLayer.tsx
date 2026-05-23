@@ -6,14 +6,14 @@ import type {
   IdleImplFn,
   MotionPausedEffectCleanup,
   ObservatoryIdleLayerComponent,
-} from '@/components/Motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
+} from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
 import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
 
 // Hooks
 import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
 
 // Components
-import { ScanlineTrack } from '@/components/Motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
+import { ScanlineTrack } from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

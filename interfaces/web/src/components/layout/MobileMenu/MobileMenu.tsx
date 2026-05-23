@@ -20,7 +20,7 @@ import type { Variants } from 'framer-motion';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Types
-import type { MobileMenuProps } from '@/components/Layout/MobileMenu/MobileMenu.types';
+import type { MobileMenuProps } from '@/components/layout/MobileMenu/MobileMenu.types';
 
 // Components
 import { mobileMenuVariants, staggerItem, motionEase } from '@/styles/animations';
@@ -36,7 +36,7 @@ import {
   MenuFooter,
   SocialLinks,
   SocialLink,
-} from '@/components/Layout/MobileMenu/MobileMenu.style';
+} from '@/components/layout/MobileMenu/MobileMenu.style';
 
 const GitHubIcon = (): React.ReactElement => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>

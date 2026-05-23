@@ -1,4 +1,4 @@
-export * from '@/components/Workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip';
+export * from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip';
 export type {
   OperationalKpiStripProps,
-} from '@/components/Workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.types';
+} from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.types';

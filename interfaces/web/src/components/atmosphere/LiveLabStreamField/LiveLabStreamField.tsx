@@ -4,7 +4,6 @@ import React, { useMemo } from 'react';
 // Hooks
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 import { useSocketThrottledValue } from '@/hooks/useSocketThrottledValue';
-import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 
 // Types
 import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
@@ -13,7 +12,8 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   LiveLabStreamCanvas,
   LiveLabStreamLayer,
-} from '@/components/Atmosphere/LiveLabStreamField/LiveLabStreamField.style';
+} from '@/components/atmosphere/LiveLabStreamField/LiveLabStreamField.style';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================

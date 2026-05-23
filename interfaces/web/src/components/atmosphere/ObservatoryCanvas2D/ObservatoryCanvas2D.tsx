@@ -11,7 +11,7 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   ObservatoryCanvasElement,
   ObservatoryCanvasLayer,
-} from '@/components/Atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D.style';
+} from '@/components/atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

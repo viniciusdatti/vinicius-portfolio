@@ -8,7 +8,7 @@
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
-import type { LiveLabObservatorySensorDef } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.types';
+import type { LiveLabObservatorySensorDef } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
 
 /* *************************************************************************************************
  ******************************************** CONSTANTS ********************************************

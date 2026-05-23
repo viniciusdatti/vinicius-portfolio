@@ -10,10 +10,10 @@
 import React from 'react';
 
 // Types
-import type { TelemetryMetricSnapProps } from '@/components/Workspace/TelemetryMonitor/TelemetryMetricSnap/TelemetryMetricSnap.types';
+import type { TelemetryMetricSnapProps } from '@/components/workspace/TelemetryMonitor/TelemetryMetricSnap/TelemetryMetricSnap.types';
 
 // Components
-import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
+import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************

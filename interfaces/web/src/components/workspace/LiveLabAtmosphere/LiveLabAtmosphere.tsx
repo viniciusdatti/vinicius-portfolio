@@ -6,7 +6,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
 
 // Components
-import { LiveLabAtmosphereCss } from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
+import { LiveLabAtmosphereCss } from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================
@@ -15,7 +15,7 @@ import { LiveLabAtmosphereCss } from '@/components/Workspace/LiveLabAtmosphere/L
 const LiveLabAtmosphereGL = lazy(
   async (): Promise<{ default: React.ComponentType }> => {
     const module = await import(
-      '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
+      '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
     );
     return { default: module.LiveLabAtmosphereGL };
   },

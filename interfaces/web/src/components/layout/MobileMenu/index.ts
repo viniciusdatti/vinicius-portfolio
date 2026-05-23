@@ -1,2 +1,2 @@
-export * from '@/components/Layout/MobileMenu/MobileMenu';
-export * from '@/components/Layout/MobileMenu/MobileMenu.types';
+export * from '@/components/layout/MobileMenu/MobileMenu';
+export * from '@/components/layout/MobileMenu/MobileMenu.types';

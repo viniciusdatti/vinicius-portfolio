@@ -16,7 +16,7 @@ import {
   EventLogLine,
   EventLogPrefix,
   EventLogTime,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.style';
+} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
 import { formatClockTime } from '@/lib/i18nDisplay';
 
 // =================================================================================================

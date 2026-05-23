@@ -16,7 +16,7 @@ import {
   TeaserContextItem,
   TeaserActivity,
   TeaserActivityDot,
-} from '@/components/Home/LiveLabTeaser/LiveLabTeaser.style';
+} from '@/components/home/LiveLabTeaser/LiveLabTeaser.style';
 
 const CONTEXT_KEYS: string[] = [
   'home.liveLabPreview.context.transport',
