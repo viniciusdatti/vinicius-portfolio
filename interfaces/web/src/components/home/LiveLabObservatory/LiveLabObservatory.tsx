@@ -1,182 +1,75 @@
+/**
+ * @fileoverview Premium observability showcase — live motion without WebSocket on home.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React, { useEffect, useMemo, useState } from 'react';
 
 // Libraries
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
-
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import type { LiveLabObservatoryLogLine } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.types';
 
 // Components
 import { formatClockTime } from '@/lib/i18nDisplay';
-
-// Components
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import { LiveLabObservatoryAnimatedValue } from '@/components/Home/LiveLabObservatory/LiveLabObservatoryAnimatedValue';
+import { LiveLabObservatorySparkline } from '@/components/Home/LiveLabObservatory/LiveLabObservatorySparkline';
 import {
-  ObservatoryRoot,
-  ObservatoryChrome,
-  ObservatoryTitle,
-  ObservatoryLive,
+  buildObservatorySparkline,
+  getObservatorySensors,
+  LOG_MESSAGE_KEYS,
+  sparkPathFromValues,
+} from '@/components/Home/LiveLabObservatory/LiveLabObservatory.helpers';
+import {
+  ChartLabel,
+  ChartPane,
+  LogLine,
+  LogPane,
   ObservatoryBody,
+  ObservatoryChrome,
+  ObservatoryFooter,
+  ObservatoryLive,
+  ObservatoryRoot,
+  ObservatoryTitle,
+  OpsMetric,
   SensorPanel,
   SensorTile,
   SensorTileLabel,
-  SensorTileValue,
-  SparklineSvg,
   SidePanel,
-  ChartPane,
-  ChartLabel,
-  LogPane,
-  LogLine,
-  ObservatoryFooter,
-  OpsMetric,
+  SparklineSvg,
 } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.style';
 
-interface SensorDef {
-  id: string;
-  label: string;
-  unit: string;
-  base: number;
-  variance: number;
-  status: SensorStatus;
-}
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
-const SENSORS = (t: (key: string) => string): SensorDef[] => [
-  {
-    id: 'temp', label: t('home.liveLabPreview.sensors.temp'), unit: '°C', base: 72.4, variance: 1.2, status: SensorStatus.Ok,
-  },
-  {
-    id: 'vib', label: t('home.liveLabPreview.sensors.vib'), unit: 'mm/s', base: 8.1, variance: 0.4, status: SensorStatus.Warn,
-  },
-  {
-    id: 'press', label: t('home.liveLabPreview.sensors.press'), unit: 'bar', base: 3.2, variance: 0.08, status: SensorStatus.Ok,
-  },
-  {
-    id: 'amp', label: t('home.liveLabPreview.sensors.amp'), unit: 'A', base: 14.8, variance: 0.6, status: SensorStatus.Ok,
-  },
-];
-
-const LOG_MESSAGE_KEYS: readonly string[] = [
-  'home.liveLabPreview.log.tick',
-  'home.liveLabPreview.log.heartbeat',
-  'home.liveLabPreview.log.threshold',
-  'home.liveLabPreview.log.buffer',
-  'home.liveLabPreview.log.sync',
-];
-
-function buildSparkline(seed: number, len: number): number[] {
-  const out: number[] = [];
-  let v = seed;
-  for (let i = 0; i < len; i += 1) {
-    v += (Math.sin(i * 0.7 + seed) * 0.08 + (Math.random() - 0.5) * 0.06);
-    out.push(v);
-  }
-  return out;
-}
-
-function sparkPath(values: number[], w: number, h: number): string {
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const range = max - min || 1;
-  return values
-    .map((v, i) => {
-      const x = (i / (values.length - 1)) * w;
-      const y = h - ((v - min) / range) * (h - 4) - 2;
-      return `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
-    })
-    .join(' ');
-}
-
-const Sparkline = ({ seed, color }: { seed: number; color: string }): React.ReactElement => {
-  const reduced = usePrefersReducedMotion();
-  const [values, setValues] = useState(() => buildSparkline(seed, 24));
-
-  useEffect(() => {
-    if (reduced) return undefined;
-    const id = window.setInterval(() => {
-      setValues((prev) => {
-        const next = [...prev.slice(1), prev[prev.length - 1] + (Math.random() - 0.5) * 0.1];
-        return next;
-      });
-    }, 1200);
-    return () => window.clearInterval(id);
-  }, [reduced, seed]);
-
-  const d = sparkPath(values, 120, 28);
-  return (
-    <SparklineSvg viewBox="0 0 120 28" aria-hidden>
-      <motion.path
-        d={d}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        initial={false}
-        animate={{ d }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      />
-    </SparklineSvg>
-  );
-};
-
-const AnimatedValue = ({
-  base,
-  variance,
-  unit,
-  status,
-}: {
-  base: number;
-  variance: number;
-  unit: string;
-  status: SensorStatus;
-}): React.ReactElement => {
-  const reduced = usePrefersReducedMotion();
-  const [val, setVal] = useState(base);
-
-  useEffect(() => {
-    if (reduced) return undefined;
-    const id = window.setInterval(() => {
-      setVal(base + (Math.random() - 0.5) * variance * 2);
-    }, 1800 + Math.random() * 800);
-    return () => window.clearInterval(id);
-  }, [base, variance, reduced]);
-
-  const formatted = unit === '°C' || unit === 'bar'
-    ? val.toFixed(1)
-    : val.toFixed(1);
-
-  return (
-    <SensorTileValue $status={status}>
-      {formatted}
-      {' '}
-      {unit}
-    </SensorTileValue>
-  );
-};
-
-/**
- * Premium observability showcase — live motion without requiring WebSocket on home.
- */
-export const LiveLabObservatory = (): React.ReactElement => {
+export const LiveLabObservatory: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
+  const theme = useTheme();
   const { status } = useSystemHealth();
-  const isApiLive = status === SystemHealthStatus.Online;
-  const reduced = usePrefersReducedMotion();
-  const [logIndex, setLogIndex] = useState(0);
-  const [tick, setTick] = useState(0);
-  const sensors = useMemo(() => SENSORS(t), [t]);
+  const isApiLive: boolean = status === SystemHealthStatus.Online;
+  const reduced: boolean = usePrefersReducedMotion();
+  const [logIndex, setLogIndex] = useState<number>(0);
+  const [tick, setTick] = useState<number>(0);
+  const sensors = useMemo(() => getObservatorySensors(t), [t]);
 
-  const logs = useMemo(() => {
-    const items: { time: string; msg: string; type?: 'info' | 'warn' }[] = [];
-    for (let i = 0; i < 4; i += 1) {
-      const idx = (logIndex + i) % LOG_MESSAGE_KEYS.length;
+  const logs: LiveLabObservatoryLogLine[] = useMemo(() => {
+    const items: LiveLabObservatoryLogLine[] = [];
+    for (let i: number = 0; i < 4; i += 1) {
+      const idx: number = (logIndex + i) % LOG_MESSAGE_KEYS.length;
       const messageKey: string = LOG_MESSAGE_KEYS[idx];
       const message: string = t(messageKey);
-      const now = new Date();
+      const now: Date = new Date();
       now.setSeconds(now.getSeconds() - i * 2);
       items.push({
         time: formatClockTime(now.getTime(), i18n.language),
@@ -189,18 +82,22 @@ export const LiveLabObservatory = (): React.ReactElement => {
 
   useEffect(() => {
     if (reduced) return undefined;
-    const logId = window.setInterval(
-      () => setLogIndex((n) => (n + 1) % LOG_MESSAGE_KEYS.length),
+    const logId: number = window.setInterval(
+      () => setLogIndex((n: number) => (n + 1) % LOG_MESSAGE_KEYS.length),
       3200,
     );
-    const tickId = window.setInterval(() => setTick((n) => n + 1), 1000);
-    return () => {
+    const tickId: number = window.setInterval(() => setTick((n: number) => n + 1), 1000);
+    return (): void => {
       window.clearInterval(logId);
       window.clearInterval(tickId);
     };
   }, [reduced]);
 
-  const aggregateSpark = useMemo(() => buildSparkline(1.4, 32), []);
+  const aggregateSpark: number[] = useMemo(() => buildObservatorySparkline(1.4, 32), []);
+
+  const strokeForStatus = (sensorStatus: SensorStatus): string => (
+    sensorStatus === SensorStatus.Warn ? theme.colors.warning : theme.colors.success
+  );
 
   return (
     <ObservatoryRoot>
@@ -217,13 +114,16 @@ export const LiveLabObservatory = (): React.ReactElement => {
           {sensors.map((s, i) => (
             <SensorTile key={s.id} $status={s.status}>
               <SensorTileLabel>{s.label}</SensorTileLabel>
-              <AnimatedValue
+              <LiveLabObservatoryAnimatedValue
                 base={s.base}
                 variance={s.variance}
                 unit={s.unit}
                 status={s.status}
               />
-              <Sparkline seed={i + s.base} color={s.status === SensorStatus.Warn ? '#f59e0b' : '#22c55e'} />
+              <LiveLabObservatorySparkline
+                seed={i + s.base}
+                strokeColor={strokeForStatus(s.status)}
+              />
             </SensorTile>
           ))}
         </SensorPanel>
@@ -233,27 +133,27 @@ export const LiveLabObservatory = (): React.ReactElement => {
             <SparklineSvg viewBox="0 0 200 64" aria-hidden>
               <defs>
                 <linearGradient id="obs-fill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgba(245,158,11,0.25)" />
-                  <stop offset="100%" stopColor="rgba(245,158,11,0)" />
+                  <stop offset="0%" stopColor="rgba(0,229,255,0.25)" />
+                  <stop offset="100%" stopColor="rgba(0,229,255,0)" />
                 </linearGradient>
               </defs>
               <motion.path
-                d={`${sparkPath(aggregateSpark, 200, 64)} L200,64 L0,64 Z`}
+                d={`${sparkPathFromValues(aggregateSpark, 200, 64)} L200,64 L0,64 Z`}
                 fill="url(#obs-fill)"
                 stroke="none"
                 animate={reduced ? undefined : { opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 3, repeat: Infinity }}
               />
               <motion.path
-                d={sparkPath(aggregateSpark, 200, 64)}
+                d={sparkPathFromValues(aggregateSpark, 200, 64)}
                 fill="none"
-                stroke="rgba(245,158,11,0.9)"
+                stroke="rgba(0,229,255,0.9)"
                 strokeWidth="1.5"
               />
             </SparklineSvg>
           </ChartPane>
           <LogPane>
-            {logs.map((line) => (
+            {logs.map((line: LiveLabObservatoryLogLine) => (
               <LogLine key={`${line.time}-${line.msg}`} $type={line.type}>
                 <time>{line.time}</time>
                 <span>{line.msg}</span>
