@@ -4,23 +4,24 @@
 
 // Libraries
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Components
 import {
   operationalGlass,
 } from '@/styles/surfaces';
 
-export const Toolbar = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  gap: ${({ theme }) => theme.spacing.lg};
+export const Toolbar = styled(motion.div)`
   margin-bottom: ${({ theme }) => theme.spacing.xl};
+  width: 100%;
+  min-width: 0;
 `;
 
 export const SearchInput = styled.input`
-  flex: 1;
-  min-width: min(100%, 280px);
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
   min-height: 44px;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};

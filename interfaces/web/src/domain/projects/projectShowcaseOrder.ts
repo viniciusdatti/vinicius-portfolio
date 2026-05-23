@@ -1,23 +1,17 @@
 import type { Project } from '@/data/types';
 
-const FEATURED_REPOSITORY_FRAGMENT: string = 'vault-erp';
-
-const FEATURED_TECH_SLUG: string = 'autodesk-vault-api';
+const FEATURED_REPOSITORY_FRAGMENT: string = 'vinicius-portfolio';
 
 /**
- * Returns true when the project is the flagship Vault ↔ ERP automation showcase.
+ * Returns true when the project is the flagship portfolio monorepo repository.
  */
 export const isFeaturedShowcaseProject = (project: Project): boolean => {
   const repoUrl: string | undefined = project.repository_url;
-  const repoMatch: boolean = repoUrl?.includes(FEATURED_REPOSITORY_FRAGMENT) ?? false;
-  const techMatch: boolean = project.technologies.some(
-    (tech) => tech.slug === FEATURED_TECH_SLUG,
-  );
-  return repoMatch || techMatch;
+  return repoUrl?.includes(FEATURED_REPOSITORY_FRAGMENT) ?? false;
 };
 
 /**
- * Orders projects for showcase grids: featured Vault ERP first, then demo-backed rows.
+ * Orders projects for showcase grids: portfolio monorepo first, then demo-backed rows.
  */
 export const orderProjectsForShowcase = (projects: Project[]): Project[] => {
   if (projects.length === 0) {

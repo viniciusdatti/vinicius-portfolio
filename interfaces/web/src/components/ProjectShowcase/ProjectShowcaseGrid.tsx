@@ -18,7 +18,7 @@ import {
   formatProjectSignalCode,
   orderProjectsForShowcase,
 } from '@/domain/projects';
-import { showcaseStaggerContainer } from '@/styles/animations';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
 import { ShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcase.style';
@@ -69,6 +69,7 @@ export const ProjectShowcaseGrid = ({
   onSelectProject,
 }: ProjectShowcaseGridProps): React.ReactElement => {
   const { t } = useTranslation();
+  const { stagger, item, viewport } = useScrollMotion();
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   const orderedProjects: Project[] = useMemo(
@@ -117,10 +118,10 @@ export const ProjectShowcaseGrid = ({
   return (
     <ShowcaseGrid
       $compact={compact}
-      variants={showcaseStaggerContainer}
-      initial="initial"
-      whileInView="animate"
-      viewport={{ once: true, margin: '-60px' }}
+      variants={stagger}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
     >
       {orderedProjects.map((project: Project, index: number) => (
         <ProjectShowcaseCard
@@ -132,6 +133,7 @@ export const ProjectShowcaseGrid = ({
           indexLabel={formatIndexLabel(index)}
           isSelected={selectedProjectId === project.id}
           onSelect={handleSelect}
+          itemVariants={item}
         />
       ))}
       {detailMode === ProjectShowcaseDetailMode.Inline ? (

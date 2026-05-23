@@ -1,4 +1,6 @@
 // Types
+import type { Variants } from 'framer-motion';
+
 import type { Project } from '@/data/types';
 import { Language } from '@/types';
 
@@ -39,6 +41,7 @@ export interface ProjectShowcaseCardProps {
   indexLabel: string;
   isSelected: boolean;
   onSelect: (project: Project) => void;
+  itemVariants: Variants;
 }
 
 export interface ProjectShowcaseGridProps {
