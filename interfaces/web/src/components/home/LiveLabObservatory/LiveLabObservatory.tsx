@@ -34,7 +34,7 @@ import {
   LogLine,
   ObservatoryFooter,
   OpsMetric,
-} from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
+} from '@/components/Home/LiveLabObservatory/LiveLabObservatory.style';
 
 interface SensorDef {
   id: string;
@@ -91,7 +91,7 @@ function sparkPath(values: number[], w: number, h: number): string {
     .join(' ');
 }
 
-function Sparkline({ seed, color }: { seed: number; color: string }): React.ReactElement {
+const Sparkline = ({ seed, color }: { seed: number; color: string }): React.ReactElement => {
   const reduced = usePrefersReducedMotion();
   const [values, setValues] = useState(() => buildSparkline(seed, 24));
 
@@ -121,9 +121,9 @@ function Sparkline({ seed, color }: { seed: number; color: string }): React.Reac
       />
     </SparklineSvg>
   );
-}
+};
 
-function AnimatedValue({
+const AnimatedValue = ({
   base,
   variance,
   unit,
@@ -133,7 +133,7 @@ function AnimatedValue({
   variance: number;
   unit: string;
   status: SensorStatus;
-}): React.ReactElement {
+}): React.ReactElement => {
   const reduced = usePrefersReducedMotion();
   const [val, setVal] = useState(base);
 
@@ -156,12 +156,12 @@ function AnimatedValue({
       {unit}
     </SensorTileValue>
   );
-}
+};
 
 /**
  * Premium observability showcase — live motion without requiring WebSocket on home.
  */
-export function LiveLabObservatory(): React.ReactElement {
+export const LiveLabObservatory = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { status } = useSystemHealth();
   const isApiLive = status === SystemHealthStatus.Online;
@@ -189,7 +189,10 @@ export function LiveLabObservatory(): React.ReactElement {
 
   useEffect(() => {
     if (reduced) return undefined;
-    const logId = window.setInterval(() => setLogIndex((n) => (n + 1) % LOG_MESSAGE_KEYS.length), 3200);
+    const logId = window.setInterval(
+      () => setLogIndex((n) => (n + 1) % LOG_MESSAGE_KEYS.length),
+      3200,
+    );
     const tickId = window.setInterval(() => setTick((n) => n + 1), 1000);
     return () => {
       window.clearInterval(logId);
@@ -281,4 +284,4 @@ export function LiveLabObservatory(): React.ReactElement {
       </ObservatoryFooter>
     </ObservatoryRoot>
   );
-}
+};

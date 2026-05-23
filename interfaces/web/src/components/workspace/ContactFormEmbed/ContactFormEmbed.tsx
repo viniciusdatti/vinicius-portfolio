@@ -18,7 +18,7 @@ import {
   EmbedError,
   EmbedSubmit,
   EmbedSuccess,
-} from '@/components/workspace/ContactFormEmbed/ContactFormEmbed.style';
+} from '@/components/Workspace/ContactFormEmbed/ContactFormEmbed.style';
 
 const contactSchema = z.object({
   name: z.string().min(2).max(100),
@@ -42,7 +42,7 @@ const getSubmitErrorMessage = (
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function ContactFormEmbed(): React.ReactElement {
+export const ContactFormEmbed = (): React.ReactElement => {
   const { t } = useTranslation();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -133,4 +133,4 @@ export function ContactFormEmbed(): React.ReactElement {
       </EmbedSubmit>
     </EmbedForm>
   );
-}
+};

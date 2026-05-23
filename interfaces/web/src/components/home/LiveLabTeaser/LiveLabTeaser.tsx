@@ -16,7 +16,7 @@ import {
   TeaserContextItem,
   TeaserActivity,
   TeaserActivityDot,
-} from '@/components/home/LiveLabTeaser/LiveLabTeaser.style';
+} from '@/components/Home/LiveLabTeaser/LiveLabTeaser.style';
 
 const CONTEXT_KEYS: string[] = [
   'home.liveLabPreview.context.transport',
@@ -31,7 +31,7 @@ const CONTEXT_KEYS: string[] = [
 /**
  * Contextual Live Lab preview on home — real health signals, no decorative mock console.
  */
-export function LiveLabTeaser(): React.ReactElement {
+export const LiveLabTeaser = (): React.ReactElement => {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
@@ -89,4 +89,4 @@ export function LiveLabTeaser(): React.ReactElement {
       </TeaserContextList>
     </TeaserRoot>
   );
-}
+};

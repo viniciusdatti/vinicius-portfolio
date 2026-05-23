@@ -17,9 +17,9 @@ const TelemetryContext = createContext<TelemetryState | null>(null);
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-function TelemetryProvider({
+const TelemetryProvider = ({
   children,
-}: TelemetryProviderProps): React.ReactElement {
+}: TelemetryProviderProps): React.ReactElement => {
   const state = useTelemetrySocket();
   const setTransportSnapshot = useTelemetryStore((s) => s.setTransportSnapshot);
   const reset = useTelemetryStore((s) => s.reset);
@@ -35,7 +35,7 @@ function TelemetryProvider({
       {children}
     </TelemetryContext.Provider>
   );
-}
+};
 
 function useTelemetry(): TelemetryState {
   const ctx = useContext(TelemetryContext);

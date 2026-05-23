@@ -1,21 +1,15 @@
 // Core
 import React from 'react';
 
-// Libraries
-import { motion } from 'framer-motion';
-
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Components
-import { telemetryMicroSnapTransition } from '@/styles/animations';
+import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
 
 // =================================================================================================
 // ============================================= TYPES =============================================
 // =================================================================================================
 
 export interface TelemetryMetricSnapProps {
-  /** Changes trigger a scale spring micro-snap (socket ticks, sensor values). */
+  /** Changes trigger a throttled value flash (socket ticks, sensor values). */
   snapKey: string | number;
   className?: string;
   children: React.ReactNode;
@@ -26,28 +20,14 @@ export interface TelemetryMetricSnapProps {
 // =================================================================================================
 
 /**
- * Fast scale spring on telemetry value changes — emphasizes socket causality.
+ * @deprecated Use TelemetryValueFlash — scale snap removed per realtime-dashboard-motion M1.
  */
 export const TelemetryMetricSnap: React.FC<TelemetryMetricSnapProps> = ({
   snapKey,
   className,
   children,
-}): React.ReactElement => {
-  const reduced: boolean = usePrefersReducedMotion();
-
-  if (reduced) {
-    return <span className={className}>{children}</span>;
-  }
-
-  return (
-    <motion.span
-      key={String(snapKey)}
-      className={className}
-      initial={{ scale: 1.07 }}
-      animate={{ scale: 1 }}
-      transition={telemetryMicroSnapTransition}
-    >
-      {children}
-    </motion.span>
-  );
-};
+}): React.ReactElement => (
+  <TelemetryValueFlash cellId={`snap-${String(snapKey)}`} valueKey={snapKey} className={className}>
+    {children}
+  </TelemetryValueFlash>
+);

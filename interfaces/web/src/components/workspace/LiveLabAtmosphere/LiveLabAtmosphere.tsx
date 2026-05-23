@@ -6,7 +6,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
 
 // Components
-import { LiveLabAtmosphereCss } from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
+import { LiveLabAtmosphereCss } from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================
@@ -15,7 +15,7 @@ import { LiveLabAtmosphereCss } from '@/components/workspace/LiveLabAtmosphere/L
 const LiveLabAtmosphereGL = lazy(
   async (): Promise<{ default: React.ComponentType }> => {
     const module = await import(
-      '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
+      '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
     );
     return { default: module.LiveLabAtmosphereGL };
   },
@@ -28,7 +28,7 @@ const LiveLabAtmosphereGL = lazy(
 /**
  * Live Lab atmosphere — WebGL grid when supported, CSS 3D fallback otherwise.
  */
-export function LiveLabAtmosphere(): React.ReactElement {
+export const LiveLabAtmosphere = (): React.ReactElement => {
   const reduced: boolean = usePrefersReducedMotion();
   const webglAvailable: boolean = useWebGLAvailable();
 
@@ -41,4 +41,4 @@ export function LiveLabAtmosphere(): React.ReactElement {
   }
 
   return <LiveLabAtmosphereCss />;
-}
+};

@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   ShowcaseHeaderRoot,
@@ -13,17 +13,17 @@ import {
   ShowcaseTitle,
   ShowcaseLead,
   ShowcaseMeta,
-  ShowcaseMetaMuted,
   ShowcaseMetaRow,
   ShowcaseBadge,
+  LiveSignalStatus,
   StatusDot,
-} from '@/components/workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
+} from '@/components/Workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
 
-export function LiveLabShowcaseHeader(): React.ReactElement {
+export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const { connected, tickCount } = useTelemetry();
   const { status } = useSystemHealth();
-  const apiOnline = status === SystemHealthStatus.Online;
+  const apiOnline: boolean = status === SystemHealthStatus.Online;
 
   return (
     <ShowcaseHeaderRoot role="region" aria-label={t('liveLab.title')}>
@@ -31,23 +31,23 @@ export function LiveLabShowcaseHeader(): React.ReactElement {
         <ShowcaseTitle>{t('liveLab.title')}</ShowcaseTitle>
         <ShowcaseLead>{t('liveLab.subtitle')}</ShowcaseLead>
         <ShowcaseMetaRow>
-          {connected ? (
-            <ShowcaseMeta>
-              <StatusDot $live aria-hidden />
-              {t('liveLab.header.transportLive', { tick: tickCount })}
-            </ShowcaseMeta>
-          ) : (
-            <ShowcaseMetaMuted>
-              <StatusDot $live={false} aria-hidden />
-              {t('liveLab.header.transportConnecting')}
-            </ShowcaseMetaMuted>
-          )}
-          <ShowcaseMetaMuted>
+          <LiveSignalStatus
+            $live={connected}
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          >
+            <StatusDot $live={connected} aria-hidden />
+            {connected
+              ? t('liveLab.header.transportLive', { tick: tickCount })
+              : t('liveLab.header.transportConnecting')}
+          </LiveSignalStatus>
+          <ShowcaseMeta>
             <StatusDot $live={apiOnline} aria-hidden />
             {apiOnline
               ? t('header.status.apiOnline')
               : t('header.status.apiChecking')}
-          </ShowcaseMetaMuted>
+          </ShowcaseMeta>
         </ShowcaseMetaRow>
       </ShowcaseHeaderCopy>
       <ShowcaseBadge title={t('liveLab.header.badgeTooltip')}>
@@ -55,4 +55,4 @@ export function LiveLabShowcaseHeader(): React.ReactElement {
       </ShowcaseBadge>
     </ShowcaseHeaderRoot>
   );
-}
+};

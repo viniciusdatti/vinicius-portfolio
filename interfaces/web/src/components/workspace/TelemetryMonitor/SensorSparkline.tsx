@@ -76,10 +76,10 @@ interface SensorSparklineProps {
   status: SensorStatus;
 }
 
-export function SensorSparkline({
+export const SensorSparkline = ({
   values,
   status,
-}: SensorSparklineProps): React.ReactElement | null {
+}: SensorSparklineProps): React.ReactElement | null => {
   const paths = useMemo(() => {
     const samples = values.length > 1 ? values.slice(-24) : [];
     if (samples.length < 2) {
@@ -126,4 +126,4 @@ export function SensorSparkline({
       </SparklineSvg>
     </SparklineWrap>
   );
-}
+};

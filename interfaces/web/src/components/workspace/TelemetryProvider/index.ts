@@ -1,2 +1,2 @@
-export * from '@/components/workspace/TelemetryProvider/TelemetryProvider';
-export * from '@/components/workspace/TelemetryProvider/TelemetryProvider.types';
+export * from '@/components/Workspace/TelemetryProvider/TelemetryProvider';
+export * from '@/components/Workspace/TelemetryProvider/TelemetryProvider.types';

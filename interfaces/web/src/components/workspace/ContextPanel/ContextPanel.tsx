@@ -37,13 +37,13 @@ import {
   CapabilityGroup,
   CapabilityHeading,
   CapabilityItem,
-} from '@/components/workspace/ContextPanel/ContextPanel.style';
+} from '@/components/Workspace/ContextPanel/ContextPanel.style';
 
 interface ContextPanelProps {
   module: WorkspaceModule;
 }
 
-function IdentityModule(): React.ReactElement {
+const IdentityModule = (): React.ReactElement => {
   const { t } = useTranslation();
 
   return (
@@ -67,9 +67,9 @@ function IdentityModule(): React.ReactElement {
       </StatGrid>
     </>
   );
-}
+};
 
-function CasesModule(): React.ReactElement {
+const CasesModule = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const {
     data: projects = [], isLoading, isError, refetch,
@@ -199,7 +199,7 @@ function CasesModule(): React.ReactElement {
       </CaseList>
     </>
   );
-}
+};
 
 const CATEGORY_ORDER: SkillCategory[] = [
   SkillCategory.Realtime,
@@ -210,7 +210,7 @@ const CATEGORY_ORDER: SkillCategory[] = [
   SkillCategory.Iot,
 ];
 
-function CapabilitiesModule(): React.ReactElement {
+const CapabilitiesModule = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const { data: skills = [], isLoading } = useSkills();
 
@@ -262,15 +262,15 @@ function CapabilitiesModule(): React.ReactElement {
       })}
     </>
   );
-}
+};
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function ContextPanel({
+export const ContextPanel = ({
   module,
-}: ContextPanelProps): React.ReactElement {
+}: ContextPanelProps): React.ReactElement => {
   const renderModule = (): React.ReactElement => {
     switch (module) {
       case WorkspaceModule.Cases:
@@ -298,4 +298,4 @@ export function ContextPanel({
       </AnimatePresence>
     </PanelScroll>
   );
-}
+};

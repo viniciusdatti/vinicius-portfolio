@@ -13,10 +13,12 @@ export const KpiStripRoot = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
   flex-shrink: 0;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: repeat(4, 1fr);
@@ -25,7 +27,7 @@ export const KpiStripRoot = styled.div`
 
 export const KpiTile = styled.div<{ $accent?: 'default' | 'warn' | 'critical' | 'live' }>`
   ${operationalGlass};
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   min-width: 0;
   position: relative;
@@ -50,6 +52,8 @@ export const KpiTile = styled.div<{ $accent?: 'default' | 'warn' | 'critical' | 
 
 export const KpiLabel = styled.span`
   display: block;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -60,10 +64,10 @@ export const KpiLabel = styled.span`
 export const KpiValue = styled.span<{ $live?: boolean }>`
   display: block;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-variant-numeric: tabular-nums;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
-  font-variant-numeric: tabular-nums;
   letter-spacing: -0.02em;
   line-height: 1.1;
 
@@ -79,6 +83,8 @@ export const KpiValue = styled.span<{ $live?: boolean }>`
 export const KpiMeta = styled.span`
   display: block;
   margin-top: ${({ theme }) => theme.spacing.xs};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   color: ${({ theme }) => theme.colors.textMuted};
   letter-spacing: 0.04em;

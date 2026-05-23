@@ -41,6 +41,31 @@ const slideIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
+const valueFlash = keyframes`
+  0% {
+    background-color: ${({ theme }) => theme.colors.primarySurface};
+  }
+  100% {
+    background-color: transparent;
+  }
+`;
+
+export const ValueFlashWrap = styled.span<{ $flashing: boolean }>`
+  display: inline-block;
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  padding: 2px 4px;
+  margin: -2px -4px;
+  font-variant-numeric: tabular-nums;
+
+  ${({ $flashing }) => $flashing && css`
+    animation: ${valueFlash} 380ms ${({ theme }) => theme.motion.easeOut} both;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  `}
+`;
+
 const ambientPulse = keyframes`
   0%, 100% { opacity: 0.35; }
   50% { opacity: 0.55; }
@@ -57,6 +82,11 @@ const cursorBlink = keyframes`
   50%, 100% { opacity: 0; }
 `;
 
+const operationalMono = css`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
+`;
+
 export const MonitorRoot = styled.div`
   display: flex;
   flex-direction: column;
@@ -64,7 +94,7 @@ export const MonitorRoot = styled.div`
   min-height: 0;
   overflow: hidden;
   background: transparent;
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  ${operationalMono};
   position: relative;
 
   &::before {
@@ -96,7 +126,7 @@ export const MonitorHeader = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   flex-shrink: 0;
   background: ${({ theme }) => theme.colors.surfaceGlass};
@@ -141,6 +171,7 @@ export const MonitorToolbar = styled.div`
   color: ${({ theme }) => theme.colors.textMuted};
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  ${operationalMono};
 `;
 
 export const ToolbarSep = styled.span`
@@ -164,6 +195,7 @@ export const MonitorStatus = styled.div<{ $connected: boolean }>`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ $connected, theme }) => ($connected ? theme.colors.success : theme.colors.textMuted)};
   letter-spacing: 0.08em;
+  ${operationalMono};
 `;
 
 export const StatusDot = styled.span<{ $connected: boolean }>`
@@ -176,63 +208,105 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
     && css`animation: ${blink} 2.2s ease-in-out infinite;`};
 `;
 
-export const MonitorBody = styled.div`
-  display: flex;
+export const MonitorMainGrid = styled.div`
   flex: 1;
-  flex-direction: column;
   min-height: 0;
   overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: ${({ theme }) => theme.sizes.layout.workspaceGap};
+  align-content: start;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto auto;
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    flex-direction: row;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: minmax(220px, min(400px, 42vh)) auto;
   };
+`;
+
+/** Placeholder while Recharts chunk loads — keeps layout stable on Live Lab mount. */
+export const ChartPaneFallback = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 220px;
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background: ${({ theme }) => theme.colors.surface};
+  opacity: ${({ theme }) => theme.effects.opacity.subtle};
 `;
 
 export const MonitorChartPane = styled.div`
-  flex: 1;
+  grid-column: 1 / -1;
   min-height: 200px;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: rgba(11, 13, 16, 0.82);
   backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
 
   @media (max-height: 800px) {
-    min-height: 160px;
+    min-height: 180px;
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-column: 1 / -1;
+    min-height: 220px;
+    max-height: min(360px, 40vh);
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: 1 / 5;
+    grid-row: 1;
     border-bottom: none;
     border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    min-height: 0;
-  }
+    min-height: 240px;
+    height: min(400px, 42vh);
+    max-height: min(400px, 42vh);
+  };
 `;
 
 export const MonitorSensorsPane = styled.div`
-  flex: 1;
-  flex-shrink: 1;
+  grid-column: 1 / -1;
   min-width: 0;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  max-height: 42vh;
-  padding: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xs};
   background: rgba(11, 13, 16, 0.78);
   backdrop-filter: blur(4px);
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    flex: 1 1 auto;
-    width: min(340px, 34vw);
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-column: 1 / -1;
     max-height: none;
-    min-height: 0;
-  }
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: 5 / 13;
+    grid-row: 1;
+    height: min(400px, 42vh);
+    max-height: min(400px, 42vh);
+    padding: ${({ theme }) => theme.spacing.sm};
+  };
 `;
 
 export const MonitorGrid = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: ${({ theme }) => theme.spacing.sm};
   min-width: 0;
+  height: 100%;
+  align-content: start;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: ${({ theme }) => theme.spacing.sm};
+  };
 `;
 
 const sensorSweep = keyframes`
@@ -244,7 +318,7 @@ const sensorSweep = keyframes`
 export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: number }>`
   background: ${({ theme }) => theme.colors.surfaceGlass};
   backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   position: relative;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -295,7 +369,7 @@ export const SensorCardInner = styled.div`
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.xs};
   min-width: 0;
 `;
 
@@ -326,6 +400,7 @@ export const SensorLabel = styled.div`
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: 1.3;
   min-width: 0;
+  ${operationalMono};
 `;
 
 export const SensorValueRow = styled.div`
@@ -337,14 +412,13 @@ export const SensorValueRow = styled.div`
 
 export const SensorValue = styled.span<{ $status: SensorStatus }>`
   display: inline-block;
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  ${operationalMono};
+  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: ${({ $status, theme }) => getSensorValueColor($status, theme)};
   transition: color ${({ theme }) => theme.transitions.normal};
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   padding: 2px 4px;
@@ -354,6 +428,7 @@ export const SensorValue = styled.span<{ $status: SensorStatus }>`
 export const SensorUnit = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textMuted};
+  ${operationalMono};
 `;
 
 export const ThresholdBar = styled.div`
@@ -399,26 +474,34 @@ export const ThresholdLimit = styled.span`
 `;
 
 export const EventLogRoot = styled.div`
+  grid-column: 1 / -1;
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   max-height: min(32vh, 240px);
-  min-height: 152px;
+  min-height: 140px;
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  background: ${({ theme }) => theme.colors.background};
+  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  ${operationalMono};
 
   @media (max-height: 800px) {
     max-height: min(24vh, 180px);
     min-height: 120px;
   };
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-row: 2;
+    width: 100%;
+    max-height: min(28vh, 220px);
+  };
 `;
 
 export const EventLogHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   flex-shrink: 0;
 `;
@@ -433,13 +516,14 @@ export const EventLogTitle = styled.span`
 export const EventLogTick = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textMuted};
+  ${operationalMono};
 `;
 
 export const EventLogScroll = styled.div`
   flex: 1;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -462,7 +546,8 @@ export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical'; $i
   word-break: break-word;
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  animation: ${slideIn} 0.24s ${({ theme }) => theme.motion.easeOut} both;
+  ${operationalMono};
+  animation: ${slideIn} 0.28s ${({ theme }) => theme.motion.easeOut} both;
   color: ${({ $type, theme }) => getEventLogLineColor($type, theme)};
   padding: ${({ theme }) => theme.spacing.xs} 0;
   border-left: 2px solid ${({ $type, theme }) => getEventLogLineColor($type, theme)}44;
@@ -509,4 +594,6 @@ export const ConnectingState = styled.div`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  grid-column: 1 / -1;
+  ${operationalMono};
 `;

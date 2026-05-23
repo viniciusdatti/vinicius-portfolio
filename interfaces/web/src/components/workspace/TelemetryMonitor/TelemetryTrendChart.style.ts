@@ -13,11 +13,14 @@ const panelScan = keyframes`
 export const ChartRoot = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
-  min-height: 260px;
-  padding: ${({ theme }) => theme.spacing.lg};
+  max-height: 100%;
+  min-height: 0;
+  padding: ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   ${glassSurface};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
   position: relative;
   overflow: hidden;
 
@@ -57,8 +60,9 @@ export const ChartRoot = styled.div`
 `;
 
 export const ChartTitle = styled.h3`
-  margin: 0 0 ${({ theme }) => theme.spacing.md};
+  margin: 0 0 ${({ theme }) => theme.spacing.sm};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -82,7 +86,8 @@ export const ChartTitle = styled.h3`
 
 export const ChartPlot = styled.div`
   flex: 1;
-  min-height: 200px;
+  min-height: 0;
+  max-height: 100%;
   position: relative;
   z-index: 1;
 

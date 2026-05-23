@@ -9,14 +9,14 @@ import { useTheme } from 'styled-components';
 import type { Theme } from '@/styles/theme';
 
 // Components
-import { LiveLabGridScene } from '@/components/workspace/LiveLabAtmosphere/LiveLabGridScene';
-import { LiveLabPostEffects } from '@/components/workspace/LiveLabAtmosphere/LiveLabPostEffects';
+import { LiveLabGridScene } from '@/components/Workspace/LiveLabAtmosphere/LiveLabGridScene';
+import { LiveLabPostEffects } from '@/components/Workspace/LiveLabAtmosphere/LiveLabPostEffects';
 import {
   AtmosphereDepthVeil,
   AtmosphereRoot,
   GlCanvasWrap,
   NoiseVeil,
-} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -25,7 +25,7 @@ import {
 /**
  * WebGL atmosphere — infinite grid floor with amber fog (lazy-loaded).
  */
-export function LiveLabAtmosphereGL(): React.ReactElement {
+export const LiveLabAtmosphereGL = (): React.ReactElement => {
   const theme = useTheme() as Theme;
   const accentHex: string = theme.colors.primary;
   const backgroundHex: string = theme.colors.background;
@@ -53,4 +53,4 @@ export function LiveLabAtmosphereGL(): React.ReactElement {
       <AtmosphereDepthVeil />
     </AtmosphereRoot>
   );
-}
+};

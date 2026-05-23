@@ -9,7 +9,7 @@ import { WorkspaceModule } from '@/types';
 
 // Components
 import { useWorkspaceStore } from '@/store';
-import { RailRoot, RailButton, RailIndex } from '@/components/workspace/ModuleRail/ModuleRail.style';
+import { RailRoot, RailButton, RailIndex } from '@/components/Workspace/ModuleRail/ModuleRail.style';
 
 interface RailItem {
   module: WorkspaceModule;
@@ -39,7 +39,7 @@ const RAIL_ITEMS: RailItem[] = [
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function ModuleRail(): React.ReactElement {
+export const ModuleRail = (): React.ReactElement => {
   const { t } = useTranslation();
   const activeModule: WorkspaceModule = useWorkspaceStore(
     (s) => s.activeLiveLabModule,
@@ -63,4 +63,4 @@ export function ModuleRail(): React.ReactElement {
       ))}
     </RailRoot>
   );
-}
+};

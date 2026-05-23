@@ -23,10 +23,10 @@ export interface LiveLabGridSceneProps {
 /**
  * Rotating floor grid with fog — Live Lab WebGL atmosphere core.
  */
-export function LiveLabGridScene({
+export const LiveLabGridScene = ({
   accentHex,
   backgroundHex,
-}: LiveLabGridSceneProps): React.ReactElement {
+}: LiveLabGridSceneProps): React.ReactElement => {
   const groupRef = useRef<Group | null>(null);
 
   useFrame((_, delta: number): void => {
@@ -58,4 +58,4 @@ export function LiveLabGridScene({
       </group>
     </>
   );
-}
+};
