@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Libraries
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Types
@@ -60,15 +60,17 @@ export const ThemeToggle = ({ className }: ThemeToggleProps): React.ReactElement
       aria-label={themeLabel}
       title={themeLabel}
     >
-      <motion.div
-        key={mode}
-        initial={{ rotate: -90, opacity: 0 }}
-        animate={{ rotate: 0, opacity: 1 }}
-        exit={{ rotate: 90, opacity: 0 }}
-        transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
-      </motion.div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={mode}
+          initial={{ rotate: -90, opacity: 0 }}
+          animate={{ rotate: 0, opacity: 1 }}
+          exit={{ rotate: 90, opacity: 0 }}
+          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
+        </motion.div>
+      </AnimatePresence>
     </ToggleButton>
   );
 };

@@ -14,13 +14,13 @@ import type { HomeSectionRevealProps } from '@/components/home/HomeSectionReveal
 // Components
 import { HomeSectionRevealRoot } from '@/components/home/HomeSectionReveal/HomeSectionReveal.style';
 
-// =================================================================================================
-// ========================================== COMPONENT ============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
 
 /**
- * Wraps structural Home blocks with `whileInView` orchestration (once per mount, 12% viewport).
- * Use `stagger` when children carry `variants={item}` from `useScrollMotion`.
+ * Stagger shell for nested Home blocks — children carry `variants={item}` from `useScrollMotion`.
+ * Section-level opacity gates live inside each Home block; avoid wrapping whole sections here.
  */
 export const HomeSectionReveal: React.FC<HomeSectionRevealProps> = ({
   children,
@@ -29,15 +29,26 @@ export const HomeSectionReveal: React.FC<HomeSectionRevealProps> = ({
   id,
   'aria-label': ariaLabel,
 }): React.ReactElement => {
-  const { section, stagger: staggerVariants, viewport } = useScrollMotion();
-  const variants = stagger ? staggerVariants : section;
+  const { stagger: staggerVariants, viewport } = useScrollMotion();
+
+  if (!stagger) {
+    return (
+      <HomeSectionRevealRoot
+        id={id}
+        className={className}
+        aria-label={ariaLabel}
+      >
+        {children}
+      </HomeSectionRevealRoot>
+    );
+  }
 
   return (
     <HomeSectionRevealRoot
       id={id}
       className={className}
       aria-label={ariaLabel}
-      variants={variants}
+      variants={staggerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}

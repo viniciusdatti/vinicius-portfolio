@@ -50,7 +50,7 @@ export const HeroOperationalGrid = styled.div`
       ${({ theme }) => theme.colors.borderSubtle}40 1px,
       transparent 1px
     );
-  background-size: 48px 48px;
+  background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 85% 70% at 50% 40%, black 20%, transparent 72%);
   opacity: 0.5;
   animation: ${gridPulse} 8s ease-in-out infinite;

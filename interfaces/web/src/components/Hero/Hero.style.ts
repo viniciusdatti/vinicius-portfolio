@@ -32,37 +32,12 @@ const scrollCueBounce = (theme: DefaultTheme) => keyframes`
   };
 `;
 
+/**
+ * @deprecated Warp 33/66% column guides removed — distracting vertical rails behind hero copy.
+ */
 export const HeroColumnGuides = styled.div`
-  position: absolute;
-  inset: 0;
-  left: ${({ theme }) => theme.spacing.pageX};
-  right: ${({ theme }) => theme.spacing.pageX};
-  pointer-events: none;
-  z-index: 1;
   display: none;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    display: block;
-  };
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 10%;
-    bottom: 14%;
-    width: 1px;
-    background: ${({ theme }) => theme.colors.borderSubtle};
-    opacity: ${({ theme }) => theme.effects.opacity.subtle};
-  };
-
-  &::before {
-    left: 33%;
-  };
-
-  &::after {
-    left: 66%;
-  };
+  pointer-events: none;
 `;
 
 /** Background stack — dot grid + hero center wash (z-index 0, under WebGL). */
@@ -74,7 +49,7 @@ export const HeroBackgroundStack = styled.div`
   overflow: hidden;
 `;
 
-/** Warp-style 24px technical dot grid — masked to hero viewport. */
+/** Warp-style technical dot grid — cell size from theme.sizes.hero.gridCell. */
 export const HeroDotGrid = styled.div`
   position: absolute;
   inset: 0;
@@ -83,7 +58,8 @@ export const HeroDotGrid = styled.div`
     ${({ theme }) => theme.colors.borderSubtle} 1px,
     transparent 0
   );
-  background-size: 24px 24px;
+  background-size: ${({ theme }) => theme.sizes.hero.gridCell}
+    ${({ theme }) => theme.sizes.hero.gridCell};
   opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
   mask-image: ${({ theme }) => theme.colors.gradientGridMask};
   pointer-events: none;
@@ -302,7 +278,7 @@ export const HeroSection = styled.section`
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
-  padding: ${({ theme }) => theme.sizes.layout.headerOffset}
+  padding: ${({ theme }) => theme.spacing.lg}
     ${({ theme }) => theme.spacing.pageX}
     ${({ theme }) => theme.spacing.sectionSm};
   overflow: hidden;
@@ -315,11 +291,8 @@ export const HeroSection = styled.section`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     min-height: ${({ theme }) => theme.sizes.hero.minHeight};
+    padding-top: ${({ theme }) => theme.spacing.xl};
     padding-bottom: ${({ theme }) => theme.spacing.sectionSm};
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    justify-content: center;
   };
 `;
 

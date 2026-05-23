@@ -32,8 +32,8 @@ export const PresenceStrip = styled.section`
   z-index: 3;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.pageX};
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.pageX};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
   min-height: 5.5rem;
 `;
 

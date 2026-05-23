@@ -1,23 +1,35 @@
 // Core
 import { useEffect, useState } from 'react';
 
-// =================================================================================================
-// ============================================= HOOK ==============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
+
+/**
+ * Synchronous WebGL2 probe — avoids a null first paint that never recovers in some HMR paths.
+ */
+const detectWebGL2 = (): boolean => {
+  if (typeof document === 'undefined') {
+    return false;
+  }
+  const canvas: HTMLCanvasElement = document.createElement('canvas');
+  const gl: WebGL2RenderingContext | null = canvas.getContext('webgl2');
+  return gl !== null;
+};
+
+/* *************************************************************************************************
+ ********************************************** HOOK ***********************************************
+ ************************************************************************************************ */
 
 /**
  * Detects WebGL2 support once on mount (for lazy R3F atmosphere fallback).
  */
 export const useWebGLAvailable = (): boolean => {
-  const [available, setAvailable] = useState<boolean>(false);
+  const [available, setAvailable] = useState<boolean>(detectWebGL2);
 
   useEffect(() => {
-    if (typeof document === 'undefined') {
-      return undefined;
-    }
-    const canvas: HTMLCanvasElement = document.createElement('canvas');
-    const gl: WebGL2RenderingContext | null = canvas.getContext('webgl2');
-    setAvailable(gl !== null);
+    const next: boolean = detectWebGL2();
+    setAvailable(next);
     return undefined;
   }, []);
 
