@@ -32,14 +32,12 @@ import { TelemetrySensorCard } from '@/components/workspace/TelemetryMonitor/Tel
 import {
   ChartPaneFallback,
   ConnectingState,
-  MonitorChartPane,
   MonitorDashboard,
-  MonitorGrid,
   MonitorHeader,
   MonitorHeaderGroup,
-  MonitorMonitorsGrid,
+  MonitorHeroChart,
   MonitorRoot,
-  MonitorSensorsPane,
+  MonitorSensorStrip,
   MonitorStatus,
   MonitorTerminalRow,
   MonitorTitle,
@@ -135,25 +133,30 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
       ) : null}
 
       {showMonitor && readings.length > 0 ? (
-        <MonitorDashboard>
-          <MonitorMonitorsGrid>
-            <MonitorChartPane data-testid="telemetry-chart-pane">
-              <Suspense fallback={<ChartPaneFallback aria-hidden />}>
-                <TelemetryTrendChart
-                  readings={readings}
-                  history={history}
-                  title={t('liveLab.monitor.trendChart')}
-                />
-              </Suspense>
-            </MonitorChartPane>
-            <MonitorSensorsPane data-testid="telemetry-sensors-pane">
-              <MonitorGrid>
-                {readings.map((r, index) => (
-                  <TelemetrySensorCard key={r.id} reading={r} index={index} />
-                ))}
-              </MonitorGrid>
-            </MonitorSensorsPane>
-          </MonitorMonitorsGrid>
+        <MonitorDashboard
+          $hasTerminal={
+            showEventLog && eventLogPlacement === TelemetryEventLogPlacement.Embedded
+          }
+        >
+          <MonitorHeroChart data-testid="telemetry-chart-pane">
+            <Suspense fallback={<ChartPaneFallback aria-hidden />}>
+              <TelemetryTrendChart
+                readings={readings}
+                history={history}
+                title={t('liveLab.monitor.trendChart')}
+              />
+            </Suspense>
+          </MonitorHeroChart>
+          <MonitorSensorStrip data-testid="telemetry-sensors-pane">
+            {readings.map((r, index) => (
+              <TelemetrySensorCard
+                key={r.id}
+                reading={r}
+                index={index}
+                compact
+              />
+            ))}
+          </MonitorSensorStrip>
           {showEventLog && eventLogPlacement === TelemetryEventLogPlacement.Embedded ? (
             <MonitorTerminalRow data-testid="telemetry-terminal-row">
               <TelemetryOperationalEventLog

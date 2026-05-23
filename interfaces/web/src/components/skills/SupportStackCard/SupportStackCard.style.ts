@@ -12,6 +12,8 @@ import type { SupportStackCardStyleProps } from '@/components/skills/SupportStac
 
 // Components
 import {
+  cardBodyReadable,
+  cardTitleReadable,
   interactiveLift,
   operationalGlass,
 } from '@/styles/surfaces';
@@ -235,8 +237,7 @@ export const SupportStackLabel = styled.span<SupportStackCardStyleProps>`
   color: ${({ theme }) => theme.colors.text};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  ${cardTitleReadable};
 `;
 
 export const SupportStackDescription = styled.span<SupportStackCardStyleProps>`
@@ -252,6 +253,5 @@ export const SupportStackDescription = styled.span<SupportStackCardStyleProps>`
   )};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
+  ${cardBodyReadable};
 `;

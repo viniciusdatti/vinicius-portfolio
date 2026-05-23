@@ -11,6 +11,7 @@ import { surfaceMotion } from '@/styles/surfaces';
  ************************************************************************************************ */
 
 const CAPABILITY_SIGNAL_COL: string = '4.5rem';
+const CAPABILITY_SIGNAL_COL_MOBILE: string = '3.25rem';
 const CAPABILITY_ICON_SLOT: string = '40px';
 const CAPABILITY_META_COL: string = 'minmax(13rem, 20rem)';
 
@@ -118,6 +119,11 @@ export const CapabilityLink = styled(MotionCapabilityLink)`
   color: ${({ theme }) => theme.colors.primary};
   white-space: nowrap;
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
   &:hover {
     text-decoration: underline;
   };
@@ -145,16 +151,17 @@ export const CapabilityRow = styled(motion.li)`
     box-shadow ${({ theme }) => theme.transitions.normal};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: ${CAPABILITY_SIGNAL_COL} minmax(0, 1fr);
+    grid-template-columns: ${CAPABILITY_SIGNAL_COL_MOBILE} minmax(0, 1fr);
     grid-template-rows: auto auto;
     align-items: start;
-    column-gap: ${({ theme }) => theme.spacing.md};
+    column-gap: ${({ theme }) => theme.spacing.sm};
     row-gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
 
     & > :first-child {
       grid-column: 1;
       grid-row: 1;
-      align-self: center;
+      align-self: start;
     }
 
     & > :nth-child(2) {
@@ -168,6 +175,28 @@ export const CapabilityRow = styled(motion.li)`
       grid-row: 2;
       min-width: 0;
       padding-top: ${({ theme }) => theme.spacing.xs};
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    row-gap: ${({ theme }) => theme.spacing.sm};
+
+    & > :first-child {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    & > :nth-child(2) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    & > :nth-child(3) {
+      grid-column: 1;
+      grid-row: 3;
+      padding-top: 0;
     }
   }
 
@@ -191,6 +220,7 @@ export const CapabilityFeaturedRow = styled(motion.li)`
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
     gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.lg};
   };
 `;
 
@@ -202,6 +232,8 @@ export const CapabilitySignal = styled.span`
   color: ${({ theme }) => theme.colors.accent};
   opacity: 0.75;
   font-variant-numeric: tabular-nums;
+  min-width: 0;
+  overflow-wrap: anywhere;
 `;
 
 export const CapabilityNameLead = styled.div<{ $featured?: boolean }>`
@@ -298,6 +330,8 @@ export const CapabilityFeaturedDesc = styled.p`
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: 36ch;
+  min-width: 0;
+  overflow-wrap: anywhere;
 `;
 
 export const CapabilityFeaturedDomain = styled.span`

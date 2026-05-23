@@ -80,8 +80,7 @@ export const MonitorRoot = styled.div`
   flex: 1;
   height: 100%;
   min-height: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   background: transparent;
   ${operationalMono};
   position: relative;
@@ -115,7 +114,11 @@ export const MonitorHeader = styled.div`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  }
   border-bottom: 1px solid ${({ theme }) => theme.colors.border};
   flex-shrink: 0;
   background: ${({ theme }) => theme.colors.surfaceGlass};
@@ -197,117 +200,119 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
     && css`animation: ${blink} 2.2s ease-in-out infinite;`};
 `;
 
-/** Row 1 + row 2 shell — terminal is never a grid child of the monitors row. */
-export const MonitorDashboard = styled.div`
+/** Chart + sensors + optional terminal — column on mobile, chart+log split on desktop. */
+export const MonitorDashboard = styled.div<{ $hasTerminal?: boolean }>`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex: 1 1 auto;
+  align-self: stretch;
   min-height: 0;
-  gap: ${({ theme }) => theme.spacing.md};
+  height: 100%;
+  gap: ${({ theme }) => theme.spacing.sm};
   width: 100%;
   min-width: 0;
-  overflow: visible;
-  padding: 0 ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.lg};
-`;
+  overflow: hidden;
+  padding: 0 ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 
-/** Row 1 — strict 12-column monitors grid (chart 4 / sensors 8 on desktop). */
-export const MonitorMonitorsGrid = styled.div`
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: ${({ theme }) => theme.spacing.md};
-  width: 100%;
-  min-width: 0;
-  flex-shrink: 0;
-  align-content: start;
-  align-items: stretch;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    gap: ${({ theme }) => theme.spacing.lg};
-    min-height: clamp(280px, 42vh, 400px);
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    gap: ${({ theme }) => theme.spacing.md};
+    padding: 0 ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.lg};
   };
+
+  ${({ $hasTerminal, theme }) => $hasTerminal && css`
+    @media (min-width: ${theme.breakpoints.desktop}) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 30%);
+      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-areas:
+        'chart terminal'
+        'sensors terminal';
+      align-items: stretch;
+    }
+  `};
 `;
 
-/** Row 2 — full-width terminal band below the monitors grid. */
+/** Embedded event log — beside chart on desktop; capped band on mobile. */
 export const MonitorTerminalRow = styled.div`
   flex: 0 0 auto;
   width: 100%;
   min-width: 0;
+  min-height: 0;
+  max-height: min(18vh, 168px);
+  overflow: hidden;
   isolation: isolate;
   contain: layout style;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-area: terminal;
+    width: auto;
+    max-height: none;
+    height: 100%;
+  };
+
+  & > * {
+    height: 100%;
+    max-height: 100%;
+  }
 `;
 
 /** Placeholder while Recharts chunk loads — keeps layout stable on Live Lab mount. */
 export const ChartPaneFallback = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: 100%;
   height: 100%;
-  min-height: clamp(180px, 28vh, 260px);
+  min-height: 0;
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   background: ${({ theme }) => theme.colors.surface};
   opacity: ${({ theme }) => theme.effects.opacity.subtle};
 `;
 
-export const MonitorChartPane = styled.div`
-  grid-column: 1 / -1;
-  min-width: 0;
-  min-height: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: rgba(11, 13, 16, 0.82);
-  backdrop-filter: blur(6px);
+/** Full-width hero trend chart — primary visual focus. */
+export const MonitorHeroChart = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    flex: 0 0 auto;
+    height: clamp(180px, 34vh, 260px);
+    min-height: clamp(180px, 34vh, 260px);
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-area: chart;
+    height: 100%;
+  };
+
+  padding: ${({ theme }) => theme.spacing.sm};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background: rgba(11, 13, 16, 0.88);
+  backdrop-filter: blur(8px);
   overflow: hidden;
   isolation: isolate;
   contain: layout style;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: span 5;
-    border-bottom: none;
-    border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    grid-column: span 6;
-  };
 `;
 
-export const MonitorSensorsPane = styled.div`
-  grid-column: 1 / -1;
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  background: rgba(11, 13, 16, 0.78);
-  backdrop-filter: blur(4px);
-  isolation: isolate;
-  contain: layout style;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: span 7;
-    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    grid-column: span 6;
-  };
-`;
-
-export const MonitorGrid = styled.div`
+/** Compact sensor metrics below the hero chart. */
+export const MonitorSensorStrip = styled.div`
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: ${({ theme }) => theme.spacing.sm};
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 0 0 auto;
+  gap: ${({ theme }) => theme.spacing.xs};
+  width: 100%;
   min-width: 0;
-  height: 100%;
-  align-content: start;
-  align-items: stretch;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: ${({ theme }) => theme.spacing.md};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-area: sensors;
   };
 `;
 
@@ -317,15 +322,27 @@ const sensorSweep = keyframes`
   100% { transform: translateX(200%); opacity: 0; }
 `;
 
-export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: number }>`
-  background: ${({ theme }) => theme.colors.surfaceGlass};
-  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+export const SensorCard = styled.div<{
+  $status: SensorStatus;
+  $sweepDelay?: number;
+  $compact?: boolean;
+}>`
+  background: ${({ theme, $compact }) => ($compact
+    ? theme.colors.backgroundSecondary
+    : theme.colors.surfaceGlass)};
+  backdrop-filter: ${({ theme, $compact }) => ($compact
+    ? 'none'
+    : theme.effects.backdrop.glass)};
+  padding: ${({ theme, $compact }) => ($compact
+    ? `${theme.spacing.xs} ${theme.spacing.sm}`
+    : `${theme.spacing.xs} ${theme.spacing.sm}`)};
   position: relative;
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  box-shadow: ${({ $compact, theme }) => ($compact
+    ? 'none'
+    : `inset 0 1px 0 ${theme.colors.borderLight}`)};
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
@@ -340,10 +357,10 @@ export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: numb
     top: 0;
     left: 0;
     width: 100%;
-    height: 2px;
+    height: ${({ $compact }) => ($compact ? '1px' : '2px')};
     background: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
     transition: background ${({ theme }) => theme.transitions.normal};
-    opacity: 0.9;
+    opacity: ${({ $compact }) => ($compact ? 0.75 : 0.9)};
   }
 
   &::after {
@@ -359,6 +376,10 @@ export const SensorCard = styled.div<{ $status: SensorStatus; $sweepDelay?: numb
     animation: ${sensorSweep} 7s ease-in-out infinite;
     animation-delay: ${({ $sweepDelay }) => ($sweepDelay ?? 0)}s;
     pointer-events: none;
+
+    ${({ $compact }) => $compact && css`
+      display: none;
+    `};
 
     @media (prefers-reduced-motion: reduce) {
       animation: none;
@@ -422,20 +443,23 @@ export const SensorLabel = styled.div`
 export const SensorValueRow = styled.div`
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: nowrap;
+  gap: ${({ theme }) => theme.spacing.xs};
+  min-width: 0;
 `;
 
 export const SensorValue = styled.span<{ $status: SensorStatus }>`
   display: inline-block;
   ${operationalMono};
-  font-size: clamp(1.05rem, 2.2vw, 1.25rem);
+  font-size: clamp(0.9rem, 3.6vw, 1.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: ${({ $status, theme }) => getSensorValueColor($status, theme)};
   transition: color ${({ theme }) => theme.transitions.normal};
   white-space: nowrap;
+  flex-shrink: 1;
+  min-width: 0;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
   padding: 2px 4px;
   margin: -2px -4px;
@@ -445,6 +469,8 @@ export const SensorUnit = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textMuted};
   ${operationalMono};
+  flex-shrink: 0;
+  white-space: nowrap;
 `;
 
 export const ThresholdBar = styled.div`
@@ -486,15 +512,21 @@ export const ThresholdLimit = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   letter-spacing: 0.06em;
   color: ${({ theme }) => theme.colors.textMuted};
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    white-space: nowrap;
+  }
 `;
 
 export const EventLogRoot = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-height: min(32vh, 240px);
-  min-height: 140px;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   background: ${({ theme }) => theme.colors.backgroundSecondary};
@@ -605,7 +637,10 @@ export const ConnectingState = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 1 1 auto;
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
   gap: ${({ theme }) => theme.spacing.sm};
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};

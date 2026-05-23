@@ -12,8 +12,11 @@ import { SkillLayoutTier } from '@/domain/skills/skillLayout.domain';
 
 // Components
 import {
+  cardBodyReadable,
   cardMarketingGlass,
   cardPointerVars,
+  cardTitleClamp,
+  cardTitleClamp3,
   panelChrome,
   surfaceMotion,
 } from '@/styles/surfaces';
@@ -201,6 +204,7 @@ export const ExperienceCard = styled(motion.div)<ExperienceCardLayoutProps>`
  * Experience card title.
  */
 export const ExperienceCardTitle = styled.h3`
+  ${cardTitleClamp};
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   margin-bottom: ${({ theme }) => theme.spacing.sm};
@@ -211,6 +215,7 @@ export const ExperienceCardTitle = styled.h3`
  * Experience card description (main body).
  */
 export const ExperienceCardDescription = styled.p`
+  ${cardBodyReadable};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.normal};
@@ -221,6 +226,7 @@ export const ExperienceCardDescription = styled.p`
  * Highlight copy — no per-card accent bar (section anchors only).
  */
 export const ExperienceCardHighlight = styled.p`
+  ${cardBodyReadable};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.textSecondary};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
@@ -431,7 +437,12 @@ export const SkillCategoryLabel = styled(motion.span)`
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
   text-transform: uppercase;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    white-space: nowrap;
+  }
 `;
 
 /**
@@ -442,7 +453,7 @@ export const SkillEditorialCard = styled(motion.div)<SkillEditorialCardProps>`
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: ${({ theme }) => theme.spacing.lg};
 
   @media (hover: none) {
@@ -551,14 +562,12 @@ export interface SkillNameSizeProps {
  * Skill name — typography scales with tier.
  */
 export const SkillEditorialName = styled.h3<SkillNameSizeProps>`
+  ${cardTitleClamp};
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   color: ${({ theme }) => theme.colors.text};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   ${({ $tier }) => {
     switch ($tier) {
@@ -592,6 +601,7 @@ export const SkillEditorialName = styled.h3<SkillNameSizeProps>`
 `;
 
 export const SkillEditorialDomain = styled.span`
+  ${cardBodyReadable};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.12em;
@@ -606,7 +616,6 @@ export const SkillEditorialInfo = styled.div`
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.xs};
   min-width: 0;
-  overflow: hidden;
 `;
 
 /**
@@ -817,14 +826,11 @@ export const PlatformLogo = styled.div<PlatformLogoProps>`
  * Certificate course/certification name.
  */
 export const CertificateName = styled.h4`
+  ${cardTitleClamp3};
   font-size: ${({ theme }) => theme.typography.fontSize.md};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 `;
 
 /**

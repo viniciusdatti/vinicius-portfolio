@@ -89,6 +89,12 @@ export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
           display: flex;
           flex-direction: column;
           overflow: hidden;
+
+          body:not(.live-lab-immersive) & {
+            height: auto;
+            min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
+            overflow: visible;
+          }
         `
     : css`
           min-height: 0;
@@ -108,4 +114,9 @@ export const WorkspaceMotionShell = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+
+  body:not(.live-lab-immersive) & {
+    height: auto;
+    min-height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+  }
 `;

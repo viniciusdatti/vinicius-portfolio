@@ -38,6 +38,10 @@ export const BootRoot = styled(motion.div)`
   position: relative;
   overflow: hidden;
 
+  body.workspace-operational & {
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  }
+
   &::after {
     content: '';
     position: absolute;

@@ -24,10 +24,11 @@ export const telemetryMicroSnapTransition = motionPresets.spring.physical;
  * Slide-up com fade — entrada suave, saída para cima.
  * Funciona em todas as páginas exceto Live Lab.
  */
-/** Canonical route enter — Y slide only (opacity stays 1 — avoids blank route shell). */
+/** Canonical route enter — fade + slide-up on navigation. */
 export const pageEnter: Variants = {
   initial: {
-    y: motionPresets.distance.pageEnter,
+    opacity: 0,
+    y: motionPresets.distance.fadeUp,
   },
   animate: {
     opacity: 1,
@@ -84,7 +85,7 @@ const scrollRevealReducedTransition = {
 } as const;
 
 export const scrollRevealReduced: Variants = {
-  hidden: { opacity: 1, y: 0 },
+  hidden: { opacity: 0, y: 0 },
   visible: {
     opacity: 1,
     y: 0,
@@ -99,12 +100,16 @@ export const scrollRevealReduced: Variants = {
 /** Canonical section reveal — item distance Y, normal duration, ease.out. */
 export const SCROLL_REVEAL_DURATION_S = motionPresets.duration.normal;
 
-export const SCROLL_REVEAL_Y_PX = motionPresets.distance.item;
+/** Section/card reveal distance — perceptible fade-up without editorial overshoot. */
+export const SCROLL_REVEAL_Y_PX = motionPresets.distance.fadeUp;
+
+/** Gradient-safe page titles — Y-only so headline gradients never flash invisible. */
+export const SCROLL_REVEAL_TITLE_Y_PX = motionPresets.distance.editorial;
 
 /** Title-only depth cue — lighter than legacy 6px full-section blur. */
 export const SCROLL_REVEAL_TITLE_BLUR = '3px';
 
-export const SCROLL_REVEAL_STAGGER_CHILD_S = 0.05;
+export const SCROLL_REVEAL_STAGGER_CHILD_S = motionPresets.stagger.child;
 
 /** Row cascade — delay between asymmetric grid rows (Projects showcase). */
 export const SCROLL_REVEAL_ROW_STAGGER_CHILD_S = 0.12;
@@ -125,12 +130,12 @@ const scrollRevealTransition = {
 } as const;
 
 /**
- * Page title reveal — editorial Y only (opacity stays 1 if whileInView is delayed).
+ * Page title reveal — editorial Y only (opacity stays 1 for gradient headline safety).
  */
 export const scrollRevealTitle: Variants = {
   hidden: {
     opacity: 1,
-    y: SCROLL_REVEAL_Y_PX,
+    y: SCROLL_REVEAL_TITLE_Y_PX,
     scale: 1,
   },
   visible: {
@@ -160,7 +165,7 @@ export const resolvePageTransition = (
  */
 export const scrollReveal: Variants = {
   hidden: {
-    opacity: 1,
+    opacity: 0,
     y: SCROLL_REVEAL_Y_PX,
     scale: 1,
   },
@@ -231,9 +236,9 @@ export const scrollRevealRowReduced: Variants = scrollRevealStaggerReduced;
  */
 export const scrollRevealDepth: Variants = {
   hidden: {
-    opacity: 1,
+    opacity: 0,
     y: SCROLL_REVEAL_Y_PX,
-    scale: 1.01,
+    scale: 1.02,
   },
   visible: {
     opacity: 1,
@@ -250,7 +255,7 @@ export const scrollRevealDepthReduced: Variants = scrollRevealReduced;
  */
 export const scrollRevealItem: Variants = {
   hidden: {
-    opacity: 1,
+    opacity: 0,
     y: SCROLL_REVEAL_Y_PX,
     scale: 1,
   },
@@ -262,14 +267,7 @@ export const scrollRevealItem: Variants = {
   },
 };
 
-export const scrollRevealItemReduced: Variants = {
-  hidden: { opacity: 1, y: 0 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: scrollRevealReducedTransition,
-  },
-};
+export const scrollRevealItemReduced: Variants = scrollRevealReduced;
 
 /* *************************************************************************************************
  **************************************** MANIFESTO REVEAL *****************************************

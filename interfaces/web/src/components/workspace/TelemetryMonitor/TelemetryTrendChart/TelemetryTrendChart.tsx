@@ -74,10 +74,10 @@ const TelemetryPulseDot = ({
 };
 
 const CHART_MARGIN: TelemetryTrendChartMargin = {
-  top: 16,
-  right: 0,
-  left: -10,
-  bottom: 0,
+  top: 20,
+  right: 8,
+  left: 0,
+  bottom: 8,
 };
 
 /* *************************************************************************************************
@@ -235,7 +235,7 @@ export const TelemetryTrendChart = ({
                     dataKey={r.id}
                     name={resolveTelemetrySensorLabel(r, t)}
                     dot={lineAnimationActive ? TelemetryPulseDot : false}
-                    strokeWidth={1.75}
+                    strokeWidth={2.25}
                     stroke={stroke}
                     activeDot={TelemetryPulseDot}
                     isAnimationActive={lineAnimationActive}

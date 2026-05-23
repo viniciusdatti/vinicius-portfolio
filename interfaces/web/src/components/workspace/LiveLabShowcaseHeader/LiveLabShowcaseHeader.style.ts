@@ -41,6 +41,11 @@ export const ShowcaseHeaderRoot = styled(motion.header)`
     gap: ${({ theme }) => theme.spacing.sm};
   };
 
+  body.workspace-operational & {
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+    gap: ${({ theme }) => theme.spacing.sm};
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -72,6 +77,11 @@ export const ShowcaseTitle = styled(motion.h1)`
   line-height: 1.1;
   margin: 0 0 ${({ theme }) => theme.spacing.xs};
   color: ${({ theme }) => theme.colors.text};
+
+  body.workspace-operational & {
+    font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+    margin: 0;
+  }
 `;
 
 export const ShowcaseLead = styled(motion.p)`
@@ -80,6 +90,10 @@ export const ShowcaseLead = styled(motion.p)`
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.proseWide};
+
+  body.workspace-operational & {
+    display: none;
+  }
 `;
 
 export const ShowcaseMetaRow = styled(motion.div)`
@@ -108,7 +122,14 @@ export const LiveSignalStatus = styled.div<{ $live: boolean }>`
     ? theme.colors.successSurface
     : theme.colors.mutedSurface)};
   max-width: 100%;
-  white-space: nowrap;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    white-space: nowrap;
+  }
+
   ${({ $live, theme }) => $live && css`
     box-shadow: 0 0 28px ${theme.colors.primary}2e;
   `}

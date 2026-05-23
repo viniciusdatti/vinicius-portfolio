@@ -1,13 +1,10 @@
 // Core
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 // Libraries
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,9 +28,13 @@ export interface LiveLabWorkspacePinState {
  ******************************************** CONSTANTS ********************************************
  ************************************************************************************************ */
 
-const DESKTOP_QUERY: string = '(min-width: 1024px)';
-const SCROLL_DISTANCE: string = '+=200%';
 const PIN_START: string = 'top top+=6rem';
+const LOG_SCROLL_FALLBACK_PX: number = 320;
+
+const resolveLogScrollDistance = (logFlow: HTMLElement | null): string => {
+  const logHeight: number = logFlow?.offsetHeight ?? LOG_SCROLL_FALLBACK_PX;
+  return `+=${Math.max(logHeight, LOG_SCROLL_FALLBACK_PX)}`;
+};
 
 /* *************************************************************************************************
  ********************************************** HOOK ***********************************************
@@ -43,24 +44,16 @@ const PIN_START: string = 'top top+=6rem';
  * Pins the Live Lab monitor stage while the event log band scrolls through the viewport.
  */
 export const useLiveLabWorkspacePin = (): LiveLabWorkspacePinState => {
-  const reduced: boolean = usePrefersReducedMotion();
-  const [isDesktop, setIsDesktop] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia(DESKTOP_QUERY).matches;
-  });
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const logFlowRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
 
-  const pinEnabled: boolean = !reduced && isDesktop;
-
-  useEffect(() => {
-    const media: MediaQueryList = window.matchMedia(DESKTOP_QUERY);
-    const onChange = (): void => setIsDesktop(media.matches);
-    media.addEventListener('change', onChange);
-    return (): void => media.removeEventListener('change', onChange);
-  }, []);
+  /**
+   * GSAP pin collapsed the stage (~267px) and clipped the trend chart — disabled until
+   * pin spacing is reconciled with the viewport flex budget (MCP-validated 2026-05-23).
+   */
+  const pinEnabled: boolean = false;
 
   useEffect(() => {
     document.body.classList.add('workspace-operational');
@@ -96,7 +89,7 @@ export const useLiveLabWorkspacePin = (): LiveLabWorkspacePinState => {
         scrollTrigger: {
           trigger: section,
           start: PIN_START,
-          end: SCROLL_DISTANCE,
+          end: () => resolveLogScrollDistance(logFlow),
           pin: stage,
           scrub: 1,
           anticipatePin: 1,

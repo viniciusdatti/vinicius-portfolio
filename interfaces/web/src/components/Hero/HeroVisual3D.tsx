@@ -36,7 +36,7 @@ const SPHERE_HEIGHT_STRETCH: number = 0.94;
 const AMBER_HEX: string = '#00E5FF';
 /** Hard cap — fine star-dust; must not compete with headline or portrait. */
 const PARTICLE_SIZE: number = 0.028;
-const PARTICLE_OPACITY: number = 0.38;
+const PARTICLE_OPACITY: number = 0.52;
 const POINTER_SPREAD: number = 1.75;
 const IDLE_DRIFT_X: number = 0.18;
 const IDLE_DRIFT_Z: number = 0.14;
