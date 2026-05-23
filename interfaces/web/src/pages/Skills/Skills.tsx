@@ -4,14 +4,18 @@
  */
 
 // Core
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence, type Variants } from 'framer-motion';
 
 // Types
-import { SkillCategory, type Certificate, type Skill } from '@/types';
+import type { Certificate, Skill } from '@/types';
 
 // Hooks
 import { useSkills, useCertificates } from '@/hooks';
@@ -51,8 +55,6 @@ import {
   Section,
   SectionTitle,
   SectionTitleGradient,
-  CategoryTabs,
-  CategoryTab,
   SkillsStaggerSlot,
   SkillsGrid,
   SkillsEditorialLayout,
@@ -116,28 +118,13 @@ import {
 // ============================================= TYPES =============================================
 // =================================================================================================
 
-interface CategoryOption {
-  key: SkillCategory | 'all';
-  label: string;
-}
-
 interface SkillsPageState {
-  activeCategory: SkillCategory | 'all';
   selectedCertificate: Certificate | null;
 }
 
 // =================================================================================================
 // ============================================ CONSTANTS ==========================================
 // =================================================================================================
-
-const categories: CategoryOption[] = [
-  { key: 'all', label: '' },
-  { key: SkillCategory.Frontend, label: 'Frontend' },
-  { key: SkillCategory.Backend, label: 'Backend' },
-  { key: SkillCategory.Testing, label: 'Testes' },
-  { key: SkillCategory.Tools, label: 'Ferramentas' },
-  { key: SkillCategory.Realtime, label: 'Real-time' },
-];
 
 const EXPERIENCE_ITEM_KEYS: readonly string[] = [
   'auth',
@@ -178,7 +165,6 @@ const MARKETING_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
 ]);
 
 const initialState: SkillsPageState = {
-  activeCategory: 'all',
   selectedCertificate: null,
 };
 
@@ -361,15 +347,9 @@ export const Skills: React.FC = (): React.ReactElement => {
     refetch: refetchCertificates,
   } = useCertificates();
 
-  const filteredSkills: Skill[] = useMemo((): Skill[] => (
-    state.activeCategory === 'all'
-      ? skills
-      : skills.filter((skill: Skill) => skill.category === state.activeCategory)
-  ), [skills, state.activeCategory]);
-
   const editorialLayout: EditorialSkillsLayout = useMemo(
-    (): EditorialSkillsLayout => buildEditorialSkillsLayout(filteredSkills),
-    [filteredSkills],
+    (): EditorialSkillsLayout => buildEditorialSkillsLayout(skills),
+    [skills],
   );
 
   const sortedCertificates: Certificate[] = useMemo(
@@ -381,10 +361,6 @@ export const Skills: React.FC = (): React.ReactElement => {
     editorialLayout.peripheral.length > 0
     && (editorialLayout.hero !== null || editorialLayout.coreRow.length > 0)
   ), [editorialLayout]);
-
-  const handleCategoryChange = useCallback((category: SkillCategory | 'all'): void => {
-    setState((prev: SkillsPageState) => ({ ...prev, activeCategory: category }));
-  }, []);
 
   const handleCertificateClick = useCallback((cert: Certificate): void => {
     setState((prev: SkillsPageState) => ({ ...prev, selectedCertificate: cert }));
@@ -472,14 +448,24 @@ export const Skills: React.FC = (): React.ReactElement => {
     return (
       <SupportStackMatrix>
         {featuredPlacements.length > 0 ? (
-          <SupportStackFeaturedRow>
+          <SupportStackFeaturedRow
+            variants={scrollMotion.stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={scrollMotion.viewport}
+          >
             {featuredPlacements.map((placement: SkillLayoutPlacement) => (
               renderPeripheralSkillCard(placement)
             ))}
           </SupportStackFeaturedRow>
         ) : null}
         {compactPlacements.length > 0 ? (
-          <SupportStackGrid>
+          <SupportStackGrid
+            variants={scrollMotion.stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={scrollMotion.viewport}
+          >
             {compactPlacements.map((placement: SkillLayoutPlacement) => (
               renderPeripheralSkillCard(placement)
             ))}
@@ -516,7 +502,6 @@ export const Skills: React.FC = (): React.ReactElement => {
 
     return (
       <SkillsEditorialLayout
-        key={state.activeCategory}
         variants={scrollMotion.stagger}
         initial="hidden"
         whileInView="visible"
@@ -529,7 +514,12 @@ export const Skills: React.FC = (): React.ReactElement => {
             <SkillsCoreLead>{t('skills.layout.coreLead')}</SkillsCoreLead>
             {hero !== null ? renderHeroBlock(hero) : null}
             {coreRow.length > 0 ? (
-              <SkillsAsymmetricGrid>
+              <SkillsAsymmetricGrid
+                variants={scrollMotion.stagger}
+                initial="hidden"
+                whileInView="visible"
+                viewport={scrollMotion.viewport}
+              >
                 {coreRow.map((placement: SkillLayoutPlacement) => renderSkillCard(placement))}
               </SkillsAsymmetricGrid>
             ) : null}
@@ -575,11 +565,7 @@ export const Skills: React.FC = (): React.ReactElement => {
       );
     }
 
-    return (
-      <AnimatePresence mode="wait">
-        {renderEditorialSkills()}
-      </AnimatePresence>
-    );
+    return renderEditorialSkills();
   };
 
   const renderCertificatesContent = (): React.ReactElement => {
@@ -688,24 +674,11 @@ export const Skills: React.FC = (): React.ReactElement => {
         whileInView="visible"
         viewport={scrollMotion.viewport}
       >
-        <CategoryTabs>
-          {categories.map((cat: CategoryOption) => (
-            <CategoryTab
-              key={cat.key}
-              $active={state.activeCategory === cat.key}
-              onClick={() => handleCategoryChange(cat.key)}
-              whileTap={{ scale: 0.98 }}
-            >
-              {cat.key === 'all' ? t('skills.filterAll') : t(`skills.categories.${cat.key}`)}
-            </CategoryTab>
-          ))}
-        </CategoryTabs>
-
         {renderSkillsContent()}
       </Section>
 
       <ExperienceSection
-        variants={scrollMotion.section}
+        variants={scrollMotion.depth}
         initial="hidden"
         whileInView="visible"
         viewport={scrollMotion.viewport}
@@ -742,7 +715,7 @@ export const Skills: React.FC = (): React.ReactElement => {
       </ExperienceSection>
 
       <CertificatesSection
-        variants={scrollMotion.section}
+        variants={scrollMotion.depth}
         initial="hidden"
         whileInView="visible"
         viewport={scrollMotion.viewport}

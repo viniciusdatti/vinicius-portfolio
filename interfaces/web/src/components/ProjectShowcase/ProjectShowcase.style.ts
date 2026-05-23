@@ -15,6 +15,7 @@ import {
   cardShowcaseSurface,
   featuredSpotlight,
   showcasePointerTorch,
+  showcaseSpecularRim,
 } from '@/styles/surfaces';
 import {
   ProjectCanvasTone,
@@ -57,6 +58,49 @@ export const ShowcaseStaggerItem = styled(motion.div)`
   min-width: 0;
 `;
 
+/** Full-width row inside the asymmetric bento — row cascade + inner card stagger. */
+export const ShowcaseRow = styled(motion.div)<{ $isHeadRow?: boolean; $compact?: boolean }>`
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  grid-template-columns: 1fr;
+  gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
+
+    & > * {
+      grid-column: span 4;
+    }
+
+    ${({ $isHeadRow }) => ($isHeadRow ? `
+    & > *:nth-child(1) {
+      grid-column: span 8;
+    };
+
+    & > *:nth-child(2) {
+      grid-column: span 4;
+    };
+  ` : '')};
+
+    ${({ $compact, $isHeadRow }) => ($compact && $isHeadRow ? `
+    & > *:nth-child(1) {
+      grid-row: span 2;
+    };
+
+    & > *:nth-child(2) {
+      grid-row: 1;
+    };
+
+    & > *:nth-child(3) {
+      grid-row: 2;
+    };
+  ` : '')};
+  };
+`;
+
 export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   display: grid;
   width: 100%;
@@ -67,34 +111,6 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: 24px;
-
-    & > *:nth-child(1) {
-      grid-column: span 8;
-    }
-
-    & > *:nth-child(2) {
-      grid-column: span 4;
-    }
-
-    & > *:nth-child(n + 3) {
-      grid-column: span 4;
-    }
-
-    ${({ $compact }) => ($compact
-    ? `
-          & > *:nth-child(1) {
-            grid-row: span 2;
-          };
-
-          & > *:nth-child(2) {
-            grid-row: 1;
-          };
-
-          & > *:nth-child(3) {
-            grid-row: 2;
-          };
-        `
-    : '')};
   };
 `;
 
@@ -115,6 +131,10 @@ export const CardSpotlightTorch = styled.div`
   ${showcasePointerTorch};
 `;
 
+export const CardSpecularRim = styled.div`
+  ${showcaseSpecularRim};
+`;
+
 export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   --spot-x: ${({ $spotX }) => ($spotX != null ? `${$spotX * 100}%` : '50%')};
   --spot-y: ${({ $spotY }) => ($spotY != null ? `${$spotY * 100}%` : '50%')};
@@ -129,6 +149,8 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   cursor: pointer;
   position: relative;
   min-height: 44px;
+  transform-style: preserve-3d;
+  will-change: transform;
   ${cardShowcaseSurface};
   border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
   transition: border-color ${({ theme }) => theme.transitions.fast};

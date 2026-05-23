@@ -263,9 +263,13 @@ export const HeroPortrait = styled.div`
   aspect-ratio: ${AVATAR_PORTRAIT_FRAME_ASPECT_RATIO};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   overflow: hidden;
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border: 2px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   background: ${({ theme }) => theme.colors.surfaceElevated};
-  box-shadow: ${({ theme }) => theme.elevation.md}, ${({ theme }) => theme.shadows.glow};
+  box-shadow:
+    ${({ theme }) => theme.elevation.md},
+    ${({ theme }) => theme.shadows.glow},
+    0 0 28px ${({ theme }) => theme.colors.primary}22;
+  transition: border-color ${({ theme }) => theme.transitions.fast};
 
   &::before {
     content: '';
@@ -273,9 +277,15 @@ export const HeroPortrait = styled.div`
     inset: 0;
     border-radius: inherit;
     background: ${({ theme }) => theme.colors.gradientSurfaceRim};
-    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.primaryBorderFaint};
     pointer-events: none;
     z-index: 1;
+  };
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.primaryBorderStrong};
+    };
   };
 
   ${AvatarPortraitPhoto} {

@@ -21,13 +21,13 @@ import {
  * Animated timeline rail behind About experience section.
  */
 export const AboutTimelineCanvas = (): React.ReactElement => {
-  const { canvasRef, containerRef } = useCanvasTelemetryField({
+  const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Timeline,
     pulse: 0.35,
   });
 
   return (
-    <TimelineCanvasLayer ref={containerRef} aria-hidden>
+    <TimelineCanvasLayer ref={bindContainerRef} aria-hidden>
       <TimelineCanvasElement ref={canvasRef} />
     </TimelineCanvasLayer>
   );

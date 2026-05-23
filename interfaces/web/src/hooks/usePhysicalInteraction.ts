@@ -62,10 +62,11 @@ export const usePhysicalInteraction: UsePhysicalInteractionHook = <
     ref,
     position,
     isActive: isPointerActive,
+    element,
   }: UsePointerPositionHookResult<T> = usePointerPosition<T>(isDisabled);
 
   const { isActive: lifecycleActive }: Pick<UseMotionLifecycleResult, 'isActive'> = (
-    useMotionLifecycle(ref)
+    useMotionLifecycle(element)
   );
 
   const spring: Transition = motionPresets.spring.physical;
@@ -97,7 +98,7 @@ export const usePhysicalInteraction: UsePhysicalInteractionHook = <
         : {}),
     };
 
-    const shouldAnimate: boolean = lifecycleActive && isPointerActive;
+    const shouldAnimate: boolean = isPointerActive;
 
     const motionPropsResult: PhysicalInteractionMotionProps = {
       style,

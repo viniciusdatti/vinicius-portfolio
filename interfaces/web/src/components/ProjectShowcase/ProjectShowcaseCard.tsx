@@ -20,7 +20,8 @@ import type { ProjectShowcaseCardProps } from '@/components/ProjectShowcase/Proj
 import { getProjectDisplayTitle } from '@/domain/projects';
 import { Language } from '@/types';
 import { ProjectShowcaseVariant } from '@/components/ProjectShowcase/ProjectShowcase.types';
-import { usePointerPosition } from '@/hooks/usePointerPosition';
+import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { ProjectTerminalMock } from '@/components/ProjectShowcase/ProjectTerminalMock';
 import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
@@ -30,11 +31,10 @@ import {
   getProjectRepoSlug,
   resolveTechnologyCapabilityLabel,
 } from '@/utils/projectCaseCopy';
-import { PHYSICAL_TAP_SCALE } from '@/lib/motionPhysics';
-import { motionPresets } from '@/styles/motionPresets';
 import {
   ShowcaseStaggerItem,
   ShowcaseCard,
+  CardSpecularRim,
   CardSpotlightTorch,
   PreviewPanel,
   PreviewIndexWatermark,
@@ -59,8 +59,6 @@ import {
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************
  ************************************************************************************************ */
-
-const showcaseTapTransition = motionPresets.spring.physical;
 
 const getProjectDescription = (
   project: ProjectShowcaseCardProps['project'],
@@ -99,9 +97,18 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
 }): React.ReactElement => {
   const { t } = useTranslation();
   const reducedMotion: boolean = usePrefersReducedMotion();
-  const { ref, position, isActive: isPointerActive } = usePointerPosition<HTMLElement>(
-    reducedMotion,
-  );
+  const {
+    ref,
+    isPointerActive,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLElement> = usePhysicalInteraction<HTMLElement>({
+    disabled: reducedMotion,
+    enableTilt: true,
+    enableLift: true,
+    enableSpotlight: true,
+    maxTiltDeg: 7,
+    liftPx: 6,
+  });
 
   const title: string = getProjectDisplayTitle(project, language);
   const description: string = getProjectDescription(project, language);
@@ -111,8 +118,6 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   });
   const isFeatured: boolean = variant === ProjectShowcaseVariant.Featured;
   const repoSlug: string = getProjectRepoSlug(project.repository_url);
-  const spotActive: boolean = !reducedMotion && isPointerActive;
-
   const handleClick = (): void => {
     onSelect(project);
   };
@@ -125,13 +130,11 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
         $variant={variant}
         $canvasTone={canvasTone}
         $selected={isSelected}
-        $spotX={position.x}
-        $spotY={position.y}
-        $spotActive={spotActive}
-        whileTap={{
-          scale: PHYSICAL_TAP_SCALE,
-          transition: showcaseTapTransition,
-        }}
+        $spotActive={isPointerActive}
+        style={motionProps.style}
+        animate={motionProps.animate}
+        transition={motionProps.transition}
+        whileTap={motionProps.whileTap}
         tabIndex={0}
         role="button"
         aria-label={title}
@@ -142,6 +145,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
         )}
       >
         <CardSpotlightTorch aria-hidden />
+        <CardSpecularRim aria-hidden />
         <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
           <WorkCanvasPreview tone={canvasTone} active={isSelected} />
           <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>

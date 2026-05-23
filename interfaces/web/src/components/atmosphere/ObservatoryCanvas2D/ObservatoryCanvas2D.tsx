@@ -21,12 +21,12 @@ import {
  * Canvas2D telemetry field behind the home Live Lab observatory preview.
  */
 export const ObservatoryCanvas2D = (): React.ReactElement => {
-  const { canvasRef, containerRef } = useCanvasTelemetryField({
+  const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Observatory,
   });
 
   return (
-    <ObservatoryCanvasLayer ref={containerRef} aria-hidden>
+    <ObservatoryCanvasLayer ref={bindContainerRef} aria-hidden>
       <ObservatoryCanvasElement ref={canvasRef} />
     </ObservatoryCanvasLayer>
   );

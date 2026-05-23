@@ -114,6 +114,32 @@ export const CapabilityRow = styled(motion.li)`
     transform ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.fast};
 
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: ${CAPABILITY_SIGNAL_COL} minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    align-items: start;
+    column-gap: ${({ theme }) => theme.spacing.md};
+    row-gap: ${({ theme }) => theme.spacing.sm};
+
+    & > :first-child {
+      grid-column: 1;
+      grid-row: 1;
+      align-self: center;
+    }
+
+    & > :nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+    }
+
+    & > :nth-child(3) {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      min-width: 0;
+    }
+  }
+
   @media (hover: hover) {
     &:hover {
       transform: translateX(${({ theme }) => theme.spacing.sm});
@@ -166,7 +192,11 @@ export const CapabilityNameLead = styled.div<{ $featured?: boolean }>`
     return css`
       font-size: clamp(1.25rem, 2.8vw, 1.75rem);
     `;
-  }};
+  }}
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: minmax(0, 1fr);
+  }
 `;
 
 export const CapabilityNameIconSlot = styled.span`
@@ -174,10 +204,15 @@ export const CapabilityNameIconSlot = styled.span`
   width: ${CAPABILITY_ICON_SLOT};
   height: ${CAPABILITY_ICON_SLOT};
   flex-shrink: 0;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
+  }
 `;
 
 export const CapabilityName = styled.span`
   min-width: 0;
+  overflow-wrap: anywhere;
 `;
 
 export const CapabilityMeta = styled.div`
@@ -208,6 +243,8 @@ export const CapabilityDomain = styled.span`
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
   min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
 `;
 
 export const CapabilityFeaturedMeta = styled.div`

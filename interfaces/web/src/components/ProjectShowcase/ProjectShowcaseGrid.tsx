@@ -16,12 +16,16 @@ import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/Proj
 // Components
 import {
   formatProjectSignalCode,
+  groupProjectsIntoShowcaseRows,
   orderProjectsForShowcase,
 } from '@/domain/projects';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
-import { ShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcase.style';
+import {
+  ShowcaseGrid,
+  ShowcaseRow,
+} from '@/components/ProjectShowcase/ProjectShowcase.style';
 
 /* ***********************************************************************************************
  ****************************************** METHODS ***********************************************
@@ -69,12 +73,22 @@ export const ProjectShowcaseGrid = ({
   onSelectProject,
 }: ProjectShowcaseGridProps): React.ReactElement => {
   const { t } = useTranslation();
-  const { stagger, item, viewport } = useScrollMotion();
+  const {
+    rowStagger,
+    row: rowVariants,
+    item,
+    viewport,
+  } = useScrollMotion();
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
   const orderedProjects: Project[] = useMemo(
     () => orderProjectsForShowcase(projects),
     [projects],
+  );
+
+  const showcaseRows: Project[][] = useMemo(
+    () => groupProjectsIntoShowcaseRows(orderedProjects),
+    [orderedProjects],
   );
 
   const hasFeatured: boolean = orderedProjects.length > 0;
@@ -115,27 +129,54 @@ export const ProjectShowcaseGrid = ({
     return <p>{t('projects.empty')}</p>;
   }
 
+  const rowOffsets: number[] = showcaseRows.reduce(
+    (offsets: number[], _showcaseRow: Project[], rowIndex: number): number[] => {
+      const prev: number = rowIndex === 0
+        ? 0
+        : offsets[rowIndex - 1] + showcaseRows[rowIndex - 1].length;
+      offsets.push(prev);
+      return offsets;
+    },
+    [],
+  );
+
   return (
     <ShowcaseGrid
       $compact={compact}
-      variants={stagger}
+      variants={rowStagger}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
     >
-      {orderedProjects.map((project: Project, index: number) => (
-        <ProjectShowcaseCard
-          key={project.id}
-          project={project}
-          language={language}
-          variant={resolveVariant(index, compact, hasFeatured)}
-          canvasTone={resolveCanvasTone(index)}
-          indexLabel={formatIndexLabel(index)}
-          isSelected={selectedProjectId === project.id}
-          onSelect={handleSelect}
-          itemVariants={item}
-        />
-      ))}
+      {showcaseRows.map((rowProjects: Project[], rowIndex: number) => {
+        const isHeadRow: boolean = rowIndex === 0;
+        const rowStartIndex: number = rowOffsets[rowIndex] ?? 0;
+        return (
+          <ShowcaseRow
+            key={`showcase-row-${rowProjects.map((p: Project) => p.id).join('-')}`}
+            $compact={compact}
+            $isHeadRow={isHeadRow}
+            variants={rowVariants}
+          >
+            {rowProjects.map((project: Project, cardIndex: number) => {
+              const index: number = rowStartIndex + cardIndex;
+              return (
+                <ProjectShowcaseCard
+                  key={project.id}
+                  project={project}
+                  language={language}
+                  variant={resolveVariant(index, compact, hasFeatured)}
+                  canvasTone={resolveCanvasTone(index)}
+                  indexLabel={formatIndexLabel(index)}
+                  isSelected={selectedProjectId === project.id}
+                  onSelect={handleSelect}
+                  itemVariants={item}
+                />
+              );
+            })}
+          </ShowcaseRow>
+        );
+      })}
       {detailMode === ProjectShowcaseDetailMode.Inline ? (
         <ProjectCasePanel
           project={selectedProject}

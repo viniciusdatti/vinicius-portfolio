@@ -11,40 +11,46 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 
 // Components
 import {
-  MonitorFieldCanvas,
-  MonitorFieldLayer,
-} from '@/components/Atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
+  LiveLabStreamCanvas,
+  LiveLabStreamLayer,
+} from '@/components/Atmosphere/LiveLabStreamField/LiveLabStreamField.style';
+
+// =================================================================================================
+// ============================================= CONSTANTS =========================================
+// =================================================================================================
+
+const STREAM_TICK_THROTTLE_MS: number = 80;
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
 // =================================================================================================
 
 /**
- * Socket-throttled telemetry field behind the Live Lab monitor grid.
+ * Directional vector stream canvas — acceleration and luminance spike on telemetry ticks.
  */
-const SOCKET_FIELD_THROTTLE_MS: number = 100;
-
-export const MonitorTelemetryField = (): React.ReactElement => {
+export const LiveLabStreamField: React.FC = (): React.ReactElement => {
   const { tickCount, connected } = useTelemetry();
   const throttledTick: number = useSocketThrottledValue(tickCount, {
-    intervalMs: SOCKET_FIELD_THROTTLE_MS,
+    intervalMs: STREAM_TICK_THROTTLE_MS,
   });
 
   const pulse: number = useMemo((): number => {
     if (!connected) {
       return 0;
     }
-    return 0.35 + (throttledTick % 10) * 0.065;
+    return 0.25 + (throttledTick % 12) * 0.08;
   }, [connected, throttledTick]);
 
   const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
-    variant: TelemetryFieldVariant.Monitor,
+    variant: TelemetryFieldVariant.LiveLabStream,
     pulse,
+    fixedViewport: true,
+    maxDevicePixelRatio: 1.5,
   });
 
   return (
-    <MonitorFieldLayer ref={bindContainerRef} data-telemetry-field aria-hidden>
-      <MonitorFieldCanvas ref={canvasRef} />
-    </MonitorFieldLayer>
+    <LiveLabStreamLayer ref={bindContainerRef} data-telemetry-stream aria-hidden>
+      <LiveLabStreamCanvas ref={canvasRef} />
+    </LiveLabStreamLayer>
   );
 };

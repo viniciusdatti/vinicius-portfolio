@@ -20,32 +20,47 @@ import {
   type TelemetryTick,
 } from '@/types/telemetry';
 
-// =================================================================================================
-// ============================================= UTILS =============================================
-// =================================================================================================
+// Components
+import { env } from '@/config/env';
 import { getApiRootUrl } from '@/utils/apiRootUrl';
-
-const SOCKET_URL: string = getApiRootUrl();
-
-/* ***********************************************************************************************
- **************************************** LABEL MAP **********************************************
- *********************************************************************************************** */
-
-/** Maps backend sensor label strings to Portuguese display names. */
-const SENSOR_LABEL_PT: Readonly<Record<string, string>> = {
-  'CRUSHER RPM': 'RPM DO BRITADOR',
-  'MOTOR TEMP': 'TEMP DO MOTOR',
-  'FEED PRESSURE': 'PRESSÃO DE ALIMENTAÇÃO',
-  VIBRATION: 'VIBRAÇÃO',
-};
-
-const toLocalLabel = (raw: string): string => SENSOR_LABEL_PT[raw] ?? raw;
 
 /* ***********************************************************************************************
  **************************************** CONSTANTS **********************************************
  *********************************************************************************************** */
 
 const MAX_HISTORY: number = 30;
+
+const SOCKET_OPTIONS = {
+  transports: ['websocket', 'polling'] as ('websocket' | 'polling')[],
+  reconnection: true,
+  reconnectionAttempts: 10,
+  reconnectionDelay: 1000,
+  reconnectionDelayMax: 5000,
+};
+
+const getDevApiOrigin = (): string => {
+  const configured: string | undefined = import.meta.env.VITE_API_PROXY_TARGET;
+  if (configured) {
+    return configured.replace(/\/$/, '');
+  }
+  if (typeof window !== 'undefined') {
+    return `${window.location.protocol}//${window.location.hostname}:8000`;
+  }
+  return 'http://127.0.0.1:8000';
+};
+
+/**
+ * Dev: direct API origin (CORS allows 5173). Prod same-origin: `/telemetry` via reverse proxy.
+ */
+const createTelemetrySocket = (): Socket => {
+  if (env.apiUrl.startsWith('http')) {
+    return io(`${getApiRootUrl()}/telemetry`, SOCKET_OPTIONS);
+  }
+  if (import.meta.env.DEV) {
+    return io(`${getDevApiOrigin()}/telemetry`, SOCKET_OPTIONS);
+  }
+  return io('/telemetry', SOCKET_OPTIONS);
+};
 
 /** Boot messages shown before the socket connects (transport lifecycle only). */
 const INITIAL_LOG: TelemetryEventLogEntry[] = [
@@ -76,13 +91,7 @@ export const useTelemetrySocket = (): TelemetryState => {
   });
 
   useEffect(() => {
-    const socket = io(`${SOCKET_URL}/telemetry`, {
-      transports: ['websocket', 'polling'],
-      reconnection: true,
-      reconnectionAttempts: 10,
-      reconnectionDelay: 1000,
-      reconnectionDelayMax: 5000,
-    });
+    const socket = createTelemetrySocket();
     socketRef.current = socket;
 
     socket.on('connect', () => {
@@ -146,12 +155,7 @@ export const useTelemetrySocket = (): TelemetryState => {
         const newLog: TelemetryEventLogEntry[] = [...prev.eventLog];
         const nextTick: number = prev.tickCount + 1;
 
-        const localReadings: SensorReading[] = tick.readings.map(
-          (r: SensorReading): SensorReading => ({
-            ...r,
-            label: toLocalLabel(r.label),
-          }),
-        );
+        const localReadings: SensorReading[] = tick.readings;
 
         localReadings.forEach((r: SensorReading) => {
           const prevHistory: number[] = newHistory[r.id] ?? [];

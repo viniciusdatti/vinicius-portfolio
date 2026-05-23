@@ -3,6 +3,7 @@ export {
   getProjectDisplayTitle,
 } from '@/domain/projects/projectDisplay';
 export {
+  groupProjectsIntoShowcaseRows,
   isFeaturedShowcaseProject,
   orderProjectsForShowcase,
 } from '@/domain/projects/projectShowcaseOrder';

@@ -36,9 +36,10 @@ const observabilitySubLabel = css`
   text-transform: uppercase;
 `;
 
-/** Left gutter — rail, node, and backbone share one X coordinate */
+/** Backbone + node share the center axis of editorialAccentRail (2px left border) */
 const timelineRailGutter = css`
-  --timeline-rail-x: ${({ theme }) => theme.spacing.xl};
+  --timeline-rail-width: 2px;
+  --timeline-rail-x: calc(var(--timeline-rail-width) / 2);
 `;
 
 export const Section = PageSection;
@@ -61,6 +62,7 @@ export const IntroSection = styled(Section)`
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: minmax(120px, 0.38fr) minmax(0, 1fr);
     gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
   };
 `;
 
@@ -75,6 +77,7 @@ export const Avatar = styled(motion.div)`
   ${surfaceInsetRim};
   flex-shrink: 0;
   margin: 0 auto;
+  box-shadow: 0 0 28px ${({ theme }) => theme.colors.primary}22;
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
     transform ${({ theme }) => theme.transitions.normal};
@@ -93,6 +96,13 @@ export const Avatar = styled(motion.div)`
 
 `;
 
+const introProseBlock = css`
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  margin: 0;
+  max-width: ${({ theme }) => theme.layout.proseWide};
+`;
+
 export const IntroContent = styled.div`
   display: flex;
   flex-direction: column;
@@ -102,25 +112,28 @@ export const IntroContent = styled.div`
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
     margin-bottom: 0;
     line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+    color: ${({ theme }) => theme.colors.text};
   };
+`;
 
-  p {
-    color: ${({ theme }) => theme.colors.textSecondary};
-    line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-    font-size: ${({ theme }) => theme.typography.fontSize.md};
-    margin-bottom: 0;
-    max-width: ${({ theme }) => theme.layout.proseWide};
-  };
+export const IntroLead = styled(motion.p)`
+  ${introProseBlock};
+  color: ${({ theme }) => theme.colors.textSecondary};
+`;
+
+/** Primary narrative — full contrast; not washed out on dark canvas */
+export const IntroImpact = styled(motion.p)`
+  ${introProseBlock};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const IntroHighlight = styled(motion.p)`
   ${observabilityMono};
-  color: ${({ theme }) => theme.colors.text};
+  ${introProseBlock};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
-  margin: 0;
-  max-width: ${({ theme }) => theme.layout.proseWide};
+  color: ${({ theme }) => theme.colors.text};
 
   strong {
     color: ${({ theme }) => theme.colors.accent};
@@ -162,10 +175,11 @@ export const StatNumber = styled.div`
   ${observabilityMono};
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.accent};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
   line-height: ${({ theme }) => theme.typography.lineHeight.tight};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+  text-shadow: 0 0 24px ${({ theme }) => theme.colors.primary}33;
 `;
 
 /** Tooling labels (e.g. Jest · Playwright) — same mono contract, scaled for multi-token values */
@@ -210,12 +224,14 @@ export const ExperienceSectionTitle = styled(SectionTitle)`
 export const ExperienceTimelineWrap = styled.div`
   ${timelineRailGutter};
   position: relative;
+  z-index: 1;
   margin-top: ${({ theme }) => theme.spacing.md};
-  padding-left: var(--timeline-rail-x);
+  isolation: isolate;
 `;
 
 export const ExperienceTimeline = styled(motion.ol)`
   position: relative;
+  z-index: 1;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -225,12 +241,11 @@ export const ExperienceTimeline = styled(motion.ol)`
   &::before {
     content: '';
     position: absolute;
-    left: calc(-1 * var(--timeline-rail-x));
+    left: 0;
     top: 0;
     bottom: 0;
-    width: 1px;
+    width: var(--timeline-rail-width);
     background: ${({ theme }) => theme.colors.borderSubtle};
-    transform: translateX(-0.5px);
     z-index: 1;
     pointer-events: none;
   };
@@ -251,12 +266,12 @@ export const ExperienceCard = styled(motion.li)<ExperienceCardStyleProps>`
 
 export const ExperienceNode = styled.span<ExperienceCardStyleProps>`
   position: absolute;
-  left: calc(-1 * var(--timeline-rail-x));
-  top: 0.45rem;
+  left: var(--timeline-rail-x);
+  top: 0;
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   background: ${({ theme, $isActive }): string => ($isActive ? theme.colors.accent : theme.colors.border)};
   border: 2px solid ${({ theme }) => theme.colors.background};
   box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.borderSubtle};
@@ -265,15 +280,13 @@ export const ExperienceNode = styled.span<ExperienceCardStyleProps>`
 
 export const ExperienceCardBody = styled.div<ExperienceCardStyleProps>`
   position: relative;
-  padding-left: ${({ theme }) => theme.spacing.lg};
+  z-index: 2;
 
-  ${({ $isActive, theme }) => ($isActive
-    ? css`
-      border-left: ${theme.sizes.bar.accent} solid ${theme.colors.accent};
-      padding-left: ${theme.spacing.lg};
-      margin-left: 0;
-    `
-    : '')};
+  ${({ $isActive }) => ($isActive
+    ? editorialAccentRail
+    : css`
+      padding-left: ${({ theme }) => theme.spacing.lg};
+    `)};
 `;
 
 export const ExperienceCardHeader = styled.div`
@@ -289,12 +302,13 @@ export const ExperienceCardTitle = styled.h4`
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   margin: 0;
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  color: ${({ theme }) => theme.colors.text};
   text-wrap: balance;
 `;
 
 export const ExperienceCardPeriod = styled.span`
   ${observabilitySubLabel};
-  color: ${({ theme }) => theme.colors.textMuted};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
 export const ExperienceCardRole = styled.p`
@@ -304,9 +318,9 @@ export const ExperienceCardRole = styled.p`
 `;
 
 export const ExperienceCardSummary = styled.p`
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.text};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
   margin: 0 0 ${({ theme }) => theme.spacing.md};
   max-width: ${({ theme }) => theme.layout.proseWide};
   text-wrap: balance;
@@ -324,9 +338,9 @@ export const ExperienceLogStream = styled(motion.ul)`
 
 export const ExperienceLogEntry = styled(motion.li)`
   display: grid;
-  grid-template-columns: 2.25rem minmax(0, 1fr);
-  gap: ${({ theme }) => theme.spacing.sm};
-  align-items: start;
+  grid-template-columns: max-content minmax(0, 1fr);
+  column-gap: ${({ theme }) => theme.spacing.xs};
+  align-items: baseline;
 `;
 
 export const ExperienceLogIndex = styled.span`
@@ -334,14 +348,16 @@ export const ExperienceLogIndex = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.accent};
   letter-spacing: 0.06em;
-  padding-top: 0.1em;
+  line-height: 1;
+  min-width: 1.375rem;
+  text-align: right;
 `;
 
 export const ExperienceLogMessage = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.body};
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  font-size: ${({ theme }) => theme.typography.fontSize.md};
+  color: ${({ theme }) => theme.colors.text};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   text-wrap: balance;
 `;
 

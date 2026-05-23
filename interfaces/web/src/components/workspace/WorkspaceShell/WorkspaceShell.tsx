@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { BootHandshake } from '@/components/Workspace/BootHandshake';
+import { LiveLabStreamField } from '@/components/Atmosphere/LiveLabStreamField';
 import { LiveLabAtmosphere } from '@/components/Workspace/LiveLabAtmosphere';
 import { LiveLabShowcaseHeader } from '@/components/Workspace/LiveLabShowcaseHeader';
 import { TelemetryMonitor } from '@/components/Workspace/TelemetryMonitor';
@@ -57,6 +58,7 @@ export const WorkspaceShell: React.FC = (): React.ReactElement => {
 
   return (
     <WorkspaceRoot data-testid="live-lab-workspace">
+      <LiveLabStreamField />
       <LiveLabAtmosphere />
       <WorkspaceChrome>
         <LiveLabShowcaseHeader />

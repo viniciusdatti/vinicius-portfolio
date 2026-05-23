@@ -41,13 +41,23 @@ const contactFieldFocusVisible = css`
   };
 `;
 
+const contactFieldPlaceholder = css`
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.textMuted};
+    font-family: ${({ theme }) => theme.typography.fontFamily.body};
+    font-size: ${({ theme }) => theme.typography.fontSize.sm};
+    line-height: inherit;
+    opacity: 1;
+  };
+`;
+
 const contactFieldBase = css<InputStyleProps>`
   width: 100%;
   box-sizing: border-box;
-  padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   color: ${({ theme }) => theme.colors.text};
   background-color: ${({ theme }) => theme.colors.surface};
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -56,10 +66,7 @@ const contactFieldBase = css<InputStyleProps>`
     box-shadow ${({ theme }) => theme.transitions.fast},
     background-color ${({ theme }) => theme.transitions.fast};
 
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.textMuted};
-    font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  };
+  ${contactFieldPlaceholder};
 
   ${({ $hasError, theme }) => ($hasError
     ? css`
@@ -171,6 +178,8 @@ export const Label = styled.label`
  */
 export const Input = styled.input<InputStyleProps>`
   ${contactFieldBase};
+  min-height: ${({ theme }) => theme.sizes.button.minHeight};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 `;
 
 /**
@@ -178,6 +187,7 @@ export const Input = styled.input<InputStyleProps>`
  */
 export const TextArea = styled.textarea<InputStyleProps>`
   ${contactFieldBase};
+  padding: ${({ theme }) => theme.spacing.md};
   min-height: 160px;
   resize: vertical;
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
