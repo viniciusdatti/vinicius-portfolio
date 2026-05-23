@@ -272,7 +272,7 @@ export const ContactAuxStrip = styled(motion.div)`
   };
 `;
 
-export const InfoCard = styled.div`
+export const InfoCard = styled(motion.div)`
   ${panelChrome};
   background-color: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.borderRadius.xl};

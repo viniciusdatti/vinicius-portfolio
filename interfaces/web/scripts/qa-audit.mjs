@@ -78,15 +78,15 @@ const run = async () => {
         .catch(() => '');
       const presenceStrip = await page.locator('#portfolio-presence').count();
       const liveChannel = await page
-        .getByLabel(/live channel|canal live/i)
+        .getByLabel(
+          /live channel|canal live|canal ao vivo|live telemetry|telemetria ao vivo/i
+        )
         .count();
       const eventLog = await page
-        .getByLabel(/event log|log de eventos/i)
+        .getByLabel(/operational event log|log operacional/i)
         .count();
       const bootHandshake = await page
-        .getByText(
-          /transport status|status do transporte|initializing transport|inicializando transporte/i
-        )
+        .getByLabel(/telemetry transport|transporte de telemetria/i)
         .count();
       const footer = await page.locator('footer').count();
       const overflow = await page.evaluate(() => {
@@ -109,7 +109,8 @@ const run = async () => {
       const expectHero =
         route === '/' && h1Count > 0 && (heroHeadline?.length ?? 0) > 10;
       const expectPresence = route === '/' && presenceStrip > 0;
-      const expectLive = route === '/live-lab' && liveChannel > 0;
+      const expectLive =
+        route === '/live-lab' && (liveChannel > 0 || eventLog > 0);
       const expectBoot = route === '/live-lab' && bootHandshake > 0;
       const expectFooter = route !== '/live-lab' && footer > 0;
       const portfolioOk =

@@ -249,6 +249,7 @@ export interface Theme {
     contentNarrow: string;
     prose: string;
     proseWide: string;
+    heroHeadline: string;
   };
   borderRadius: {
     sm: string;

@@ -201,21 +201,17 @@
   "home": {
     "hero": {
       "name": "Vinicius Datti",
-      "eyebrow": "Portfolio · frontend engineering",
+      "eyebrow": "Front-end engineering · production systems",
+      "liveIndicator": "Live demo: WebSocket telemetry in Live Lab",
       "aria": "Home — control room",
-      "headline": "Front-end for real-time data and production-grade interfaces.",
-      "headlineLine1": "Front-end for real-time data",
-      "headlineLine2": "and production-grade interfaces.",
-      "description": "Front-end developer with 3+ years building production React and TypeScript applications — industrial monitoring dashboards with continuous telemetry over WebSocket, dynamic threshold validation, multi-state UI, and responsive layouts.",
+      "headlinePart1": "I build highly available React interfaces for real-time data ",
+      "headlinePart2": "and critical operations.",
+      "description": "Over three years of experience designing and consolidating large-scale web applications using React and TypeScript: high-performance dashboards with WebSocket, dynamic threshold validation, multi-state UI control, and stable integration with Python and PostgreSQL APIs.",
       "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explore the portfolio",
       "ctaPrimary": "View work",
       "ctaSecondary": "Open Live Lab",
-      "boot": {
-        "channel": "CHANNEL · HOME / CONTROL",
-        "status": "INITIALIZING TELEMETRY LAYER…"
-      },
       "telemetry": {
         "stripLabel": "Operational telemetry readout",
         "headerTitle": "Telemetry // Readout",
@@ -354,36 +350,39 @@
   },
   "about": {
     "title": "About",
-    "subtitle": "3+ years with production React and TypeScript — industrial monitoring, design system, and engineering quality.",
+    "subtitle": "Production React and TypeScript: telemetry, design system, authentication, and automated testing.",
     "experience": {
       "eyebrow": "Trajectory"
     },
     "intro": {
-      "title": "Front-end Developer",
-      "lead": "I spent 3+ years building production React and TypeScript applications — real-time data interfaces, component architecture, and engineering quality.",
-      "highlight": "WebSocket · Styled-components · Storybook · Jest · Playwright · Python · PostgreSQL",
-      "impact": "In that role, I delivered industrial monitoring dashboards with continuous telemetry, threshold validation, and responsive UI for mobile, tablet, and desktop."
+      "title": "Front-end engineer",
+      "lead": "For three+ years I have built production React and TypeScript applications with full module ownership — from component architecture to API integration and typed contracts across layers.",
+      "highlight": "WebSocket · REST · PostgreSQL · Styled-components · Storybook · Jest · Playwright",
+      "impact": "Delivered industrial dashboards with WebSocket telemetry and dynamic thresholds; evolved a component library with Storybook; implemented session auth with refresh; maintained Jest and Playwright suites on critical flows and responsive layouts for plant and office."
     },
     "stats": {
       "experience": "Years of experience",
-      "testing": "Jest · Playwright",
+      "testing": {
+        "value": "Jest · Playwright",
+        "label": "Critical flow testing"
+      },
       "certifiedHours": "Certified hours"
     },
     "philosophy": {
       "title": "How I work",
-      "description": "Typed contracts between layers, file conventions the team follows without asking me, and tests on the paths that actually matter — not to hit a number."
+      "description": "Types that align front-end and API, folders with intent for the team, and automation focused on what cannot regress in production."
     },
     "superior": {
       "sectionTitle": "Professional experience",
       "title": "Superior Industries Inc",
       "period": "Feb 2023 – May 2026",
       "role": "Front-end Developer · on-site",
-      "summary": "Built scalable React and TypeScript front-end — production industrial monitoring dashboards, documented design system, and REST integrations with Python and PostgreSQL back-end.",
+      "summary": "Front-end on large-scale React/TypeScript applications: production monitoring dashboards, documented design system, and REST API consumption (Python/PostgreSQL), with emphasis on typing, testing, and code review.",
       "items": {
-        "realtime": "Dashboards processing continuous telemetry streams over WebSocket, dynamic threshold validation, and multi-state operational rendering.",
-        "designSystem": "Component library architecture with Styled-components and Storybook documentation — visual consistency and faster delivery.",
-        "auth": "Full authentication flows: login, session control, token refresh, and password reset with route guards and client-side validation.",
-        "quality": "Jest (unit) and Playwright (E2E) on critical paths; active code reviews; full responsiveness across modules (mobile, tablet, desktop)."
+        "realtime": "Panels with continuous WebSocket ingestion, configurable thresholds, and UI that reflects channel and sensor degradation without ambiguity.",
+        "designSystem": "Styled-components component library with tokens and Storybook documentation — faster delivery and less visual drift.",
+        "auth": "Login, session, token refresh, and password recovery flows with route guards and validation aligned to the API contract.",
+        "quality": "Jest and Playwright on critical paths; continuous code review; responsiveness validated on mobile, tablet, and desktop."
       }
     },
     "education": {
@@ -402,17 +401,31 @@
     "filterAll": "All",
     "layout": {
       "coreEyebrow": "Core architecture",
-      "coreLead": "Full-stack foundation — typed UI, services, and persistence that scale with the product.",
+      "coreLead": "Full-stack UI core: types, services, and persistence aligned with the product.",
       "peripheralEyebrow": "Supporting stack",
-      "heroSignal": "SIG-01",
+      "heroSignal": "· Core",
       "heroDomain": "UI Architecture",
-      "heroDescription": "Component systems, realtime state, and design-system integration across production surfaces.",
+      "heroDescription": "Compound components, real-time state, and design system integration on production surfaces.",
       "coreDomains": {
         "TypeScript": "Type Safety",
         "Python": "Services",
         "FastAPI": "API Layer",
         "PostgreSQL": "Data",
         "Docker": "Ops"
+      },
+      "peripheralDomains": {
+        "Styled Components": "design system",
+        "WebSocket": "realtime",
+        "JavaScript": "runtime",
+        "Jest": "unit tests",
+        "Docker": "containers",
+        "Cursor": "AI workflow",
+        "HTML5": "markup",
+        "CSS3": "styles",
+        "Playwright": "e2e",
+        "Git": "version control",
+        "VS Code": "dev environment",
+        "AI tools": "productivity"
       }
     },
     "toolNames": {
@@ -606,12 +619,15 @@
   },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "Telemetry demo — WebSocket ticks, threshold states, and event log. Inspired by production industrial dashboards; not a real client product.",
+    "workspace": {
+      "ariaLabel": "Live telemetry workspace"
+    },
+    "subtitle": "Functional demo: WebSocket stream, thresholds, and event log. Inspired by real industrial dashboards; not a client product.",
     "header": {
-      "badge": "Telemetry demo",
+      "badge": "Technical demo",
       "badgeTooltip": "Live sensor stream over Socket.io — not a UI mockup",
-      "transportLive": "Transport live · tick #{{tick}}",
-      "transportConnecting": "Handshaking telemetry transport…"
+      "transportLive": "Connected · sample #{{tick}}",
+      "transportConnecting": "Establishing WebSocket connection…"
     },
     "boot": {
       "transportStatus": "Telemetry transport",
@@ -735,11 +751,11 @@
     "techFastApi": "FastAPI"
   },
   "projects": {
-    "title": "Engineering work",
-    "subtitle": "Signal registry — production-grade automation, realtime telemetry, and design-system infrastructure.",
+    "title": "Engineering projects",
+    "subtitle": "Case studies and open source with explicit scope: architecture, trade-offs, and what the repository proves. Private client production is in About.",
     "showcase": {
       "eyebrow": "Selected work",
-      "lead": "Each case states intent, architecture, and engineering trade-off. Private production work is not listed here — see Experience in About.",
+      "lead": "Each card summarizes problem, stack, and technical decision. Private production repositories are not listed here — see Experience in About.",
       "viewCase": "View case study",
       "hostedDemo": "Hosted demo",
       "repository": "Repository"
@@ -762,9 +778,9 @@
     },
     "casePanel": {
       "close": "Close",
-      "framing": "Framing",
+      "framing": "Context",
       "architecture": "Architecture",
-      "decision": "Engineering decision",
+      "decision": "Technical decision",
       "discussLive": "See live telemetry"
     },
     "caseStudies": {
@@ -773,20 +789,25 @@
         "architecture": "Layered UI with typed boundaries between views, state, and API or static data.",
         "decision": "Favor legibility, honest loading/error states, and maintainable composition over visual noise."
       },
-      "vault-erp-sync": {
-        "framing": "Core automation: bridge Autodesk Vault PLM data with corporate ERP stock and thumbnail truth — scheduled, idempotent, concurrency-safe.",
-        "architecture": "Python service layer over Vault REST; Windows Task Scheduler orchestration; async job queue with explicit lock boundaries per asset revision.",
-        "decision": "Serialize thumbnail and stock-number writes through scheduler windows instead of optimistic parallel sync — trade latency for zero collision failures."
+      "vinicius-portfolio": {
+        "framing": "Monorepo for this portfolio: FastAPI + Socket.IO backend and React 19 (Vite) frontend with Live Lab and admin chat.",
+        "architecture": "backend/ (FastAPI, SQLAlchemy, seed scripts) and interfaces/web/ (React, TanStack Query, styled-components, i18n).",
+        "decision": "Single deployable product with honest project entries sourced from portfolio_catalog.py — titles equal GitHub repo names."
       },
-      "live-lab-telemetry": {
-        "framing": "Telemetry / Live Lab core: operational matrix for high-frequency WebSocket streams with render budget enforced on the client.",
-        "architecture": "React + TypeScript consumer; Socket.io transport; 100ms render throttle decoupled from socket ingress; typed event envelope and connection-state UI contract.",
-        "decision": "Cap paint frequency at 10Hz while accepting full event throughput in memory — preserve 60fps under burst load without dropping transport fidelity."
+      "ReactGram": {
+        "framing": "CRA app under reactgram/: Instagram-style feed with auth, posts, likes, Redux Toolkit, and json-server on data/db.json.",
+        "architecture": "React Router pages (Home, Login, Register, Profile, Publish), useAuth hook, and mock REST via npm run server.",
+        "decision": "Describe the social UI and mock API as implemented — not a production backend separate from json-server."
       },
-      "design-system-core": {
-        "framing": "Design System infrastructure: proprietary token rigor, motion choreography, and component APIs that resist prop explosion.",
-        "architecture": "Styled-components theme contract; Storybook isolation per primitive; variant maps co-located with surfaces and motion presets.",
-        "decision": "Compose through compound slots and enums — block boolean prop sprawl before it forces cascade re-renders across observatory surfaces."
+      "tasks-flask-crud": {
+        "framing": "Flask API storing tasks in a Python list: full CRUD on /tasks with a Task model and pytest in tests.py.",
+        "architecture": "Single app.py with in-memory tasks[]; models/task.py serializes to JSON — no SQLAlchemy or MySQL.",
+        "decision": "State clearly that persistence is in-memory so expectations match the repository code."
+      },
+      "sample-flask-auth": {
+        "framing": "Flask auth API (README: authentication with database): login/logout, bcrypt users, MySQL via SQLAlchemy.",
+        "architecture": "Flask-Login sessions; User model; routes for login, user CRUD, and role-based 403 on forbidden operations.",
+        "decision": "Align copy with MySQL + Flask-Login in app.py — credentials in repo are for local dev only."
       }
     },
     "viewCode": "View source",
@@ -795,14 +816,18 @@
     "loading": "Loading cases...",
     "error": "Could not load cases. Please try again.",
     "caseCtas": {
-      "vault-erp-sync": "Inspect synchronizer",
-      "live-lab-telemetry": "Open telemetry matrix",
-      "design-system-core": "View design system"
+      "vinicius-portfolio": "Open repository",
+      "ReactGram": "Open repository",
+      "tasks-flask-crud": "Open repository",
+      "sample-flask-auth": "Open repository"
     },
     "capabilities": {
       "react": "Component architecture",
       "typescript": "Type-safe contracts",
       "python": "Service runtime",
+      "javascript": "JavaScript runtime",
+      "flask": "Flask web framework",
+      "mysql": "MySQL database",
       "websocket": "Realtime transport",
       "performance": "Render budget control",
       "styled-components": "Token-driven styling",

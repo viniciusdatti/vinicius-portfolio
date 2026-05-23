@@ -25,7 +25,7 @@ export const LiveLabPageShell = styled(PageContainer)`
   margin-left: auto;
   margin-right: auto;
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: 2.5rem;
   padding-left: ${({ theme }) => theme.spacing.pageX};
   padding-right: ${({ theme }) => theme.spacing.pageX};
 

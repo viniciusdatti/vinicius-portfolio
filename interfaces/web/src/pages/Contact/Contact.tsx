@@ -337,7 +337,7 @@ export const Contact: React.FC = (): React.ReactElement => {
           whileInView="visible"
           viewport={viewport}
         >
-          <InfoCard>
+          <InfoCard variants={motion.item}>
             <InfoTitle>{t('contact.info.title')}</InfoTitle>
             <InfoList>
               <InfoItem href="mailto:viniciusdatti@gmail.com">

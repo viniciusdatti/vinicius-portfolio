@@ -33,6 +33,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body.menu-scroll-locked,
+  body.drawer-scroll-locked,
   body.workspace-scroll-locked {
     overflow: hidden;
   }

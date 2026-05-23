@@ -60,6 +60,7 @@ export const sharedTheme = {
     contentNarrow: '960px',
     prose: '42rem',
     proseWide: '52rem',
+    heroHeadline: '56rem',
   },
   borderRadius: {
     sm: '6px',
