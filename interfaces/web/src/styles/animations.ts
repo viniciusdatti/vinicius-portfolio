@@ -425,17 +425,6 @@ export const showcaseStaggerItem: Variants = {
   },
 };
 
-/** Category label reveal on editorial skill card hover. */
-export const skillCategoryLabelVariants: Variants = {
-  hidden: { y: 6, opacity: 0 },
-  visible: { y: 6, opacity: 0 },
-  hover: {
-    y: 0,
-    opacity: 1,
-    transition: physicalSpringTransition,
-  },
-};
-
 /**
  * Clip-masked slide reveal for the Hero headline.
  * The wrapper must have overflow: hidden so text slides up from below the clip.

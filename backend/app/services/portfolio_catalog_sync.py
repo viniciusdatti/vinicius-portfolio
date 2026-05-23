@@ -58,8 +58,8 @@ def sync_portfolio_projects(db: Session) -> int:
             ),
         ).scalars().all(),
     )
-    for project in stale_projects:
-        db.delete(project)
+    for stale_project in stale_projects:
+        db.delete(stale_project)
 
     for entry in PORTFOLIO_PROJECTS:
         project: Project | None = db.execute(

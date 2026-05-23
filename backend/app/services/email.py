@@ -2,7 +2,7 @@
 
 # Core
 import asyncio
-from typing import Optional
+from typing import Any, Optional, cast
 
 # Libraries
 import resend
@@ -71,7 +71,7 @@ class EmailService:
             }
 
             # Resend SDK is sync; run in thread to avoid blocking the event loop
-            await asyncio.to_thread(resend.Emails.send, params)
+            await asyncio.to_thread(resend.Emails.send, cast(Any, params))
             logger.info(
                 "Contact notification email sent to %s",
                 settings.email_to_admin,
@@ -81,7 +81,8 @@ class EmailService:
         except Exception as e:
             logger.error(
                 "Failed to send contact notification email: %s. "
-                "Check RESEND_API_KEY, EMAIL_FROM (must be verified domain in Resend), and Resend dashboard.",
+                "Check RESEND_API_KEY, EMAIL_FROM (verified domain in Resend), "
+                "and Resend dashboard.",
                 e,
                 exc_info=True,
             )

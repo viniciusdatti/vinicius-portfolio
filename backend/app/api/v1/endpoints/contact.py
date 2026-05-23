@@ -4,8 +4,11 @@
 import asyncio
 
 # Libraries
-from fastapi import APIRouter, Depends, status, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, Depends, status
 from sqlalchemy.orm import Session
+
+# App - Core
+from app.core.logging import get_logger
 
 # App - Database
 from app.db.session import get_db
@@ -15,9 +18,6 @@ from app.models.contact import ContactSubmission
 
 # App - Schemas
 from app.schemas.contact import ContactCreate, ContactResponse
-
-# App - Core
-from app.core.logging import get_logger
 
 # App - Services
 from app.services import email_service, telegram_service

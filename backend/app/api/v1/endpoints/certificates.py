@@ -4,8 +4,11 @@
 from typing import List
 
 # Libraries
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+# App - Core
+from app.core.exceptions import NotFoundException
 
 # App - Database
 from app.db.session import get_db
@@ -39,8 +42,5 @@ async def get_certificate(certificate_id: int, db: Session = Depends(get_db)):
     """Get a specific certificate by ID."""
     certificate = db.query(Certificate).filter(Certificate.id == certificate_id).first()
     if not certificate:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Certificate not found",
-        )
+        raise NotFoundException("Certificate not found")
     return certificate

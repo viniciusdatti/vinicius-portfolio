@@ -2,6 +2,7 @@
 
 # Core
 from contextlib import asynccontextmanager
+from typing import cast
 
 # Libraries
 import socketio
@@ -9,6 +10,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
+from starlette.types import ExceptionHandler
 
 # App - API
 from app.api.v1.router import api_router
@@ -41,7 +43,7 @@ async def lifespan(app: FastAPI):
     # Create database tables when not using Docker entrypoint seed (dev/SQLite).
     if settings.is_development or settings.is_sqlite:
         logger.info("Creating database tables...")
-        import app.models  # noqa: F401 — register models on Base.metadata
+        from app import models as _models  # noqa: F401 — register models on Base.metadata
         Base.metadata.create_all(bind=engine)
 
     yield
@@ -64,7 +66,10 @@ app = FastAPI(
 
 # Add rate limiter
 app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+app.add_exception_handler(
+    RateLimitExceeded,
+    cast(ExceptionHandler, _rate_limit_exceeded_handler),
+)
 
 # Configure CORS
 app.add_middleware(
