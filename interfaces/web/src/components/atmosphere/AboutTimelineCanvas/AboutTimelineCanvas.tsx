@@ -11,7 +11,7 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   TimelineCanvasElement,
   TimelineCanvasLayer,
-} from '@/components/atmosphere/AboutTimelineCanvas/AboutTimelineCanvas.style';
+} from '@/components/Atmosphere/AboutTimelineCanvas/AboutTimelineCanvas.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -20,7 +20,7 @@ import {
 /**
  * Animated timeline rail behind About experience section.
  */
-export function AboutTimelineCanvas(): React.ReactElement {
+export const AboutTimelineCanvas = (): React.ReactElement => {
   const { canvasRef, containerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Timeline,
     pulse: 0.35,
@@ -31,4 +31,4 @@ export function AboutTimelineCanvas(): React.ReactElement {
       <TimelineCanvasElement ref={canvasRef} />
     </TimelineCanvasLayer>
   );
-}
+};

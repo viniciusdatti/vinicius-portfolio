@@ -17,12 +17,14 @@ import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { publicAssetUrl } from '@/config/env';
 
 // Components
-import { AboutTimelineCanvas } from '@/components/atmosphere/AboutTimelineCanvas';
-import { PortraitSceneR3D } from '@/components/atmosphere/PortraitSceneR3D';
+import { PortraitSceneR3D } from '@/components/Atmosphere/PortraitSceneR3D';
 import {
-  PageContainerNarrow,
-  PageHeaderLeft,
-  PageTitleLeft,
+  PageContainer,
+  PageHeader,
+  PageTitle,
+  PageTitleGradient,
+  PageSubtitle,
+  SectionEyebrow,
 } from '@/styles/pageLayout.style';
 
 // View
@@ -37,6 +39,7 @@ import {
   StatLabel,
   Section,
   ExperienceSection,
+  ExperienceSectionHeader,
   ExperienceTimelineWrap,
   ExperienceTimeline,
   ExperienceSectionTitle,
@@ -50,16 +53,28 @@ import {
   EducationStatus,
   ComplementaryText,
   ExperienceCard,
+  ExperienceNode,
+  ExperienceCardBody,
   ExperienceCardHeader,
   ExperienceCardTitle,
+  ExperienceCardPeriod,
   ExperienceCardRole,
   ExperienceCardSummary,
-  ExperienceBullets,
-  ExperienceBullet,
+  ExperienceLogStream,
+  ExperienceLogEntry,
+  ExperienceLogIndex,
+  ExperienceLogMessage,
 } from '@/pages/About/About.style';
 
 const viewportSection = { once: true, margin: '-60px' as const };
 const viewportTight = { once: true, margin: '-40px' as const };
+
+const SUPERIOR_LOG_KEYS: readonly string[] = [
+  'about.superior.items.realtime',
+  'about.superior.items.designSystem',
+  'about.superior.items.auth',
+  'about.superior.items.quality',
+] as const;
 
 interface StatCounterProps {
   target: number;
@@ -67,11 +82,11 @@ interface StatCounterProps {
   label: string;
 }
 
-function StatCounter({
+const StatCounter = ({
   target,
   suffix = '',
   label,
-}: StatCounterProps): React.ReactElement {
+}: StatCounterProps): React.ReactElement => {
   const { count, ref } = useCountUp({ target, duration: 1400 });
   const { item } = useScrollMotion();
 
@@ -84,24 +99,38 @@ function StatCounter({
       <StatLabel>{label}</StatLabel>
     </StatCard>
   );
-}
+};
 
-export function About(): React.ReactElement {
+export const About = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { section, stagger, item } = useScrollMotion();
+  const {
+    section,
+    title,
+    stagger,
+    item,
+  } = useScrollMotion();
 
   return (
-    <PageContainerNarrow>
-      <PageHeaderLeft>
-        <PageTitleLeft
+    <PageContainer>
+      <PageHeader>
+        <SectionEyebrow>{t('home.sections.about.eyebrow')}</SectionEyebrow>
+        <PageTitle
+          variants={title}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportSection}
+        >
+          <PageTitleGradient>{t('about.title')}</PageTitleGradient>
+        </PageTitle>
+        <PageSubtitle
           variants={section}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSection}
         >
-          {t('about.title')}
-        </PageTitleLeft>
-      </PageHeaderLeft>
+          {t('about.subtitle')}
+        </PageSubtitle>
+      </PageHeader>
 
       <IntroSection
         variants={stagger}
@@ -140,27 +169,37 @@ export function About(): React.ReactElement {
       </StatsGrid>
 
       <ExperienceSection>
-        <ExperienceSectionTitle>{t('about.superior.sectionTitle')}</ExperienceSectionTitle>
+        <ExperienceSectionHeader>
+          <SectionEyebrow>{t('about.experience.eyebrow')}</SectionEyebrow>
+          <ExperienceSectionTitle>{t('about.superior.sectionTitle')}</ExperienceSectionTitle>
+        </ExperienceSectionHeader>
         <ExperienceTimelineWrap>
-          <AboutTimelineCanvas />
           <ExperienceTimeline
             variants={stagger}
             initial="hidden"
             whileInView="visible"
             viewport={viewportTight}
           >
-            <ExperienceCard variants={item}>
-              <ExperienceCardHeader>
-                <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
-              </ExperienceCardHeader>
-              <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
-              <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
-              <ExperienceBullets>
-                <ExperienceBullet>{t('about.superior.items.realtime')}</ExperienceBullet>
-                <ExperienceBullet>{t('about.superior.items.designSystem')}</ExperienceBullet>
-                <ExperienceBullet>{t('about.superior.items.auth')}</ExperienceBullet>
-                <ExperienceBullet>{t('about.superior.items.quality')}</ExperienceBullet>
-              </ExperienceBullets>
+            <ExperienceCard variants={section} $isActive>
+              <ExperienceNode $isActive aria-hidden />
+              <ExperienceCardBody $isActive>
+                <ExperienceCardHeader>
+                  <ExperienceCardTitle>{t('about.superior.title')}</ExperienceCardTitle>
+                  <ExperienceCardPeriod>{t('about.superior.period')}</ExperienceCardPeriod>
+                </ExperienceCardHeader>
+                <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
+                <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
+                <ExperienceLogStream>
+                  {SUPERIOR_LOG_KEYS.map((logKey: string, index: number) => (
+                    <ExperienceLogEntry key={logKey}>
+                      <ExperienceLogIndex>
+                        {String(index + 1).padStart(2, '0')}
+                      </ExperienceLogIndex>
+                      <ExperienceLogMessage>{t(logKey)}</ExperienceLogMessage>
+                    </ExperienceLogEntry>
+                  ))}
+                </ExperienceLogStream>
+              </ExperienceCardBody>
             </ExperienceCard>
           </ExperienceTimeline>
         </ExperienceTimelineWrap>
@@ -203,6 +242,6 @@ export function About(): React.ReactElement {
           </ComplementaryText>
         </EducationCard>
       </Section>
-    </PageContainerNarrow>
+    </PageContainer>
   );
-}
+};

@@ -3,13 +3,11 @@
  */
 
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import {
-  surfaceInsetRim,
-} from '@/styles/surfaces';
+import { cardStatSignal, surfaceInsetRim } from '@/styles/surfaces';
 import {
   editorialAccentRail,
   scrollAnchorOffset,
@@ -20,11 +18,37 @@ import {
   SectionTitle,
 } from '@/styles/pageLayout.style';
 
+// =================================================================================================
+// ============================================ SHARED =============================================
+// =================================================================================================
+
+const observabilityMono = css`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+`;
+
+const observabilitySubLabel = css`
+  ${observabilityMono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+`;
+
+/** Left gutter — rail, node, and backbone share one X coordinate */
+const timelineRailGutter = css`
+  --timeline-rail-x: ${({ theme }) => theme.spacing.xl};
+`;
+
 export const Section = PageSection;
 
 export const PhilosophySection = styled(Section)`
   margin-top: ${({ theme }) => theme.spacing.xxl};
 `;
+
+// =================================================================================================
+// ============================================= INTRO =============================================
+// =================================================================================================
 
 export const IntroSection = styled(Section)`
   display: grid;
@@ -87,9 +111,9 @@ export const IntroContent = styled.div`
 `;
 
 export const IntroHighlight = styled(motion.p)`
+  ${observabilityMono};
   color: ${({ theme }) => theme.colors.text};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   margin: 0;
@@ -101,85 +125,218 @@ export const IntroHighlight = styled(motion.p)`
   };
 `;
 
+// =================================================================================================
+// ===================================== TELEMETRY METRICS =======================================
+// =================================================================================================
+
 export const StatsGrid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: ${({ theme }) => theme.spacing.md};
   margin-top: ${({ theme }) => theme.spacing.xxl};
-  padding: ${({ theme }) => theme.spacing.xl} 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${scrollAnchorOffset};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: ${({ theme }) => theme.spacing.xxl};
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: ${({ theme }) => theme.spacing.lg};
   };
 `;
 
 export const StatCard = styled(motion.div)`
+  ${cardStatSignal};
   flex: 1;
   min-width: 0;
-  text-align: left;
-  padding: 0;
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    &:not(:last-child) {
-      border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-      padding-right: ${({ theme }) => theme.spacing.xxl};
-    };
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
   };
 `;
 
 export const StatNumber = styled.div`
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.display};
+  ${observabilityMono};
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.primary};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
   line-height: ${({ theme }) => theme.typography.lineHeight.tight};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
 `;
 
 export const StatLabel = styled.div`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.textSecondary};
+  ${observabilitySubLabel};
+  color: ${({ theme }) => theme.colors.textMuted};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
 `;
 
 export { SectionTitle };
 
+// =================================================================================================
+// ===================================== EXPERIENCE TIMELINE =======================================
+// =================================================================================================
+
 export const ExperienceSection = styled(Section)`
   display: flex;
   flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.xl};
+  gap: ${({ theme }) => theme.spacing.lg};
   margin-top: ${({ theme }) => theme.spacing.xxl};
   ${scrollAnchorOffset};
 `;
 
-export const ExperienceTimelineWrap = styled.div`
-  position: relative;
-  margin-top: ${({ theme }) => theme.spacing.lg};
-  min-height: 12rem;
-`;
-
-export const ExperienceTimeline = styled(motion.div)`
-  position: relative;
-  z-index: 1;
+export const ExperienceSectionHeader = styled.div`
   display: flex;
   flex-direction: column;
-  padding-left: ${({ theme }) => theme.spacing.xl};
-  border-left: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  gap: ${({ theme }) => theme.spacing.xs};
 `;
 
 export const ExperienceSectionTitle = styled(SectionTitle)`
   margin-bottom: 0;
 `;
+
+export const ExperienceTimelineWrap = styled.div`
+  ${timelineRailGutter};
+  position: relative;
+  margin-top: ${({ theme }) => theme.spacing.md};
+  padding-left: var(--timeline-rail-x);
+`;
+
+export const ExperienceTimeline = styled(motion.ol)`
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--timeline-rail-x));
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: ${({ theme }) => theme.colors.borderSubtle};
+    transform: translateX(-0.5px);
+    z-index: 1;
+    pointer-events: none;
+  };
+`;
+
+interface ExperienceCardStyleProps {
+  $isActive?: boolean;
+}
+
+export const ExperienceCard = styled(motion.li)<ExperienceCardStyleProps>`
+  position: relative;
+  padding-bottom: ${({ theme }) => theme.spacing.xxl};
+
+  &:last-child {
+    padding-bottom: 0;
+  };
+`;
+
+export const ExperienceNode = styled.span<ExperienceCardStyleProps>`
+  position: absolute;
+  left: calc(-1 * var(--timeline-rail-x));
+  top: 0.45rem;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: ${({ theme, $isActive }): string => ($isActive ? theme.colors.accent : theme.colors.border)};
+  border: 2px solid ${({ theme }) => theme.colors.background};
+  box-shadow: 0 0 0 1px ${({ theme }) => theme.colors.borderSubtle};
+  z-index: 3;
+`;
+
+export const ExperienceCardBody = styled.div<ExperienceCardStyleProps>`
+  position: relative;
+  padding-left: ${({ theme }) => theme.spacing.lg};
+
+  ${({ $isActive, theme }) => ($isActive
+    ? css`
+      border-left: ${theme.sizes.bar.accent} solid ${theme.colors.accent};
+      padding-left: ${theme.spacing.lg};
+      margin-left: 0;
+    `
+    : '')};
+`;
+
+export const ExperienceCardHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: ${({ theme }) => theme.spacing.xs};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
+`;
+
+export const ExperienceCardTitle = styled.h4`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  margin: 0;
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  text-wrap: balance;
+`;
+
+export const ExperienceCardPeriod = styled.span`
+  ${observabilitySubLabel};
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+export const ExperienceCardRole = styled.p`
+  ${observabilitySubLabel};
+  color: ${({ theme }) => theme.colors.primary};
+  margin: 0 0 ${({ theme }) => theme.spacing.md};
+`;
+
+export const ExperienceCardSummary = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  margin: 0 0 ${({ theme }) => theme.spacing.md};
+  max-width: ${({ theme }) => theme.layout.proseWide};
+  text-wrap: balance;
+`;
+
+export const ExperienceLogStream = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: ${({ theme }) => theme.spacing.md} 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.sm};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+`;
+
+export const ExperienceLogEntry = styled.li`
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  gap: ${({ theme }) => theme.spacing.sm};
+  align-items: start;
+`;
+
+export const ExperienceLogIndex = styled.span`
+  ${observabilityMono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  color: ${({ theme }) => theme.colors.accent};
+  letter-spacing: 0.06em;
+  padding-top: 0.1em;
+`;
+
+export const ExperienceLogMessage = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.body};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  text-wrap: balance;
+`;
+
+// =================================================================================================
+// ========================================== PHILOSOPHY ===========================================
+// =================================================================================================
 
 export const PhilosophyCard = styled(motion.div)`
   ${editorialAccentRail};
@@ -195,6 +352,10 @@ export const PhilosophyCard = styled(motion.div)`
     margin: 0;
   };
 `;
+
+// =================================================================================================
+// =========================================== EDUCATION ===========================================
+// =================================================================================================
 
 export const EducationCard = PageCard;
 
@@ -238,6 +399,7 @@ export const EducationInfo = styled.div`
 `;
 
 export const EducationStatus = styled.span`
+  ${observabilityMono};
   display: inline-block;
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   background-color: ${({ theme }) => theme.colors.successSurface};
@@ -251,89 +413,7 @@ export const EducationStatus = styled.span`
 export const ComplementaryText = styled.p`
   margin-top: ${({ theme }) => theme.spacing.lg};
   padding-top: ${({ theme }) => theme.spacing.lg};
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
+  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
-`;
-
-// =================================================================================================
-// ==================================== PROFESSIONAL EXPERIENCE ====================================
-// =================================================================================================
-
-export const ExperienceCard = styled(motion.div)`
-  position: relative;
-  padding: 0 0 ${({ theme }) => theme.spacing.xxl} ${({ theme }) => theme.spacing.lg};
-
-  &:last-child {
-    padding-bottom: 0;
-  };
-
-  &::before {
-    content: '';
-    position: absolute;
-    left: calc(-1 * ${({ theme }) => theme.spacing.xl} - 1px);
-    top: 0.35rem;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 3px ${({ theme }) => theme.colors.background};
-    transform: translateX(-50%);
-  };
-`;
-
-export const ExperienceCardHeader = styled.div`
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.sm};
-  margin-bottom: ${({ theme }) => theme.spacing.xs};
-`;
-
-export const ExperienceCardTitle = styled.h4`
-  font-size: ${({ theme }) => theme.typography.fontSize.lg};
-  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
-  margin: 0;
-`;
-
-export const ExperienceCardRole = styled.p`
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  color: ${({ theme }) => theme.colors.primary};
-  margin: 0;
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-`;
-
-export const ExperienceCardSummary = styled.p`
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
-  margin: 0;
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
-  padding-bottom: ${({ theme }) => theme.spacing.lg};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.border};
-`;
-
-export const ExperienceBullets = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: ${({ theme }) => theme.spacing.md};
-`;
-
-export const ExperienceBullet = styled.li`
-  font-size: ${({ theme }) => theme.typography.fontSize.md};
-  color: ${({ theme }) => theme.colors.textSecondary};
-  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
-  padding-left: ${({ theme }) => theme.spacing.lg};
-  position: relative;
-
-  &::before {
-    content: '›';
-    position: absolute;
-    left: 0;
-    color: ${({ theme }) => theme.colors.primary};
-  };
 `;
