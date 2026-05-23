@@ -12,7 +12,7 @@ import {
   NoiseVeil,
   PerspectiveStage,
   ScanBeam,
-} from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

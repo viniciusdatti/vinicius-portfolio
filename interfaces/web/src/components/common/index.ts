@@ -1,2 +1,2 @@
-export * from '@/components/Common/Spinner';
-export * from '@/components/Common/ThemeToggle';
+export * from '@/components/common/Spinner';
+export * from '@/components/common/ThemeToggle';

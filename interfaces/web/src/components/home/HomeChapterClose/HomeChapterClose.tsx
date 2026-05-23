@@ -23,7 +23,7 @@ import {
   ContactTitle,
   ContactBody,
   ContactCta,
-} from '@/components/Home/HomeChapterClose/HomeChapterClose.style';
+} from '@/components/home/HomeChapterClose/HomeChapterClose.style';
 
 export const HomeChapterClose = (): React.ReactElement => {
   const { t } = useTranslation();

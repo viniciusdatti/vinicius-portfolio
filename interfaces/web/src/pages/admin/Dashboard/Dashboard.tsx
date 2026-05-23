@@ -44,7 +44,7 @@ import {
   FormInput,
   SubmitButton,
   FormMessage,
-} from '@/pages/Admin/Dashboard/Dashboard.style';
+} from '@/pages/admin/Dashboard/Dashboard.style';
 
 /**
  * Admin Dashboard component.

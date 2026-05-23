@@ -5,14 +5,14 @@ import React, { useMemo } from 'react';
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 
 // Types
-import type { WorkCanvasPreviewProps } from '@/components/Home/WorkCanvasPreview/WorkCanvasPreview.types';
+import type { WorkCanvasPreviewProps } from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.types';
 import { mapProjectCanvasTone } from '@/lib/mapProjectCanvasTone';
 
 // Components
 import {
   WorkPreviewCanvas,
   WorkPreviewLayer,
-} from '@/components/Home/WorkCanvasPreview/WorkCanvasPreview.style';
+} from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

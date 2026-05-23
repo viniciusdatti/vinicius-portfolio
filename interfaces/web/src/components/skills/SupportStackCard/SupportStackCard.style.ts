@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 
 // Types
 import { SkillLayoutTier } from '@/domain/skills';
-import type { SupportStackCardStyleProps } from '@/components/Skills/SupportStackCard/SupportStackCard.types';
+import type { SupportStackCardStyleProps } from '@/components/skills/SupportStackCard/SupportStackCard.types';
 
 // Components
 import {

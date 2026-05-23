@@ -24,7 +24,7 @@ import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
 import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { ProjectTerminalMock } from '@/components/ProjectShowcase/ProjectTerminalMock';
-import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
+import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
 import { getTechIconUrl } from '@/utils/techIcon';
 import {
   getProjectCaseCtaKey,

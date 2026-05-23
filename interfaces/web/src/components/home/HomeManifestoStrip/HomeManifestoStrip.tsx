@@ -16,7 +16,7 @@ import {
   ManifestoLine,
   ManifestoEmphasis,
   ManifestoMeta,
-} from '@/components/Home/HomeManifestoStrip/HomeManifestoStrip.style';
+} from '@/components/home/HomeManifestoStrip/HomeManifestoStrip.style';
 
 // =================================================================================================
 // ========================================== COMPONENT ============================================

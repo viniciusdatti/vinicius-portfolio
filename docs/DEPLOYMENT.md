@@ -113,10 +113,12 @@ Em **Settings** → **Environment Variables** do projeto, adicione:
 
 | Variável | Valor | Observação |
 |----------|--------|------------|
-| `REACT_APP_API_URL` | `https://SUA-URL-DO-RENDER.com/api/v1` | Troque pela URL real do backend (com `/api/v1` no final). |
-| `REACT_APP_ENV` | `production` | Opcional. |
+| `VITE_API_URL` | `https://SUA-URL-DO-RENDER.com/api/v1` | URL real do backend (com `/api/v1` no final). |
+| `VITE_APP_ENV` | `production` | Opcional. |
 
-**Importante:** A URL da API deve ser **HTTPS** e terminar em `/api/v1` (o frontend usa esse prefixo para REST e para derivar a origem do WebSocket).
+**Importante:** A URL da API deve ser **HTTPS** e terminar em `/api/v1`. O cliente Socket.IO usa o host da API (sem `/api/v1`) e exige que `CORS_ORIGINS` no Render inclua **exatamente** a origem do site na Vercel (ex.: `https://vinicius-portfolio.vercel.app`).
+
+**Docker (compose prod):** use `VITE_API_URL=/api/v1` no build do frontend; o nginx em `interfaces/web/docker/nginx.conf` faz proxy de `/api` e `/socket.io` para o serviço `backend`.
 
 ### 3.3 Deploy
 
@@ -131,7 +133,7 @@ Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_OR
 1. **Neon:** criar projeto e copiar `DATABASE_URL`.
 2. **Render:** criar Web Service com `backend` como root, configurar build/start e **todas** as env (incluindo `DATABASE_URL`, `CORS_ORIGINS` com um placeholder temporário, `JWT_SECRET_KEY`, `ENVIRONMENT=production`).
 3. **Render:** rodar o comando de criação de tabelas (Pre-Deploy ou manual) e fazer o primeiro deploy.
-4. **Vercel:** criar projeto com root `interfaces/web`, definir `REACT_APP_API_URL` com a URL do Render e fazer o deploy.
+4. **Vercel:** criar projeto com root `interfaces/web`, definir `VITE_API_URL` com a URL do Render e fazer o deploy.
 5. **Render:** atualizar `CORS_ORIGINS` com a URL real do frontend na Vercel (e de qualquer domínio customizado, se houver).
 
 ---
@@ -150,7 +152,7 @@ Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_OR
 - **Vercel:** em **Settings** → **Domains**, adicione seu domínio e siga as instruções de DNS.
 - **Render:** em **Settings** → **Custom Domains**, adicione o subdomínio da API (ex.: `api.seudominio.com`) e configure o CNAME conforme indicado.
 - Atualize `CORS_ORIGINS` no Render para incluir `https://seudominio.com` e `https://www.seudominio.com`.
-- No frontend (Vercel), defina `REACT_APP_API_URL` para a URL do backend (ex.: `https://api.seudominio.com/api/v1`).
+- No frontend (Vercel), defina `VITE_API_URL` para a URL do backend (ex.: `https://api.seudominio.com/api/v1`).
 
 ---
 

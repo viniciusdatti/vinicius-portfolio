@@ -5,7 +5,7 @@ import React from 'react';
 import type { HeroPortraitBustProps } from '@/components/Hero/HeroPortraitBust/HeroPortraitBust.types';
 
 // Components
-import { PortraitSceneR3D } from '@/components/Atmosphere/PortraitSceneR3D';
+import { PortraitSceneR3D } from '@/components/atmosphere/PortraitSceneR3D';
 import { HeroPortraitBustRoot } from '@/components/Hero/HeroPortraitBust/HeroPortraitBust.style';
 import {
   resolvePhysicalTilt,

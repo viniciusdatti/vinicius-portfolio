@@ -21,7 +21,7 @@ import { useDrawerSlideAxis } from '@/hooks/useDrawerSlideAxis';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Types
-import type { DrawerProps } from '@/components/Showcase/Drawer/Drawer.types';
+import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
 
 // Components
 import { motionPresets } from '@/styles/motionPresets';
@@ -33,7 +33,7 @@ import {
   DrawerTitle,
   DrawerCloseButton,
   DrawerBody,
-} from '@/components/Showcase/Drawer/Drawer.style';
+} from '@/components/showcase/Drawer/Drawer.style';
 
 export const Drawer = ({
   open,

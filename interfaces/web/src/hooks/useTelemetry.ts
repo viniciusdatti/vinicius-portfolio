@@ -7,6 +7,7 @@
 import { useEffect, useRef, useState } from 'react';
 
 // Libraries
+import i18n from 'i18next';
 import { io, Socket } from 'socket.io-client';
 
 // Types
@@ -21,6 +22,7 @@ import {
 } from '@/types/telemetry';
 
 // Components
+import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
 import { getApiRootUrl } from '@/utils/apiRootUrl';
 
 /* ***********************************************************************************************
@@ -60,13 +62,13 @@ const createTelemetrySocket = (): Socket => {
 
 let sharedTelemetrySocket: Socket | null = null;
 let telemetrySubscriberCount: number = 0;
-let telemetryReleaseTimer: ReturnType<typeof window.setTimeout> | null = null;
+let telemetryReleaseTimer: ReturnType<typeof setTimeout> | null = null;
 
 const TELEMETRY_RELEASE_DELAY_MS: number = 120;
 
 const acquireTelemetrySocket = (): Socket => {
   if (telemetryReleaseTimer !== null) {
-    window.clearTimeout(telemetryReleaseTimer);
+    clearTimeout(telemetryReleaseTimer);
     telemetryReleaseTimer = null;
   }
   if (!sharedTelemetrySocket) {
@@ -80,9 +82,9 @@ const releaseTelemetrySocket = (): void => {
   telemetrySubscriberCount = Math.max(0, telemetrySubscriberCount - 1);
   if (telemetrySubscriberCount === 0 && sharedTelemetrySocket) {
     if (telemetryReleaseTimer !== null) {
-      window.clearTimeout(telemetryReleaseTimer);
+      clearTimeout(telemetryReleaseTimer);
     }
-    telemetryReleaseTimer = window.setTimeout(() => {
+    telemetryReleaseTimer = setTimeout(() => {
       telemetryReleaseTimer = null;
       if (telemetrySubscriberCount === 0 && sharedTelemetrySocket) {
         sharedTelemetrySocket.disconnect();
@@ -187,20 +189,23 @@ export const useTelemetrySocket = (): TelemetryState => {
 
         const localReadings: SensorReading[] = tick.readings;
 
+        const translate = (key: string): string => i18n.t(key);
+
         localReadings.forEach((r: SensorReading) => {
           const prevHistory: number[] = newHistory[r.id] ?? [];
           newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
+          const channelLabel: string = resolveTelemetrySensorLabel(r, translate);
 
           if (r.status === SensorStatus.Critical) {
             newLog.unshift({
               ts: r.ts,
-              message: `${r.label} CRÍTICO · ${r.value}${r.unit} (limite: ${r.threshold_critical}${r.unit})`,
+              message: `${channelLabel} CRÍTICO · ${r.value}${r.unit} (limite: ${r.threshold_critical}${r.unit})`,
               type: TelemetryEventType.Critical,
             });
           } else if (r.status === SensorStatus.Warn && Math.random() < 0.3) {
             newLog.unshift({
               ts: r.ts,
-              message: `${r.label} alerta · ${r.value}${r.unit}`,
+              message: `${channelLabel} alerta · ${r.value}${r.unit}`,
               type: TelemetryEventType.Warn,
             });
           }
@@ -212,9 +217,10 @@ export const useTelemetrySocket = (): TelemetryState => {
           );
           if (stable.length > 0) {
             const pick: SensorReading = stable[nextTick % stable.length];
+            const channelLabel: string = resolveTelemetrySensorLabel(pick, translate);
             newLog.unshift({
               ts: pick.ts,
-              message: `${pick.label} nominal · ${pick.value}${pick.unit}`,
+              message: `${channelLabel} nominal · ${pick.value}${pick.unit}`,
               type: TelemetryEventType.Info,
             });
           }
@@ -261,9 +267,7 @@ export const useTelemetrySocket = (): TelemetryState => {
       socket.off('connect_error', onConnectError);
       socket.io.off('reconnect_attempt', onReconnectAttempt);
       socket.off('telemetry_tick', onTelemetryTick);
-      if (import.meta.env.PROD) {
-        releaseTelemetrySocket();
-      }
+      releaseTelemetrySocket();
     };
   }, []);
 

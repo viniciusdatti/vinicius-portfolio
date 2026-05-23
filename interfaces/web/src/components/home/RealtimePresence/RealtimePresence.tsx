@@ -17,7 +17,7 @@ import {
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
-} from '@/components/Home/RealtimePresence/RealtimePresence.style';
+} from '@/components/home/RealtimePresence/RealtimePresence.style';
 
 // =================================================================================================
 // ========================================== COMPONENT ============================================

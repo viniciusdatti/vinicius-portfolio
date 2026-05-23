@@ -35,7 +35,8 @@ services:
     environment:
       ENVIRONMENT: production
       DATABASE_URL: postgresql://${POSTGRES_USER:-portfolio}:${POSTGRES_PASSWORD:-portfolio}@postgres:5432/${POSTGRES_DB:-portfolio}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080}
+      # Must include the public frontend origin (browser Origin header on Socket.IO POST).
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY is required for production compose}
       LOG_LEVEL: ${LOG_LEVEL:-WARNING}
       RUN_SEED: ${RUN_SEED:-false}
@@ -58,7 +59,8 @@ services:
       context: ./interfaces/web
       dockerfile: Dockerfile
       args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000/api/v1}
+        # Same-origin via nginx (see interfaces/web/docker/nginx.conf). Do not bake :8000 into the SPA.
+        VITE_API_URL: ${VITE_API_URL:-/api/v1}
         VITE_APP_ENV: production
     container_name: portfolio-frontend-prod
     restart: unless-stopped

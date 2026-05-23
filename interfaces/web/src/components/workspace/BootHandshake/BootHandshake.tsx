@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   BootRoot,
@@ -15,7 +15,7 @@ import {
   BootPhase,
   BootTrack,
   BootFill,
-} from '@/components/Workspace/BootHandshake/BootHandshake.style';
+} from '@/components/workspace/BootHandshake/BootHandshake.style';
 
 enum BootHandshakePhase {
   Initializing = 'initializing',

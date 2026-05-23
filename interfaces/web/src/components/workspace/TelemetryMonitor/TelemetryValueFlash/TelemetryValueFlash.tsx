@@ -10,11 +10,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 // Types
-import type { TelemetryValueFlashProps } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
+import type { TelemetryValueFlashProps } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { ValueFlashWrap } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.style';
+import { ValueFlashWrap } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.style';
 
 /* *************************************************************************************************
  ******************************************** CONSTANTS ********************************************

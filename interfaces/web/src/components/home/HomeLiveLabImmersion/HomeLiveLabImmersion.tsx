@@ -9,8 +9,8 @@ import { useLiveLabImmersionPin } from '@/hooks/useLiveLabImmersionPin';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
-import { ObservatoryCanvas2D } from '@/components/Atmosphere/ObservatoryCanvas2D';
-import { LiveLabObservatory } from '@/components/Home/LiveLabObservatory';
+import { ObservatoryCanvas2D } from '@/components/atmosphere/ObservatoryCanvas2D';
+import { LiveLabObservatory } from '@/components/home/LiveLabObservatory';
 import {
   ImmersionBand,
   ImmersionPinStage,
@@ -30,7 +30,7 @@ import {
   VisualFrameForeground,
   NarrativeProgressTrack,
   NarrativeProgressFill,
-} from '@/components/Home/HomeLiveLabImmersion/HomeLiveLabImmersion.style';
+} from '@/components/home/HomeLiveLabImmersion/HomeLiveLabImmersion.style';
 
 export const HomeLiveLabImmersion = (): React.ReactElement => {
   const { t } = useTranslation();

@@ -18,7 +18,7 @@ import {
   EmbedError,
   EmbedSubmit,
   EmbedSuccess,
-} from '@/components/Workspace/ContactFormEmbed/ContactFormEmbed.style';
+} from '@/components/workspace/ContactFormEmbed/ContactFormEmbed.style';
 
 const contactSchema = z.object({
   name: z.string().min(2).max(100),

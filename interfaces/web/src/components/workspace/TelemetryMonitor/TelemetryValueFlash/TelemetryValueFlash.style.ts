@@ -10,7 +10,7 @@
 import styled, { css, keyframes } from 'styled-components';
 
 // Types
-import type { TelemetryValueFlashWrapProps } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
+import type { TelemetryValueFlashWrapProps } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
 
 /* *************************************************************************************************
  ********************************************* STYLES **********************************************

@@ -9,14 +9,14 @@ import { useTheme } from 'styled-components';
 import type { Theme } from '@/styles/theme';
 
 // Components
-import { LiveLabGridScene } from '@/components/Workspace/LiveLabAtmosphere/LiveLabGridScene';
-import { LiveLabPostEffects } from '@/components/Workspace/LiveLabAtmosphere/LiveLabPostEffects';
+import { LiveLabGridScene } from '@/components/workspace/LiveLabAtmosphere/LiveLabGridScene';
+import { LiveLabPostEffects } from '@/components/workspace/LiveLabAtmosphere/LiveLabPostEffects';
 import {
   AtmosphereDepthVeil,
   AtmosphereRoot,
   GlCanvasWrap,
   NoiseVeil,
-} from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

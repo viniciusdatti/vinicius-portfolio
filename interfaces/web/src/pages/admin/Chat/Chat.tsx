@@ -66,7 +66,7 @@ import {
   EventItemContent,
   EventsListEmpty,
   SessionCompanyLine,
-} from '@/pages/Admin/Chat/Chat.style';
+} from '@/pages/admin/Chat/Chat.style';
 
 /** Local UI state for the Chat view. */
 interface ChatState {

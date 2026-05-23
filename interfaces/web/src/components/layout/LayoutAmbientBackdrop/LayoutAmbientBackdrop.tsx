@@ -12,10 +12,10 @@ import { useLocation } from 'react-router-dom';
 import {
   PageAmbientFieldKind,
   resolveAmbientKindFromPath,
-} from '@/components/Atmosphere/PageAmbientField/PageAmbientField.types';
+} from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
 
 // Components
-import { PageAmbientField } from '@/components/Atmosphere/PageAmbientField';
+import { PageAmbientField } from '@/components/atmosphere/PageAmbientField';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================

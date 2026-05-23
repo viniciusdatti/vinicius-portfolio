@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 // Components
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import { useTelemetryStore } from '@/store/telemetryStore';
-import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import {
   SystemBarRoot,
@@ -21,7 +21,7 @@ import {
   StatusPill,
   StatusDot,
   SystemBarActions,
-} from '@/components/Layout/SystemBar/SystemBar.style';
+} from '@/components/layout/SystemBar/SystemBar.style';
 
 const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
   '/': 'system.modules.home',

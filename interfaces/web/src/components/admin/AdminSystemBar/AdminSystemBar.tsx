@@ -14,7 +14,7 @@ import {
   AdminBarId,
   AdminBarModule,
   AdminBarPill,
-} from '@/components/Admin/AdminSystemBar/AdminSystemBar.style';
+} from '@/components/admin/AdminSystemBar/AdminSystemBar.style';
 
 const ADMIN_MODULE_KEYS: Record<string, string> = {
   '/admin': 'admin.system.modules.dashboard',

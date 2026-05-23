@@ -14,9 +14,9 @@ import {
   motionEase,
 } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
-import { ThemeToggle } from '@/components/Common/ThemeToggle';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { LanguageToggle } from '@/components/LanguageToggle';
-import { MobileMenu } from '@/components/Layout/MobileMenu';
+import { MobileMenu } from '@/components/layout/MobileMenu';
 import {
   HeaderContainer,
   HeaderShell,
@@ -31,7 +31,7 @@ import {
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
-} from '@/components/Layout/Header/Header.style';
+} from '@/components/layout/Header/Header.style';
 
 interface NavItem {
   path: string;

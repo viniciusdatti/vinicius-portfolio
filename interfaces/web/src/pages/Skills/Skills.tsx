@@ -39,7 +39,6 @@ import {
 import { motionEase } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
 import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
-import { SupportStackCard } from '@/components/Skills/SupportStackCard';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
@@ -113,6 +112,7 @@ import {
   ErrorMessage,
   RetryButton,
 } from '@/pages/Skills/Skills.style';
+import { SupportStackCard } from '@/components/skills/SupportStackCard';
 
 // =================================================================================================
 // ============================================= TYPES =============================================

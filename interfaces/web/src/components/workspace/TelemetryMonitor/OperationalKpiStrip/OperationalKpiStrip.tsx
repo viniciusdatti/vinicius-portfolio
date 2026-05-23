@@ -14,17 +14,17 @@ import { useTranslation } from 'react-i18next';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
-import type { OperationalKpiStripProps } from '@/components/Workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.types';
+import type { OperationalKpiStripProps } from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.types';
 
 // Components
-import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
+import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
 import {
   KpiLabel,
   KpiMeta,
   KpiStripRoot,
   KpiTile,
   KpiValue,
-} from '@/components/Workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.style';
+} from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.style';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************

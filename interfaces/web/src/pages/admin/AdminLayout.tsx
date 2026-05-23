@@ -17,7 +17,7 @@ import {
   AdminAuthLoading,
   AdminSystemBar,
   AdminMain,
-} from '@/components/Admin';
+} from '@/components/admin';
 import { env } from '@/config/env';
 import {
   startAdminChatRealtime,

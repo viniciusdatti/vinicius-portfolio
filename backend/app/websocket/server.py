@@ -29,10 +29,23 @@ from app.websocket.telemetry import start_telemetry_loop
 logger = logging.getLogger(__name__)
 settings = get_settings()
 
+
+def _socket_cors_origins() -> list[str] | str:
+    """
+    Socket.IO CORS (Engine.IO validates Origin on polling POST).
+    Dev: '*' avoids localhost vs 127.0.0.1 mismatch.
+    Prod: strict list from CORS_ORIGINS — must include every public frontend URL
+    (e.g. Vercel app URL) when VITE_API_URL points at this API host.
+    """
+    if settings.is_development:
+        return '*'
+    return settings.cors_origins_list
+
+
 # Create Socket.IO server
 sio = socketio.AsyncServer(
     async_mode="asgi",
-    cors_allowed_origins=settings.cors_origins_list,
+    cors_allowed_origins=_socket_cors_origins(),
     logger=settings.is_development,
     engineio_logger=settings.is_development,
 )
@@ -344,7 +357,7 @@ async def admin_typing(sid, data):
 async def mark_messages_read(sid, data):
     """Mark messages as read."""
     session_id = data.get("session_id")
-    
+
     if not session_id:
         return
 
@@ -367,7 +380,7 @@ async def mark_messages_read(sid, data):
 async def close_session(sid, data):
     """Close a chat session."""
     session_id = data.get("session_id")
-    
+
     if not session_id:
         return
 

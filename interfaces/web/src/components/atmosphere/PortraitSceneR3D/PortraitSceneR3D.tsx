@@ -6,13 +6,13 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
 
 // Types
-import type { PortraitSceneR3DProps } from '@/components/Atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
+import type { PortraitSceneR3DProps } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
 
 // Components
 import {
   PortraitFallbackImage,
   PortraitSceneRoot,
-} from '@/components/Atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
+} from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================
@@ -21,7 +21,7 @@ import {
 const PortraitSceneR3DInner = lazy(
   async (): Promise<{ default: React.ComponentType<PortraitSceneR3DProps> }> => {
     const module = await import(
-      '@/components/Atmosphere/PortraitSceneR3D/PortraitSceneR3DInner'
+      '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3DInner'
     );
     return { default: module.PortraitSceneR3DInner };
   },

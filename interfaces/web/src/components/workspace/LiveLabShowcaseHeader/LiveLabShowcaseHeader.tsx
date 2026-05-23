@@ -9,7 +9,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
-import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
+import { useTelemetry } from '@/components/workspace/TelemetryProvider';
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   ShowcaseHeaderRoot,
@@ -21,7 +21,7 @@ import {
   ShowcaseBadge,
   LiveSignalStatus,
   StatusDot,
-} from '@/components/Workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
+} from '@/components/workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
 
 export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();

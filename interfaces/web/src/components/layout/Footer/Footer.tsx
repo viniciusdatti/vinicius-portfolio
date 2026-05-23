@@ -20,7 +20,7 @@ import {
   FooterBottom,
   Copyright,
   TechStack,
-} from '@/components/Layout/Footer/Footer.style';
+} from '@/components/layout/Footer/Footer.style';
 
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">

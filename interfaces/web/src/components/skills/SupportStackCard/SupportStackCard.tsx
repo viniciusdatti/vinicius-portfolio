@@ -6,7 +6,7 @@
 import React from 'react';
 
 // Types
-import type { SupportStackCardProps } from '@/components/Skills/SupportStackCard/SupportStackCard.types';
+import type { SupportStackCardProps } from '@/components/skills/SupportStackCard/SupportStackCard.types';
 import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
 
 // Hooks
@@ -21,7 +21,7 @@ import {
   SupportStackIconWell,
   SupportStackLabel,
   SupportStackTextColumn,
-} from '@/components/Skills/SupportStackCard/SupportStackCard.style';
+} from '@/components/skills/SupportStackCard/SupportStackCard.style';
 
 // =================================================================================================
 // ============================================= COMPONENT =========================================

@@ -30,18 +30,18 @@ import type {
   TelemetryTrendChartPalette,
   TelemetryTrendChartPoint,
   TelemetryTrendChartProps,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.types';
+} from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.types';
 import { SensorStatus } from '@/types/telemetry';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
+import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
 import {
   ChartPlot,
   ChartRoot,
   ChartTitle,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.style';
+} from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.style';
 
 /* *************************************************************************************************
  ******************************************** CONSTANTS ********************************************
@@ -233,11 +233,7 @@ export const TelemetryTrendChart = ({
                   <Line
                     type="monotone"
                     dataKey={r.id}
-                    name={resolveI18nKeyOrFallback(
-                      `liveLab.monitor.sensors.${r.id}`,
-                      r.label,
-                      t,
-                    )}
+                    name={resolveTelemetrySensorLabel(r, t)}
                     dot={lineAnimationActive ? TelemetryPulseDot : false}
                     strokeWidth={1.75}
                     stroke={stroke}

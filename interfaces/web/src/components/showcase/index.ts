@@ -1,3 +1,3 @@
-export * from '@/components/Showcase/StatusCard';
-export * from '@/components/Showcase/FilterBar';
-export * from '@/components/Showcase/Drawer';
+export * from '@/components/showcase/StatusCard';
+export * from '@/components/showcase/FilterBar';
+export * from '@/components/showcase/Drawer';

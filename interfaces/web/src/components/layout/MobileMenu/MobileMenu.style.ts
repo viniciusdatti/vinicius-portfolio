@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Types
-import type { MenuLinkStyleProps } from '@/components/Layout/MobileMenu/MobileMenu.types';
+import type { MenuLinkStyleProps } from '@/components/layout/MobileMenu/MobileMenu.types';
 
 // Components
 import { drawerPanelChrome } from '@/styles/surfaces';

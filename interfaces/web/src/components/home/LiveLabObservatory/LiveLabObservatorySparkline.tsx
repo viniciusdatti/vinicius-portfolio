@@ -13,15 +13,15 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Types
-import type { LiveLabObservatorySparklineProps } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.types';
+import type { LiveLabObservatorySparklineProps } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   buildObservatorySparkline,
   sparkPathFromValues,
-} from '@/components/Home/LiveLabObservatory/LiveLabObservatory.helpers';
-import { SparklineSvg } from '@/components/Home/LiveLabObservatory/LiveLabObservatory.style';
+} from '@/components/home/LiveLabObservatory/LiveLabObservatory.helpers';
+import { SparklineSvg } from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************
