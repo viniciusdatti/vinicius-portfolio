@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 // Components
 import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   BootRoot,
   BootRow,
@@ -36,6 +37,7 @@ const getBootProgress = (phase: BootHandshakePhase): number => {
 export const BootHandshake = (): React.ReactElement => {
   const { t } = useTranslation();
   const { connected } = useTelemetry();
+  const { section, viewport } = useScrollMotion();
   const [phase, setPhase] = useState<BootHandshakePhase>(
     BootHandshakePhase.Initializing,
   );
@@ -70,7 +72,14 @@ export const BootHandshake = (): React.ReactElement => {
   const progress: number = getBootProgress(phase);
 
   return (
-    <BootRoot aria-live="polite">
+    <BootRoot
+      aria-label={t('liveLab.boot.transportStatus')}
+      aria-live="polite"
+      variants={section}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+    >
       <BootRow>
         <BootCopy>
           <BootTitle>{t('liveLab.boot.transportStatus')}</BootTitle>

@@ -24,7 +24,12 @@ import { SensorStatus } from '@/types/telemetry';
 
 // Components
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
-import { ChartPlot, ChartRoot, ChartTitle } from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart.style';
+import {
+  CHART_PLOT_HEIGHT_PX,
+  ChartPlot,
+  ChartRoot,
+  ChartTitle,
+} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart.style';
 
 interface TelemetryTrendChartProps {
   readings: SensorReading[];
@@ -36,6 +41,15 @@ interface ChartPoint {
   index: number;
   [sensorId: string]: number;
 }
+
+const AREA_FILL_TOP_OPACITY = 0.14;
+
+const CHART_MARGIN = {
+  top: 16,
+  right: 0,
+  left: -10,
+  bottom: 0,
+} as const;
 
 const strokeForStatus = (
   status: SensorStatus,
@@ -78,7 +92,7 @@ export const TelemetryTrendChart = ({
     return null;
   }
 
-  const gridStroke = theme.colors.borderSubtle;
+  const gridStroke = theme.colors.border;
   const tickColor = theme.colors.textMuted;
   const palette = {
     accent: theme.colors.accent,
@@ -91,23 +105,15 @@ export const TelemetryTrendChart = ({
     <ChartRoot data-testid="telemetry-trend-chart">
       <ChartTitle>{title}</ChartTitle>
       <ChartPlot>
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart
-            data={chartData}
-            margin={{
-              top: 8,
-              right: 12,
-              left: 0,
-              bottom: 4,
-            }}
-          >
+        <ResponsiveContainer width="100%" height={CHART_PLOT_HEIGHT_PX}>
+          <ComposedChart data={chartData} margin={CHART_MARGIN}>
             <defs>
               {readings.map((r: SensorReading) => {
                 const stroke = strokeForStatus(r.status, palette);
                 const gradId = `${gradientPrefix}-${r.id}`;
                 return (
                   <linearGradient key={gradId} id={gradId} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={stroke} stopOpacity={0.22} />
+                    <stop offset="0%" stopColor={stroke} stopOpacity={AREA_FILL_TOP_OPACITY} />
                     <stop offset="100%" stopColor={stroke} stopOpacity={0} />
                   </linearGradient>
                 );
@@ -115,9 +121,9 @@ export const TelemetryTrendChart = ({
             </defs>
             <CartesianGrid
               stroke={gridStroke}
-              strokeDasharray="4 6"
-              vertical={false}
-              opacity={0.4}
+              strokeDasharray="3 3"
+              vertical
+              horizontal
             />
             <XAxis
               dataKey="index"
@@ -137,9 +143,11 @@ export const TelemetryTrendChart = ({
             />
             <YAxis
               tick={{ fontSize: 10, fill: tickColor, fontFamily: theme.typography.fontFamily.mono }}
-              width={40}
+              width={36}
               axisLine={false}
               tickLine={false}
+              domain={['dataMin', 'dataMax']}
+              tickCount={4}
             />
             <Tooltip
               cursor={{ stroke: theme.colors.borderLight, strokeWidth: 1 }}
@@ -159,6 +167,7 @@ export const TelemetryTrendChart = ({
                   <Area
                     type="monotone"
                     dataKey={r.id}
+                    baseValue="dataMin"
                     stroke="none"
                     fill={`url(#${gradId})`}
                     isAnimationActive={!reduced}

@@ -10,14 +10,16 @@ const panelScan = keyframes`
   100% { transform: translateX(100%); opacity: 0; }
 `;
 
+/** Fixed plot height — keeps Recharts bounds inside the Tendência card. */
+export const CHART_PLOT_HEIGHT_PX = 350;
+
 export const ChartRoot = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1;
-  height: 100%;
-  max-height: 100%;
+  flex: 0 0 auto;
+  width: 100%;
   min-height: 0;
-  padding: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xs} 0`};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   ${glassSurface};
   box-shadow: ${({ theme }) => theme.elevation.sm};
@@ -85,11 +87,16 @@ export const ChartTitle = styled.h3`
 `;
 
 export const ChartPlot = styled.div`
-  flex: 1;
-  min-height: 0;
-  max-height: 100%;
+  flex: 0 0 auto;
+  width: 100%;
+  height: ${CHART_PLOT_HEIGHT_PX}px;
+  min-height: ${CHART_PLOT_HEIGHT_PX}px;
+  max-height: ${CHART_PLOT_HEIGHT_PX}px;
   position: relative;
   z-index: 1;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 
   &::before {
     content: '';

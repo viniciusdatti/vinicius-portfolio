@@ -14,6 +14,7 @@ import {
   SensorStatus,
   TELEMETRY_EVENT_LOG_MAX,
   type SensorReading,
+  type TelemetryEventLogEntry,
 } from '@/types/telemetry';
 import {
   TelemetryEventLogPlacement,
@@ -37,7 +38,9 @@ import {
   MonitorToolbar,
   ToolbarSep,
   StatusDot,
-  MonitorMainGrid,
+  MonitorDashboard,
+  MonitorMonitorsGrid,
+  MonitorTerminalRow,
   ChartPaneFallback,
   MonitorChartPane,
   MonitorSensorsPane,
@@ -111,6 +114,73 @@ const logPrefix = (type: 'info' | 'warn' | 'critical'): string => {
 
 const formatReading = (value: number): string => value.toFixed(2);
 
+interface OperationalEventLogProps {
+  logRef: React.RefObject<HTMLDivElement | null>;
+  connected: boolean;
+  eventLog: TelemetryEventLogEntry[];
+  tickCount: number;
+}
+
+const OperationalEventLog: React.FC<OperationalEventLogProps> = ({
+  logRef,
+  connected,
+  eventLog,
+  tickCount,
+}): React.ReactElement => {
+  const { t, i18n } = useTranslation();
+
+  return (
+    <EventLogRoot aria-label={t('liveLab.monitor.eventLog')}>
+      <EventLogHeader>
+        <EventLogTitle>
+          {t('liveLab.monitor.eventLog')}
+        </EventLogTitle>
+        <EventLogTick>
+          {eventLog.length}
+          /
+          {TELEMETRY_EVENT_LOG_MAX}
+          {' · '}
+          {t('liveLab.monitor.tick')}
+          {' '}
+          <TelemetryValueFlash cellId="tick-counter" valueKey={tickCount}>
+            #
+            {tickCount}
+          </TelemetryValueFlash>
+        </EventLogTick>
+      </EventLogHeader>
+      <EventLogScroll
+        ref={logRef}
+        role="log"
+        aria-live="polite"
+        aria-relevant="additions"
+      >
+        {eventLog.map((entry, idx) => (
+          <EventLogLine
+            key={`${entry.ts}-${entry.message}`}
+            $type={entry.type}
+            $isLatest={idx === 0 && connected}
+          >
+            <EventLogTime>{formatClockTime(entry.ts, i18n.language)}</EventLogTime>
+            <EventLogPrefix $type={entry.type}>
+              [
+              {logPrefix(entry.type)}
+              ]
+            </EventLogPrefix>
+            <span>{entry.message}</span>
+          </EventLogLine>
+        ))}
+        {eventLog.length === 0 && (
+          <EventLogLine $type="info">
+            <EventLogTime>—</EventLogTime>
+            <EventLogPrefix $type="info">[INF]</EventLogPrefix>
+            <span>{t('liveLab.monitor.noEvents')}</span>
+          </EventLogLine>
+        )}
+      </EventLogScroll>
+    </EventLogRoot>
+  );
+};
+
 // =================================================================================================
 // ============================================ SUB-COMPONENTS =====================================
 // =================================================================================================
@@ -176,7 +246,7 @@ const Sensor: React.FC<SensorProps> = ({
 export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
   eventLogPlacement = TelemetryEventLogPlacement.Embedded,
 }): React.ReactElement => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     connected,
     readings,
@@ -196,54 +266,12 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
 
   if (!showMonitor && showEventLog) {
     return (
-      <EventLogRoot>
-        <EventLogHeader>
-          <EventLogTitle>
-            {t('liveLab.monitor.eventLog')}
-          </EventLogTitle>
-          <EventLogTick>
-            {eventLog.length}
-            /
-            {TELEMETRY_EVENT_LOG_MAX}
-            {' · '}
-            {t('liveLab.monitor.tick')}
-            {' '}
-            <TelemetryValueFlash cellId="tick-counter" valueKey={tickCount}>
-              #
-              {tickCount}
-            </TelemetryValueFlash>
-          </EventLogTick>
-        </EventLogHeader>
-        <EventLogScroll
-          ref={logRef}
-          role="log"
-          aria-live="polite"
-          aria-relevant="additions"
-        >
-          {eventLog.map((entry, idx) => (
-            <EventLogLine
-              key={`${entry.ts}-${entry.message}`}
-              $type={entry.type}
-              $isLatest={idx === 0 && connected}
-            >
-              <EventLogTime>{formatClockTime(entry.ts, i18n.language)}</EventLogTime>
-              <EventLogPrefix $type={entry.type}>
-                [
-                {logPrefix(entry.type)}
-                ]
-              </EventLogPrefix>
-              <span>{entry.message}</span>
-            </EventLogLine>
-          ))}
-          {eventLog.length === 0 && (
-            <EventLogLine $type="info">
-              <EventLogTime>—</EventLogTime>
-              <EventLogPrefix $type="info">[INF]</EventLogPrefix>
-              <span>{t('liveLab.monitor.noEvents')}</span>
-            </EventLogLine>
-          )}
-        </EventLogScroll>
-      </EventLogRoot>
+      <OperationalEventLog
+        logRef={logRef}
+        connected={connected}
+        eventLog={eventLog}
+        tickCount={tickCount}
+      />
     );
   }
 
@@ -292,74 +320,36 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
       ) : null}
 
       {showMonitor && readings.length > 0 ? (
-        <MonitorMainGrid>
-          <MonitorChartPane>
-            <Suspense fallback={<ChartPaneFallback aria-hidden />}>
-              <TelemetryTrendChart
-                readings={readings}
-                history={history}
-                title={t('liveLab.monitor.trendChart')}
-              />
-            </Suspense>
-          </MonitorChartPane>
-          <MonitorSensorsPane>
-            <MonitorGrid>
-              {readings.map((r, index) => (
-                <Sensor key={r.id} reading={r} index={index} />
-              ))}
-            </MonitorGrid>
-          </MonitorSensorsPane>
-          {showEventLog && eventLogPlacement === TelemetryEventLogPlacement.Embedded ? (
-            <EventLogRoot>
-              <EventLogHeader>
-                <EventLogTitle>
-                  {t('liveLab.monitor.eventLog')}
-                </EventLogTitle>
-                <EventLogTick>
-                  {eventLog.length}
-                  /
-                  {TELEMETRY_EVENT_LOG_MAX}
-                  {' · '}
-                  {t('liveLab.monitor.tick')}
-                  {' '}
-                  <TelemetryValueFlash cellId="tick-counter" valueKey={tickCount}>
-                    #
-                    {tickCount}
-                  </TelemetryValueFlash>
-                </EventLogTick>
-              </EventLogHeader>
-              <EventLogScroll
-                ref={logRef}
-                role="log"
-                aria-live="polite"
-                aria-relevant="additions"
-              >
-                {eventLog.map((entry, idx) => (
-                  <EventLogLine
-                    key={`${entry.ts}-${entry.message}`}
-                    $type={entry.type}
-                    $isLatest={idx === 0 && connected}
-                  >
-                    <EventLogTime>{formatClockTime(entry.ts, i18n.language)}</EventLogTime>
-                    <EventLogPrefix $type={entry.type}>
-                      [
-                      {logPrefix(entry.type)}
-                      ]
-                    </EventLogPrefix>
-                    <span>{entry.message}</span>
-                  </EventLogLine>
+        <MonitorDashboard>
+          <MonitorMonitorsGrid>
+            <MonitorChartPane data-testid="telemetry-chart-pane">
+              <Suspense fallback={<ChartPaneFallback aria-hidden />}>
+                <TelemetryTrendChart
+                  readings={readings}
+                  history={history}
+                  title={t('liveLab.monitor.trendChart')}
+                />
+              </Suspense>
+            </MonitorChartPane>
+            <MonitorSensorsPane data-testid="telemetry-sensors-pane">
+              <MonitorGrid>
+                {readings.map((r, index) => (
+                  <Sensor key={r.id} reading={r} index={index} />
                 ))}
-                {eventLog.length === 0 && (
-                  <EventLogLine $type="info">
-                    <EventLogTime>—</EventLogTime>
-                    <EventLogPrefix $type="info">[INF]</EventLogPrefix>
-                    <span>{t('liveLab.monitor.noEvents')}</span>
-                  </EventLogLine>
-                )}
-              </EventLogScroll>
-            </EventLogRoot>
+              </MonitorGrid>
+            </MonitorSensorsPane>
+          </MonitorMonitorsGrid>
+          {showEventLog && eventLogPlacement === TelemetryEventLogPlacement.Embedded ? (
+            <MonitorTerminalRow data-testid="telemetry-terminal-row">
+              <OperationalEventLog
+                logRef={logRef}
+                connected={connected}
+                eventLog={eventLog}
+                tickCount={tickCount}
+              />
+            </MonitorTerminalRow>
           ) : null}
-        </MonitorMainGrid>
+        </MonitorDashboard>
       ) : null}
     </MonitorRoot>
   );

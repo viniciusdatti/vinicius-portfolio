@@ -1,8 +1,12 @@
 // Core
 import React, { useEffect } from 'react';
 
+// Libraries
+import { useTranslation } from 'react-i18next';
+
 // Hooks
 import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
 import { BootHandshake } from '@/components/Workspace/BootHandshake';
@@ -33,7 +37,9 @@ import {
  * See skill: frontend-architecture P2
  */
 export const WorkspaceShell: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
   const { refs, pinEnabled } = useLiveLabWorkspacePin();
+  const { section, viewport } = useScrollMotion();
 
   useEffect(() => {
     document.body.classList.toggle('workspace-scroll-locked', !pinEnabled);
@@ -56,7 +62,11 @@ export const WorkspaceShell: React.FC = (): React.ReactElement => {
         <LiveLabImmersionBand
           ref={refs.sectionRef}
           $immersive={pinEnabled}
-          aria-label="Live telemetry workspace"
+          aria-label={t('liveLab.workspace.ariaLabel')}
+          variants={section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
         >
           <LiveLabPinStage ref={refs.stageRef}>
             <TelemetryWorkspace>
