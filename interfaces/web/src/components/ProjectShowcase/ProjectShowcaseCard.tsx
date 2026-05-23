@@ -30,7 +30,6 @@ import {
 } from '@/utils/projectCaseCopy';
 import { PHYSICAL_TAP_SCALE } from '@/lib/motionPhysics';
 import { motionPresets } from '@/styles/motionPresets';
-import { showcaseStaggerItem } from '@/styles/animations';
 import {
   ShowcaseStaggerItem,
   ShowcaseCard,
@@ -113,6 +112,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   indexLabel,
   isSelected,
   onSelect,
+  itemVariants,
 }): React.ReactElement => {
   const { t } = useTranslation();
   const reducedMotion: boolean = usePrefersReducedMotion();
@@ -136,7 +136,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   };
 
   return (
-    <ShowcaseStaggerItem variants={showcaseStaggerItem}>
+    <ShowcaseStaggerItem variants={itemVariants}>
       <ShowcaseCard
         ref={ref}
         data-variant={variant}

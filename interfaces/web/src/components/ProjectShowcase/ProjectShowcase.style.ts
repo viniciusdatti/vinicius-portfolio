@@ -41,52 +41,45 @@ const getCanvasBackground = (
 // =================================================================================================
 
 export const ShowcaseStaggerItem = styled(motion.div)`
-  display: contents;
+  width: 100%;
+  min-width: 0;
 `;
 
 export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   display: grid;
+  width: 100%;
+  min-width: 0;
   grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(12, 1fr);
-    grid-auto-rows: minmax(240px, auto);
-    gap: ${({ theme }) => theme.spacing.lg};
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 24px;
 
-    & > [data-variant='featured'] {
-      grid-column: 1 / span 8;
-      grid-row: span 2;
+    & > *:nth-child(1) {
+      grid-column: span 8;
     }
 
-    & > [data-variant='standard']:nth-of-type(2) {
-      grid-column: 9 / span 4;
-      grid-row: 1;
+    & > *:nth-child(2) {
+      grid-column: span 4;
     }
 
-    & > [data-variant='standard']:nth-of-type(3) {
-      grid-column: 9 / span 4;
-      grid-row: 2;
-    }
-
-    & > [data-variant='standard']:nth-of-type(n + 4) {
-      grid-column: span 6;
-    }
-
-    & > [data-variant='compact']:nth-of-type(2) {
-      grid-column: 9 / span 4;
-      grid-row: 1;
-    }
-
-    & > [data-variant='compact']:nth-of-type(3) {
-      grid-column: 9 / span 4;
-      grid-row: 2;
+    & > *:nth-child(n + 3) {
+      grid-column: span 4;
     }
 
     ${({ $compact }) => ($compact
     ? `
-          & > [data-variant='compact']:nth-of-type(n + 4) {
-            grid-column: span 6;
+          & > *:nth-child(1) {
+            grid-row: span 2;
+          };
+
+          & > *:nth-child(2) {
+            grid-row: 1;
+          };
+
+          & > *:nth-child(3) {
+            grid-row: 2;
           };
         `
     : '')};
@@ -116,6 +109,9 @@ export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
   --spot-opacity: ${({ $spotActive }) => ($spotActive ? 1 : 0)};
   display: flex;
   flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   border-radius: ${({ theme }) => theme.borderRadius.xxl};
   overflow: hidden;
   cursor: pointer;

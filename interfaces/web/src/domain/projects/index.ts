@@ -6,3 +6,4 @@ export {
   isFeaturedShowcaseProject,
   orderProjectsForShowcase,
 } from '@/domain/projects/projectShowcaseOrder';
+export { filterProjectsBySearch } from '@/domain/projects/projectsPageFilter';
