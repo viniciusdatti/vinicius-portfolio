@@ -1,12 +1,9 @@
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Libraries
+import type { Variants } from 'framer-motion';
 
 // Components
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
-  chapterAside,
-  chapterAsideReduced,
-  chapterPanel,
-  chapterPanelReduced,
   manifestoPhrase,
   manifestoPhraseReduced,
   manifestoPhraseStagger,
@@ -17,8 +14,10 @@ import {
   scrollRevealStagger,
   scrollRevealTitle,
   scrollRevealTitleReduced,
+  scrollRevealViewport,
 } from '@/styles/animations';
-import type { Variants } from 'framer-motion';
+
+export type ScrollRevealViewport = typeof scrollRevealViewport;
 
 /**
  * Scroll / section motion variants gated by prefers-reduced-motion.
@@ -30,8 +29,7 @@ export const useScrollMotion = (): {
   item: Variants;
   manifestoStagger: Variants;
   manifestoPhrase: Variants;
-  chapterAside: Variants;
-  chapterPanel: Variants;
+  viewport: ScrollRevealViewport;
 } => {
   const reduced = usePrefersReducedMotion();
 
@@ -42,7 +40,6 @@ export const useScrollMotion = (): {
     item: reduced ? scrollRevealItemReduced : scrollRevealItem,
     manifestoStagger: manifestoPhraseStagger,
     manifestoPhrase: reduced ? manifestoPhraseReduced : manifestoPhrase,
-    chapterAside: reduced ? chapterAsideReduced : chapterAside,
-    chapterPanel: reduced ? chapterPanelReduced : chapterPanel,
+    viewport: scrollRevealViewport,
   };
 };

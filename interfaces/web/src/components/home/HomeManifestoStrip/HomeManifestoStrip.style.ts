@@ -7,6 +7,7 @@ export const ManifestoBand = styled.section`
   z-index: 2;
   width: 100%;
   margin-top: 0;
+  min-height: 12rem;
   padding: clamp(3.5rem, 9vw, 6rem) ${({ theme }) => theme.spacing.pageX};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 
@@ -42,7 +43,7 @@ export const ManifestoInner = styled(motion.div)`
   }
 `;
 
-export const ManifestoIndex = styled.span`
+export const ManifestoIndex = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.sectionIndex};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -54,7 +55,7 @@ export const ManifestoIndex = styled.span`
   user-select: none;
 `;
 
-export const ManifestoQuote = styled.div`
+export const ManifestoQuote = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
@@ -89,7 +90,7 @@ export const ManifestoEmphasis = styled(motion.p)`
   border-left: 2px solid ${({ theme }) => theme.colors.accent};
 `;
 
-export const ManifestoMeta = styled.span`
+export const ManifestoMeta = styled(motion.span)`
   display: block;
   margin-top: ${({ theme }) => theme.spacing.md};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

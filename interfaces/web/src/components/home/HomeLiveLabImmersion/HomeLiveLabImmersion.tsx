@@ -32,12 +32,15 @@ import {
   NarrativeProgressFill,
 } from '@/components/Home/HomeLiveLabImmersion/HomeLiveLabImmersion.style';
 
-const viewport = { once: true, margin: '-60px' as const };
-
 export const HomeLiveLabImmersion = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { section } = useScrollMotion();
-  const { refs, pinEnabled } = useLiveLabImmersionPin();
+  const {
+    stagger,
+    item,
+    section,
+    viewport,
+  } = useScrollMotion();
+  const { refs } = useLiveLabImmersionPin();
 
   return (
     <ImmersionBand
@@ -50,21 +53,37 @@ export const HomeLiveLabImmersion = (): React.ReactElement => {
         <NarrativeProgressTrack aria-hidden>
           <NarrativeProgressFill ref={refs.progressRef} />
         </NarrativeProgressTrack>
-        <ImmersionGrid
-          variants={pinEnabled ? undefined : section}
-          initial={pinEnabled ? false : 'hidden'}
-          whileInView={pinEnabled ? undefined : 'visible'}
-          viewport={viewport}
-        >
-          <ImmersionCopy ref={refs.copyRef}>
-            <ImmersionIndex aria-hidden>{t('home.sections.liveLab.index')}</ImmersionIndex>
-            <ImmersionEyebrow>{t('home.sections.liveLab.eyebrow')}</ImmersionEyebrow>
-            <ImmersionTitle>{t('home.liveLabPreview.title')}</ImmersionTitle>
-            <LiveBadge>{t('home.liveLabPreview.badge')}</LiveBadge>
-            <ImmersionLead>{t('home.liveLabPreview.description')}</ImmersionLead>
-            <ImmersionCta to="/live-lab">{t('home.liveLabPreview.cta')}</ImmersionCta>
+        <ImmersionGrid>
+          <ImmersionCopy
+            ref={refs.copyRef}
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
+            <ImmersionIndex variants={item} aria-hidden>
+              {t('home.sections.liveLab.index')}
+            </ImmersionIndex>
+            <ImmersionEyebrow variants={item}>
+              {t('home.sections.liveLab.eyebrow')}
+            </ImmersionEyebrow>
+            <ImmersionTitle variants={item}>
+              {t('home.liveLabPreview.title')}
+            </ImmersionTitle>
+            <LiveBadge variants={item}>{t('home.liveLabPreview.badge')}</LiveBadge>
+            <ImmersionLead variants={item}>
+              {t('home.liveLabPreview.description')}
+            </ImmersionLead>
+            <ImmersionCta variants={item} to="/live-lab">
+              {t('home.liveLabPreview.cta')}
+            </ImmersionCta>
           </ImmersionCopy>
-          <ImmersionVisual>
+          <ImmersionVisual
+            variants={section}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+          >
             <ObservatoryCanvas ref={refs.canvasRef}>
               <VisualFrame>
                 <ImmersionFieldParallax ref={refs.fieldLayerRef}>

@@ -1,10 +1,42 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+// =================================================================================================
+// ============================================ GRID ===============================================
+// =================================================================================================
+
+const CAPABILITY_SIGNAL_COL: string = '4.5rem';
+const CAPABILITY_ICON_SLOT: string = '40px';
+const CAPABILITY_META_COL: string = 'minmax(13rem, 20rem)';
+
+const capabilityRowGrid = css`
+  display: grid;
+  grid-template-columns:
+    ${CAPABILITY_SIGNAL_COL}
+    minmax(0, 1fr)
+    auto;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns:
+      ${CAPABILITY_SIGNAL_COL}
+      minmax(0, 1fr)
+      ${CAPABILITY_META_COL};
+    gap: ${({ theme }) => theme.spacing.xxl};
+  }
+`;
+
+// =================================================================================================
+// ============================================ SHELL ==============================================
+// =================================================================================================
+
 export const CapabilityBand = styled.section`
   width: 100%;
+  min-height: 18rem;
+  contain: layout;
   padding: clamp(4rem, 9vw, 6.5rem) ${({ theme }) => theme.spacing.pageX};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
@@ -28,7 +60,7 @@ export const CapabilityHeader = styled.div`
   }
 `;
 
-export const CapabilityIndex = styled.span`
+export const CapabilityIndex = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(2.5rem, 6vw, 4rem);
   line-height: 0.85;
@@ -48,7 +80,9 @@ export const CapabilityTitle = styled(motion.h2)`
   max-width: 14ch;
 `;
 
-export const CapabilityLink = styled(Link)`
+const MotionCapabilityLink = motion.create(Link);
+
+export const CapabilityLink = styled(MotionCapabilityLink)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.12em;
@@ -58,8 +92,12 @@ export const CapabilityLink = styled(Link)`
 
   &:hover {
     text-decoration: underline;
-  }
+  };
 `;
+
+// =================================================================================================
+// ============================================= ROWS ==============================================
+// =================================================================================================
 
 export const CapabilityList = styled(motion.ul)`
   list-style: none;
@@ -69,10 +107,7 @@ export const CapabilityList = styled(motion.ul)`
 `;
 
 export const CapabilityRow = styled(motion.li)`
-  display: grid;
-  grid-template-columns: 4.5rem minmax(0, 1fr) auto;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
+  ${capabilityRowGrid};
   padding: ${({ theme }) => theme.spacing.xl} 0;
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   transition:
@@ -83,8 +118,19 @@ export const CapabilityRow = styled(motion.li)`
     &:hover {
       transform: translateX(${({ theme }) => theme.spacing.sm});
       border-color: ${({ theme }) => theme.colors.borderLight};
-    }
-  }
+    };
+  };
+`;
+
+export const CapabilityFeaturedRow = styled(motion.div)`
+  ${capabilityRowGrid};
+  padding: ${({ theme }) => theme.spacing.xl} 0;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: 1fr;
+    gap: ${({ theme }) => theme.spacing.md};
+  };
 `;
 
 export const CapabilitySignal = styled.span`
@@ -97,24 +143,62 @@ export const CapabilitySignal = styled.span`
   font-variant-numeric: tabular-nums;
 `;
 
-export const CapabilityName = styled.span`
+export const CapabilityNameLead = styled.div<{ $featured?: boolean }>`
+  display: grid;
+  grid-template-columns: ${CAPABILITY_ICON_SLOT} minmax(0, 1fr);
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+  min-width: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(1.25rem, 2.8vw, 1.75rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   color: ${({ theme }) => theme.colors.text};
+
+  ${({ $featured, theme }): ReturnType<typeof css> => {
+    if ($featured) {
+      return css`
+        font-size: clamp(2.25rem, 6vw, 3.75rem);
+        font-weight: ${theme.typography.fontWeight.bold};
+        line-height: ${theme.typography.lineHeight.tight};
+      `;
+    }
+
+    return css`
+      font-size: clamp(1.25rem, 2.8vw, 1.75rem);
+    `;
+  }};
+`;
+
+export const CapabilityNameIconSlot = styled.span`
+  display: block;
+  width: ${CAPABILITY_ICON_SLOT};
+  height: ${CAPABILITY_ICON_SLOT};
+  flex-shrink: 0;
+`;
+
+export const CapabilityName = styled.span`
+  min-width: 0;
 `;
 
 export const CapabilityMeta = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: ${CAPABILITY_ICON_SLOT} minmax(0, 1fr);
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
+  min-width: 0;
+  width: 100%;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-self: stretch;
+  };
 `;
 
 export const CapabilityIcon = styled.img`
-  width: 36px;
-  height: 36px;
+  width: ${CAPABILITY_ICON_SLOT};
+  height: ${CAPABILITY_ICON_SLOT};
   opacity: 0.85;
+  flex-shrink: 0;
+  justify-self: center;
 `;
 
 export const CapabilityDomain = styled.span`
@@ -123,52 +207,15 @@ export const CapabilityDomain = styled.span`
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: ${({ theme }) => theme.colors.textMuted};
-  min-width: 5rem;
-  text-align: right;
-`;
-
-// ── Featured row (primeiro item — hierarquia editorial) ───────────────────────
-
-export const CapabilityFeaturedRow = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: ${({ theme }) => theme.spacing.md};
-  padding: ${({ theme }) => theme.spacing.xl} 0
-    ${({ theme }) => theme.spacing.xxl};
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  margin-bottom: ${({ theme }) => theme.spacing.sm};
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: 4.5rem minmax(0, 0.42fr) minmax(0, 1fr);
-    align-items: end;
-    gap: ${({ theme }) => theme.spacing.xxl};
-  }
-`;
-
-export const CapabilityFeaturedName = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
-  font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2.25rem, 6vw, 3.75rem);
-  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
-  line-height: ${({ theme }) => theme.typography.lineHeight.tight};
-  color: ${({ theme }) => theme.colors.text};
-
-  img {
-    width: 44px;
-    height: 44px;
-    opacity: 0.9;
-    flex-shrink: 0;
-  }
+  min-width: 0;
 `;
 
 export const CapabilityFeaturedMeta = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  padding-bottom: ${({ theme }) => theme.spacing.xs};
+  min-width: 0;
+  width: 100%;
 `;
 
 export const CapabilityFeaturedDesc = styled.p`

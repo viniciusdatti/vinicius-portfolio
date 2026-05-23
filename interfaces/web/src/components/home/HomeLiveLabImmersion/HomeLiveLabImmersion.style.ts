@@ -88,7 +88,8 @@ export const ImmersionGrid = styled(motion.div)`
   }
 `;
 
-export const ImmersionCopy = styled.div`
+export const ImmersionCopy = styled(motion.div)`
+  min-height: 12rem;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
@@ -99,7 +100,7 @@ export const ImmersionCopy = styled.div`
   }
 `;
 
-export const ImmersionIndex = styled.span`
+export const ImmersionIndex = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(2.5rem, 6vw, 4rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -110,7 +111,7 @@ export const ImmersionIndex = styled.span`
   user-select: none;
 `;
 
-export const ImmersionEyebrow = styled.span`
+export const ImmersionEyebrow = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.14em;
@@ -118,7 +119,7 @@ export const ImmersionEyebrow = styled.span`
   color: ${({ theme }) => theme.colors.accent};
 `;
 
-export const ImmersionTitle = styled.h2`
+export const ImmersionTitle = styled(motion.h2)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(2rem, 5vw, 3.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -128,14 +129,14 @@ export const ImmersionTitle = styled.h2`
   max-width: 12ch;
 `;
 
-export const ImmersionLead = styled.p`
+export const ImmersionLead = styled(motion.p)`
   margin: 0;
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.prose};
 `;
 
-export const LiveBadge = styled.span`
+export const LiveBadge = styled(motion.span)`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -157,7 +158,9 @@ export const LiveBadge = styled.span`
   }
 `;
 
-export const ImmersionCta = styled(Link)`
+const MotionImmersionCta = motion.create(Link);
+
+export const ImmersionCta = styled(MotionImmersionCta)`
   display: inline-flex;
   width: fit-content;
   margin-top: ${({ theme }) => theme.spacing.sm};
@@ -193,9 +196,11 @@ export const ImmersionCta = styled(Link)`
   }
 `;
 
-export const ImmersionVisual = styled.div`
+export const ImmersionVisual = styled(motion.div)`
   position: relative;
   min-width: 0;
+  min-height: 16rem;
+  contain: layout;
   z-index: 1;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {

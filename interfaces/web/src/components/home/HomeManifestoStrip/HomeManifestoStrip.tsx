@@ -18,11 +18,13 @@ import {
   ManifestoMeta,
 } from '@/components/Home/HomeManifestoStrip/HomeManifestoStrip.style';
 
-const viewport = { once: true, amount: 0.25 as const };
+// =================================================================================================
+// ========================================== COMPONENT ============================================
+// =================================================================================================
 
 export const HomeManifestoStrip = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { manifestoStagger, manifestoPhrase } = useScrollMotion();
+  const { manifestoStagger, manifestoPhrase, viewport } = useScrollMotion();
 
   return (
     <ManifestoBand id="manifesto" aria-label={t('home.manifesto.aria')}>
@@ -32,7 +34,9 @@ export const HomeManifestoStrip = (): React.ReactElement => {
         whileInView="visible"
         viewport={viewport}
       >
-        <ManifestoIndex aria-hidden>{t('home.manifesto.index')}</ManifestoIndex>
+        <ManifestoIndex variants={manifestoPhrase} aria-hidden>
+          {t('home.manifesto.index')}
+        </ManifestoIndex>
         <ManifestoQuote>
           <ManifestoLine variants={manifestoPhrase}>
             {t('home.manifesto.linePrimary')}
@@ -40,7 +44,9 @@ export const HomeManifestoStrip = (): React.ReactElement => {
           <ManifestoEmphasis variants={manifestoPhrase}>
             {t('home.manifesto.lineEmphasis')}
           </ManifestoEmphasis>
-          <ManifestoMeta>{t('home.manifesto.meta')}</ManifestoMeta>
+          <ManifestoMeta variants={manifestoPhrase}>
+            {t('home.manifesto.meta')}
+          </ManifestoMeta>
         </ManifestoQuote>
       </ManifestoInner>
     </ManifestoBand>

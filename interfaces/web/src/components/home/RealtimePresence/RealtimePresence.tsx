@@ -4,28 +4,31 @@ import React, { useEffect, useMemo, useState } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { useScrollMotion } from '@/hooks/useScrollMotion';
+
 // Components
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   PresenceStrip,
   PresenceInner,
   PresenceLead,
-  PresencePills,
   PresencePill,
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
 } from '@/components/Home/RealtimePresence/RealtimePresence.style';
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
+// =================================================================================================
+// ========================================== COMPONENT ============================================
+// =================================================================================================
 
 /**
  * Subtle live strip on home — connection truth and micro-activity without console chrome.
  */
 export const RealtimePresence = (): React.ReactElement => {
   const { t } = useTranslation();
+  const { stagger, item, viewport } = useScrollMotion();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
 
@@ -66,17 +69,26 @@ export const RealtimePresence = (): React.ReactElement => {
 
   return (
     <PresenceStrip id="portfolio-presence">
-      <PresenceInner>
-        <PresenceLead>{t('home.realtime.lead')}</PresenceLead>
-        <PresencePills>
-          <PresencePill $tone={apiTone}>{apiLabel}</PresencePill>
-          <PresencePill $tone="idle">{t('home.realtime.channelIdle')}</PresencePill>
-          <PresenceMicro>
-            <PresenceMicroDot $live={apiTone === 'ok'} aria-hidden />
-            <span>{microLabel}</span>
-          </PresenceMicro>
-          <PresenceLink to="/live-lab">{t('home.realtime.openLab')}</PresenceLink>
-        </PresencePills>
+      <PresenceInner
+        variants={stagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
+        <PresenceLead variants={item}>{t('home.realtime.lead')}</PresenceLead>
+        <PresencePill $tone={apiTone} variants={item}>
+          {apiLabel}
+        </PresencePill>
+        <PresencePill $tone="idle" variants={item}>
+          {t('home.realtime.channelIdle')}
+        </PresencePill>
+        <PresenceMicro variants={item}>
+          <PresenceMicroDot $live={apiTone === 'ok'} aria-hidden />
+          <span>{microLabel}</span>
+        </PresenceMicro>
+        <PresenceLink to="/live-lab" variants={item}>
+          {t('home.realtime.openLab')}
+        </PresenceLink>
       </PresenceInner>
     </PresenceStrip>
   );
