@@ -1,0 +1,26 @@
+# Local Python environment and caches
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+.coverage.*
+*.egg-info/
+.eggs/
+
+# Local SQLite (dev)
+portfolio.db
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Secrets — use .env.example as template
+.env
+.env.*
+!.env.example
