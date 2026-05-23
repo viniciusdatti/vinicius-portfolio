@@ -73,7 +73,8 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
           position: relative;
           z-index: ${theme.zIndex.content};
           min-height: 100vh;
-          overflow-x: hidden;
+          /* clip — unlike hidden, does not force overflow-y to compute as auto */
+          overflow-x: clip;
           overflow-y: visible;
         `)};
 `;

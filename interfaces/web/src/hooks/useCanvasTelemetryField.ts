@@ -21,7 +21,6 @@ import {
   TelemetryFieldVariant,
   type ConstellationNodeState,
 } from '@/lib/telemetryFieldCanvas';
-import { FORCE_AMBIENT_MOTION } from '@/lib/ambientMotion';
 import { clampDevicePixelRatio } from '@/lib/motionPhysics';
 
 // Hooks
@@ -41,8 +40,6 @@ export interface UseCanvasTelemetryFieldOptions {
   scrollOffset?: number;
   /** Track window pointer against the canvas container bounds. */
   trackPointer?: boolean;
-  /** Full-viewport fixed layer — skip IntersectionObserver pause (Chrome-safe). */
-  fixedViewport?: boolean;
 }
 
 export interface UseCanvasTelemetryFieldResult {
@@ -71,7 +68,7 @@ const COBALT_ACCENT: string = '#0052FF';
  ************************************************************************************************ */
 
 /**
- * Resize-aware Canvas2D telemetry field with visibility pause (unless FORCE_AMBIENT_MOTION).
+ * Resize-aware Canvas2D telemetry field — pauses off-viewport; static frame when reduced motion.
  */
 export const useCanvasTelemetryField = (
   options: UseCanvasTelemetryFieldOptions,
@@ -83,13 +80,12 @@ export const useCanvasTelemetryField = (
     pulse = 0,
     scrollOffset = 0,
     trackPointer = false,
-    fixedViewport = false,
   } = options;
 
   const theme: Theme = useTheme() as Theme;
   const systemReducedMotion: boolean = usePrefersReducedMotion();
-  const reduced: boolean = FORCE_AMBIENT_MOTION ? false : systemReducedMotion;
-  const keepLoopActive: boolean = FORCE_AMBIENT_MOTION || fixedViewport;
+  /** Static frame when OS requests reduced motion; backdrop may still mount for brand. */
+  const reduced: boolean = systemReducedMotion;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const frameRef = useRef<number | null>(null);
@@ -264,11 +260,6 @@ export const useCanvasTelemetryField = (
   }, []);
 
   useEffect(() => {
-    if (keepLoopActive) {
-      visibleRef.current = true;
-      return undefined;
-    }
-
     const container: HTMLDivElement | null = containerRef.current;
     if (!container) {
       return undefined;
@@ -286,7 +277,7 @@ export const useCanvasTelemetryField = (
     return (): void => {
       observer.disconnect();
     };
-  }, [containerMounted, keepLoopActive]);
+  }, [containerMounted]);
 
   useEffect(() => {
     if (!reduced) {

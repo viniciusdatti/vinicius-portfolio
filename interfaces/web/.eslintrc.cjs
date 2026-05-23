@@ -1,4 +1,9 @@
 // Aligned with interfaces/web ESLint baseline (Airbnb + TypeScript, no Prettier)
+const {
+  R3F_SOURCE_GLOBS,
+  R3F_UNKNOWN_PROPERTY_IGNORE,
+} = require('./eslint/r3f-unknown-properties.cjs');
+
 module.exports = {
   env: {
     browser: true,
@@ -8,6 +13,10 @@ module.exports = {
     'airbnb',
     'airbnb/hooks',
     'airbnb-typescript',
+    'plugin:@react-three/recommended',
+  ],
+  plugins: [
+    '@react-three',
   ],
   ignorePatterns: [
     'build',
@@ -40,6 +49,14 @@ module.exports = {
       rules: {
         'import/no-extraneous-dependencies': ['error', {
           devDependencies: true,
+        }],
+      },
+    },
+    {
+      files: R3F_SOURCE_GLOBS,
+      rules: {
+        'react/no-unknown-property': ['error', {
+          ignore: [...R3F_UNKNOWN_PROPERTY_IGNORE],
         }],
       },
     },

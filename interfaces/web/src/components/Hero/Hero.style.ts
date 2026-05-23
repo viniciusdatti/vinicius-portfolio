@@ -149,38 +149,59 @@ export const HeroMicroLabel = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  line-height: 1.2;
+  line-height: ${({ theme }) => theme.typography.lineHeight.snug};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
 `;
 
-export const HeroEyebrowRow = styled.span`
-  display: inline-flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
+/** Live Lab channel — accent tone, paired with secondary rule in row 2. */
+export const HeroLiveMicroLabel = styled(HeroMicroLabel)`
+  color: ${({ theme }) => theme.colors.accent};
+  opacity: 0.9;
 `;
 
-/** Live-demo micro-eyebrow — outside H1, does not split the headline semantics. */
-export const HeroLiveIndicatorRow = styled.div`
+/** Shared row shell — rule + mono label, full width for wrap on narrow viewports. */
+export const HeroEyebrowRow = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
   width: 100%;
   min-width: 0;
 `;
 
-/** Uppercase technical eyebrows — micro-gap so labels do not read as one block. */
+/** @deprecated Use HeroEyebrowRow — kept for export stability. */
+export const HeroLiveIndicatorRow = HeroEyebrowRow;
+
+/** Uppercase technical eyebrows — editorial rhythm between channel lines. */
 export const HeroEyebrowStack = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  gap: clamp(
+    ${({ theme }) => theme.spacing.md},
+    2.5vw,
+    ${({ theme }) => theme.spacing.lg}
+  );
   width: 100%;
   min-width: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.xs};
+`;
+
+/** Static secondary rule — same 24px measure as HeroEyebrowLine for label alignment. */
+export const HeroEyebrowRuleSecondary = styled.span`
+  display: block;
+  width: 24px;
+  height: 1px;
+  flex-shrink: 0;
+  background: ${({ theme }) => theme.colors.accent};
+  opacity: 0.28;
 `;
 
 /** Animated technical rule — expands 0 → 24px via Framer (Hero.motion). */
 export const HeroEyebrowLine = styled(motion.span)`
   display: block;
+  width: 24px;
   height: 1px;
   flex-shrink: 0;
   background: ${({ theme }) => theme.colors.accent};
@@ -338,7 +359,8 @@ export const HeroMotionStack = styled(motion.div)`
 /** Canonical 2-column hero shell — content column + portrait (desktop). */
 export const HeroLayoutGrid = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: ${({ theme }) => theme.zIndex.content};
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -456,6 +478,8 @@ export const HeroNarrativeColumn = styled.div`
  * Unified narrative cell — eyebrows through CTAs; grid centering targets this block.
  */
 export const HeroNarrativeContent = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zIndex.content};
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -547,15 +571,6 @@ export const HeroVoidTerminalLabel = styled.span`
   };
 `;
 
-/** @deprecated Use HeroVoidTerminal layout shell */
-export const HeroBootRailWrap = styled(motion.div)``;
-
-/** @deprecated Boot rail merged into headline micro-labels */
-export const HeroBootRail = styled.div``;
-
-/** @deprecated Use HeroMicroLabel */
-export const HeroBootStatusLine = styled(motion.span)``;
-
 export const HeroSectionIndex = styled.span`
   position: absolute;
   right: ${({ theme }) => theme.spacing.md};
@@ -638,12 +653,6 @@ export const HeroAvatarFrame = styled(motion.div)`
   }
 `;
 
-export const HeroBootStatusStagger = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  gap: inherit;
-`;
-
 /** @deprecated Pill tag replaced by HeroMicroLabel stack */
 export const HeroDecoTag = HeroMicroLabel;
 
@@ -710,13 +719,33 @@ export const HeroStackLine = styled.p`
 `;
 
 export const HeroStackTech = styled.span`
-  color: ${({ theme }) => theme.colors.accent};
+  color: ${({ theme }) => theme.colors.textMuted};
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
-  background: ${({ theme }) => theme.colors.primarySurface};
+  border-radius: ${({ theme }) => theme.borderRadius.full};
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  background: rgba(0, 20, 30, 0.6);
+  backdrop-filter: blur(4px);
   margin-right: ${({ theme }) => theme.spacing.xs};
   margin-bottom: ${({ theme }) => theme.spacing.xs};
+  transition:
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: hover) {
+    &:hover {
+      color: ${({ theme }) => theme.colors.accent};
+      border-color: rgba(0, 242, 254, 0.55);
+      box-shadow: ${({ theme }) => theme.shadows.glow};
+    };
+  };
+
+  &:focus-visible {
+    color: ${({ theme }) => theme.colors.accent};
+    border-color: rgba(0, 242, 254, 0.55);
+    box-shadow: ${({ theme }) => theme.shadows.glow};
+    outline: none;
+  };
 `;
 
 export const HeroStackSeparator = styled.span`

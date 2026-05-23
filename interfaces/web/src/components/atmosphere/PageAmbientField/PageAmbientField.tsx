@@ -35,7 +35,6 @@ export const PageAmbientField: React.FC<PageAmbientFieldProps> = ({
     pulse,
     scrollOffset,
     trackPointer,
-    fixedViewport: true,
     maxDevicePixelRatio: 1.5,
   });
 

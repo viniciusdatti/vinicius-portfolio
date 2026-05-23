@@ -36,10 +36,11 @@ import {
   HeroPortraitMobileReveal,
   HeroPortrait,
   HeroMicroLabel,
+  HeroLiveMicroLabel,
   HeroEyebrowRow,
   HeroEyebrowLine,
+  HeroEyebrowRuleSecondary,
   HeroEyebrowStack,
-  HeroLiveIndicatorRow,
   HeroHeadline,
   HeroHeadlineClip,
   HeroHeadlineClipInner,
@@ -113,7 +114,7 @@ export const Hero: React.FC = (): React.ReactElement => {
   const heroRef = React.useRef<HTMLElement | null>(null);
   const avatarSrc: string = publicAssetUrl('avatar.png');
 
-  const motionInitial: string = reduced ? 'show' : 'hidden';
+  const motionInitial: false | string = reduced ? false : 'hidden';
   const motionAnimate: string = 'show';
 
   return (
@@ -155,9 +156,10 @@ export const Hero: React.FC = (): React.ReactElement => {
                     />
                     <HeroMicroLabel>{t('home.hero.eyebrow')}</HeroMicroLabel>
                   </HeroEyebrowRow>
-                  <HeroLiveIndicatorRow>
-                    <HeroMicroLabel>{t('home.hero.liveIndicator')}</HeroMicroLabel>
-                  </HeroLiveIndicatorRow>
+                  <HeroEyebrowRow>
+                    <HeroEyebrowRuleSecondary aria-hidden />
+                    <HeroLiveMicroLabel>{t('home.hero.liveIndicator')}</HeroLiveMicroLabel>
+                  </HeroEyebrowRow>
                 </HeroEyebrowStack>
               </motion.div>
 
@@ -181,14 +183,6 @@ export const Hero: React.FC = (): React.ReactElement => {
               </HeroHeadline>
 
               <motion.div variants={heroModuleReveal}>
-                <HeroStackLine>
-                  {STACK_TECHNOLOGIES.map((tech: string) => (
-                    <HeroStackTech key={tech}>{tech}</HeroStackTech>
-                  ))}
-                </HeroStackLine>
-              </motion.div>
-
-              <motion.div variants={heroModuleReveal}>
                 <HeroDescription>{t('home.hero.description')}</HeroDescription>
               </motion.div>
 
@@ -205,6 +199,14 @@ export const Hero: React.FC = (): React.ReactElement => {
                     </Button>
                   </CtaButtonWrapper>
                 </CtaWrapper>
+              </motion.div>
+
+              <motion.div variants={heroModuleReveal}>
+                <HeroStackLine>
+                  {STACK_TECHNOLOGIES.map((tech: string) => (
+                    <HeroStackTech key={tech}>{tech}</HeroStackTech>
+                  ))}
+                </HeroStackLine>
               </motion.div>
             </HeroMotionStack>
           </HeroNarrativeContent>

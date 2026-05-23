@@ -24,11 +24,6 @@ const statusColor = (
   theme: DefaultTheme,
 ): string => getTelemetryStatusColor(status, theme);
 
-const sweep = keyframes`
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
-`;
-
 const pulseRing = keyframes`
   0%, 100% { transform: scale(1); opacity: 0.6; }
   50% { transform: scale(1.35); opacity: 0; }
@@ -139,23 +134,6 @@ export const SensorTile = styled.div<{ $status: SensorStatus }>`
     opacity: 0.85;
   }
 
-  &::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      105deg,
-      transparent 40%,
-      ${({ theme }) => theme.colors.primary}08 50%,
-      transparent 60%
-    );
-    animation: ${sweep} 4.5s ease-in-out infinite;
-    pointer-events: none;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-    }
-  }
 `;
 
 export const SensorTileLabel = styled.div`

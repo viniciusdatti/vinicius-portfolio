@@ -44,7 +44,6 @@ export const LiveLabStreamField: React.FC = (): React.ReactElement => {
   const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.LiveLabStream,
     pulse,
-    fixedViewport: true,
     maxDevicePixelRatio: 1.5,
   });
 

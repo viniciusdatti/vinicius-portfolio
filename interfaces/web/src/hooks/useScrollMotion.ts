@@ -6,7 +6,6 @@ import type { Variants } from 'framer-motion';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotionViewport } from '@/hooks/scrollMotionViewport';
 import {
   manifestoPhrase,
   manifestoPhraseReduced,
@@ -33,7 +32,7 @@ export type ScrollRevealViewport = typeof scrollRevealViewport & {
 };
 
 export interface ScrollMotionContract {
-  /** Section shell — opacity 0, y 30, blur 6px → visible @ 450ms. */
+  /** Section shell — y 12 → 0 (opacity stays 1 if whileInView is delayed). */
   section: Variants;
   /** Page title — same contract as section (gradient-safe). */
   title: Variants;
@@ -49,26 +48,33 @@ export interface ScrollMotionContract {
   depth: Variants;
   manifestoStagger: Variants;
   manifestoPhrase: Variants;
-  /** whileInView gate: once, amount 0.18. */
+  /** whileInView gate: once, amount 0.05. */
   viewport: ScrollRevealViewport;
+  /** Prefer `animate` for above-the-fold blocks; `whileInView` for scroll sections. */
+  resolveInitial: (reduced: boolean) => false | 'hidden';
 }
+
+/**
+ * Initial variant for scroll motion — skip entrance when reduced motion is on.
+ */
+export const resolveScrollMotionInitial = (reduced: boolean): false | 'hidden' => (
+  reduced ? false : 'hidden'
+);
 
 /**
  * P0 kinetic scroll contract — centralized variants + viewport gate (prefers-reduced-motion aware).
  */
 export const useScrollMotion = (): ScrollMotionContract => {
-  const reduced = usePrefersReducedMotion();
-  const { scrollRootRef, attachCustomRoot } = useScrollMotionViewport();
+  const reduced: boolean = usePrefersReducedMotion();
 
-  const viewport = useMemo((): ScrollRevealViewport => {
-    if (!attachCustomRoot) {
-      return scrollRevealViewport;
-    }
-    return {
-      ...scrollRevealViewport,
-      root: scrollRootRef,
-    };
-  }, [attachCustomRoot, scrollRootRef]);
+  /**
+   * Always use the document viewport for whileInView.
+   * Custom scroll roots broke Home reveals when overflow-x: hidden coerced overflow-y to auto.
+   */
+  const viewport: ScrollRevealViewport = useMemo(
+    (): ScrollRevealViewport => scrollRevealViewport,
+    [],
+  );
 
   return {
     section: reduced ? scrollRevealReduced : scrollReveal,
@@ -81,5 +87,6 @@ export const useScrollMotion = (): ScrollMotionContract => {
     manifestoStagger: manifestoPhraseStagger,
     manifestoPhrase: reduced ? manifestoPhraseReduced : manifestoPhrase,
     viewport,
+    resolveInitial: resolveScrollMotionInitial,
   };
 };

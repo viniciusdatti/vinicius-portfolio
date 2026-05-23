@@ -5,13 +5,13 @@ import styled from 'styled-components';
  ********************************************* STYLES **********************************************
  ************************************************************************************************ */
 
-/** Absolute baseline WebGL layer — no pointer capture, sits under narrative stack. */
+/** Absolute baseline WebGL layer — bleeds past hero bounds for a wider particle field. */
 export const HeroVisual3DCanvasWrap = styled.div`
   position: absolute;
-  inset: 0;
+  inset: -14% -10%;
   pointer-events: none;
-  z-index: 1;
-  opacity: 1;
+  z-index: ${({ theme }) => theme.zIndex.base};
+  opacity: ${({ theme }) => theme.effects.opacity.heroGlowMin};
 
   canvas {
     display: block;

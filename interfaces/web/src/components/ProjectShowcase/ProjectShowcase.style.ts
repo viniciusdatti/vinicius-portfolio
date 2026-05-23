@@ -292,6 +292,11 @@ export const TerminalShimmerWash = styled.div`
   background-size: 220% 100%;
   animation: ${codeShimmerSweep} 9s ease-in-out infinite;
 
+  ${ShowcaseCard}:not(:hover):not(:focus-within) & {
+    animation-play-state: paused;
+    opacity: 0.03;
+  };
+
   @media (prefers-reduced-motion: reduce) {
     animation: none;
     opacity: 0.04;
@@ -313,6 +318,11 @@ export const TerminalCodeLine = styled.div<{
   text-overflow: ellipsis;
   animation: ${terminalLinePulse} 4.2s ease-in-out infinite;
   animation-delay: ${({ $delay }) => $delay};
+
+  ${ShowcaseCard}:not(:hover):not(:focus-within) & {
+    animation-play-state: paused;
+    opacity: 0.5;
+  };
 
   color: ${({ $role, theme }) => {
     if ($role === TerminalCodeTokenRole.Keyword) {
@@ -347,6 +357,10 @@ export const TerminalCursor = styled.span`
   background: ${({ theme }) => theme.colors.primary};
   opacity: 0.65;
   animation: ${cursorBlink} 1.1s step-end infinite;
+
+  ${ShowcaseCard}:not(:hover):not(:focus-within) & {
+    animation-play-state: paused;
+  };
 
   @media (prefers-reduced-motion: reduce) {
     animation: none;

@@ -892,6 +892,14 @@
     utility-types "^3.11.0"
     zustand "^5.0.1"
 
+"@react-three/eslint-plugin@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@react-three/eslint-plugin/-/eslint-plugin-0.1.2.tgz#2bfb507cbe3c667d8f2a767d192ab1e0e6b4d5ee"
+  integrity sha512-jenNIhvt+/1fb3NDr3M5vwF06U9euX6kI2SuAFltVKdQP2nzUPY+zdati2Rd67ewAKn0jfljQWT7DWIe6siChg==
+  dependencies:
+    "@babel/runtime" "^7.17.8"
+    eslint "^8.12.0"
+
 "@react-three/fiber@^9.6.1":
   version "9.6.1"
   resolved "https://registry.yarnpkg.com/@react-three/fiber/-/fiber-9.6.1.tgz#99dcef884acbad6e3243bab45ae36cd1df0c4b27"
@@ -2737,7 +2745,7 @@ eslint-visitor-keys@^3.3.0, eslint-visitor-keys@^3.4.1, eslint-visitor-keys@^3.4
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-3.4.3.tgz#0cd72fe8550e3c2eae156a96a4dddcd1c8ac5800"
   integrity sha512-wpc+LXeiyiisxPlEkUzU6svyS1frIO3Mgxj1fdy7Pm8Ygzguax2N3Fa/D/ag1WqbOprdI+uY6wMUl8/a2G+iag==
 
-eslint@^8.57.0:
+eslint@^8.12.0, eslint@^8.57.0:
   version "8.57.1"
   resolved "https://registry.yarnpkg.com/eslint/-/eslint-8.57.1.tgz#7df109654aba7e3bbe5c8eae533c5e461d3c6ca9"
   integrity sha512-ypowyDxpVSYpkXr9WPv2PAZCtNip1Mv5KTW0SCurXv/9iOpcrH9PaqUElksqEB6pChqHGDRCFTyrZlGhnLNGiA==

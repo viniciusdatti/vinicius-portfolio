@@ -6,6 +6,9 @@ import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+
 // Components
 import {
   hamburgerTop,
@@ -61,6 +64,7 @@ export const Header = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
+  const reducedMotion: boolean = usePrefersReducedMotion();
   const isLiveLab: boolean = location.pathname === '/live-lab';
 
   useEffect(() => {
@@ -92,10 +96,10 @@ export const Header = (): React.ReactElement => {
     <>
       <HeaderContainer
         $scrolled={state.scrolled}
-        initial={{ opacity: 0 }}
+        initial={reducedMotion ? false : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{
-          duration: motionPresets.duration.page,
+          duration: motionPresets.duration.fast,
           ease: motionEase,
         }}
       >
