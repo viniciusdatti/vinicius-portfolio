@@ -1,5 +1,7 @@
 # Especificação Técnica - Portfólio Vinicius Datti V2
 
+> **Atualização (2026):** As seções de **chat em tempo real**, **painel admin** e **autenticação JWT** foram **removidas do código**. O produto atual é: site público (projetos, skills, certificados, contato) + **Live Lab** (telemetria via Socket.IO `/telemetry`). Use o repositório como fonte da verdade; trechos abaixo que citam admin/chat são histórico de planejamento.
+
 ## Documento de Referência
 - **Requisito Funcional:** `/docs/portfolio-v2/functional_requirements/feature_requirement_pt-br.md`
 - **Versão:** 1.0
@@ -11,7 +13,7 @@
 ## 1. Visão Geral e Decisões Técnicas
 
 ### 1.1 Resumo do Projeto
-Transformação do portfólio single-page em aplicação full-stack com sistema de chat em tempo real, painel administrativo, e UX/UI de alta qualidade inspirada em sites premiados (Awwwards).
+Portfólio full-stack com páginas editoriais, formulário de contato, API de conteúdo e **Live Lab** (demo de telemetria industrial em tempo real via WebSocket), com UX/UI de alta qualidade.
 
 ### 1.2 Tabela de Decisões Técnicas
 

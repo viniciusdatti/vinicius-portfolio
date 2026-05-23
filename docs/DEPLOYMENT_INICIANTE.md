@@ -104,7 +104,6 @@ Na mesma tela, role até a seção **Environment Variables** (Variáveis de ambi
 | `ENVIRONMENT` | `production` |
 | `DATABASE_URL` | Cole aqui a **connection string** que você copiou do Neon (Passo 1.3). |
 | `CORS_ORIGINS` | Por enquanto escreva: `https://vinicius-portfolio.vercel.app` (depois que o site estiver na Vercel, você pode ajustar para a URL real que a Vercel te der). |
-| `JWT_SECRET_KEY` | Uma senha forte e longa. Exemplo: `minhaChaveSecretaSuperSegura2024!@#NuncaCompartilhe`. Em produção use algo aleatório e longo (pode gerar em https://randomkeygen.com/ na seção “CodeIgniter Encryption Keys”). |
 
 **Opcionais (pode pular por enquanto):**
 
@@ -216,7 +215,7 @@ Marque conforme for fazendo:
 - [ ] Conta no Neon e projeto criado
 - [ ] Connection string do Neon copiada
 - [ ] Web Service na Render criado (root: `backend`)
-- [ ] Variáveis no Render: `ENVIRONMENT`, `DATABASE_URL`, `CORS_ORIGINS`, `JWT_SECRET_KEY`
+- [ ] Variáveis no Render: `ENVIRONMENT`, `DATABASE_URL`, `CORS_ORIGINS`
 - [ ] Deploy do backend concluído e URL anotada
 - [ ] Teste `/health` no navegador — retornou `healthy`?
 - [ ] Pre-Deploy (criar tabelas) rodado ou combinado depois
@@ -256,7 +255,7 @@ Marque conforme for fazendo:
 # Resumo rápido (quando você já tiver feito uma vez)
 
 1. **Neon:** criar projeto → copiar connection string.
-2. **Render:** New Web Service → repo → Root `backend` → Build: `pip install -r requirements.txt` → Start: `uvicorn app.main:socket_app --host 0.0.0.0 --port $PORT` → variáveis `ENVIRONMENT`, `DATABASE_URL`, `CORS_ORIGINS`, `JWT_SECRET_KEY` → Deploy → anotar URL.
+2. **Render:** New Web Service → repo → Root `backend` → Build: `pip install -r requirements.txt` → Start: `uvicorn app.main:socket_app --host 0.0.0.0 --port $PORT` → variáveis `ENVIRONMENT`, `DATABASE_URL`, `CORS_ORIGINS` → Deploy → anotar URL.
 3. **Vercel:** Import Project → Root `interfaces/web` → Output `dist` → `VITE_API_URL` = URL Render + `/api/v1` → Deploy → anotar URL do site.
 4. **Render:** atualizar `CORS_ORIGINS` com a URL do site na Vercel.
 

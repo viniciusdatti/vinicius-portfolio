@@ -43,7 +43,7 @@ yarn docker:qa      # Playwright smoke (com stack no ar)
 |---------|-----|
 | `.env.docker` | Compose: Postgres, CORS, `RUN_SEED` |
 | `interfaces/web/.env` | `VITE_API_URL`, `VITE_DEV_PORT` |
-| `backend/.env` | Secrets opcionais (Resend, JWT) |
+| `backend/.env` | Secrets opcionais (Resend, Telegram) |
 
 `DATABASE_URL` no container: `postgresql://portfolio:portfolio@postgres:5432/portfolio` (override automático no compose).
 
@@ -64,7 +64,7 @@ yarn docker:qa      # Playwright smoke (com stack no ar)
 docker compose -f docker-compose.prod.yml --env-file .env.docker up --build
 ```
 
-Define `JWT_SECRET_KEY` no `.env.docker`. Frontend nginx em `:8080`.
+Frontend nginx em `:8080`.
 
 ## WSL2 + Docker Desktop
 

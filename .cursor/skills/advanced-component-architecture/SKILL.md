@@ -28,7 +28,7 @@ components/
 
 **Do not** add siblings without updating shell z-index stack (`WorkspaceShell.style.ts`).
 
-Dead code policy: remove or wire `ModuleRail`, `ContextPanel`, `Card`, `SpotlightSurface`, `SystemBar`, `LiveChannel`.
+Dead code policy: remove unused shells/components; do not leave orphaned routes, stores, or i18n keys.
 
 ## Consolidation targets
 

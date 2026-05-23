@@ -55,7 +55,6 @@ jobs:
       - name: Copy env files
         run: |
           cp .env.docker.example .env.docker
-          echo "JWT_SECRET_KEY=ci-smoke-test-secret-min-32-chars-long" >> .env.docker
       - run: docker compose -f docker-compose.prod.yml --env-file .env.docker build
       - run: docker compose -f docker-compose.prod.yml --env-file .env.docker up -d
       - name: Wait for backend health

@@ -35,15 +35,13 @@ Base: `http://localhost:5173` (Vite). API Docker: `http://localhost:8000`
 
 Public: `/`, `/about`, `/skills`, `/projects`, `/live-lab`, `/contact`
 
-Admin: `/admin/login`, `/admin`, `/admin/chat`
-
 ## Required workflow
 
 1. Confirm dev server: `yarn dev` in `interfaces/web` → port **5173**; API via `docker compose up` or local uvicorn
 2. **Playwright**: walk relevant routes, console/network/snapshots at multiple viewports
 3. **Shell** (frontend cwd):
    - `yarn build`
-   - `yarn test --watchAll=false` when logic changed
+   - `yarn test` when logic changed
 4. Fix runtime, UI, a11y, TS issues; respect `.cursor/rules/*`
 5. Re-run build + browser validation
 
