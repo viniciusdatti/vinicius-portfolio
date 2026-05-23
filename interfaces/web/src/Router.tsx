@@ -2,150 +2,46 @@
 import React, { lazy, Suspense } from 'react';
 
 // Libraries
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 // Components
-import { Layout } from './components/layout';
-import { Spinner } from './components/common/Spinner';
-import { PageLoaderWrapper } from './Router.style';
+import { Layout } from '@/components/layout';
+import { RouteError } from '@/components/RouteError';
+import { Spinner } from '@/components/common/Spinner';
+import { PageLoaderWrapper } from '@/Router.style';
+import { LiveLab } from '@/pages/LiveLab';
 
-// Lazy load pages for code splitting
-const Home = lazy(() =>
-  import('./pages/Home').then((m) => ({ default: m.Home }))
-);
-const About = lazy(() =>
-  import('./pages/About').then((m) => ({ default: m.About }))
-);
-const Skills = lazy(() =>
-  import('./pages/Skills').then((m) => ({ default: m.Skills }))
-);
-const Projects = lazy(() =>
-  import('./pages/Projects').then((m) => ({ default: m.Projects }))
-);
-const LiveLab = lazy(() =>
-  import('./pages/LiveLab').then((m) => ({ default: m.LiveLab }))
-);
-const Contact = lazy(() =>
-  import('./pages/Contact').then((m) => ({ default: m.Contact }))
-);
+const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
+const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
+const Skills = lazy(() => import('./pages/Skills').then((m) => ({ default: m.Skills })));
+const Projects = lazy(() => import('./pages/Projects').then((m) => ({ default: m.Projects })));
+const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 
-// Admin pages
-const AdminLogin = lazy(() =>
-  import('./pages/admin/Login').then((m) => ({ default: m.Login }))
-);
-const AdminDashboard = lazy(() =>
-  import('./pages/admin/Dashboard').then((m) => ({ default: m.Dashboard }))
-);
-const AdminChat = lazy(() =>
-  import('./pages/admin/Chat').then((m) => ({ default: m.Chat }))
-);
-const AdminLayout = lazy(() =>
-  import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout }))
-);
-
-// Page loader component
-const PageLoader: React.FC = () => (
+const PageLoader = (): React.ReactElement => (
   <PageLoaderWrapper>
     <Spinner size="lg" />
   </PageLoaderWrapper>
 );
 
-// Router configuration
+const withSuspense = (element: React.ReactElement): React.ReactElement => (
+  <Suspense fallback={<PageLoader />}>{element}</Suspense>
+);
+
 const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <RouteError />,
     children: [
-      {
-        index: true,
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Home />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'about',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'skills',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Skills />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'projects',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Projects />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'live-lab',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <LiveLab />
-          </Suspense>
-        ),
-      },
-      {
-        path: 'contact',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <Contact />
-          </Suspense>
-        ),
-      },
-    ],
-  },
-  {
-    path: '/admin',
-    children: [
-      {
-        path: 'login',
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AdminLogin />
-          </Suspense>
-        ),
-      },
-      {
-        element: (
-          <Suspense fallback={<PageLoader />}>
-            <AdminLayout />
-          </Suspense>
-        ),
-        children: [
-          {
-            index: true,
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <AdminDashboard />
-              </Suspense>
-            ),
-          },
-          {
-            path: 'chat',
-            element: (
-              <Suspense fallback={<PageLoader />}>
-                <AdminChat />
-              </Suspense>
-            ),
-          },
-        ],
-      },
+      { index: true, element: withSuspense(<Home key="home-view" />) },
+      { path: 'about', element: withSuspense(<About key="about-view" />) },
+      { path: 'skills', element: withSuspense(<Skills key="skills-view" />) },
+      { path: 'projects', element: withSuspense(<Projects key="projects-view" />) },
+      { path: 'contact', element: withSuspense(<Contact key="contact-view" />) },
+      { path: 'live-lab', element: <LiveLab key="live-lab-view" /> },
+      { path: 'home', element: <Navigate to="/" replace /> },
     ],
   },
 ]);
 
-export const Router: React.FC = () => {
-  return <RouterProvider router={router} />;
-};
+export const Router = (): React.ReactElement => <RouterProvider router={router} />;

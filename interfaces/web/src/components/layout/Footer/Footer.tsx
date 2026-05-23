@@ -20,7 +20,7 @@ import {
   FooterBottom,
   Copyright,
   TechStack,
-} from './Footer.style';
+} from '@/components/layout/Footer/Footer.style';
 
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">
@@ -41,7 +41,7 @@ const EmailIcon = () => (
   </svg>
 );
 
-export const Footer: React.FC = () => {
+export const Footer = (): React.ReactElement => {
   const { t } = useTranslation();
   const currentYear = new Date().getFullYear();
 
@@ -50,7 +50,8 @@ export const Footer: React.FC = () => {
       <FooterContent>
         <FooterSection>
           <FooterLogo>
-            Vinicius<span>.</span>
+            Vinicius
+            <span>.</span>
           </FooterLogo>
           <FooterDescription>
             {t('footer.description')}
@@ -60,9 +61,7 @@ export const Footer: React.FC = () => {
               href="https://github.com/viniciusdatti"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="GitHub"
+              aria-label={t('a11y.github')}
             >
               <GitHubIcon />
             </SocialLink>
@@ -70,17 +69,13 @@ export const Footer: React.FC = () => {
               href="https://www.linkedin.com/in/vinicius-datti-791482267/"
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="LinkedIn"
+              aria-label={t('a11y.linkedin')}
             >
               <LinkedInIcon />
             </SocialLink>
             <SocialLink
               href="mailto:viniciusdatti@gmail.com"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Email"
+              aria-label={t('a11y.email')}
             >
               <EmailIcon />
             </SocialLink>
@@ -112,7 +107,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
             >
               <LinkedInIcon />
-              LinkedIn
+              {t('footer.linkedin')}
             </FooterLink>
             <FooterLink
               href="https://github.com/viniciusdatti"
@@ -120,7 +115,7 @@ export const Footer: React.FC = () => {
               rel="noopener noreferrer"
             >
               <GitHubIcon />
-              GitHub
+              {t('footer.github')}
             </FooterLink>
           </FooterLinks>
         </FooterSection>
@@ -128,10 +123,25 @@ export const Footer: React.FC = () => {
 
       <FooterBottom>
         <Copyright>
-          © {currentYear} Vinicius Datti. {t('footer.rights')}
+          ©
+          {' '}
+          {currentYear}
+          {' '}
+          Vinicius Datti.
+          {' '}
+          {t('footer.rights')}
         </Copyright>
         <TechStack>
-          {t('footer.builtWith')} <span>React</span>, <span>TypeScript</span> & <span>FastAPI</span>
+          {t('footer.builtWith')}
+          {' '}
+          <span>{t('footer.techReact')}</span>
+          ,
+          {' '}
+          <span>{t('footer.techTypeScript')}</span>
+          {' '}
+          &
+          {' '}
+          <span>{t('footer.techFastApi')}</span>
         </TechStack>
       </FooterBottom>
     </FooterContainer>

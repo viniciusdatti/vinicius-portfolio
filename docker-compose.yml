@@ -1,0 +1,69 @@
+# Local dev: PostgreSQL + FastAPI (reload). Frontend runs on host via Vite (port 5173).
+# Usage: docker compose --env-file .env.docker up -d && yarn --cwd interfaces/web dev
+name: vinicius-portfolio
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-portfolio}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portfolio}
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-portfolio} -d ${POSTGRES_DB:-portfolio}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - portfolio-net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: portfolio-backend
+    restart: unless-stopped
+    env_file:
+      - path: ./backend/.env
+        required: false
+    environment:
+      ENVIRONMENT: development
+      DATABASE_URL: postgresql://${POSTGRES_USER:-portfolio}:${POSTGRES_PASSWORD:-portfolio}@postgres:5432/${POSTGRES_DB:-portfolio}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173,http://localhost:3000,http://127.0.0.1:3000}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      RUN_SEED: ${RUN_SEED:-true}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 40s
+    networks:
+      - portfolio-net
+
+volumes:
+  postgres_data:
+    name: portfolio_postgres_data
+
+networks:
+  portfolio-net:
+    name: portfolio-net
+    driver: bridge

@@ -1,5 +1,5 @@
 # Libraries
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Boolean, Column, Integer, String
 
 # App - Database
 from app.db.base import Base

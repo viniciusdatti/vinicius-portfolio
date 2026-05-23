@@ -1,37 +1,83 @@
 /**
  * @fileoverview Skills page component.
- * Displays technical skills with filtering by category and certificates section.
+ * Displays technical skills with editorial hierarchy and certificates section.
  */
 
 // Core
-import React, { useState, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useMemo,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, type Variants } from 'framer-motion';
 
-// Styles
+// Types
+import type { Certificate, Skill } from '@/types';
+
+// Hooks
+import { useSkills, useCertificates } from '@/hooks';
+import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
+
+// Domain
 import {
-  staggerContainer,
-  staggerItem,
-  fadeInUp,
-} from '../../styles/animations';
+  buildEditorialSkillsLayout,
+  getPlatformConfig,
+  resolveCertificateDisplayName,
+  resolveSkillDisplayName,
+  resolveSkillIconUrl,
+  sortCertificates,
+  SkillLayoutTier,
+  type EditorialSkillsLayout,
+  type SkillLayoutPlacement,
+} from '@/domain/skills';
 
-// Components (styled)
+// Components
+import { motionEase } from '@/styles/animations';
+import { motionPresets } from '@/styles/motionPresets';
+import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
   PageHeader,
   PageTitle,
+  PageTitleGradient,
   PageSubtitle,
+  SectionEyebrow,
+} from '@/styles/pageLayout.style';
+
+// View
+import {
   Section,
   SectionTitle,
-  CategoryTabs,
-  CategoryTab,
+  SectionTitleGradient,
+  SkillsStaggerSlot,
   SkillsGrid,
-  SkillCard,
-  SkillIcon,
-  SkillInfo,
-  SkillName,
+  SkillsEditorialLayout,
+  SkillsCoreChapter,
+  SkillsCoreLead,
+  SkillsHeroBlock,
+  SkillsHeroSignal,
+  SkillsHeroName,
+  SkillsHeroIcon,
+  SkillsHeroMeta,
+  SkillsHeroDesc,
+  SkillsHeroDomain,
+  SkillsAsymmetricGrid,
+  SupportStackFeaturedRow,
+  SupportStackGrid,
+  SupportStackMatrix,
+  SkillEditorialCard,
+  SkillEditorialIcon,
+  SkillEditorialName,
+  SkillEditorialDomain,
+  SkillEditorialInfo,
+  SkillCategoryLabel,
+  SkillsPeripheralChapter,
   ExperienceSection,
   ExperienceIntro,
   ExperienceSubtitle,
@@ -48,8 +94,6 @@ import {
   CertificateName,
   CertificatePlatform,
   CertificateYear,
-  CertificateType,
-  CertificateHours,
   CertificateFooter,
   CertificateLink,
   CertificateModal,
@@ -65,347 +109,24 @@ import {
   ModalMetaItem,
   ModalActions,
   ModalButton,
-  CertificateCoursesCount,
-} from './Skills.style';
+  CertificateHours,
+  ErrorMessage,
+  RetryButton,
+} from '@/pages/Skills/Skills.style';
+import { SupportStackCard } from '@/components/skills/SupportStackCard';
 
-// Types
-import { SkillCategory } from '../../types';
+/* *************************************************************************************************
+ ********************************************** TYPES **********************************************
+ ************************************************************************************************ */
 
-/** Base URL for static assets (icons, images). Ensures icons work offline. */
-const ASSETS_BASE: string = process.env.PUBLIC_URL ?? '';
-
-/**
- * Represents a single skill item with category, name, icon, and proficiency level.
- */
-interface SkillItem {
-  /** Category the skill belongs to */
-  category: SkillCategory;
-  /** Display name of the skill (fallback when nameKey is not used) */
-  name: string;
-  /** Optional i18n key for name (e.g. skills.toolNames.cursor) */
-  nameKey?: string;
-  /** URL to the skill's icon image */
-  icon: string;
-  /** Proficiency level (0-100) */
-  level: number;
+interface SkillsPageState {
+  selectedCertificate: Certificate | null;
 }
 
-/**
- * Represents a certificate or course completion.
- */
-interface CertificateItem {
-  /** Unique identifier - also used as translation key */
-  id: string;
-  /** Platform where the certificate was obtained */
-  platform: 'Rocketseat' | 'Alura' | 'Udemy';
-  /** Year of completion */
-  year: number;
-  /** URL to the certificate */
-  certificateUrl: string;
-  /** Type of certificate */
-  type: 'micro' | 'course' | 'trail';
-  /** Hours of content */
-  hours: number;
-  /** Number of courses (for trails) */
-  coursesCount?: number;
-}
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
-/**
- * Represents a category filter option.
- */
-interface CategoryOption {
-  /** Category key or 'all' for showing all skills */
-  key: SkillCategory | 'all';
-  /** Display label for the category */
-  label: string;
-}
-
-/**
- * Platform configuration with logo and colors.
- * Using data URIs for logos to ensure they always load correctly.
- */
-const platformConfig = {
-  Rocketseat: {
-    // Logo Rocketseat: foguete (nariz, corpo, aletas)
-    logo: 'data:image/svg+xml,' + encodeURIComponent(
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">' +
-      '<rect width="48" height="48" rx="8" fill="#8257E5"/>' +
-      '<path fill="white" d="M24 8 L28 14 L28 26 L32 36 L24 30 L16 36 L20 26 L20 14 Z"/>' +
-      '<circle cx="24" cy="20" r="3" fill="#8257E5"/>' +
-      '</svg>'
-    ),
-    color: '#8257e5',
-    bgColor: 'rgba(130, 87, 229, 0.1)',
-  },
-  Alura: {
-    logo: `${ASSETS_BASE}/icons/platforms/alura.svg`,
-    color: '#0066cc',
-    bgColor: 'rgba(0, 102, 204, 0.1)',
-  },
-  Udemy: {
-    logo: `${ASSETS_BASE}/icons/platforms/udemy.svg`,
-    color: '#a435f0',
-    bgColor: 'rgba(164, 53, 240, 0.1)',
-  },
-};
-
-/**
- * Skills data array containing all technical skills.
- */
-const skillsData: SkillItem[] = [
-  // Frontend
-  {
-    category: SkillCategory.Frontend,
-    name: 'React',
-    icon: `${ASSETS_BASE}/icons/react.svg`,
-    level: 90,
-  },
-  {
-    category: SkillCategory.Frontend,
-    name: 'TypeScript',
-    icon: `${ASSETS_BASE}/icons/typescript.svg`,
-    level: 85,
-  },
-  {
-    category: SkillCategory.Frontend,
-    name: 'JavaScript',
-    icon: `${ASSETS_BASE}/icons/javascript.svg`,
-    level: 90,
-  },
-  {
-    category: SkillCategory.Frontend,
-    name: 'HTML5',
-    icon: `${ASSETS_BASE}/icons/html5.svg`,
-    level: 95,
-  },
-  {
-    category: SkillCategory.Frontend,
-    name: 'CSS3',
-    icon: `${ASSETS_BASE}/icons/css3.svg`,
-    level: 90,
-  },
-  {
-    category: SkillCategory.Frontend,
-    name: 'Styled Components',
-    icon: `${ASSETS_BASE}/icons/styled-components.svg`,
-    level: 85,
-  },
-  // Backend
-  {
-    category: SkillCategory.Backend,
-    name: 'Python',
-    icon: `${ASSETS_BASE}/icons/python.svg`,
-    level: 85,
-  },
-  {
-    category: SkillCategory.Backend,
-    name: 'FastAPI',
-    icon: `${ASSETS_BASE}/icons/fastapi.svg`,
-    level: 80,
-  },
-  {
-    category: SkillCategory.Backend,
-    name: 'PostgreSQL',
-    icon: `${ASSETS_BASE}/icons/postgresql.svg`,
-    level: 75,
-  },
-  // Testing
-  {
-    category: SkillCategory.Testing,
-    name: 'Jest',
-    icon: `${ASSETS_BASE}/icons/jest.svg`,
-    level: 80,
-  },
-  {
-    category: SkillCategory.Testing,
-    name: 'Playwright',
-    icon: `${ASSETS_BASE}/icons/playwright.svg`,
-    level: 70,
-  },
-  // Tools
-  {
-    category: SkillCategory.Tools,
-    name: 'Git',
-    icon: `${ASSETS_BASE}/icons/git.svg`,
-    level: 85,
-  },
-  {
-    category: SkillCategory.Tools,
-    name: 'Docker',
-    icon: `${ASSETS_BASE}/icons/docker.svg`,
-    level: 70,
-  },
-  {
-    category: SkillCategory.Tools,
-    name: 'VS Code',
-    icon: `${ASSETS_BASE}/icons/vscode.svg`,
-    level: 95,
-  },
-  {
-    category: SkillCategory.Tools,
-    name: 'Cursor',
-    nameKey: 'skills.toolNames.cursor',
-    icon: `${ASSETS_BASE}/cursor-icon.png`,
-    level: 90,
-  },
-  {
-    category: SkillCategory.Tools,
-    name: 'AI tools',
-    nameKey: 'skills.toolNames.aiTools',
-    icon: `${ASSETS_BASE}/ai-tools-icon.png`,
-    level: 85,
-  },
-  // Real-time
-  {
-    category: SkillCategory.Realtime,
-    name: 'WebSocket',
-    icon: `${ASSETS_BASE}/icons/socketio.svg`,
-    level: 75,
-  },
-];
-
-/**
- * Certificates data array containing all certifications and courses.
- * Hours are based on official certificate data from each platform.
- * Certificate names are stored in translation files using the id as key.
- */
-const certificatesData: CertificateItem[] = [
-  {
-    id: 'aluraReactExplore',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/degree/certificate/6999f5a9-b6dd-4cce-b756-8d5738dabadb',
-    type: 'trail',
-    hours: 65,
-    coursesCount: 7,
-  },
-  {
-    id: 'aluraReactTests',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/degree/certificate/42002daa-5432-4bad-96c5-24b80ba06e0d',
-    type: 'trail',
-    hours: 56,
-    coursesCount: 6,
-  },
-  {
-    id: 'udemyWebDesign',
-    platform: 'Udemy',
-    year: 2023,
-    certificateUrl: 'https://udemy-certificate.s3.amazonaws.com/image/UC-912d30a6-ed7b-4854-a113-a8f71195a847.jpg',
-    type: 'course',
-    hours: 40,
-  },
-  {
-    id: 'aluraCssDeepDive',
-    platform: 'Alura',
-    year: 2024,
-    certificateUrl: 'https://cursos.alura.com.br/degree/certificate/43d6018a-d00d-43af-9f54-7fb207c0c28a',
-    type: 'trail',
-    hours: 36,
-    coursesCount: 5,
-  },
-  {
-    id: 'aluraReactContext',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/b284d47d-01be-482f-9116-85b83cbdc424',
-    type: 'course',
-    hours: 10,
-  },
-  {
-    id: 'rocketseatPythonFundamentals',
-    platform: 'Rocketseat',
-    year: 2025,
-    certificateUrl: 'https://app.rocketseat.com.br/certificates/484a443c-0b2e-4ee7-bd49-8d03919ebd52',
-    type: 'micro',
-    hours: 10,
-  },
-  {
-    id: 'rocketseatPythonFlask',
-    platform: 'Rocketseat',
-    year: 2025,
-    certificateUrl: 'https://app.rocketseat.com.br/certificates/0bd49b7b-e481-4c67-9f42-e059be4d0a94',
-    type: 'course',
-    hours: 5,
-  },
-  {
-    id: 'aluraGitGithub',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/5659f1f1-973e-4921-b577-de3a9e7472d1',
-    type: 'course',
-    hours: 8,
-  },
-  {
-    id: 'aluraTypescriptPart1',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/a2a3d58f-ea00-40ca-9590-3d7c6b2a7f8c',
-    type: 'course',
-    hours: 10,
-  },
-  {
-    id: 'aluraTypescriptPart2',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/cc58c86c-0467-4c6a-982d-2caedd25b5ae',
-    type: 'course',
-    hours: 10,
-  },
-  {
-    id: 'aluraReactTypescriptAdmin',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/9ee980b3-f18c-4982-ae4c-72e54cf33969',
-    type: 'course',
-    hours: 8,
-  },
-  {
-    id: 'aluraReactStyledComponents',
-    platform: 'Alura',
-    year: 2023,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/66a1bdb5-5ac1-43dc-9737-949cf5809b06',
-    type: 'course',
-    hours: 6,
-  },
-  {
-    id: 'aluraAngularPlaywright',
-    platform: 'Alura',
-    year: 2024,
-    certificateUrl: 'https://cursos.alura.com.br/certificate/4c998df4-9b4e-47fc-a5e2-b4b118568042',
-    type: 'course',
-    hours: 8,
-  },
-];
-
-/** Platform display order: Rocketseat, Alura, Udemy */
-const PLATFORM_ORDER: Record<CertificateItem['platform'], number> = {
-  Rocketseat: 0,
-  Alura: 1,
-  Udemy: 2,
-};
-
-/** Type priority: trail > course > micro */
-const TYPE_ORDER: Record<CertificateItem['type'], number> = {
-  trail: 0,
-  course: 1,
-  micro: 2,
-};
-
-/**
- * Available category filter options.
- */
-const categories: CategoryOption[] = [
-  { key: 'all', label: 'Todas' },
-  { key: SkillCategory.Frontend, label: 'Frontend' },
-  { key: SkillCategory.Backend, label: 'Backend' },
-  { key: SkillCategory.Testing, label: 'Testes' },
-  { key: SkillCategory.Tools, label: 'Ferramentas' },
-  { key: SkillCategory.Realtime, label: 'Real-time' },
-];
-
-/** Order of experience items to display (matches i18n keys under skills.experience.items). */
 const EXPERIENCE_ITEM_KEYS: readonly string[] = [
   'auth',
   'state',
@@ -419,128 +140,561 @@ const EXPERIENCE_ITEM_KEYS: readonly string[] = [
   'testing',
 ];
 
+/** Production WebSocket dashboards card — spans 2 columns on desktop. */
+const FEATURED_EXPERIENCE_KEY: string = 'realtime';
+
+const SKELETON_CARD_COUNT: number = 8;
+
+/** Category chip reveal on card hover — ease-out only (no spring bounce). */
+const skillCategoryLabelVariants: Variants = {
+  hidden: { y: 6, opacity: 0 },
+  visible: { y: 6, opacity: 0 },
+  hover: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: motionPresets.duration.fast,
+      ease: motionEase,
+    },
+  },
+};
+
+const MARKETING_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
+  SkillLayoutTier.CoreLarge,
+  SkillLayoutTier.CoreMedium,
+  SkillLayoutTier.PeripheralFeatured,
+]);
+
+const initialState: SkillsPageState = {
+  selectedCertificate: null,
+};
+
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
+
+const resolveCoreDomainLabel = (
+  skillName: string,
+  t: (key: string) => string,
+): string | null => {
+  const domainKey: string = `skills.layout.coreDomains.${skillName}`;
+  const translated: string = t(domainKey);
+  return translated === domainKey ? null : translated;
+};
+
+const resolvePeripheralDomainLabel = (
+  skillName: string,
+  t: (key: string) => string,
+): string | null => {
+  const domainKey: string = `skills.layout.peripheralDomains.${skillName}`;
+  const translated: string = t(domainKey);
+  return translated === domainKey ? null : translated;
+};
+
+const resolvePeripheralDescription = (
+  skill: Skill,
+  t: (key: string) => string,
+): string => {
+  const domainLabel: string | null = resolvePeripheralDomainLabel(skill.name, t);
+  if (domainLabel) {
+    return domainLabel;
+  }
+  return t(`skills.categories.${skill.category}`).toLowerCase();
+};
+
+interface SkillEditorialCardShellProps {
+  tier: SkillLayoutTier;
+  gridSpan: number;
+  itemVariants: Variants;
+  children: React.ReactNode;
+}
 
 /**
- * Skills page component that displays technical skills and certificates.
- * Features category filtering and animated skill progress bars.
- *
- * @returns The rendered Skills page
+ * Editorial skill card — pointer-tracked spotlight; CSS interactiveLift handles hover lift.
  */
-export const Skills: React.FC = () => {
-  const { t } = useTranslation();
-  const [activeCategory, setActiveCategory] = useState<SkillCategory | 'all'>('all');
-  const [selectedCertificate, setSelectedCertificate] = useState<CertificateItem | null>(null);
+const SkillEditorialCardShell: React.FC<SkillEditorialCardShellProps> = ({
+  tier,
+  gridSpan,
+  itemVariants,
+  children,
+}): React.ReactElement => {
+  const enableSpotlight: boolean = MARKETING_SPOTLIGHT_TIERS.has(tier);
+  const isMinimalTier: boolean = tier === SkillLayoutTier.PeripheralMinimal;
 
-  const filteredSkills: SkillItem[] = activeCategory === 'all'
-    ? skillsData
-    : skillsData.filter((skill: SkillItem) => skill.category === activeCategory);
+  const {
+    ref,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
+    disabled: isMinimalTier,
+    enableSpotlight,
+    enableTilt: false,
+    enableLift: false,
+  });
 
-  const handleCertificateClick = useCallback((cert: CertificateItem) => {
-    setSelectedCertificate(cert);
+  return (
+    <SkillsStaggerSlot variants={itemVariants}>
+      <SkillEditorialCard
+        ref={ref}
+        layout
+        $tier={tier}
+        $gridSpan={gridSpan}
+        style={motionProps.style}
+        whileTap={isMinimalTier ? undefined : motionProps.whileTap}
+      >
+        {children}
+      </SkillEditorialCard>
+    </SkillsStaggerSlot>
+  );
+};
+
+interface CertificateCardShellProps {
+  itemVariants: Variants;
+  platformColor: string;
+  onClick: () => void;
+  children: React.ReactNode;
+}
+
+/**
+ * Certificate card — pointer spotlight + CSS lift via cardInteractive mixin.
+ */
+const CertificateCardShell: React.FC<CertificateCardShellProps> = ({
+  itemVariants,
+  platformColor,
+  onClick,
+  children,
+}): React.ReactElement => {
+  const {
+    ref,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
+    enableSpotlight: true,
+    enableTilt: false,
+    enableLift: false,
+  });
+
+  return (
+    <SkillsStaggerSlot variants={itemVariants}>
+      <CertificateCard
+        ref={ref}
+        onClick={onClick}
+        $platformColor={platformColor}
+        style={motionProps.style}
+        whileTap={motionProps.whileTap}
+      >
+        {children}
+      </CertificateCard>
+    </SkillsStaggerSlot>
+  );
+};
+
+interface ExperienceCardShellProps {
+  itemVariants: Variants;
+  featured: boolean;
+  children: React.ReactNode;
+}
+
+/**
+ * Architecture experience card — amber pointer torch + CSS liftMd + tap scale.
+ */
+const ExperienceCardShell: React.FC<ExperienceCardShellProps> = ({
+  itemVariants,
+  featured,
+  children,
+}): React.ReactElement => {
+  const {
+    ref,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
+    enableSpotlight: true,
+    enableTilt: false,
+    enableLift: false,
+  });
+
+  return (
+    <SkillsStaggerSlot variants={itemVariants}>
+      <ExperienceCard
+        ref={ref}
+        $featured={featured}
+        style={motionProps.style}
+        whileTap={motionProps.whileTap}
+      >
+        {children}
+      </ExperienceCard>
+    </SkillsStaggerSlot>
+  );
+};
+
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
+
+export const Skills: React.FC = (): React.ReactElement => {
+  const { t, i18n } = useTranslation();
+  const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
+  const [state, setState] = useState<SkillsPageState>(initialState);
+  const reducedMotion: boolean = usePrefersReducedMotion();
+  const scrollMotion = useScrollMotion();
+
+  const {
+    data: skills = [],
+    isLoading: skillsLoading,
+    isError: skillsError,
+    refetch: refetchSkills,
+  } = useSkills();
+
+  const {
+    data: certificates = [],
+    isLoading: certificatesLoading,
+    isError: certificatesError,
+    refetch: refetchCertificates,
+  } = useCertificates();
+
+  const editorialLayout: EditorialSkillsLayout = useMemo(
+    (): EditorialSkillsLayout => buildEditorialSkillsLayout(skills),
+    [skills],
+  );
+
+  const sortedCertificates: Certificate[] = useMemo(
+    (): Certificate[] => sortCertificates(certificates),
+    [certificates],
+  );
+
+  const showPeripheralChapter: boolean = useMemo((): boolean => (
+    editorialLayout.peripheral.length > 0
+    && (editorialLayout.hero !== null || editorialLayout.coreRow.length > 0)
+  ), [editorialLayout]);
+
+  const handleCertificateClick = useCallback((cert: Certificate): void => {
+    setState((prev: SkillsPageState) => ({ ...prev, selectedCertificate: cert }));
   }, []);
 
-  const handleCloseModal = useCallback(() => {
-    setSelectedCertificate(null);
+  const handleCloseModal = useCallback((): void => {
+    setState((prev: SkillsPageState) => ({ ...prev, selectedCertificate: null }));
   }, []);
 
-  const handleViewCertificate = useCallback(() => {
-    if (selectedCertificate) {
-      window.open(selectedCertificate.certificateUrl, '_blank', 'noopener,noreferrer');
+  const handleViewCertificate = useCallback((): void => {
+    if (state.selectedCertificate?.certificate_url) {
+      window.open(state.selectedCertificate.certificate_url, '_blank', 'noopener,noreferrer');
     }
-  }, [selectedCertificate]);
+  }, [state.selectedCertificate]);
 
-  // Calculate total hours
-  const totalHours = certificatesData.reduce((acc, cert) => acc + cert.hours, 0);
+  const renderSkillCard = (placement: SkillLayoutPlacement): React.ReactElement => {
+    const { skill, tier, gridSpan } = placement;
+    const displayName: string = resolveSkillDisplayName(skill, isPt);
+    const coreDomain: string | null = resolveCoreDomainLabel(skill.name, t);
+    const showCategoryOnHover: boolean = tier !== SkillLayoutTier.PeripheralMinimal;
 
-  // Order: platform (Rocketseat → Alura → Udemy), then type, then hours desc
-  const sortedCertificates = useMemo(() => {
-    return [...certificatesData].sort((a, b) => {
-      const platformDiff = PLATFORM_ORDER[a.platform] - PLATFORM_ORDER[b.platform];
-      if (platformDiff !== 0) return platformDiff;
-      const typeDiff = TYPE_ORDER[a.type] - TYPE_ORDER[b.type];
-      if (typeDiff !== 0) return typeDiff;
-      return b.hours - a.hours;
-    });
-  }, []);
+    const editorialBody: React.ReactElement = (
+      <>
+        <SkillEditorialIcon $tier={tier}>
+          <img src={resolveSkillIconUrl(skill)} alt="" aria-hidden />
+        </SkillEditorialIcon>
+        <SkillEditorialInfo>
+          <SkillEditorialName $tier={tier}>{displayName}</SkillEditorialName>
+          {coreDomain ? (
+            <SkillEditorialDomain>{coreDomain}</SkillEditorialDomain>
+          ) : null}
+          {showCategoryOnHover ? (
+            <SkillCategoryLabel variants={skillCategoryLabelVariants}>
+              {t(`skills.categories.${skill.category}`)}
+            </SkillCategoryLabel>
+          ) : null}
+        </SkillEditorialInfo>
+      </>
+    );
+
+    return (
+      <SkillEditorialCardShell
+        key={skill.id}
+        tier={tier}
+        gridSpan={gridSpan}
+        itemVariants={scrollMotion.item}
+      >
+        {editorialBody}
+      </SkillEditorialCardShell>
+    );
+  };
+
+  const renderPeripheralSkillCard = (placement: SkillLayoutPlacement): React.ReactElement => {
+    const { skill, tier } = placement;
+    const displayName: string = resolveSkillDisplayName(skill, isPt);
+    const description: string = resolvePeripheralDescription(skill, t);
+
+    return (
+      <SkillsStaggerSlot key={skill.id} variants={scrollMotion.item}>
+        <SupportStackCard
+          skill={skill}
+          displayName={displayName}
+          description={description}
+          iconUrl={resolveSkillIconUrl(skill)}
+          tier={tier}
+        />
+      </SkillsStaggerSlot>
+    );
+  };
+
+  const renderSupportStackChapter = (
+    peripheralPlacements: SkillLayoutPlacement[],
+  ): React.ReactElement => {
+    const featuredPlacements: SkillLayoutPlacement[] = peripheralPlacements.filter(
+      (placement: SkillLayoutPlacement): boolean => (
+        placement.tier === SkillLayoutTier.PeripheralFeatured
+      ),
+    );
+    const compactPlacements: SkillLayoutPlacement[] = peripheralPlacements.filter(
+      (placement: SkillLayoutPlacement): boolean => (
+        placement.tier !== SkillLayoutTier.PeripheralFeatured
+      ),
+    );
+
+    return (
+      <SupportStackMatrix>
+        {featuredPlacements.length > 0 ? (
+          <SupportStackFeaturedRow
+            variants={scrollMotion.stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={scrollMotion.viewport}
+          >
+            {featuredPlacements.map((placement: SkillLayoutPlacement) => (
+              renderPeripheralSkillCard(placement)
+            ))}
+          </SupportStackFeaturedRow>
+        ) : null}
+        {compactPlacements.length > 0 ? (
+          <SupportStackGrid
+            variants={scrollMotion.stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={scrollMotion.viewport}
+          >
+            {compactPlacements.map((placement: SkillLayoutPlacement) => (
+              renderPeripheralSkillCard(placement)
+            ))}
+          </SupportStackGrid>
+        ) : null}
+      </SupportStackMatrix>
+    );
+  };
+
+  const renderHeroBlock = (heroSkill: Skill): React.ReactElement => {
+    const displayName: string = resolveSkillDisplayName(heroSkill, isPt);
+
+    return (
+      <SkillsHeroBlock variants={scrollMotion.item}>
+        <SkillsHeroSignal aria-hidden>{t('skills.layout.heroSignal')}</SkillsHeroSignal>
+        <SkillsHeroName>
+          <SkillsHeroIcon
+            src={resolveSkillIconUrl(heroSkill)}
+            alt=""
+            aria-hidden
+          />
+          {displayName}
+        </SkillsHeroName>
+        <SkillsHeroMeta>
+          <SkillsHeroDesc>{t('skills.layout.heroDescription')}</SkillsHeroDesc>
+          <SkillsHeroDomain>{t('skills.layout.heroDomain')}</SkillsHeroDomain>
+        </SkillsHeroMeta>
+      </SkillsHeroBlock>
+    );
+  };
+
+  const renderEditorialSkills = (): React.ReactElement => {
+    const { hero, coreRow, peripheral } = editorialLayout;
+
+    return (
+      <SkillsEditorialLayout
+        variants={scrollMotion.stagger}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
+        exit={{ opacity: 0 }}
+      >
+        {(hero !== null || coreRow.length > 0) ? (
+          <SkillsCoreChapter>
+            <SectionEyebrow>{t('skills.layout.coreEyebrow')}</SectionEyebrow>
+            <SkillsCoreLead>{t('skills.layout.coreLead')}</SkillsCoreLead>
+            {hero !== null ? renderHeroBlock(hero) : null}
+            {coreRow.length > 0 ? (
+              <SkillsAsymmetricGrid
+                variants={scrollMotion.stagger}
+                initial={scrollMotion.resolveInitial(reducedMotion)}
+                animate="visible"
+              >
+                {coreRow.map((placement: SkillLayoutPlacement) => renderSkillCard(placement))}
+              </SkillsAsymmetricGrid>
+            ) : null}
+          </SkillsCoreChapter>
+        ) : null}
+
+        {peripheral.length > 0 ? (
+          <SkillsPeripheralChapter>
+            {showPeripheralChapter ? (
+              <SectionEyebrow>{t('skills.layout.peripheralEyebrow')}</SectionEyebrow>
+            ) : null}
+            {renderSupportStackChapter(peripheral)}
+          </SkillsPeripheralChapter>
+        ) : null}
+      </SkillsEditorialLayout>
+    );
+  };
+
+  const renderSkillsContent = (): React.ReactElement => {
+    if (skillsLoading) {
+      return (
+        <SkillsGrid
+          variants={scrollMotion.stagger}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
+        >
+          {Array.from({ length: SKELETON_CARD_COUNT }, (_item: unknown, index: number) => (
+            <SkillCardSkeleton key={`skill-skeleton-${index}`} />
+          ))}
+        </SkillsGrid>
+      );
+    }
+
+    if (skillsError) {
+      return (
+        <>
+          <ErrorMessage>{t('skills.error')}</ErrorMessage>
+          <RetryButton type="button" onClick={() => refetchSkills()}>
+            {t('common.retry')}
+          </RetryButton>
+        </>
+      );
+    }
+
+    return renderEditorialSkills();
+  };
+
+  const renderCertificatesContent = (): React.ReactElement => {
+    if (certificatesLoading) {
+      return (
+        <SkillsGrid
+          variants={scrollMotion.stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
+        >
+          {Array.from({ length: 4 }, (_item: unknown, index: number) => (
+            <SkillCardSkeleton key={`cert-skeleton-${index}`} />
+          ))}
+        </SkillsGrid>
+      );
+    }
+
+    if (certificatesError) {
+      return (
+        <>
+          <ErrorMessage>{t('skills.certificatesError')}</ErrorMessage>
+          <RetryButton type="button" onClick={() => refetchCertificates()}>
+            {t('common.retry')}
+          </RetryButton>
+        </>
+      );
+    }
+
+    return (
+      <CertificatesGrid
+        variants={scrollMotion.stagger}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
+        {sortedCertificates.map((cert: Certificate) => {
+          const platform = getPlatformConfig(cert.platform);
+          const displayName: string = resolveCertificateDisplayName(cert, isPt);
+          return (
+            <CertificateCardShell
+              key={cert.id}
+              itemVariants={scrollMotion.item}
+              platformColor={platform.color}
+              onClick={() => handleCertificateClick(cert)}
+            >
+              <CertificateHeader>
+                <PlatformLogo $bgColor={platform.bgColor}>
+                  <img src={platform.logo} alt={cert.platform} />
+                </PlatformLogo>
+                <div>
+                  <CertificateName>{displayName}</CertificateName>
+                  <CertificatePlatform $color={platform.color}>
+                    {cert.platform}
+                  </CertificatePlatform>
+                </div>
+              </CertificateHeader>
+              <CertificateFooter>
+                <CertificateYear>{cert.year}</CertificateYear>
+              </CertificateFooter>
+              <CertificateLink>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </CertificateLink>
+            </CertificateCardShell>
+          );
+        })}
+      </CertificatesGrid>
+    );
+  };
 
   return (
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
+          variants={scrollMotion.title}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
-          {t('skills.title')}
+          <PageTitleGradient>{t('skills.title')}</PageTitleGradient>
         </PageTitle>
         <PageSubtitle
-          variants={fadeInUp}
-          initial="initial"
-          animate="animate"
+          variants={scrollMotion.section}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           {t('skills.subtitle')}
         </PageSubtitle>
       </PageHeader>
 
-      <Section>
-        <CategoryTabs>
-          {categories.map((cat: CategoryOption) => (
-            <CategoryTab
-              key={cat.key}
-              $active={activeCategory === cat.key}
-              onClick={() => setActiveCategory(cat.key)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {cat.key === 'all' ? cat.label : t(`skills.categories.${cat.key}`)}
-            </CategoryTab>
-          ))}
-        </CategoryTabs>
-
-        <AnimatePresence mode="wait">
-          <SkillsGrid
-            key={activeCategory}
-            variants={staggerContainer}
-            initial="initial"
-            animate="animate"
-            exit={{ opacity: 0 }}
-          >
-            {filteredSkills.map((skill: SkillItem, index: number) => {
-              const displayName: string = skill.nameKey ? t(skill.nameKey) : skill.name;
-              return (
-              <SkillCard
-                key={skill.nameKey ?? skill.name}
-                variants={staggerItem}
-                layout
-              >
-                <SkillIcon>
-                  <img src={skill.icon} alt={displayName} />
-                </SkillIcon>
-                <SkillInfo>
-                  <SkillName>{displayName}</SkillName>
-                </SkillInfo>
-              </SkillCard>
-              );
-            })}
-          </SkillsGrid>
-        </AnimatePresence>
+      <Section
+        variants={scrollMotion.section}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
+      >
+        {renderSkillsContent()}
       </Section>
 
-      <ExperienceSection>
-        <SectionTitle>{t('skills.experience.title')}</SectionTitle>
+      <ExperienceSection
+        variants={scrollMotion.depth}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
+        <SectionTitle>
+          <SectionTitleGradient>{t('skills.experience.title')}</SectionTitleGradient>
+        </SectionTitle>
         <ExperienceIntro>{t('skills.experience.intro')}</ExperienceIntro>
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
+          variants={scrollMotion.stagger}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
-            <ExperienceCard
+            <ExperienceCardShell
               key={key}
-              variants={staggerItem}
-              whileHover={{ y: -4 }}
+              itemVariants={scrollMotion.item}
+              featured={key === FEATURED_EXPERIENCE_KEY}
             >
               <ExperienceCardTitle>
                 {t(`skills.experience.items.${key}.title`)}
@@ -551,82 +705,30 @@ export const Skills: React.FC = () => {
               <ExperienceCardHighlight>
                 {t(`skills.experience.items.${key}.highlight`)}
               </ExperienceCardHighlight>
-            </ExperienceCard>
+            </ExperienceCardShell>
           ))}
         </ExperienceGrid>
       </ExperienceSection>
 
-      <CertificatesSection>
+      <CertificatesSection
+        variants={scrollMotion.depth}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
         <SectionTitle>
-          {t('skills.certificates.title')}
-          <CertificateHours>
-            {t('skills.certificates.totalHours', { hours: totalHours })}
-          </CertificateHours>
+          <SectionTitleGradient>{t('skills.certificates.title')}</SectionTitleGradient>
+          {!certificatesLoading && !certificatesError && sortedCertificates.length > 0 && (
+            <CertificateHours>
+              {t('skills.certificates.count', { count: sortedCertificates.length })}
+            </CertificateHours>
+          )}
         </SectionTitle>
-        <CertificatesGrid
-          variants={staggerContainer}
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          {sortedCertificates.map((cert: CertificateItem) => {
-            const platform = platformConfig[cert.platform];
-            return (
-              <CertificateCard
-                key={cert.id}
-                variants={staggerItem}
-                whileHover={{ y: -8, scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handleCertificateClick(cert)}
-                $platformColor={platform.color}
-              >
-                <CertificateHeader>
-                  <PlatformLogo $bgColor={platform.bgColor}>
-                    <img src={platform.logo} alt={cert.platform} />
-                  </PlatformLogo>
-                  <div>
-                    <CertificateName>{t(`skills.certificates.items.${cert.id}`)}</CertificateName>
-                    <CertificatePlatform $color={platform.color}>
-                      {cert.platform}
-                    </CertificatePlatform>
-                  </div>
-                </CertificateHeader>
-                <CertificateFooter>
-                  <CertificateType $type={cert.type}>
-                    {t(`skills.certificates.types.${cert.type}`)}
-                    {cert.coursesCount && (
-                      <CertificateCoursesCount>
-                        {t('skills.certificates.courses', { count: cert.coursesCount })}
-                      </CertificateCoursesCount>
-                    )}
-                  </CertificateType>
-                  <CertificateYear>
-                    {t('skills.certificates.hours', { count: cert.hours })} • {cert.year}
-                  </CertificateYear>
-                </CertificateFooter>
-                <CertificateLink>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
-                </CertificateLink>
-              </CertificateCard>
-            );
-          })}
-        </CertificatesGrid>
+        {renderCertificatesContent()}
       </CertificatesSection>
 
-      {/* Certificate Modal */}
       <AnimatePresence>
-        {selectedCertificate && (
+        {state.selectedCertificate && (
           <CertificateModal>
             <ModalOverlay
               initial={{ opacity: 0 }}
@@ -635,21 +737,32 @@ export const Skills: React.FC = () => {
               onClick={handleCloseModal}
             />
             <ModalContent
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              initial={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: motionPresets.distance.item }
+              }
+              animate={{ opacity: 1, y: 0 }}
+              exit={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: motionPresets.distance.item }
+              }
+              transition={{
+                duration: motionPresets.duration.normal,
+                ease: motionEase,
+              }}
             >
               <ModalHeader>
-                <ModalPlatformBadge 
-                  $bgColor={platformConfig[selectedCertificate.platform].bgColor}
-                  $color={platformConfig[selectedCertificate.platform].color}
+                <ModalPlatformBadge
+                  $bgColor={getPlatformConfig(state.selectedCertificate.platform).bgColor}
+                  $color={getPlatformConfig(state.selectedCertificate.platform).color}
                 >
-                  <img 
-                    src={platformConfig[selectedCertificate.platform].logo} 
-                    alt={selectedCertificate.platform} 
+                  <img
+                    src={getPlatformConfig(state.selectedCertificate.platform).logo}
+                    alt={state.selectedCertificate.platform}
                   />
-                  {selectedCertificate.platform}
+                  {state.selectedCertificate.platform}
                 </ModalPlatformBadge>
                 <ModalCloseButton onClick={handleCloseModal}>
                   <svg
@@ -667,78 +780,52 @@ export const Skills: React.FC = () => {
               </ModalHeader>
               <ModalBody>
                 <ModalCertificateInfo>
-                  <ModalTitle>{t(`skills.certificates.items.${selectedCertificate.id}`)}</ModalTitle>
+                  <ModalTitle>
+                    {resolveCertificateDisplayName(state.selectedCertificate, isPt)}
+                  </ModalTitle>
                   <ModalMeta>
-                    <ModalMetaItem>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
-                      </svg>
-                      {t('skills.certificates.hours', { count: selectedCertificate.hours })}
-                    </ModalMetaItem>
-                    <ModalMetaItem>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                        <line x1="16" y1="2" x2="16" y2="6" />
-                        <line x1="8" y1="2" x2="8" y2="6" />
-                        <line x1="3" y1="10" x2="21" y2="10" />
-                      </svg>
-                      {selectedCertificate.year}
-                    </ModalMetaItem>
-                    <ModalMetaItem>
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                      >
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                        <polyline points="22 4 12 14.01 9 11.01" />
-                      </svg>
-                      {t(`skills.certificates.types.${selectedCertificate.type}`)}
-                      {selectedCertificate.coursesCount &&
-                        ` (${t('skills.certificates.courses', {
-                          count: selectedCertificate.coursesCount,
-                        })})`}
-                    </ModalMetaItem>
+                    {state.selectedCertificate.year != null && (
+                      <ModalMetaItem>
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                          <line x1="16" y1="2" x2="16" y2="6" />
+                          <line x1="8" y1="2" x2="8" y2="6" />
+                          <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                        {state.selectedCertificate.year}
+                      </ModalMetaItem>
+                    )}
                   </ModalMeta>
                 </ModalCertificateInfo>
                 <ModalActions>
-                  <ModalButton
-                    $variant="primary"
-                    onClick={handleViewCertificate}
-                    $platformColor={platformConfig[selectedCertificate.platform].color}
-                  >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
+                  {state.selectedCertificate.certificate_url && (
+                    <ModalButton
+                      $variant="primary"
+                      onClick={handleViewCertificate}
+                      $platformColor={getPlatformConfig(state.selectedCertificate.platform).color}
                     >
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    {t('skills.certificates.viewCertificate')}
-                  </ModalButton>
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                        <polyline points="15 3 21 3 21 9" />
+                        <line x1="10" y1="14" x2="21" y2="3" />
+                      </svg>
+                      {t('skills.certificates.viewCertificate')}
+                    </ModalButton>
+                  )}
                   <ModalButton $variant="secondary" onClick={handleCloseModal}>
                     {t('skills.certificates.close')}
                   </ModalButton>

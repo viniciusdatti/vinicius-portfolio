@@ -76,41 +76,6 @@ class TelegramService:
 
         return await self.send_message(text)
 
-    async def send_chat_notification(
-        self,
-        visitor_name: str,
-        message: str,
-        visitor_company: Optional[str] = None,
-    ) -> bool:
-        """Send notification when someone starts a chat."""
-        text = f"""
-💬 <b>Nova conversa no Live Lab</b>
-
-<b>Visitante:</b> {visitor_name}
-{f"<b>Empresa:</b> {visitor_company}" if visitor_company else ""}
-
-<b>Mensagem:</b>
-{message[:500]}{"..." if len(message) > 500 else ""}
-
-<i>Acesse o painel admin para responder.</i>
-        """.strip()
-
-        return await self.send_message(text)
-
-    async def send_new_message_notification(
-        self,
-        visitor_name: str,
-        message: str,
-    ) -> bool:
-        """Send notification for new chat message (only if admin is offline)."""
-        text = f"""
-💬 <b>Nova mensagem de {visitor_name}</b>
-
-{message[:300]}{"..." if len(message) > 300 else ""}
-        """.strip()
-
-        return await self.send_message(text)
-
 
 # Singleton instance
 telegram_service = TelegramService()

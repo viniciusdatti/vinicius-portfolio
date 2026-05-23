@@ -6,6 +6,10 @@ from typing import List, Optional
 from sqlalchemy import or_, select
 from sqlalchemy.orm import Session
 
+from app.core.portfolio_catalog import (
+    PORTFOLIO_PROJECTS,
+    PORTFOLIO_REPOSITORY_URLS,
+)
 from app.models.project import Project
 from app.models.technology import Technology
 
@@ -37,7 +41,9 @@ class ProjectService:
         Returns:
             List of projects matching the criteria.
         """
-        query = select(Project)
+        query = select(Project).where(
+            Project.repository_url.in_(PORTFOLIO_REPOSITORY_URLS),
+        )
 
         if technology:
             # Filter by technology name or slug (case-insensitive)
@@ -52,14 +58,22 @@ class ProjectService:
         query = query.order_by(Project.created_at.desc())
 
         result = self.db.execute(query)
-        projects = result.scalars().unique().all()
+        projects = list(result.scalars().unique().all())
+
+        catalog_order: dict[str, int] = {
+            entry.repository_url: index
+            for index, entry in enumerate(PORTFOLIO_PROJECTS)
+        }
+        projects.sort(
+            key=lambda project: catalog_order.get(project.repository_url, 999),
+        )
 
         logger.info(
             f"Retrieved {len(projects)} projects"
             + (f" filtered by technology: {technology}" if technology else "")
         )
 
-        return list(projects)
+        return projects
 
     def get_project_by_id(self, project_id: int) -> Optional[Project]:
         """

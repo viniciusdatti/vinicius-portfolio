@@ -2,7 +2,9 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-/* ************** THEME TOGGLE BUTTON ******************* */
+/* *************************************************************************************************
+ *************************************** THEME TOGGLE BUTTON ***************************************
+ ************************************************************************************************ */
 
 export const ToggleButton = styled(motion.button)`
   display: flex;
@@ -15,8 +17,10 @@ export const ToggleButton = styled(motion.button)`
   border: 1px solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
-  transition: background-color ${({ theme }) => theme.transitions.fast},
-              border-color ${({ theme }) => theme.transitions.fast};
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast};
 
   &:hover {
     background-color: ${({ theme }) => theme.colors.surfaceHover};
