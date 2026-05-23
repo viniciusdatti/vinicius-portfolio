@@ -55,14 +55,20 @@ export const PhilosophySection = styled(Section)`
 export const IntroSection = styled(Section)`
   display: grid;
   grid-template-columns: 1fr;
-  gap: ${({ theme }) => theme.spacing.xxl};
+  gap: ${({ theme }) => theme.spacing.xl};
   align-items: start;
+  justify-items: center;
   ${scrollAnchorOffset};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: minmax(120px, 0.38fr) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: center;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: ${({ theme }) => theme.spacing.xl};
+    align-items: start;
+    justify-items: start;
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    gap: ${({ theme }) => theme.spacing.xxl};
   };
 `;
 
@@ -107,6 +113,8 @@ export const IntroContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
+  width: 100%;
+  min-width: 0;
 
   h2 {
     font-size: ${({ theme }) => theme.typography.fontSize.xxl};
@@ -195,6 +203,8 @@ export const StatLabel = styled.div`
   color: ${({ theme }) => theme.colors.textMuted};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
+  min-width: 0;
+  overflow-wrap: anywhere;
 `;
 
 export { SectionTitle };

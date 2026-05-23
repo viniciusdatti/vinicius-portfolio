@@ -10,9 +10,6 @@
 import styled, { keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
-import { glassSurface } from '@/styles/surfaces';
-
 /* *************************************************************************************************
  ********************************************* STYLES **********************************************
  ************************************************************************************************ */
@@ -23,9 +20,6 @@ const panelScan = keyframes`
   100% { transform: translateX(100%); opacity: 0; }
 `;
 
-/** Responsive plot height — keeps Recharts inside the trend card without clipping the grid. */
-export const CHART_PLOT_HEIGHT_PX = 260;
-
 export const ChartRoot = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -33,10 +27,10 @@ export const ChartRoot = styled(motion.div)`
   width: 100%;
   min-height: 0;
   height: 100%;
-  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xs} 0`};
+  padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.sm} 0`};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  ${glassSurface};
-  box-shadow: ${({ theme }) => theme.elevation.sm};
+  background: transparent;
+  box-shadow: none;
   position: relative;
   overflow: hidden;
 
@@ -103,14 +97,13 @@ export const ChartTitle = styled.h3`
 export const ChartPlot = styled.div`
   flex: 1 1 auto;
   width: 100%;
-  height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
-  min-height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
-  max-height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
+  height: 100%;
+  min-height: 0;
   position: relative;
   z-index: 1;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: visible;
 
   &::before {
     content: '';

@@ -71,6 +71,7 @@ const formatReading = (value: number): string => value.toFixed(2);
 export const TelemetrySensorCard: React.FC<SensorProps> = ({
   reading: r,
   index,
+  compact = false,
 }): React.ReactElement => {
   const { t } = useTranslation();
   const { history } = useTelemetry();
@@ -82,6 +83,7 @@ export const TelemetrySensorCard: React.FC<SensorProps> = ({
     <SensorCard
       $status={r.status}
       $sweepDelay={index * 1.4}
+      $compact={compact}
       aria-label={`${sensorLabel}, ${formatReading(r.value)} ${r.unit}, ${statusLabel}`}
     >
       <SensorCardInner>
@@ -97,7 +99,7 @@ export const TelemetrySensorCard: React.FC<SensorProps> = ({
           </TelemetryValueFlash>
           <SensorUnit>{r.unit}</SensorUnit>
         </SensorValueRow>
-        <SensorSparkline values={samples} status={r.status} />
+        {!compact ? <SensorSparkline values={samples} status={r.status} /> : null}
         <ThresholdBar>
           <ThresholdFill
             $status={r.status}

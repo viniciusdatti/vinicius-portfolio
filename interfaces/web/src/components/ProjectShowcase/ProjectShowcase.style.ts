@@ -12,7 +12,9 @@ import { motion } from 'framer-motion';
 
 // Components
 import {
+  cardBodyReadable,
   cardShowcaseSurface,
+  cardTitleReadable,
   featuredSpotlight,
   showcasePointerTorch,
   showcaseSpecularRim,
@@ -541,6 +543,7 @@ export const DemoPill = styled.span`
 `;
 
 export const CardTitle = styled.h3`
+  ${cardTitleReadable};
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
@@ -555,20 +558,10 @@ export const CardTitle = styled.h3`
 `;
 
 export const CardDescription = styled.p`
+  ${cardBodyReadable};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   color: ${({ theme }) => theme.colors.textMuted};
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-
-  ${ShowcaseCard}[data-variant='featured'] & {
-    display: block;
-    overflow: visible;
-    -webkit-box-orient: initial;
-    -webkit-line-clamp: unset;
-  };
 `;
 
 export const CardFooter = styled.div`

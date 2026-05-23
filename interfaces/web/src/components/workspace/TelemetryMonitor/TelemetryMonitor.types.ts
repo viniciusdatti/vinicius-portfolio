@@ -40,4 +40,5 @@ export interface OperationalEventLogProps {
 export interface SensorProps {
   reading: SensorReading;
   index: number;
+  compact?: boolean;
 }

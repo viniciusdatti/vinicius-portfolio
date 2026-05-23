@@ -7,7 +7,7 @@
  ************************************************************************************************ */
 
 // Libraries
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
@@ -51,25 +51,23 @@ export const WorkspaceChrome = styled.div`
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow: visible;
+  overflow: hidden;
   gap: 0;
 
-  body.live-lab-immersive & {
-    height: auto;
-    overflow: visible;
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    body.workspace-operational & {
+      height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+      max-height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+    }
   }
+
 `;
 
-export const LiveLabImmersionBand = styled(motion.section)<{ $immersive?: boolean }>`
+export const LiveLabImmersionBand = styled(motion.section)`
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 0;
-
-  ${({ $immersive }) => $immersive && css`
-    min-height: 220vh;
-    flex: none;
-  `}
 `;
 
 export const LiveLabPinStage = styled.div`
@@ -78,6 +76,7 @@ export const LiveLabPinStage = styled.div`
   flex: 1;
   min-height: 0;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const ImmersionProgressTrack = styled.div`
@@ -98,7 +97,8 @@ export const ImmersionProgressFill = styled.div`
 
 export const LiveLabLogFlow = styled.div`
   flex-shrink: 0;
-  min-height: min(48vh, 420px);
+  min-height: min(28vh, 260px);
+  max-height: min(32vh, 300px);
   margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md}
     ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -119,6 +119,7 @@ export const TelemetryWorkspace = styled.div`
   flex: 1;
   flex-direction: column;
   min-height: 0;
+  height: 100%;
   overflow: hidden;
   margin: ${({ theme }) => theme.spacing.sm} 0 0;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};

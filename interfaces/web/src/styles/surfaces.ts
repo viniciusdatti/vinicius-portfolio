@@ -497,3 +497,45 @@ export const drawerPanelChrome = css`
   border-left: 1px solid ${({ theme }) => theme.colors.border};
   ${panelInsetRim};
 `;
+
+/**
+ * Card titles inside flex/grid — wrap at word boundaries, not mid-token.
+ */
+export const cardTitleReadable = css`
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+`;
+
+/**
+ * Card body copy — same wrapping rules as titles.
+ */
+export const cardBodyReadable = css`
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+`;
+
+/**
+ * Card titles capped at two lines (editorial grids).
+ */
+export const cardTitleClamp = css`
+  ${cardTitleReadable};
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+`;
+
+/**
+ * Card titles capped at three lines (certificate / long labels).
+ */
+export const cardTitleClamp3 = css`
+  ${cardTitleReadable};
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+`;

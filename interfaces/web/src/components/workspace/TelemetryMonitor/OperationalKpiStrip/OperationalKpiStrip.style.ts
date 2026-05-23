@@ -9,9 +9,6 @@
 // Libraries
 import styled, { css, keyframes } from 'styled-components';
 
-// Components
-import { operationalGlass } from '@/styles/surfaces';
-
 /* *************************************************************************************************
  ********************************************* STYLES **********************************************
  ************************************************************************************************ */
@@ -23,11 +20,19 @@ const livePulse = keyframes`
 
 export const KpiStripRoot = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: ${({ theme }) => theme.spacing.sm};
-  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: ${({ theme }) => theme.spacing.xs};
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.lg};
+  }
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  background: transparent;
   flex-shrink: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-variant-numeric: tabular-nums;
@@ -38,9 +43,10 @@ export const KpiStripRoot = styled.div`
 `;
 
 export const KpiTile = styled.div<{ $accent?: 'default' | 'warn' | 'critical' | 'live' }>`
-  ${operationalGlass};
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
   min-width: 0;
   position: relative;
   overflow: hidden;
@@ -76,12 +82,14 @@ export const KpiLabel = styled.span`
 export const KpiValue = styled.span<{ $live?: boolean }>`
   display: block;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
-  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-size: clamp(0.85rem, 3.4vw, 1.15rem);
   font-variant-numeric: tabular-nums;
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   color: ${({ theme }) => theme.colors.text};
   letter-spacing: -0.02em;
   line-height: 1.1;
+  min-width: 0;
+  overflow-wrap: anywhere;
 
   ${({ $live }) => $live && css`
     animation: ${livePulse} 2.5s ease-in-out infinite;
@@ -100,4 +108,6 @@ export const KpiMeta = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   color: ${({ theme }) => theme.colors.textMuted};
   letter-spacing: 0.04em;
+  min-width: 0;
+  overflow-wrap: anywhere;
 `;

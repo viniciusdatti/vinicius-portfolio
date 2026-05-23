@@ -62,7 +62,6 @@ export const WorkspaceShell: React.FC = (): React.ReactElement => {
         ) : null}
         <LiveLabImmersionBand
           ref={refs.sectionRef}
-          $immersive={pinEnabled}
           aria-label={t('liveLab.workspace.ariaLabel')}
           variants={section}
           initial="hidden"

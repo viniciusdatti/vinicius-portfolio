@@ -34,7 +34,7 @@ const getBootProgress = (phase: BootHandshakePhase): number => {
 /**
  * Transport boot strip — mirrors Vantage edge handshake: init → socket → live telemetry.
  */
-export const BootHandshake = (): React.ReactElement => {
+export const BootHandshake = (): React.ReactElement | null => {
   const { t } = useTranslation();
   const { connected } = useTelemetry();
   const { section, viewport } = useScrollMotion();
@@ -71,6 +71,10 @@ export const BootHandshake = (): React.ReactElement => {
   const phaseKey: string = `liveLab.boot.phases.${phase}`;
   const progress: number = getBootProgress(phase);
 
+  if (phase === BootHandshakePhase.Ready) {
+    return null;
+  }
+
   return (
     <BootRoot
       aria-label={t('liveLab.boot.transportStatus')}
@@ -91,7 +95,7 @@ export const BootHandshake = (): React.ReactElement => {
         <BootTrack aria-hidden>
           <BootFill
             $progress={progress}
-            $live={phase === BootHandshakePhase.Live || phase === BootHandshakePhase.Ready}
+            $live={phase === BootHandshakePhase.Live}
           />
         </BootTrack>
       </BootRow>
