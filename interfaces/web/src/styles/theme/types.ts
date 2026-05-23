@@ -294,6 +294,7 @@ export interface Theme {
   };
   zIndex: {
     base: number;
+    ambient: number;
     content: number;
     dropdown: number;
     sticky: number;

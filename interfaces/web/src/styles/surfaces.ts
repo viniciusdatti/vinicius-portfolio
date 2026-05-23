@@ -313,6 +313,7 @@ export const cardStatSignal = css`
   position: relative;
   overflow: hidden;
   border-left: 3px solid ${({ theme }) => theme.colors.primaryBorderFaint};
+  box-shadow: inset 3px 0 16px ${({ theme }) => theme.colors.primary}12;
 
   &::before {
     content: '';
@@ -327,8 +328,9 @@ export const cardStatSignal = css`
 
   @media (hover: hover) {
     &:hover {
-      border-left-color: ${({ theme }) => theme.colors.primary};
-      border-color: ${({ theme }) => theme.colors.borderLight};
+      border-left-color: ${({ theme }) => theme.colors.primaryBorderStrong};
+      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+      box-shadow: inset 3px 0 20px ${({ theme }) => theme.colors.primary}1f;
     }
   }
 `;
@@ -358,6 +360,33 @@ export const interactiveLiftShowcase = css`
 /**
  * Amber (#f59e0b) pointer torch — pair with --spot-x / --spot-y / --spot-opacity on the card root.
  */
+/**
+ * Specular cobalt rim — pair with 3D tilt on showcase cards at hover.
+ */
+export const showcaseSpecularRim = css`
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  opacity: var(--spot-opacity, 0);
+  transition: opacity ${({ theme }) => theme.transitions.normal};
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.primary}33 0%,
+    transparent 38%,
+    transparent 62%,
+    ${({ theme }) => theme.colors.accent}22 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px ${({ theme }) => theme.colors.primaryBorderFaint},
+    inset 0 1px 24px ${({ theme }) => theme.colors.primary}18;
+
+  @media (hover: none) {
+    opacity: 0;
+  }
+`;
+
 export const showcasePointerTorch = css`
   position: absolute;
   inset: 0;
