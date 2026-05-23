@@ -1,8 +1,28 @@
+/**
+ * @fileoverview Home Live Lab observatory panel styles.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 
 // Types
 import { SensorStatus } from '@/types/telemetry';
+
+// Components
+import { getTelemetryStatusColor } from '@/lib/telemetryStatusColor';
+
+/* *************************************************************************************************
+ ********************************************* STYLES **********************************************
+ ************************************************************************************************ */
+
+const statusColor = (
+  status: SensorStatus,
+  theme: DefaultTheme,
+): string => getTelemetryStatusColor(status, theme);
 
 const sweep = keyframes`
   0% { transform: translateX(-100%); }
@@ -18,12 +38,6 @@ const logFade = keyframes`
   from { opacity: 0; transform: translateX(-6px); }
   to { opacity: 1; transform: translateX(0); }
 `;
-
-const statusColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === SensorStatus.Critical) return theme.colors.error;
-  if (status === SensorStatus.Warn) return theme.colors.warning;
-  return theme.colors.success;
-};
 
 export const ObservatoryRoot = styled.div`
   position: relative;
@@ -156,9 +170,7 @@ export const SensorTileValue = styled.div<{ $status: SensorStatus }>`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  color: ${({ $status, theme }) => ($status === SensorStatus.Warn
-    ? theme.colors.warning
-    : theme.colors.text)};
+  color: ${({ $status, theme }) => statusColor($status, theme)};
   letter-spacing: -0.02em;
 `;
 
