@@ -2,119 +2,243 @@
 import React from 'react';
 
 // Libraries
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion } from 'framer-motion';
+
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useAvatarPortraitObjectPosition } from '@/hooks/useAvatarPortraitObjectPosition';
 
 // Components
-import { Button } from '../Button';
+import { publicAssetUrl } from '@/config/env';
+import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
+import { Button } from '@/components/Button';
+import { HeroVisual3D } from '@/components/Hero/HeroVisual3D';
+import {
+  heroEntranceStagger,
+  heroEyebrowLineExpand,
+  heroHeadlineClipReveal,
+  heroHeadlineStagger,
+  heroModuleReveal,
+  heroMonoReveal,
+} from '@/components/Hero/Hero.motion';
 import {
   HeroSection,
-  HeroDecoGrid,
-  GlowBackdrop,
-  GlowBackdropSecondary,
-  GlowBackdropTertiary,
-  HeroContent,
-  HeroAvatar,
-  HeroDecoTag,
-  HeroName,
-  HeroTitle,
-  HeroSubtitle,
+  HeroBackgroundStack,
+  HeroDotGrid,
+  HeroCenterWash,
+  HeroLayoutGrid,
+  HeroNarrativeColumn,
+  HeroNarrativeContent,
+  HeroPortraitDesktopSlot,
+  HeroPortraitMobileSlot,
+  HeroPortraitMobileReveal,
+  HeroPortrait,
+  HeroMicroLabel,
+  HeroLiveMicroLabel,
+  HeroEyebrowRow,
+  HeroEyebrowLine,
+  HeroEyebrowRuleSecondary,
+  HeroEyebrowStack,
+  HeroHeadline,
+  HeroHeadlineClip,
+  HeroHeadlineClipInner,
+  HeroHeadlineLine,
+  HeroHeadlineText,
+  HeroHeadlineHighlight,
+  HeroStackLine,
+  HeroStackTech,
   HeroDescription,
   CtaWrapper,
   CtaButtonWrapper,
-} from './Hero.style';
+  HeroScrollCue,
+  HeroScrollCueSlot,
+  HeroScrollChevron,
+  ScrollCueLine,
+  HeroMotionStack,
+} from '@/components/Hero/Hero.style';
 
-const MotionHeroContent = motion.create(HeroContent);
-const MotionHeroAvatar = motion.create(HeroAvatar);
-const MotionHeroDecoTag = motion.create(HeroDecoTag);
-const MotionHeroName = motion.create(HeroName);
-const MotionHeroTitle = motion.create(HeroTitle);
-const MotionHeroSubtitle = motion.create(HeroSubtitle);
-const MotionHeroDescription = motion.create(HeroDescription);
-const MotionCtaWrapper = motion.create(CtaWrapper);
-const MotionCtaButtonWrapper = motion.create(CtaButtonWrapper);
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
+const STACK_TECHNOLOGIES: string[] = [
+  'React',
+  'TypeScript',
+  'WebSocket',
+  'FastAPI',
+];
+
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
+
+const scrollToNarrative = (): void => {
+  document.getElementById('section-work')?.scrollIntoView({ behavior: 'smooth' });
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
-  },
-};
+interface HeroPortraitFrameProps {
+  avatarSrc: string;
+  alt: string;
+}
 
-export const Hero: React.FC = () => {
-  const { t } = useTranslation();
-
-  const publicUrl: string = process.env.PUBLIC_URL ?? '';
+/** Measured portrait frame — object-position tracks container size (mobile + desktop). */
+const HeroPortraitFrame: React.FC<HeroPortraitFrameProps> = ({
+  avatarSrc,
+  alt,
+}): React.ReactElement => {
+  const { frameRef, objectPosition } = useAvatarPortraitObjectPosition();
 
   return (
-    <HeroSection>
-      <HeroDecoGrid aria-hidden />
-      <GlowBackdropSecondary aria-hidden />
-      <GlowBackdropTertiary aria-hidden />
-      <GlowBackdrop aria-hidden />
-      <MotionHeroContent
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <MotionHeroAvatar variants={itemVariants}>
-          <img
-            src={`${publicUrl}/avatar.png`}
-            alt="Vinicius Datti"
-          />
-        </MotionHeroAvatar>
-        <MotionHeroDecoTag variants={itemVariants}>
-          &lt;/&gt;
-        </MotionHeroDecoTag>
-        <MotionHeroSubtitle variants={itemVariants}>
-          {t('home.hero.greeting')}
-        </MotionHeroSubtitle>
-        <MotionHeroName variants={itemVariants}>
-          {t('home.hero.name')}
-        </MotionHeroName>
-        <MotionHeroTitle variants={itemVariants}>
-          {t('home.hero.title')}
-        </MotionHeroTitle>
-        <MotionHeroDescription variants={itemVariants}>
-          {t('home.hero.description')}
-        </MotionHeroDescription>
-        <MotionCtaWrapper variants={itemVariants}>
-          <MotionCtaButtonWrapper
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <Button
-              onClick={() =>
-                document.getElementById('projetos')?.scrollIntoView({ behavior: 'smooth' })
-              }
+    <HeroPortrait ref={frameRef}>
+      <AvatarPortraitPhoto
+        src={avatarSrc}
+        alt={alt}
+        $objectPosition={objectPosition}
+      />
+    </HeroPortrait>
+  );
+};
+
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
+
+/**
+ * Hero — canonical 2-column narrative + portrait grid, editorial cubic choreography.
+ */
+export const Hero: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
+  const reduced: boolean = usePrefersReducedMotion();
+  const heroRef = React.useRef<HTMLElement | null>(null);
+  const avatarSrc: string = publicAssetUrl('avatar.png');
+
+  const motionInitial: false | string = reduced ? false : 'hidden';
+  const motionAnimate: string = 'show';
+
+  return (
+    <HeroSection ref={heroRef} aria-label={t('home.hero.aria')}>
+      <HeroBackgroundStack aria-hidden>
+        <HeroDotGrid />
+        <HeroCenterWash />
+      </HeroBackgroundStack>
+      <HeroVisual3D containerRef={heroRef} />
+      <HeroLayoutGrid>
+        <HeroPortraitMobileReveal
+          variants={heroModuleReveal}
+          initial={motionInitial}
+          animate={motionAnimate}
+        >
+          <HeroPortraitMobileSlot>
+            <HeroPortraitFrame
+              avatarSrc={avatarSrc}
+              alt={t('home.hero.portraitAlt')}
+            />
+          </HeroPortraitMobileSlot>
+        </HeroPortraitMobileReveal>
+
+        <HeroNarrativeColumn>
+          <HeroNarrativeContent>
+            <HeroMotionStack
+              variants={heroEntranceStagger}
+              initial={motionInitial}
+              animate={motionAnimate}
             >
-              {t('home.hero.cta')}
-            </Button>
-          </MotionCtaButtonWrapper>
-          <MotionCtaButtonWrapper
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
+              <motion.div variants={heroMonoReveal}>
+                <HeroEyebrowStack>
+                  <HeroEyebrowRow>
+                    <HeroEyebrowLine
+                      variants={heroEyebrowLineExpand}
+                      initial={motionInitial}
+                      animate={motionAnimate}
+                      aria-hidden
+                    />
+                    <HeroMicroLabel>{t('home.hero.eyebrow')}</HeroMicroLabel>
+                  </HeroEyebrowRow>
+                  <HeroEyebrowRow>
+                    <HeroEyebrowRuleSecondary aria-hidden />
+                    <HeroLiveMicroLabel>{t('home.hero.liveIndicator')}</HeroLiveMicroLabel>
+                  </HeroEyebrowRow>
+                </HeroEyebrowStack>
+              </motion.div>
+
+              <HeroHeadline
+                variants={heroHeadlineStagger}
+                initial={motionInitial}
+                animate={motionAnimate}
+              >
+                <HeroHeadlineClip>
+                  <HeroHeadlineClipInner
+                    variants={heroHeadlineClipReveal}
+                    initial={motionInitial}
+                    animate={motionAnimate}
+                  >
+                    <HeroHeadlineLine>
+                      <HeroHeadlineText>{t('home.hero.headlinePart1')}</HeroHeadlineText>
+                      <HeroHeadlineHighlight>{t('home.hero.headlinePart2')}</HeroHeadlineHighlight>
+                    </HeroHeadlineLine>
+                  </HeroHeadlineClipInner>
+                </HeroHeadlineClip>
+              </HeroHeadline>
+
+              <motion.div variants={heroModuleReveal}>
+                <HeroDescription>{t('home.hero.description')}</HeroDescription>
+              </motion.div>
+
+              <motion.div variants={heroModuleReveal}>
+                <CtaWrapper>
+                  <CtaButtonWrapper>
+                    <Button as={Link} to="/projects">
+                      {t('home.hero.ctaPrimary')}
+                    </Button>
+                  </CtaButtonWrapper>
+                  <CtaButtonWrapper>
+                    <Button variant="secondary" as={Link} to="/live-lab">
+                      {t('home.hero.ctaSecondary')}
+                    </Button>
+                  </CtaButtonWrapper>
+                </CtaWrapper>
+              </motion.div>
+
+              <motion.div variants={heroModuleReveal}>
+                <HeroStackLine>
+                  {STACK_TECHNOLOGIES.map((tech: string) => (
+                    <HeroStackTech key={tech}>{tech}</HeroStackTech>
+                  ))}
+                </HeroStackLine>
+              </motion.div>
+            </HeroMotionStack>
+          </HeroNarrativeContent>
+
+          <HeroScrollCueSlot
+            variants={heroModuleReveal}
+            initial={motionInitial}
+            animate={motionAnimate}
           >
-            <Button as={Link} to="/contact" variant="secondary">
-              {t('home.hero.contact')}
-            </Button>
-          </MotionCtaButtonWrapper>
-        </MotionCtaWrapper>
-      </MotionHeroContent>
+            <HeroScrollCue
+              type="button"
+              onClick={scrollToNarrative}
+              aria-label={t('home.hero.scrollCue')}
+            >
+              <ScrollCueLine aria-hidden />
+              {t('home.hero.scrollCue')}
+              <HeroScrollChevron aria-hidden>▼</HeroScrollChevron>
+            </HeroScrollCue>
+          </HeroScrollCueSlot>
+        </HeroNarrativeColumn>
+
+        <HeroPortraitDesktopSlot
+          variants={heroModuleReveal}
+          initial={motionInitial}
+          animate={motionAnimate}
+        >
+          <HeroPortraitFrame
+            avatarSrc={avatarSrc}
+            alt={t('home.hero.portraitAlt')}
+          />
+        </HeroPortraitDesktopSlot>
+      </HeroLayoutGrid>
     </HeroSection>
   );
 };

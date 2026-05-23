@@ -1,40 +1,50 @@
 /**
- * FilterBar component. Horizontal filter chips with optional count badges.
+ * @fileoverview Dense instrument-style filter rail for editorial showcase pages.
  */
 
 // Core
 import React from 'react';
 
 // Types
-import type { FilterBarProps } from './FilterBar.types';
+import type { FilterBarProps } from '@/components/showcase/FilterBar/FilterBar.types';
 
 // Components
 import {
   FilterBarWrapper,
   FilterChip,
   FilterCount,
-} from './FilterBar.style';
+} from '@/components/showcase/FilterBar/FilterBar.style';
+
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
 
 export const FilterBar: React.FC<FilterBarProps> = ({
   filters,
   selectedKey,
   onSelect,
-}) => {
-  return (
-    <FilterBarWrapper>
-      {filters.map((filter) => (
+}): React.ReactElement => (
+  <FilterBarWrapper role="toolbar" aria-label="Project filters">
+    {filters.map((filter) => {
+      const isActive: boolean = selectedKey === filter.key;
+      return (
         <FilterChip
           key={filter.key}
           type="button"
-          $active={selectedKey === filter.key}
-          onClick={() => onSelect(filter.key)}
+          $active={isActive}
+          aria-pressed={isActive}
+          onClick={(): void => onSelect(filter.key)}
         >
           {filter.label}
-          {filter.count != null && (
-            <FilterCount>({filter.count})</FilterCount>
-          )}
+          {filter.count != null ? (
+            <FilterCount>
+              (
+              {filter.count}
+              )
+            </FilterCount>
+          ) : null}
         </FilterChip>
-      ))}
-    </FilterBarWrapper>
-  );
-};
+      );
+    })}
+  </FilterBarWrapper>
+);

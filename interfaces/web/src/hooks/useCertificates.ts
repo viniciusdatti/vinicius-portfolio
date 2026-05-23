@@ -7,10 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 
 // Types
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { Certificate } from '../types';
+import type { Certificate } from '@/types';
 
 // Components
-import { getCertificates } from '../api';
+import { getCertificates } from '@/api';
 
 /**
  * Query key for certificates.
@@ -22,8 +22,10 @@ export const certificatesQueryKey = (): string[] => ['certificates'];
  *
  * @returns Query result with certificates data, loading and error states
  */
-export const useCertificates = (): UseQueryResult<Certificate[], Error> =>
-  useQuery<Certificate[], Error>({
-    queryKey: certificatesQueryKey(),
-    queryFn: getCertificates,
-  });
+export const useCertificates = (): UseQueryResult<Certificate[], Error> => useQuery<
+Certificate[],
+Error
+>({
+  queryKey: certificatesQueryKey(),
+  queryFn: getCertificates,
+});

@@ -58,7 +58,6 @@ Em **Environment** do serviço, adicione:
 | `ENVIRONMENT` | Ambiente | `production` |
 | `DATABASE_URL` | Connection string do Neon | `postgresql://user:pass@host/db?sslmode=require` |
 | `CORS_ORIGINS` | Origens permitidas (frontend) | `https://seu-app.vercel.app,https://www.seudominio.com` |
-| `JWT_SECRET_KEY` | Chave secreta forte (produção) | string longa e aleatória |
 | `RESEND_API_KEY` | (Opcional) API key do Resend | para e-mails do formulário de contato |
 | `EMAIL_FROM` | E-mail remetente (Resend) | `noreply@seudominio.com` |
 | `EMAIL_TO_ADMIN` | E-mail para notificações | `seu@email.com` |
@@ -68,7 +67,6 @@ Em **Environment** do serviço, adicione:
 
 **Importante:**
 
-- Em produção, **não** use `JWT_SECRET_KEY` de desenvolvimento. Gere uma chave forte (ex.: 32+ caracteres aleatórios).
 - `CORS_ORIGINS` deve incluir a URL exata do frontend na Vercel (ex.: `https://vinicius-portfolio.vercel.app`). Pode listar várias origens separadas por vírgula, sem espaços.
 
 ### 2.3 Criar tabelas no banco (primeiro deploy)
@@ -102,36 +100,55 @@ Depois do primeiro deploy, anote a URL do backend (ex.: `https://portfolio-api.o
 1. Acesse [Vercel](https://vercel.com) e faça login (GitHub recomendado).
 2. **Add New** → **Project** e importe o repositório do portfólio.
 3. Configure:
-   - **Root Directory:** `interfaces/web`.
-   - **Framework Preset:** Create React App (detectado automaticamente).
-   - **Build Command:** `yarn build` (ou deixe o padrão).
-   - **Output Directory:** `build` (padrão do CRA).
+   - **Root Directory:** `interfaces/web` (obrigatório).
+   - **Production Branch:** `master`.
+   - **Framework Preset:** Vite (ou deixe a Vercel ler `interfaces/web/vercel.json`).
+   - **Build Command:** `yarn build` (Vite + `prebuild` do favicon).
+   - **Output Directory:** `dist` (não use `build` — isso era do CRA antigo).
+   - **Node.js Version:** `22.x` (alinhado a `engines` no `package.json`).
+
+O arquivo `interfaces/web/vercel.json` no repositório fixa `dist`, Node 22, rewrites de SPA (React Router) e cache de assets. Você pode confirmar em **Settings** → **General** que a Vercel não sobrescreveu com valores antigos do CRA.
 
 ### 3.2 Variáveis de ambiente (Frontend)
 
-Em **Settings** → **Environment Variables** do projeto, adicione:
+Em **Settings** → **Environment Variables** do projeto, adicione (escopo **Production** e, se quiser preview, **Preview** também):
 
 | Variável | Valor | Observação |
 |----------|--------|------------|
-| `REACT_APP_API_URL` | `https://SUA-URL-DO-RENDER.com/api/v1` | Troque pela URL real do backend (com `/api/v1` no final). |
-| `REACT_APP_ENV` | `production` | Opcional. |
+| `VITE_API_URL` | `https://vinicius-portfolio.onrender.com/api/v1` | URL real do backend (com `/api/v1` no final). |
+| `VITE_APP_ENV` | `production` | Opcional. |
 
-**Importante:** A URL da API deve ser **HTTPS** e terminar em `/api/v1` (o frontend usa esse prefixo para REST e para derivar a origem do WebSocket).
+**Importante:**
+
+- Variáveis `VITE_*` são embutidas no build — após alterar, faça **Redeploy**.
+- A URL da API deve ser **HTTPS** e terminar em `/api/v1`.
+- O Socket.IO usa o host da API (sem `/api/v1`). No Render, `CORS_ORIGINS` deve incluir **exatamente** a origem do site na Vercel (ex.: `https://vinicius-portfolio-weld.vercel.app`), sem barra no final.
+
+**Docker (compose prod):** use `VITE_API_URL=/api/v1` no build do frontend; o nginx em `interfaces/web/docker/nginx.conf` faz proxy de `/api` e `/socket.io` para o serviço `backend`.
 
 ### 3.3 Deploy
 
-Após salvar as variáveis, faça um novo deploy (ou deixe o deploy automático rodar após o push). O site ficará em algo como `https://vinicius-portfolio.vercel.app`.
+Após salvar as variáveis, faça um novo deploy (ou deixe o deploy automático rodar após push em `master`). O site ficará em algo como `https://vinicius-portfolio-weld.vercel.app`.
 
-Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_ORIGINS` para incluir essa URL (ex.: `https://vinicius-portfolio.vercel.app`).
+Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_ORIGINS` para incluir essa URL.
+
+### 3.4 Migração CRA → Vite (se o projeto na Vercel era antigo)
+
+Se o último deploy usava `react-scripts` e pasta `build`:
+
+1. Merge do código com Vite em `master`.
+2. Confirme **Output Directory** = `dist` e **Node** = 22.
+3. Remova variáveis `REACT_APP_*` e use só `VITE_*`.
+4. **Redeploy** em Production.
 
 ---
 
 ## 4. Ordem recomendada
 
 1. **Neon:** criar projeto e copiar `DATABASE_URL`.
-2. **Render:** criar Web Service com `backend` como root, configurar build/start e **todas** as env (incluindo `DATABASE_URL`, `CORS_ORIGINS` com um placeholder temporário, `JWT_SECRET_KEY`, `ENVIRONMENT=production`).
+2. **Render:** criar Web Service com `backend` como root, configurar build/start e **todas** as env (incluindo `DATABASE_URL`, `CORS_ORIGINS` com um placeholder temporário, `ENVIRONMENT=production`).
 3. **Render:** rodar o comando de criação de tabelas (Pre-Deploy ou manual) e fazer o primeiro deploy.
-4. **Vercel:** criar projeto com root `interfaces/web`, definir `REACT_APP_API_URL` com a URL do Render e fazer o deploy.
+4. **Vercel:** criar projeto com root `interfaces/web`, definir `VITE_API_URL` com a URL do Render e fazer o deploy.
 5. **Render:** atualizar `CORS_ORIGINS` com a URL real do frontend na Vercel (e de qualquer domínio customizado, se houver).
 
 ---
@@ -141,7 +158,7 @@ Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_OR
 - **Backend:** abra `https://SUA-URL-RENDER/health`. Deve retornar algo como `{"status":"healthy","version":"2.0.0"}`.
 - **Frontend:** abra o site na Vercel; a home deve carregar e as chamadas à API (projetos, etc.) devem funcionar.
 - **Formulário de contato:** só envia e-mail se `RESEND_API_KEY`, `EMAIL_FROM` e `EMAIL_TO_ADMIN` estiverem configurados no Render.
-- **Chat / WebSocket:** o Socket.IO está no mesmo `socket_app`; se o frontend usar a mesma base URL (`REACT_APP_API_URL` sem `/api/v1`), a conexão WebSocket deve subir normalmente.
+- **Chat / WebSocket:** o Socket.IO está no mesmo `socket_app`; o cliente deriva o host de `VITE_API_URL` (sem `/api/v1`). Confira `CORS_ORIGINS` no Render.
 
 ---
 
@@ -150,7 +167,7 @@ Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_OR
 - **Vercel:** em **Settings** → **Domains**, adicione seu domínio e siga as instruções de DNS.
 - **Render:** em **Settings** → **Custom Domains**, adicione o subdomínio da API (ex.: `api.seudominio.com`) e configure o CNAME conforme indicado.
 - Atualize `CORS_ORIGINS` no Render para incluir `https://seudominio.com` e `https://www.seudominio.com`.
-- No frontend (Vercel), defina `REACT_APP_API_URL` para a URL do backend (ex.: `https://api.seudominio.com/api/v1`).
+- No frontend (Vercel), defina `VITE_API_URL` para a URL do backend (ex.: `https://api.seudominio.com/api/v1`).
 
 ---
 

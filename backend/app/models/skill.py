@@ -2,7 +2,8 @@
 import enum
 
 # Libraries
-from sqlalchemy import Column, Integer, String, Enum, Boolean
+from sqlalchemy import Boolean, Enum, Integer, String
+from sqlalchemy.orm import Mapped, mapped_column
 
 # App - Database
 from app.db.base import Base
@@ -20,11 +21,15 @@ class SkillCategory(str, enum.Enum):
 class Skill(Base):
     __tablename__ = "skills"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    name_pt = Column(String(100), nullable=True)
-    category = Column(Enum(SkillCategory), nullable=False, index=True)
-    proficiency = Column(Integer, default=50)  # 0-100
-    icon_url = Column(String(500), nullable=True)
-    display_order = Column(Integer, default=0)
-    is_active = Column(Boolean, default=True, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = mapped_column(String(100), nullable=False)
+    name_pt: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    category: Mapped[SkillCategory] = mapped_column(
+        Enum(SkillCategory),
+        nullable=False,
+        index=True,
+    )
+    proficiency: Mapped[int] = mapped_column(Integer, default=50)  # 0-100
+    icon_url: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)

@@ -161,7 +161,7 @@ When running in development mode, API documentation is available at:
 
 ### Email (Contact form and notifications)
 
-To receive emails when someone submits the contact form (or starts a chat), set:
+To receive emails when someone submits the contact form, set:
 
 - **`RESEND_API_KEY`** – API key from [Resend](https://resend.com). Without it, submissions are saved to the database but no email is sent.
 - **`EMAIL_FROM`** – Sender address (must be a verified domain in Resend).

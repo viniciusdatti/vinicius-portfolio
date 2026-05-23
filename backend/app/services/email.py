@@ -2,7 +2,7 @@
 
 # Core
 import asyncio
-from typing import Optional
+from typing import Any, Optional, cast
 
 # Libraries
 import resend
@@ -71,7 +71,7 @@ class EmailService:
             }
 
             # Resend SDK is sync; run in thread to avoid blocking the event loop
-            await asyncio.to_thread(resend.Emails.send, params)
+            await asyncio.to_thread(resend.Emails.send, cast(Any, params))
             logger.info(
                 "Contact notification email sent to %s",
                 settings.email_to_admin,
@@ -81,75 +81,11 @@ class EmailService:
         except Exception as e:
             logger.error(
                 "Failed to send contact notification email: %s. "
-                "Check RESEND_API_KEY, EMAIL_FROM (must be verified domain in Resend), and Resend dashboard.",
+                "Check RESEND_API_KEY, EMAIL_FROM (verified domain in Resend), "
+                "and Resend dashboard.",
                 e,
                 exc_info=True,
             )
-            return False
-
-    async def send_test_email(self) -> tuple[bool, str]:
-        """
-        Send a single test email to EMAIL_TO_ADMIN (for debugging).
-        Returns (success, error_message). error_message is empty when success is True.
-        """
-        if not self.enabled:
-            return (
-                False,
-                "Email service disabled: RESEND_API_KEY not set in backend/.env",
-            )
-        try:
-            params = {
-                "from": settings.email_from,
-                "to": [settings.email_to_admin],
-                "subject": "[Portfolio] Teste de envio",
-                "html": "<p>E-mail de teste do portfólio. Se você recebeu, o Resend está OK.</p>",
-            }
-            await asyncio.to_thread(resend.Emails.send, params)
-            logger.info("Test email sent to %s", settings.email_to_admin)
-            return (True, "")
-        except Exception as e:  # noqa: BLE001
-            msg = f"{type(e).__name__}: {e}"
-            logger.exception("Test email failed: %s", msg)
-            return (False, msg)
-
-    async def send_chat_notification(
-        self,
-        visitor_name: str,
-        message: str,
-        session_id: str,
-    ) -> bool:
-        """Send notification email when someone starts a chat."""
-        if not self.enabled:
-            logger.info("Email service disabled. Skipping chat notification.")
-            return False
-
-        try:
-            html_content = f"""
-            <h2>Nova conversa no Live Lab</h2>
-            <p><strong>Visitante:</strong> {visitor_name}</p>
-            <p><strong>Session ID:</strong> {session_id}</p>
-            <hr>
-            <h3>Primeira mensagem:</h3>
-            <p>{message}</p>
-            <hr>
-            <p style="color: #666; font-size: 12px;">
-                Acesse o painel admin para responder.
-            </p>
-            """
-
-            params = {
-                "from": settings.email_from,
-                "to": [settings.email_to_admin],
-                "subject": f"[Portfolio] Nova conversa de {visitor_name}",
-                "html": html_content,
-            }
-
-            await asyncio.to_thread(resend.Emails.send, params)
-            logger.info("Chat notification email sent to %s", settings.email_to_admin)
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to send chat notification email: {e}")
             return False
 
 

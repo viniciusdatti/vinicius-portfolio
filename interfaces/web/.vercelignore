@@ -1,0 +1,21 @@
+# Build output and local caches (rebuilt on Vercel)
+dist
+.vite
+coverage
+
+# QA / audit artifacts (local only)
+playwright-report
+test-results
+qa-screenshots
+qa-*.png
+scripts/responsive-audit
+scripts/visual-audit
+scripts/**/*.png
+
+# Review exports
+*.diff
+
+# Tests and dev tooling (not needed for production build)
+**/*.test.ts
+**/*.test.tsx
+**/__tests__

@@ -7,15 +7,15 @@
 import styled from 'styled-components';
 
 // Types
-import { HighlightCardStatus } from '../../../types';
+import { HighlightCardStatus } from '@/types';
 
 type ThemeColors = {
   colors: { success: string; error: string; textMuted: string };
 };
 
 const statusColorMap = (theme: ThemeColors): Record<
-  HighlightCardStatus,
-  string
+HighlightCardStatus,
+string
 > => ({
   [HighlightCardStatus.Success]: theme.colors.success,
   [HighlightCardStatus.Error]: theme.colors.error,
@@ -33,7 +33,7 @@ export const StyledStatusCard = styled.div<StyledStatusCardProps>`
   padding: ${({ theme }) => theme.spacing.lg};
   position: relative;
   padding-left: ${({ theme }) => theme.spacing.xl};
-  transition: box-shadow ${({ theme }) => theme.transitions.fast};
+  transition: border-color ${({ theme }) => theme.transitions.fast};
 
   &::before {
     content: '';
@@ -48,7 +48,8 @@ export const StyledStatusCard = styled.div<StyledStatusCardProps>`
   };
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.md};
+    border-color: ${({ theme, $status }) => statusColorMap(theme)[$status]};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
   };
 `;
 
