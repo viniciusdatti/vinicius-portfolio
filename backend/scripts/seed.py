@@ -14,6 +14,7 @@ from app.models.project import Project
 from app.models.technology import Technology
 from app.models.skill import Skill, SkillCategory
 from app.models.certificate import Certificate
+from app.services.portfolio_catalog_sync import sync_portfolio_projects
 
 # Register every model on Base.metadata before create_all (Postgres/Docker prod).
 import app.models  # noqa: F401
@@ -52,7 +53,14 @@ def seed_data(force: bool = False):
         should_seed_certificates = existing_certificates == 0 or force
 
         if not should_seed_projects:
-            print(f"Database already has {existing_projects} projects. Skipping project seed.")
+            print(
+                f"Database already has {existing_projects} projects. "
+                "Syncing with portfolio catalog..."
+            )
+            synced_count: int = sync_portfolio_projects(db)
+            print(
+                f"Portfolio catalog sync complete ({synced_count} curated repositories)."
+            )
         elif existing_projects > 0:
             db.execute(text("DELETE FROM project_technologies"))
             db.query(Project).delete()
@@ -60,131 +68,11 @@ def seed_data(force: bool = False):
             db.commit()
 
         if should_seed_projects:
-            print("Seeding technologies...")
-
-            technologies = {
-                "react": Technology(name="React", slug="react"),
-                "typescript": Technology(name="TypeScript", slug="typescript"),
-                "python": Technology(name="Python", slug="python"),
-                "websocket": Technology(name="WebSockets", slug="websocket"),
-                "styled_components": Technology(
-                    name="Styled-Components", slug="styled-components"
-                ),
-                "storybook": Technology(name="Storybook", slug="storybook"),
-                "autodesk_vault_api": Technology(
-                    name="Autodesk Vault API", slug="autodesk-vault-api"
-                ),
-                "task_scheduler": Technology(
-                    name="Task Scheduler", slug="task-scheduler"
-                ),
-                "erp_integration": Technology(
-                    name="ERP Integration", slug="erp-integration"
-                ),
-                "performance": Technology(name="Performance", slug="performance"),
-            }
-
-            for tech in technologies.values():
-                db.add(tech)
-
-            db.flush()
-            db.commit()
-
-            print("Seeding projects...")
-
-            project_data = [
-                {
-                    "title": "Vault ERP Synchronizer",
-                    "title_pt": "Vault ERP Synchronizer",
-                    "description": (
-                        "Mid-level automation service integrating the Autodesk Vault API "
-                        "with the corporate ERP. Orchestrates Windows Task Scheduler for "
-                        "continuous asynchronous sync of 3D model thumbnails and stock "
-                        "numbers, eliminating concurrency failures."
-                    ),
-                    "description_pt": (
-                        "Serviço de automação em nível Pleno que integra a API do Autodesk "
-                        "Vault com o sistema ERP corporativo. Orquestra um Task Scheduler "
-                        "para sincronização contínua de miniaturas 3D de modelos e "
-                        "números de estoque de forma assíncrona, eliminando falhas de "
-                        "concorrência."
-                    ),
-                    "repository_url": (
-                        "https://github.com/viniciusdatti/vault-erp-sync"
-                    ),
-                    "techs": [
-                        "python",
-                        "autodesk_vault_api",
-                        "task_scheduler",
-                        "erp_integration",
-                    ],
-                },
-                {
-                    "title": "Live Lab Matrix",
-                    "title_pt": "Live Lab Matrix",
-                    "description": (
-                        "Realtime operational environment focused on WebSocket data "
-                        "streaming. Implements an optimized consumption pipeline with "
-                        "100ms render throttling on the frontend to lock 60fps "
-                        "performance under high event density."
-                    ),
-                    "description_pt": (
-                        "Ambiente operacional realtime focado em streaming de dados via "
-                        "WebSockets. Implementa um pipeline de consumo otimizado com "
-                        "throttling de renderização a cada 100ms no frontend para "
-                        "garantir performance cravada em 60fps sob alta densidade de "
-                        "eventos."
-                    ),
-                    "repository_url": (
-                        "https://github.com/viniciusdatti/live-lab-telemetry"
-                    ),
-                    "techs": ["react", "typescript", "websocket", "performance"],
-                },
-                {
-                    "title": "Aesthetic Nexus",
-                    "title_pt": "Aesthetic Nexus",
-                    "description": (
-                        "Scalable proprietary Design System architecture built with "
-                        "Styled-components and isolated via Storybook. Focused on rigid "
-                        "visual performance tokens, motion choreography, and strict "
-                        "prevention of re-render side effects (prop explosion)."
-                    ),
-                    "description_pt": (
-                        "Arquitetura de Design System proprietária escalável "
-                        "desenvolvida com Styled-components e isolada via Storybook. "
-                        "Focada em tokens rígidos de performance visual, motion "
-                        "choreography e prevenção estrita de efeitos colaterais de "
-                        "re-render (prop explosion)."
-                    ),
-                    "repository_url": (
-                        "https://github.com/viniciusdatti/design-system-core"
-                    ),
-                    "techs": [
-                        "react",
-                        "typescript",
-                        "styled_components",
-                        "storybook",
-                    ],
-                },
-            ]
-
-            for data in project_data:
-                tech_list = [technologies[tech_key] for tech_key in data["techs"]]
-
-                project = Project(
-                    title=data["title"],
-                    title_pt=data["title_pt"],
-                    description=data["description"],
-                    description_pt=data["description_pt"],
-                    repository_url=data["repository_url"],
-                    demo_url=None,
-                    technologies=tech_list,
-                )
-                db.add(project)
-
-            db.commit()
+            print("Seeding projects (titles match GitHub repository names)...")
+            synced_count: int = sync_portfolio_projects(db)
             print(
-                f"Successfully seeded {len(project_data)} projects "
-                f"and {len(technologies)} technologies!"
+                f"Successfully seeded {synced_count} projects "
+                f"from portfolio catalog!"
             )
 
         if not should_seed_skills:
