@@ -98,6 +98,7 @@ export const sharedTheme = {
   },
   zIndex: {
     base: 0,
+    ambient: 1,
     content: 2,
     dropdown: 100,
     sticky: 200,
@@ -112,7 +113,7 @@ export const sharedTheme = {
     hamburger: {
       lineWidth: '20px',
       lineHeight: '2px',
-      lineGap: '2.5px',
+      lineGap: '5px',
     },
     avatar: {
       hero: '128px',
