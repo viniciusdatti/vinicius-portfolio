@@ -1,5 +1,5 @@
 // Core
-import React, { useCallback } from 'react';
+import React from 'react';
 
 // Hooks
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
@@ -24,7 +24,7 @@ import {
 export const HeroVoidCanvas: React.FC<HeroVoidCanvasProps> = ({
   pointer,
 }): React.ReactElement => {
-  const { canvasRef, containerRef } = useCanvasTelemetryField({
+  const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Void,
     pointer: {
       x: pointer.x,
@@ -35,12 +35,8 @@ export const HeroVoidCanvas: React.FC<HeroVoidCanvasProps> = ({
     maxDevicePixelRatio: 1.5,
   });
 
-  const setLayerRef = useCallback((node: HTMLDivElement | null): void => {
-    containerRef.current = node;
-  }, [containerRef]);
-
   return (
-    <HeroVoidCanvasLayer ref={setLayerRef} aria-hidden>
+    <HeroVoidCanvasLayer ref={bindContainerRef} aria-hidden>
       <HeroVoidCanvasElement ref={canvasRef} />
     </HeroVoidCanvasLayer>
   );

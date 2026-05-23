@@ -80,15 +80,16 @@ export const useHeroCanvasPointer = (
   const {
     position: mousePosition,
     isActive: mouseActive,
-    ref: mouseRef,
+    ref: mouseSurfaceRef,
   } = usePointerPosition<HTMLElement>(mouseDisabled);
 
-  useEffect(() => {
-    const target: HTMLElement | null = mode === HeroCanvasInteractionMode.MouseTelemetry
-      ? voidContainerRef.current
-      : heroContainerRef.current;
-    mouseRef.current = target;
-  }, [heroContainerRef, mode, mouseRef, voidContainerRef]);
+  useEffect((): void => {
+    if (mode !== HeroCanvasInteractionMode.MouseTelemetry) {
+      mouseSurfaceRef(null);
+      return;
+    }
+    mouseSurfaceRef(voidContainerRef.current);
+  }, [mode, mouseSurfaceRef, voidContainerRef]);
 
   const applyTouchCoords = useCallback((clientX: number, clientY: number): void => {
     const el: HTMLElement | null = heroContainerRef.current;

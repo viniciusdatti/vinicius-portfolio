@@ -30,13 +30,13 @@ export const WorkCanvasPreview = ({
     [active],
   );
 
-  const { canvasRef, containerRef } = useCanvasTelemetryField({
+  const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: mapProjectCanvasTone(tone),
     pulse,
   });
 
   return (
-    <WorkPreviewLayer ref={containerRef} aria-hidden>
+    <WorkPreviewLayer ref={bindContainerRef} aria-hidden>
       <WorkPreviewCanvas ref={canvasRef} />
     </WorkPreviewLayer>
   );

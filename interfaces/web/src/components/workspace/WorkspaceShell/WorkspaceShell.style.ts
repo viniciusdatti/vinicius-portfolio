@@ -37,16 +37,16 @@ export const WorkspaceRoot = styled.div`
     z-index: 0;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 130% 85% at 50% 105%, rgba(0, 0, 0, 0.72) 0%, transparent 58%),
+      radial-gradient(ellipse 130% 85% at 50% 105%, rgba(0, 0, 0, 0.45) 0%, transparent 58%),
       radial-gradient(ellipse 60% 45% at 88% 12%, ${({ theme }) => theme.colors.primary}14 0%, transparent 52%),
       radial-gradient(ellipse 50% 40% at 6% 78%, ${({ theme }) => theme.colors.accent}0a 0%, transparent 48%),
-      linear-gradient(180deg, ${({ theme }) => theme.colors.background} 0%, #060708 100%);
+      linear-gradient(180deg, ${({ theme }) => theme.colors.background}cc 0%, #060708ee 100%);
   }
 `;
 
 export const WorkspaceChrome = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   flex: 1;

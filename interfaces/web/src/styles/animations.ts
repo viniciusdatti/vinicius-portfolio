@@ -107,14 +107,17 @@ export const scrollRevealReduced: Variants = {
 // ========================================= SCROLL REVEAL =========================================
 // =================================================================================================
 
-/** Canonical editorial reveal — 30px Y, 5px blur, 450ms, cubic [0.22, 1, 0.36, 1]. */
+/** Canonical editorial reveal — 30px Y, 6px blur, 450ms, cubic [0.22, 1, 0.36, 1]. */
 export const SCROLL_REVEAL_DURATION_S = 0.45;
 
 export const SCROLL_REVEAL_Y_PX = 30;
 
-export const SCROLL_REVEAL_BLUR = '5px';
+export const SCROLL_REVEAL_BLUR = '6px';
 
-export const SCROLL_REVEAL_STAGGER_CHILD_S = 0.06;
+export const SCROLL_REVEAL_STAGGER_CHILD_S = 0.08;
+
+/** Row cascade — delay between asymmetric grid rows (Projects showcase). */
+export const SCROLL_REVEAL_ROW_STAGGER_CHILD_S = 0.12;
 
 /**
  * Viewport gate — fire once per mount so blocks stay visible after reveal.
@@ -122,7 +125,7 @@ export const SCROLL_REVEAL_STAGGER_CHILD_S = 0.06;
  */
 export const scrollRevealViewport = {
   once: true,
-  amount: 0.12 as const,
+  amount: 0.18 as const,
   margin: '0px 0px -6% 0px' as const,
 };
 
@@ -195,6 +198,68 @@ export const scrollRevealStagger: Variants = {
     },
   },
 };
+
+/** Reduced motion — no stagger delay; opacity-only fade on each child. */
+export const scrollRevealStaggerReduced: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0,
+      delayChildren: 0,
+    },
+  },
+};
+
+/**
+ * Outer container for row-based cascades (e.g. Projects bento rows).
+ */
+export const scrollRevealRowStagger: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: SCROLL_REVEAL_ROW_STAGGER_CHILD_S,
+      delayChildren: 0.04,
+    },
+  },
+};
+
+export const scrollRevealRowStaggerReduced: Variants = scrollRevealStaggerReduced;
+
+/**
+ * Single showcase row — children use `scrollRevealItem` stagger inside the row.
+ */
+export const scrollRevealRow: Variants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: SCROLL_REVEAL_STAGGER_CHILD_S,
+      delayChildren: 0.02,
+    },
+  },
+};
+
+export const scrollRevealRowReduced: Variants = scrollRevealStaggerReduced;
+
+/**
+ * Depth reveal — architecture / certificate columns settle from a near plane (scale 1.02).
+ */
+export const scrollRevealDepth: Variants = {
+  hidden: {
+    opacity: 0,
+    y: SCROLL_REVEAL_Y_PX,
+    scale: 1.02,
+    filter: SCROLL_REVEAL_BLUR,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: scrollRevealTransition,
+  },
+};
+
+export const scrollRevealDepthReduced: Variants = scrollRevealReduced;
 
 /**
  * Item filho do stagger de scroll reveal.
@@ -776,19 +841,35 @@ export const mobileMenuVariants: Variants = {
   },
 };
 
+const hamburgerLineTransition = {
+  duration: motionPresets.duration.fast,
+  ease: motionEase,
+};
+
+/** Matches 3×2px lines + 5px gaps — center offset 7px for a symmetric X. */
+const HAMBURGER_OPEN_Y_OFFSET = 7;
+
 export const hamburgerTop: Variants = {
-  closed: { rotate: 0, y: 0 },
-  open: { rotate: 45, y: 8 },
+  closed: { rotate: 0, y: 0, transition: hamburgerLineTransition },
+  open: {
+    rotate: 45,
+    y: HAMBURGER_OPEN_Y_OFFSET,
+    transition: hamburgerLineTransition,
+  },
 };
 
 export const hamburgerMiddle: Variants = {
-  closed: { opacity: 1 },
-  open: { opacity: 0 },
+  closed: { opacity: 1, transition: hamburgerLineTransition },
+  open: { opacity: 0, transition: hamburgerLineTransition },
 };
 
 export const hamburgerBottom: Variants = {
-  closed: { rotate: 0, y: 0 },
-  open: { rotate: -45, y: -8 },
+  closed: { rotate: 0, y: 0, transition: hamburgerLineTransition },
+  open: {
+    rotate: -45,
+    y: -HAMBURGER_OPEN_Y_OFFSET,
+    transition: hamburgerLineTransition,
+  },
 };
 
 // =================================================================================================

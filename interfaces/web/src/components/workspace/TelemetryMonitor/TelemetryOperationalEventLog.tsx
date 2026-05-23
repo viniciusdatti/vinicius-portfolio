@@ -19,7 +19,7 @@ import {
 import type { OperationalEventLogProps } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.types';
 
 // Components
-import { formatClockTime } from '@/lib/i18nDisplay';
+import { TelemetryEventLogLine } from '@/components/Workspace/TelemetryMonitor/TelemetryEventLogLine';
 import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
 import {
   EventLogHeader,
@@ -80,19 +80,14 @@ export const TelemetryOperationalEventLog: React.FC<OperationalEventLogProps> = 
         aria-relevant="additions"
       >
         {eventLog.map((entry, idx) => (
-          <EventLogLine
+          <TelemetryEventLogLine
             key={`${entry.ts}-${entry.message}`}
-            $type={entry.type}
-            $isLatest={idx === 0 && connected}
-          >
-            <EventLogTime>{formatClockTime(entry.ts, i18n.language)}</EventLogTime>
-            <EventLogPrefix $type={entry.type}>
-              [
-              {logPrefix(entry.type)}
-              ]
-            </EventLogPrefix>
-            <span>{entry.message}</span>
-          </EventLogLine>
+            entry={entry}
+            index={idx}
+            connected={connected}
+            language={i18n.language}
+            logPrefix={logPrefix}
+          />
         ))}
         {eventLog.length === 0 && (
           <EventLogLine $type="info">

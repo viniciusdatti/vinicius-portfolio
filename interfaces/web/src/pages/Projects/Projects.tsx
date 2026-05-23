@@ -14,7 +14,6 @@ import { Language } from '@/types';
 
 // Hooks
 import { useProjects } from '@/hooks';
-
 // Components
 import { Drawer } from '@/components/Showcase';
 import {
@@ -23,6 +22,8 @@ import {
 } from '@/components/ProjectShowcase';
 import { filterProjectsBySearch } from '@/domain/projects';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { PageSectionReveal } from '@/components/PageSectionReveal';
+import { PageSectionRevealMode } from '@/components/PageSectionReveal/PageSectionReveal.types';
 import {
   PageContainerWide,
   PageHeaderEditorial,
@@ -59,7 +60,6 @@ export const Projects = (): React.ReactElement => {
   const [search, setSearch] = useState<string>('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const scrollMotion = useScrollMotion();
-
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const currentLanguage: Language = isPt ? Language.Pt : Language.En;
 
@@ -102,13 +102,30 @@ export const Projects = (): React.ReactElement => {
       <PageContainerWide>
         <PageHeaderEditorial>
           <PageHeaderMain>
-            <PageTitle>
+            <PageTitle
+              variants={scrollMotion.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={scrollMotion.viewport}
+            >
               <PageTitleGradient>{t('projects.title')}</PageTitleGradient>
             </PageTitle>
-            <PageSubtitle>{t('projects.subtitle')}</PageSubtitle>
+            <PageSubtitle
+              variants={scrollMotion.section}
+              initial="hidden"
+              whileInView="visible"
+              viewport={scrollMotion.viewport}
+            >
+              {t('projects.subtitle')}
+            </PageSubtitle>
           </PageHeaderMain>
         </PageHeaderEditorial>
-        <PageSectionSpacious>
+        <PageSectionSpacious
+          variants={scrollMotion.section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
+        >
           <ErrorMessage>{t('projects.error')}</ErrorMessage>
           <RetryButton type="button" onClick={() => refetch()}>
             {t('common.retry')}
@@ -159,14 +176,11 @@ export const Projects = (): React.ReactElement => {
         />
       </Toolbar>
 
-      <PageSectionSpacious
-        variants={scrollMotion.section}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
-      >
-        {renderShowcaseContent()}
-      </PageSectionSpacious>
+      <PageSectionReveal mode={PageSectionRevealMode.Section}>
+        <PageSectionSpacious>
+          {renderShowcaseContent()}
+        </PageSectionSpacious>
+      </PageSectionReveal>
 
       <Drawer
         open={selectedProject != null}

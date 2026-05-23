@@ -8,6 +8,7 @@
 
 // Libraries
 import styled, { keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Components
 import { glassSurface } from '@/styles/surfaces';
@@ -25,7 +26,7 @@ const panelScan = keyframes`
 /** Responsive plot height — keeps Recharts inside the trend card without clipping the grid. */
 export const CHART_PLOT_HEIGHT_PX = 260;
 
-export const ChartRoot = styled.div`
+export const ChartRoot = styled(motion.div)`
   display: flex;
   flex-direction: column;
   flex: 1;

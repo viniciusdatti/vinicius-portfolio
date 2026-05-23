@@ -33,6 +33,8 @@ import {
   IntroSection,
   Avatar,
   IntroContent,
+  IntroLead,
+  IntroImpact,
   IntroHighlight,
   StatsGrid,
   StatCard,
@@ -173,15 +175,15 @@ export const About = (): React.ReactElement => {
           <motion.h2 variants={item}>
             {t('about.intro.title')}
           </motion.h2>
-          <motion.p variants={item}>
+          <IntroLead variants={item}>
             {t('about.intro.lead')}
-          </motion.p>
+          </IntroLead>
           <IntroHighlight variants={item}>
             {t('about.intro.highlight')}
           </IntroHighlight>
-          <motion.p variants={item}>
+          <IntroImpact variants={item}>
             {t('about.intro.impact')}
-          </motion.p>
+          </IntroImpact>
         </IntroContent>
       </IntroSection>
 
@@ -221,7 +223,7 @@ export const About = (): React.ReactElement => {
             whileInView="visible"
             viewport={viewport}
           >
-            <ExperienceCard variants={section} $isActive>
+            <ExperienceCard variants={item} $isActive>
               <ExperienceNode $isActive aria-hidden />
               <ExperienceCardBody $isActive>
                 <ExperienceCardHeader>
@@ -257,7 +259,9 @@ export const About = (): React.ReactElement => {
         whileInView="visible"
         viewport={viewport}
       >
-        <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
+        <motion.div variants={item}>
+          <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
+        </motion.div>
         <PhilosophyCard variants={item}>
           <p>
             &ldquo;
@@ -273,7 +277,9 @@ export const About = (): React.ReactElement => {
         whileInView="visible"
         viewport={viewport}
       >
-        <SectionTitle>{t('about.education.title')}</SectionTitle>
+        <motion.div variants={item}>
+          <SectionTitle>{t('about.education.title')}</SectionTitle>
+        </motion.div>
         <EducationCard variants={item}>
           <EducationMain>
             <EducationIcon>🎓</EducationIcon>

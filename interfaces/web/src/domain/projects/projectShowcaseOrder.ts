@@ -29,3 +29,20 @@ export const orderProjectsForShowcase = (projects: Project[]): Project[] => {
 
   return featured != null ? [featured, ...orderedOthers] : orderedOthers;
 };
+
+/**
+ * Groups ordered showcase projects into bento rows:
+ * [featured + side], then triplets of 4-col cards.
+ */
+export const groupProjectsIntoShowcaseRows = (projects: Project[]): Project[][] => {
+  if (projects.length === 0) {
+    return [];
+  }
+  const rows: Project[][] = [];
+  const headCount: number = Math.min(2, projects.length);
+  rows.push(projects.slice(0, headCount));
+  for (let i: number = headCount; i < projects.length; i += 3) {
+    rows.push(projects.slice(i, i + 3));
+  }
+  return rows;
+};

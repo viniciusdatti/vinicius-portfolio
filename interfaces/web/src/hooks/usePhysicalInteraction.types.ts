@@ -1,5 +1,5 @@
 // Core
-import type { CSSProperties, RefObject } from 'react';
+import type { CSSProperties, RefCallback } from 'react';
 
 // Libraries
 import type { TargetAndTransition, Transition } from 'framer-motion';
@@ -28,15 +28,16 @@ export interface PhysicalInteractionMotionProps {
 }
 
 export interface UsePhysicalInteractionResult<T extends HTMLElement = HTMLDivElement> {
-  ref: RefObject<T | null>;
+  ref: RefCallback<T>;
   isPointerActive: boolean;
   motionProps: PhysicalInteractionMotionProps;
 }
 
 export interface UsePointerPositionHookResult<T extends HTMLElement = HTMLDivElement> {
-  ref: RefObject<T | null>;
+  ref: RefCallback<T>;
   position: PointerPosition;
   isActive: boolean;
+  element: T | null;
 }
 
 export type UsePhysicalInteractionHook = <T extends HTMLElement = HTMLDivElement>(

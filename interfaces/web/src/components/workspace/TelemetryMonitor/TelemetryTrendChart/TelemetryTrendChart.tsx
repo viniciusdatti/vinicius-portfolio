@@ -7,7 +7,7 @@
  ************************************************************************************************ */
 
 // Core
-import React, { useId, useMemo } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 
 // Libraries
 import {
@@ -35,6 +35,7 @@ import { SensorStatus } from '@/types/telemetry';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
 import {
   ChartPlot,
@@ -47,6 +48,30 @@ import {
  ************************************************************************************************ */
 
 const AREA_FILL_TOP_OPACITY: number = 0.14;
+
+const TREND_LINE_ANIMATION_MS: number = 820;
+
+interface TelemetryPulseDotProps {
+  cx?: number;
+  cy?: number;
+  stroke?: string;
+}
+
+const TelemetryPulseDot = ({
+  cx,
+  cy,
+  stroke,
+}: TelemetryPulseDotProps): React.ReactElement | null => {
+  if (cx == null || cy == null) {
+    return null;
+  }
+  return (
+    <g>
+      <circle cx={cx} cy={cy} r={5} fill={stroke} opacity={0.22} />
+      <circle cx={cx} cy={cy} r={2.75} fill={stroke} />
+    </g>
+  );
+};
 
 const CHART_MARGIN: TelemetryTrendChartMargin = {
   top: 16,
@@ -84,6 +109,8 @@ export const TelemetryTrendChart = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const reduced: boolean = usePrefersReducedMotion();
+  const { section, viewport } = useScrollMotion();
+  const [plotActive, setPlotActive] = useState<boolean>(true);
   const sampleAxisLabel: string = t('liveLab.monitor.sampleAxis');
   const gradientPrefix: string = useId().replace(/:/g, '');
 
@@ -117,8 +144,21 @@ export const TelemetryTrendChart = ({
     success: theme.colors.success,
   };
 
+  const lineAnimationActive: boolean = plotActive && !reduced;
+
   return (
-    <ChartRoot data-testid="telemetry-trend-chart">
+    <ChartRoot
+      data-testid="telemetry-trend-chart"
+      variants={section}
+      initial="hidden"
+      whileInView="visible"
+      viewport={viewport}
+      onViewportEnter={() => {
+        if (!plotActive) {
+          setPlotActive(true);
+        }
+      }}
+    >
       <ChartTitle>{title}</ChartTitle>
       <ChartPlot>
         <ResponsiveContainer width="100%" height="100%">
@@ -186,8 +226,8 @@ export const TelemetryTrendChart = ({
                     baseValue="dataMin"
                     stroke="none"
                     fill={`url(#${gradId})`}
-                    isAnimationActive={!reduced}
-                    animationDuration={300}
+                    isAnimationActive={lineAnimationActive}
+                    animationDuration={TREND_LINE_ANIMATION_MS}
                     animationEasing="ease-out"
                   />
                   <Line
@@ -198,16 +238,12 @@ export const TelemetryTrendChart = ({
                       r.label,
                       t,
                     )}
-                    dot={false}
+                    dot={lineAnimationActive ? TelemetryPulseDot : false}
                     strokeWidth={1.75}
                     stroke={stroke}
-                    activeDot={{
-                      r: 3,
-                      strokeWidth: 0,
-                      fill: stroke,
-                    }}
-                    isAnimationActive={!reduced}
-                    animationDuration={300}
+                    activeDot={TelemetryPulseDot}
+                    isAnimationActive={lineAnimationActive}
+                    animationDuration={TREND_LINE_ANIMATION_MS}
                     animationEasing="ease-out"
                   />
                 </React.Fragment>

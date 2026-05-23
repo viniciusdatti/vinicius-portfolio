@@ -231,6 +231,7 @@ export const HamburgerButton = styled(motion.button)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: ${({ theme }) => theme.sizes.hamburger.lineGap};
   width: ${({ theme }) => theme.sizes.icon.md};
   height: ${({ theme }) => theme.sizes.icon.md};
   background: ${({ theme }) => theme.colors.surfaceGlass};
@@ -249,9 +250,10 @@ export const HamburgerButton = styled(motion.button)`
 
 export const HamburgerLine = styled(motion.span)`
   display: block;
+  flex-shrink: 0;
   width: ${({ theme }) => theme.sizes.hamburger.lineWidth};
   height: ${({ theme }) => theme.sizes.hamburger.lineHeight};
   background-color: ${({ theme }) => theme.colors.text};
-  margin: ${({ theme }) => theme.sizes.hamburger.lineGap} 0;
   border-radius: ${({ theme }) => theme.borderRadius.sm};
+  transform-origin: center;
 `;

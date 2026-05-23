@@ -73,14 +73,14 @@ export const SkillInstrumentTelemetryField: React.FC<SkillInstrumentTelemetryFie
 
   const telemetryVariant: TelemetryFieldVariant = resolveTelemetryVariant(variant);
 
-  const { canvasRef, containerRef } = useCanvasTelemetryField({
+  const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: telemetryVariant,
     pulse,
     maxDevicePixelRatio: 1.5,
   });
 
   return (
-    <SkillInstrumentFieldLayer ref={containerRef} data-skill-instrument-field aria-hidden>
+    <SkillInstrumentFieldLayer ref={bindContainerRef} data-skill-instrument-field aria-hidden>
       <SkillInstrumentFieldCanvas ref={canvasRef} />
     </SkillInstrumentFieldLayer>
   );
