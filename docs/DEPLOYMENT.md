@@ -58,7 +58,6 @@ Em **Environment** do serviço, adicione:
 | `ENVIRONMENT` | Ambiente | `production` |
 | `DATABASE_URL` | Connection string do Neon | `postgresql://user:pass@host/db?sslmode=require` |
 | `CORS_ORIGINS` | Origens permitidas (frontend) | `https://seu-app.vercel.app,https://www.seudominio.com` |
-| `JWT_SECRET_KEY` | Chave secreta forte (produção) | string longa e aleatória |
 | `RESEND_API_KEY` | (Opcional) API key do Resend | para e-mails do formulário de contato |
 | `EMAIL_FROM` | E-mail remetente (Resend) | `noreply@seudominio.com` |
 | `EMAIL_TO_ADMIN` | E-mail para notificações | `seu@email.com` |
@@ -68,7 +67,6 @@ Em **Environment** do serviço, adicione:
 
 **Importante:**
 
-- Em produção, **não** use `JWT_SECRET_KEY` de desenvolvimento. Gere uma chave forte (ex.: 32+ caracteres aleatórios).
 - `CORS_ORIGINS` deve incluir a URL exata do frontend na Vercel (ex.: `https://vinicius-portfolio.vercel.app`). Pode listar várias origens separadas por vírgula, sem espaços.
 
 ### 2.3 Criar tabelas no banco (primeiro deploy)
@@ -148,7 +146,7 @@ Se o último deploy usava `react-scripts` e pasta `build`:
 ## 4. Ordem recomendada
 
 1. **Neon:** criar projeto e copiar `DATABASE_URL`.
-2. **Render:** criar Web Service com `backend` como root, configurar build/start e **todas** as env (incluindo `DATABASE_URL`, `CORS_ORIGINS` com um placeholder temporário, `JWT_SECRET_KEY`, `ENVIRONMENT=production`).
+2. **Render:** criar Web Service com `backend` como root, configurar build/start e **todas** as env (incluindo `DATABASE_URL`, `CORS_ORIGINS` com um placeholder temporário, `ENVIRONMENT=production`).
 3. **Render:** rodar o comando de criação de tabelas (Pre-Deploy ou manual) e fazer o primeiro deploy.
 4. **Vercel:** criar projeto com root `interfaces/web`, definir `VITE_API_URL` com a URL do Render e fazer o deploy.
 5. **Render:** atualizar `CORS_ORIGINS` com a URL real do frontend na Vercel (e de qualquer domínio customizado, se houver).

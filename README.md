@@ -195,13 +195,13 @@ Production-oriented patterns aligned with industrial SPA discipline:
 | Layer | Location | Role |
 |-------|----------|------|
 | API client + guards | `src/api/` | axios client, `ApiError`, type guards (`isNotFoundError`, etc.) |
-| Domain plugins | `src/plugins/` | Pure business logic (skills icons, chat mappers) — testable without React |
+| Domain plugins | `src/plugins/` | Pure business logic (skills icons, test builders) — testable without React |
 | Server state | TanStack Query hooks in `src/hooks/` | Skills, projects, certificates, telemetry |
-| Client state | Zustand stores in `src/store/` | theme, auth, chat, workspace, toast |
-| Live Lab | `src/components/workspace/` | WorkspaceShell — module rail, context panel, chat, telemetry + recharts |
+| Client state | Zustand stores in `src/store/` | theme, telemetry, toast |
+| Live Lab | `src/components/workspace/` | WorkspaceShell — telemetry monitor, atmosphere, recharts |
 | Design system | `src/components/` | Button, Card, Drawer (a11y), Spinner — `testId` prop via `TestableProps` |
 | Errors | `RouteError`, `ErrorBoundary` | route `errorElement` + React error boundary |
-| Tests | Vitest + RTL + MSW | unit/domain tests; handlers for projects, skills, certificates, chat |
+| Tests | Vitest + RTL + MSW | unit/domain tests; handlers for projects, skills, certificates, contact |
 
 **Scripts:** `yarn lint` · `yarn typecheck` · `yarn test` · `yarn build` · `yarn analyze` (bundle report → `dist/stats.html`)
 

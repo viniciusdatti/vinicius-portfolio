@@ -38,7 +38,7 @@ Follow `.cursor/rules/component-architecture.mdc`: `Component/`, `index.ts` re-e
 - Default exports in components
 - Inline styles in JSX
 - `function` keyword (project uses arrows)
-- Mounting unused workspace shells (`ModuleRail`, `ContextPanel`) without product need
+- Adding unused workspace UI without wiring it in `WorkspaceShell`
 - Duplicating socket logic outside `useTelemetry`
 
 ## Correct vs incorrect

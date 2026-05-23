@@ -37,7 +37,6 @@ services:
       DATABASE_URL: postgresql://${POSTGRES_USER:-portfolio}:${POSTGRES_PASSWORD:-portfolio}@postgres:5432/${POSTGRES_DB:-portfolio}
       # Must include the public frontend origin (browser Origin header on Socket.IO POST).
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?JWT_SECRET_KEY is required for production compose}
       LOG_LEVEL: ${LOG_LEVEL:-WARNING}
       RUN_SEED: ${RUN_SEED:-false}
     ports:
