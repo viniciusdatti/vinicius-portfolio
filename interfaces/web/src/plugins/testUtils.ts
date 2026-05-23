@@ -4,10 +4,8 @@
 
 import type { Project, Technology } from '@/data/types';
 import {
-  ChatMessageSenderType,
   SkillCategory,
   type Certificate,
-  type ChatMessage,
   type Skill,
 } from '@/types';
 
@@ -75,27 +73,6 @@ export const MOCKED_PROJECT_LIST: Project[] = [
     ],
   }),
 ];
-
-export const buildFakeChatMessage = (
-  overrides: Partial<ChatMessage> = {},
-): ChatMessage => ({
-  id: 1,
-  content: 'Hello, I saw your portfolio!',
-  sender_type: ChatMessageSenderType.Visitor,
-  is_read: false,
-  created_at: '2024-01-01T12:00:00Z',
-  ...overrides,
-});
-
-export const buildFakeAdminChatMessage = (
-  overrides: Partial<ChatMessage> = {},
-): ChatMessage => buildFakeChatMessage({
-  id: 2,
-  content: 'Thanks for reaching out!',
-  sender_type: ChatMessageSenderType.Admin,
-  is_read: true,
-  ...overrides,
-});
 
 export const buildFakeSkill = (overrides: Partial<Skill> = {}): Skill => ({
   id: 1,

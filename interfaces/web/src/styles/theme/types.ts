@@ -1,6 +1,6 @@
-/* **********************************************************************************************
- * Theme type contracts
- ********************************************************************************************** */
+/* *************************************************************************************************
+ ********************************************* SECTION *********************************************
+ ************************************************************************************************ */
 
 export interface ThemeColors {
   background: string;
@@ -159,14 +159,8 @@ export interface ThemeSizes {
     systemBarHeight: string;
     headerShellTop: string;
     headerOffset: string;
-    moduleRailWidth: string;
     workspaceGap: string;
     proseMax: string;
-  };
-  chat: {
-    minHeight: string;
-    messageMaxWidth: string;
-    messageMaxWidthAdmin: string;
   };
   project: {
     previewHeight: string;

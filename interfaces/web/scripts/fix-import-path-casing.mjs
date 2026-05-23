@@ -9,7 +9,6 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcRoot = path.join(__dirname, '..', 'src');
 
 const REPLACEMENTS = [
-  ['@/components/Admin', '@/components/admin'],
   ['@/components/Atmosphere', '@/components/atmosphere'],
   ['@/components/Common', '@/components/common'],
   ['@/components/Home', '@/components/home'],
@@ -19,8 +18,6 @@ const REPLACEMENTS = [
   ['@/components/Showcase', '@/components/showcase'],
   ['@/components/Skills', '@/components/skills'],
   ['@/components/Workspace', '@/components/workspace'],
-  ['@/pages/Admin', '@/pages/admin'],
-  ['./pages/Admin', './pages/admin'],
 ];
 
 const walk = (dir) => {

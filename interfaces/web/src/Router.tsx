@@ -5,7 +5,6 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 // Components
-import { AdminGuestRoute } from '@/components/admin';
 import { Layout } from '@/components/layout';
 import { RouteError } from '@/components/RouteError';
 import { Spinner } from '@/components/common/Spinner';
@@ -17,11 +16,6 @@ const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About
 const Skills = lazy(() => import('./pages/Skills').then((m) => ({ default: m.Skills })));
 const Projects = lazy(() => import('./pages/Projects').then((m) => ({ default: m.Projects })));
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
-
-const AdminLogin = lazy(() => import('./pages/admin/Login').then((m) => ({ default: m.Login })));
-const AdminDashboard = lazy(() => import('./pages/admin/Dashboard').then((m) => ({ default: m.Dashboard })));
-const AdminChat = lazy(() => import('./pages/admin/Chat').then((m) => ({ default: m.Chat })));
-const AdminLayout = lazy(() => import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout })));
 
 const PageLoader = (): React.ReactElement => (
   <PageLoaderWrapper>
@@ -46,34 +40,6 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
       { path: 'contact', element: withSuspense(<Contact key="contact-view" />) },
       { path: 'live-lab', element: <LiveLab key="live-lab-view" /> },
       { path: 'home', element: <Navigate to="/" replace /> },
-    ],
-  },
-  {
-    path: '/admin',
-    errorElement: <RouteError />,
-    children: [
-      {
-        element: <AdminGuestRoute />,
-        children: [
-          {
-            path: 'login',
-            element: withSuspense(<AdminLogin />),
-          },
-        ],
-      },
-      {
-        element: withSuspense(<AdminLayout />),
-        children: [
-          {
-            index: true,
-            element: withSuspense(<AdminDashboard />),
-          },
-          {
-            path: 'chat',
-            element: withSuspense(<AdminChat />),
-          },
-        ],
-      },
     ],
   },
 ]);

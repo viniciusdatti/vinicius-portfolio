@@ -25,7 +25,3 @@ export {
 } from '@/hooks/scrollMotionViewport';
 export type { ScrollMotionViewportContextValue } from '@/hooks/scrollMotionViewport';
 export { useTypewriterReveal } from '@/hooks/useTypewriterReveal';
-// Note: useChat and useAdminChat are not exported here to avoid circular dependencies
-// Import them directly when needed:
-// - useChat: from '@/hooks/hooks/useChat' (LiveChannel workspace surface)
-// - useAdminChat: from '@/hooks/hooks/useAdminChat' (for admin pages)
