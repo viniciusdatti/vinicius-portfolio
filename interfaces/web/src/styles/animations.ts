@@ -29,12 +29,13 @@ export const layoutMorphTransition = {
  * Slide-up com fade — entrada suave, saída para cima.
  * Funciona em todas as páginas exceto Live Lab.
  */
+/** Canonical route enter — y 12, scale 0.992, blur 6px @ 350ms (motionPresets.ease.out). */
 export const pageEnter: Variants = {
   initial: {
     opacity: 0,
     y: motionPresets.distance.pageEnter,
     scale: 0.992,
-    filter: 'blur(4px)',
+    filter: 'blur(6px)',
   },
   animate: {
     opacity: 1,
@@ -50,7 +51,7 @@ export const pageEnter: Variants = {
     opacity: 0,
     y: -motionPresets.distance.pageExit,
     scale: 0.996,
-    filter: 'blur(2px)',
+    filter: 'blur(3px)',
     transition: {
       duration: motionPresets.duration.normal,
       ease: motionEaseSoft,
@@ -95,6 +96,26 @@ export const scrollRevealReduced: Variants = {
 };
 
 /**
+ * Page title reveal — editorial Y without blur (preserves gradientTextDisplay mask).
+ */
+export const scrollRevealTitle: Variants = {
+  hidden: {
+    opacity: 0,
+    y: motionPresets.distance.editorial,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: motionPresets.duration.editorial,
+      ease: motionEase,
+    },
+  },
+};
+
+export const scrollRevealTitleReduced: Variants = scrollRevealReduced;
+
+/**
  * Route transition variants respecting prefers-reduced-motion.
  */
 export const resolvePageTransition = (
@@ -117,14 +138,14 @@ export const scrollReveal: Variants = {
   hidden: {
     opacity: 0,
     y: motionPresets.distance.editorial,
-    filter: 'blur(3px)',
+    filter: 'blur(8px)',
   },
   visible: {
     opacity: 1,
     y: 0,
     filter: 'blur(0px)',
     transition: {
-      duration: motionPresets.duration.slow,
+      duration: motionPresets.duration.editorial,
       ease: motionEase,
     },
   },

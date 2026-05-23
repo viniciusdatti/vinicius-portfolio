@@ -61,6 +61,16 @@ export const PageHeader = styled.div`
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
 `;
 
+/** Gradient mask lives on inner span so Framer blur filters never flatten the H1. */
+export const PageTitleGradient = styled.span`
+  display: inline-block;
+  background: ${({ theme }) => theme.colors.gradientTextDisplay};
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+`;
+
 export const PageTitle = styled(motion.h1)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.display};
@@ -68,10 +78,6 @@ export const PageTitle = styled(motion.h1)`
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   line-height: ${({ theme }) => theme.typography.lineHeight.tight};
   margin-bottom: ${({ theme }) => theme.spacing.md};
-  background: ${({ theme }) => theme.colors.gradientTextDisplay};
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   color: transparent;
 `;
 

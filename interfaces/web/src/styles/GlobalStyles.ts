@@ -41,6 +41,17 @@ export const GlobalStyles = createGlobalStyle`
     height: 100vh;
   }
 
+  body.workspace-operational::after {
+    opacity: ${({ theme }) => theme.effects.opacity.decoGrid * 1.15};
+    mask-image: none;
+    animation: ${observatoryGridPulse} 6s ease-in-out infinite;
+  }
+
+  body.live-lab-immersive {
+    height: auto;
+    overflow-y: auto;
+  }
+
   body {
     font-family: ${({ theme }) => theme.typography.fontFamily.body};
     font-size: ${({ theme }) => theme.typography.fontSize.md};

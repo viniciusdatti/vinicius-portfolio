@@ -26,8 +26,9 @@ export const motionPresets = {
   duration: {
     fast: 0.16,
     normal: 0.28,
+    editorial: 0.35,
     slow: 0.44,
-    page: 0.38,
+    page: 0.35,
     hero: 0.52,
     heroChar: 0.26,
     message: 0.26,
@@ -54,14 +55,14 @@ export const motionPresets = {
     heroBootPanel: 0.38,
   },
   distance: {
-    pageEnter: 10,
+    pageEnter: 12,
     pageExit: 6,
     fadeUp: 24,
     fadeSide: 18,
     item: 12,
     message: 6,
     heroReveal: 40,
-    editorial: 22,
+    editorial: 40,
     showcase: 18,
   },
 } as const;

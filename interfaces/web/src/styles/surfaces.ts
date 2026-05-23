@@ -67,24 +67,34 @@ export const elevatedSurface = css`
 `;
 
 /**
- * Premium hover lift for cards and tiles — transform handled by usePhysicalInteraction.
+ * Premium hover lift — 3px (liftMd), 280ms ease-out; will-change only while hovered.
  */
 export const interactiveLift = css`
-  ${surfaceMotion};
+  transition:
+    transform ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.normal};
 
   @media (hover: hover) {
     &:hover {
       border-color: ${({ theme }) => theme.colors.borderLight};
+      transform: translateY(calc(-1 * ${({ theme }) => theme.motion.distance.liftMd}));
+      box-shadow: ${({ theme }) => theme.elevation.lg};
+      will-change: transform;
     }
+  }
+
+  @media (hover: none) {
+    transform: none;
   }
 `;
 
 /**
- * Marketing glass card — rim light via ::before (no drop shadow stack).
+ * Marketing glass card — frosted surfaceGlass, elevation tokens, rim via ::before.
  */
 export const cardMarketingGlass = css`
-  background-color: ${({ theme }) => theme.colors.surfaceElevated};
-  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  ${glassSurface};
+  box-shadow: ${({ theme }) => theme.elevation.md};
   position: relative;
   overflow: hidden;
 
@@ -273,17 +283,24 @@ export const cardHoverElevated = css`
 `;
 
 /**
- * Premium hover + directional light sweep — motion via usePhysicalInteraction.
+ * Marketing interactive card — pointer spotlight + CSS lift (pair with pointer tracking).
  */
 export const cardInteractive = css`
   ${cardPointerVars};
   ${pointerSpotlight};
+  ${interactiveLift};
   ${surfaceMotion};
 
   @media (hover: hover) {
     &:hover {
+      --spot-opacity: 1;
       border-color: ${({ theme }) => theme.colors.borderLight};
     }
+  }
+
+  @media (hover: none) {
+    transform: none;
+    --spot-opacity: 0;
   }
 `;
 
@@ -317,12 +334,89 @@ export const cardStatSignal = css`
 `;
 
 /**
- * Selectable showcase row — solid rim + restrained hover (no pointer glow).
+ * Selectable showcase row — solid elevated surface, gradient rim, md elevation only.
+ * CSS lift via interactiveLiftShowcase; Framer whileTap on the card component.
+ */
+export const interactiveLiftShowcase = css`
+  transition:
+    transform ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.borderLight};
+      transform: translateY(calc(-1 * ${({ theme }) => theme.motion.distance.liftMd}));
+      will-change: transform;
+    }
+  }
+
+  @media (hover: none) {
+    transform: none;
+  }
+`;
+
+/**
+ * Amber (#f59e0b) pointer torch — pair with --spot-x / --spot-y / --spot-opacity on the card root.
+ */
+export const showcasePointerTorch = css`
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(245, 158, 11, 0.16) 0%,
+    rgba(245, 158, 11, 0.05) 38%,
+    transparent 62%
+  );
+  opacity: var(--spot-opacity, 0);
+  transition: opacity ${({ theme }) => theme.transitions.normal};
+
+  @media (hover: none) {
+    opacity: 0;
+  }
+`;
+
+/**
+ * showcase-selectable archetype — glass observability panel (Projects / Trabalhos).
  */
 export const cardShowcaseSurface = css`
-  ${cardMarketingGlass};
+  ${cardPointerVars};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  box-shadow: ${({ theme }) => theme.elevation.md};
+  position: relative;
+  overflow: hidden;
   transform-style: preserve-3d;
-  ${cardHoverElevated};
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  ${interactiveLiftShowcase};
+
+  @media (hover: hover) {
+    &:hover {
+      --spot-opacity: 1;
+      box-shadow: ${({ theme }) => theme.elevation.md};
+      border-color: ${({ theme }) => theme.colors.borderLight};
+    }
+  }
+
+  @media (hover: none) {
+    transform: none;
+    --spot-opacity: 0;
+  }
 `;
 
 /**
