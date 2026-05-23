@@ -20,17 +20,15 @@ import {
 /**
  * Hero atmosphere — operational grid, scan line, grain, pointer wash (max 2 infinite loops).
  */
-export function HeroAmbient({
+export const HeroAmbient = ({
   pointerX,
   pointerY,
   pointerActive,
-}: HeroAmbientProps): React.ReactElement {
-  return (
-    <HeroAmbientLayer aria-hidden $pointerX={pointerX} $pointerY={pointerY}>
-      <HeroOperationalGrid />
-      <HeroMouseGlow $active={pointerActive} />
-      <HeroScanLine />
-      <HeroNoiseLayer />
-    </HeroAmbientLayer>
-  );
-}
+}: HeroAmbientProps): React.ReactElement => (
+  <HeroAmbientLayer aria-hidden $pointerX={pointerX} $pointerY={pointerY}>
+    <HeroOperationalGrid />
+    <HeroMouseGlow $active={pointerActive} />
+    <HeroScanLine />
+    <HeroNoiseLayer />
+  </HeroAmbientLayer>
+);

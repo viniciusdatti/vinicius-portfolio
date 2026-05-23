@@ -6,16 +6,6 @@ import type { RefObject } from 'react';
 // =================================================================================================
 
 export interface HeroVisual3DProps {
-  /** Hero section root — pointer telemetry target (mouse + touch). */
+  /** Hero section root — R3F pointer eventSource for magnetic inertia. */
   containerRef: RefObject<HTMLElement | null>;
-}
-
-export interface HeroPointerTarget {
-  x: number;
-  y: number;
-}
-
-export interface HeroVisual3DSceneProps {
-  pointerTargetRef: RefObject<HeroPointerTarget>;
-  desktopBias: boolean;
 }

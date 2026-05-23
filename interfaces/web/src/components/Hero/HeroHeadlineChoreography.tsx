@@ -32,19 +32,17 @@ interface HeroHeadlineChoreographyProps {
  */
 export const HeroHeadlineChoreography: React.FC<HeroHeadlineChoreographyProps> = ({
   blocks,
-}): React.ReactElement => {
-  return (
-    <HeroHeadline>
-      {blocks.map((block: HeroHeadlineBlockConfig) => {
-        const isAccentLine: boolean = block.accentLine === true;
+}): React.ReactElement => (
+  <HeroHeadline>
+    {blocks.map((block: HeroHeadlineBlockConfig) => {
+      const isAccentLine: boolean = block.accentLine === true;
 
-        return (
-          <HeroHeadlineBlock key={block.label}>
-            <HeroHeadlineBlockLabel>{block.label}</HeroHeadlineBlockLabel>
-            <HeroHeadlineLine $accent={isAccentLine}>{block.line}</HeroHeadlineLine>
-          </HeroHeadlineBlock>
-        );
-      })}
-    </HeroHeadline>
-  );
-};
+      return (
+        <HeroHeadlineBlock key={block.label}>
+          <HeroHeadlineBlockLabel>{block.label}</HeroHeadlineBlockLabel>
+          <HeroHeadlineLine $accent={isAccentLine}>{block.line}</HeroHeadlineLine>
+        </HeroHeadlineBlock>
+      );
+    })}
+  </HeroHeadline>
+);

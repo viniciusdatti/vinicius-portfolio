@@ -36,10 +36,10 @@ export const HeroColumnGuides = styled.div`
   left: ${({ theme }) => theme.spacing.pageX};
   right: ${({ theme }) => theme.spacing.pageX};
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   display: none;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
     display: block;
   };
 
@@ -55,12 +55,44 @@ export const HeroColumnGuides = styled.div`
   };
 
   &::before {
-    left: calc(100% * 7 / 12);
+    left: 33%;
   };
 
   &::after {
-    left: calc(100% * 7 / 12 + (100% * 5 / 12) / 3);
+    left: 66%;
   };
+`;
+
+/** Background stack — dot grid + hero center wash (z-index 0, under WebGL). */
+export const HeroBackgroundStack = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+`;
+
+/** Warp-style 24px technical dot grid — masked to hero viewport. */
+export const HeroDotGrid = styled.div`
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    ${({ theme }) => theme.colors.borderSubtle} 1px,
+    transparent 0
+  );
+  background-size: 24px 24px;
+  opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
+  mask-image: ${({ theme }) => theme.colors.gradientGridMask};
+  pointer-events: none;
+`;
+
+/** HeroAmbient center orb — gradientHeroCenter, amber capped at 10% alpha in theme. */
+export const HeroCenterWash = styled.div`
+  position: absolute;
+  inset: 0;
+  background: ${({ theme }) => theme.colors.gradientHeroCenter};
+  pointer-events: none;
 `;
 
 /**
@@ -89,7 +121,7 @@ export const HeroHeadlineClip = styled.div`
   overflow: hidden;
 `;
 
-export const HeroHeadline = styled.h1`
+export const HeroHeadline = styled(motion.h1)`
   margin: 0;
   display: flex;
   flex-direction: column;
@@ -116,6 +148,7 @@ export const HeroHeadlineBlockLabel = styled.span`
   letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1.2;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
   opacity: ${({ theme }) => theme.effects.opacity.subtle};
@@ -125,18 +158,34 @@ export const HeroMicroLabel = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: clamp(0.5625rem, 1.6vw, ${({ theme }) => theme.typography.fontSize.xs});
   color: ${({ theme }) => theme.colors.textMuted};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   line-height: 1.2;
+  font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
+`;
+
+export const HeroEyebrowRow = styled.span`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+`;
+
+/** Animated technical rule — expands 0 → 24px via Framer (Hero.motion). */
+export const HeroEyebrowLine = styled(motion.span)`
+  display: block;
+  height: 1px;
+  flex-shrink: 0;
+  background: ${({ theme }) => theme.colors.accent};
+  opacity: 0.5;
 `;
 
 export const HeroHeadlineLine = styled.span<{ $accent?: boolean }>`
   display: block;
   line-height: 0.94;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(2.125rem, 7.25vw + 0.25rem, 5rem);
+  font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   color: ${({ $accent, theme }) => ($accent ? theme.colors.accent : theme.colors.text)};
@@ -201,8 +250,7 @@ export const HeroSection = styled.section`
   padding: ${({ theme }) => theme.sizes.layout.headerOffset}
     ${({ theme }) => theme.spacing.pageX}
     ${({ theme }) => theme.spacing.sectionSm};
-  overflow-x: clip;
-  overflow-y: visible;
+  overflow: hidden;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -245,10 +293,20 @@ export const HeroDecoGrid = styled.div`
   }
 `;
 
+/** Framer stagger root — editorial cubic entrance choreography. */
+export const HeroMotionStack = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+`;
+
 /** 12-column shell: narrative cols 1–7, void cols 8–12 (desktop). */
 export const HeroLayoutGrid = styled.div`
   position: relative;
-  z-index: ${({ theme }) => theme.zIndex.content};
+  z-index: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -273,24 +331,50 @@ export const HeroLayoutGrid = styled.div`
 /** @deprecated Use HeroLayoutGrid */
 export const HeroControlRoomGrid = HeroLayoutGrid;
 
-/** Active negative space for future telemetry (cols 8–12, desktop only). */
+/** Negative space bay — cols 8–12 reserved for HeroVisual3D particles (desktop). */
 export const HeroVoidReserve = styled.div`
   display: none;
   min-width: 0;
+  pointer-events: none;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    align-self: start;
+    display: block;
     grid-column: 8 / 13;
     grid-row: 1;
     min-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    box-sizing: border-box;
+    align-self: stretch;
+  };
+`;
+
+/**
+ * Desktop editorial portrait — cols 8–12, stacked above WebGL void (z-index 1).
+ */
+export const HeroPortraitDesktopSlot = styled(motion.div)`
+  display: none;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  pointer-events: none;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    grid-column: 8 / 13;
+    grid-row: 1;
+    align-self: end;
+    padding-bottom: ${({ theme }) => theme.spacing.lg};
+    padding-left: ${({ theme }) => theme.spacing.md};
+  };
+
+  ${HeroPortrait} {
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+    width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
+    max-width: ${({ theme }) => theme.sizes.hero.avatarFrame};
   };
 `;
 
@@ -315,7 +399,7 @@ export const HeroPortraitMobileSlot = styled.div`
 
 export const HeroNarrativeColumn = styled.div`
   position: relative;
-  z-index: ${({ theme }) => theme.zIndex.content};
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
@@ -539,7 +623,7 @@ export const HeroStackLine = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.accent};
   margin: 0;
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
+  letter-spacing: 0.14em;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -617,7 +701,7 @@ export const HeroScrollCue = styled.button`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   padding: ${({ theme }) => theme.spacing.sm} 0;
