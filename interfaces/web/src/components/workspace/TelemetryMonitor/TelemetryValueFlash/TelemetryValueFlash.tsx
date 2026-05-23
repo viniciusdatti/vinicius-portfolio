@@ -1,39 +1,32 @@
+/**
+ * @fileoverview Socket-driven value flash — opacity/background only (no scale/bounce).
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React, { useEffect, useRef, useState } from 'react';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Types
+import type { TelemetryValueFlashProps } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
 
 // Components
-import { ValueFlashWrap } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.style';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { ValueFlashWrap } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.style';
 
-// =================================================================================================
-// ============================================= TYPES =============================================
-// =================================================================================================
-
-export interface TelemetryValueFlashProps {
-  /** Unique cell id for throttle (M1 — one flash per cell per 100ms). */
-  cellId: string;
-  /** Value key that changes on socket ticks. */
-  valueKey: string | number;
-  className?: string;
-  children: React.ReactNode;
-}
-
-// =================================================================================================
-// ============================================ CONSTANTS ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
 const FLASH_THROTTLE_MS: number = 100;
 const FLASH_DURATION_MS: number = 380;
 
-// =================================================================================================
-// ============================================ COMPONENT ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
-/**
- * Socket-driven value flash — opacity/background only (no scale/bounce).
- */
 export const TelemetryValueFlash: React.FC<TelemetryValueFlashProps> = ({
   cellId,
   valueKey,

@@ -1,8 +1,20 @@
+/**
+ * @fileoverview Trend chart card styles for the telemetry monitor.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { keyframes } from 'styled-components';
 
 // Components
 import { glassSurface } from '@/styles/surfaces';
+
+/* *************************************************************************************************
+ ********************************************* STYLES **********************************************
+ ************************************************************************************************ */
 
 const panelScan = keyframes`
   0% { transform: translateX(-100%); opacity: 0; }
@@ -10,15 +22,16 @@ const panelScan = keyframes`
   100% { transform: translateX(100%); opacity: 0; }
 `;
 
-/** Fixed plot height — keeps Recharts bounds inside the Tendência card. */
-export const CHART_PLOT_HEIGHT_PX = 350;
+/** Responsive plot height — keeps Recharts inside the trend card without clipping the grid. */
+export const CHART_PLOT_HEIGHT_PX = 260;
 
 export const ChartRoot = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 0 0 auto;
+  flex: 1;
   width: 100%;
   min-height: 0;
+  height: 100%;
   padding: ${({ theme }) => `${theme.spacing.sm} ${theme.spacing.xs} 0`};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   ${glassSurface};
@@ -87,11 +100,11 @@ export const ChartTitle = styled.h3`
 `;
 
 export const ChartPlot = styled.div`
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   width: 100%;
-  height: ${CHART_PLOT_HEIGHT_PX}px;
-  min-height: ${CHART_PLOT_HEIGHT_PX}px;
-  max-height: ${CHART_PLOT_HEIGHT_PX}px;
+  height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
+  min-height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
+  max-height: clamp(180px, 28vh, ${CHART_PLOT_HEIGHT_PX}px);
   position: relative;
   z-index: 1;
   margin: 0;
