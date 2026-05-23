@@ -1,6 +1,9 @@
 // Types
 import type { Skill } from '@/types';
 
+// Domain
+import type { SkillLayoutTier } from '@/domain/skills';
+
 // =================================================================================================
 // ============================================= TYPES =============================================
 // =================================================================================================
@@ -10,9 +13,9 @@ export interface SupportStackCardProps {
   displayName: string;
   description: string | null;
   iconUrl: string;
-  gridSpan: number;
+  tier: SkillLayoutTier;
 }
 
-export interface SupportStackGridPlacementProps {
-  $gridSpan: number;
+export interface SupportStackCardStyleProps {
+  $tier: SkillLayoutTier;
 }

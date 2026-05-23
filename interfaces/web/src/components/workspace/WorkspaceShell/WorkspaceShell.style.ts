@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Workspace shell layout for Live Lab operational viewport.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -12,9 +20,8 @@ export const WorkspaceRoot = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-height: 0;
-  height: 100%;
-  overflow: hidden;
+  min-height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+  overflow: visible;
   background: ${({ theme }) => theme.colors.background};
 
   body.live-lab-immersive & {
@@ -44,8 +51,8 @@ export const WorkspaceChrome = styled.div`
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  height: 100%;
-  overflow: hidden;
+  overflow: visible;
+  gap: 0;
 
   body.live-lab-immersive & {
     height: auto;
@@ -113,7 +120,7 @@ export const TelemetryWorkspace = styled.div`
   flex-direction: column;
   min-height: 0;
   overflow: hidden;
-  margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md} 0;
+  margin: ${({ theme }) => theme.spacing.sm} 0 0;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   background: ${({ theme }) => theme.colors.surfaceGlass};
@@ -123,10 +130,9 @@ export const TelemetryWorkspace = styled.div`
   box-shadow:
     inset 0 1px 0 ${({ theme }) => theme.colors.borderLight},
     inset 0 -48px 64px rgba(0, 0, 0, 0.35);
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg} 0;
+  body.live-lab-immersive & {
+    margin-bottom: ${({ theme }) => theme.spacing.lg};
   }
-
-  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;

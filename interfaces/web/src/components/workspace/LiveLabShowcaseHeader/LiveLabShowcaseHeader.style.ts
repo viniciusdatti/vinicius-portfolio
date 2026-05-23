@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Live Lab showcase header strip styles.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { css, keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -11,13 +19,13 @@ const blink = keyframes`
 `;
 
 const badgeGlow = keyframes`
-  0%, 100% { border-color: rgba(245, 158, 11, 0.28); }
-  50% { border-color: rgba(245, 158, 11, 0.55); }
+  0%, 100% { border-color: var(--badge-glow-faint); }
+  50% { border-color: var(--badge-glow-strong); }
 `;
 
 export const ShowcaseHeaderRoot = styled(motion.header)`
   flex-shrink: 0;
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${glassSurface};
   display: flex;
@@ -141,6 +149,8 @@ export const StatusDot = styled.span<{ $live: boolean }>`
 `;
 
 export const ShowcaseBadge = styled(motion.span)`
+  --badge-glow-faint: ${({ theme }) => theme.colors.primaryBorderFaint};
+  --badge-glow-strong: ${({ theme }) => theme.colors.primaryBorderStrong};
   position: relative;
   z-index: 1;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

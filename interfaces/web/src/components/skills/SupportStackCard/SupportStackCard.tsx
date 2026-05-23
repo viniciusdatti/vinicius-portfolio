@@ -18,7 +18,7 @@ import {
   SupportStackCardRoot,
   SupportStackCardRow,
   SupportStackDescription,
-  SupportStackIcon,
+  SupportStackIconWell,
   SupportStackLabel,
   SupportStackTextColumn,
 } from '@/components/Skills/SupportStackCard/SupportStackCard.style';
@@ -28,14 +28,14 @@ import {
 // =================================================================================================
 
 /**
- * Stack de suporte cell — operational glass, amber pointer torch, CSS liftMd, tap scale.
+ * Stack de suporte cell — operational glass, pointer torch, tier scale, icon well.
  */
 export const SupportStackCard: React.FC<SupportStackCardProps> = ({
   skill,
   displayName,
   description,
   iconUrl,
-  gridSpan,
+  tier,
 }): React.ReactElement => {
   const {
     ref,
@@ -50,20 +50,20 @@ export const SupportStackCard: React.FC<SupportStackCardProps> = ({
     <SupportStackCardRoot
       ref={ref}
       layout
-      $gridSpan={gridSpan}
+      $tier={tier}
       style={motionProps.style}
       whileTap={motionProps.whileTap}
       data-skill-id={skill.id}
     >
       <SupportStackCardInner>
         <SupportStackCardRow>
-          <SupportStackIcon>
+          <SupportStackIconWell $tier={tier}>
             <img src={iconUrl} alt="" aria-hidden />
-          </SupportStackIcon>
+          </SupportStackIconWell>
           <SupportStackTextColumn>
-            <SupportStackLabel>{displayName}</SupportStackLabel>
+            <SupportStackLabel $tier={tier}>{displayName}</SupportStackLabel>
             {description ? (
-              <SupportStackDescription>{description}</SupportStackDescription>
+              <SupportStackDescription $tier={tier}>{description}</SupportStackDescription>
             ) : null}
           </SupportStackTextColumn>
         </SupportStackCardRow>

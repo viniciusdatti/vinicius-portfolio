@@ -1,18 +1,26 @@
+/**
+ * @fileoverview Live Lab page shell layout overrides.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled from 'styled-components';
 
 // Components
-import { PageContainer } from '@/styles/pageLayout.style';
+import { PageContainerWide } from '@/styles/pageLayout.style';
 
-// =================================================================================================
-// ========================================== PAGE SHELL ===========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** PAGE SHELL *******************************************
+ ************************************************************************************************ */
 
 /**
  * Live Lab operational shell — canonical PageContainer with header clearance via Layout Main.
  * Top padding is zero here because Main already applies theme.sizes.layout.headerOffset.
  */
-export const LiveLabPageShell = styled(PageContainer)`
+export const LiveLabPageShell = styled(PageContainerWide)`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.base};
   isolation: isolate;
@@ -21,16 +29,9 @@ export const LiveLabPageShell = styled(PageContainer)`
   flex: 1;
   min-height: 0;
   width: 100%;
-  max-width: none;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 100%;
   padding-top: 0;
-  padding-bottom: 2.5rem;
-  padding-left: ${({ theme }) => theme.spacing.pageX};
-  padding-right: ${({ theme }) => theme.spacing.pageX};
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding-left: ${({ theme }) => theme.spacing.lg};
-    padding-right: ${({ theme }) => theme.spacing.lg};
-  };
+  padding-bottom: 0;
+  overflow-x: hidden;
+  overflow-y: visible;
 `;

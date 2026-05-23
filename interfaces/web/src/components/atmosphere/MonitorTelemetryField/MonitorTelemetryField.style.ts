@@ -16,7 +16,7 @@ export const MonitorFieldLayer = styled.div`
     pointer-events: none;
     background:
       radial-gradient(ellipse 90% 70% at 50% 110%, rgba(0, 0, 0, 0.55) 0%, transparent 62%),
-      radial-gradient(ellipse 55% 40% at 12% 8%, rgba(245, 158, 11, 0.06) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 40% at 12% 8%, ${({ theme }) => theme.colors.primary}0f 0%, transparent 55%),
       linear-gradient(180deg, transparent 0%, rgba(7, 8, 10, 0.35) 100%);
     z-index: 1;
   }
