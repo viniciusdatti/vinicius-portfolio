@@ -88,90 +88,6 @@
       "buildUnknown": "Build —"
     }
   },
-  "workspace": {
-    "boot": {
-      "title": "Realtime command surface",
-      "lead": "You are inside a live WebSocket channel. Explore modules on the left — the system stays connected.",
-      "handshakeTitle": "System boot",
-      "transportStatus": "Transport status",
-      "showcaseBadge": "Engineering showcase",
-      "showcaseBadgeTooltip": "Functional demo with real WebSocket — live industrial sensors",
-      "phases": {
-        "initializing": "Initializing transport…",
-        "connecting": "Connecting to telemetry server…",
-        "live": "WebSocket channel active — live telemetry",
-        "ready": "Telemetry operational — real-time data"
-      }
-    },
-    "events": {
-      "transportInit": "Transport stack initialized",
-      "transportLive": "WebSocket channel live",
-      "transportDown": "Transport disconnected",
-      "transportReconnect": "Reconnecting transport…",
-      "sessionOpen": "Session {{id}} opened",
-      "sessionResume": "Session {{id}} resumed",
-      "sessionClosed": "Session closed",
-      "sessionRequested": "Session handshake requested",
-      "messageIn": "Inbound message",
-      "messageOut": "Outbound message sent",
-      "presenceOnline": "Operator online",
-      "presenceOffline": "Operator away",
-      "typing": "Operator typing",
-      "contextAttach": "Case context: {{title}}",
-      "contextDetach": "Case context cleared",
-      "contextActive": "Active case · {{title}}",
-      "contextDraft": "Discussing case: {{title}} — architecture, stack, and delivery.",
-      "contextInject": "Case context sent to live channel"
-    },
-    "rail": {
-      "label": "Live Lab modules",
-      "identity": "Identity",
-      "cases": "Cases",
-      "capabilities": "Stack",
-      "channel": "Contact"
-    },
-    "channel": {
-      "title": "Live channel",
-      "transport": "WebSocket transport",
-      "events": "Event log"
-    },
-    "identity": {
-      "role": "Front-end Engineer",
-      "focus": "React · WebSocket · interfaces that cannot break",
-      "statProjects": "Years in production",
-      "statRealtime": "Sensor refresh cycle",
-      "statFocus": "Telemetry surfaces",
-      "statProjectsValue": "3",
-      "statRealtimeValue": "10s",
-      "statFocusValue": "2"
-    },
-    "cases": {
-      "title": "Case modules",
-      "lead": "Pick a project and bring a question to the live channel — I answer in real time.",
-      "inspect": "Inspect module",
-      "demo": "Open live path",
-      "repository": "Source",
-      "empty": "No cases loaded.",
-      "loading": "Loading case registry…",
-      "error": "Case registry unavailable.",
-      "back": "Back to registry"
-    },
-    "capabilities": {
-      "title": "Engineering stack",
-      "lead": "Technologies grouped by domain.",
-      "empty": "No capabilities returned."
-    },
-    "channelModule": {
-      "title": "Outbound channel",
-      "lead": "Structured message when the live channel is not enough.",
-      "note": "Prefer the live channel for realtime dialogue — this path persists to email."
-    },
-    "sidebar": {
-      "label": "Context",
-      "open": "Open context panel",
-      "close": "Close context panel"
-    }
-  },
   "showcase": {
     "title": "Showcase",
     "subtitle": "Production UI patterns: status, table + drawer, and metrics.",
@@ -531,92 +447,6 @@
       }
     }
   },
-  "admin": {
-    "system": {
-      "id": "VD·OPS",
-      "inboxCount": "{{count}} sessions",
-      "modules": {
-        "console": "Operator console",
-        "dashboard": "Command dashboard",
-        "inbox": "Live inbox",
-        "login": "Access gate"
-      }
-    },
-    "auth": {
-      "validating": "Validating admin access...",
-      "checkingSession": "Checking session..."
-    },
-    "login": {
-      "brand": "Admin",
-      "subtitle": "Restricted panel area",
-      "securityNote": "Monitored access. Only administrator accounts can sign in.",
-      "email": "Email",
-      "password": "Password",
-      "emailPlaceholder": "you@email.com",
-      "passwordPlaceholder": "••••••••",
-      "showPassword": "Show",
-      "hidePassword": "Hide",
-      "submit": "Sign in to panel",
-      "submitting": "Validating...",
-      "footerNote": "Token-protected session. Do not share your credentials.",
-      "backToSite": "← Back to portfolio",
-      "errors": {
-        "forbidden": "Access restricted to authorized administrators.",
-        "invalidCredentials": "Invalid email or password."
-      }
-    },
-    "dashboard": {
-      "title": "Dashboard",
-      "logout": "Sign out",
-      "fallbackName": "Admin",
-      "stats": {
-        "activeChats": "Active chats",
-        "unread": "Unread (chat)",
-        "messagesToday": "Messages today",
-        "pendingContacts": "Pending contacts",
-        "skills": "Skills registered"
-      },
-      "quickActions": "Quick actions",
-      "chatActionTitle": "Chat",
-      "chatActionDesc": "Manage conversations",
-      "siteActionTitle": "View site",
-      "siteActionDesc": "Open portfolio",
-      "changePassword": "Change password",
-      "currentPassword": "Current password",
-      "newPassword": "New password (min. 8 characters)",
-      "confirmPassword": "Confirm new password",
-      "submitPassword": "Change password",
-      "submittingPassword": "Updating...",
-      "passwordSuccess": "Password changed successfully.",
-      "errors": {
-        "mismatch": "Passwords do not match.",
-        "minLength": "New password must be at least 8 characters.",
-        "invalidSession": "Invalid session. Please sign in again.",
-        "generic": "Could not change password.",
-        "network": "Connection error. Please try again."
-      }
-    },
-    "chat": {
-      "back": "← Back to dashboard",
-      "title": "Admin chat",
-      "connected": "Connected",
-      "disconnected": "Disconnected",
-      "conversations": "Conversations ({{count}})",
-      "emptyTitle": "No active conversations",
-      "emptyDescription": "Conversations appear here when visitors start a chat in Live Lab.",
-      "typing": "typing...",
-      "newConversation": "New conversation",
-      "eventsToggle": "Received events ({{count}})",
-      "eventsEmpty": "No events yet. Socket events appear here when connected.",
-      "startedAt": "Started at {{time}}",
-      "closeSession": "End conversation",
-      "placeholder": "Type your reply...",
-      "send": "Send",
-      "noChatTitle": "Realtime chat",
-      "noChatDescription": "Select a conversation from the list to start replying.",
-      "noChatHint": "You will be notified when new visitors start conversations."
-    }
-  },
   "liveLab": {
     "title": "Live Lab",
     "workspace": {
@@ -673,35 +503,6 @@
       "window": "Window",
       "samples": "{{count}} samples",
       "sampleAxis": "sample"
-    },
-    "chat": {
-      "title": "Realtime channel",
-      "online": "Connected",
-      "offline": "Offline",
-      "connected": "WebSocket connected",
-      "connecting": "Connecting WebSocket...",
-      "placeholder": "Message...",
-      "send": "Send",
-      "intro": {
-        "title": "Open session",
-        "description": "Realtime channel on this portfolio. Open a session and talk — I receive it in real time.",
-        "name": "Name",
-        "namePlaceholder": "What should I call you?",
-        "company": "Company",
-        "companyPlaceholder": "Team or organization",
-        "start": "Connect to channel"
-      },
-      "offlineNotice": "Channel in async mode. Your message is queued and delivered when the session is back.",
-      "typing": "typing..."
-    },
-    "techExplanation": {
-      "title": "Architecture",
-      "description": "Real-time events between the React client and FastAPI — persistent connection, session rooms, and history in the database.",
-      "stack": {
-        "frontend": "React · Socket.io client · typed state",
-        "backend": "FastAPI · python-socketio · connection registry",
-        "database": "PostgreSQL · messages and sessions"
-      }
     }
   },
   "contact": {
@@ -733,7 +534,7 @@
       "location": "Location",
       "locationValue": "São Paulo, Brazil"
     },
-    "chatCta": {
+    "liveLabCta": {
       "title": "See the telemetry surface live",
       "description": "Live Lab is a portfolio demo: sensors over WebSocket, thresholds, chart, and log — inspired by production industrial dashboards.",
       "cta": "Open Live Lab"
@@ -791,8 +592,8 @@
         "decision": "Favor legibility, honest loading/error states, and maintainable composition over visual noise."
       },
       "vinicius-portfolio": {
-        "framing": "Monorepo for this portfolio: FastAPI + Socket.IO backend and React 19 (Vite) frontend with Live Lab and admin chat.",
-        "architecture": "backend/ (FastAPI, SQLAlchemy, seed scripts) and interfaces/web/ (React, TanStack Query, styled-components, i18n).",
+        "framing": "Monorepo for this portfolio: FastAPI + Socket.IO backend and React 19 (Vite) frontend with Live Lab telemetry and public content API.",
+        "architecture": "REST API for projects/skills/certificates; Socket.IO /telemetry; contact form with email/Telegram notifications.",
         "decision": "Single deployable product with honest project entries sourced from portfolio_catalog.py — titles equal GitHub repo names."
       },
       "ReactGram": {

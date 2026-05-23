@@ -43,15 +43,15 @@ import {
   InfoTitle,
   InfoList,
   InfoItem,
-  ChatCTACard,
-  ChatCTATitle,
-  ChatCTADescription,
-  ChatCTAButton,
+  LiveLabCTACard,
+  LiveLabCTATitle,
+  LiveLabCTADescription,
+  LiveLabCTAButton,
 } from '@/pages/Contact/Contact.style';
 
-// =================================================================================================
-// ============================================= ICONS =============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************** ICONS **********************************************
+ ************************************************************************************************ */
 
 const EmailIcon = (): React.ReactElement => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -79,9 +79,9 @@ const LocationIcon = (): React.ReactElement => (
   </svg>
 );
 
-// =================================================================================================
-// ============================================= TYPES =============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************** TYPES **********************************************
+ ************************************************************************************************ */
 
 const contactSchema = z.object({
   name: z.string().min(2, 'validation.minLength').max(100),
@@ -103,9 +103,9 @@ const getContactSubmitErrorMessage = (
   return error.message;
 };
 
-// =================================================================================================
-// =========================================== COMPONENT ===========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
 
 /**
  * Contact page — editorial header + centered input console + auxiliary channel strip.
@@ -367,15 +367,15 @@ export const Contact: React.FC = (): React.ReactElement => {
             </InfoList>
           </InfoCard>
 
-          <ChatCTACard variants={motion.item}>
-            <ChatCTATitle>{t('contact.chatCta.title')}</ChatCTATitle>
-            <ChatCTADescription>
-              {t('contact.chatCta.description')}
-            </ChatCTADescription>
-            <ChatCTAButton to="/live-lab">
-              {t('contact.chatCta.cta')}
-            </ChatCTAButton>
-          </ChatCTACard>
+          <LiveLabCTACard variants={motion.item}>
+            <LiveLabCTATitle>{t('contact.liveLabCta.title')}</LiveLabCTATitle>
+            <LiveLabCTADescription>
+              {t('contact.liveLabCta.description')}
+            </LiveLabCTADescription>
+            <LiveLabCTAButton to="/live-lab">
+              {t('contact.liveLabCta.cta')}
+            </LiveLabCTAButton>
+          </LiveLabCTACard>
         </ContactAuxStrip>
       </ContactConsoleColumn>
     </PageContainer>
