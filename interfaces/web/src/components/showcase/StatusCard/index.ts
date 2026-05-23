@@ -1,2 +1,2 @@
-export * from './StatusCard';
-export * from './StatusCard.types';
+export * from '@/components/showcase/StatusCard/StatusCard';
+export * from '@/components/showcase/StatusCard/StatusCard.types';

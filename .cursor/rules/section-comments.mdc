@@ -1,0 +1,38 @@
+---
+description: Separadores de seção em arquivos TS/TSX — 100 colunas, label centralizado
+globs: "**/*.{ts,tsx}"
+alwaysApply: true
+---
+
+# Section comment blocks (100 columns)
+
+Use **three-line** blocks for major regions (types, styles, component, hooks, methods, etc.):
+
+```ts
+// =================================================================================================
+// ============================================= TYPES =============================================
+// =================================================================================================
+```
+
+## Rules
+
+- **Total width**: exactly **100** characters per line (including `// ` prefix).
+- **Borders**: top and bottom lines are `// ` + `=` padding to 100 chars.
+- **Middle line**: label **centered** between `=` (uppercase), symmetric padding.
+- **Do not** vary `=` count, use asterisk banners, or mix `// =========` styles.
+- Generate headers via `formatSectionHeader()` in `interfaces/web/src/lib/sectionComment.ts`, or run `node scripts/normalize-section-comments.mjs --write` after editing legacy files.
+
+## Import sections (unchanged)
+
+Keep import group labels as single-line comments: `// Core`, `// Libraries`, `// Types`, `// Hooks`, `// Styles`, `// Components` — see `import-sections.mdc`.
+
+## File layout order
+
+1. `@fileoverview` (optional)
+2. Import sections
+3. `TYPES` / `CONSTANTS`
+4. `STYLES` (in `*.style.ts`)
+5. `METHODS` / `HOOKS` helpers
+6. `COMPONENT` (export)
+
+Add section blocks only where they improve scanability; avoid noise on tiny files.

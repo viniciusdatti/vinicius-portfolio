@@ -1,0 +1,119 @@
+// Core
+import React, { useMemo } from 'react';
+
+// Libraries
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+
+// Components
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import { useTelemetryStore } from '@/store/telemetryStore';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { LanguageToggle } from '@/components/LanguageToggle';
+import {
+  SystemBarRoot,
+  SystemBarInner,
+  SystemBarCluster,
+  SystemId,
+  SystemDivider,
+  SystemModule,
+  StatusCluster,
+  StatusPill,
+  StatusDot,
+  SystemBarActions,
+} from '@/components/layout/SystemBar/SystemBar.style';
+
+const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
+  '/': 'system.modules.home',
+  '/about': 'system.modules.about',
+  '/projects': 'system.modules.cases',
+  '/skills': 'system.modules.capabilities',
+  '/contact': 'system.modules.contact',
+  '/live-lab': 'system.modules.liveLab',
+};
+
+export const SystemBar = (): React.ReactElement => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const { status, version } = useSystemHealth();
+
+  const isLiveLab: boolean = location.pathname === '/live-lab';
+  const telemetryConnected: boolean = useTelemetryStore((s) => s.connected);
+  const telemetryTick: number = useTelemetryStore((s) => s.tickCount);
+
+  const moduleKey: string = useMemo((): string => {
+    if (isLiveLab) {
+      return 'system.modules.liveLab';
+    }
+    return PORTFOLIO_MODULE_KEYS[location.pathname] ?? 'system.modules.portfolio';
+  }, [isLiveLab, location.pathname]);
+
+  const apiTone: 'ok' | 'warn' | 'idle' = useMemo(() => {
+    if (status === SystemHealthStatus.Online) {
+      return 'ok';
+    }
+    if (status === SystemHealthStatus.Offline) {
+      return 'warn';
+    }
+    return 'idle';
+  }, [status]);
+
+  const apiLabel: string = useMemo(() => {
+    if (status === SystemHealthStatus.Online) {
+      return t('system.status.apiOnline');
+    }
+    if (status === SystemHealthStatus.Offline) {
+      return t('system.status.apiOffline');
+    }
+    return t('system.status.apiChecking');
+  }, [status, t]);
+
+  const wsTone: 'ok' | 'warn' | 'idle' = telemetryConnected ? 'ok' : 'warn';
+  const wsLabel: string = telemetryConnected
+    ? t('system.status.telemetryLive')
+    : t('system.status.telemetryIdle');
+
+  const buildLabel: string = version
+    ? t('system.status.build', { version })
+    : t('system.status.buildUnknown');
+
+  const tickLabel: string | null = isLiveLab && telemetryConnected
+    ? t('system.status.telemetryTick', { tick: telemetryTick })
+    : null;
+
+  return (
+    <SystemBarRoot role="status" aria-live="polite">
+      <SystemBarInner>
+        <SystemBarCluster>
+          <SystemId>{t('system.id')}</SystemId>
+          <SystemDivider aria-hidden>·</SystemDivider>
+          <SystemModule>{t(moduleKey)}</SystemModule>
+        </SystemBarCluster>
+        <StatusCluster>
+          <StatusPill $tone={apiTone}>
+            <StatusDot $tone={apiTone} aria-hidden />
+            {apiLabel}
+          </StatusPill>
+          {isLiveLab ? (
+            <>
+              <StatusPill $tone={wsTone}>
+                <StatusDot $tone={wsTone} aria-hidden />
+                {wsLabel}
+              </StatusPill>
+              {tickLabel ? (
+                <StatusPill $tone="idle">{tickLabel}</StatusPill>
+              ) : null}
+              <StatusPill $tone="idle">{buildLabel}</StatusPill>
+            </>
+          ) : (
+            <StatusPill $tone="idle">{t('system.status.latencyLive')}</StatusPill>
+          )}
+        </StatusCluster>
+        <SystemBarActions>
+          <LanguageToggle />
+          <ThemeToggle />
+        </SystemBarActions>
+      </SystemBarInner>
+    </SystemBarRoot>
+  );
+};

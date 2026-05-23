@@ -2,7 +2,10 @@
 import styled from 'styled-components';
 
 // Types
-import type { ButtonVariant } from './Button.types';
+import type { ButtonVariant } from '@/components/Button/Button.types';
+
+// Components
+import { buttonPrimaryRim, buttonShine } from '@/styles/surfaces';
 
 interface StyledButtonProps {
   $variant?: ButtonVariant;
@@ -12,65 +15,66 @@ export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
+  gap: ${({ theme }) => theme.spacing.sm};
+  padding: ${({ theme }) => theme.sizes.button.paddingY}
+    ${({ theme }) => theme.sizes.button.paddingX};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
   cursor: pointer;
-  border: 2px solid transparent;
-  min-height: 48px;
+  border: 1px solid transparent;
+  min-height: ${({ theme }) => theme.sizes.button.minHeight};
   box-sizing: border-box;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-    transform 0.15s ease;
+  transition:
+    background-color ${({ theme }) => theme.transitions.fast},
+    color ${({ theme }) => theme.transitions.fast},
+    border-color ${({ theme }) => theme.transitions.fast};
 
   ${({ $variant = 'primary', theme }) => {
     switch ($variant) {
       case 'primary':
         return `
-          background-color: ${theme.colors.primary};
-          color: white;
-          border-color: ${theme.colors.primary};
+          position: relative;
+          overflow: hidden;
+          background: ${theme.colors.gradientButtonPrimary};
+          color: ${theme.colors.onPrimary};
+          border-color: transparent;
+          ${buttonShine};
+          ${buttonPrimaryRim};
 
           &:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            filter: brightness(1.04);
           };
 
           &:active {
-            transform: translateY(0);
+            filter: brightness(0.98);
           };
         `;
       case 'secondary':
         return `
-          background-color: transparent;
+          border-radius: ${theme.borderRadius.sm};
+          background: ${theme.colors.surfaceGlass};
           color: ${theme.colors.text};
           border-color: ${theme.colors.border};
+          backdrop-filter: ${theme.effects.backdrop.glass};
 
           &:hover {
-            border-color: ${theme.colors.primary};
-            color: ${theme.colors.primary};
-            transform: translateY(-1px);
-          };
-
-          &:active {
-            transform: translateY(0);
+            border-color: ${theme.colors.borderLight};
+            background: ${theme.colors.surfaceHover};
           };
         `;
       case 'outline':
       default:
         return `
+          border-radius: ${theme.borderRadius.sm};
           background-color: transparent;
           color: ${theme.colors.primary};
-          border-color: ${theme.colors.primary};
+          border-color: ${theme.colors.primaryBorderFaint};
 
           &:hover {
-            background-color: ${theme.colors.primary};
-            color: white;
-            transform: translateY(-1px);
-          };
-
-          &:active {
-            transform: translateY(0);
+            background-color: ${theme.colors.primaryLight};
+            border-color: ${theme.colors.primary};
           };
         `;
     }

@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
+    "",
     response_model=List[ProjectRead],
     summary="Get all projects",
     description="Retrieve all portfolio projects, optionally filtered by technology.",
@@ -35,4 +35,4 @@ async def get_projects(
     """
     service = ProjectService(db)
     projects = service.get_all_projects(technology=technology)
-    return projects
+    return [ProjectRead.model_validate(project) for project in projects]

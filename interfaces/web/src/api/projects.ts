@@ -2,8 +2,8 @@
  * Projects API functions.
  */
 
-import { apiClient } from './client';
-import type { Project } from '../data/types';
+import { apiClient } from '@/api/client';
+import type { Project } from '@/data/types';
 
 /**
  * Fetch all projects from the API.
@@ -12,6 +12,5 @@ import type { Project } from '../data/types';
  * @returns Promise with array of projects
  */
 export const getProjects = async (
-  technology?: string
-): Promise<Project[]> =>
-  apiClient.get<Project[]>('/projects', { technology });
+  technology?: string,
+): Promise<Project[]> => apiClient.get<Project[]>('/projects', { technology });

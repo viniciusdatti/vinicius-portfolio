@@ -19,13 +19,10 @@ import { Header } from './components/Header';
 import { Button } from '../Button';
 
 // Hooks
-import { useProjects, useChat } from '../../hooks';
+import { useProjects } from '../../hooks';
 
 // Store
-import { useThemeStore, useAuthStore } from '../../store';
-
-// Utils
-import { socketService } from '../../utils/socket';
+import { useThemeStore } from '../../store';
 
 // Styles
 import { fadeInUp, staggerContainer } from '../../styles/animations';

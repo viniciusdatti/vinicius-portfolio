@@ -7,10 +7,10 @@ import { useQuery } from '@tanstack/react-query';
 
 // Types
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { Skill } from '../types';
+import type { Skill } from '@/types';
 
 // Components
-import { getSkills } from '../api';
+import { getSkills } from '@/api';
 
 /**
  * Query key for skills.
@@ -27,9 +27,8 @@ export const skillsQueryKey = (category?: string): string[] => [
  * @returns Query result with skills data, loading and error states
  */
 export const useSkills = (
-  category?: string
-): UseQueryResult<Skill[], Error> =>
-  useQuery<Skill[], Error>({
-    queryKey: skillsQueryKey(category),
-    queryFn: (): Promise<Skill[]> => getSkills(category),
-  });
+  category?: string,
+): UseQueryResult<Skill[], Error> => useQuery<Skill[], Error>({
+  queryKey: skillsQueryKey(category),
+  queryFn: (): Promise<Skill[]> => getSkills(category),
+});
