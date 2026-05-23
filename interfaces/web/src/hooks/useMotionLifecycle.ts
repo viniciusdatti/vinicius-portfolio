@@ -9,6 +9,7 @@ import {
 import type {
   IntersectionObserverCallbackFn,
   IntersectionObserverCleanup,
+  MotionLifecycleTarget,
   TabVisibilityInitializer,
   UseMotionLifecycleHook,
   UseMotionLifecycleOptions,
@@ -21,6 +22,21 @@ import type {
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // =================================================================================================
+// ============================================= METHODS ===========================================
+// =================================================================================================
+
+const resolveMotionTarget = (target?: MotionLifecycleTarget): Element | null => {
+  if (!target) {
+    return null;
+  }
+  if (typeof Element !== 'undefined' && target instanceof Element) {
+    return target;
+  }
+  const refTarget: RefObject<Element | null> = target as RefObject<Element | null>;
+  return refTarget.current;
+};
+
+// =================================================================================================
 // ============================================= HOOK ==============================================
 // =================================================================================================
 
@@ -28,11 +44,11 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
  * Gates motion loops by viewport visibility, tab focus, and reduced-motion preference.
  */
 export const useMotionLifecycle: UseMotionLifecycleHook = (
-  targetRef?: RefObject<Element | null>,
+  target?: MotionLifecycleTarget,
   options: UseMotionLifecycleOptions = {},
 ): UseMotionLifecycleResult => {
   const {
-    observeIntersection = Boolean(targetRef),
+    observeIntersection = Boolean(target),
     threshold = 0.05,
   }: UseMotionLifecycleOptions = options;
 
@@ -49,6 +65,8 @@ export const useMotionLifecycle: UseMotionLifecycleHook = (
     return initializeTabVisibility();
   });
 
+  const observedElement: Element | null = resolveMotionTarget(target);
+
   useEffect((): VisibilityChangeCleanup | undefined => {
     const onVisibilityChange: VisibilityChangeHandler = (): void => {
       setIsTabVisible(!document.hidden);
@@ -61,11 +79,10 @@ export const useMotionLifecycle: UseMotionLifecycleHook = (
   }, []);
 
   useEffect((): IntersectionObserverCleanup | undefined => {
-    if (!observeIntersection || !targetRef?.current) {
+    if (!observeIntersection || !observedElement) {
       return undefined;
     }
 
-    const element: Element = targetRef.current;
     const onIntersect: IntersectionObserverCallbackFn = (
       entries: IntersectionObserverEntry[],
     ): void => {
@@ -78,12 +95,12 @@ export const useMotionLifecycle: UseMotionLifecycleHook = (
       { threshold },
     );
 
-    observer.observe(element);
+    observer.observe(observedElement);
 
     return (): void => {
       observer.disconnect();
     };
-  }, [observeIntersection, targetRef, threshold]);
+  }, [observeIntersection, observedElement, threshold]);
 
   const isActive: boolean = !prefersReducedMotion
     && isTabVisible

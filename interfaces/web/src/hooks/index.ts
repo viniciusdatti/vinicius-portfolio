@@ -17,6 +17,14 @@ export {
   type TelemetryTick,
 } from '@/types/telemetry';
 export { useCountUp } from '@/hooks/useCountUp';
+export { useScrollMotion } from '@/hooks/useScrollMotion';
+export type { ScrollMotionContract } from '@/hooks/useScrollMotion';
+export {
+  ScrollMotionViewportProvider,
+  useScrollMotionViewport,
+} from '@/hooks/scrollMotionViewport';
+export type { ScrollMotionViewportContextValue } from '@/hooks/scrollMotionViewport';
+export { useTypewriterReveal } from '@/hooks/useTypewriterReveal';
 // Note: useChat and useAdminChat are not exported here to avoid circular dependencies
 // Import them directly when needed:
 // - useChat: from '@/hooks/hooks/useChat' (LiveChannel workspace surface)

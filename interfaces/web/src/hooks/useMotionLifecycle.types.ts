@@ -20,8 +20,14 @@ export interface UseMotionLifecycleResult {
   prefersReducedMotion: boolean;
 }
 
+export type MotionLifecycleTarget =
+  | RefObject<Element | null>
+  | Element
+  | null
+  | undefined;
+
 export type UseMotionLifecycleHook = (
-  targetRef?: RefObject<Element | null>,
+  target?: MotionLifecycleTarget,
   options?: UseMotionLifecycleOptions,
 ) => UseMotionLifecycleResult;
 
