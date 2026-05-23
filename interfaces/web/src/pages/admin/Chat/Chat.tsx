@@ -66,7 +66,7 @@ import {
   EventItemContent,
   EventsListEmpty,
   SessionCompanyLine,
-} from '@/pages/admin/Chat/Chat.style';
+} from '@/pages/Admin/Chat/Chat.style';
 
 /** Local UI state for the Chat view. */
 interface ChatState {
@@ -78,7 +78,7 @@ interface ChatState {
  * Admin Chat component for managing real-time conversations with visitors.
  * Displays a list of active chat sessions and provides an interface for responding.
  */
-export function Chat(): React.ReactElement {
+export const Chat = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const receivedEvents = useAdminChatEvents();
@@ -375,4 +375,4 @@ export function Chat(): React.ReactElement {
       </Content>
     </PageContainer>
   );
-}
+};

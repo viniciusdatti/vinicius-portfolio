@@ -15,7 +15,7 @@ import {
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
-} from '@/components/home/RealtimePresence/RealtimePresence.style';
+} from '@/components/Home/RealtimePresence/RealtimePresence.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
@@ -24,7 +24,7 @@ import {
 /**
  * Subtle live strip on home — connection truth and micro-activity without console chrome.
  */
-export function RealtimePresence(): React.ReactElement {
+export const RealtimePresence = (): React.ReactElement => {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
@@ -80,4 +80,4 @@ export function RealtimePresence(): React.ReactElement {
       </PresenceInner>
     </PresenceStrip>
   );
-}
+};

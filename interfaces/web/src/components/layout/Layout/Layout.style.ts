@@ -50,6 +50,13 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
           display: flex;
           flex-direction: column;
           overflow: hidden;
+
+          body.live-lab-immersive & {
+            height: auto;
+            max-height: none;
+            min-height: calc(100vh - ${theme.sizes.layout.headerOffset});
+            overflow: visible;
+          }
         `
     : css`
           min-height: 100vh;
@@ -58,8 +65,10 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
 `;
 
 export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
-  ${({ $workspace }) => ($workspace
+  ${({ $workspace, theme }) => ($workspace
     ? css`
+          position: relative;
+          z-index: ${theme.zIndex.base};
           height: 100%;
           min-height: 0;
           display: flex;

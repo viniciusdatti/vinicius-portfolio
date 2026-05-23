@@ -14,8 +14,8 @@ import { darkTheme, lightTheme, Theme } from '@/styles/theme';
 
 // Components
 import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ToastHost } from '@/components/common/Toast';
-import { ObservatoryIdleLayer } from '@/components/motion/ObservatoryIdleLayer';
+import { ToastHost } from '@/components/Common/Toast';
+import { ObservatoryIdleLayer } from '@/components/Motion/ObservatoryIdleLayer';
 import { Router } from '@/Router';
 import { useThemeStore } from '@/store';
 
@@ -29,7 +29,7 @@ const queryClient: QueryClient = new QueryClient({
   },
 });
 
-function ThemedApp(): React.ReactElement {
+const ThemedApp = (): React.ReactElement => {
   const { mode } = useThemeStore();
   const theme: Theme = mode === 'dark' ? darkTheme : lightTheme;
 
@@ -41,16 +41,14 @@ function ThemedApp(): React.ReactElement {
       <Router />
     </ThemeProvider>
   );
-}
+};
 
-function App(): React.ReactElement {
-  return (
-    <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <ThemedApp />
-      </QueryClientProvider>
-    </ErrorBoundary>
-  );
-}
+const App = (): React.ReactElement => (
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <ThemedApp />
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
 
 export default App;

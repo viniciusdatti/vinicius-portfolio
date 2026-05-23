@@ -1,1 +1,1 @@
-export { SpotlightSurface } from '@/components/primitives/SpotlightSurface/SpotlightSurface';
+export { SpotlightSurface } from '@/components/Primitives/SpotlightSurface/SpotlightSurface';

@@ -5,14 +5,14 @@ import React, { useMemo } from 'react';
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 
 // Types
-import type { WorkCanvasPreviewProps } from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.types';
+import type { WorkCanvasPreviewProps } from '@/components/Home/WorkCanvasPreview/WorkCanvasPreview.types';
 import { mapProjectCanvasTone } from '@/lib/mapProjectCanvasTone';
 
 // Components
 import {
   WorkPreviewCanvas,
   WorkPreviewLayer,
-} from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.style';
+} from '@/components/Home/WorkCanvasPreview/WorkCanvasPreview.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -21,10 +21,10 @@ import {
 /**
  * Generative Canvas2D signal preview for the home work runway.
  */
-export function WorkCanvasPreview({
+export const WorkCanvasPreview = ({
   tone,
   active,
-}: WorkCanvasPreviewProps): React.ReactElement {
+}: WorkCanvasPreviewProps): React.ReactElement => {
   const pulse: number = useMemo(
     (): number => (active ? 0.72 : 0.28),
     [active],
@@ -40,4 +40,4 @@ export function WorkCanvasPreview({
       <WorkPreviewCanvas ref={canvasRef} />
     </WorkPreviewLayer>
   );
-}
+};

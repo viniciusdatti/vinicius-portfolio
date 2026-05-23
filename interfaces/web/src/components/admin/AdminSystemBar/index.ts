@@ -1,2 +1,2 @@
-export * from '@/components/admin/AdminSystemBar/AdminSystemBar';
-export * from '@/components/admin/AdminSystemBar/AdminSystemBar.style';
+export * from '@/components/Admin/AdminSystemBar/AdminSystemBar';
+export * from '@/components/Admin/AdminSystemBar/AdminSystemBar.style';

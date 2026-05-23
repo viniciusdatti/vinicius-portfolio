@@ -44,7 +44,7 @@ import {
   FormInput,
   SubmitButton,
   FormMessage,
-} from '@/pages/admin/Dashboard/Dashboard.style';
+} from '@/pages/Admin/Dashboard/Dashboard.style';
 
 /**
  * Admin Dashboard component.
@@ -66,7 +66,7 @@ const initialChangePasswordState: ChangePasswordState = {
   confirmPassword: '',
 };
 
-export function Dashboard(): React.ReactElement {
+export const Dashboard = (): React.ReactElement => {
   const { t } = useTranslation();
   const { user, tokens, logout } = useAuthStore();
   const chatSessions = useAdminChatStore((s) => s.sessions);
@@ -287,4 +287,4 @@ export function Dashboard(): React.ReactElement {
       </Content>
     </PageContainer>
   );
-}
+};

@@ -2,21 +2,19 @@
 import React from 'react';
 
 // Components
-import { SpinnerContainer } from '@/components/common/Spinner/Spinner.style';
-import type { SpinnerProps } from '@/components/common/Spinner/Spinner.types';
+import { SpinnerContainer } from '@/components/Common/Spinner/Spinner.style';
+import type { SpinnerProps } from '@/components/Common/Spinner/Spinner.types';
 
-export function Spinner({
+export const Spinner = ({
   size = 'md',
   className,
   testId,
-}: SpinnerProps): React.ReactElement {
-  return (
-    <SpinnerContainer
-      $size={size}
-      className={className}
-      data-testid={testId}
-      role="status"
-      aria-live="polite"
-    />
-  );
-}
+}: SpinnerProps): React.ReactElement => (
+  <SpinnerContainer
+    $size={size}
+    className={className}
+    data-testid={testId}
+    role="status"
+    aria-live="polite"
+  />
+);

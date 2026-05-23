@@ -16,11 +16,11 @@ import {
   initialAdminLoginViewState,
   type AdminLoginForm,
   type AdminLoginViewState,
-} from '@/pages/admin/Login/Login.types';
+} from '@/pages/Admin/Login/Login.types';
 
 // Components
 import { env } from '@/config/env';
-import { showToast, ToastType } from '@/components/common/Toast';
+import { showToast, ToastType } from '@/components/Common/Toast';
 import { useAuthStore } from '@/store';
 import {
   BackToSiteLink,
@@ -41,7 +41,7 @@ import {
   SubmitButton,
   TogglePasswordButton,
   TopBar,
-} from '@/pages/admin/Login/Login.style';
+} from '@/pages/Admin/Login/Login.style';
 
 const API_BASE: string = env.apiUrl;
 
@@ -52,7 +52,7 @@ const isAdminRole = (role: string): boolean => (
 /**
  * Admin login page with server-side role validation.
  */
-export function Login(): React.ReactElement {
+export const Login = (): React.ReactElement => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { setAuth, logout } = useAuthStore();
@@ -229,4 +229,4 @@ export function Login(): React.ReactElement {
       </PageContainer>
     </PageShell>
   );
-}
+};

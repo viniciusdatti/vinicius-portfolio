@@ -19,7 +19,7 @@ import { StyledCard } from '@/components/Card/Card.style';
 
 const MotionStyledCard = motion.create(StyledCard);
 
-export const Card: CardComponent = function Card({
+export const Card: CardComponent = ({
   children,
   className,
   id,
@@ -34,7 +34,7 @@ export const Card: CardComponent = function Card({
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
   'aria-describedby': ariaDescribedby,
-}): React.ReactElement {
+}): React.ReactElement => {
   const usePhysical: boolean = interactive
     && (variant === CardVariant.MarketingGlass || variant === CardVariant.StatSignal);
 

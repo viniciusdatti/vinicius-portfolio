@@ -10,7 +10,7 @@ import type { LanguageToggleProps } from '@/components/LanguageToggle/LanguageTo
 // Components
 import { ToggleWrapper, LangButton } from '@/components/LanguageToggle/LanguageToggle.style';
 
-export function LanguageToggle({ className }: LanguageToggleProps): React.ReactElement {
+export const LanguageToggle = ({ className }: LanguageToggleProps): React.ReactElement => {
   const { i18n, t } = useTranslation();
   const currentLang = i18n.language === 'pt-BR' ? 'pt-BR' : 'en-US';
 
@@ -36,4 +36,4 @@ export function LanguageToggle({ className }: LanguageToggleProps): React.ReactE
       </LangButton>
     </ToggleWrapper>
   );
-}
+};

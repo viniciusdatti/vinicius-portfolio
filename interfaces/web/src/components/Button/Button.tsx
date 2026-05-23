@@ -16,7 +16,7 @@ import { StyledButton } from '@/components/Button/Button.style';
 
 const MotionStyledButton = motion.create(StyledButton);
 
-export const Button: ButtonComponent = function Button({
+export const Button: ButtonComponent = ({
   variant = 'primary',
   children,
   type,
@@ -46,7 +46,7 @@ export const Button: ButtonComponent = function Button({
   title,
   style,
   testId,
-}): React.ReactElement {
+}): React.ReactElement => {
   const { ref, motionProps }: UsePhysicalInteractionResult<HTMLButtonElement> = (
     usePhysicalInteraction<HTMLButtonElement>({
       disabled: Boolean(disabled),

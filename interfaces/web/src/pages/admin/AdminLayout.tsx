@@ -17,7 +17,7 @@ import {
   AdminAuthLoading,
   AdminSystemBar,
   AdminMain,
-} from '@/components/admin';
+} from '@/components/Admin';
 import { env } from '@/config/env';
 import {
   startAdminChatRealtime,
@@ -36,7 +36,7 @@ enum AdminGateStatus {
 /**
  * Layout gate for /admin/* (except login). Starts chat realtime when authorized.
  */
-export function AdminLayout(): React.ReactElement {
+export const AdminLayout = (): React.ReactElement => {
   const { t } = useTranslation();
   const {
     tokens, user, setAuth, logout,
@@ -119,4 +119,4 @@ export function AdminLayout(): React.ReactElement {
       </AdminMain>
     </>
   );
-}
+};

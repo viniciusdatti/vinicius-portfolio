@@ -17,9 +17,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       react(),
       analyzeBundle && visualizer({
-        filename: 'dist/stats.html',
+        filename: path.resolve(rootDir, 'dist/stats.html'),
         gzipSize: true,
+        brotliSize: true,
         open: false,
+        emitFile: true,
       }),
     ].filter(Boolean),
     resolve: {
@@ -54,6 +56,25 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: 'dist',
       sourcemap: mode === 'development',
+      rollupOptions: {
+        output: {
+          manualChunks: (id: string): string | undefined => {
+            if (!id.includes('node_modules')) return undefined;
+            if (id.includes('recharts') || id.includes('d3-')) return 'vendor-recharts';
+            if (
+              id.includes('three')
+              || id.includes('@react-three')
+              || id.includes('postprocessing')
+            ) {
+              return 'vendor-three';
+            }
+            if (id.includes('framer-motion')) return 'vendor-motion';
+            if (id.includes('gsap')) return 'vendor-gsap';
+            if (id.includes('socket.io-client')) return 'vendor-socket';
+            return undefined;
+          },
+        },
+      },
     },
   };
 });

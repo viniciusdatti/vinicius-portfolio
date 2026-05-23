@@ -82,12 +82,13 @@ export const HeaderContent = styled.div<{ $isWorkspace?: boolean }>`
   };
 `;
 
-export const HeaderCenter = styled.div<{ $isWorkspace?: boolean }>`
-  flex: 0 1 auto;
-  display: ${({ $isWorkspace }) => ($isWorkspace ? 'none' : 'flex')};
+export const HeaderCenter = styled.div<{ $compact?: boolean }>`
+  flex: 1 1 auto;
+  display: flex;
   align-items: center;
   justify-content: center;
   min-width: 0;
+  overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
@@ -143,19 +144,21 @@ export const HeaderStatusWrap = styled.div`
   };
 `;
 
-export const Nav = styled.nav`
+export const Nav = styled.nav<{ $compact?: boolean }>`
   display: flex;
   align-items: center;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme, $compact }) => ($compact ? theme.spacing.md : theme.spacing.lg)};
   min-width: 0;
   overflow: hidden;
+  flex-wrap: ${({ $compact }) => ($compact ? 'wrap' : 'nowrap')};
+  justify-content: center;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
   };
 `;
 
-export const NavLink = styled(MotionLink)<{ $active?: boolean }>`
+export const NavLink = styled(MotionLink)<{ $active?: boolean; $compact?: boolean }>`
   position: relative;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};

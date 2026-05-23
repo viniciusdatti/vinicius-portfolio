@@ -1,1 +1,1 @@
-export { HomeManifestoStrip } from '@/components/home/HomeManifestoStrip/HomeManifestoStrip';
+export { HomeManifestoStrip } from '@/components/Home/HomeManifestoStrip/HomeManifestoStrip';

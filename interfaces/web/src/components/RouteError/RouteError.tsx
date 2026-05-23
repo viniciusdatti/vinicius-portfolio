@@ -13,7 +13,7 @@ import {
   RouteErrorTitle,
 } from '@/components/RouteError/RouteError.style';
 
-export function RouteError(): React.ReactElement {
+export const RouteError = (): React.ReactElement => {
   const { t } = useTranslation();
   const routeError = useRouteError();
   const message: string = routeError instanceof Error
@@ -33,4 +33,4 @@ export function RouteError(): React.ReactElement {
       </Button>
     </RouteErrorContainer>
   );
-}
+};

@@ -4,13 +4,15 @@
  * Skill `frontend-architecture` P1: deletar este diretório.
  * Substituir qualquer uso futuro por `cardInteractive` mixin de surfaces.ts.
  *
- * Para deletar: rm -rf src/components/primitives/SpotlightSurface
+ * Para deletar: rm -rf src/components/Primitives/SpotlightSurface
  */
 
 // Core
 import React from 'react';
 
 /** @deprecated Use cardInteractive mixin from surfaces.ts instead. */
-export function SpotlightSurface({ children }: { children: React.ReactNode }): React.ReactElement {
-  return <>{children}</>;
-}
+export const SpotlightSurface = ({
+  children,
+}: {
+  children: React.ReactNode;
+}): React.ReactElement => children as React.ReactElement;

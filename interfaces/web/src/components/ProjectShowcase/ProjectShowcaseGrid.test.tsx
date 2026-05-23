@@ -32,19 +32,15 @@ const defaultProps: ProjectShowcaseGridProps = {
   language: Language.En,
 };
 
-function ProjectShowcaseGridComponent(
-  props: ProjectShowcaseGridProps,
-): React.ReactElement {
-  return (
-    <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={darkTheme}>
-        <MemoryRouter>
-          <ProjectShowcaseGrid {...props} />
-        </MemoryRouter>
-      </ThemeProvider>
-    </I18nextProvider>
-  );
-}
+const ProjectShowcaseGridComponent = (props: ProjectShowcaseGridProps): React.ReactElement => (
+  <I18nextProvider i18n={i18n}>
+    <ThemeProvider theme={darkTheme}>
+      <MemoryRouter>
+        <ProjectShowcaseGrid {...props} />
+      </MemoryRouter>
+    </ThemeProvider>
+  </I18nextProvider>
+);
 
 // =================================================================================================
 // ======================================== TEST EXECUTION =========================================

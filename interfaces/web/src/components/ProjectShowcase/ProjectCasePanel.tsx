@@ -36,12 +36,12 @@ import {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export const ProjectCasePanel: ProjectCasePanelComponent = function ProjectCasePanel({
+export const ProjectCasePanel: ProjectCasePanelComponent = ({
   project,
   language,
   indexLabel,
   onClose,
-}): React.ReactElement {
+}): React.ReactElement => {
   const { t }: { t: TFunction } = useTranslation();
   const reduced: boolean = usePrefersReducedMotion();
   const panelVariants: Variants = resolveLayoutMorphPanel(reduced);

@@ -6,20 +6,20 @@ import type {
   IdleImplFn,
   MotionPausedEffectCleanup,
   ObservatoryIdleLayerComponent,
-} from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
+} from '@/components/Motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
 import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
 
 // Hooks
 import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
 
 // Components
-import { ScanlineTrack } from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
+import { ScanlineTrack } from '@/components/Motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
 // =================================================================================================
 
-const IdleLayerImpl: IdleImplFn = function ObservatoryIdleLayer(): React.ReactElement | null {
+const IdleLayerImpl: IdleImplFn = (): React.ReactElement | null => {
   const {
     isActive,
     prefersReducedMotion,

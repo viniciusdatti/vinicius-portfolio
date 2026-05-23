@@ -16,11 +16,11 @@ import {
   ManifestoLine,
   ManifestoEmphasis,
   ManifestoMeta,
-} from '@/components/home/HomeManifestoStrip/HomeManifestoStrip.style';
+} from '@/components/Home/HomeManifestoStrip/HomeManifestoStrip.style';
 
 const viewport = { once: true, amount: 0.25 as const };
 
-export function HomeManifestoStrip(): React.ReactElement {
+export const HomeManifestoStrip = (): React.ReactElement => {
   const { t } = useTranslation();
   const { manifestoStagger, manifestoPhrase } = useScrollMotion();
 
@@ -45,4 +45,4 @@ export function HomeManifestoStrip(): React.ReactElement {
       </ManifestoInner>
     </ManifestoBand>
   );
-}
+};

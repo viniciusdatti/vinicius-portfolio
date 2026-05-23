@@ -21,6 +21,7 @@ export const Toolbar = styled.div`
 export const SearchInput = styled.input`
   flex: 1;
   min-width: min(100%, 280px);
+  min-height: 44px;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
   border-radius: ${({ theme }) => theme.borderRadius.full};
