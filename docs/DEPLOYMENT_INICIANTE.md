@@ -164,19 +164,22 @@ Antes de dar **Deploy**, ajuste estes campos:
 
 | Campo | O que fazer |
 |-------|-------------|
-| **Framework Preset** | Pode deixar **Create React App** (a Vercel detecta sozinho). |
+| **Framework Preset** | **Vite** (o repo inclui `interfaces/web/vercel.json`). |
 | **Root Directory** | Clique em **Edit** ao lado e digite: `interfaces/web`. **Muito importante:** se não colocar isso, a Vercel não acha o `package.json` do frontend. |
-| **Build Command** | Pode deixar `yarn build` ou `npm run build` (se usar yarn, melhor `yarn build`). |
-| **Output Directory** | Deixe `build` (padrão do Create React App). |
+| **Production Branch** | `master` |
+| **Build Command** | `yarn build` |
+| **Output Directory** | **`dist`** (Vite). Não use `build` — isso era do Create React App antigo. |
+| **Node.js Version** | **22.x** |
 
 ### Passo 3.4 — Variável de ambiente (URL da API)
 
 1. Expanda a seção **Environment Variables**.
-2. Em **Key**, escreva: `REACT_APP_API_URL`
+2. Em **Key**, escreva: `VITE_API_URL`
 3. Em **Value**, escreva a URL do backend **terminando em** `/api/v1`.  
-   Exemplo: `https://portfolio-api.onrender.com/api/v1`  
+   Exemplo: `https://vinicius-portfolio.onrender.com/api/v1`  
    (use a **sua** URL do Render, não esqueça o `https://` e o `/api/v1` no final.)
-4. Clique em **Add** (ou **Save**).
+4. (Opcional) **Key:** `VITE_APP_ENV` — **Value:** `production`
+5. Clique em **Add** (ou **Save**).
 
 Depois clique em **Deploy** (ou **Deploy Project**).
 
@@ -201,7 +204,7 @@ Para o site (Vercel) conseguir falar com a API (Render), o backend precisa “li
 1. Abra no navegador a URL que a Vercel te deu.
 2. O site deve abrir. Navegue um pouco (projetos, contato, etc.).
 3. Se a página de projetos não carregar ou der erro de rede, confira:
-   - `REACT_APP_API_URL` na Vercel está com a URL do Render + `/api/v1`?
+   - `VITE_API_URL` na Vercel está com a URL do Render + `/api/v1`?
    - `CORS_ORIGINS` no Render está com a URL do site na Vercel (igual à que você abre no navegador)?
 
 ---
@@ -218,7 +221,7 @@ Marque conforme for fazendo:
 - [ ] Teste `/health` no navegador — retornou `healthy`?
 - [ ] Pre-Deploy (criar tabelas) rodado ou combinado depois
 - [ ] Projeto na Vercel importado (root: `interfaces/web`)
-- [ ] `REACT_APP_API_URL` na Vercel = URL do Render + `/api/v1`
+- [ ] `VITE_API_URL` na Vercel = URL do Render + `/api/v1`
 - [ ] Deploy do frontend concluído
 - [ ] `CORS_ORIGINS` no Render atualizado com a URL do site na Vercel
 - [ ] Site aberto no navegador e funcionando
@@ -241,7 +244,7 @@ Marque conforme for fazendo:
 **Site na Vercel abre, mas projetos / contato não funcionam**
 
 - O frontend não está conseguindo falar com o backend. Confira:
-  - **Vercel:** variável `REACT_APP_API_URL` = `https://sua-url-render.com/api/v1` (com `https` e `/api/v1`).
+  - **Vercel:** variável `VITE_API_URL` = `https://sua-url-render.com/api/v1` (com `https` e `/api/v1`).
   - **Render:** variável `CORS_ORIGINS` = URL do site na Vercel (ex.: `https://vinicius-portfolio.vercel.app`), sem barra no final.
 
 **Não acho a connection string no Neon**
@@ -254,7 +257,7 @@ Marque conforme for fazendo:
 
 1. **Neon:** criar projeto → copiar connection string.
 2. **Render:** New Web Service → repo → Root `backend` → Build: `pip install -r requirements.txt` → Start: `uvicorn app.main:socket_app --host 0.0.0.0 --port $PORT` → variáveis `ENVIRONMENT`, `DATABASE_URL`, `CORS_ORIGINS`, `JWT_SECRET_KEY` → Deploy → anotar URL.
-3. **Vercel:** Import Project → Root `interfaces/web` → `REACT_APP_API_URL` = URL Render + `/api/v1` → Deploy → anotar URL do site.
+3. **Vercel:** Import Project → Root `interfaces/web` → Output `dist` → `VITE_API_URL` = URL Render + `/api/v1` → Deploy → anotar URL do site.
 4. **Render:** atualizar `CORS_ORIGINS` com a URL do site na Vercel.
 
 Se em algum passo você travar (por exemplo: “não acho esse botão” ou “deu esse erro”), anote exatamente em qual parte (Neon, Render ou Vercel) e qual mensagem aparece, e peça ajuda dizendo isso — fica mais fácil te orientar no ponto exato.

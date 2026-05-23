@@ -102,29 +102,46 @@ Depois do primeiro deploy, anote a URL do backend (ex.: `https://portfolio-api.o
 1. Acesse [Vercel](https://vercel.com) e faça login (GitHub recomendado).
 2. **Add New** → **Project** e importe o repositório do portfólio.
 3. Configure:
-   - **Root Directory:** `interfaces/web`.
-   - **Framework Preset:** Create React App (detectado automaticamente).
-   - **Build Command:** `yarn build` (ou deixe o padrão).
-   - **Output Directory:** `build` (padrão do CRA).
+   - **Root Directory:** `interfaces/web` (obrigatório).
+   - **Production Branch:** `master`.
+   - **Framework Preset:** Vite (ou deixe a Vercel ler `interfaces/web/vercel.json`).
+   - **Build Command:** `yarn build` (Vite + `prebuild` do favicon).
+   - **Output Directory:** `dist` (não use `build` — isso era do CRA antigo).
+   - **Node.js Version:** `22.x` (alinhado a `engines` no `package.json`).
+
+O arquivo `interfaces/web/vercel.json` no repositório fixa `dist`, Node 22, rewrites de SPA (React Router) e cache de assets. Você pode confirmar em **Settings** → **General** que a Vercel não sobrescreveu com valores antigos do CRA.
 
 ### 3.2 Variáveis de ambiente (Frontend)
 
-Em **Settings** → **Environment Variables** do projeto, adicione:
+Em **Settings** → **Environment Variables** do projeto, adicione (escopo **Production** e, se quiser preview, **Preview** também):
 
 | Variável | Valor | Observação |
 |----------|--------|------------|
-| `VITE_API_URL` | `https://SUA-URL-DO-RENDER.com/api/v1` | URL real do backend (com `/api/v1` no final). |
+| `VITE_API_URL` | `https://vinicius-portfolio.onrender.com/api/v1` | URL real do backend (com `/api/v1` no final). |
 | `VITE_APP_ENV` | `production` | Opcional. |
 
-**Importante:** A URL da API deve ser **HTTPS** e terminar em `/api/v1`. O cliente Socket.IO usa o host da API (sem `/api/v1`) e exige que `CORS_ORIGINS` no Render inclua **exatamente** a origem do site na Vercel (ex.: `https://vinicius-portfolio.vercel.app`).
+**Importante:**
+
+- Variáveis `VITE_*` são embutidas no build — após alterar, faça **Redeploy**.
+- A URL da API deve ser **HTTPS** e terminar em `/api/v1`.
+- O Socket.IO usa o host da API (sem `/api/v1`). No Render, `CORS_ORIGINS` deve incluir **exatamente** a origem do site na Vercel (ex.: `https://vinicius-portfolio-weld.vercel.app`), sem barra no final.
 
 **Docker (compose prod):** use `VITE_API_URL=/api/v1` no build do frontend; o nginx em `interfaces/web/docker/nginx.conf` faz proxy de `/api` e `/socket.io` para o serviço `backend`.
 
 ### 3.3 Deploy
 
-Após salvar as variáveis, faça um novo deploy (ou deixe o deploy automático rodar após o push). O site ficará em algo como `https://vinicius-portfolio.vercel.app`.
+Após salvar as variáveis, faça um novo deploy (ou deixe o deploy automático rodar após push em `master`). O site ficará em algo como `https://vinicius-portfolio-weld.vercel.app`.
 
-Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_ORIGINS` para incluir essa URL (ex.: `https://vinicius-portfolio.vercel.app`).
+Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_ORIGINS` para incluir essa URL.
+
+### 3.4 Migração CRA → Vite (se o projeto na Vercel era antigo)
+
+Se o último deploy usava `react-scripts` e pasta `build`:
+
+1. Merge do código com Vite em `master`.
+2. Confirme **Output Directory** = `dist` e **Node** = 22.
+3. Remova variáveis `REACT_APP_*` e use só `VITE_*`.
+4. **Redeploy** em Production.
 
 ---
 
@@ -143,7 +160,7 @@ Depois de obter a URL final do frontend, volte ao **Render** e atualize `CORS_OR
 - **Backend:** abra `https://SUA-URL-RENDER/health`. Deve retornar algo como `{"status":"healthy","version":"2.0.0"}`.
 - **Frontend:** abra o site na Vercel; a home deve carregar e as chamadas à API (projetos, etc.) devem funcionar.
 - **Formulário de contato:** só envia e-mail se `RESEND_API_KEY`, `EMAIL_FROM` e `EMAIL_TO_ADMIN` estiverem configurados no Render.
-- **Chat / WebSocket:** o Socket.IO está no mesmo `socket_app`; se o frontend usar a mesma base URL (`REACT_APP_API_URL` sem `/api/v1`), a conexão WebSocket deve subir normalmente.
+- **Chat / WebSocket:** o Socket.IO está no mesmo `socket_app`; o cliente deriva o host de `VITE_API_URL` (sem `/api/v1`). Confira `CORS_ORIGINS` no Render.
 
 ---
 
