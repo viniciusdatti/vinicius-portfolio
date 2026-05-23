@@ -6,9 +6,11 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// Locales
-import ptBR from './locales/pt-BR.json';
-import enUS from './locales/en-US.json';
+/* *************************************************************************************************
+ ********************************************* LOCALES *********************************************
+ ************************************************************************************************ */
+import ptBR from '@/i18n/locales/pt-BR.json';
+import enUS from '@/i18n/locales/en-US.json';
 
 const supportedLngs: string[] = ['pt-BR', 'en-US'];
 const defaultLng: string = 'en-US';

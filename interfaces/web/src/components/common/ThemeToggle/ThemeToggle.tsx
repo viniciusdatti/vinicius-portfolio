@@ -2,14 +2,20 @@
 import React from 'react';
 
 // Libraries
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
-// Store
-import { useThemeStore } from '../../../store';
+// Types
+import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
+
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 // Components
-import { ToggleButton } from './ThemeToggle.style';
-import type { ThemeToggleProps } from './ThemeToggle.types';
+import { motionPresets } from '@/styles/motionPresets';
+import { motionEase } from '@/styles/animations';
+import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
+import { useThemeStore } from '@/store';
 
 const SunIcon = (): React.ReactElement => (
   <svg
@@ -47,31 +53,33 @@ const MoonIcon = (): React.ReactElement => (
   </svg>
 );
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
+export const ThemeToggle = ({ className }: ThemeToggleProps): React.ReactElement => {
+  const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeStore();
+  const reduced: boolean = usePrefersReducedMotion();
+  const themeLabel: string = mode === 'dark' ? t('a11y.themeLight') : t('a11y.themeDark');
 
   return (
     <ToggleButton
       className={className}
       onClick={toggleTheme}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      aria-label={
-        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-      }
-      title={
-        mode === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
-      }
+      aria-label={themeLabel}
+      title={themeLabel}
     >
-      <motion.div
-        key={mode}
-        initial={{ rotate: -90, opacity: 0 }}
-        animate={{ rotate: 0, opacity: 1 }}
-        exit={{ rotate: 90, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-      >
-        {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
-      </motion.div>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={mode}
+          initial={reduced ? { opacity: 0 } : { rotate: -90, opacity: 0 }}
+          animate={reduced ? { opacity: 1 } : { rotate: 0, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: motionPresets.duration.fast,
+            ease: motionEase,
+          }}
+        >
+          {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
+        </motion.div>
+      </AnimatePresence>
     </ToggleButton>
   );
 };

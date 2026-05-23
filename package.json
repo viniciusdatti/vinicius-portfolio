@@ -1,0 +1,30 @@
+{
+  "name": "vinicius-portfolio-monorepo",
+  "private": true,
+  "version": "2.0.0",
+  "description": "Full-stack portfolio monorepo — Docker API/DB + Vite on host",
+  "scripts": {
+    "dev:web": "yarn --cwd interfaces/web dev",
+    "dev:api": "cd backend && venv\\Scripts\\python.exe -m uvicorn app.main:socket_app --reload --host 127.0.0.1 --port 8000",
+    "build:web": "yarn --cwd interfaces/web typecheck && yarn --cwd interfaces/web build",
+    "health:api": "node -e \"fetch('http://127.0.0.1:8000/health').then(r=>r.json()).then(console.log).catch(console.error)\"",
+    "qa:audit": "yarn --cwd interfaces/web qa:audit",
+    "docker:up": "docker compose --env-file .env.docker up --build -d",
+    "docker:down": "docker compose --env-file .env.docker down",
+    "docker:logs": "docker compose --env-file .env.docker logs -f",
+    "docker:ps": "docker compose --env-file .env.docker ps",
+    "docker:validate": "powershell -ExecutionPolicy Bypass -File scripts/docker/validate-stack.ps1",
+    "docker:qa": "yarn qa:audit",
+    "dev:stack": "yarn docker:up && yarn dev:web"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
+    "postprocessing": "^6.39.1",
+    "three": "^0.184.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.184.1"
+  }
+}

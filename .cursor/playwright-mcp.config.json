@@ -1,0 +1,57 @@
+{
+  "browser": {
+    "browserName": "chromium",
+    "launchOptions": {
+      "headless": false
+    },
+    "contextOptions": {
+      "viewport": {
+        "width": 1280,
+        "height": 720
+      },
+      "baseURL": "http://localhost:5173",
+      "ignoreHTTPSErrors": true
+    }
+  },
+  "capabilities": [
+    "core",
+    "core-navigation",
+    "core-tabs",
+    "core-input",
+    "network",
+    "storage",
+    "testing",
+    "devtools",
+    "vision"
+  ],
+  "codegen": "none",
+  "console": {
+    "level": "warning"
+  },
+  "network": {
+    "allowedOrigins": [
+      "http://localhost:5173",
+      "http://127.0.0.1:5173",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://localhost:8000",
+      "http://127.0.0.1:8000",
+      "http://localhost:*",
+      "http://127.0.0.1:*",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com"
+    ]
+  },
+  "timeouts": {
+    "action": 15000,
+    "navigation": 30000,
+    "expect": 10000
+  },
+  "outputDir": "D:/Portifolio/vinicius-portfolio/.cursor/playwright-output",
+  "saveSession": true,
+  "testIdAttribute": "data-testid",
+  "imageResponses": "allow",
+  "snapshot": {
+    "mode": "full"
+  }
+}
