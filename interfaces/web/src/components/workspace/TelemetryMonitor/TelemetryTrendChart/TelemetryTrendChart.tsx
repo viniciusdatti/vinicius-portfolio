@@ -7,7 +7,13 @@
  ************************************************************************************************ */
 
 // Core
-import React, { useId, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 // Libraries
 import {
@@ -15,7 +21,6 @@ import {
   CartesianGrid,
   ComposedChart,
   Line,
-  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -80,9 +85,64 @@ const CHART_MARGIN: TelemetryTrendChartMargin = {
   bottom: 8,
 };
 
+interface PlotDimensions {
+  width: number;
+  height: number;
+}
+
+const initialPlotDimensions: PlotDimensions = {
+  width: 0,
+  height: 0,
+};
+
 /* *************************************************************************************************
  ********************************************* METHODS *********************************************
  ************************************************************************************************ */
+
+/**
+ * Tracks plot container size so Recharts receives explicit dimensions instead of
+ * percentage-based ResponsiveContainer (avoids -1 width/height in flex layouts).
+ */
+const usePlotDimensions = (
+  plotRef: React.RefObject<HTMLDivElement | null>,
+): PlotDimensions => {
+  const [dimensions, setDimensions] = useState<PlotDimensions>(initialPlotDimensions);
+
+  useEffect(() => {
+    const element: HTMLDivElement | null = plotRef.current;
+    if (!element) {
+      return undefined;
+    }
+
+    const syncDimensions = (): void => {
+      const { width, height } = element.getBoundingClientRect();
+      if (width <= 0 || height <= 0) {
+        return;
+      }
+      const nextWidth: number = Math.floor(width);
+      const nextHeight: number = Math.floor(height);
+      setDimensions((prev: PlotDimensions): PlotDimensions => {
+        if (prev.width === nextWidth && prev.height === nextHeight) {
+          return prev;
+        }
+        return { width: nextWidth, height: nextHeight };
+      });
+    };
+
+    syncDimensions();
+
+    const observer: ResizeObserver = new ResizeObserver((): void => {
+      syncDimensions();
+    });
+    observer.observe(element);
+
+    return (): void => {
+      observer.disconnect();
+    };
+  }, [plotRef]);
+
+  return dimensions;
+};
 
 const strokeForStatus = (
   status: SensorStatus,
@@ -111,6 +171,8 @@ export const TelemetryTrendChart = ({
   const reduced: boolean = usePrefersReducedMotion();
   const { section, viewport } = useScrollMotion();
   const [plotActive, setPlotActive] = useState<boolean>(true);
+  const plotRef = useRef<HTMLDivElement | null>(null);
+  const plotDimensions: PlotDimensions = usePlotDimensions(plotRef);
   const sampleAxisLabel: string = t('liveLab.monitor.sampleAxis');
   const gradientPrefix: string = useId().replace(/:/g, '');
 
@@ -160,9 +222,14 @@ export const TelemetryTrendChart = ({
       }}
     >
       <ChartTitle>{title}</ChartTitle>
-      <ChartPlot>
-        <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={CHART_MARGIN}>
+      <ChartPlot ref={plotRef}>
+        {plotDimensions.width > 0 && plotDimensions.height > 0 ? (
+          <ComposedChart
+            width={plotDimensions.width}
+            height={plotDimensions.height}
+            data={chartData}
+            margin={CHART_MARGIN}
+          >
             <defs>
               {readings.map((r: SensorReading) => {
                 const stroke: string = strokeForStatus(r.status, palette);
@@ -246,7 +313,7 @@ export const TelemetryTrendChart = ({
               );
             })}
           </ComposedChart>
-        </ResponsiveContainer>
+        ) : null}
       </ChartPlot>
     </ChartRoot>
   );
