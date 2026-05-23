@@ -3,4 +3,4 @@
  * Re-exports the Skills component for external consumption.
  */
 
-export * from './Skills';
+export * from '@/pages/Skills/Skills';

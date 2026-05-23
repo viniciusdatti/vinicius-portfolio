@@ -1,9 +1,16 @@
 """Technology model and association table."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
+
+if TYPE_CHECKING:
+    from app.models.project import Project
 
 # Association table for Many-to-Many relationship
 project_technologies = Table(
