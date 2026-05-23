@@ -1,2 +1,2 @@
-export * from './Card';
-export * from './Card.types';
+export * from '@/components/Card/Card';
+export * from '@/components/Card/Card.types';

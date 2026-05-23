@@ -2,60 +2,77 @@
   "name": "vinicius-portfolio",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "analyze": "vite build --mode analyze",
+    "lint": "eslint src vite.config.ts vitest.config.ts --max-warnings 0",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "preview": "vite preview",
+    "test": "vitest run --passWithNoTests --config vitest.config.ts",
+    "test:watch": "vitest --config vitest.config.ts",
+    "test:coverage": "vitest run --coverage --config vitest.config.ts",
+    "generate-favicon": "node scripts/generate-favicon.cjs",
+    "prebuild": "yarn generate-favicon",
+    "mcp:install-browsers": "yarn dlx playwright install chromium",
+    "qa:audit": "node scripts/qa-audit.mjs"
+  },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^5.2.2",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
     "@tanstack/react-query": "^5.90.21",
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.1.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
     "framer-motion": "^12.34.0",
+    "gsap": "^3.15.0",
     "i18next": "^25.8.7",
+    "postprocessing": "^6.39.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "react-hook-form": "^7.71.1",
     "react-i18next": "^16.5.4",
+    "react-is": "^19.0.0",
     "react-router-dom": "^7.13.0",
-    "react-scripts": "5.0.1",
     "recharts": "^3.8.0",
     "socket.io-client": "^4.8.3",
     "styled-components": "^6.3.9",
-    "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0",
+    "three": "^0.184.0",
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "generate-favicon": "node scripts/generate-favicon.cjs",
-    "prebuild": "yarn generate-favicon"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
-    "sharp": "^0.34.5"
+    "@react-three/eslint-plugin": "^0.1.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.184.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "jsdom": "^25.0.1",
+    "msw": "2",
+    "playwright": "1.52.0",
+    "rollup-plugin-visualizer": "^7.0.1",
+    "sharp": "^0.34.5",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "vitest": "^2.1.8"
   }
 }

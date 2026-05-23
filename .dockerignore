@@ -1,0 +1,39 @@
+# Git and IDE
+.git
+.gitignore
+.cursor
+.idea
+.vscode
+*.md
+!backend/README.md
+!interfaces/web/README.md
+
+# Environment and secrets
+.env
+.env.*
+!.env.docker.example
+!.env.example
+backend/.env
+interfaces/web/.env
+
+# Dependencies and caches
+**/node_modules
+backend/venv
+**/__pycache__
+**/*.py[cod]
+**/.pytest_cache
+**/.mypy_cache
+interfaces/web/build
+interfaces/web/coverage
+
+# Logs and OS
+**/*.log
+.DS_Store
+Thumbs.db
+
+# Docker artifacts (avoid recursive copy)
+docker-compose*.yml
+.env.docker
+
+# Docs (not needed in images)
+docs/

@@ -1,14 +1,53 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const StyledCard = styled.div`
-  background-color: ${({ theme }) => theme.colors.surface};
-  border-radius: 12px;
-  padding: 1.5rem;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+// Types
+import { CardVariant } from '@/components/Card/Card.types';
 
-  &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-    transform: translateY(-2px);
-  };
+// Components
+import {
+  cardMarketingGlass,
+  cardStatSignal,
+  cardOperationalCell,
+  cardShowcaseSurface,
+  cardInteractive,
+  cardPointerVars,
+} from '@/styles/surfaces';
+
+const variantStyles = {
+  [CardVariant.MarketingGlass]: css`
+    ${cardMarketingGlass};
+  `,
+  [CardVariant.StatSignal]: css`
+    ${cardStatSignal};
+  `,
+  [CardVariant.Operational]: css`
+    ${cardOperationalCell};
+  `,
+  [CardVariant.Showcase]: css`
+    ${cardShowcaseSurface};
+  `,
+};
+
+export const StyledCard = styled.div<{
+  $variant: CardVariant;
+  $interactive: boolean;
+}>`
+  ${cardPointerVars};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  padding: ${({ theme }) => theme.spacing.lg};
+  position: relative;
+  overflow: hidden;
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
+
+  ${({ $variant }) => variantStyles[$variant]};
+
+  ${({ $interactive, $variant }) => ($interactive && $variant !== CardVariant.StatSignal
+    && $variant !== CardVariant.Showcase
+    ? cardInteractive
+    : '')};
 `;

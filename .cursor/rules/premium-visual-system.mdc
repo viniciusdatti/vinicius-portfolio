@@ -1,0 +1,27 @@
+---
+description: Premium visual system — use portfolio skills before superficial UI tweaks
+globs:
+  - interfaces/web/**/*
+alwaysApply: false
+---
+
+# Premium Visual System
+
+Before changing UI in `interfaces/web`:
+
+1. Read `skills/portfolio-visual-language/SKILL.md`
+2. Match surface type to `skills/premium-card-system` or `skills/realtime-dashboard-motion`
+3. Pages: `skills/editorial-layout-system` + adopt `styles/pageLayout.style.ts`
+4. Refactors: `skills/frontend-architecture/SKILL.md`
+
+## Non-negotiables
+
+- Theme tokens only (`theme.elevation`, not ad-hoc rgba shadows)
+- Motion from `motionPresets.ts` / `animations.ts`
+- `surfaces.ts` mixins — no duplicate hover blocks per page
+- Gate Framer route motion with `usePrefersReducedMotion`
+- No inline styles in JSX
+
+## MCP validation
+
+After visual changes: Playwright at 375 / 768 / 1280, dark + light — `.cursor/rules/frontend-mcp.mdc`

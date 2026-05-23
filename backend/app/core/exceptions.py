@@ -1,11 +1,12 @@
 """Global exception handlers for the application."""
 
 import logging
-from typing import Any, Dict
+from typing import Any, Dict, cast
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import SQLAlchemyError
+from starlette.types import ExceptionHandler
 
 logger = logging.getLogger("portfolio")
 
@@ -75,7 +76,10 @@ async def sqlalchemy_exception_handler(
 async def generic_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     """Handle unexpected exceptions."""
     logger.error(
-        f"Unexpected Error | Path: {request.url.path} | Method: {request.method} | Error: {str(exc)}",
+        "Unexpected Error | Path: %s | Method: %s | Error: %s",
+        request.url.path,
+        request.method,
+        str(exc),
         exc_info=True,
     )
     return JSONResponse(
@@ -89,6 +93,15 @@ async def generic_exception_handler(request: Request, exc: Exception) -> JSONRes
 
 def register_exception_handlers(app: FastAPI) -> None:
     """Register all exception handlers with the FastAPI app."""
-    app.add_exception_handler(APIException, api_exception_handler)
-    app.add_exception_handler(SQLAlchemyError, sqlalchemy_exception_handler)
-    app.add_exception_handler(Exception, generic_exception_handler)
+    app.add_exception_handler(
+        APIException,
+        cast(ExceptionHandler, api_exception_handler),
+    )
+    app.add_exception_handler(
+        SQLAlchemyError,
+        cast(ExceptionHandler, sqlalchemy_exception_handler),
+    )
+    app.add_exception_handler(
+        Exception,
+        cast(ExceptionHandler, generic_exception_handler),
+    )
