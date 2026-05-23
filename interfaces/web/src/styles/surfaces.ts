@@ -366,8 +366,8 @@ export const showcasePointerTorch = css`
   z-index: 1;
   background: radial-gradient(
     420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgba(245, 158, 11, 0.16) 0%,
-    rgba(245, 158, 11, 0.05) 38%,
+      ${({ theme }) => theme.colors.primary}29 0%,
+      ${({ theme }) => theme.colors.primary}0d 38%,
     transparent 62%
   );
   opacity: var(--spot-opacity, 0);
