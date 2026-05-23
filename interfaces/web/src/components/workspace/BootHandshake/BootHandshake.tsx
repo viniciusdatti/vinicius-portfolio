@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 import {
   BootRoot,
   BootRow,
@@ -14,7 +14,7 @@ import {
   BootPhase,
   BootTrack,
   BootFill,
-} from '@/components/workspace/BootHandshake/BootHandshake.style';
+} from '@/components/Workspace/BootHandshake/BootHandshake.style';
 
 enum BootHandshakePhase {
   Initializing = 'initializing',
@@ -33,7 +33,7 @@ const getBootProgress = (phase: BootHandshakePhase): number => {
 /**
  * Transport boot strip — mirrors production edge handshake: init → socket → live telemetry.
  */
-export function BootHandshake(): React.ReactElement {
+export const BootHandshake = (): React.ReactElement => {
   const { t } = useTranslation();
   const { connected } = useTelemetry();
   const [phase, setPhase] = useState<BootHandshakePhase>(
@@ -88,4 +88,4 @@ export function BootHandshake(): React.ReactElement {
       </BootRow>
     </BootRoot>
   );
-}
+};

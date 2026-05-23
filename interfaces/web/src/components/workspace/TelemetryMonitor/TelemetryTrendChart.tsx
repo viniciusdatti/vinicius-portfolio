@@ -24,7 +24,7 @@ import { SensorStatus } from '@/types/telemetry';
 
 // Components
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
-import { ChartPlot, ChartRoot, ChartTitle } from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart.style';
+import { ChartPlot, ChartRoot, ChartTitle } from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart.style';
 
 interface TelemetryTrendChartProps {
   readings: SensorReading[];
@@ -46,11 +46,11 @@ const strokeForStatus = (
   return colors.success;
 };
 
-export function TelemetryTrendChart({
+export const TelemetryTrendChart = ({
   readings,
   history,
   title,
-}: TelemetryTrendChartProps): React.ReactElement | null {
+}: TelemetryTrendChartProps): React.ReactElement | null => {
   const { t } = useTranslation();
   const theme = useTheme();
   const reduced = usePrefersReducedMotion();
@@ -162,7 +162,7 @@ export function TelemetryTrendChart({
                     stroke="none"
                     fill={`url(#${gradId})`}
                     isAnimationActive={!reduced}
-                    animationDuration={500}
+                    animationDuration={300}
                     animationEasing="ease-out"
                   />
                   <Line
@@ -182,7 +182,7 @@ export function TelemetryTrendChart({
                       fill: stroke,
                     }}
                     isAnimationActive={!reduced}
-                    animationDuration={450}
+                    animationDuration={300}
                     animationEasing="ease-out"
                   />
                 </React.Fragment>
@@ -193,4 +193,4 @@ export function TelemetryTrendChart({
       </ChartPlot>
     </ChartRoot>
   );
-}
+};

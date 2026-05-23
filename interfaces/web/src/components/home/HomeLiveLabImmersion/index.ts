@@ -1,1 +1,1 @@
-export { HomeLiveLabImmersion } from '@/components/home/HomeLiveLabImmersion/HomeLiveLabImmersion';
+export { HomeLiveLabImmersion } from '@/components/Home/HomeLiveLabImmersion/HomeLiveLabImmersion';

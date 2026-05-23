@@ -4,9 +4,9 @@ import styled, { css, keyframes } from 'styled-components';
 // Components
 import { glassSurface } from '@/styles/surfaces';
 
-const pulse = keyframes`
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+const blink = keyframes`
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 `;
 
 const badgeGlow = keyframes`
@@ -16,20 +16,20 @@ const badgeGlow = keyframes`
 
 export const ShowcaseHeaderRoot = styled.div`
   flex-shrink: 0;
-  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${glassSurface};
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
   position: relative;
   overflow: hidden;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
-    gap: ${({ theme }) => theme.spacing.md};
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+    gap: ${({ theme }) => theme.spacing.sm};
   };
 
   &::before {
@@ -57,7 +57,7 @@ export const ShowcaseHeaderCopy = styled.div`
 
 export const ShowcaseTitle = styled.h1`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: clamp(1.75rem, 3.2vw, 2.35rem);
+  font-size: clamp(1.5rem, 2.8vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.1;
@@ -66,7 +66,7 @@ export const ShowcaseTitle = styled.h1`
 `;
 
 export const ShowcaseLead = styled.p`
-  margin: 0 0 ${({ theme }) => theme.spacing.md};
+  margin: 0 0 ${({ theme }) => theme.spacing.sm};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
@@ -80,27 +80,46 @@ export const ShowcaseMetaRow = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
+export const LiveSignalStatus = styled.div<{ $live: boolean }>`
+  display: inline-flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.sm};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
+  border-radius: ${({ theme }) => theme.borderRadius.sm};
+  border: 1px solid ${({ $live, theme }) => ($live
+    ? theme.colors.success
+    : theme.colors.borderSubtle)}44;
+  background: ${({ $live, theme }) => ($live
+    ? theme.colors.successSurface
+    : theme.colors.mutedSurface)};
+  max-width: 100%;
+  white-space: nowrap;
+  ${({ $live, theme }) => $live && css`
+    box-shadow: 0 0 28px ${theme.colors.primary}2e;
+  `}
+`;
+
 export const ShowcaseMeta = styled.div`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.sm};
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  font-variant-numeric: tabular-nums;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: ${({ theme }) => theme.colors.success};
+  color: ${({ theme }) => theme.colors.textMuted};
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
-  border: 1px solid ${({ theme }) => theme.colors.success}44;
-  background: ${({ theme }) => theme.colors.successSurface};
-  max-width: 100%;
-  white-space: nowrap;
-`;
-
-export const ShowcaseMetaMuted = styled(ShowcaseMeta)`
-  color: ${({ theme }) => theme.colors.textMuted};
-  border-color: ${({ theme }) => theme.colors.borderSubtle};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.mutedSurface};
+  max-width: 100%;
   white-space: normal;
   line-height: 1.35;
 `;
@@ -112,7 +131,11 @@ export const StatusDot = styled.span<{ $live: boolean }>`
   flex-shrink: 0;
   background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
   ${({ $live }) => $live && css`
-    animation: ${pulse} 2.2s ease-in-out infinite;
+    animation: ${blink} 2.2s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
   `};
 `;
 
@@ -123,7 +146,7 @@ export const ShowcaseBadge = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   border: 1px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   color: ${({ theme }) => theme.colors.primary};

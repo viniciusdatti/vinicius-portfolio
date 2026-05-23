@@ -1,11 +1,13 @@
 // Libraries
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 // Components
 import { panelInsetRim } from '@/styles/surfaces';
 
 export const WorkspaceRoot = styled.div`
   position: relative;
+  z-index: ${({ theme }) => theme.zIndex.base};
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -13,6 +15,12 @@ export const WorkspaceRoot = styled.div`
   height: 100%;
   overflow: hidden;
   background: ${({ theme }) => theme.colors.background};
+
+  body.live-lab-immersive & {
+    height: auto;
+    min-height: calc(100vh - ${({ theme }) => theme.sizes.layout.headerOffset});
+    overflow: visible;
+  }
 
   &::before {
     content: '';
@@ -37,6 +45,65 @@ export const WorkspaceChrome = styled.div`
   min-height: 0;
   height: 100%;
   overflow: hidden;
+
+  body.live-lab-immersive & {
+    height: auto;
+    overflow: visible;
+  }
+`;
+
+export const LiveLabImmersionBand = styled.section<{ $immersive?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+
+  ${({ $immersive }) => $immersive && css`
+    min-height: 220vh;
+    flex: none;
+  `}
+`;
+
+export const LiveLabPinStage = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  height: 100%;
+`;
+
+export const ImmersionProgressTrack = styled.div`
+  height: 2px;
+  width: 100%;
+  background: ${({ theme }) => theme.colors.borderSubtle};
+  flex-shrink: 0;
+  overflow: hidden;
+`;
+
+export const ImmersionProgressFill = styled.div`
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  background: ${({ theme }) => theme.colors.gradientLiveLabBar};
+`;
+
+export const LiveLabLogFlow = styled.div`
+  flex-shrink: 0;
+  min-height: min(48vh, 420px);
+  margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md}
+    ${({ theme }) => theme.spacing.lg};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.panel};
+  ${panelInsetRim};
+  overflow: hidden;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    margin-left: ${({ theme }) => theme.spacing.xl};
+    margin-right: ${({ theme }) => theme.spacing.xl};
+  }
 `;
 
 export const TelemetryWorkspace = styled.div`
@@ -57,7 +124,6 @@ export const TelemetryWorkspace = styled.div`
     inset 0 -48px 64px rgba(0, 0, 0, 0.35);
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    margin: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl}
-      ${({ theme }) => theme.spacing.sm};
+    margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg} 0;
   }
 `;

@@ -12,7 +12,7 @@ import {
   NoiseVeil,
   PerspectiveStage,
   ScanBeam,
-} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from '@/components/Workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -21,18 +21,16 @@ import {
 /**
  * CSS 3D operational atmosphere — perspective grid, horizon glow, scan beam (perf-safe fallback).
  */
-export function LiveLabAtmosphereCss(): React.ReactElement {
-  return (
-    <AtmosphereRoot aria-hidden>
-      <AtmosphereOrb />
-      <AtmosphereOrbSecondary />
-      <PerspectiveStage>
-        <GridFloor />
-        <HorizonLine />
-      </PerspectiveStage>
-      <ScanBeam />
-      <NoiseVeil />
-      <AtmosphereDepthVeil />
-    </AtmosphereRoot>
-  );
-}
+export const LiveLabAtmosphereCss = (): React.ReactElement => (
+  <AtmosphereRoot aria-hidden>
+    <AtmosphereOrb />
+    <AtmosphereOrbSecondary />
+    <PerspectiveStage>
+      <GridFloor />
+      <HorizonLine />
+    </PerspectiveStage>
+    <ScanBeam />
+    <NoiseVeil />
+    <AtmosphereDepthVeil />
+  </AtmosphereRoot>
+);
