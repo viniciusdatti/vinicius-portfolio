@@ -2,18 +2,20 @@
  * @fileoverview Public portfolio shell — canonical route transition + a11y motion gate.
  */
 
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Libraries
 import { Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Components
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
 import {
@@ -23,6 +25,10 @@ import {
   WorkspaceMotionShell,
 } from '@/components/Layout/Layout/Layout.style';
 import { resolvePageTransition } from '@/styles/animations';
+
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 /**
  * Public portfolio shell — cinematic pages with page transitions.
@@ -41,13 +47,6 @@ export const Layout: React.FC = (): React.ReactElement => {
   const isLiveLab: boolean = location.pathname === '/live-lab';
   const reducedMotion: boolean = usePrefersReducedMotion();
   const pageVariants = resolvePageTransition(isLiveLab, reducedMotion);
-
-  useEffect(() => {
-    document.body.classList.toggle('workspace-scroll-locked', isLiveLab);
-    return () => {
-      document.body.classList.remove('workspace-scroll-locked');
-    };
-  }, [isLiveLab]);
 
   return (
     <>

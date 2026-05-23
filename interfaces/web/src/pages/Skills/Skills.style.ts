@@ -49,8 +49,8 @@ const skillAmberPointerSpotlight = css`
     z-index: 1;
     background: radial-gradient(
       420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-      rgba(245, 158, 11, 0.16) 0%,
-      rgba(245, 158, 11, 0.05) 38%,
+      ${({ theme }) => theme.colors.primary}29 0%,
+      ${({ theme }) => theme.colors.primary}0d 38%,
       transparent 62%
     );
     opacity: var(--spot-opacity, 0);
@@ -721,7 +721,31 @@ export const SkillsPeripheralChapter = styled.div`
 `;
 
 /**
- * Dense support-stack matrix — 15% tighter gaps; 5→6 columns from desktop breakpoint.
+ * Support-stack chapter — featured row + uniform tool matrix.
+ */
+/** Pass-through wrapper — keeps featured + compact grids without breaking stagger slots. */
+export const SupportStackMatrix = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: calc(${({ theme }) => theme.spacing.md} * 0.85);
+  width: 100%;
+`;
+
+/**
+ * Featured support tools — equal-width pair, no column-span drift.
+ */
+export const SupportStackFeaturedRow = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: calc(${({ theme }) => theme.spacing.md} * 0.85);
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+`;
+
+/**
+ * Compact support tools — uniform cells with aligned columns.
  */
 export const SupportStackGrid = styled(motion.div)`
   display: grid;
@@ -733,12 +757,8 @@ export const SupportStackGrid = styled(motion.div)`
   }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
     gap: calc(${({ theme }) => theme.spacing.sm} * 0.85);
-  }
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
-    grid-template-columns: repeat(6, minmax(0, 1fr));
   }
 `;
 

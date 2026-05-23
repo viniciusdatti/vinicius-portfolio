@@ -66,7 +66,9 @@ import {
   SkillsHeroDesc,
   SkillsHeroDomain,
   SkillsAsymmetricGrid,
+  SupportStackFeaturedRow,
   SupportStackGrid,
+  SupportStackMatrix,
   SkillEditorialCard,
   SkillEditorialIcon,
   SkillEditorialName,
@@ -436,7 +438,7 @@ export const Skills: React.FC = (): React.ReactElement => {
   };
 
   const renderPeripheralSkillCard = (placement: SkillLayoutPlacement): React.ReactElement => {
-    const { skill, gridSpan } = placement;
+    const { skill, tier } = placement;
     const displayName: string = resolveSkillDisplayName(skill, isPt);
     const description: string = resolvePeripheralDescription(skill, t);
 
@@ -447,9 +449,43 @@ export const Skills: React.FC = (): React.ReactElement => {
           displayName={displayName}
           description={description}
           iconUrl={resolveSkillIconUrl(skill)}
-          gridSpan={gridSpan}
+          tier={tier}
         />
       </SkillsStaggerSlot>
+    );
+  };
+
+  const renderSupportStackChapter = (
+    peripheralPlacements: SkillLayoutPlacement[],
+  ): React.ReactElement => {
+    const featuredPlacements: SkillLayoutPlacement[] = peripheralPlacements.filter(
+      (placement: SkillLayoutPlacement): boolean => (
+        placement.tier === SkillLayoutTier.PeripheralFeatured
+      ),
+    );
+    const compactPlacements: SkillLayoutPlacement[] = peripheralPlacements.filter(
+      (placement: SkillLayoutPlacement): boolean => (
+        placement.tier !== SkillLayoutTier.PeripheralFeatured
+      ),
+    );
+
+    return (
+      <SupportStackMatrix>
+        {featuredPlacements.length > 0 ? (
+          <SupportStackFeaturedRow>
+            {featuredPlacements.map((placement: SkillLayoutPlacement) => (
+              renderPeripheralSkillCard(placement)
+            ))}
+          </SupportStackFeaturedRow>
+        ) : null}
+        {compactPlacements.length > 0 ? (
+          <SupportStackGrid>
+            {compactPlacements.map((placement: SkillLayoutPlacement) => (
+              renderPeripheralSkillCard(placement)
+            ))}
+          </SupportStackGrid>
+        ) : null}
+      </SupportStackMatrix>
     );
   };
 
@@ -505,11 +541,7 @@ export const Skills: React.FC = (): React.ReactElement => {
             {showPeripheralChapter ? (
               <SectionEyebrow>{t('skills.layout.peripheralEyebrow')}</SectionEyebrow>
             ) : null}
-            <SupportStackGrid>
-              {peripheral.map((placement: SkillLayoutPlacement) => (
-                renderPeripheralSkillCard(placement)
-              ))}
-            </SupportStackGrid>
+            {renderSupportStackChapter(peripheral)}
           </SkillsPeripheralChapter>
         ) : null}
       </SkillsEditorialLayout>

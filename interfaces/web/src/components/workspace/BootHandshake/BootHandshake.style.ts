@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Boot handshake overlay styles for Live Lab workspace entry.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -23,7 +31,7 @@ const shimmer = keyframes`
 `;
 
 export const BootRoot = styled(motion.div)`
-  padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${glassSurface};
   flex-shrink: 0;

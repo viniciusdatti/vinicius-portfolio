@@ -1,14 +1,20 @@
+/**
+ * @fileoverview Live Lab workspace shell — atmosphere, telemetry monitor, and scroll pin.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React, { useEffect } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Hooks
+// Components
 import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
-
-// Components
 import { BootHandshake } from '@/components/Workspace/BootHandshake';
 import { LiveLabAtmosphere } from '@/components/Workspace/LiveLabAtmosphere';
 import { LiveLabShowcaseHeader } from '@/components/Workspace/LiveLabShowcaseHeader';
@@ -24,6 +30,10 @@ import {
   WorkspaceChrome,
   WorkspaceRoot,
 } from '@/components/Workspace/WorkspaceShell/WorkspaceShell.style';
+
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 /**
  * Live Lab — full-viewport operational telemetry with 3D atmosphere.
@@ -42,11 +52,8 @@ export const WorkspaceShell: React.FC = (): React.ReactElement => {
   const { section, viewport } = useScrollMotion();
 
   useEffect(() => {
-    document.body.classList.toggle('workspace-scroll-locked', !pinEnabled);
-    return (): void => {
-      document.body.classList.remove('workspace-scroll-locked');
-    };
-  }, [pinEnabled]);
+    document.body.classList.remove('workspace-scroll-locked');
+  }, []);
 
   return (
     <WorkspaceRoot data-testid="live-lab-workspace">

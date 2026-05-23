@@ -29,7 +29,7 @@ import { HeroVisual3DCanvasWrap } from '@/components/Hero/HeroVisual3D.style';
 
 const PARTICLE_COUNT: number = 1500;
 const SPHERE_RADIUS: number = 3.4;
-const AMBER_HEX: string = '#f59e0b';
+const AMBER_HEX: string = '#00E5FF';
 /** Dev validation — set false before shipping; bypasses reduced-motion / WebGL gates. */
 const FORCE_SHOW_3D: boolean = true;
 /** Sized above body dot grid perceptual threshold (void-column read). */
