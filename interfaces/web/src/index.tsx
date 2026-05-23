@@ -1,5 +1,6 @@
 // Core
 import './index.css';
+import '@/lib/suppressThreeClockDeprecation';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
