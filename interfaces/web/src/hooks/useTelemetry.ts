@@ -21,7 +21,6 @@ import {
 } from '@/types/telemetry';
 
 // Components
-import { env } from '@/config/env';
 import { getApiRootUrl } from '@/utils/apiRootUrl';
 
 /* ***********************************************************************************************
@@ -31,35 +30,66 @@ import { getApiRootUrl } from '@/utils/apiRootUrl';
 const MAX_HISTORY: number = 30;
 
 const SOCKET_OPTIONS = {
-  transports: ['websocket', 'polling'] as ('websocket' | 'polling')[],
+  path: '/socket.io',
+  /**
+   * Polling first: works through Vite proxy immediately. WS upgrade often 403 until
+   * `rewriteWsOrigin` is active (restart dev server after vite.config change).
+   */
+  transports: ['polling', 'websocket'] as ('websocket' | 'polling')[],
   reconnection: true,
   reconnectionAttempts: 10,
   reconnectionDelay: 1000,
   reconnectionDelayMax: 5000,
 };
 
-const getDevApiOrigin = (): string => {
-  const configured: string | undefined = import.meta.env.VITE_API_PROXY_TARGET;
-  if (configured) {
-    return configured.replace(/\/$/, '');
-  }
-  if (typeof window !== 'undefined') {
-    return `${window.location.protocol}//${window.location.hostname}:8000`;
-  }
-  return 'http://127.0.0.1:8000';
+/** Dev-only: polling transport avoids Vite WS 403 until proxy rewriteWsOrigin is active. */
+const DEV_SOCKET_OPTIONS = {
+  ...SOCKET_OPTIONS,
+  transports: ['polling'] as ('websocket' | 'polling')[],
 };
 
 /**
- * Dev: direct API origin (CORS allows 5173). Prod same-origin: `/telemetry` via reverse proxy.
+ * Same origin as REST (`getApiRootUrl`): dev uses Vite `/socket.io` proxy; prod uses reverse proxy.
+ * Avoids cross-origin WebSocket to :8000 (handshake 403 when page is localhost:5173).
  */
 const createTelemetrySocket = (): Socket => {
-  if (env.apiUrl.startsWith('http')) {
-    return io(`${getApiRootUrl()}/telemetry`, SOCKET_OPTIONS);
+  const root: string = getApiRootUrl();
+  const options = import.meta.env.DEV ? DEV_SOCKET_OPTIONS : SOCKET_OPTIONS;
+  return io(`${root}/telemetry`, options);
+};
+
+let sharedTelemetrySocket: Socket | null = null;
+let telemetrySubscriberCount: number = 0;
+let telemetryReleaseTimer: ReturnType<typeof window.setTimeout> | null = null;
+
+const TELEMETRY_RELEASE_DELAY_MS: number = 120;
+
+const acquireTelemetrySocket = (): Socket => {
+  if (telemetryReleaseTimer !== null) {
+    window.clearTimeout(telemetryReleaseTimer);
+    telemetryReleaseTimer = null;
   }
-  if (import.meta.env.DEV) {
-    return io(`${getDevApiOrigin()}/telemetry`, SOCKET_OPTIONS);
+  if (!sharedTelemetrySocket) {
+    sharedTelemetrySocket = createTelemetrySocket();
   }
-  return io('/telemetry', SOCKET_OPTIONS);
+  telemetrySubscriberCount += 1;
+  return sharedTelemetrySocket;
+};
+
+const releaseTelemetrySocket = (): void => {
+  telemetrySubscriberCount = Math.max(0, telemetrySubscriberCount - 1);
+  if (telemetrySubscriberCount === 0 && sharedTelemetrySocket) {
+    if (telemetryReleaseTimer !== null) {
+      window.clearTimeout(telemetryReleaseTimer);
+    }
+    telemetryReleaseTimer = window.setTimeout(() => {
+      telemetryReleaseTimer = null;
+      if (telemetrySubscriberCount === 0 && sharedTelemetrySocket) {
+        sharedTelemetrySocket.disconnect();
+        sharedTelemetrySocket = null;
+      }
+    }, TELEMETRY_RELEASE_DELAY_MS);
+  }
 };
 
 /** Boot messages shown before the socket connects (transport lifecycle only). */
@@ -91,10 +121,10 @@ export const useTelemetrySocket = (): TelemetryState => {
   });
 
   useEffect(() => {
-    const socket = createTelemetrySocket();
+    const socket = acquireTelemetrySocket();
     socketRef.current = socket;
 
-    socket.on('connect', () => {
+    const onConnect = (): void => {
       const now: number = Date.now();
       setState((prev) => ({
         ...prev,
@@ -118,9 +148,9 @@ export const useTelemetrySocket = (): TelemetryState => {
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
-    });
+    };
 
-    socket.on('disconnect', () => {
+    const onDisconnect = (): void => {
       setState((prev) => ({
         ...prev,
         connected: false,
@@ -133,9 +163,9 @@ export const useTelemetrySocket = (): TelemetryState => {
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
-    });
+    };
 
-    socket.io.on('reconnect_attempt', (attempt: number) => {
+    const onReconnectAttempt = (attempt: number): void => {
       setState((prev) => ({
         ...prev,
         eventLog: [
@@ -147,9 +177,9 @@ export const useTelemetrySocket = (): TelemetryState => {
           ...prev.eventLog,
         ].slice(0, TELEMETRY_EVENT_LOG_MAX),
       }));
-    });
+    };
 
-    socket.on('telemetry_tick', (tick: TelemetryTick) => {
+    const onTelemetryTick = (tick: TelemetryTick): void => {
       setState((prev) => {
         const newHistory: Record<string, number[]> = { ...prev.history };
         const newLog: TelemetryEventLogEntry[] = [...prev.eventLog];
@@ -198,10 +228,42 @@ export const useTelemetrySocket = (): TelemetryState => {
           tickCount: nextTick,
         };
       });
-    });
+    };
+
+    const onConnectError = (error: Error): void => {
+      setState((prev) => ({
+        ...prev,
+        connected: false,
+        eventLog: [
+          {
+            ts: Date.now(),
+            message: `Falha no transporte · ${error.message}`,
+            type: TelemetryEventType.Warn,
+          },
+          ...prev.eventLog,
+        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
+      }));
+    };
+
+    socket.on('connect', onConnect);
+    socket.on('disconnect', onDisconnect);
+    socket.on('connect_error', onConnectError);
+    socket.io.on('reconnect_attempt', onReconnectAttempt);
+    socket.on('telemetry_tick', onTelemetryTick);
+
+    if (socket.connected) {
+      onConnect();
+    }
 
     return () => {
-      socket.disconnect();
+      socket.off('connect', onConnect);
+      socket.off('disconnect', onDisconnect);
+      socket.off('connect_error', onConnectError);
+      socket.io.off('reconnect_attempt', onReconnectAttempt);
+      socket.off('telemetry_tick', onTelemetryTick);
+      if (import.meta.env.PROD) {
+        releaseTelemetrySocket();
+      }
     };
   }, []);
 
