@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
 // Components
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '@/config/avatarImage';
+import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
 import {
   cardPointerVars,
   operationalGlass,
@@ -117,8 +119,18 @@ export const HeroHeadlineWordClip = HeroHeadlineCharClip;
 /** @deprecated Use HeroHeadlineChar */
 export const HeroHeadlineWord = HeroHeadlineChar;
 
+/** Outer measure shell — grid column owns width; no artificial H1 cap. */
 export const HeroHeadlineClip = styled.div`
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+`;
+
+/** Inner mask — vertical clip only for headline entrance choreography. */
+export const HeroHeadlineClipInner = styled(motion.div)`
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
 `;
 
 export const HeroHeadline = styled(motion.h1)`
@@ -126,8 +138,9 @@ export const HeroHeadline = styled(motion.h1)`
   display: flex;
   flex-direction: column;
   gap: clamp(1.25rem, 3vw, 2rem);
-  text-align: left;
+  text-align: inherit;
   width: 100%;
+  max-width: 100%;
   min-width: 0;
 `;
 
@@ -172,6 +185,23 @@ export const HeroEyebrowRow = styled.span`
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
+/** Live-demo micro-eyebrow — outside H1, does not split the headline semantics. */
+export const HeroLiveIndicatorRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  min-width: 0;
+`;
+
+/** Uppercase technical eyebrows — micro-gap so labels do not read as one block. */
+export const HeroEyebrowStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  min-width: 0;
+`;
+
 /** Animated technical rule — expands 0 → 24px via Framer (Hero.motion). */
 export const HeroEyebrowLine = styled(motion.span)`
   display: block;
@@ -185,16 +215,32 @@ export const HeroHeadlineLine = styled.span<{ $accent?: boolean }>`
   display: block;
   line-height: 0.94;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
-  font-size: ${({ theme }) => theme.typography.fontSize.heroDisplay};
+  font-size: clamp(2.5rem, 4.5vw, 4.25rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
   color: ${({ $accent, theme }) => ($accent ? theme.colors.accent : theme.colors.text)};
   hyphens: none;
   overflow-wrap: break-word;
   word-break: normal;
-  text-wrap: balance;
+  text-wrap: pretty;
   max-width: 100%;
   min-width: 0;
+`;
+
+/** Default headline tone — crisp primary text inside the unified H1 line. */
+export const HeroHeadlineText = styled.span`
+  display: inline;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+/** Amber display gradient — second half of the hero headline (theme gradientTextDisplay). */
+export const HeroHeadlineHighlight = styled.span`
+  display: inline-block;
+  background-image: ${({ theme }) => theme.colors.gradientTextDisplay};
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 `;
 
 export const HeroVisualCard = styled.div`
@@ -210,33 +256,32 @@ export const HeroVisualCard = styled.div`
 
 export const HeroPortrait = styled.div`
   position: relative;
-  width: ${({ theme }) => theme.sizes.avatar.heroEditorial};
+  width: clamp(14rem, 20vw, 20rem);
   max-width: 100%;
-  margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
-  align-self: flex-start;
-  aspect-ratio: 4 / 5;
-  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  aspect-ratio: ${AVATAR_PORTRAIT_FRAME_ASPECT_RATIO};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   overflow: hidden;
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: ${({ theme }) => theme.colors.surfaceElevated};
+  box-shadow: ${({ theme }) => theme.elevation.md}, ${({ theme }) => theme.shadows.glow};
 
-  &::after {
+  &::before {
     content: '';
     position: absolute;
     inset: 0;
-    pointer-events: none;
-    box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
     border-radius: inherit;
-  }
+    background: ${({ theme }) => theme.colors.gradientSurfaceRim};
+    box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+    pointer-events: none;
+    z-index: 1;
+  };
 
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 15%;
-    display: block;
+  ${AvatarPortraitPhoto} {
     filter: contrast(1.05) saturate(0.94);
+    position: relative;
+    z-index: 0;
   }
 `;
 
@@ -298,12 +343,16 @@ export const HeroMotionStack = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   min-width: 0;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    align-items: flex-start;
+  };
 `;
 
-/** 12-column shell: narrative cols 1–7, void cols 8–12 (desktop). */
+/** Canonical 2-column hero shell — content column + portrait (desktop). */
 export const HeroLayoutGrid = styled.div`
   position: relative;
   z-index: 1;
@@ -312,19 +361,19 @@ export const HeroLayoutGrid = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
-  gap: ${({ theme }) => theme.spacing.md};
-  align-items: stretch;
-  text-align: left;
+  gap: ${({ theme }) => theme.spacing.lg};
+  align-items: center;
+  text-align: center;
   min-height: 0;
   box-sizing: border-box;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    column-gap: ${({ theme }) => theme.spacing.md};
-    row-gap: 0;
-    min-height: clamp(400px, 58vh, 640px);
-    align-items: start;
+    grid-template-columns: 3fr 2fr;
+    gap: 40px;
+    align-items: center;
+    justify-items: stretch;
+    text-align: left;
   };
 `;
 
@@ -339,7 +388,7 @@ export const HeroVoidReserve = styled.div`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: block;
-    grid-column: 8 / 13;
+    grid-column: 9 / 13;
     grid-row: 1;
     min-height: 0;
     align-self: stretch;
@@ -347,12 +396,12 @@ export const HeroVoidReserve = styled.div`
 `;
 
 /**
- * Desktop editorial portrait — cols 8–12, stacked above WebGL void (z-index 1).
+ * Desktop portrait column — integrated second grid cell beside narrative content.
  */
 export const HeroPortraitDesktopSlot = styled(motion.div)`
   display: none;
   position: relative;
-  z-index: 1;
+  z-index: 4;
   width: 100%;
   min-width: 0;
   pointer-events: none;
@@ -360,37 +409,43 @@ export const HeroPortraitDesktopSlot = styled(motion.div)`
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    justify-content: flex-end;
-    grid-column: 8 / 13;
+    align-items: center;
+    justify-content: center;
+    grid-column: 2;
     grid-row: 1;
-    align-self: end;
-    padding-bottom: ${({ theme }) => theme.spacing.lg};
-    padding-left: ${({ theme }) => theme.spacing.md};
+    align-self: center;
+    justify-self: center;
+    place-self: center;
   };
 
   ${HeroPortrait} {
     position: relative;
-    z-index: 1;
+    z-index: 4;
     pointer-events: auto;
-    width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
-    max-width: ${({ theme }) => theme.sizes.hero.avatarFrame};
   };
 `;
 
-/** Portrait in document flow on mobile/tablet — left-aligned, never centered. */
+/** Portrait reveal wrapper — mobile/tablet only; omitted from desktop grid flow. */
+export const HeroPortraitMobileReveal = styled(motion.div)`
+  width: 100%;
+  display: block;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    display: none;
+  };
+`;
+
+/** Portrait in document flow on mobile/tablet — stacked above centered narrative. */
 export const HeroPortraitMobileSlot = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
   width: 100%;
   max-width: 100%;
-  margin-top: ${({ theme }) => theme.spacing.md};
-  margin-bottom: 0;
-  margin-left: 0;
-  margin-right: auto;
+  margin-top: 0;
+  margin-bottom: ${({ theme }) => theme.spacing.md};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: none;
@@ -403,18 +458,48 @@ export const HeroNarrativeColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.md};
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
+  text-align: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: 1 / 8;
+    display: contents;
+  };
+`;
+
+/**
+ * Unified narrative cell — eyebrows through CTAs; grid centering targets this block.
+ */
+export const HeroNarrativeContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: 1;
     grid-row: 1;
-    align-self: start;
-    padding-right: ${({ theme }) => theme.spacing.lg};
+    align-items: flex-start;
+    align-self: center;
+    justify-content: center;
+    text-align: left;
+  };
+`;
+
+/** Scroll cue — row 2 on desktop so it does not pull portrait off the content midline. */
+export const HeroScrollCueSlot = styled(motion.div)`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: 1;
+    grid-row: 2;
     justify-content: flex-start;
-    padding-bottom: 0;
+    align-self: start;
   };
 `;
 
@@ -629,7 +714,11 @@ export const HeroStackLine = styled.p`
   flex-wrap: wrap;
   gap: 0;
   max-width: 100%;
-  justify-content: flex-start;
+  justify-content: center;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    justify-content: flex-start;
+  };
 
   @media (max-width: ${({ theme }) => theme.breakpoints.mobile}) {
     font-size: ${({ theme }) => theme.typography.fontSize.xs};
@@ -663,7 +752,7 @@ export const HeroDescription = styled.p`
   margin: 0;
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   font-weight: ${({ theme }) => theme.typography.fontWeight.normal};
-  text-align: left;
+  text-align: inherit;
   min-width: 0;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
@@ -676,14 +765,21 @@ export const CtaWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.mobile}) {
     flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: ${({ theme }) => theme.spacing.md};
-  }
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  };
 `;
 
 export const CtaButtonWrapper = styled.div`
@@ -705,10 +801,11 @@ export const HeroScrollCue = styled.button`
   text-transform: uppercase;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   padding: ${({ theme }) => theme.spacing.sm} 0;
-  align-self: flex-start;
+  align-self: center;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     display: flex;
+    align-self: flex-start;
   };
 
   &:focus-visible {

@@ -1,6 +1,9 @@
 // Libraries
 import styled from 'styled-components';
 
+// Components
+import { AVATAR_CIRCULAR_COVER_POSITION } from '@/config/avatarImage';
+
 export const PortraitSceneRoot = styled.div`
   position: relative;
   width: 100%;
@@ -25,6 +28,8 @@ export const PortraitFallbackImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 12%;
+  object-position: ${AVATAR_CIRCULAR_COVER_POSITION};
+  transform: scale(0.94);
+  transform-origin: 50% 38%;
   display: block;
 `;
