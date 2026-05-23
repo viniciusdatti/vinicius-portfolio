@@ -15,6 +15,8 @@ import {
   scrollRevealItem,
   scrollRevealItemReduced,
   scrollRevealStagger,
+  scrollRevealTitle,
+  scrollRevealTitleReduced,
 } from '@/styles/animations';
 import type { Variants } from 'framer-motion';
 
@@ -23,6 +25,7 @@ import type { Variants } from 'framer-motion';
  */
 export const useScrollMotion = (): {
   section: Variants;
+  title: Variants;
   stagger: Variants;
   item: Variants;
   manifestoStagger: Variants;
@@ -34,6 +37,7 @@ export const useScrollMotion = (): {
 
   return {
     section: reduced ? scrollRevealReduced : scrollReveal,
+    title: reduced ? scrollRevealTitleReduced : scrollRevealTitle,
     stagger: scrollRevealStagger,
     item: reduced ? scrollRevealItemReduced : scrollRevealItem,
     manifestoStagger: manifestoPhraseStagger,

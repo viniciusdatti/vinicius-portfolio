@@ -82,7 +82,7 @@ export const usePhysicalInteraction: UsePhysicalInteractionHook = <
     );
 
     const spotlightOpacity: number = enableSpotlight && isPointerActive && lifecycleActive
-      ? 0.55
+      ? 1
       : 0;
 
     const style: CSSProperties = {
