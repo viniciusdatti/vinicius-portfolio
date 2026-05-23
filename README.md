@@ -33,8 +33,20 @@ vinicius-portfolio/
 │   └── portfolio/
 │       ├── functional_requirements/
 │       └── technical_specifications/
+├── .cursor/                  # MCP (filesystem, shell, playwright) + agent rules
+├── CONTRIBUTING.md
 └── README.md
 ```
+
+## Git workflow
+
+- **`master`** — produção
+- **`develop`** — integração contínua
+- **`feature/*`** — desenvolvimento isolado
+
+Detalhes: [docs/GIT_WORKFLOW.md](./docs/GIT_WORKFLOW.md) e [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+Agentes Cursor: [.cursor/README.md](./.cursor/README.md).
 
 ## Tech Stack
 
@@ -47,18 +59,34 @@ vinicius-portfolio/
 ### Frontend (interfaces/web)
 - **React 19** - UI library
 - **TypeScript** - Type safety
+- **Vite** - dev server on port 5173 (HMR)
 - **TanStack Query** - Server state management
 - **styled-components** - CSS-in-JS styling
 - **react-i18next** - Internationalization (pt-BR / en-US)
 - **Framer Motion** - Animations
 
+## Ambiente local (recomendado)
+
+**Docker:** PostgreSQL + FastAPI (reload). **Host:** Vite + React 19.
+
+```bash
+cp .env.docker.example .env.docker
+docker compose --env-file .env.docker up --build -d
+
+cd interfaces/web && cp .env.example .env && yarn install && yarn dev
+```
+
+- Frontend (Vite): http://localhost:5173  
+- API: http://localhost:8000  
+- Guia: [docs/DOCKER.md](./docs/DOCKER.md) | Git: [docs/GIT_WORKFLOW.md](./docs/GIT_WORKFLOW.md)
+
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- Python 3.11+
-- PostgreSQL 14+
+- Node.js 18+ (ou Docker)
+- Python 3.11+ (ou Docker)
+- PostgreSQL 14+ (ou Docker)
 - Yarn
 
 ### Backend Setup
@@ -88,8 +116,8 @@ createdb portfolio
 # Seed initial data (optional)
 python scripts/seed.py
 
-# Run server
-uvicorn app.main:app --reload --port 8000
+# Run server (use socket_app for REST + WebSocket)
+uvicorn app.main:socket_app --reload --port 8000
 ```
 
 ### Frontend Setup
@@ -103,26 +131,33 @@ yarn install
 # Configure environment
 cp .env.example .env
 
-# Run development server
-yarn start
+# Run development server (Vite)
+yarn dev
 ```
 
 ### Running Both
 
-**Terminal 1 (Backend):**
+**From monorepo root (recommended):**
+
 ```bash
-cd vinicius-portfolio/backend
+yarn dev:api   # Terminal 1 — http://127.0.0.1:8000
+yarn dev:web   # Terminal 2 — http://localhost:3000
+yarn health:api
+yarn qa:audit  # smoke UI + API (both servers must be running)
+```
+
+**Manual (equivalent):**
+
+```bash
+cd backend
 venv\Scripts\activate
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:socket_app --reload --port 8000
+
+cd interfaces/web
+yarn dev
 ```
 
-**Terminal 2 (Frontend):**
-```bash
-cd vinicius-portfolio/interfaces/web
-yarn start
-```
-
-- Frontend: http://localhost:3000
+- Frontend: http://localhost:5173
 - API: http://localhost:8000
 - API Docs: http://localhost:8000/docs
 
@@ -141,7 +176,7 @@ yarn start
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `REACT_APP_API_URL` | Backend API URL | `http://localhost:8000/api/v1` |
+| `VITE_API_URL` | Backend API URL | `http://localhost:8000/api/v1` |
 
 ## Features
 
@@ -152,3 +187,22 @@ yarn start
 - Global error handling
 - Design System with tokens
 - Dark Mode ready architecture
+
+## Frontend architecture (interfaces/web)
+
+Production-oriented patterns aligned with industrial SPA discipline:
+
+| Layer | Location | Role |
+|-------|----------|------|
+| API client + guards | `src/api/` | axios client, `ApiError`, type guards (`isNotFoundError`, etc.) |
+| Domain plugins | `src/plugins/` | Pure business logic (skills icons, test builders) — testable without React |
+| Server state | TanStack Query hooks in `src/hooks/` | Skills, projects, certificates, telemetry |
+| Client state | Zustand stores in `src/store/` | theme, telemetry, toast |
+| Live Lab | `src/components/workspace/` | WorkspaceShell — telemetry monitor, atmosphere, recharts |
+| Design system | `src/components/` | Button, Card, Drawer (a11y), Spinner — `testId` prop via `TestableProps` |
+| Errors | `RouteError`, `ErrorBoundary` | route `errorElement` + React error boundary |
+| Tests | Vitest + RTL + MSW | unit/domain tests; handlers for projects, skills, certificates, contact |
+
+**Scripts:** `yarn lint` · `yarn typecheck` · `yarn test` · `yarn build` · `yarn analyze` (bundle report → `dist/stats.html`)
+
+Path alias: `@/` → `src/` (Vite + tsconfig + Vitest).

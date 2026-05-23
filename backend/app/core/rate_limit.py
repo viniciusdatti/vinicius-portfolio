@@ -13,7 +13,7 @@ settings = get_settings()
 limiter = Limiter(key_func=get_remote_address)
 
 
-def get_rate_limit_string(per_minute: int = None) -> str:
+def get_rate_limit_string(per_minute: int | None = None) -> str:
     """Get rate limit string for slowapi decorator."""
     limit = per_minute or settings.rate_limit_per_minute
     return f"{limit}/minute"

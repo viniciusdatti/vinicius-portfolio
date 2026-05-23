@@ -1,0 +1,87 @@
+# Production-like local stack (no hot reload) — use for CI smoke tests or prod preview
+# Usage: docker compose -f docker-compose.prod.yml --env-file .env.docker up --build
+name: vinicius-portfolio-prod
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: portfolio-postgres-prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-portfolio}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portfolio}
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio}
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-portfolio} -d ${POSTGRES_DB:-portfolio}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - portfolio-net-prod
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: portfolio-backend-prod
+    restart: unless-stopped
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-portfolio}:${POSTGRES_PASSWORD:-portfolio}@postgres:5432/${POSTGRES_DB:-portfolio}
+      # Must include the public frontend origin (browser Origin header on Socket.IO POST).
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080}
+      LOG_LEVEL: ${LOG_LEVEL:-WARNING}
+      RUN_SEED: ${RUN_SEED:-false}
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - portfolio-net-prod
+
+  frontend:
+    build:
+      context: ./interfaces/web
+      dockerfile: Dockerfile
+      args:
+        # Same-origin via nginx (see interfaces/web/docker/nginx.conf). Do not bake :8000 into the SPA.
+        VITE_API_URL: ${VITE_API_URL:-/api/v1}
+        VITE_APP_ENV: production
+    container_name: portfolio-frontend-prod
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    networks:
+      - portfolio-net-prod
+
+volumes:
+  postgres_data_prod:
+    name: portfolio_postgres_data_prod
+
+networks:
+  portfolio-net-prod:
+    name: portfolio-net-prod
+    driver: bridge
