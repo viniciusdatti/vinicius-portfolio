@@ -452,9 +452,8 @@ export const Skills: React.FC = (): React.ReactElement => {
         {featuredPlacements.length > 0 ? (
           <SupportStackFeaturedRow
             variants={scrollMotion.stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollMotion.viewport}
+            initial={scrollMotion.resolveInitial(reducedMotion)}
+            animate="visible"
           >
             {featuredPlacements.map((placement: SkillLayoutPlacement) => (
               renderPeripheralSkillCard(placement)
@@ -464,9 +463,8 @@ export const Skills: React.FC = (): React.ReactElement => {
         {compactPlacements.length > 0 ? (
           <SupportStackGrid
             variants={scrollMotion.stagger}
-            initial="hidden"
-            whileInView="visible"
-            viewport={scrollMotion.viewport}
+            initial={scrollMotion.resolveInitial(reducedMotion)}
+            animate="visible"
           >
             {compactPlacements.map((placement: SkillLayoutPlacement) => (
               renderPeripheralSkillCard(placement)
@@ -572,9 +570,8 @@ export const Skills: React.FC = (): React.ReactElement => {
       return (
         <SkillsGrid
           variants={scrollMotion.stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={scrollMotion.viewport}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           {Array.from({ length: 4 }, (_item: unknown, index: number) => (
             <SkillCardSkeleton key={`cert-skeleton-${index}`} />
@@ -597,9 +594,8 @@ export const Skills: React.FC = (): React.ReactElement => {
     return (
       <CertificatesGrid
         variants={scrollMotion.stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
       >
         {sortedCertificates.map((cert: Certificate) => {
           const platform = getPlatformConfig(cert.platform);
@@ -675,9 +671,8 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <ExperienceSection
         variants={scrollMotion.depth}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
       >
         <SectionTitle>
           <SectionTitleGradient>{t('skills.experience.title')}</SectionTitleGradient>
@@ -686,9 +681,8 @@ export const Skills: React.FC = (): React.ReactElement => {
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
           variants={scrollMotion.stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={scrollMotion.viewport}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
             <ExperienceCardShell
@@ -712,9 +706,8 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <CertificatesSection
         variants={scrollMotion.depth}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
       >
         <SectionTitle>
           <SectionTitleGradient>{t('skills.certificates.title')}</SectionTitleGradient>

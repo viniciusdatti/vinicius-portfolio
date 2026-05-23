@@ -12,8 +12,10 @@ import React, {
 } from 'react';
 
 // Libraries
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
 
 // Hooks
@@ -26,6 +28,7 @@ import type { MobileMenuProps } from '@/components/layout/MobileMenu/MobileMenu.
 import { mobileMenuVariants, staggerItem, motionEase } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
 import {
+  MenuViewport,
   Overlay,
   MenuContainer,
   MenuHeader,
@@ -77,10 +80,11 @@ const reducedMotionMenuVariants: Variants = {
 };
 
 export const MobileMenu = ({
+  isOpen,
   navItems,
   currentPath,
   onClose,
-}: MobileMenuProps): React.ReactElement => {
+}: MobileMenuProps): React.ReactElement | null => {
   const { t } = useTranslation();
   const reducedMotion: boolean = usePrefersReducedMotion();
   const titleId: string = useId();
@@ -102,6 +106,10 @@ export const MobileMenu = ({
   }, [onClose]);
 
   useEffect(() => {
+    if (!isOpen) {
+      return undefined;
+    }
+
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     closeButtonRef.current?.focus();
 
@@ -116,80 +124,89 @@ export const MobileMenu = ({
       document.removeEventListener('keydown', handleKeyDown);
       previousFocusRef.current?.focus();
     };
-  }, [onClose]);
+  }, [isOpen, onClose]);
 
-  return (
-    <>
-      <Overlay
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: motionPresets.duration.normal, ease: motionEase }}
-        onClick={handleOverlayClick}
-        aria-hidden="true"
-      />
-      <MenuContainer
-        ref={panelRef}
-        variants={panelVariants}
-        initial="closed"
-        animate="open"
-        exit="closed"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-      >
-        <MenuHeader>
-          <MenuHeaderLabel id={titleId}>{t('footer.navigation')}</MenuHeaderLabel>
-          <MenuCloseButton
-            ref={closeButtonRef}
-            type="button"
-            onClick={onClose}
-            aria-label={t('a11y.closeMenu')}
+  if (typeof document === 'undefined') {
+    return null;
+  }
+
+  return createPortal(
+    <AnimatePresence>
+      {isOpen ? (
+        <MenuViewport>
+          <Overlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: motionPresets.duration.normal, ease: motionEase }}
+            onClick={handleOverlayClick}
+            aria-hidden="true"
+          />
+          <MenuContainer
+            ref={panelRef}
+            variants={panelVariants}
+            initial="closed"
+            animate="open"
+            exit="closed"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
           >
-            <CloseIcon />
-          </MenuCloseButton>
-        </MenuHeader>
+            <MenuHeader>
+              <MenuHeaderLabel id={titleId}>{t('footer.navigation')}</MenuHeaderLabel>
+              <MenuCloseButton
+                ref={closeButtonRef}
+                type="button"
+                onClick={onClose}
+                aria-label={t('a11y.closeMenu')}
+              >
+                <CloseIcon />
+              </MenuCloseButton>
+            </MenuHeader>
 
-        <MenuNav aria-label={t('a11y.mobileMenu')}>
-          {navItems.map((item, index: number) => (
-            <MenuLink
-              key={item.path}
-              as={Link}
-              to={item.path}
-              $active={currentPath === item.path}
-              $delay={reducedMotion ? 0 : index * 0.04}
-              variants={staggerItem}
-              initial="initial"
-              animate="animate"
-              custom={index}
-              onClick={handleLinkClick}
-            >
-              {t(item.labelKey)}
-            </MenuLink>
-          ))}
-        </MenuNav>
+            <MenuNav aria-label={t('a11y.mobileMenu')}>
+              {navItems.map((item, index: number) => (
+                <MenuLink
+                  key={item.path}
+                  as={Link}
+                  to={item.path}
+                  $active={currentPath === item.path}
+                  $delay={reducedMotion ? 0 : index * 0.04}
+                  variants={staggerItem}
+                  initial="initial"
+                  animate="animate"
+                  custom={index}
+                  onClick={handleLinkClick}
+                >
+                  {t(item.labelKey)}
+                </MenuLink>
+              ))}
+            </MenuNav>
 
-        <MenuFooter>
-          <SocialLinks>
-            <SocialLink
-              href="https://github.com/viniciusdatti"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t('a11y.github')}
-            >
-              <GitHubIcon />
-            </SocialLink>
-            <SocialLink
-              href="https://www.linkedin.com/in/vinicius-datti-791482267/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={t('a11y.linkedin')}
-            >
-              <LinkedInIcon />
-            </SocialLink>
-          </SocialLinks>
-        </MenuFooter>
-      </MenuContainer>
-    </>
+            <MenuFooter>
+              <SocialLinks>
+                <SocialLink
+                  href="https://github.com/viniciusdatti"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t('a11y.github')}
+                >
+                  <GitHubIcon />
+                </SocialLink>
+                <SocialLink
+                  href="https://www.linkedin.com/in/vinicius-datti-791482267/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={t('a11y.linkedin')}
+                >
+                  <LinkedInIcon />
+                </SocialLink>
+              </SocialLinks>
+            </MenuFooter>
+          </MenuContainer>
+        </MenuViewport>
+      ) : null}
+    </AnimatePresence>,
+    document.body,
   );
 };
