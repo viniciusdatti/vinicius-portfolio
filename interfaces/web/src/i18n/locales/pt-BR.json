@@ -88,90 +88,6 @@
       "buildUnknown": "Versão —"
     }
   },
-  "workspace": {
-    "boot": {
-      "title": "Superfície de comando em tempo real",
-      "lead": "Você está dentro de um canal WebSocket ativo. Explore os módulos à esquerda — o sistema permanece conectado.",
-      "handshakeTitle": "Inicialização do sistema",
-      "transportStatus": "Status do transporte",
-      "showcaseBadge": "Vitrine de engenharia",
-      "showcaseBadgeTooltip": "Demonstração funcional com WebSocket real — sensores industriais ao vivo",
-      "phases": {
-        "initializing": "Inicializando transporte…",
-        "connecting": "Conectando ao servidor de telemetria…",
-        "live": "Canal WebSocket ativo — telemetria ao vivo",
-        "ready": "Telemetria operacional — dados em tempo real"
-      }
-    },
-    "events": {
-      "transportInit": "Pilha de transporte inicializada",
-      "transportLive": "Canal WebSocket ao vivo",
-      "transportDown": "Transporte desconectado",
-      "transportReconnect": "Reconectando transporte…",
-      "sessionOpen": "Sessão {{id}} aberta",
-      "sessionResume": "Sessão {{id}} retomada",
-      "sessionClosed": "Sessão encerrada",
-      "sessionRequested": "Negociação de sessão solicitada",
-      "messageIn": "Mensagem recebida",
-      "messageOut": "Mensagem enviada",
-      "presenceOnline": "Operador conectado",
-      "presenceOffline": "Operador ausente",
-      "typing": "Operador digitando",
-      "contextAttach": "Contexto do projeto: {{title}}",
-      "contextDetach": "Contexto do projeto removido",
-      "contextActive": "Projeto ativo · {{title}}",
-      "contextDraft": "Discutindo o projeto: {{title}} — arquitetura, stack e entrega.",
-      "contextInject": "Contexto do projeto enviado ao canal ao vivo"
-    },
-    "rail": {
-      "label": "Módulos do Live Lab",
-      "identity": "Identidade",
-      "cases": "Projetos",
-      "capabilities": "Competências",
-      "channel": "Contato"
-    },
-    "channel": {
-      "title": "Canal ao vivo",
-      "transport": "Transporte WebSocket",
-      "events": "Log de eventos"
-    },
-    "identity": {
-      "role": "Engenheiro front-end",
-      "focus": "React · WebSocket · interfaces que não podem quebrar",
-      "statProjects": "Anos em produção",
-      "statRealtime": "Ciclo do sensor",
-      "statFocus": "Superfícies de telemetria",
-      "statProjectsValue": "3",
-      "statRealtimeValue": "10s",
-      "statFocusValue": "2"
-    },
-    "cases": {
-      "title": "Módulos de projeto",
-      "lead": "Escolha um projeto e traga uma pergunta para o canal ao vivo — eu respondo em tempo real.",
-      "inspect": "Inspecionar módulo",
-      "demo": "Abrir caminho ao vivo",
-      "repository": "Fonte",
-      "empty": "Nenhum projeto carregado.",
-      "loading": "Carregando cadastro…",
-      "error": "Cadastro indisponível.",
-      "back": "Voltar ao cadastro"
-    },
-    "capabilities": {
-      "title": "Stack de engenharia",
-      "lead": "Tecnologias agrupadas por domínio.",
-      "empty": "Nenhuma competência retornada."
-    },
-    "channelModule": {
-      "title": "Canal de contato",
-      "lead": "Mensagem estruturada quando o canal ao vivo não bastar.",
-      "note": "Prefira o canal ao vivo para diálogo em tempo real — este caminho persiste por e-mail."
-    },
-    "sidebar": {
-      "label": "Contexto",
-      "open": "Abrir painel de contexto",
-      "close": "Fechar painel de contexto"
-    }
-  },
   "showcase": {
     "title": "Vitrine",
     "subtitle": "Padrões de UI em produção: status, tabela + drawer e métricas.",
@@ -531,92 +447,6 @@
       }
     }
   },
-  "admin": {
-    "system": {
-      "id": "VD·OPS",
-      "inboxCount": "{{count}} sessões",
-      "modules": {
-        "console": "Console operador",
-        "dashboard": "Painel de comando",
-        "inbox": "Caixa ao vivo",
-        "login": "Portão de acesso"
-      }
-    },
-    "auth": {
-      "validating": "Validando acesso administrativo...",
-      "checkingSession": "Verificando sessão..."
-    },
-    "login": {
-      "brand": "Administrador",
-      "subtitle": "Área restrita do painel",
-      "securityNote": "Acesso monitorado. Apenas contas com perfil administrador podem entrar.",
-      "email": "E-mail",
-      "password": "Senha",
-      "emailPlaceholder": "seu@email.com",
-      "passwordPlaceholder": "••••••••",
-      "showPassword": "Mostrar",
-      "hidePassword": "Ocultar",
-      "submit": "Entrar no painel",
-      "submitting": "Validando...",
-      "footerNote": "Sessão protegida por token. Não compartilhe suas credenciais.",
-      "backToSite": "← Voltar ao portfólio",
-      "errors": {
-        "forbidden": "Acesso restrito a administradores autorizados.",
-        "invalidCredentials": "E-mail ou senha inválidos."
-      }
-    },
-    "dashboard": {
-      "title": "Painel",
-      "logout": "Sair",
-      "fallbackName": "Administrador",
-      "stats": {
-        "activeChats": "Chats ativos",
-        "unread": "Não lidas (chat)",
-        "messagesToday": "Mensagens hoje",
-        "pendingContacts": "Contatos pendentes",
-        "skills": "Skills cadastradas"
-      },
-      "quickActions": "Ações rápidas",
-      "chatActionTitle": "Chat",
-      "chatActionDesc": "Gerenciar conversas",
-      "siteActionTitle": "Ver site",
-      "siteActionDesc": "Abrir portfólio",
-      "changePassword": "Alterar senha",
-      "currentPassword": "Senha atual",
-      "newPassword": "Nova senha (mín. 8 caracteres)",
-      "confirmPassword": "Confirmar nova senha",
-      "submitPassword": "Alterar senha",
-      "submittingPassword": "Alterando...",
-      "passwordSuccess": "Senha alterada com sucesso.",
-      "errors": {
-        "mismatch": "As senhas não conferem.",
-        "minLength": "A nova senha deve ter no mínimo 8 caracteres.",
-        "invalidSession": "Sessão inválida. Faça login novamente.",
-        "generic": "Erro ao alterar senha.",
-        "network": "Erro de conexão. Tente novamente."
-      }
-    },
-    "chat": {
-      "back": "← Voltar ao painel",
-      "title": "Chat admin",
-      "connected": "Conectado",
-      "disconnected": "Desconectado",
-      "conversations": "Conversas ({{count}})",
-      "emptyTitle": "Nenhuma conversa ativa",
-      "emptyDescription": "As conversas aparecerão aqui quando visitantes iniciarem um chat no Live Lab.",
-      "typing": "digitando...",
-      "newConversation": "Nova conversa",
-      "eventsToggle": "Eventos recebidos ({{count}})",
-      "eventsEmpty": "Nenhum evento ainda. Eventos do socket aparecem aqui com a conexão ativa.",
-      "startedAt": "Iniciado às {{time}}",
-      "closeSession": "Encerrar conversa",
-      "placeholder": "Digite sua resposta...",
-      "send": "Enviar",
-      "noChatTitle": "Chat em tempo real",
-      "noChatDescription": "Selecione uma conversa na lista para começar a responder.",
-      "noChatHint": "Você receberá notificações quando novos visitantes iniciarem conversas."
-    }
-  },
   "liveLab": {
     "title": "Live Lab",
     "workspace": {
@@ -673,35 +503,6 @@
       "window": "Janela",
       "samples": "{{count}} amostras",
       "sampleAxis": "amostra"
-    },
-    "chat": {
-      "title": "Canal em tempo real",
-      "online": "Conectado",
-      "offline": "Desconectado",
-      "connected": "WebSocket conectado",
-      "connecting": "Conectando WebSocket...",
-      "placeholder": "Mensagem...",
-      "send": "Enviar",
-      "intro": {
-        "title": "Abrir sessão",
-        "description": "Canal em tempo real deste portfólio. Abre uma sessão e conversa — eu recebo em tempo real.",
-        "name": "Nome",
-        "namePlaceholder": "Como devo te chamar?",
-        "company": "Empresa",
-        "companyPlaceholder": "Time ou organização",
-        "start": "Conectar ao canal"
-      },
-      "offlineNotice": "Canal em modo assíncrono. Sua mensagem fica na fila e será entregue quando a sessão voltar.",
-      "typing": "digitando..."
-    },
-    "techExplanation": {
-      "title": "Arquitetura",
-      "description": "Eventos em tempo real entre cliente React e API FastAPI — conexão persistente, rooms por sessão e histórico em banco.",
-      "stack": {
-        "frontend": "React · Socket.io client · estado tipado",
-        "backend": "FastAPI · python-socketio · registro de conexões",
-        "database": "PostgreSQL · mensagens e sessões"
-      }
     }
   },
   "contact": {
@@ -733,7 +534,7 @@
       "location": "Localização",
       "locationValue": "São Paulo, Brasil"
     },
-    "chatCta": {
+    "liveLabCta": {
       "title": "Ver a telemetria ao vivo",
       "description": "O Live Lab é uma demo deste portfólio: sensores via WebSocket, limiares, gráfico e log — inspirado em dashboards industriais em produção.",
       "cta": "Abrir Live Lab"
@@ -791,8 +592,8 @@
         "decision": "Priorizar legibilidade, estados de loading/erro honestos e composição sustentável em vez de ruído visual."
       },
       "vinicius-portfolio": {
-        "framing": "Monorepo deste portfólio: backend FastAPI + Socket.IO e frontend React 19 (Vite) com Live Lab e chat admin.",
-        "architecture": "backend/ (FastAPI, SQLAlchemy, scripts de seed) e interfaces/web/ (React, TanStack Query, styled-components, i18n).",
+        "framing": "Monorepo deste portfólio: backend FastAPI + Socket.IO e frontend React 19 (Vite) com telemetria Live Lab e API pública de conteúdo.",
+        "architecture": "API REST de projetos/skills/certificados; Socket.IO /telemetry; formulário de contato com notificações email/Telegram.",
         "decision": "Produto único com projetos honestos em portfolio_catalog.py — títulos iguais aos nomes dos repositórios no GitHub."
       },
       "ReactGram": {

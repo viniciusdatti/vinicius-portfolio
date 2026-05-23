@@ -15,9 +15,9 @@ import {
   panelChrome,
 } from '@/styles/surfaces';
 
-// =================================================================================================
-// ============================================= TYPES =============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************** TYPES **********************************************
+ ************************************************************************************************ */
 
 export interface InputStyleProps {
   $hasError?: boolean;
@@ -27,9 +27,9 @@ export interface SubmitButtonStyleProps {
   $loading?: boolean;
 }
 
-// =================================================================================================
-// ============================================ CONSTANTS ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
 const CONTACT_LABEL_TRACKING = '0.14em';
 
@@ -80,9 +80,9 @@ const contactFieldBase = css<InputStyleProps>`
     : contactFieldFocusVisible)};
 `;
 
-// =================================================================================================
-// ============================================= LAYOUT ============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************* LAYOUT **********************************************
+ ************************************************************************************************ */
 
 /**
  * Centered editorial column — single-stack input console (no 50/50 marketing split).
@@ -265,9 +265,9 @@ export const SuccessMessage = styled(motion.p)`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 `;
 
-// =================================================================================================
-// ========================================== AUX STRIP ============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** AUX STRIP ********************************************
+ ************************************************************************************************ */
 
 /**
  * Secondary channels below the console — not a form/info split column.
@@ -343,7 +343,7 @@ export const InfoItem = styled.a`
   };
 `;
 
-export const ChatCTACard = styled(motion.div)`
+export const LiveLabCTACard = styled(motion.div)`
   ${operationalGlass};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
@@ -360,7 +360,7 @@ export const ChatCTACard = styled(motion.div)`
   };
 `;
 
-export const ChatCTATitle = styled.h3`
+export const LiveLabCTATitle = styled.h3`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -370,7 +370,7 @@ export const ChatCTATitle = styled.h3`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const ChatCTADescription = styled.p`
+export const LiveLabCTADescription = styled.p`
   margin: 0 0 ${({ theme }) => theme.spacing.md};
   color: ${({ theme }) => theme.colors.textMuted};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -378,7 +378,7 @@ export const ChatCTADescription = styled.p`
   max-width: 28ch;
 `;
 
-export const ChatCTAButton = styled(Link)`
+export const LiveLabCTAButton = styled(Link)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
