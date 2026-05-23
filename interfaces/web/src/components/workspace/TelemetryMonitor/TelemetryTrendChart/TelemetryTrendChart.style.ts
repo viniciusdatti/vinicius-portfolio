@@ -95,15 +95,15 @@ export const ChartTitle = styled.h3`
 `;
 
 export const ChartPlot = styled.div`
-  flex: 1 1 auto;
+  flex: 1 1 0;
   width: 100%;
-  height: 100%;
-  min-height: 0;
+  min-width: 0;
+  min-height: 120px;
   position: relative;
   z-index: 1;
   margin: 0;
   padding: 0;
-  overflow: visible;
+  overflow: hidden;
 
   &::before {
     content: '';
