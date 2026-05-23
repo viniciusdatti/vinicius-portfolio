@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Multi-sensor trend chart for the Live Lab telemetry monitor.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React, { useId, useMemo } from 'react';
 
@@ -15,50 +23,58 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Types
 import type { SensorReading } from '@/types/telemetry';
+import type {
+  TelemetryTrendChartMargin,
+  TelemetryTrendChartPalette,
+  TelemetryTrendChartPoint,
+  TelemetryTrendChartProps,
+} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.types';
 import { SensorStatus } from '@/types/telemetry';
 
 // Components
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
 import {
-  CHART_PLOT_HEIGHT_PX,
   ChartPlot,
   ChartRoot,
   ChartTitle,
-} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart.style';
+} from '@/components/Workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.style';
 
-interface TelemetryTrendChartProps {
-  readings: SensorReading[];
-  history: Record<string, number[]>;
-  title: string;
-}
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
-interface ChartPoint {
-  index: number;
-  [sensorId: string]: number;
-}
+const AREA_FILL_TOP_OPACITY: number = 0.14;
 
-const AREA_FILL_TOP_OPACITY = 0.14;
-
-const CHART_MARGIN = {
+const CHART_MARGIN: TelemetryTrendChartMargin = {
   top: 16,
   right: 0,
   left: -10,
   bottom: 0,
-} as const;
+};
+
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
 
 const strokeForStatus = (
   status: SensorStatus,
-  colors: { accent: string; warning: string; error: string; success: string },
+  colors: TelemetryTrendChartPalette,
 ): string => {
-  if (status === SensorStatus.Critical) return colors.error;
-  if (status === SensorStatus.Warn) return colors.warning;
+  if (status === SensorStatus.Critical) {
+    return colors.error;
+  }
+  if (status === SensorStatus.Warn) {
+    return colors.warning;
+  }
   return colors.success;
 };
+
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 export const TelemetryTrendChart = ({
   readings,
@@ -67,19 +83,19 @@ export const TelemetryTrendChart = ({
 }: TelemetryTrendChartProps): React.ReactElement | null => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const reduced = usePrefersReducedMotion();
+  const reduced: boolean = usePrefersReducedMotion();
   const sampleAxisLabel: string = t('liveLab.monitor.sampleAxis');
-  const gradientPrefix = useId().replace(/:/g, '');
+  const gradientPrefix: string = useId().replace(/:/g, '');
 
-  const chartData: ChartPoint[] = useMemo(() => {
+  const chartData: TelemetryTrendChartPoint[] = useMemo((): TelemetryTrendChartPoint[] => {
     const maxLen: number = Math.max(
       0,
       ...readings.map((r: SensorReading) => history[r.id]?.length ?? 0),
     );
-    const points: ChartPoint[] = [];
-    for (let i = 0; i < maxLen; i += 1) {
-      const row: ChartPoint = { index: i + 1 };
-      readings.forEach((r: SensorReading) => {
+    const points: TelemetryTrendChartPoint[] = [];
+    for (let i: number = 0; i < maxLen; i += 1) {
+      const row: TelemetryTrendChartPoint = { index: i + 1 };
+      readings.forEach((r: SensorReading): void => {
         const values: number[] = history[r.id] ?? [];
         row[r.id] = values[i] ?? 0;
       });
@@ -92,9 +108,9 @@ export const TelemetryTrendChart = ({
     return null;
   }
 
-  const gridStroke = theme.colors.border;
-  const tickColor = theme.colors.textMuted;
-  const palette = {
+  const gridStroke: string = theme.colors.border;
+  const tickColor: string = theme.colors.textMuted;
+  const palette: TelemetryTrendChartPalette = {
     accent: theme.colors.accent,
     warning: theme.colors.warning,
     error: theme.colors.error,
@@ -105,12 +121,12 @@ export const TelemetryTrendChart = ({
     <ChartRoot data-testid="telemetry-trend-chart">
       <ChartTitle>{title}</ChartTitle>
       <ChartPlot>
-        <ResponsiveContainer width="100%" height={CHART_PLOT_HEIGHT_PX}>
+        <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={CHART_MARGIN}>
             <defs>
               {readings.map((r: SensorReading) => {
-                const stroke = strokeForStatus(r.status, palette);
-                const gradId = `${gradientPrefix}-${r.id}`;
+                const stroke: string = strokeForStatus(r.status, palette);
+                const gradId: string = `${gradientPrefix}-${r.id}`;
                 return (
                   <linearGradient key={gradId} id={gradId} x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0%" stopColor={stroke} stopOpacity={AREA_FILL_TOP_OPACITY} />
@@ -160,8 +176,8 @@ export const TelemetryTrendChart = ({
               }}
             />
             {readings.map((r: SensorReading) => {
-              const stroke = strokeForStatus(r.status, palette);
-              const gradId = `${gradientPrefix}-${r.id}`;
+              const stroke: string = strokeForStatus(r.status, palette);
+              const gradId: string = `${gradientPrefix}-${r.id}`;
               return (
                 <React.Fragment key={r.id}>
                   <Area

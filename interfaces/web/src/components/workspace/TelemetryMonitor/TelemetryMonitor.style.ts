@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Telemetry monitor dashboard styles for Live Lab.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { keyframes, css, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -5,23 +13,27 @@ import { motion } from 'framer-motion';
 // Types
 import { SensorStatus } from '@/types/telemetry';
 
-const getSensorStatusColor = (status: SensorStatus, theme: DefaultTheme): string => {
+// Components
+import {
+  getTelemetryStatusColor,
+  getTelemetryStatusSurface,
+} from '@/lib/telemetryStatusColor';
+
+const getSensorStatusColor = (
+  status: SensorStatus,
+  theme: DefaultTheme,
+): string => getTelemetryStatusColor(status, theme);
+
+const getSensorValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
   if (status === SensorStatus.Critical) return theme.colors.error;
   if (status === SensorStatus.Warn) return theme.colors.warning;
   return theme.colors.success;
 };
 
-const getSensorValueColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === SensorStatus.Critical) return theme.colors.error;
-  if (status === SensorStatus.Warn) return theme.colors.warning;
-  return theme.colors.text;
-};
-
-const getThresholdFillColor = (status: SensorStatus, theme: DefaultTheme): string => {
-  if (status === SensorStatus.Critical) return theme.colors.error;
-  if (status === SensorStatus.Warn) return theme.colors.warning;
-  return theme.colors.accent;
-};
+const getThresholdFillColor = (
+  status: SensorStatus,
+  theme: DefaultTheme,
+): string => getTelemetryStatusColor(status, theme);
 
 type EventLogType = 'info' | 'warn' | 'critical';
 
@@ -39,31 +51,6 @@ const blink = keyframes`
 const slideIn = keyframes`
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
-`;
-
-const valueFlash = keyframes`
-  0% {
-    background-color: ${({ theme }) => theme.colors.primarySurface};
-  }
-  100% {
-    background-color: transparent;
-  }
-`;
-
-export const ValueFlashWrap = styled.span<{ $flashing: boolean }>`
-  display: inline-block;
-  border-radius: ${({ theme }) => theme.borderRadius.sm};
-  padding: 2px 4px;
-  margin: -2px -4px;
-  font-variant-numeric: tabular-nums;
-
-  ${({ $flashing }) => $flashing && css`
-    animation: ${valueFlash} 380ms ${({ theme }) => theme.motion.easeOut} both;
-
-    @media (prefers-reduced-motion: reduce) {
-      animation: none;
-    }
-  `}
 `;
 
 const ambientPulse = keyframes`
@@ -90,6 +77,7 @@ const operationalMono = css`
 export const MonitorRoot = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
   min-height: 0;
   overflow-x: hidden;
@@ -215,25 +203,28 @@ export const MonitorDashboard = styled.div`
   flex-direction: column;
   flex: 1;
   min-height: 0;
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
   min-width: 0;
   overflow: visible;
+  padding: 0 ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.lg};
 `;
 
 /** Row 1 — strict 12-column monitors grid (chart 4 / sensors 8 on desktop). */
 export const MonitorMonitorsGrid = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
   width: 100%;
   min-width: 0;
   flex-shrink: 0;
   align-content: start;
+  align-items: stretch;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: repeat(12, minmax(0, 1fr));
     gap: ${({ theme }) => theme.spacing.lg};
+    min-height: clamp(280px, 42vh, 400px);
   };
 `;
 
@@ -250,8 +241,9 @@ export const MonitorTerminalRow = styled.div`
 export const ChartPaneFallback = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   height: 100%;
-  min-height: 220px;
+  min-height: clamp(180px, 28vh, 260px);
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   background: ${({ theme }) => theme.colors.surface};
   opacity: ${({ theme }) => theme.effects.opacity.subtle};
@@ -260,7 +252,8 @@ export const ChartPaneFallback = styled.div`
 export const MonitorChartPane = styled.div`
   grid-column: 1 / -1;
   min-width: 0;
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+  min-height: 0;
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   background: rgba(11, 13, 16, 0.82);
   backdrop-filter: blur(6px);
@@ -271,9 +264,13 @@ export const MonitorChartPane = styled.div`
   contain: layout style;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: span 4;
+    grid-column: span 5;
     border-bottom: none;
     border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
+    grid-column: span 6;
   };
 `;
 
@@ -283,15 +280,19 @@ export const MonitorSensorsPane = styled.div`
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: ${({ theme }) => theme.spacing.xs};
+  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   background: rgba(11, 13, 16, 0.78);
   backdrop-filter: blur(4px);
   isolation: isolate;
   contain: layout style;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: span 8;
-    padding: ${({ theme }) => theme.spacing.sm};
+    grid-column: span 7;
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
+  };
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
+    grid-column: span 6;
   };
 `;
 
@@ -302,10 +303,11 @@ export const MonitorGrid = styled.div`
   min-width: 0;
   height: 100%;
   align-content: start;
+  align-items: stretch;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: ${({ theme }) => theme.spacing.sm};
+    gap: ${({ theme }) => theme.spacing.md};
   };
 `;
 
@@ -387,9 +389,23 @@ export const SensorStatusBadge = styled.span<{ $status: SensorStatus }>`
   text-transform: uppercase;
   padding: 2px ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
-  border: 1px solid ${({ $status, theme }) => getSensorStatusColor($status, theme)}55;
+  border: 1px solid ${({ $status, theme }) => getSensorStatusColor($status, theme)}66;
   color: ${({ $status, theme }) => getSensorStatusColor($status, theme)};
-  background: ${({ $status, theme }) => getSensorStatusColor($status, theme)}14;
+  background: ${({ $status, theme }) => getTelemetryStatusSurface($status, theme)};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+
+  ${({ $status, theme }) => $status === SensorStatus.Warn && css`
+    box-shadow: 0 0 14px ${theme.colors.warning}44;
+  `};
+
+  ${({ $status, theme }) => $status === SensorStatus.Critical && css`
+    box-shadow: 0 0 16px ${theme.colors.error}55;
+    animation: ${blink} 2.4s ease-in-out infinite;
+
+    @media (prefers-reduced-motion: reduce) {
+      animation: none;
+    }
+  `};
 `;
 
 export const SensorLabel = styled.div`

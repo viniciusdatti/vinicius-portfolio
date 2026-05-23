@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Live Lab telemetry monitor — KPI strip, trend chart, sensors, event log.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React, {
   lazy,
@@ -11,61 +19,33 @@ import { useTranslation } from 'react-i18next';
 
 // Types
 import {
-  SensorStatus,
-  TELEMETRY_EVENT_LOG_MAX,
-  type SensorReading,
-  type TelemetryEventLogEntry,
-} from '@/types/telemetry';
-import {
   TelemetryEventLogPlacement,
   type TelemetryMonitorProps,
 } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.types';
 
 // Components
-import { formatClockTime, resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
-import { telemetryMicroSnapTransition } from '@/styles/animations';
 import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 import { MonitorTelemetryField } from '@/components/Atmosphere/MonitorTelemetryField';
-import { TelemetryValueFlash } from '@/components/Workspace/TelemetryMonitor/TelemetryValueFlash';
 import { OperationalKpiStrip } from '@/components/Workspace/TelemetryMonitor/OperationalKpiStrip';
-import { SensorSparkline } from '@/components/Workspace/TelemetryMonitor/SensorSparkline';
+import { TelemetryOperationalEventLog } from '@/components/Workspace/TelemetryMonitor/TelemetryOperationalEventLog';
+import { TelemetrySensorCard } from '@/components/Workspace/TelemetryMonitor/TelemetrySensorCard';
 import {
-  MonitorRoot,
+  ChartPaneFallback,
+  ConnectingState,
+  MonitorChartPane,
+  MonitorDashboard,
+  MonitorGrid,
   MonitorHeader,
   MonitorHeaderGroup,
-  MonitorTitle,
-  MonitorStatus,
-  MonitorToolbar,
-  ToolbarSep,
-  StatusDot,
-  MonitorDashboard,
   MonitorMonitorsGrid,
-  MonitorTerminalRow,
-  ChartPaneFallback,
-  MonitorChartPane,
+  MonitorRoot,
   MonitorSensorsPane,
-  MonitorGrid,
-  SensorCard,
-  SensorCardInner,
-  SensorHeader,
-  SensorStatusBadge,
-  SensorLabel,
-  SensorValueRow,
-  SensorValue,
-  SensorUnit,
-  ThresholdBar,
-  ThresholdFill,
-  ThresholdCritMarker,
-  ThresholdLimit,
-  EventLogRoot,
-  EventLogHeader,
-  EventLogTitle,
-  EventLogTick,
-  EventLogScroll,
-  EventLogLine,
-  EventLogPrefix,
-  EventLogTime,
-  ConnectingState,
+  MonitorStatus,
+  MonitorTerminalRow,
+  MonitorTitle,
+  MonitorToolbar,
+  StatusDot,
+  ToolbarSep,
 } from '@/components/Workspace/TelemetryMonitor/TelemetryMonitor.style';
 
 const TelemetryTrendChart = lazy(
@@ -74,174 +54,9 @@ const TelemetryTrendChart = lazy(
   ),
 );
 
-// =================================================================================================
-// ============================================= METHODS ===========================================
-// =================================================================================================
-
-const resolveSensorLabel = (
-  reading: SensorReading,
-  translate: (key: string) => string,
-): string => resolveI18nKeyOrFallback(
-  `liveLab.monitor.sensors.${reading.id}`,
-  reading.label,
-  translate,
-);
-
-const resolveSensorStatusLabel = (
-  status: SensorStatus,
-  translate: (key: string) => string,
-): string => resolveI18nKeyOrFallback(
-  `liveLab.monitor.statusLabels.${status}`,
-  status,
-  translate,
-);
-
-const calcPct = (r: SensorReading): number => {
-  const range: number = r.threshold_critical * 1.1;
-  return Math.min((r.value / range) * 100, 100);
-};
-
-const critMarkerPct = (r: SensorReading): number => {
-  const range: number = r.threshold_critical * 1.1;
-  return (r.threshold_critical / range) * 100;
-};
-
-const logPrefix = (type: 'info' | 'warn' | 'critical'): string => {
-  if (type === 'critical') return 'CRT';
-  if (type === 'warn') return 'WRN';
-  return 'INF';
-};
-
-const formatReading = (value: number): string => value.toFixed(2);
-
-interface OperationalEventLogProps {
-  logRef: React.RefObject<HTMLDivElement | null>;
-  connected: boolean;
-  eventLog: TelemetryEventLogEntry[];
-  tickCount: number;
-}
-
-const OperationalEventLog: React.FC<OperationalEventLogProps> = ({
-  logRef,
-  connected,
-  eventLog,
-  tickCount,
-}): React.ReactElement => {
-  const { t, i18n } = useTranslation();
-
-  return (
-    <EventLogRoot aria-label={t('liveLab.monitor.eventLog')}>
-      <EventLogHeader>
-        <EventLogTitle>
-          {t('liveLab.monitor.eventLog')}
-        </EventLogTitle>
-        <EventLogTick>
-          {eventLog.length}
-          /
-          {TELEMETRY_EVENT_LOG_MAX}
-          {' · '}
-          {t('liveLab.monitor.tick')}
-          {' '}
-          <TelemetryValueFlash cellId="tick-counter" valueKey={tickCount}>
-            #
-            {tickCount}
-          </TelemetryValueFlash>
-        </EventLogTick>
-      </EventLogHeader>
-      <EventLogScroll
-        ref={logRef}
-        role="log"
-        aria-live="polite"
-        aria-relevant="additions"
-      >
-        {eventLog.map((entry, idx) => (
-          <EventLogLine
-            key={`${entry.ts}-${entry.message}`}
-            $type={entry.type}
-            $isLatest={idx === 0 && connected}
-          >
-            <EventLogTime>{formatClockTime(entry.ts, i18n.language)}</EventLogTime>
-            <EventLogPrefix $type={entry.type}>
-              [
-              {logPrefix(entry.type)}
-              ]
-            </EventLogPrefix>
-            <span>{entry.message}</span>
-          </EventLogLine>
-        ))}
-        {eventLog.length === 0 && (
-          <EventLogLine $type="info">
-            <EventLogTime>—</EventLogTime>
-            <EventLogPrefix $type="info">[INF]</EventLogPrefix>
-            <span>{t('liveLab.monitor.noEvents')}</span>
-          </EventLogLine>
-        )}
-      </EventLogScroll>
-    </EventLogRoot>
-  );
-};
-
-// =================================================================================================
-// ============================================ SUB-COMPONENTS =====================================
-// =================================================================================================
-
-interface SensorProps {
-  reading: SensorReading;
-  index: number;
-}
-
-const Sensor: React.FC<SensorProps> = ({
-  reading: r,
-  index,
-}): React.ReactElement => {
-  const { t } = useTranslation();
-  const { history } = useTelemetry();
-  const samples: number[] = history[r.id] ?? [];
-  const sensorLabel: string = resolveSensorLabel(r, t);
-  const statusLabel: string = resolveSensorStatusLabel(r.status, t);
-
-  return (
-    <SensorCard
-      $status={r.status}
-      $sweepDelay={index * 1.4}
-      aria-label={`${sensorLabel}, ${formatReading(r.value)} ${r.unit}, ${statusLabel}`}
-    >
-      <SensorCardInner>
-        <SensorHeader>
-          <SensorLabel>{sensorLabel}</SensorLabel>
-          <SensorStatusBadge $status={r.status}>{statusLabel}</SensorStatusBadge>
-        </SensorHeader>
-        <SensorValueRow>
-          <TelemetryValueFlash cellId={`sensor-${r.id}`} valueKey={r.value}>
-            <SensorValue $status={r.status}>
-              {formatReading(r.value)}
-            </SensorValue>
-          </TelemetryValueFlash>
-          <SensorUnit>{r.unit}</SensorUnit>
-        </SensorValueRow>
-        <SensorSparkline values={samples} status={r.status} />
-        <ThresholdBar>
-          <ThresholdFill
-            $status={r.status}
-            animate={{ width: `${calcPct(r)}%` }}
-            transition={telemetryMicroSnapTransition}
-          />
-          <ThresholdCritMarker $pct={critMarkerPct(r)} aria-hidden />
-        </ThresholdBar>
-        <ThresholdLimit>
-          {t('liveLab.monitor.critLimit', {
-            value: r.threshold_critical,
-            unit: r.unit,
-          })}
-        </ThresholdLimit>
-      </SensorCardInner>
-    </SensorCard>
-  );
-};
-
-// =================================================================================================
-// ============================================ COMPONENT ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
   eventLogPlacement = TelemetryEventLogPlacement.Embedded,
@@ -266,7 +81,7 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
 
   if (!showMonitor && showEventLog) {
     return (
-      <OperationalEventLog
+      <TelemetryOperationalEventLog
         logRef={logRef}
         connected={connected}
         eventLog={eventLog}
@@ -334,14 +149,14 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
             <MonitorSensorsPane data-testid="telemetry-sensors-pane">
               <MonitorGrid>
                 {readings.map((r, index) => (
-                  <Sensor key={r.id} reading={r} index={index} />
+                  <TelemetrySensorCard key={r.id} reading={r} index={index} />
                 ))}
               </MonitorGrid>
             </MonitorSensorsPane>
           </MonitorMonitorsGrid>
           {showEventLog && eventLogPlacement === TelemetryEventLogPlacement.Embedded ? (
             <MonitorTerminalRow data-testid="telemetry-terminal-row">
-              <OperationalEventLog
+              <TelemetryOperationalEventLog
                 logRef={logRef}
                 connected={connected}
                 eventLog={eventLog}
