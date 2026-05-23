@@ -9,14 +9,14 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   SkillInstrumentFieldVariant,
   type SkillInstrumentTelemetryFieldProps,
-} from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
+} from '@/components/Skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
 import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 
 // Components
 import {
   SkillInstrumentFieldCanvas,
   SkillInstrumentFieldLayer,
-} from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.style';
+} from '@/components/Skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.style';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================

@@ -11,14 +11,12 @@ import {
   SkeletonCategory,
 } from '@/components/SkillCardSkeleton/SkillCardSkeleton.style';
 
-export function SkillCardSkeleton(): React.ReactElement {
-  return (
-    <SkeletonCard>
-      <SkeletonIcon />
-      <SkeletonInfo>
-        <SkeletonName />
-        <SkeletonCategory />
-      </SkeletonInfo>
-    </SkeletonCard>
-  );
-}
+export const SkillCardSkeleton = (): React.ReactElement => (
+  <SkeletonCard>
+    <SkeletonIcon />
+    <SkeletonInfo>
+      <SkeletonName />
+      <SkeletonCategory />
+    </SkeletonInfo>
+  </SkeletonCard>
+);

@@ -12,19 +12,81 @@ import { SkillLayoutTier } from '@/domain/skills/skillLayout.domain';
 
 // Components
 import {
-  cardHoverElevated,
-  cardInteractive,
   cardMarketingGlass,
-  cardOperationalCell,
-  cardStatSignal,
   cardPointerVars,
-  featuredSpotlight,
-  operationalGlass,
-  operationalGlassDeep,
   panelChrome,
   surfaceMotion,
 } from '@/styles/surfaces';
 import { scrollAnchorOffset } from '@/styles/sectionRhythm';
+
+/** liftMd @ 280ms ease-out; elevation.md only (no ad-hoc shadow bloom). */
+const skillCardLiftMd = css`
+  transition:
+    transform ${({ theme }) => theme.transitions.normal},
+    border-color ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.borderLight};
+      transform: translateY(calc(-1 * ${({ theme }) => theme.motion.distance.liftMd}));
+      will-change: transform;
+    }
+  }
+
+  @media (hover: none) {
+    transform: none;
+  }
+`;
+
+/** Amber (#f59e0b) pointer torch — marketing-glass ::after slot. */
+const skillAmberPointerSpotlight = css`
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(
+      420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(245, 158, 11, 0.16) 0%,
+      rgba(245, 158, 11, 0.05) 38%,
+      transparent 62%
+    );
+    opacity: var(--spot-opacity, 0);
+    transition: opacity ${({ theme }) => theme.transitions.normal};
+
+    @media (hover: none) {
+      opacity: 0;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      --spot-opacity: 1;
+    }
+  }
+`;
+
+/**
+ * Canonical Skills workspace card — marketing-glass, rim, elevation.md, amber torch, liftMd.
+ */
+const skillCardGlassArchetype = css`
+  ${cardMarketingGlass};
+  ${cardPointerVars};
+  ${skillAmberPointerSpotlight};
+  ${skillCardLiftMd};
+  ${surfaceMotion};
+
+  @media (hover: none) {
+    --spot-opacity: 0;
+  }
+`;
+
+/** Framer stagger wrapper — grid children without breaking placement. */
+export const SkillsStaggerSlot = styled(motion.div)`
+  display: contents;
+`;
 
 /**
  * Generic section wrapper with bottom margin.
@@ -34,8 +96,18 @@ export const Section = styled.section`
   ${scrollAnchorOffset};
 `;
 
+/** Gradient mask on inner span — Framer must not filter the H2 directly. */
+export const SectionTitleGradient = styled.span`
+  display: inline;
+  background: ${({ theme }) => theme.colors.gradientTextDisplay};
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+`;
+
 /**
- * Section title with decorative line extending to the right.
+ * Section anchor title — gradient text mask + structural hairline rule.
  */
 export const SectionTitle = styled.h2`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
@@ -46,6 +118,8 @@ export const SectionTitle = styled.h2`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
+  color: transparent;
+  text-wrap: balance;
 
   &::after {
     content: '';
@@ -84,22 +158,43 @@ export const ExperienceSubtitle = styled.p`
 `;
 
 /**
- * Grid for experience cards (responsive).
+ * Grid for experience cards — asymmetric featured span at desktop.
  */
 export const ExperienceGrid = styled(motion.div)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: 1fr;
   gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 `;
 
+export interface ExperienceCardLayoutProps {
+  $featured: boolean;
+}
+
 /**
- * Single experience card with left accent.
+ * Production architecture card — marketing glass; featured keys span 2 columns on desktop.
  */
-export const ExperienceCard = styled(motion.div)`
-  ${cardStatSignal};
+export const ExperienceCard = styled(motion.div)<ExperienceCardLayoutProps>`
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.xl};
-  overflow: hidden;
+  grid-column: span 1;
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: span ${({ $featured }) => ($featured ? 2 : 1)};
+  }
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
+
+  @media (hover: none) {
+    transform: none;
+  }
 `;
 
 /**
@@ -123,29 +218,36 @@ export const ExperienceCardDescription = styled.p`
 `;
 
 /**
- * Highlight line (what was built: components, status functions, etc.).
+ * Highlight copy — no per-card accent bar (section anchors only).
  */
 export const ExperienceCardHighlight = styled.p`
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
   line-height: ${({ theme }) => theme.typography.lineHeight.snug};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
-  padding-left: ${({ theme }) => theme.spacing.sm};
-  border-left: 2px solid ${({ theme }) => theme.colors.primary};
+  margin-bottom: 0;
 `;
 
 /**
- * Container for category filter tabs.
- * Wraps and centers tabs on smaller screens.
+ * Ultra-compact instrument filter strip — mono uppercase, hairline dividers.
  */
 export const CategoryTabs = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: nowrap;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  justify-content: center;
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.md};
+  background: ${({ theme }) => theme.colors.surfaceGlass};
+  backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
+  -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
   ${scrollAnchorOffset};
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 /**
@@ -157,33 +259,52 @@ export interface CategoryTabProps {
 }
 
 /**
- * Individual category tab button with active state styling.
+ * Technology filter control — gradientNavUnderline on hover/active, no pill backgrounds.
  */
 export const CategoryTab = styled(motion.button)<CategoryTabProps>`
-  padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
-  border-radius: ${({ theme }) => theme.borderRadius.full};
-  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-height: 44px;
+  min-width: 44px;
+  padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.md};
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
-  background: ${({ $active, theme }) => ($active
-    ? theme.colors.gradientButtonPrimary
-    : theme.colors.surface)};
-  color: ${({ $active, theme }) => ($active
-    ? theme.colors.onPrimary
-    : theme.colors.textSecondary)};
-  border: 1px solid ${({ $active, theme }) => ($active
-    ? theme.colors.primaryBorderFaint
-    : theme.colors.border)};
-  transition:
-    background ${({ theme }) => theme.transitions.fast},
-    color ${({ theme }) => theme.transitions.fast},
-    border-color ${({ theme }) => theme.transitions.fast};
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: ${({ $active, theme }) => ($active ? theme.colors.text : theme.colors.textSecondary)};
+  background: transparent;
+  border: none;
+  border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  cursor: pointer;
+  transition: color ${({ theme }) => theme.transitions.fast};
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: ${({ $active }) => ($active ? '100%' : '0')};
+    height: 2px;
+    border-radius: ${({ theme }) => theme.borderRadius.full};
+    background: ${({ theme }) => theme.colors.gradientNavUnderline};
+    transition: width ${({ theme }) => theme.transitions.normal};
+  }
 
   @media (hover: hover) {
     &:hover {
-      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
-      color: ${({ $active, theme }) => ($active
-        ? theme.colors.onPrimary
-        : theme.colors.primary)};
+      color: ${({ theme }) => theme.colors.text};
+    }
+
+    &:hover::after {
+      width: 100%;
     }
   }
 `;
@@ -286,7 +407,7 @@ export const SkillsHeroDomain = styled.span`
 `;
 
 /**
- * 12-column asymmetric grid for core + peripheral skill blocks.
+ * Editorial skill matrix — fixed columns at desktop so featured cards can span 2.
  */
 export const SkillsAsymmetricGrid = styled(motion.div)`
   display: grid;
@@ -294,8 +415,12 @@ export const SkillsAsymmetricGrid = styled(motion.div)`
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: ${({ theme }) => theme.spacing.lg};
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 `;
 
@@ -308,71 +433,52 @@ export interface SkillEditorialCardProps extends SkillGridPlacementProps {
 }
 
 const skillGridPlacement = css<SkillGridPlacementProps>`
-  grid-column: span 12;
+  grid-column: span 1;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-column: span ${({ $gridSpan }) => $gridSpan};
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-column: span ${({ $gridSpan }) => Math.min($gridSpan, 2)};
   }
 `;
 
 const skillTierCoreLarge = css`
-  ${cardMarketingGlass};
-  ${featuredSpotlight};
-  ${cardInteractive};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xxl};
   min-height: 9rem;
 `;
 
 const skillTierCoreMedium = css`
-  ${cardMarketingGlass};
-  ${cardHoverElevated};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.xl};
   padding: ${({ theme }) => theme.spacing.xl};
   min-height: 7.5rem;
 `;
 
 const skillTierPeripheralFeatured = css`
-  ${cardMarketingGlass};
-  ${cardHoverElevated};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.lg};
   min-height: 6.5rem;
 `;
 
 const skillTierPeripheralStandard = css`
-  ${operationalGlass};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.lg};
-  ${surfaceMotion};
-
-  @media (hover: hover) {
-    &:hover {
-      border-color: ${({ theme }) => theme.colors.borderLight};
-    }
-  }
 `;
 
 const skillTierPeripheralInstrument = css`
-  ${operationalGlassDeep};
-  ${cardPointerVars};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: 0;
   min-height: 8.5rem;
   flex-direction: column;
   align-items: stretch;
   gap: 0;
-  ${surfaceMotion};
-
-  @media (hover: hover) {
-    &:hover {
-      border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
-    }
-  }
 `;
 
 const skillTierPeripheralCompact = css`
-  ${cardOperationalCell};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.md};
   padding: ${({ theme }) => theme.spacing.md};
 `;
@@ -385,6 +491,10 @@ const skillTierPeripheralMinimal = css`
   padding: ${({ theme }) => theme.spacing.lg} 0;
   box-shadow: none;
   transition: border-color ${({ theme }) => theme.transitions.fast};
+
+  @media (hover: none) {
+    transform: none;
+  }
 
   @media (hover: hover) {
     &:hover {
@@ -415,6 +525,10 @@ export const SkillEditorialCard = styled(motion.div)<SkillEditorialCardProps>`
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.lg};
+
+  @media (hover: none) {
+    transform: none !important;
+  }
 
   & > * {
     position: relative;
@@ -610,7 +724,7 @@ export const SkillsGrid = styled(motion.div)`
   gap: ${({ theme }) => theme.spacing.md};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
     gap: ${({ theme }) => theme.spacing.lg};
   }
 `;
@@ -679,19 +793,19 @@ export interface CertificateCardProps {
  * Individual certificate card with hover effect.
  */
 export const CertificateCard = styled(motion.div)<CertificateCardProps>`
-  ${cardMarketingGlass};
-  ${cardHoverElevated};
+  ${skillCardGlassArchetype};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   padding: ${({ theme }) => theme.spacing.lg};
   cursor: pointer;
-  border-left: 3px solid transparent;
-  transition: border-color ${({ theme }) => theme.transitions.fast};
 
   @media (hover: hover) {
     &:hover {
-      border-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primaryBorderFaint};
-      border-left-color: ${({ $platformColor, theme }) => $platformColor || theme.colors.primary};
+      border-color: ${({ theme }) => theme.colors.borderLight};
     }
+  }
+
+  @media (hover: none) {
+    transform: none;
   }
 
   & > * {
@@ -906,13 +1020,20 @@ export const CertificateLink = styled.div`
   position: absolute;
   top: ${({ theme }) => theme.spacing.sm};
   right: ${({ theme }) => theme.spacing.sm};
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: ${({ theme }) => theme.colors.textMuted};
   opacity: 0;
   transition: opacity ${({ theme }) => theme.transitions.fast};
 
-  ${CertificateCard}:hover & {
-    opacity: 1;
-  };
+  @media (hover: hover) {
+    ${CertificateCard}:hover & {
+      opacity: 1;
+    }
+  }
 `;
 
 /**

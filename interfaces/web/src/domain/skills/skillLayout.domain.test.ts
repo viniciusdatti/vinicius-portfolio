@@ -40,7 +40,23 @@ describe('skillLayout.domain', (): void => {
 
       expect(layout.hero).toBeNull();
       expect(layout.coreRow[0].tier).toBe(SkillLayoutTier.CoreLarge);
+      expect(layout.coreRow[0].gridSpan).toBe(2);
       expect(layout.coreRow[1].tier).toBe(SkillLayoutTier.CoreMedium);
+      expect(layout.coreRow[1].gridSpan).toBe(1);
+    });
+
+    it('should place grid-span-2 featured cards before single-column items', (): void => {
+      const layout = buildEditorialSkillsLayout([
+        buildFakeSkill({ id: 1, name: 'Python', display_order: 2 }),
+        buildFakeSkill({ id: 2, name: 'TypeScript', display_order: 1 }),
+        buildFakeSkill({ id: 3, name: 'Styled Components', display_order: 20 }),
+        buildFakeSkill({ id: 4, name: 'Git', display_order: 11 }),
+      ]);
+
+      expect(layout.coreRow[0].gridSpan).toBe(2);
+      expect(layout.coreRow[0].skill.name).toBe('TypeScript');
+      expect(layout.peripheral[0].gridSpan).toBe(2);
+      expect(layout.peripheral[0].skill.name).toBe('Styled Components');
     });
 
     it('should sort by display_order before partitioning', (): void => {
@@ -62,9 +78,9 @@ describe('skillLayout.domain', (): void => {
       const aiTools = layout.peripheral.find((item) => item.skill.name === 'AI tools');
 
       expect(vsCode?.tier).toBe(SkillLayoutTier.PeripheralInstrument);
-      expect(vsCode?.gridSpan).toBe(4);
+      expect(vsCode?.gridSpan).toBe(1);
       expect(aiTools?.tier).toBe(SkillLayoutTier.PeripheralInstrument);
-      expect(aiTools?.gridSpan).toBe(5);
+      expect(aiTools?.gridSpan).toBe(1);
     });
   });
 });
