@@ -10,13 +10,13 @@ import time
 logger = logging.getLogger(__name__)
 
 # ============================================================
-# Sensor definitions — mimics industrial equipment monitoring
+# Simulated channels — generic demo metrics (no domain coupling)
 # ============================================================
 
 SENSORS = [
     {
-        "id": "crusher_rpm",
-        "label": "Crusher RPM",
+        "id": "spin_rate",
+        "label": "Spin rate",
         "unit": "rpm",
         "base": 1450,
         "amplitude": 80,
@@ -26,8 +26,8 @@ SENSORS = [
         "period": 18,
     },
     {
-        "id": "motor_temp",
-        "label": "Motor Temp",
+        "id": "thermal",
+        "label": "Thermal",
         "unit": "°C",
         "base": 72,
         "amplitude": 12,
@@ -37,8 +37,8 @@ SENSORS = [
         "period": 25,
     },
     {
-        "id": "feed_pressure",
-        "label": "Feed Pressure",
+        "id": "pressure",
+        "label": "Pressure",
         "unit": "bar",
         "base": 4.2,
         "amplitude": 1.1,

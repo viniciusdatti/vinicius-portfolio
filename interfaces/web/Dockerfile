@@ -1,5 +1,5 @@
 # Production image — Vite build + nginx (CI/CD and docker-compose.prod.yml)
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 

@@ -370,7 +370,7 @@
     },
     "philosophy": {
       "title": "How I work",
-      "description": "Typed contracts across layers, structure the team can scale with, and tests on the flows production cannot afford to lose."
+      "description": "Typed contracts that harden integration across layers, predictable architecture for team scale, and surgical tests where instability is non-negotiable."
     },
     "superior": {
       "sectionTitle": "Professional experience",

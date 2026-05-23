@@ -370,7 +370,7 @@
     },
     "philosophy": {
       "title": "Como trabalho",
-      "description": "Contratos tipados entre camadas, estrutura que o time escala junto e testes nos fluxos que a produção não pode perder."
+      "description": "Contratos tipados que blindam a integração entre camadas, arquitetura previsível para a escala do time e testes cirúrgicos onde a instabilidade é inegociável."
     },
     "superior": {
       "sectionTitle": "Experiência profissional",

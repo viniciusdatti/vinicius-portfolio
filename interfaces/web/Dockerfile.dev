@@ -1,6 +1,6 @@
 # Development image — CRA dev server + Fast Refresh (volume-mounted source)
 # Stack note: project uses react-scripts (port 3000), not Vite — see docs/DOCKER.md
-FROM node:20-alpine
+FROM node:22-alpine
 
 WORKDIR /app
 
