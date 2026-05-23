@@ -8,6 +8,8 @@ import { operationalGlass } from '@/styles/surfaces';
 
 export const CloseBand = styled.section`
   width: 100%;
+  min-height: 20rem;
+  contain: layout;
   padding: clamp(4rem, 10vw, 7rem) ${({ theme }) => theme.spacing.pageX}
     clamp(5rem, 12vw, 8rem);
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -35,7 +37,7 @@ export const AboutChapter = styled(motion.div)`
   padding-left: ${({ theme }) => theme.spacing.xl};
 `;
 
-export const ChapterIndex = styled.span`
+export const ChapterIndex = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -46,7 +48,7 @@ export const ChapterIndex = styled.span`
   user-select: none;
 `;
 
-export const ChapterTitle = styled.h2`
+export const ChapterTitle = styled(motion.h2)`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(1.75rem, 4vw, 2.75rem);
@@ -56,14 +58,16 @@ export const ChapterTitle = styled.h2`
   text-wrap: balance;
 `;
 
-export const ChapterBody = styled.p`
+export const ChapterBody = styled(motion.p)`
   margin: 0;
   color: ${({ theme }) => theme.colors.textSecondary};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
   max-width: ${({ theme }) => theme.layout.proseWide};
 `;
 
-export const ChapterLink = styled(Link)`
+const MotionChapterLink = motion.create(Link);
+
+export const ChapterLink = styled(MotionChapterLink)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   letter-spacing: 0.08em;
@@ -89,21 +93,23 @@ export const ContactChapter = styled(motion.div)`
   }
 `;
 
-export const ContactTitle = styled.h3`
+export const ContactTitle = styled(motion.h3)`
   margin: 0;
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: ${({ theme }) => theme.typography.fontSize.xl};
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
 `;
 
-export const ContactBody = styled.p`
+export const ContactBody = styled(motion.p)`
   margin: 0;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
 `;
 
-export const ContactCta = styled(Link)`
+const MotionContactCta = motion.create(Link);
+
+export const ContactCta = styled(MotionContactCta)`
   display: inline-flex;
   align-items: center;
   justify-content: center;

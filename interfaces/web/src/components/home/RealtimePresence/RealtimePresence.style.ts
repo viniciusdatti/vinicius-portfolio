@@ -1,9 +1,12 @@
 // Libraries
 import styled, { DefaultTheme } from 'styled-components';
+import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Theme
 import { operationalGlass } from '@/styles/surfaces';
+
+const MotionLink = motion.create(Link);
 
 type PresenceTone = 'ok' | 'warn' | 'idle';
 
@@ -24,16 +27,17 @@ const getPresenceBackground = (tone: PresenceTone, theme: DefaultTheme): string 
   return theme.colors.mutedSurface;
 };
 
-export const PresenceStrip = styled.div`
+export const PresenceStrip = styled.section`
   position: relative;
   z-index: 3;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.pageX};
   margin-bottom: ${({ theme }) => theme.spacing.lg};
+  min-height: 5.5rem;
 `;
 
-export const PresenceInner = styled.div`
+export const PresenceInner = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -41,6 +45,7 @@ export const PresenceInner = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   padding: ${({ theme }) => theme.spacing.lg};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
+  min-height: 4.5rem;
   ${operationalGlass};
 
   & > * {
@@ -49,7 +54,7 @@ export const PresenceInner = styled.div`
   }
 `;
 
-export const PresenceLead = styled.p`
+export const PresenceLead = styled(motion.p)`
   margin: 0;
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textMuted};
@@ -57,12 +62,10 @@ export const PresenceLead = styled.p`
 `;
 
 export const PresencePills = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${({ theme }) => theme.spacing.sm};
+  display: contents;
 `;
 
-export const PresencePill = styled.span<{ $tone: 'ok' | 'idle' | 'warn' }>`
+export const PresencePill = styled(motion.span)<{ $tone: 'ok' | 'idle' | 'warn' }>`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};
@@ -75,7 +78,7 @@ export const PresencePill = styled.span<{ $tone: 'ok' | 'idle' | 'warn' }>`
   background: ${({ $tone, theme }) => getPresenceBackground($tone, theme)};
 `;
 
-export const PresenceMicro = styled.div`
+export const PresenceMicro = styled(motion.div)`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -92,7 +95,7 @@ export const PresenceMicroDot = styled.span<{ $live: boolean }>`
   background: ${({ $live, theme }) => ($live ? theme.colors.success : theme.colors.textMuted)};
 `;
 
-export const PresenceLink = styled(Link)`
+export const PresenceLink = styled(MotionLink)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};

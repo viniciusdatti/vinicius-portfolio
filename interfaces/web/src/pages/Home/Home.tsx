@@ -16,6 +16,7 @@ import { useProjects } from '@/hooks';
 
 // Components
 import { Hero } from '@/components/Hero';
+import { HomeSectionReveal } from '@/components/Home/HomeSectionReveal';
 import { RealtimePresence } from '@/components/Home/RealtimePresence';
 import { HomeManifestoStrip } from '@/components/Home/HomeManifestoStrip';
 import { HomeWorkStage } from '@/components/Home/HomeWorkStage';
@@ -41,18 +42,30 @@ export const Home = (): React.ReactElement => {
   return (
     <>
       <Hero />
-      <RealtimePresence />
-      <HomeManifestoStrip />
-      <HomeWorkStage
-        projects={projects}
-        language={currentLanguage}
-        isLoading={isLoading}
-        isError={isError}
-        onRetry={() => refetch()}
-      />
-      <HomeLiveLabImmersion />
-      <HomeCapabilityRail />
-      <HomeChapterClose />
+      <HomeSectionReveal>
+        <RealtimePresence />
+      </HomeSectionReveal>
+      <HomeSectionReveal>
+        <HomeManifestoStrip />
+      </HomeSectionReveal>
+      <HomeSectionReveal>
+        <HomeWorkStage
+          projects={projects}
+          language={currentLanguage}
+          isLoading={isLoading}
+          isError={isError}
+          onRetry={() => refetch()}
+        />
+      </HomeSectionReveal>
+      <HomeSectionReveal>
+        <HomeLiveLabImmersion />
+      </HomeSectionReveal>
+      <HomeSectionReveal>
+        <HomeCapabilityRail />
+      </HomeSectionReveal>
+      <HomeSectionReveal>
+        <HomeChapterClose />
+      </HomeSectionReveal>
     </>
   );
 };

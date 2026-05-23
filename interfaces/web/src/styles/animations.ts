@@ -87,29 +87,66 @@ export const pageEnterReduced: Variants = {
   },
 };
 
+/** Reduced motion — opacity only, 300ms linear (no Y/blur). */
+export const SCROLL_REVEAL_REDUCED_DURATION_S = 0.3;
+
+const scrollRevealReducedTransition = {
+  duration: SCROLL_REVEAL_REDUCED_DURATION_S,
+  ease: 'linear' as const,
+} as const;
+
 export const scrollRevealReduced: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: motionPresets.duration.normal, ease: motionEase },
+    transition: scrollRevealReducedTransition,
   },
 };
 
+// =================================================================================================
+// ========================================= SCROLL REVEAL =========================================
+// =================================================================================================
+
+/** Canonical editorial reveal — 30px Y, 5px blur, 450ms, cubic [0.22, 1, 0.36, 1]. */
+export const SCROLL_REVEAL_DURATION_S = 0.45;
+
+export const SCROLL_REVEAL_Y_PX = 30;
+
+export const SCROLL_REVEAL_BLUR = '5px';
+
+export const SCROLL_REVEAL_STAGGER_CHILD_S = 0.06;
+
 /**
- * Page title reveal — editorial Y without blur (preserves gradientTextDisplay mask).
+ * Viewport gate — fire once per mount so blocks stay visible after reveal.
+ * Negative bottom margin triggers slightly before the section fully enters view.
+ */
+export const scrollRevealViewport = {
+  once: true,
+  amount: 0.12 as const,
+  margin: '0px 0px -6% 0px' as const,
+};
+
+const scrollRevealTransition = {
+  duration: SCROLL_REVEAL_DURATION_S,
+  ease: motionEase,
+} as const;
+
+/**
+ * Page title reveal — editorial Y + blur (skip blur on gradient-masked titles if needed).
  */
 export const scrollRevealTitle: Variants = {
   hidden: {
     opacity: 0,
-    y: motionPresets.distance.editorial,
+    y: SCROLL_REVEAL_Y_PX,
+    scale: 1,
+    filter: SCROLL_REVEAL_BLUR,
   },
   visible: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: motionPresets.duration.editorial,
-      ease: motionEase,
-    },
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: scrollRevealTransition,
   },
 };
 
@@ -127,27 +164,22 @@ export const resolvePageTransition = (
   return pageEnter;
 };
 
-// =================================================================================================
-// ========================================= SCROLL REVEAL =========================================
-// =================================================================================================
-
 /**
  * Reveal de seção ao entrar na viewport — editorial, sem bounce.
  */
 export const scrollReveal: Variants = {
   hidden: {
     opacity: 0,
-    y: motionPresets.distance.editorial,
-    filter: 'blur(8px)',
+    y: SCROLL_REVEAL_Y_PX,
+    scale: 1,
+    filter: SCROLL_REVEAL_BLUR,
   },
   visible: {
     opacity: 1,
     y: 0,
+    scale: 1,
     filter: 'blur(0px)',
-    transition: {
-      duration: motionPresets.duration.editorial,
-      ease: motionEase,
-    },
+    transition: scrollRevealTransition,
   },
 };
 
@@ -158,8 +190,8 @@ export const scrollRevealStagger: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: motionPresets.stagger.editorialChild,
-      delayChildren: motionPresets.stagger.editorialDelay,
+      staggerChildren: SCROLL_REVEAL_STAGGER_CHILD_S,
+      delayChildren: 0.04,
     },
   },
 };
@@ -168,11 +200,18 @@ export const scrollRevealStagger: Variants = {
  * Item filho do stagger de scroll reveal.
  */
 export const scrollRevealItem: Variants = {
-  hidden: { opacity: 0, y: motionPresets.distance.item },
+  hidden: {
+    opacity: 0,
+    y: SCROLL_REVEAL_Y_PX,
+    scale: 1,
+    filter: SCROLL_REVEAL_BLUR,
+  },
   visible: {
     opacity: 1,
     y: 0,
-    transition: physicalSpringTransition,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: scrollRevealTransition,
   },
 };
 
@@ -180,7 +219,7 @@ export const scrollRevealItemReduced: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { duration: motionPresets.duration.fast },
+    transition: scrollRevealReducedTransition,
   },
 };
 
@@ -196,33 +235,10 @@ export const resolveScrollReveal = (reducedMotion: boolean): Variants => (
 // =================================================================================================
 
 /** Manifesto phrase container — staggered editorial reveal (orchestrated-sequences). */
-export const manifestoPhraseStagger: Variants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.14,
-      delayChildren: 0.1,
-    },
-  },
-};
+export const manifestoPhraseStagger: Variants = scrollRevealStagger;
 
-/** Single manifesto phrase line — anticipation before full thesis lands. */
-export const manifestoPhrase: Variants = {
-  hidden: {
-    opacity: 0,
-    y: 28,
-    filter: 'blur(4px)',
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: {
-      duration: motionPresets.duration.slow,
-      ease: motionEase,
-    },
-  },
-};
+/** Single manifesto phrase line — matches scroll reveal item contract. */
+export const manifestoPhrase: Variants = scrollRevealItem;
 
 export const manifestoPhraseReduced: Variants = {
   hidden: { opacity: 0 },

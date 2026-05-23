@@ -11,6 +11,7 @@ import { publicAssetUrl } from '@/config/env';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
+import { HomeSectionReveal } from '@/components/Home/HomeSectionReveal';
 import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
 
 // View
@@ -24,12 +25,13 @@ import {
   CapabilityList,
   CapabilityRow,
   CapabilitySignal,
+  CapabilityNameLead,
+  CapabilityNameIconSlot,
   CapabilityName,
   CapabilityMeta,
   CapabilityIcon,
   CapabilityDomain,
   CapabilityFeaturedRow,
-  CapabilityFeaturedName,
   CapabilityFeaturedMeta,
   CapabilityFeaturedDomain,
   CapabilityFeaturedDesc,
@@ -53,11 +55,9 @@ const ITEMS: CapabilityItem[] = [
   { name: 'Docker', icon: 'docker.svg', signal: 'SIG-06' },
 ];
 
-const viewport = { once: true, margin: '-60px' as const };
-
 export const HomeCapabilityRail = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { section, stagger, item } = useScrollMotion();
+  const { stagger, item, viewport } = useScrollMotion();
 
   const featured = ITEMS.find((i) => i.featured);
   const rest = ITEMS.filter((i) => !i.featured);
@@ -71,33 +71,37 @@ export const HomeCapabilityRail = (): React.ReactElement => {
     <CapabilityBand id="section-capabilities">
       <CapabilityShell>
         <CapabilityHeader>
-          <CapabilityIndex aria-hidden>{t('home.sections.skills.index')}</CapabilityIndex>
-          <CapabilityTitle
-            variants={section}
+          <HomeSectionReveal stagger>
+            <CapabilityIndex variants={item} aria-hidden>
+              {t('home.sections.skills.index')}
+            </CapabilityIndex>
+            <CapabilityTitle variants={item}>
+              {t('home.skillsPreview.title')}
+            </CapabilityTitle>
+            <CapabilityLink variants={item} to="/skills">
+              {t('home.skillsPreview.viewAll')}
+              {' '}
+              →
+            </CapabilityLink>
+          </HomeSectionReveal>
+        </CapabilityHeader>
+
+        {featured ? (
+          <CapabilityFeaturedRow
+            variants={item}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
           >
-            {t('home.skillsPreview.title')}
-          </CapabilityTitle>
-          <CapabilityLink to="/skills">
-            {t('home.skillsPreview.viewAll')}
-            {' '}
-            →
-          </CapabilityLink>
-        </CapabilityHeader>
-
-        {featured ? (
-          <CapabilityFeaturedRow>
             <CapabilitySignal aria-hidden>{featured.signal}</CapabilitySignal>
-            <CapabilityFeaturedName>
+            <CapabilityNameLead $featured>
               <CapabilityIcon
                 src={publicAssetUrl(`icons/${featured.icon}`)}
                 alt=""
                 aria-hidden
               />
-              {featured.name}
-            </CapabilityFeaturedName>
+              <CapabilityName>{featured.name}</CapabilityName>
+            </CapabilityNameLead>
             <CapabilityFeaturedMeta>
               <CapabilityFeaturedDesc>{t('skills.layout.heroDescription')}</CapabilityFeaturedDesc>
               <CapabilityFeaturedDomain>{t('skills.layout.heroDomain')}</CapabilityFeaturedDomain>
@@ -114,7 +118,10 @@ export const HomeCapabilityRail = (): React.ReactElement => {
           {rest.map((cap: CapabilityItem) => (
             <CapabilityRow key={cap.name} variants={item}>
               <CapabilitySignal aria-hidden>{cap.signal}</CapabilitySignal>
-              <CapabilityName>{cap.name}</CapabilityName>
+              <CapabilityNameLead>
+                <CapabilityNameIconSlot aria-hidden />
+                <CapabilityName>{cap.name}</CapabilityName>
+              </CapabilityNameLead>
               <CapabilityMeta>
                 <CapabilityIcon
                   src={publicAssetUrl(`icons/${cap.icon}`)}

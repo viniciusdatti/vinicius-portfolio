@@ -9,17 +9,21 @@ import type { Project } from '@/data/types';
 import {
   formatProjectSignalCode,
   getProjectDisplayTitle,
+  orderProjectsForShowcase,
 } from '@/domain/projects';
 import { Language } from '@/types';
 import {
   ProjectCanvasTone,
 } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
+// Hooks
+import { useScrollMotion } from '@/hooks/useScrollMotion';
+
 // Components
+import { HomeSectionReveal } from '@/components/Home/HomeSectionReveal';
 import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
 import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // View
 import {
@@ -65,8 +69,6 @@ const resolveTone = (index: number): ProjectCanvasTone => {
   return ProjectCanvasTone.A;
 };
 
-const viewport = { once: true, margin: '-80px' as const };
-
 export const HomeWorkStage = ({
   projects,
   language,
@@ -75,14 +77,17 @@ export const HomeWorkStage = ({
   onRetry,
 }: HomeWorkStageProps): React.ReactElement => {
   const { t } = useTranslation();
-  const { section, stagger, item } = useScrollMotion();
+  const {
+    section,
+    stagger,
+    item,
+    viewport,
+  } = useScrollMotion();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const ordered: Project[] = useMemo(() => {
-    const list = projects ?? [];
-    const withDemo = list.filter((p: Project) => Boolean(p.demo_url));
-    const withoutDemo = list.filter((p: Project) => !p.demo_url);
-    return [...withDemo, ...withoutDemo].slice(0, 4);
+  const ordered: Project[] = useMemo((): Project[] => {
+    const list: Project[] = projects ?? [];
+    return orderProjectsForShowcase(list).slice(0, 4);
   }, [projects]);
 
   const highlightId: number = selectedId ?? ordered[0]?.id ?? -1;
@@ -141,22 +146,25 @@ export const HomeWorkStage = ({
     <WorkStage id="section-work">
       <WorkStageGrid>
         <WorkRail>
-          <WorkRailIndex aria-hidden>{t('home.sections.projects.index')}</WorkRailIndex>
-          <WorkEyebrow>{t('home.sections.projects.eyebrow')}</WorkEyebrow>
-          <WorkTitle
-            variants={section}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-          >
-            {t('projects.sectionTitle')}
-          </WorkTitle>
-          <WorkStory>{t('home.sections.projects.story')}</WorkStory>
-          <WorkRailLink to="/projects">
-            {t('home.sections.projects.viewAll')}
-            {' '}
-            →
-          </WorkRailLink>
+          <HomeSectionReveal stagger>
+            <WorkRailIndex variants={item} aria-hidden>
+              {t('home.sections.projects.index')}
+            </WorkRailIndex>
+            <WorkEyebrow variants={item}>
+              {t('home.sections.projects.eyebrow')}
+            </WorkEyebrow>
+            <WorkTitle variants={item}>
+              {t('projects.sectionTitle')}
+            </WorkTitle>
+            <WorkStory variants={item}>
+              {t('home.sections.projects.story')}
+            </WorkStory>
+            <WorkRailLink variants={item} to="/projects">
+              {t('home.sections.projects.viewAll')}
+              {' '}
+              →
+            </WorkRailLink>
+          </HomeSectionReveal>
         </WorkRail>
 
         <WorkCanvas>
@@ -165,7 +173,7 @@ export const HomeWorkStage = ({
             $tone={resolveTone(0)}
             $active={highlightId === featured.id}
             onClick={() => handleSelect(featured.id)}
-            variants={item}
+            variants={section}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}

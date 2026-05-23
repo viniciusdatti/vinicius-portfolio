@@ -19,6 +19,7 @@ export const WorkStage = styled.section`
   position: relative;
   z-index: 3;
   width: 100%;
+  min-height: 24rem;
   padding: clamp(3rem, 7vw, 5rem) ${({ theme }) => theme.spacing.pageX}
     clamp(4rem, 10vw, 7rem);
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
@@ -50,7 +51,7 @@ export const WorkRail = styled.aside`
   }
 `;
 
-export const WorkRailIndex = styled.span`
+export const WorkRailIndex = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(3rem, 7vw, 5rem);
   font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
@@ -62,7 +63,7 @@ export const WorkRailIndex = styled.span`
   user-select: none;
 `;
 
-export const WorkEyebrow = styled.span`
+export const WorkEyebrow = styled(motion.span)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: 0.14em;
@@ -80,7 +81,7 @@ export const WorkTitle = styled(motion.h2)`
   max-width: 11ch;
 `;
 
-export const WorkStory = styled.p`
+export const WorkStory = styled(motion.p)`
   margin: 0;
   color: ${({ theme }) => theme.colors.textSecondary};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -88,7 +89,9 @@ export const WorkStory = styled.p`
   max-width: ${({ theme }) => theme.layout.prose};
 `;
 
-export const WorkRailLink = styled(Link)`
+const MotionWorkLink = motion.create(Link);
+
+export const WorkRailLink = styled(MotionWorkLink)`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
