@@ -35,10 +35,7 @@ import {
 import { motionEase } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
 import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
-import {
-  SkillInstrumentFieldVariant,
-  SkillInstrumentTelemetryField,
-} from '@/components/Skills/SkillInstrumentTelemetryField';
+import { SupportStackCard } from '@/components/Skills/SupportStackCard';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
@@ -69,12 +66,12 @@ import {
   SkillsHeroDesc,
   SkillsHeroDomain,
   SkillsAsymmetricGrid,
+  SupportStackGrid,
   SkillEditorialCard,
   SkillEditorialIcon,
   SkillEditorialName,
   SkillEditorialDomain,
   SkillEditorialInfo,
-  SkillInstrumentBody,
   SkillCategoryLabel,
   SkillsPeripheralChapter,
   ExperienceSection,
@@ -178,12 +175,6 @@ const MARKETING_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
   SkillLayoutTier.PeripheralFeatured,
 ]);
 
-const OPERATIONAL_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
-  SkillLayoutTier.PeripheralInstrument,
-  SkillLayoutTier.PeripheralStandard,
-  SkillLayoutTier.PeripheralCompact,
-]);
-
 const initialState: SkillsPageState = {
   activeCategory: 'all',
   selectedCertificate: null,
@@ -202,13 +193,25 @@ const resolveCoreDomainLabel = (
   return translated === domainKey ? null : translated;
 };
 
-const resolveInstrumentFieldVariant = (
+const resolvePeripheralDomainLabel = (
   skillName: string,
-): SkillInstrumentFieldVariant => (
-  skillName === 'AI tools'
-    ? SkillInstrumentFieldVariant.AiTools
-    : SkillInstrumentFieldVariant.Vscode
-);
+  t: (key: string) => string,
+): string | null => {
+  const domainKey: string = `skills.layout.peripheralDomains.${skillName}`;
+  const translated: string = t(domainKey);
+  return translated === domainKey ? null : translated;
+};
+
+const resolvePeripheralDescription = (
+  skill: Skill,
+  t: (key: string) => string,
+): string => {
+  const domainLabel: string | null = resolvePeripheralDomainLabel(skill.name, t);
+  if (domainLabel) {
+    return domainLabel;
+  }
+  return t(`skills.categories.${skill.category}`).toLowerCase();
+};
 
 interface SkillEditorialCardShellProps {
   tier: SkillLayoutTier;
@@ -226,9 +229,7 @@ const SkillEditorialCardShell: React.FC<SkillEditorialCardShellProps> = ({
   itemVariants,
   children,
 }): React.ReactElement => {
-  const useMarketingSpotlight: boolean = MARKETING_SPOTLIGHT_TIERS.has(tier);
-  const useOperationalSpotlight: boolean = OPERATIONAL_SPOTLIGHT_TIERS.has(tier);
-  const enableSpotlight: boolean = useMarketingSpotlight || useOperationalSpotlight;
+  const enableSpotlight: boolean = MARKETING_SPOTLIGHT_TIERS.has(tier);
   const isMinimalTier: boolean = tier === SkillLayoutTier.PeripheralMinimal;
 
   const {
@@ -343,7 +344,6 @@ export const Skills: React.FC = (): React.ReactElement => {
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const [state, setState] = useState<SkillsPageState>(initialState);
   const scrollMotion = useScrollMotion();
-  const viewport = { once: true, margin: '-60px' as const };
 
   const {
     data: skills = [],
@@ -430,17 +430,26 @@ export const Skills: React.FC = (): React.ReactElement => {
         gridSpan={gridSpan}
         itemVariants={scrollMotion.item}
       >
-        {tier === SkillLayoutTier.PeripheralInstrument ? (
-          <>
-            <SkillInstrumentTelemetryField
-              variant={resolveInstrumentFieldVariant(skill.name)}
-            />
-            <SkillInstrumentBody>{editorialBody}</SkillInstrumentBody>
-          </>
-        ) : (
-          editorialBody
-        )}
+        {editorialBody}
       </SkillEditorialCardShell>
+    );
+  };
+
+  const renderPeripheralSkillCard = (placement: SkillLayoutPlacement): React.ReactElement => {
+    const { skill, gridSpan } = placement;
+    const displayName: string = resolveSkillDisplayName(skill, isPt);
+    const description: string = resolvePeripheralDescription(skill, t);
+
+    return (
+      <SkillsStaggerSlot key={skill.id} variants={scrollMotion.item}>
+        <SupportStackCard
+          skill={skill}
+          displayName={displayName}
+          description={description}
+          iconUrl={resolveSkillIconUrl(skill)}
+          gridSpan={gridSpan}
+        />
+      </SkillsStaggerSlot>
     );
   };
 
@@ -474,7 +483,8 @@ export const Skills: React.FC = (): React.ReactElement => {
         key={state.activeCategory}
         variants={scrollMotion.stagger}
         initial="hidden"
-        animate="visible"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
         exit={{ opacity: 0 }}
       >
         {(hero !== null || coreRow.length > 0) ? (
@@ -495,9 +505,11 @@ export const Skills: React.FC = (): React.ReactElement => {
             {showPeripheralChapter ? (
               <SectionEyebrow>{t('skills.layout.peripheralEyebrow')}</SectionEyebrow>
             ) : null}
-            <SkillsAsymmetricGrid>
-              {peripheral.map((placement: SkillLayoutPlacement) => renderSkillCard(placement))}
-            </SkillsAsymmetricGrid>
+            <SupportStackGrid>
+              {peripheral.map((placement: SkillLayoutPlacement) => (
+                renderPeripheralSkillCard(placement)
+              ))}
+            </SupportStackGrid>
           </SkillsPeripheralChapter>
         ) : null}
       </SkillsEditorialLayout>
@@ -510,7 +522,8 @@ export const Skills: React.FC = (): React.ReactElement => {
         <SkillsGrid
           variants={scrollMotion.stagger}
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
         >
           {Array.from({ length: SKELETON_CARD_COUNT }, (_item: unknown, index: number) => (
             <SkillCardSkeleton key={`skill-skeleton-${index}`} />
@@ -544,7 +557,7 @@ export const Skills: React.FC = (): React.ReactElement => {
           variants={scrollMotion.stagger}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={scrollMotion.viewport}
         >
           {Array.from({ length: 4 }, (_item: unknown, index: number) => (
             <SkillCardSkeleton key={`cert-skeleton-${index}`} />
@@ -569,7 +582,7 @@ export const Skills: React.FC = (): React.ReactElement => {
         variants={scrollMotion.stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
+        viewport={scrollMotion.viewport}
       >
         {sortedCertificates.map((cert: Certificate) => {
           const platform = getPlatformConfig(cert.platform);
@@ -623,7 +636,7 @@ export const Skills: React.FC = (): React.ReactElement => {
           variants={scrollMotion.title}
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={scrollMotion.viewport}
         >
           <PageTitleGradient>{t('skills.title')}</PageTitleGradient>
         </PageTitle>
@@ -631,13 +644,18 @@ export const Skills: React.FC = (): React.ReactElement => {
           variants={scrollMotion.section}
           initial="hidden"
           whileInView="visible"
-          viewport={viewport}
+          viewport={scrollMotion.viewport}
         >
           {t('skills.subtitle')}
         </PageSubtitle>
       </PageHeader>
 
-      <Section>
+      <Section
+        variants={scrollMotion.section}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
         <CategoryTabs>
           {categories.map((cat: CategoryOption) => (
             <CategoryTab
@@ -654,7 +672,12 @@ export const Skills: React.FC = (): React.ReactElement => {
         {renderSkillsContent()}
       </Section>
 
-      <ExperienceSection>
+      <ExperienceSection
+        variants={scrollMotion.section}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
         <SectionTitle>
           <SectionTitleGradient>{t('skills.experience.title')}</SectionTitleGradient>
         </SectionTitle>
@@ -664,7 +687,7 @@ export const Skills: React.FC = (): React.ReactElement => {
           variants={scrollMotion.stagger}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
+          viewport={scrollMotion.viewport}
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
             <ExperienceCardShell
@@ -686,7 +709,12 @@ export const Skills: React.FC = (): React.ReactElement => {
         </ExperienceGrid>
       </ExperienceSection>
 
-      <CertificatesSection>
+      <CertificatesSection
+        variants={scrollMotion.section}
+        initial="hidden"
+        whileInView="visible"
+        viewport={scrollMotion.viewport}
+      >
         <SectionTitle>
           <SectionTitleGradient>{t('skills.certificates.title')}</SectionTitleGradient>
           {!certificatesLoading && !certificatesError && sortedCertificates.length > 0 && (

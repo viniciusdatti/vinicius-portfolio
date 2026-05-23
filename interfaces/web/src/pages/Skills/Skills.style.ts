@@ -91,7 +91,7 @@ export const SkillsStaggerSlot = styled(motion.div)`
 /**
  * Generic section wrapper with bottom margin.
  */
-export const Section = styled.section`
+export const Section = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.section};
   ${scrollAnchorOffset};
 `;
@@ -229,12 +229,17 @@ export const ExperienceCardHighlight = styled.p`
 `;
 
 /**
- * Ultra-compact instrument filter strip — mono uppercase, hairline dividers.
+ * Ultra-compact instrument filter strip — intrinsic width, centered like PageHeader;
+ * scrolls when overflowing.
  */
 export const CategoryTabs = styled.div`
   display: flex;
   flex-wrap: nowrap;
   align-items: stretch;
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
   overflow-x: auto;
   scrollbar-width: none;
   margin-bottom: ${({ theme }) => theme.spacing.xl};
@@ -713,6 +718,28 @@ export const SkillsPeripheralChapter = styled.div`
   gap: ${({ theme }) => theme.spacing.lg};
   padding-top: ${({ theme }) => theme.spacing.md};
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+`;
+
+/**
+ * Dense support-stack matrix — 15% tighter gaps; 5→6 columns from desktop breakpoint.
+ */
+export const SupportStackGrid = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: calc(${({ theme }) => theme.spacing.md} * 0.85);
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: calc(${({ theme }) => theme.spacing.sm} * 0.85);
+  }
+
+  @media (min-width: ${({ theme }) => theme.breakpoints.wide}) {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
 `;
 
 /**
