@@ -36,7 +36,7 @@ const feedReinit = (theme: DefaultTheme) => keyframes`
   };
 `;
 
-const stripScan = (theme: DefaultTheme) => keyframes`
+const stripScan = (): ReturnType<typeof keyframes> => keyframes`
   0% {
     left: -24%;
     opacity: 0;
@@ -95,7 +95,7 @@ export const TelemetryStripRoot = styled.div`
   @media (hover: hover) and (pointer: fine) {
     &:hover::after {
       opacity: 1;
-      animation: ${({ theme }) => stripScan(theme)} 720ms ${({ theme }) => theme.motion.easeOut}
+      animation: ${stripScan()} 720ms ${({ theme }) => theme.motion.easeOut}
         both;
     };
   };
