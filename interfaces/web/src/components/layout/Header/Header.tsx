@@ -17,7 +17,6 @@ import { motionPresets } from '@/styles/motionPresets';
 import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { MobileMenu } from '@/components/Layout/MobileMenu';
-import { HeaderStatusPills } from '@/components/Layout/Header/HeaderStatusPills';
 import {
   HeaderContainer,
   HeaderShell,
@@ -93,8 +92,8 @@ export const Header = (): React.ReactElement => {
     <>
       <HeaderContainer
         $scrolled={state.scrolled}
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{
           duration: motionPresets.duration.page,
           ease: motionEase,
@@ -127,7 +126,6 @@ export const Header = (): React.ReactElement => {
             </HeaderCenter>
 
             <HeaderTrailing $isWorkspace={isLiveLab}>
-              {!isLiveLab ? <HeaderStatusPills /> : null}
               <HeaderActions>
                 <LanguageToggle />
                 <ThemeToggle />

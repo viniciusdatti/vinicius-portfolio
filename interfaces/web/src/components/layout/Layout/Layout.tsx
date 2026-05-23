@@ -58,7 +58,7 @@ export const Layout: React.FC = (): React.ReactElement => {
         tabIndex={-1}
         $workspaceMode={isLiveLab}
       >
-        <AnimatePresence mode="wait" initial={false}>
+        <AnimatePresence mode="wait" initial>
           <PageMotionLayer
             key={location.key}
             $workspace={isLiveLab}

@@ -16,17 +16,23 @@ export const HeaderContainer = styled(motion.header)<{ $scrolled: boolean }>`
   z-index: ${({ theme }) => theme.zIndex.sticky + 1};
   padding: ${({ theme }) => theme.spacing.md}
     ${({ theme }) => theme.spacing.pageX};
+  padding-top: max(
+    ${({ theme }) => theme.spacing.md},
+    env(safe-area-inset-top, 0px)
+  );
   background-color: transparent;
+  isolation: isolate;
   transition: padding ${({ theme }) => theme.transitions.normal};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: ${({ theme }) => theme.spacing.md}
-      ${({ theme }) => theme.spacing.lg};
+    padding-left: ${({ theme }) => theme.spacing.lg};
+    padding-right: ${({ theme }) => theme.spacing.lg};
   };
 `;
 
 export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boolean }>`
   position: relative;
+  width: 100%;
   max-width: ${({ theme }) => theme.layout.contentWide};
   margin: 0 auto;
   display: flex;
@@ -49,10 +55,14 @@ export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boole
   -webkit-backdrop-filter: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
     ? theme.effects.backdrop.header
     : 'none')};
+  box-shadow: ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace
+    ? theme.elevation.sm
+    : 'none')};
   transition:
     background ${({ theme }) => theme.transitions.normal},
     border-color ${({ theme }) => theme.transitions.normal},
-    backdrop-filter ${({ theme }) => theme.transitions.normal};
+    backdrop-filter ${({ theme }) => theme.transitions.normal},
+    box-shadow ${({ theme }) => theme.transitions.normal};
 
   ${({ $scrolled, $isWorkspace, theme }) => ($scrolled || $isWorkspace) && `
     &::before {
@@ -65,6 +75,26 @@ export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boole
       z-index: 0;
     };
   `}
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
+    border-color: ${({ theme }) => theme.colors.border};
+    background: ${({ theme }) => theme.colors.surfaceGlass};
+    backdrop-filter: ${({ theme }) => theme.effects.backdrop.header};
+    -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.header};
+    box-shadow: ${({ theme }) => theme.elevation.sm};
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
+      pointer-events: none;
+      z-index: 0;
+    };
+  };
+
   min-width: 0;
   overflow: visible;
 `;
@@ -72,12 +102,16 @@ export const HeaderShell = styled.div<{ $scrolled: boolean; $isWorkspace?: boole
 export const HeaderContent = styled.div<{ $isWorkspace?: boolean }>`
   width: 100%;
   display: grid;
-  grid-template-columns: ${({ $isWorkspace }) => ($isWorkspace ? 'auto 1fr auto' : 'auto 1fr auto')};
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.md};
   min-width: 0;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
     gap: ${({ theme }) => theme.spacing.sm};
   };
 `;
@@ -92,6 +126,10 @@ export const HeaderCenter = styled.div<{ $compact?: boolean }>`
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: none;
+    width: 0;
+    min-width: 0;
+    overflow: hidden;
+    pointer-events: none;
   };
 `;
 
@@ -128,18 +166,6 @@ export const LogoSuffix = styled.span`
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    display: none;
-  };
-`;
-
-export const HeaderStatusWrap = styled.div`
-  display: flex;
-  align-items: center;
-  gap: ${({ theme }) => theme.spacing.sm};
-  flex-shrink: 1;
-  min-width: 0;
-
-  @media (max-width: ${({ theme }) => theme.breakpoints.wide}) {
     display: none;
   };
 `;
