@@ -8,7 +8,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence, motion, type Variants } from 'framer-motion';
+import { AnimatePresence, type Variants } from 'framer-motion';
 
 // Types
 import { SkillCategory, type Certificate, type Skill } from '@/types';
@@ -32,17 +32,19 @@ import {
 } from '@/domain/skills';
 
 // Components
-import { skillCategoryLabelVariants } from '@/styles/animations';
+import { motionEase } from '@/styles/animations';
+import { motionPresets } from '@/styles/motionPresets';
 import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
 import {
   SkillInstrumentFieldVariant,
   SkillInstrumentTelemetryField,
-} from '@/components/skills/SkillInstrumentTelemetryField';
+} from '@/components/Skills/SkillInstrumentTelemetryField';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
   PageHeader,
   PageTitle,
+  PageTitleGradient,
   PageSubtitle,
   SectionEyebrow,
 } from '@/styles/pageLayout.style';
@@ -51,8 +53,10 @@ import {
 import {
   Section,
   SectionTitle,
+  SectionTitleGradient,
   CategoryTabs,
   CategoryTab,
+  SkillsStaggerSlot,
   SkillsGrid,
   SkillsEditorialLayout,
   SkillsCoreChapter,
@@ -149,7 +153,30 @@ const EXPERIENCE_ITEM_KEYS: readonly string[] = [
   'testing',
 ];
 
+/** Production WebSocket dashboards card — spans 2 columns on desktop. */
+const FEATURED_EXPERIENCE_KEY: string = 'realtime';
+
 const SKELETON_CARD_COUNT: number = 8;
+
+/** Category chip reveal on card hover — ease-out only (no spring bounce). */
+const skillCategoryLabelVariants: Variants = {
+  hidden: { y: 6, opacity: 0 },
+  visible: { y: 6, opacity: 0 },
+  hover: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: motionPresets.duration.fast,
+      ease: motionEase,
+    },
+  },
+};
+
+const MARKETING_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
+  SkillLayoutTier.CoreLarge,
+  SkillLayoutTier.CoreMedium,
+  SkillLayoutTier.PeripheralFeatured,
+]);
 
 const OPERATIONAL_SPOTLIGHT_TIERS: ReadonlySet<SkillLayoutTier> = new Set([
   SkillLayoutTier.PeripheralInstrument,
@@ -191,7 +218,7 @@ interface SkillEditorialCardShellProps {
 }
 
 /**
- * Editorial skill card with spring spotlight on operational-glass and marketing tiers.
+ * Editorial skill card — pointer-tracked spotlight; CSS interactiveLift handles hover lift.
  */
 const SkillEditorialCardShell: React.FC<SkillEditorialCardShellProps> = ({
   tier,
@@ -199,37 +226,34 @@ const SkillEditorialCardShell: React.FC<SkillEditorialCardShellProps> = ({
   itemVariants,
   children,
 }): React.ReactElement => {
+  const useMarketingSpotlight: boolean = MARKETING_SPOTLIGHT_TIERS.has(tier);
   const useOperationalSpotlight: boolean = OPERATIONAL_SPOTLIGHT_TIERS.has(tier);
-  const useMarketingSpotlight: boolean = tier === SkillLayoutTier.CoreLarge;
-  const enableSpotlight: boolean = useOperationalSpotlight || useMarketingSpotlight;
-  const enablePhysicalMotion: boolean = tier !== SkillLayoutTier.PeripheralMinimal;
+  const enableSpotlight: boolean = useMarketingSpotlight || useOperationalSpotlight;
+  const isMinimalTier: boolean = tier === SkillLayoutTier.PeripheralMinimal;
 
   const {
     ref,
     motionProps,
   }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
-    disabled: !enablePhysicalMotion && !enableSpotlight,
+    disabled: isMinimalTier,
     enableSpotlight,
-    enableTilt: enablePhysicalMotion,
-    enableLift: enablePhysicalMotion,
+    enableTilt: false,
+    enableLift: false,
   });
 
   return (
-    <motion.div variants={itemVariants} style={{ display: 'contents' }}>
+    <SkillsStaggerSlot variants={itemVariants}>
       <SkillEditorialCard
         ref={ref}
-        whileHover="hover"
         layout
         $tier={tier}
         $gridSpan={gridSpan}
         style={motionProps.style}
-        animate={motionProps.animate}
-        transition={motionProps.transition}
-        whileTap={motionProps.whileTap}
+        whileTap={isMinimalTier ? undefined : motionProps.whileTap}
       >
         {children}
       </SkillEditorialCard>
-    </motion.div>
+    </SkillsStaggerSlot>
   );
 };
 
@@ -241,7 +265,7 @@ interface CertificateCardShellProps {
 }
 
 /**
- * Certificate card with spring lift/tilt and scroll stagger reveal.
+ * Certificate card — pointer spotlight + CSS lift via cardInteractive mixin.
  */
 const CertificateCardShell: React.FC<CertificateCardShellProps> = ({
   itemVariants,
@@ -253,25 +277,60 @@ const CertificateCardShell: React.FC<CertificateCardShellProps> = ({
     ref,
     motionProps,
   }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
-    enableSpotlight: false,
-    enableTilt: true,
-    enableLift: true,
+    enableSpotlight: true,
+    enableTilt: false,
+    enableLift: false,
   });
 
   return (
-    <motion.div variants={itemVariants} style={{ display: 'contents' }}>
+    <SkillsStaggerSlot variants={itemVariants}>
       <CertificateCard
         ref={ref}
         onClick={onClick}
         $platformColor={platformColor}
         style={motionProps.style}
-        animate={motionProps.animate}
-        transition={motionProps.transition}
         whileTap={motionProps.whileTap}
       >
         {children}
       </CertificateCard>
-    </motion.div>
+    </SkillsStaggerSlot>
+  );
+};
+
+interface ExperienceCardShellProps {
+  itemVariants: Variants;
+  featured: boolean;
+  children: React.ReactNode;
+}
+
+/**
+ * Architecture experience card — amber pointer torch + CSS liftMd + tap scale.
+ */
+const ExperienceCardShell: React.FC<ExperienceCardShellProps> = ({
+  itemVariants,
+  featured,
+  children,
+}): React.ReactElement => {
+  const {
+    ref,
+    motionProps,
+  }: UsePhysicalInteractionResult<HTMLDivElement> = usePhysicalInteraction({
+    enableSpotlight: true,
+    enableTilt: false,
+    enableLift: false,
+  });
+
+  return (
+    <SkillsStaggerSlot variants={itemVariants}>
+      <ExperienceCard
+        ref={ref}
+        $featured={featured}
+        style={motionProps.style}
+        whileTap={motionProps.whileTap}
+      >
+        {children}
+      </ExperienceCard>
+    </SkillsStaggerSlot>
   );
 };
 
@@ -283,7 +342,7 @@ export const Skills: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const [state, setState] = useState<SkillsPageState>(initialState);
-  const motion = useScrollMotion();
+  const scrollMotion = useScrollMotion();
   const viewport = { once: true, margin: '-60px' as const };
 
   const {
@@ -369,7 +428,7 @@ export const Skills: React.FC = (): React.ReactElement => {
         key={skill.id}
         tier={tier}
         gridSpan={gridSpan}
-        itemVariants={motion.item}
+        itemVariants={scrollMotion.item}
       >
         {tier === SkillLayoutTier.PeripheralInstrument ? (
           <>
@@ -389,7 +448,7 @@ export const Skills: React.FC = (): React.ReactElement => {
     const displayName: string = resolveSkillDisplayName(heroSkill, isPt);
 
     return (
-      <SkillsHeroBlock variants={motion.item}>
+      <SkillsHeroBlock variants={scrollMotion.item}>
         <SkillsHeroSignal aria-hidden>{t('skills.layout.heroSignal')}</SkillsHeroSignal>
         <SkillsHeroName>
           <SkillsHeroIcon
@@ -413,7 +472,7 @@ export const Skills: React.FC = (): React.ReactElement => {
     return (
       <SkillsEditorialLayout
         key={state.activeCategory}
-        variants={motion.stagger}
+        variants={scrollMotion.stagger}
         initial="hidden"
         animate="visible"
         exit={{ opacity: 0 }}
@@ -449,7 +508,7 @@ export const Skills: React.FC = (): React.ReactElement => {
     if (skillsLoading) {
       return (
         <SkillsGrid
-          variants={motion.stagger}
+          variants={scrollMotion.stagger}
           initial="hidden"
           animate="visible"
         >
@@ -482,7 +541,7 @@ export const Skills: React.FC = (): React.ReactElement => {
     if (certificatesLoading) {
       return (
         <SkillsGrid
-          variants={motion.stagger}
+          variants={scrollMotion.stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
@@ -507,7 +566,7 @@ export const Skills: React.FC = (): React.ReactElement => {
 
     return (
       <CertificatesGrid
-        variants={motion.stagger}
+        variants={scrollMotion.stagger}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
@@ -518,7 +577,7 @@ export const Skills: React.FC = (): React.ReactElement => {
           return (
             <CertificateCardShell
               key={cert.id}
-              itemVariants={motion.item}
+              itemVariants={scrollMotion.item}
               platformColor={platform.color}
               onClick={() => handleCertificateClick(cert)}
             >
@@ -561,15 +620,15 @@ export const Skills: React.FC = (): React.ReactElement => {
     <PageContainer>
       <PageHeader>
         <PageTitle
-          variants={motion.section}
+          variants={scrollMotion.title}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
         >
-          {t('skills.title')}
+          <PageTitleGradient>{t('skills.title')}</PageTitleGradient>
         </PageTitle>
         <PageSubtitle
-          variants={motion.section}
+          variants={scrollMotion.section}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
@@ -596,19 +655,22 @@ export const Skills: React.FC = (): React.ReactElement => {
       </Section>
 
       <ExperienceSection>
-        <SectionTitle>{t('skills.experience.title')}</SectionTitle>
+        <SectionTitle>
+          <SectionTitleGradient>{t('skills.experience.title')}</SectionTitleGradient>
+        </SectionTitle>
         <ExperienceIntro>{t('skills.experience.intro')}</ExperienceIntro>
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
-          variants={motion.stagger}
+          variants={scrollMotion.stagger}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
-            <ExperienceCard
+            <ExperienceCardShell
               key={key}
-              variants={motion.item}
+              itemVariants={scrollMotion.item}
+              featured={key === FEATURED_EXPERIENCE_KEY}
             >
               <ExperienceCardTitle>
                 {t(`skills.experience.items.${key}.title`)}
@@ -619,14 +681,14 @@ export const Skills: React.FC = (): React.ReactElement => {
               <ExperienceCardHighlight>
                 {t(`skills.experience.items.${key}.highlight`)}
               </ExperienceCardHighlight>
-            </ExperienceCard>
+            </ExperienceCardShell>
           ))}
         </ExperienceGrid>
       </ExperienceSection>
 
       <CertificatesSection>
         <SectionTitle>
-          {t('skills.certificates.title')}
+          <SectionTitleGradient>{t('skills.certificates.title')}</SectionTitleGradient>
           {!certificatesLoading && !certificatesError && sortedCertificates.length > 0 && (
             <CertificateHours>
               {t('skills.certificates.count', { count: sortedCertificates.length })}

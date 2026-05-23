@@ -61,22 +61,22 @@ const CORE_SKILL_NAMES: readonly string[] = [
  */
 const SKILL_LAYOUT_REGISTRY: Record<string, SkillLayoutRegistryEntry> = {
   React: { tier: SkillLayoutTier.Hero, gridSpan: 12 },
-  TypeScript: { tier: SkillLayoutTier.CoreLarge, gridSpan: 7 },
-  Python: { tier: SkillLayoutTier.CoreMedium, gridSpan: 5 },
-  FastAPI: { tier: SkillLayoutTier.CoreMedium, gridSpan: 5 },
-  PostgreSQL: { tier: SkillLayoutTier.CoreLarge, gridSpan: 7 },
-  'Styled Components': { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 8 },
-  WebSocket: { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 8 },
-  JavaScript: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 4 },
-  Jest: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 4 },
-  Docker: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 5 },
-  Cursor: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 6 },
-  HTML5: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 3 },
-  CSS3: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 5 },
-  Playwright: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 4 },
-  Git: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 3 },
-  'VS Code': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 4 },
-  'AI tools': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 5 },
+  TypeScript: { tier: SkillLayoutTier.CoreLarge, gridSpan: 2 },
+  Python: { tier: SkillLayoutTier.CoreMedium, gridSpan: 1 },
+  FastAPI: { tier: SkillLayoutTier.CoreMedium, gridSpan: 1 },
+  PostgreSQL: { tier: SkillLayoutTier.CoreLarge, gridSpan: 2 },
+  'Styled Components': { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 2 },
+  WebSocket: { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 2 },
+  JavaScript: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  Jest: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  Docker: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  Cursor: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  HTML5: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
+  CSS3: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
+  Playwright: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
+  Git: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
+  'VS Code': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 1 },
+  'AI tools': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 1 },
 };
 
 const FALLBACK_TIERS: readonly SkillLayoutTier[] = [
@@ -88,7 +88,7 @@ const FALLBACK_TIERS: readonly SkillLayoutTier[] = [
   SkillLayoutTier.PeripheralCompact,
 ];
 
-const FALLBACK_SPANS: readonly number[] = [5, 4, 7, 3, 6, 8];
+const FALLBACK_SPANS: readonly number[] = [1, 1, 2, 1, 1, 2];
 
 // =================================================================================================
 // ============================================= METHODS ===========================================
@@ -162,9 +162,17 @@ export const buildEditorialSkillsLayout = (skills: Skill[]): EditorialSkillsLayo
     },
   );
 
+  const sortFeaturedFirst = (
+    placements: SkillLayoutPlacement[],
+  ): SkillLayoutPlacement[] => (
+    [...placements].sort(
+      (a: SkillLayoutPlacement, b: SkillLayoutPlacement): number => b.gridSpan - a.gridSpan,
+    )
+  );
+
   return {
     hero,
-    coreRow,
-    peripheral,
+    coreRow: sortFeaturedFirst(coreRow),
+    peripheral: sortFeaturedFirst(peripheral),
   };
 };

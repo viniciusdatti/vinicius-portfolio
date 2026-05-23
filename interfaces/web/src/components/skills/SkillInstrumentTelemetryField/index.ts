@@ -1,2 +1,2 @@
-export * from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField';
-export * from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
+export * from '@/components/Skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField';
+export * from '@/components/Skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
