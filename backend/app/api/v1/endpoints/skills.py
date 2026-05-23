@@ -4,8 +4,11 @@
 from typing import List, Optional
 
 # Libraries
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+# App - Core
+from app.core.exceptions import NotFoundException
 
 # App - Database
 from app.db.session import get_db
@@ -43,8 +46,5 @@ async def get_skill(skill_id: int, db: Session = Depends(get_db)):
     """Get a specific skill by ID."""
     skill = db.query(Skill).filter(Skill.id == skill_id).first()
     if not skill:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="Skill not found",
-        )
+        raise NotFoundException("Skill not found")
     return skill

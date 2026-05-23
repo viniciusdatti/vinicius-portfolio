@@ -33,7 +33,7 @@ const scrollCueBounce = (theme: DefaultTheme) => keyframes`
 `;
 
 /**
- * @deprecated Warp 33/66% column guides removed — distracting vertical rails behind hero copy.
+ * @deprecated Warp column guides removed — vertical rails behind hero copy were distracting.
  */
 export const HeroColumnGuides = styled.div`
   display: none;

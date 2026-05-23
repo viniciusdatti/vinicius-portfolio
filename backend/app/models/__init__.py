@@ -1,6 +1,6 @@
-from app.models.skill import Skill, SkillCategory
 from app.models.certificate import Certificate
-from app.models.contact import ContactSubmission, ContactStatus
+from app.models.contact import ContactStatus, ContactSubmission
+from app.models.skill import Skill, SkillCategory
 
 __all__ = [
     "Skill",
