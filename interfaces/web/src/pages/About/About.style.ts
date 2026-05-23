@@ -7,6 +7,7 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '@/config/avatarImage';
 import { cardStatSignal, surfaceInsetRim } from '@/styles/surfaces';
 import {
   editorialAccentRail,
@@ -66,8 +67,9 @@ export const IntroSection = styled(Section)`
 export const Avatar = styled(motion.div)`
   position: relative;
   width: ${({ theme }) => theme.sizes.avatar.aboutMobile};
-  height: ${({ theme }) => theme.sizes.avatar.aboutMobile};
-  border-radius: 50%;
+  height: auto;
+  aspect-ratio: ${AVATAR_PORTRAIT_FRAME_ASPECT_RATIO};
+  border-radius: ${({ theme }) => theme.borderRadius.xl};
   overflow: hidden;
   border: 2px solid ${({ theme }) => theme.colors.primaryBorderFaint};
   ${surfaceInsetRim};
@@ -86,8 +88,9 @@ export const Avatar = styled(motion.div)`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     width: ${({ theme }) => theme.sizes.avatar.about};
-    height: ${({ theme }) => theme.sizes.avatar.about};
+    margin: 0;
   };
+
 `;
 
 export const IntroContent = styled.div`
@@ -165,6 +168,14 @@ export const StatNumber = styled.div`
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
 `;
 
+/** Tooling labels (e.g. Jest · Playwright) — same mono contract, scaled for multi-token values */
+export const StatValue = styled(StatNumber)`
+  font-size: clamp(1.125rem, 2.4vw, 1.625rem);
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
+  overflow-wrap: anywhere;
+  min-width: 0;
+`;
+
 export const StatLabel = styled.div`
   ${observabilitySubLabel};
   color: ${({ theme }) => theme.colors.textMuted};
@@ -186,7 +197,7 @@ export const ExperienceSection = styled(Section)`
   ${scrollAnchorOffset};
 `;
 
-export const ExperienceSectionHeader = styled.div`
+export const ExperienceSectionHeader = styled(motion.div)`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -301,7 +312,7 @@ export const ExperienceCardSummary = styled.p`
   text-wrap: balance;
 `;
 
-export const ExperienceLogStream = styled.ul`
+export const ExperienceLogStream = styled(motion.ul)`
   list-style: none;
   margin: 0;
   padding: ${({ theme }) => theme.spacing.md} 0 0;
@@ -311,7 +322,7 @@ export const ExperienceLogStream = styled.ul`
   border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 `;
 
-export const ExperienceLogEntry = styled.li`
+export const ExperienceLogEntry = styled(motion.li)`
   display: grid;
   grid-template-columns: 2.25rem minmax(0, 1fr);
   gap: ${({ theme }) => theme.spacing.sm};

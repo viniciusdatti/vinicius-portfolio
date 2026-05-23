@@ -11,13 +11,14 @@ import { motion } from 'framer-motion';
 
 // Hooks
 import { useCountUp } from '@/hooks';
+import { useAvatarPortraitObjectPosition } from '@/hooks/useAvatarPortraitObjectPosition';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Config
 import { publicAssetUrl } from '@/config/env';
 
 // Components
-import { PortraitSceneR3D } from '@/components/Atmosphere/PortraitSceneR3D';
+import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
 import {
   PageContainer,
   PageHeader,
@@ -36,6 +37,7 @@ import {
   StatsGrid,
   StatCard,
   StatNumber,
+  StatValue,
   StatLabel,
   Section,
   ExperienceSection,
@@ -66,9 +68,6 @@ import {
   ExperienceLogMessage,
 } from '@/pages/About/About.style';
 
-const viewportSection = { once: true, margin: '-60px' as const };
-const viewportTight = { once: true, margin: '-40px' as const };
-
 const SUPERIOR_LOG_KEYS: readonly string[] = [
   'about.superior.items.realtime',
   'about.superior.items.designSystem',
@@ -79,6 +78,11 @@ const SUPERIOR_LOG_KEYS: readonly string[] = [
 interface StatCounterProps {
   target: number;
   suffix?: string;
+  label: string;
+}
+
+interface StatMetricProps {
+  value: string;
   label: string;
 }
 
@@ -101,13 +105,29 @@ const StatCounter = ({
   );
 };
 
+const StatMetric = ({
+  value,
+  label,
+}: StatMetricProps): React.ReactElement => {
+  const { item } = useScrollMotion();
+
+  return (
+    <StatCard variants={item}>
+      <StatValue>{value}</StatValue>
+      <StatLabel>{label}</StatLabel>
+    </StatCard>
+  );
+};
+
 export const About = (): React.ReactElement => {
   const { t } = useTranslation();
+  const { frameRef, objectPosition } = useAvatarPortraitObjectPosition();
   const {
     section,
     title,
     stagger,
     item,
+    viewport,
   } = useScrollMotion();
 
   return (
@@ -118,7 +138,7 @@ export const About = (): React.ReactElement => {
           variants={title}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSection}
+          viewport={viewport}
         >
           <PageTitleGradient>{t('about.title')}</PageTitleGradient>
         </PageTitle>
@@ -126,7 +146,7 @@ export const About = (): React.ReactElement => {
           variants={section}
           initial="hidden"
           whileInView="visible"
-          viewport={viewportSection}
+          viewport={viewport}
         >
           {t('about.subtitle')}
         </PageSubtitle>
@@ -136,10 +156,18 @@ export const About = (): React.ReactElement => {
         variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={viewportSection}
+        viewport={viewport}
       >
-        <Avatar variants={item} aria-label={t('home.hero.portraitAlt')}>
-          <PortraitSceneR3D imageSrc={publicAssetUrl('avatar.png')} />
+        <Avatar
+          ref={frameRef}
+          variants={item}
+          aria-label={t('home.hero.portraitAlt')}
+        >
+          <AvatarPortraitPhoto
+            src={publicAssetUrl('avatar.png')}
+            alt=""
+            $objectPosition={objectPosition}
+          />
         </Avatar>
         <IntroContent>
           <motion.h2 variants={item}>
@@ -161,15 +189,28 @@ export const About = (): React.ReactElement => {
         variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={viewportSection}
+        viewport={viewport}
       >
         <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
-        <StatCounter target={2} label={t('about.stats.testing')} />
+        <StatMetric
+          value={t('about.stats.testing.value')}
+          label={t('about.stats.testing.label')}
+        />
         <StatCounter target={400} suffix="+" label={t('about.stats.certifiedHours')} />
       </StatsGrid>
 
-      <ExperienceSection>
-        <ExperienceSectionHeader>
+      <ExperienceSection
+        variants={section}
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewport}
+      >
+        <ExperienceSectionHeader
+          variants={item}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewport}
+        >
           <SectionEyebrow>{t('about.experience.eyebrow')}</SectionEyebrow>
           <ExperienceSectionTitle>{t('about.superior.sectionTitle')}</ExperienceSectionTitle>
         </ExperienceSectionHeader>
@@ -178,7 +219,7 @@ export const About = (): React.ReactElement => {
             variants={stagger}
             initial="hidden"
             whileInView="visible"
-            viewport={viewportTight}
+            viewport={viewport}
           >
             <ExperienceCard variants={section} $isActive>
               <ExperienceNode $isActive aria-hidden />
@@ -189,9 +230,14 @@ export const About = (): React.ReactElement => {
                 </ExperienceCardHeader>
                 <ExperienceCardRole>{t('about.superior.role')}</ExperienceCardRole>
                 <ExperienceCardSummary>{t('about.superior.summary')}</ExperienceCardSummary>
-                <ExperienceLogStream>
+                <ExperienceLogStream
+                  variants={stagger}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewport}
+                >
                   {SUPERIOR_LOG_KEYS.map((logKey: string, index: number) => (
-                    <ExperienceLogEntry key={logKey}>
+                    <ExperienceLogEntry key={logKey} variants={item}>
                       <ExperienceLogIndex>
                         {String(index + 1).padStart(2, '0')}
                       </ExperienceLogIndex>
@@ -206,13 +252,13 @@ export const About = (): React.ReactElement => {
       </ExperienceSection>
 
       <PhilosophySection
-        variants={section}
+        variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={viewportSection}
+        viewport={viewport}
       >
         <SectionTitle>{t('about.philosophy.title')}</SectionTitle>
-        <PhilosophyCard>
+        <PhilosophyCard variants={item}>
           <p>
             &ldquo;
             {t('about.philosophy.description')}
@@ -222,13 +268,13 @@ export const About = (): React.ReactElement => {
       </PhilosophySection>
 
       <Section
-        variants={section}
+        variants={stagger}
         initial="hidden"
         whileInView="visible"
-        viewport={viewportSection}
+        viewport={viewport}
       >
         <SectionTitle>{t('about.education.title')}</SectionTitle>
-        <EducationCard>
+        <EducationCard variants={item}>
           <EducationMain>
             <EducationIcon>🎓</EducationIcon>
             <EducationInfo>
