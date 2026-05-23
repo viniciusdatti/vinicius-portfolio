@@ -16,8 +16,13 @@ import { AnimatePresence } from 'framer-motion';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import {
+  ScrollMotionViewportProvider,
+  useScrollMotionViewport,
+} from '@/hooks/scrollMotionViewport';
 import { Header } from '@/components/Layout/Header';
 import { Footer } from '@/components/Layout/Footer';
+import { LayoutAmbientBackdrop } from '@/components/Layout/LayoutAmbientBackdrop';
 import {
   SkipLink,
   Main,
@@ -31,30 +36,23 @@ import { resolvePageTransition } from '@/styles/animations';
  ************************************************************************************************ */
 
 /**
- * Public portfolio shell — cinematic pages with page transitions.
- * Live Lab uses full-viewport workspace mode (no footer, fade-only transition).
- *
- * P0 gate: `usePrefersReducedMotion` strips scale/translate/blur from `pageEnter`;
- * only opacity fade runs when the user prefers reduced motion.
- *
- * IMPORTANT: The key on PageMotionLayer uses location.key (not pathname) so that
- * navigating back to the same route forces a full re-mount of the page tree,
- * resetting all whileInView animation states correctly.
+ * Inner layout chrome — binds the scroll root ref for nested `whileInView` observers.
  */
-export const Layout: React.FC = (): React.ReactElement => {
-  const { t } = useTranslation();
+const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
+  const { bindScrollRoot } = useScrollMotionViewport();
   const isLiveLab: boolean = location.pathname === '/live-lab';
   const reducedMotion: boolean = usePrefersReducedMotion();
   const pageVariants = resolvePageTransition(isLiveLab, reducedMotion);
 
   return (
     <>
-      <SkipLink href="#main-content">{t('a11y.skipToContent')}</SkipLink>
+      <LayoutAmbientBackdrop />
       <Header />
       <Main
         id="main-content"
         tabIndex={-1}
+        ref={bindScrollRoot}
         $workspaceMode={isLiveLab}
       >
         <AnimatePresence mode="wait" initial>
@@ -77,6 +75,30 @@ export const Layout: React.FC = (): React.ReactElement => {
         </AnimatePresence>
       </Main>
       {!isLiveLab ? <Footer /> : null}
+    </>
+  );
+};
+
+/**
+ * Public portfolio shell — cinematic pages with page transitions.
+ * Live Lab uses full-viewport workspace mode (no footer, fade-only transition).
+ *
+ * P0 gate: `usePrefersReducedMotion` strips scale/translate/blur from `pageEnter`;
+ * only opacity fade runs when the user prefers reduced motion.
+ *
+ * IMPORTANT: The key on PageMotionLayer uses location.key (not pathname) so that
+ * navigating back to the same route forces a full re-mount of the page tree,
+ * resetting all whileInView animation states correctly.
+ */
+export const Layout: React.FC = (): React.ReactElement => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <SkipLink href="#main-content">{t('a11y.skipToContent')}</SkipLink>
+      <ScrollMotionViewportProvider>
+        <LayoutScrollChrome />
+      </ScrollMotionViewportProvider>
     </>
   );
 };

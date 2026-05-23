@@ -70,8 +70,11 @@ export const Main = styled.main<{ $workspaceMode?: boolean }>`
           }
         `
     : css`
+          position: relative;
+          z-index: ${theme.zIndex.content};
           min-height: 100vh;
           overflow-x: hidden;
+          overflow-y: visible;
         `)};
 `;
 
@@ -88,6 +91,7 @@ export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
         `
     : css`
           min-height: 0;
+          overflow: visible;
         `)};
 `;
 
