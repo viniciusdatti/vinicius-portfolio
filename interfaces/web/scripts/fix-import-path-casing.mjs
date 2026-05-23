@@ -55,4 +55,4 @@ walk(srcRoot).forEach((filePath) => {
   }
 });
 
-console.log(`Updated ${changed} files under src/`);
+process.stdout.write(`Updated ${changed} files under src/\n`);

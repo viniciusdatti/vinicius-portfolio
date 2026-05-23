@@ -4,7 +4,7 @@
  */
 
 // Core
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // Libraries
 import i18n from 'i18next';
@@ -113,7 +113,6 @@ const INITIAL_LOG: TelemetryEventLogEntry[] = [
  *********************************************************************************************** */
 
 export const useTelemetrySocket = (): TelemetryState => {
-  const socketRef = useRef<Socket | null>(null);
   const [state, setState] = useState<TelemetryState>({
     connected: false,
     readings: [],
@@ -124,7 +123,6 @@ export const useTelemetrySocket = (): TelemetryState => {
 
   useEffect(() => {
     const socket = acquireTelemetrySocket();
-    socketRef.current = socket;
 
     const onConnect = (): void => {
       const now: number = Date.now();
