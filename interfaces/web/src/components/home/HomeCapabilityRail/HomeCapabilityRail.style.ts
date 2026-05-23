@@ -3,6 +3,9 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
+// Components
+import { surfaceMotion } from '@/styles/surfaces';
+
 /* *************************************************************************************************
  ********************************************** GRID ***********************************************
  ************************************************************************************************ */
@@ -29,17 +32,42 @@ const capabilityRowGrid = css`
   }
 `;
 
+/**
+ * Elevated registry cell — one explicit edge vs. dot-grid background (no stacked hairlines).
+ */
+const capabilityEntrySurface = css`
+  ${surfaceMotion};
+  position: relative;
+  background: ${({ theme }) => theme.colors.surfaceElevated};
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  box-shadow: ${({ theme }) => theme.elevation.sm};
+  padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
+`;
+
 /* *************************************************************************************************
  ********************************************** SHELL **********************************************
  ************************************************************************************************ */
 
 export const CapabilityBand = styled.section`
+  position: relative;
+  isolation: isolate;
   width: 100%;
   min-height: 18rem;
   contain: layout;
   padding: clamp(4rem, 9vw, 6.5rem) ${({ theme }) => theme.spacing.pageX};
-  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: ${({ theme }) => theme.colors.backgroundSecondary};
+    opacity: 0.72;
+  };
 `;
 
 export const CapabilityShell = styled.div`
@@ -103,23 +131,25 @@ export const CapabilityList = styled(motion.ul)`
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.md};
 `;
 
 export const CapabilityRow = styled(motion.li)`
+  ${capabilityEntrySurface};
   ${capabilityRowGrid};
-  padding: ${({ theme }) => theme.spacing.xl} 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   transition:
     transform ${({ theme }) => theme.transitions.normal},
-    border-color ${({ theme }) => theme.transitions.fast};
+    border-color ${({ theme }) => theme.transitions.fast},
+    box-shadow ${({ theme }) => theme.transitions.normal};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: ${CAPABILITY_SIGNAL_COL} minmax(0, 1fr);
     grid-template-rows: auto auto;
     align-items: start;
     column-gap: ${({ theme }) => theme.spacing.md};
-    row-gap: ${({ theme }) => theme.spacing.sm};
+    row-gap: ${({ theme }) => theme.spacing.md};
 
     & > :first-child {
       grid-column: 1;
@@ -137,6 +167,7 @@ export const CapabilityRow = styled(motion.li)`
       grid-column: 1 / -1;
       grid-row: 2;
       min-width: 0;
+      padding-top: ${({ theme }) => theme.spacing.xs};
     }
   }
 
@@ -144,14 +175,18 @@ export const CapabilityRow = styled(motion.li)`
     &:hover {
       transform: translateX(${({ theme }) => theme.spacing.sm});
       border-color: ${({ theme }) => theme.colors.borderLight};
+      box-shadow: ${({ theme }) => theme.elevation.md};
     };
   };
 `;
 
-export const CapabilityFeaturedRow = styled(motion.div)`
+export const CapabilityFeaturedRow = styled(motion.li)`
+  ${capabilityEntrySurface};
   ${capabilityRowGrid};
-  padding: ${({ theme }) => theme.spacing.xl} 0;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-color: ${({ theme }) => theme.colors.primaryBorderFaint};
+  box-shadow:
+    ${({ theme }) => theme.elevation.sm},
+    0 0 0 1px ${({ theme }) => theme.colors.primaryBorderFaint};
 
   @media (max-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: 1fr;
@@ -222,9 +257,11 @@ export const CapabilityMeta = styled.div`
   gap: ${({ theme }) => theme.spacing.md};
   min-width: 0;
   width: 100%;
+  padding-top: ${({ theme }) => theme.spacing.xs};
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     justify-self: stretch;
+    padding-top: 0;
   };
 `;
 

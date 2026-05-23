@@ -23,7 +23,7 @@ import { PageAmbientField } from '@/components/atmosphere/PageAmbientField';
 
 /**
  * Fixed ambient canvas behind page content — one instance per route, no per-page stacking traps.
- * Always mounted on public routes; motion is forced via FORCE_AMBIENT_MOTION (all browsers).
+ * Always mounted on public routes; canvas animates unless prefers-reduced-motion (static frame).
  */
 export const LayoutAmbientBackdrop: React.FC = (): React.ReactElement | null => {
   const { pathname } = useLocation();

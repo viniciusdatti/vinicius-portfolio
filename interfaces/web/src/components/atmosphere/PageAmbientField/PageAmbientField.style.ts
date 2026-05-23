@@ -14,6 +14,7 @@ export const PageAmbientLayer = styled.div`
   position: fixed;
   inset: 0;
   z-index: ${({ theme }) => theme.zIndex.ambient};
+  opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
   pointer-events: none;
   overflow: hidden;
 `;

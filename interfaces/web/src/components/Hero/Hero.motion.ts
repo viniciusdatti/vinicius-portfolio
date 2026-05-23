@@ -8,8 +8,8 @@ import { motionPresets } from '@/styles/motionPresets';
  ******************************************** CONSTANTS ********************************************
  ************************************************************************************************ */
 
-/** Editorial playbook stagger factor — hero entrance choreography. */
-export const HERO_STAGGER_DELAY: number = 0.1;
+/** Hero entrance stagger — tight so headline + CTAs land before decorative modules. */
+export const HERO_STAGGER_DELAY: number = motionPresets.stagger.child;
 
 const heroEase = motionPresets.ease.out;
 
@@ -23,7 +23,7 @@ export const heroEntranceStagger: Variants = {
   show: {
     transition: {
       staggerChildren: HERO_STAGGER_DELAY,
-      delayChildren: 0.04,
+      delayChildren: 0.02,
     },
   },
 };
@@ -34,7 +34,7 @@ export const heroHeadlineStagger: Variants = {
   show: {
     transition: {
       staggerChildren: HERO_STAGGER_DELAY,
-      delayChildren: 0.02,
+      delayChildren: 0,
     },
   },
 };
@@ -55,7 +55,7 @@ export const heroMonoReveal: Variants = {
   },
 };
 
-/** Clip-masked headline line — Y mask 105% → 0%. */
+/** Clip-masked headline line — Y mask 105% → 0% (normal duration — CTAs legible ≤600ms). */
 export const heroHeadlineClipReveal: Variants = {
   hidden: {
     y: '105%',
@@ -63,7 +63,7 @@ export const heroHeadlineClipReveal: Variants = {
   show: {
     y: 0,
     transition: {
-      duration: motionPresets.duration.hero,
+      duration: motionPresets.duration.normal,
       ease: heroEase,
     },
   },
@@ -85,7 +85,7 @@ export const heroModuleReveal: Variants = {
   },
 };
 
-/** Technical eyebrow rule — width 0 → 24px in exactly 0.5s. */
+/** Technical eyebrow rule — width 0 → 24px. */
 export const heroEyebrowLineExpand: Variants = {
   hidden: {
     width: 0,
@@ -95,7 +95,7 @@ export const heroEyebrowLineExpand: Variants = {
     width: 24,
     opacity: 1,
     transition: {
-      duration: 0.5,
+      duration: motionPresets.duration.normal,
       ease: heroEase,
     },
   },

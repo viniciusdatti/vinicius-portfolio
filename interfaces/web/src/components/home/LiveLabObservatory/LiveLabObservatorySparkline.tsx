@@ -16,6 +16,8 @@ import { motion } from 'framer-motion';
 import type { LiveLabObservatorySparklineProps } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
 
 // Components
+import { motionEase } from '@/styles/animations';
+import { motionPresets } from '@/styles/motionPresets';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   buildObservatorySparkline,
@@ -58,7 +60,10 @@ export const LiveLabObservatorySparkline: React.FC<LiveLabObservatorySparklinePr
         strokeLinecap="round"
         initial={false}
         animate={{ d }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        transition={{
+          duration: reduced ? 0 : motionPresets.duration.slow,
+          ease: motionEase,
+        }}
       />
     </SparklineSvg>
   );

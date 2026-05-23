@@ -8,7 +8,12 @@ import { useTranslation } from 'react-i18next';
 // Types
 import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
 
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+
 // Components
+import { motionPresets } from '@/styles/motionPresets';
+import { motionEase } from '@/styles/animations';
 import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
 import { useThemeStore } from '@/store';
 
@@ -51,6 +56,7 @@ const MoonIcon = (): React.ReactElement => (
 export const ThemeToggle = ({ className }: ThemeToggleProps): React.ReactElement => {
   const { t } = useTranslation();
   const { mode, toggleTheme } = useThemeStore();
+  const reduced: boolean = usePrefersReducedMotion();
   const themeLabel: string = mode === 'dark' ? t('a11y.themeLight') : t('a11y.themeDark');
 
   return (
@@ -63,10 +69,13 @@ export const ThemeToggle = ({ className }: ThemeToggleProps): React.ReactElement
       <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={mode}
-          initial={{ rotate: -90, opacity: 0 }}
-          animate={{ rotate: 0, opacity: 1 }}
-          exit={{ rotate: 90, opacity: 0 }}
-          transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          initial={reduced ? { opacity: 0 } : { rotate: -90, opacity: 0 }}
+          animate={reduced ? { opacity: 1 } : { rotate: 0, opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{
+            duration: motionPresets.duration.fast,
+            ease: motionEase,
+          }}
         >
           {mode === 'dark' ? <SunIcon /> : <MoonIcon />}
         </motion.div>

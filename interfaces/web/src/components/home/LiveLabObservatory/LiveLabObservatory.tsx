@@ -141,8 +141,6 @@ export const LiveLabObservatory: React.FC = (): React.ReactElement => {
                 d={`${sparkPathFromValues(aggregateSpark, 200, 64)} L200,64 L0,64 Z`}
                 fill="url(#obs-fill)"
                 stroke="none"
-                animate={reduced ? undefined : { opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 3, repeat: Infinity }}
               />
               <motion.path
                 d={sparkPathFromValues(aggregateSpark, 200, 64)}

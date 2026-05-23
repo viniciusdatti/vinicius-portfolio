@@ -1,6 +1,7 @@
 // Core
 import {
   useEffect,
+  useLayoutEffect,
   useState,
   type RefObject,
 } from 'react';
@@ -65,7 +66,42 @@ export const useMotionLifecycle: UseMotionLifecycleHook = (
     return initializeTabVisibility();
   });
 
-  const observedElement: Element | null = resolveMotionTarget(target);
+  const [observedElement, setObservedElement] = useState<Element | null>(
+    (): Element | null => resolveMotionTarget(target),
+  );
+
+  /** Re-resolve RefObject targets after mount — ref assignment does not re-render parents. */
+  useLayoutEffect((): (() => void) | undefined => {
+    const syncTarget = (): void => {
+      setObservedElement(resolveMotionTarget(target));
+    };
+
+    syncTarget();
+
+    if (!target || (typeof Element !== 'undefined' && target instanceof Element)) {
+      return undefined;
+    }
+
+    const refTarget: RefObject<Element | null> = target as RefObject<Element | null>;
+    if (refTarget.current) {
+      return undefined;
+    }
+
+    let frameId: number = 0;
+    const waitForRef = (): void => {
+      if (refTarget.current) {
+        setObservedElement(refTarget.current);
+        return;
+      }
+      frameId = window.requestAnimationFrame(waitForRef);
+    };
+
+    frameId = window.requestAnimationFrame(waitForRef);
+
+    return (): void => {
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [target]);
 
   useEffect((): VisibilityChangeCleanup | undefined => {
     const onVisibilityChange: VisibilityChangeHandler = (): void => {

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property -- postprocessing JSX */
 // Core
 import React from 'react';
 

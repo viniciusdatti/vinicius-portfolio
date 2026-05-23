@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property -- R3F JSX intrinsics */
 // Core
 import React, { Suspense } from 'react';
 

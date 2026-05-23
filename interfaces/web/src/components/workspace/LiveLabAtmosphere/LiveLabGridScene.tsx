@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property -- R3F JSX intrinsic elements */
 // Core
 import React, { useRef } from 'react';
 

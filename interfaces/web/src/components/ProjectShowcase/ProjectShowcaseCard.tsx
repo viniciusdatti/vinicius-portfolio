@@ -102,7 +102,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
     isPointerActive,
     motionProps,
   }: UsePhysicalInteractionResult<HTMLElement> = usePhysicalInteraction<HTMLElement>({
-    disabled: reducedMotion,
+    disabled: reducedMotion || variant !== ProjectShowcaseVariant.Featured,
     enableTilt: true,
     enableLift: true,
     enableSpotlight: true,

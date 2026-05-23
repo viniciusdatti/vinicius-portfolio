@@ -86,35 +86,29 @@ export const HomeCapabilityRail = (): React.ReactElement => {
           </HomeSectionReveal>
         </CapabilityHeader>
 
-        {featured ? (
-          <CapabilityFeaturedRow
-            variants={item}
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewport}
-          >
-            <CapabilitySignal aria-hidden>{featured.signal}</CapabilitySignal>
-            <CapabilityNameLead $featured>
-              <CapabilityIcon
-                src={publicAssetUrl(`icons/${featured.icon}`)}
-                alt=""
-                aria-hidden
-              />
-              <CapabilityName>{featured.name}</CapabilityName>
-            </CapabilityNameLead>
-            <CapabilityFeaturedMeta>
-              <CapabilityFeaturedDesc>{t('skills.layout.heroDescription')}</CapabilityFeaturedDesc>
-              <CapabilityFeaturedDomain>{t('skills.layout.heroDomain')}</CapabilityFeaturedDomain>
-            </CapabilityFeaturedMeta>
-          </CapabilityFeaturedRow>
-        ) : null}
-
         <CapabilityList
           variants={stagger}
           initial="hidden"
           whileInView="visible"
           viewport={viewport}
         >
+          {featured ? (
+            <CapabilityFeaturedRow variants={item}>
+              <CapabilitySignal aria-hidden>{featured.signal}</CapabilitySignal>
+              <CapabilityNameLead $featured>
+                <CapabilityIcon
+                  src={publicAssetUrl(`icons/${featured.icon}`)}
+                  alt=""
+                  aria-hidden
+                />
+                <CapabilityName>{featured.name}</CapabilityName>
+              </CapabilityNameLead>
+              <CapabilityFeaturedMeta>
+                <CapabilityFeaturedDesc>{t('skills.layout.heroDescription')}</CapabilityFeaturedDesc>
+                <CapabilityFeaturedDomain>{t('skills.layout.heroDomain')}</CapabilityFeaturedDomain>
+              </CapabilityFeaturedMeta>
+            </CapabilityFeaturedRow>
+          ) : null}
           {rest.map((cap: CapabilityItem) => (
             <CapabilityRow key={cap.name} variants={item}>
               <CapabilitySignal aria-hidden>{cap.signal}</CapabilitySignal>

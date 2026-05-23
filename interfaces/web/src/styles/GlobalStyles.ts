@@ -97,8 +97,8 @@ export const GlobalStyles = createGlobalStyle`
       ${({ theme }) => theme.sizes.hero.gridCell};
     opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
     mask-image: ${({ theme }) => theme.colors.gradientBodyGridMask};
-    /* 1Hz system liveness — paired with ObservatoryIdleLayer 8s scanline sweep */
-    animation: ${observatoryGridPulse} 1s ease-in-out infinite;
+    /* Slow grid breathe — paired with ObservatoryIdleLayer 8s scanline sweep */
+    animation: ${observatoryGridPulse} 6s ease-in-out infinite;
     will-change: opacity;
   }
 
@@ -260,7 +260,6 @@ export const GlobalStyles = createGlobalStyle`
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
     };
 
     body::after {

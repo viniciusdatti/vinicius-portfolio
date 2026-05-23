@@ -39,6 +39,7 @@ import {
 import { motionEase } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
 import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 import {
   PageContainer,
@@ -331,6 +332,7 @@ export const Skills: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
   const [state, setState] = useState<SkillsPageState>(initialState);
+  const reducedMotion: boolean = usePrefersReducedMotion();
   const scrollMotion = useScrollMotion();
 
   const {
@@ -503,9 +505,8 @@ export const Skills: React.FC = (): React.ReactElement => {
     return (
       <SkillsEditorialLayout
         variants={scrollMotion.stagger}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
         exit={{ opacity: 0 }}
       >
         {(hero !== null || coreRow.length > 0) ? (
@@ -516,9 +517,8 @@ export const Skills: React.FC = (): React.ReactElement => {
             {coreRow.length > 0 ? (
               <SkillsAsymmetricGrid
                 variants={scrollMotion.stagger}
-                initial="hidden"
-                whileInView="visible"
-                viewport={scrollMotion.viewport}
+                initial={scrollMotion.resolveInitial(reducedMotion)}
+                animate="visible"
               >
                 {coreRow.map((placement: SkillLayoutPlacement) => renderSkillCard(placement))}
               </SkillsAsymmetricGrid>
@@ -543,9 +543,8 @@ export const Skills: React.FC = (): React.ReactElement => {
       return (
         <SkillsGrid
           variants={scrollMotion.stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={scrollMotion.viewport}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           {Array.from({ length: SKELETON_CARD_COUNT }, (_item: unknown, index: number) => (
             <SkillCardSkeleton key={`skill-skeleton-${index}`} />
@@ -652,17 +651,15 @@ export const Skills: React.FC = (): React.ReactElement => {
       <PageHeader>
         <PageTitle
           variants={scrollMotion.title}
-          initial="hidden"
-          whileInView="visible"
-          viewport={scrollMotion.viewport}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           <PageTitleGradient>{t('skills.title')}</PageTitleGradient>
         </PageTitle>
         <PageSubtitle
           variants={scrollMotion.section}
-          initial="hidden"
-          whileInView="visible"
-          viewport={scrollMotion.viewport}
+          initial={scrollMotion.resolveInitial(reducedMotion)}
+          animate="visible"
         >
           {t('skills.subtitle')}
         </PageSubtitle>
@@ -670,9 +667,8 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <Section
         variants={scrollMotion.section}
-        initial="hidden"
-        whileInView="visible"
-        viewport={scrollMotion.viewport}
+        initial={scrollMotion.resolveInitial(reducedMotion)}
+        animate="visible"
       >
         {renderSkillsContent()}
       </Section>
@@ -741,10 +737,21 @@ export const Skills: React.FC = (): React.ReactElement => {
               onClick={handleCloseModal}
             />
             <ModalContent
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              initial={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: motionPresets.distance.item }
+              }
+              animate={{ opacity: 1, y: 0 }}
+              exit={
+                reducedMotion
+                  ? { opacity: 0 }
+                  : { opacity: 0, y: motionPresets.distance.item }
+              }
+              transition={{
+                duration: motionPresets.duration.normal,
+                ease: motionEase,
+              }}
             >
               <ModalHeader>
                 <ModalPlatformBadge

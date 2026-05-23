@@ -5,6 +5,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
 
 // Components
@@ -29,15 +30,19 @@ import {
 export const RealtimePresence = (): React.ReactElement => {
   const { t } = useTranslation();
   const { stagger, item, viewport } = useScrollMotion();
+  const reduced: boolean = usePrefersReducedMotion();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
 
   useEffect(() => {
+    if (reduced) {
+      return undefined;
+    }
     const id: ReturnType<typeof setInterval> = setInterval(() => {
       setTick((prev: number) => prev + 1);
     }, 3500);
     return () => clearInterval(id);
-  }, []);
+  }, [reduced]);
 
   const apiTone: 'ok' | 'idle' | 'warn' = useMemo(() => {
     if (status === SystemHealthStatus.Online) {
