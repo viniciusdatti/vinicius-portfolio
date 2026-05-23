@@ -4,18 +4,14 @@ import React, { createContext, useContext, useEffect } from 'react';
 // Hooks
 import { useTelemetrySocket } from '@/hooks/useTelemetry';
 
-// Store
-import { useTelemetryStore } from '@/store/telemetryStore';
-
 // Types
 import type { TelemetryState } from '@/types/telemetry';
+import { useTelemetryStore } from '@/store/telemetryStore';
 import type { TelemetryProviderProps } from './TelemetryProvider.types';
 
-const TelemetryContext = createContext<TelemetryState | null>(null);
+// Components
 
-/* ***********************************************************************************************
- *************************************** COMPONENT HANDLING **************************************
- *********************************************************************************************** */
+const TelemetryContext = createContext<TelemetryState | null>(null);
 
 const TelemetryProvider = ({
   children,
