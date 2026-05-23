@@ -10,8 +10,8 @@ import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 import {
   StatusPill,
   StatusDot,
-} from '@/components/layout/SystemBar/SystemBar.style';
-import { HeaderStatusWrap } from '@/components/layout/Header/Header.style';
+} from '@/components/Layout/SystemBar/SystemBar.style';
+import { HeaderStatusWrap } from '@/components/Layout/Header/Header.style';
 
 /* ***********************************************************************************************
  *************************************** COMPONENT HANDLING **************************************
@@ -20,7 +20,7 @@ import { HeaderStatusWrap } from '@/components/layout/Header/Header.style';
 /**
  * Header status — minimal API signal on portfolio routes; full transport chrome only in Live Lab.
  */
-export function HeaderStatusPills(): React.ReactElement | null {
+export const HeaderStatusPills = (): React.ReactElement | null => {
   const { t } = useTranslation();
   const location = useLocation();
   const { status } = useSystemHealth();
@@ -58,4 +58,4 @@ export function HeaderStatusPills(): React.ReactElement | null {
       </StatusPill>
     </HeaderStatusWrap>
   );
-}
+};

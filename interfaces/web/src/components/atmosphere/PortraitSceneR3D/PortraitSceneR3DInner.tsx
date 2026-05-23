@@ -8,12 +8,12 @@ import { useTheme } from 'styled-components';
 
 // Types
 import type { Theme } from '@/styles/theme';
-import type { PortraitSceneR3DProps } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
+import type { PortraitSceneR3DProps } from '@/components/Atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
 import type { HeroCanvasPointer } from '@/hooks/useHeroCanvasPointer.types';
 
 // Components
-import { PortraitMesh } from '@/components/atmosphere/PortraitSceneR3D/PortraitMesh';
-import { PortraitCanvasWrap } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
+import { PortraitMesh } from '@/components/Atmosphere/PortraitSceneR3D/PortraitMesh';
+import { PortraitCanvasWrap } from '@/components/Atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
 
 // =================================================================================================
 // ============================================= CONSTANTS =========================================
@@ -33,10 +33,10 @@ const IDLE_POINTER: HeroCanvasPointer = {
 /**
  * WebGL portrait bust — lit plane with texture (lazy chunk).
  */
-export function PortraitSceneR3DInner({
+export const PortraitSceneR3DInner = ({
   imageSrc,
   pointer = IDLE_POINTER,
-}: PortraitSceneR3DProps): React.ReactElement {
+}: PortraitSceneR3DProps): React.ReactElement => {
   const theme = useTheme() as Theme;
 
   return (
@@ -58,4 +58,4 @@ export function PortraitSceneR3DInner({
       </Canvas>
     </PortraitCanvasWrap>
   );
-}
+};

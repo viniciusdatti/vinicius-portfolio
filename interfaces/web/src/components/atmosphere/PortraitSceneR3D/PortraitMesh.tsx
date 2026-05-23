@@ -35,11 +35,11 @@ export interface PortraitMeshProps {
 /**
  * Textured portrait plane with pointer-driven spring tilt (meshStandard, no external glTF).
  */
-export function PortraitMesh({
+export const PortraitMesh = ({
   imageSrc,
   pointer,
   accentHex,
-}: PortraitMeshProps): React.ReactElement {
+}: PortraitMeshProps): React.ReactElement => {
   const meshRef = useRef<Mesh | null>(null);
   const texture = useTexture(imageSrc);
   const rotXVelocity = useRef<number>(0);
@@ -94,4 +94,4 @@ export function PortraitMesh({
       </mesh>
     </>
   );
-}
+};

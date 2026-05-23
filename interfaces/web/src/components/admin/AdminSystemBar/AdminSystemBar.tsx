@@ -14,7 +14,7 @@ import {
   AdminBarId,
   AdminBarModule,
   AdminBarPill,
-} from '@/components/admin/AdminSystemBar/AdminSystemBar.style';
+} from '@/components/Admin/AdminSystemBar/AdminSystemBar.style';
 
 const ADMIN_MODULE_KEYS: Record<string, string> = {
   '/admin': 'admin.system.modules.dashboard',
@@ -26,7 +26,7 @@ const ADMIN_MODULE_KEYS: Record<string, string> = {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function AdminSystemBar(): React.ReactElement {
+export const AdminSystemBar = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const isConnected: boolean = useAdminChatStore((s) => s.isConnected);
@@ -58,4 +58,4 @@ export function AdminSystemBar(): React.ReactElement {
       </AdminBarInner>
     </AdminBarRoot>
   );
-}
+};

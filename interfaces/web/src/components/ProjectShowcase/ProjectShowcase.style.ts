@@ -3,7 +3,12 @@ import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { cardShowcaseSurface, cardPointerVars, pointerSpotlight } from '@/styles/surfaces';
+import {
+  cardShowcaseSurface,
+  featuredSpotlight,
+  showcasePointerTorch,
+} from '@/styles/surfaces';
+import { TerminalCodeTokenRole } from '@/components/ProjectShowcase/projectTerminalSnippets';
 import {
   ProjectShowcaseVariant,
   ProjectCanvasTone,
@@ -35,6 +40,10 @@ const getCanvasBackground = (
 // ============================================= GRID ==============================================
 // =================================================================================================
 
+export const ShowcaseStaggerItem = styled(motion.div)`
+  display: contents;
+`;
+
 export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   display: grid;
   grid-template-columns: 1fr;
@@ -42,36 +51,45 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: minmax(240px, auto);
+    gap: ${({ theme }) => theme.spacing.lg};
+
+    & > [data-variant='featured'] {
+      grid-column: 1 / span 8;
+      grid-row: span 2;
+    }
+
+    & > [data-variant='standard']:nth-of-type(2) {
+      grid-column: 9 / span 4;
+      grid-row: 1;
+    }
+
+    & > [data-variant='standard']:nth-of-type(3) {
+      grid-column: 9 / span 4;
+      grid-row: 2;
+    }
+
+    & > [data-variant='standard']:nth-of-type(n + 4) {
+      grid-column: span 6;
+    }
+
+    & > [data-variant='compact']:nth-of-type(2) {
+      grid-column: 9 / span 4;
+      grid-row: 1;
+    }
+
+    & > [data-variant='compact']:nth-of-type(3) {
+      grid-column: 9 / span 4;
+      grid-row: 2;
+    }
+
     ${({ $compact }) => ($compact
     ? `
-          & > [data-variant='featured'] {
-            grid-column: 1 / span 7;
-            grid-row: span 2;
-          };
-          & > [data-variant='compact']:nth-of-type(2) {
-            grid-column: 8 / span 5;
-            grid-row: 1;
-          };
-          & > [data-variant='compact']:nth-of-type(3) {
-            grid-column: 8 / span 5;
-            grid-row: 2;
-          };
-          & > [data-variant='compact']:nth-of-type(4) {
-            grid-column: 1 / -1;
-            grid-row: 3;
+          & > [data-variant='compact']:nth-of-type(n + 4) {
+            grid-column: span 6;
           };
         `
-    : `
-          & > [data-variant='featured'] {
-            grid-column: span 8;
-          };
-          & > [data-variant='standard']:nth-of-type(2) {
-            grid-column: span 4;
-          };
-          & > [data-variant='standard'] {
-            grid-column: span 4;
-          };
-        `)};
+    : '')};
   };
 `;
 
@@ -83,21 +101,36 @@ export interface ShowcaseCardStyleProps {
   $variant: ProjectShowcaseVariant;
   $canvasTone: ProjectCanvasTone;
   $selected?: boolean;
+  $spotX?: number;
+  $spotY?: number;
+  $spotActive?: boolean;
 }
 
+export const CardSpotlightTorch = styled.div`
+  ${showcasePointerTorch};
+`;
+
 export const ShowcaseCard = styled(motion.article)<ShowcaseCardStyleProps>`
+  --spot-x: ${({ $spotX }) => ($spotX != null ? `${$spotX * 100}%` : '50%')};
+  --spot-y: ${({ $spotY }) => ($spotY != null ? `${$spotY * 100}%` : '50%')};
+  --spot-opacity: ${({ $spotActive }) => ($spotActive ? 1 : 0)};
   display: flex;
   flex-direction: column;
   border-radius: ${({ theme }) => theme.borderRadius.xxl};
   overflow: hidden;
   cursor: pointer;
   position: relative;
-  ${cardPointerVars};
-  ${pointerSpotlight};
+  min-height: 44px;
   ${cardShowcaseSurface};
   border-color: ${({ $selected, theme }) => ($selected ? theme.colors.primaryBorderFaint : theme.colors.borderSubtle)};
   transition: border-color ${({ theme }) => theme.transitions.fast};
 
+  ${({ $variant }) => ($variant === ProjectShowcaseVariant.Featured ? featuredSpotlight : '')};
+
+  & > * {
+    position: relative;
+    z-index: ${({ theme }) => theme.zIndex.content};
+  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     ${({ $variant, theme }) => ($variant === ProjectShowcaseVariant.Featured
@@ -158,12 +191,39 @@ export const PreviewPanel = styled.div<ShowcaseCardStyleProps>`
   };
 `;
 
+const codeShimmerSweep = keyframes`
+  0% {
+    background-position: 0% 50%;
+  };
+  100% {
+    background-position: 200% 50%;
+  };
+`;
+
+const terminalLinePulse = keyframes`
+  0%, 100% {
+    opacity: 0.42;
+  };
+  50% {
+    opacity: 0.72;
+  };
+`;
+
+const cursorBlink = keyframes`
+  0%, 49% {
+    opacity: 1;
+  };
+  50%, 100% {
+    opacity: 0.15;
+  };
+`;
+
 export const MockWindow = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.content};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-  background: ${({ theme }) => theme.colors.surfaceElevated};
+  background: rgba(12, 14, 18, 0.92);
   overflow: hidden;
 
   &::before {
@@ -173,7 +233,94 @@ export const MockWindow = styled.div`
     border-radius: inherit;
     box-shadow: inset 0 0 0 1px ${({ theme }) => theme.colors.borderLight};
     pointer-events: none;
-    z-index: 1;
+    z-index: 2;
+  };
+`;
+
+export const MockTerminalBody = styled.div`
+  position: relative;
+  padding: ${({ theme }) => theme.spacing.md};
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
+  min-height: 7.5rem;
+  overflow: hidden;
+`;
+
+export const TerminalShimmerWash = styled.div`
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.05;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(245, 158, 11, 0.55) 42%,
+    transparent 78%
+  );
+  background-size: 220% 100%;
+  animation: ${codeShimmerSweep} 9s ease-in-out infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.04;
+  };
+`;
+
+export const TerminalCodeLine = styled.div<{
+  $role: TerminalCodeTokenRole;
+  $delay: string;
+}>`
+  position: relative;
+  z-index: 1;
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: 0.68rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: ${terminalLinePulse} 4.2s ease-in-out infinite;
+  animation-delay: ${({ $delay }) => $delay};
+
+  color: ${({ $role, theme }) => {
+    if ($role === TerminalCodeTokenRole.Keyword) {
+      return theme.colors.primary;
+    }
+    if ($role === TerminalCodeTokenRole.Accent) {
+      return theme.colors.accent;
+    }
+    if ($role === TerminalCodeTokenRole.Muted) {
+      return theme.colors.textMuted;
+    }
+    return theme.colors.textSecondary;
+  }};
+
+  text-shadow: ${({ $role }) => ($role === TerminalCodeTokenRole.Accent
+    ? '0 0 12px rgba(245, 158, 11, 0.35)'
+    : 'none')};
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.55;
+  };
+`;
+
+export const TerminalCursor = styled.span`
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 0.5rem;
+  height: 0.85rem;
+  margin-top: ${({ theme }) => theme.spacing.xs};
+  background: ${({ theme }) => theme.colors.primary};
+  opacity: 0.65;
+  animation: ${cursorBlink} 1.1s step-end infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.4;
   };
 `;
 
@@ -392,6 +539,21 @@ export const ViewCaseLabel = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const FooterArrowWrap = styled.span`
+  display: inline-flex;
+  transition: transform ${({ theme }) => theme.transitions.normal};
+
+  ${ShowcaseCard}:hover & {
+    @media (hover: hover) {
+      transform: translateX(${({ theme }) => theme.motion.distance.liftMd});
+    }
+  }
+
+  @media (hover: none) {
+    transform: none;
+  }
 `;
 
 export const ArrowIcon = styled.span`

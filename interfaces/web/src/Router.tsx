@@ -5,10 +5,10 @@ import React, { lazy, Suspense } from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
 // Components
-import { AdminGuestRoute } from '@/components/admin';
-import { Layout } from '@/components/layout';
+import { AdminGuestRoute } from '@/components/Admin';
+import { Layout } from '@/components/Layout';
 import { RouteError } from '@/components/RouteError';
-import { Spinner } from '@/components/common/Spinner';
+import { Spinner } from '@/components/Common/Spinner';
 import { PageLoaderWrapper } from '@/Router.style';
 import { LiveLab } from '@/pages/LiveLab';
 
@@ -18,18 +18,16 @@ const Skills = lazy(() => import('./pages/Skills').then((m) => ({ default: m.Ski
 const Projects = lazy(() => import('./pages/Projects').then((m) => ({ default: m.Projects })));
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 
-const AdminLogin = lazy(() => import('./pages/admin/Login').then((m) => ({ default: m.Login })));
-const AdminDashboard = lazy(() => import('./pages/admin/Dashboard').then((m) => ({ default: m.Dashboard })));
-const AdminChat = lazy(() => import('./pages/admin/Chat').then((m) => ({ default: m.Chat })));
-const AdminLayout = lazy(() => import('./pages/admin/AdminLayout').then((m) => ({ default: m.AdminLayout })));
+const AdminLogin = lazy(() => import('./pages/Admin/Login').then((m) => ({ default: m.Login })));
+const AdminDashboard = lazy(() => import('./pages/Admin/Dashboard').then((m) => ({ default: m.Dashboard })));
+const AdminChat = lazy(() => import('./pages/Admin/Chat').then((m) => ({ default: m.Chat })));
+const AdminLayout = lazy(() => import('./pages/Admin/AdminLayout').then((m) => ({ default: m.AdminLayout })));
 
-function PageLoader(): React.ReactElement {
-  return (
-    <PageLoaderWrapper>
-      <Spinner size="lg" />
-    </PageLoaderWrapper>
-  );
-}
+const PageLoader = (): React.ReactElement => (
+  <PageLoaderWrapper>
+    <Spinner size="lg" />
+  </PageLoaderWrapper>
+);
 
 const withSuspense = (element: React.ReactElement): React.ReactElement => (
   <Suspense fallback={<PageLoader />}>{element}</Suspense>
@@ -80,6 +78,4 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   },
 ]);
 
-export function Router(): React.ReactElement {
-  return <RouterProvider router={router} />;
-}
+export const Router = (): React.ReactElement => <RouterProvider router={router} />;

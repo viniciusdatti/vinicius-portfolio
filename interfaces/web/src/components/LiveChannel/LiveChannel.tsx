@@ -69,7 +69,7 @@ import {
 /**
  * Persistent realtime channel — core product surface (WebSocket visitor chat).
  */
-export function LiveChannel(): React.ReactElement {
+export const LiveChannel = (): React.ReactElement => {
   const { t } = useTranslation();
   const [state, setState] = useState<LiveChannelState>(initialLiveChannelState);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -366,4 +366,4 @@ export function LiveChannel(): React.ReactElement {
       <EventLog />
     </ChannelSurface>
   );
-}
+};

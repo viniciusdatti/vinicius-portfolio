@@ -15,7 +15,7 @@ import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
+import type { DrawerProps } from '@/components/Showcase/Drawer/Drawer.types';
 
 // Components
 import { motionPresets } from '@/styles/motionPresets';
@@ -26,15 +26,15 @@ import {
   DrawerTitle,
   DrawerCloseButton,
   DrawerBody,
-} from '@/components/showcase/Drawer/Drawer.style';
+} from '@/components/Showcase/Drawer/Drawer.style';
 
-export function Drawer({
+export const Drawer = ({
   open,
   onClose,
   title,
   children,
   testId,
-}: DrawerProps): React.ReactElement {
+}: DrawerProps): React.ReactElement => {
   const { t } = useTranslation();
   const titleId: string = useId();
   const panelRef = useRef<HTMLElement>(null);
@@ -115,4 +115,4 @@ export function Drawer({
       )}
     </AnimatePresence>
   );
-}
+};

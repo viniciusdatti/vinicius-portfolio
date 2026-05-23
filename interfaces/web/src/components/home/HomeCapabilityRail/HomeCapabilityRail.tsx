@@ -33,7 +33,7 @@ import {
   CapabilityFeaturedMeta,
   CapabilityFeaturedDomain,
   CapabilityFeaturedDesc,
-} from '@/components/home/HomeCapabilityRail/HomeCapabilityRail.style';
+} from '@/components/Home/HomeCapabilityRail/HomeCapabilityRail.style';
 
 interface CapabilityItem {
   name: string;
@@ -43,7 +43,9 @@ interface CapabilityItem {
 }
 
 const ITEMS: CapabilityItem[] = [
-  { name: 'React', icon: 'react.svg', signal: 'SIG-01', featured: true },
+  {
+    name: 'React', icon: 'react.svg', signal: 'SIG-01', featured: true,
+  },
   { name: 'TypeScript', icon: 'typescript.svg', signal: 'SIG-02' },
   { name: 'Python', icon: 'python.svg', signal: 'SIG-03' },
   { name: 'FastAPI', icon: 'fastapi.svg', signal: 'SIG-04' },
@@ -53,7 +55,7 @@ const ITEMS: CapabilityItem[] = [
 
 const viewport = { once: true, margin: '-60px' as const };
 
-export function HomeCapabilityRail(): React.ReactElement {
+export const HomeCapabilityRail = (): React.ReactElement => {
   const { t } = useTranslation();
   const { section, stagger, item } = useScrollMotion();
 
@@ -127,4 +129,4 @@ export function HomeCapabilityRail(): React.ReactElement {
       </CapabilityShell>
     </CapabilityBand>
   );
-}
+};

@@ -11,7 +11,7 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   ObservatoryCanvasElement,
   ObservatoryCanvasLayer,
-} from '@/components/atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D.style';
+} from '@/components/Atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -20,7 +20,7 @@ import {
 /**
  * Canvas2D telemetry field behind the home Live Lab observatory preview.
  */
-export function ObservatoryCanvas2D(): React.ReactElement {
+export const ObservatoryCanvas2D = (): React.ReactElement => {
   const { canvasRef, containerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Observatory,
   });
@@ -30,4 +30,4 @@ export function ObservatoryCanvas2D(): React.ReactElement {
       <ObservatoryCanvasElement ref={canvasRef} />
     </ObservatoryCanvasLayer>
   );
-}
+};

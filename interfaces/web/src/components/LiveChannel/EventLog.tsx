@@ -47,7 +47,7 @@ const formatTime = (iso: string): string => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function EventLog(): React.ReactElement {
+export const EventLog = (): React.ReactElement => {
   const { t } = useTranslation();
   const events: SystemEvent[] = useSystemEventStore((s) => s.events);
   const listRef = useRef<HTMLUListElement>(null);
@@ -74,4 +74,4 @@ export function EventLog(): React.ReactElement {
       </EventLogList>
     </EventLogPanel>
   );
-}
+};

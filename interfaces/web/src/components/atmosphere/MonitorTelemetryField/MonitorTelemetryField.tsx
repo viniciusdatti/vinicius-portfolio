@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 // Hooks
 import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
 import { useSocketThrottledValue } from '@/hooks/useSocketThrottledValue';
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 
 // Types
 import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
@@ -13,7 +13,7 @@ import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 import {
   MonitorFieldCanvas,
   MonitorFieldLayer,
-} from '@/components/atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
+} from '@/components/Atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
 
 // =================================================================================================
 // ============================================ COMPONENT ==========================================
@@ -24,7 +24,7 @@ import {
  */
 const SOCKET_FIELD_THROTTLE_MS: number = 100;
 
-export function MonitorTelemetryField(): React.ReactElement {
+export const MonitorTelemetryField = (): React.ReactElement => {
   const { tickCount, connected } = useTelemetry();
   const throttledTick: number = useSocketThrottledValue(tickCount, {
     intervalMs: SOCKET_FIELD_THROTTLE_MS,
@@ -47,4 +47,4 @@ export function MonitorTelemetryField(): React.ReactElement {
       <MonitorFieldCanvas ref={canvasRef} />
     </MonitorFieldLayer>
   );
-}
+};

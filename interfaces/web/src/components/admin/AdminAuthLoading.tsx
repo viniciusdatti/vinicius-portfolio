@@ -6,12 +6,12 @@
 import React from 'react';
 
 // Components
-import { Spinner } from '@/components/common/Spinner';
+import { Spinner } from '@/components/Common/Spinner';
 
 // =================================================================================================
 // ============================================ STYLES =============================================
 // =================================================================================================
-import { LoadingRoot, LoadingText } from '@/components/admin/AdminAuthLoading.style';
+import { LoadingRoot, LoadingText } from '@/components/Admin/AdminAuthLoading.style';
 
 interface AdminAuthLoadingProps {
   message: string;
@@ -20,13 +20,11 @@ interface AdminAuthLoadingProps {
 /**
  * Centered spinner used while admin routes validate JWT/session.
  */
-export function AdminAuthLoading({
+export const AdminAuthLoading = ({
   message,
-}: AdminAuthLoadingProps): React.ReactElement {
-  return (
-    <LoadingRoot role="status" aria-live="polite">
-      <Spinner size="lg" />
-      <LoadingText>{message}</LoadingText>
-    </LoadingRoot>
-  );
-}
+}: AdminAuthLoadingProps): React.ReactElement => (
+  <LoadingRoot role="status" aria-live="polite">
+    <Spinner size="lg" />
+    <LoadingText>{message}</LoadingText>
+  </LoadingRoot>
+);

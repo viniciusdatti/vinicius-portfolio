@@ -14,7 +14,7 @@ import { UserRole } from '@/types';
 
 // Components
 import { env } from '@/config/env';
-import { AdminAuthLoading } from '@/components/admin/AdminAuthLoading';
+import { AdminAuthLoading } from '@/components/Admin/AdminAuthLoading';
 import { useAuthStore } from '@/store';
 
 const API_BASE: string = env.apiUrl;
@@ -28,7 +28,7 @@ enum GuestGateStatus {
 /**
  * Renders login routes only for guests; valid admin sessions go to /admin.
  */
-export function AdminGuestRoute(): React.ReactElement {
+export const AdminGuestRoute = (): React.ReactElement => {
   const { t } = useTranslation();
   const {
     tokens, user, logout, setAuth,
@@ -95,4 +95,4 @@ export function AdminGuestRoute(): React.ReactElement {
   }
 
   return <Outlet />;
-}
+};

@@ -1,1 +1,1 @@
-export * from '@/components/atmosphere/MonitorTelemetryField/MonitorTelemetryField';
+export * from '@/components/Atmosphere/MonitorTelemetryField/MonitorTelemetryField';

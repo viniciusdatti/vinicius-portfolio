@@ -14,10 +14,10 @@ import {
   motionEase,
 } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
+import { ThemeToggle } from '@/components/Common/ThemeToggle';
 import { LanguageToggle } from '@/components/LanguageToggle';
-import { MobileMenu } from '@/components/layout/MobileMenu';
-import { HeaderStatusPills } from '@/components/layout/Header/HeaderStatusPills';
+import { MobileMenu } from '@/components/Layout/MobileMenu';
+import { HeaderStatusPills } from '@/components/Layout/Header/HeaderStatusPills';
 import {
   HeaderContainer,
   HeaderShell,
@@ -32,7 +32,7 @@ import {
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
-} from '@/components/layout/Header/Header.style';
+} from '@/components/Layout/Header/Header.style';
 
 interface NavItem {
   path: string;
@@ -58,7 +58,7 @@ const initialState: HeaderState = {
   mobileMenuOpen: false,
 };
 
-export function Header(): React.ReactElement {
+export const Header = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
@@ -111,21 +111,20 @@ export function Header(): React.ReactElement {
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
             </Logo>
 
-            {!isLiveLab && (
-              <HeaderCenter>
-                <Nav>
-                  {navItems.map((item) => (
-                    <NavLink
-                      key={item.path}
-                      to={item.path}
-                      $active={location.pathname === item.path}
-                    >
-                      {t(item.labelKey)}
-                    </NavLink>
-                  ))}
-                </Nav>
-              </HeaderCenter>
-            )}
+            <HeaderCenter $compact={isLiveLab}>
+              <Nav $compact={isLiveLab}>
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    $active={location.pathname === item.path}
+                    $compact={isLiveLab}
+                  >
+                    {t(item.labelKey)}
+                  </NavLink>
+                ))}
+              </Nav>
+            </HeaderCenter>
 
             <HeaderTrailing $isWorkspace={isLiveLab}>
               {!isLiveLab ? <HeaderStatusPills /> : null}
@@ -172,4 +171,4 @@ export function Header(): React.ReactElement {
       </AnimatePresence>
     </>
   );
-}
+};

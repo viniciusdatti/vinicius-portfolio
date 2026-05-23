@@ -354,6 +354,10 @@
   },
   "about": {
     "title": "About",
+    "subtitle": "3+ years with production React and TypeScript — industrial monitoring, design system, and engineering quality.",
+    "experience": {
+      "eyebrow": "Trajectory"
+    },
     "intro": {
       "title": "Front-end Developer",
       "lead": "I spent 3+ years building production React and TypeScript applications — real-time data interfaces, component architecture, and engineering quality.",
@@ -371,7 +375,8 @@
     },
     "superior": {
       "sectionTitle": "Professional experience",
-      "title": "Superior Industries Inc · Feb 2023 – May 2026",
+      "title": "Superior Industries Inc",
+      "period": "Feb 2023 – May 2026",
       "role": "Front-end Developer · on-site",
       "summary": "Built scalable React and TypeScript front-end — production industrial monitoring dashboards, documented design system, and REST integrations with Python and PostgreSQL back-end.",
       "items": {

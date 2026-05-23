@@ -16,7 +16,7 @@ import { Language } from '@/types';
 import { useProjects } from '@/hooks';
 
 // Components
-import { FilterBar, Drawer } from '@/components/showcase';
+import { FilterBar, Drawer } from '@/components/Showcase';
 import {
   ProjectShowcaseGrid,
   ProjectCaseStudyContent,
@@ -29,6 +29,7 @@ import {
   PageHeaderAside,
   SectionEyebrowAnimated,
   PageTitle,
+  PageTitleGradient,
   PageSubtitle,
   PageLead,
   PageSectionSpacious,
@@ -67,7 +68,7 @@ const getUniqueTechnologies = (projects: Project[]): Technology[] => {
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function Projects(): React.ReactElement {
+export const Projects = (): React.ReactElement => {
   const { t, i18n } = useTranslation();
   const {
     data: projects = [], isLoading, isError, refetch,
@@ -149,7 +150,9 @@ export function Projects(): React.ReactElement {
       <PageContainerWide>
         <PageHeaderEditorial>
           <PageHeaderMain>
-            <PageTitle>{t('projects.title')}</PageTitle>
+            <PageTitle>
+              <PageTitleGradient>{t('projects.title')}</PageTitleGradient>
+            </PageTitle>
             <PageSubtitle>{t('projects.subtitle')}</PageSubtitle>
           </PageHeaderMain>
         </PageHeaderEditorial>
@@ -169,12 +172,12 @@ export function Projects(): React.ReactElement {
         <PageHeaderMain>
           <SectionEyebrowAnimated>{t('projects.showcase.eyebrow')}</SectionEyebrowAnimated>
           <PageTitle
-            variants={motion.section}
+            variants={motion.title}
             initial="hidden"
             whileInView="visible"
             viewport={viewport}
           >
-            {t('projects.title')}
+            <PageTitleGradient>{t('projects.title')}</PageTitleGradient>
           </PageTitle>
         </PageHeaderMain>
         <PageHeaderAside>
@@ -228,4 +231,4 @@ export function Projects(): React.ReactElement {
       </Drawer>
     </PageContainerWide>
   );
-}
+};

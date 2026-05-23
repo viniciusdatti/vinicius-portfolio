@@ -43,11 +43,11 @@ export interface ProjectCaseStudyContentProps {
 /**
  * Shared case-study body — used in inline panel and projects drawer.
  */
-export function ProjectCaseStudyContent({
+export const ProjectCaseStudyContent = ({
   project,
   language,
   showRepoSlug = true,
-}: ProjectCaseStudyContentProps): React.ReactElement {
+}: ProjectCaseStudyContentProps): React.ReactElement => {
   const { t } = useTranslation();
   const repoSlug: string = getProjectRepoSlug(project.repository_url);
 
@@ -128,4 +128,4 @@ export function ProjectCaseStudyContent({
       </CasePanelActions>
     </>
   );
-}
+};

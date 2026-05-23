@@ -23,13 +23,11 @@ const defaultProps: ButtonProps = {
   children: 'Send',
 };
 
-function ButtonComponent(props: ButtonProps): React.ReactElement {
-  return (
-    <ThemeProvider theme={darkTheme}>
-      <Button {...props} />
-    </ThemeProvider>
-  );
-}
+const ButtonComponent = (props: ButtonProps): React.ReactElement => (
+  <ThemeProvider theme={darkTheme}>
+    <Button {...props} />
+  </ThemeProvider>
+);
 
 // =================================================================================================
 // ======================================== TEST EXECUTION =========================================

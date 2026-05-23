@@ -16,7 +16,7 @@ import {
 } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
-import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
+import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
 import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
 import { useScrollMotion } from '@/hooks/useScrollMotion';
@@ -46,7 +46,7 @@ import {
   CasePanelSlot,
   WorkError,
   WorkRetry,
-} from '@/components/home/HomeWorkStage/HomeWorkStage.style';
+} from '@/components/Home/HomeWorkStage/HomeWorkStage.style';
 
 export interface HomeWorkStageProps {
   projects: Project[] | undefined;
@@ -67,13 +67,13 @@ const resolveTone = (index: number): ProjectCanvasTone => {
 
 const viewport = { once: true, margin: '-80px' as const };
 
-export function HomeWorkStage({
+export const HomeWorkStage = ({
   projects,
   language,
   isLoading,
   isError,
   onRetry,
-}: HomeWorkStageProps): React.ReactElement {
+}: HomeWorkStageProps): React.ReactElement => {
   const { t } = useTranslation();
   const { section, stagger, item } = useScrollMotion();
   const [selectedId, setSelectedId] = useState<number | null>(null);
@@ -226,4 +226,4 @@ export function HomeWorkStage({
       </WorkStageGrid>
     </WorkStage>
   );
-}
+};

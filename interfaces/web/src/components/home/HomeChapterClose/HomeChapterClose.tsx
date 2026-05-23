@@ -23,11 +23,11 @@ import {
   ContactTitle,
   ContactBody,
   ContactCta,
-} from '@/components/home/HomeChapterClose/HomeChapterClose.style';
+} from '@/components/Home/HomeChapterClose/HomeChapterClose.style';
 
 const viewport = { once: true, margin: '-60px' as const };
 
-export function HomeChapterClose(): React.ReactElement {
+export const HomeChapterClose = (): React.ReactElement => {
   const { t } = useTranslation();
   const { chapterAside, chapterPanel } = useScrollMotion();
 
@@ -65,4 +65,4 @@ export function HomeChapterClose(): React.ReactElement {
       </CloseGrid>
     </CloseBand>
   );
-}
+};

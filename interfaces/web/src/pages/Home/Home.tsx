@@ -16,18 +16,18 @@ import { useProjects } from '@/hooks';
 
 // Components
 import { Hero } from '@/components/Hero';
-import { RealtimePresence } from '@/components/home/RealtimePresence';
-import { HomeManifestoStrip } from '@/components/home/HomeManifestoStrip';
-import { HomeWorkStage } from '@/components/home/HomeWorkStage';
-import { HomeLiveLabImmersion } from '@/components/home/HomeLiveLabImmersion';
-import { HomeCapabilityRail } from '@/components/home/HomeCapabilityRail';
-import { HomeChapterClose } from '@/components/home/HomeChapterClose';
+import { RealtimePresence } from '@/components/Home/RealtimePresence';
+import { HomeManifestoStrip } from '@/components/Home/HomeManifestoStrip';
+import { HomeWorkStage } from '@/components/Home/HomeWorkStage';
+import { HomeLiveLabImmersion } from '@/components/Home/HomeLiveLabImmersion';
+import { HomeCapabilityRail } from '@/components/Home/HomeCapabilityRail';
+import { HomeChapterClose } from '@/components/Home/HomeChapterClose';
 
 // =================================================================================================
 // ========================================== COMPONENT ============================================
 // =================================================================================================
 
-export function Home(): React.ReactElement {
+export const Home = (): React.ReactElement => {
   const { i18n } = useTranslation();
   const {
     data: projects,
@@ -55,4 +55,4 @@ export function Home(): React.ReactElement {
       <HomeChapterClose />
     </>
   );
-}
+};

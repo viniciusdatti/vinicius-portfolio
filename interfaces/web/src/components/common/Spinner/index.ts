@@ -1,2 +1,2 @@
-export * from '@/components/common/Spinner/Spinner';
-export * from '@/components/common/Spinner/Spinner.types';
+export * from '@/components/Common/Spinner/Spinner';
+export * from '@/components/Common/Spinner/Spinner.types';

@@ -24,10 +24,10 @@ interface WrapperProps {
   initialEntries?: string[];
 }
 
-function AllProviders({
+const AllProviders = ({
   children,
   initialEntries = ['/'],
-}: WrapperProps): ReactElement {
+}: WrapperProps): ReactElement => {
   const queryClient = createTestQueryClient();
 
   return (
@@ -37,7 +37,7 @@ function AllProviders({
       </ThemeProvider>
     </QueryClientProvider>
   );
-}
+};
 
 interface CustomRenderOptions extends Omit<RenderOptions, 'wrapper'> {
   initialEntries?: string[];

@@ -7,7 +7,7 @@
 import React from 'react';
 
 // Types
-import type { StatusCardProps } from '@/components/showcase/StatusCard/StatusCard.types';
+import type { StatusCardProps } from '@/components/Showcase/StatusCard/StatusCard.types';
 
 // Components
 import {
@@ -15,21 +15,19 @@ import {
   StatusCardTitle,
   StatusCardValue,
   StatusCardUnit,
-} from '@/components/showcase/StatusCard/StatusCard.style';
+} from '@/components/Showcase/StatusCard/StatusCard.style';
 
-export function StatusCard({
+export const StatusCard = ({
   title,
   value,
   unit,
   status,
-}: StatusCardProps): React.ReactElement {
-  return (
-    <StyledStatusCard $status={status}>
-      <StatusCardTitle>{title}</StatusCardTitle>
-      <StatusCardValue>
-        {value}
-        {unit != null && <StatusCardUnit>{unit}</StatusCardUnit>}
-      </StatusCardValue>
-    </StyledStatusCard>
-  );
-}
+}: StatusCardProps): React.ReactElement => (
+  <StyledStatusCard $status={status}>
+    <StatusCardTitle>{title}</StatusCardTitle>
+    <StatusCardValue>
+      {value}
+      {unit != null && <StatusCardUnit>{unit}</StatusCardUnit>}
+    </StatusCardValue>
+  </StyledStatusCard>
+);

@@ -1,1 +1,1 @@
-export * from '@/components/layout/Footer/Footer';
+export * from '@/components/Layout/Footer/Footer';

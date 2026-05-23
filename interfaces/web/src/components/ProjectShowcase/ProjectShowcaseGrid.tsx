@@ -14,7 +14,10 @@ import {
 import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
-import { formatProjectSignalCode } from '@/domain/projects';
+import {
+  formatProjectSignalCode,
+  orderProjectsForShowcase,
+} from '@/domain/projects';
 import { showcaseStaggerContainer } from '@/styles/animations';
 import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
 import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
@@ -58,21 +61,20 @@ const formatIndexLabel = (index: number): string => formatProjectSignalCode(inde
  *************************************** COMPONENT HANDLING **************************************
  *********************************************************************************************** */
 
-export function ProjectShowcaseGrid({
+export const ProjectShowcaseGrid = ({
   projects,
   language,
   compact = false,
   detailMode = ProjectShowcaseDetailMode.Callback,
   onSelectProject,
-}: ProjectShowcaseGridProps): React.ReactElement {
+}: ProjectShowcaseGridProps): React.ReactElement => {
   const { t } = useTranslation();
   const [selectedProjectId, setSelectedProjectId] = useState<number | null>(null);
 
-  const orderedProjects: Project[] = useMemo(() => {
-    const withDemo: Project[] = projects.filter((p: Project) => Boolean(p.demo_url));
-    const withoutDemo: Project[] = projects.filter((p: Project) => !p.demo_url);
-    return [...withDemo, ...withoutDemo];
-  }, [projects]);
+  const orderedProjects: Project[] = useMemo(
+    () => orderProjectsForShowcase(projects),
+    [projects],
+  );
 
   const hasFeatured: boolean = orderedProjects.length > 0;
 
@@ -142,4 +144,4 @@ export function ProjectShowcaseGrid({
       ) : null}
     </ShowcaseGrid>
   );
-}
+};
