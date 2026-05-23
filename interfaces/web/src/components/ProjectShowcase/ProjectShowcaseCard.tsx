@@ -1,25 +1,27 @@
+/**
+ * @fileoverview Interactive project card for the editorial showcase grid.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Hooks
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Types
 import type { Technology } from '@/data/types';
-import { getProjectDisplayTitle } from '@/domain/projects';
-import { Language } from '@/types';
-import {
-  MockWindowScene,
-  ProjectCanvasTone,
-  ProjectShowcaseVariant,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
 import type { ProjectShowcaseCardProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
+import { getProjectDisplayTitle } from '@/domain/projects';
+import { Language } from '@/types';
+import { ProjectShowcaseVariant } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import { usePointerPosition } from '@/hooks/usePointerPosition';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { ProjectTerminalMock } from '@/components/ProjectShowcase/ProjectTerminalMock';
 import { WorkCanvasPreview } from '@/components/Home/WorkCanvasPreview';
 import { getTechIconUrl } from '@/utils/techIcon';
@@ -54,9 +56,9 @@ import {
   TechStackSep,
 } from '@/components/ProjectShowcase/ProjectShowcase.style';
 
-// =================================================================================================
-// ============================================= METHODS ===========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
 
 const showcaseTapTransition = motionPresets.spring.physical;
 
@@ -81,28 +83,9 @@ const handleCardKeyDown = (
   }
 };
 
-/**
- * Resolves which MockWindow visual scene to render based on variant and canvas tone.
- */
-const resolveMockScene = (
-  variant: ProjectShowcaseVariant,
-  canvasTone: ProjectCanvasTone,
-): MockWindowScene => {
-  if (variant === ProjectShowcaseVariant.Featured) {
-    return MockWindowScene.Shell;
-  }
-  if (canvasTone === ProjectCanvasTone.B) {
-    return MockWindowScene.Table;
-  }
-  if (canvasTone === ProjectCanvasTone.C) {
-    return MockWindowScene.Code;
-  }
-  return MockWindowScene.Shell;
-};
-
-// =================================================================================================
-// ============================================ COMPONENT ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
   project,
@@ -127,7 +110,6 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
     defaultValue: t('projects.showcase.viewCase'),
   });
   const isFeatured: boolean = variant === ProjectShowcaseVariant.Featured;
-  const scene: MockWindowScene = resolveMockScene(variant, canvasTone);
   const repoSlug: string = getProjectRepoSlug(project.repository_url);
   const spotActive: boolean = !reducedMotion && isPointerActive;
 
@@ -163,7 +145,7 @@ export const ProjectShowcaseCard: React.FC<ProjectShowcaseCardProps> = ({
         <PreviewPanel $variant={variant} $canvasTone={canvasTone}>
           <WorkCanvasPreview tone={canvasTone} active={isSelected} />
           <PreviewIndexWatermark aria-hidden>{indexLabel}</PreviewIndexWatermark>
-          <ProjectTerminalMock scene={scene} />
+          <ProjectTerminalMock repositorySlug={repoSlug} />
           <TechFloatingRow $hideOnDesktop={isFeatured}>
             {displayTechs.map((tech: Technology) => {
               const iconUrl: string | null = getTechIconUrl(tech.slug);

@@ -1,12 +1,26 @@
+/**
+ * @fileoverview Animated monospace terminal mock inside project showcase preview panels.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Core
 import React from 'react';
 
 // Types
-import type { MockWindowScene } from '@/components/ProjectShowcase/ProjectShowcase.types';
-import { getTerminalSnippetLines } from '@/components/ProjectShowcase/projectTerminalSnippets';
-import type { TerminalCodeLine } from '@/components/ProjectShowcase/projectTerminalSnippets';
+import type {
+  ProjectTerminalMockProps,
+  TerminalCodeLine,
+} from '@/components/ProjectShowcase/ProjectShowcase.types';
 
 // Components
+import { MockWindowScene } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import {
+  getMockWindowSceneForRepository,
+  getTerminalSnippetLinesForRepository,
+} from '@/components/ProjectShowcase/projectTerminalSnippets';
 import {
   MockWindow,
   MockWindowBar,
@@ -17,25 +31,18 @@ import {
   TerminalCursor,
 } from '@/components/ProjectShowcase/ProjectShowcase.style';
 
-// =================================================================================================
-// ============================================= TYPES =============================================
-// =================================================================================================
-
-export interface ProjectTerminalMockProps {
-  scene: MockWindowScene;
-}
-
-// =================================================================================================
-// ============================================ COMPONENT ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ *************************************** COMPONENT HANDLING ****************************************
+ ************************************************************************************************ */
 
 export const ProjectTerminalMock: React.FC<ProjectTerminalMockProps> = ({
-  scene,
+  repositorySlug,
 }): React.ReactElement => {
-  const lines: TerminalCodeLine[] = getTerminalSnippetLines(scene);
+  const lines: TerminalCodeLine[] = getTerminalSnippetLinesForRepository(repositorySlug);
+  const scene: MockWindowScene = getMockWindowSceneForRepository(repositorySlug);
 
   return (
-    <MockWindow>
+    <MockWindow data-scene={scene}>
       <MockWindowBar>
         <MockDot />
         <MockDot />
@@ -45,7 +52,7 @@ export const ProjectTerminalMock: React.FC<ProjectTerminalMockProps> = ({
         <TerminalShimmerWash aria-hidden />
         {lines.map((line: TerminalCodeLine) => (
           <TerminalCodeLineStyled
-            key={line.text}
+            key={`${repositorySlug}-${line.delay}-${line.text}`}
             $role={line.role}
             $delay={line.delay}
           >
