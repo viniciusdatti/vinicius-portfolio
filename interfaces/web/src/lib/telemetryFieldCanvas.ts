@@ -1,6 +1,6 @@
-// =================================================================================================
-// ============================================= TYPES =============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************** TYPES **********************************************
+ ************************************************************************************************ */
 
 export enum TelemetryFieldVariant {
   Void = 'void',
@@ -49,14 +49,14 @@ export interface TelemetryFieldDrawOptions {
   constellationNodes?: ConstellationNodeState[];
 }
 
-// =================================================================================================
-// ============================================= CONSTANTS =======================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
 const VOID_COLS: number = 14;
 const VOID_ROWS: number = 10;
-const OBS_COLS: number = 22;
-const OBS_ROWS: number = 14;
+const OBS_COLS: number = 15;
+const OBS_ROWS: number = 9;
 const PARTICLE_COUNT_VOID: number = 36;
 const PARTICLE_COUNT_OBS: number = 64;
 const TOPOLOGICAL_MESH_COLS: number = 28;
@@ -66,9 +66,9 @@ const COBALT_MESH_CURSOR_RGBA: string = 'rgba(0, 82, 255, 0.42)';
 const CONSTELLATION_CONNECT_RADIUS: number = 0.2;
 const CONSTELLATION_CURSOR_RADIUS: number = 0.22;
 
-// =================================================================================================
-// ============================================= METHODS ===========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
 
 const resolveGridDensity = (
   variant: TelemetryFieldVariant,
@@ -868,13 +868,16 @@ export const drawTelemetryField = (
     ctx.stroke();
   }
 
-  for (let col = 0; col <= cols; col += 1) {
-    const u: number = col / cols;
-    const x: number = vanishX + (u - 0.5) * (width - marginX * 2) * (0.2 + 0.8 * 1);
-    ctx.beginPath();
-    ctx.moveTo(x, vanishY);
-    ctx.lineTo(vanishX + (u - 0.5) * (width - marginX), floorY);
-    ctx.stroke();
+  /* Observatory home backdrop — horizontal depth only; vertical rails read as harsh "riscos". */
+  if (variant !== TelemetryFieldVariant.Observatory) {
+    for (let col = 0; col <= cols; col += 1) {
+      const u: number = col / cols;
+      const x: number = vanishX + (u - 0.5) * (width - marginX * 2) * (0.2 + 0.8 * 1);
+      ctx.beginPath();
+      ctx.moveTo(x, vanishY);
+      ctx.lineTo(vanishX + (u - 0.5) * (width - marginX), floorY);
+      ctx.stroke();
+    }
   }
 
   if (variant === TelemetryFieldVariant.Monitor) {

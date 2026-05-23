@@ -23,26 +23,28 @@ import type { HeroVisual3DProps } from '@/components/Hero/HeroVisual3D.types';
 // Components
 import { HeroVisual3DCanvasWrap } from '@/components/Hero/HeroVisual3D.style';
 
-// =================================================================================================
-// ============================================= CONSTANTS =========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
 
 const PARTICLE_COUNT: number = 1500;
 const SPHERE_RADIUS: number = 3.4;
 const AMBER_HEX: string = '#00E5FF';
-/** Dev validation — set false before shipping; bypasses reduced-motion / WebGL gates. */
-const FORCE_SHOW_3D: boolean = true;
-/** Sized above body dot grid perceptual threshold (void-column read). */
 const PARTICLE_SIZE: number = 0.052;
 const PARTICLE_OPACITY: number = 0.92;
 const Y_DRIFT_SPEED: number = 0.11;
 const MAGNETIC_SPREAD: number = 1.25;
-/** Follow rate — tuned for motionPresets.ease.out feel (no spring overshoot). */
 const POINTER_EASE_RATE: number = 9;
+/** Infinite breathe/explosion — group scale loop (seconds). */
+const BURST_CYCLE_S: number = 4.8;
+const BURST_MIN_SCALE: number = 0.22;
+const BURST_MAX_SCALE: number = 1.08;
+const TAU: number = Math.PI * 2;
 
-/**
- * Cubic ease-out interpolation step — matches canonical [0.22, 1, 0.36, 1] curve.
- */
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
+
 const cubicEaseOutStep = (
   current: number,
   target: number,
@@ -54,13 +56,15 @@ const cubicEaseOutStep = (
   return current + (target - current) * easedT;
 };
 
-// =================================================================================================
-// ============================================= METHODS ===========================================
-// =================================================================================================
-
 /**
- * Fibonacci sphere distribution — even amber field without clumping.
+ * Looped explosion scale — expand/contract the whole field from center (always visible).
  */
+const resolveBurstScale = (elapsedS: number): number => {
+  const wave: number = 0.5 + 0.5 * Math.sin((elapsedS / BURST_CYCLE_S) * TAU);
+  const eased: number = 1 - (1 - wave) ** 2;
+  return BURST_MIN_SCALE + (BURST_MAX_SCALE - BURST_MIN_SCALE) * eased;
+};
+
 const buildParticlePositions = (count: number, radius: number): Float32Array => {
   const positions: Float32Array = new Float32Array(count * 3);
   const goldenAngle: number = Math.PI * (3 - Math.sqrt(5));
@@ -81,11 +85,17 @@ const buildParticlePositions = (count: number, radius: number): Float32Array => 
   return positions;
 };
 
-// =================================================================================================
-// ============================================ SUBCOMPONENTS ======================================
-// =================================================================================================
+/* *************************************************************************************************
+ ****************************************** SUBCOMPONENTS ******************************************
+ ************************************************************************************************ */
 
-const HeroParticleField: React.FC = (): React.ReactElement => {
+interface HeroParticleFieldProps {
+  burstEnabled: boolean;
+}
+
+const HeroParticleField: React.FC<HeroParticleFieldProps> = ({
+  burstEnabled,
+}): React.ReactElement => {
   const groupRef = useRef<Group | null>(null);
   const positions: Float32Array = useMemo(
     (): Float32Array => buildParticlePositions(PARTICLE_COUNT, SPHERE_RADIUS),
@@ -96,6 +106,13 @@ const HeroParticleField: React.FC = (): React.ReactElement => {
     const group: Group | null = groupRef.current;
     if (!group) {
       return;
+    }
+
+    if (burstEnabled) {
+      const burstScale: number = resolveBurstScale(state.clock.elapsedTime);
+      group.scale.setScalar(burstScale);
+    } else {
+      group.scale.setScalar(1);
     }
 
     group.position.y += delta * Y_DRIFT_SPEED;
@@ -135,10 +152,15 @@ const HeroVisual3DBloom: React.FC = (): React.ReactElement => (
   </EffectComposer>
 );
 
-const HeroVisual3DScene: React.FC<HeroVisual3DProps> = ({
+interface HeroVisual3DSceneProps extends HeroVisual3DProps {
+  burstEnabled: boolean;
+}
+
+const HeroVisual3DScene: React.FC<HeroVisual3DSceneProps> = ({
   containerRef,
+  burstEnabled,
 }): React.ReactElement => (
-  <HeroVisual3DCanvasWrap aria-hidden>
+  <HeroVisual3DCanvasWrap aria-hidden data-testid="hero-visual-3d">
     <Canvas
       eventSource={containerRef as RefObject<HTMLElement>}
       camera={{
@@ -151,18 +173,18 @@ const HeroVisual3DScene: React.FC<HeroVisual3DProps> = ({
         powerPreference: 'high-performance',
       }}
     >
-      <HeroParticleField />
+      <HeroParticleField burstEnabled={burstEnabled} />
       <HeroVisual3DBloom />
     </Canvas>
   </HeroVisual3DCanvasWrap>
 );
 
-// =================================================================================================
-// ============================================ COMPONENT ==========================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
 
 /**
- * Isolated Hero GPU layer — 1.5k amber particles, bloom glow, pointer magnetic inertia.
+ * Isolated Hero GPU layer — 1.5k cyan particles, bloom, infinite burst + pointer inertia.
  */
 export const HeroVisual3D: React.FC<HeroVisual3DProps> = ({
   containerRef,
@@ -170,13 +192,15 @@ export const HeroVisual3D: React.FC<HeroVisual3DProps> = ({
   const reduced: boolean = usePrefersReducedMotion();
   const webglAvailable: boolean = useWebGLAvailable();
 
-  if (!FORCE_SHOW_3D && (reduced || !webglAvailable)) {
+  if (!webglAvailable) {
     return null;
   }
 
+  const burstEnabled: boolean = !reduced;
+
   return (
     <Suspense fallback={null}>
-      <HeroVisual3DScene containerRef={containerRef} />
+      <HeroVisual3DScene containerRef={containerRef} burstEnabled={burstEnabled} />
     </Suspense>
   );
 };

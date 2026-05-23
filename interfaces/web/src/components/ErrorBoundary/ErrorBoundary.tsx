@@ -29,11 +29,6 @@ ErrorBoundaryState
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo): void {
-    // eslint-disable-next-line no-console -- production error boundary logging
-    console.error('[ErrorBoundary]', error, errorInfo.componentStack);
-  }
-
   handleReload(): void {
     const { hasError } = this.state;
     if (hasError) {

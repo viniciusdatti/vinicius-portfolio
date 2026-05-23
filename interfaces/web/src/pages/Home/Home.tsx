@@ -16,7 +16,6 @@ import { useProjects } from '@/hooks';
 
 // Components
 import { Hero } from '@/components/Hero';
-import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
 import { RealtimePresence } from '@/components/home/RealtimePresence';
 import { HomeManifestoStrip } from '@/components/home/HomeManifestoStrip';
 import { HomeWorkStage } from '@/components/home/HomeWorkStage';
@@ -24,9 +23,9 @@ import { HomeLiveLabImmersion } from '@/components/home/HomeLiveLabImmersion';
 import { HomeCapabilityRail } from '@/components/home/HomeCapabilityRail';
 import { HomeChapterClose } from '@/components/home/HomeChapterClose';
 
-// =================================================================================================
-// ========================================== COMPONENT ============================================
-// =================================================================================================
+/* *************************************************************************************************
+ ******************************************** COMPONENT ********************************************
+ ************************************************************************************************ */
 
 export const Home = (): React.ReactElement => {
   const { i18n } = useTranslation();
@@ -42,30 +41,18 @@ export const Home = (): React.ReactElement => {
   return (
     <>
       <Hero />
-      <HomeSectionReveal>
-        <RealtimePresence />
-      </HomeSectionReveal>
-      <HomeSectionReveal>
-        <HomeManifestoStrip />
-      </HomeSectionReveal>
-      <HomeSectionReveal>
-        <HomeWorkStage
-          projects={projects}
-          language={currentLanguage}
-          isLoading={isLoading}
-          isError={isError}
-          onRetry={() => refetch()}
-        />
-      </HomeSectionReveal>
-      <HomeSectionReveal>
-        <HomeLiveLabImmersion />
-      </HomeSectionReveal>
-      <HomeSectionReveal>
-        <HomeCapabilityRail />
-      </HomeSectionReveal>
-      <HomeSectionReveal>
-        <HomeChapterClose />
-      </HomeSectionReveal>
+      <RealtimePresence />
+      <HomeManifestoStrip />
+      <HomeWorkStage
+        projects={projects}
+        language={currentLanguage}
+        isLoading={isLoading}
+        isError={isError}
+        onRetry={() => refetch()}
+      />
+      <HomeLiveLabImmersion />
+      <HomeCapabilityRail />
+      <HomeChapterClose />
     </>
   );
 };

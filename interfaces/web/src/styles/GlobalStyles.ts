@@ -93,7 +93,8 @@ export const GlobalStyles = createGlobalStyle`
       ${({ theme }) => theme.colors.borderSubtle} 1px,
       transparent 0
     );
-    background-size: 24px 24px;
+    background-size: ${({ theme }) => theme.sizes.hero.gridCell}
+      ${({ theme }) => theme.sizes.hero.gridCell};
     opacity: ${({ theme }) => theme.effects.opacity.decoGrid};
     mask-image: ${({ theme }) => theme.colors.gradientBodyGridMask};
     /* 1Hz system liveness — paired with ObservatoryIdleLayer 8s scanline sweep */
