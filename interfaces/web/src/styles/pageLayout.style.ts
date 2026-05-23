@@ -150,7 +150,7 @@ export const PageSection = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
 `;
 
-export const PageSectionSpacious = styled.section`
+export const PageSectionSpacious = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.section};
   padding-bottom: clamp(2rem, 6vw, 4rem);
 `;

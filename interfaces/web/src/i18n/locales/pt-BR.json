@@ -201,21 +201,17 @@
   "home": {
     "hero": {
       "name": "Vinicius Datti",
-      "eyebrow": "Portfólio · engenharia frontend",
+      "eyebrow": "Engenharia front-end · sistemas em produção",
+      "liveIndicator": "Demo ao vivo: telemetria WebSocket no Live Lab",
       "aria": "Início — sala de controle",
-      "headline": "Front-end para dados em tempo real e interfaces de produção.",
-      "headlineLine1": "Front-end para dados em tempo real",
-      "headlineLine2": "e interfaces de produção.",
-      "description": "Desenvolvedor Front-end com 3+ anos construindo aplicações React e TypeScript em produção — dashboards de monitoramento industrial com telemetria contínua via WebSocket, validação dinâmica de limites, múltiplos estados na UI e layouts responsivos.",
+      "headlinePart1": "Desenvolvo interfaces React de alta disponibilidade para dados em tempo real ",
+      "headlinePart2": "e operações críticas.",
+      "description": "Mais de três anos de experiência projetando e consolidando aplicações web de larga escala com React e TypeScript: dashboards de alta performance com WebSocket, validação dinâmica de limiares, gerenciamento de estado multiestado e integração estável com APIs Python e PostgreSQL.",
       "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explorar o portfólio",
       "ctaPrimary": "Ver trabalhos",
       "ctaSecondary": "Abrir Live Lab",
-      "boot": {
-        "channel": "CANAL · HOME / CONTROLE",
-        "status": "INICIALIZANDO CAMADA DE TELEMETRIA…"
-      },
       "telemetry": {
         "stripLabel": "Painel de telemetria operacional",
         "headerTitle": "Telemetria // Leitura",
@@ -354,36 +350,39 @@
   },
   "about": {
     "title": "Sobre",
-    "subtitle": "3+ anos em React e TypeScript em produção — monitoramento industrial, design system e qualidade de engenharia.",
+    "subtitle": "React e TypeScript em produção: telemetria, design system, autenticação e testes automatizados.",
     "experience": {
       "eyebrow": "Trajetória"
     },
     "intro": {
-      "title": "Desenvolvedor Front-end",
-      "lead": "Trabalhei 3+ anos desenvolvendo aplicações React e TypeScript em produção, com foco em interfaces de dados em tempo real, arquitetura de componentes e qualidade de engenharia.",
-      "highlight": "WebSocket · Styled-components · Storybook · Jest · Playwright · Python · PostgreSQL",
-      "impact": "Nessa experiência, entreguei dashboards de monitoramento industrial com telemetria contínua, validação de limites e UI responsiva para mobile, tablet e desktop."
+      "title": "Engenheiro front-end",
+      "lead": "Há mais de três anos desenvolvo aplicações React e TypeScript em ambiente de produção, com ownership de módulos completos — da arquitetura de componentes à integração com APIs e contratos tipados entre camadas.",
+      "highlight": "WebSocket · REST · PostgreSQL · Styled-components · Storybook · Jest · Playwright",
+      "impact": "Entreguei dashboards industriais com telemetria WebSocket e limites dinâmicos; evoluí biblioteca de componentes com Storybook; implementei auth com sessão e refresh; mantive suites Jest e Playwright em fluxos críticos e layouts responsivos para planta e escritório."
     },
     "stats": {
       "experience": "Anos de experiência",
-      "testing": "Jest · Playwright",
+      "testing": {
+        "value": "Jest · Playwright",
+        "label": "Testes em fluxos críticos"
+      },
       "certifiedHours": "Horas certificadas"
     },
     "philosophy": {
       "title": "Como trabalho",
-      "description": "Contratos tipados entre camadas, convenções de arquivo que o time segue sem precisar perguntar e testes nos caminhos que realmente importam — não para bater uma meta de cobertura."
+      "description": "Tipagem que alinha front e API, pastas com intenção para o time e automação focada no que não pode regredir em produção."
     },
     "superior": {
       "sectionTitle": "Experiência profissional",
       "title": "Superior Industries Inc",
       "period": "fev 2023 – mai 2026",
       "role": "Desenvolvedor Front-end · presencial",
-      "summary": "Atuação em aplicações front-end escaláveis com React e TypeScript — dashboards de monitoramento industrial em produção, design system documentado e integrações REST com back-end Python e PostgreSQL.",
+      "summary": "Front-end em aplicações React/TypeScript de larga escala: dashboards de monitoramento em produção, design system documentado e consumo de APIs REST (Python/PostgreSQL), com ênfase em tipagem, testes e revisão de código.",
       "items": {
-        "realtime": "Dashboards com fluxos contínuos de telemetria via WebSocket, validação dinâmica de limites e renderização com múltiplos estados operacionais.",
-        "designSystem": "Arquitetura e evolução de biblioteca de componentes com Styled-components e documentação via Storybook — consistência visual e velocidade de entrega.",
-        "auth": "Fluxos completos de autenticação: login, controle de sessão, refresh de token e recuperação de senha, com route guards e validações no cliente.",
-        "quality": "Testes com Jest (unitário) e Playwright (E2E) em fluxos críticos; code review ativo; responsividade em todos os módulos (mobile, tablet e desktop)."
+        "realtime": "Painéis com ingestão WebSocket contínua, thresholds configuráveis e UI que reflete degradação de canal e de sensor sem ambiguidade.",
+        "designSystem": "Biblioteca de componentes em Styled-components com tokens e documentação Storybook — acelerando entregas e reduzindo divergência visual.",
+        "auth": "Fluxos de login, sessão, refresh de token e recuperação de senha com guards de rota e validação alinhada ao contrato da API.",
+        "quality": "Jest e Playwright nos caminhos críticos; code review contínuo; responsividade validada em mobile, tablet e desktop."
       }
     },
     "education": {
@@ -402,17 +401,31 @@
     "filterAll": "Todas",
     "layout": {
       "coreEyebrow": "Arquitetura central",
-      "coreLead": "Base full-stack — UI tipada, serviços e persistência que escalam com o produto.",
+      "coreLead": "Núcleo full-stack da UI: tipos, serviços e persistência alinhados ao produto.",
       "peripheralEyebrow": "Stack de suporte",
-      "heroSignal": "SIG-01",
+      "heroSignal": "· Principal",
       "heroDomain": "Arquitetura de UI",
-      "heroDescription": "Sistemas de componentes, estado em tempo real e integração com design system em superfícies de produção.",
+      "heroDescription": "Componentes compostos, estado em tempo real e integração com design system em superfícies de produção.",
       "coreDomains": {
         "TypeScript": "Segurança de tipos",
         "Python": "Serviços",
         "FastAPI": "Camada de API",
         "PostgreSQL": "Dados",
         "Docker": "Operações"
+      },
+      "peripheralDomains": {
+        "Styled Components": "design system",
+        "WebSocket": "tempo real",
+        "JavaScript": "runtime",
+        "Jest": "testes unitários",
+        "Docker": "containers",
+        "Cursor": "fluxo com IA",
+        "HTML5": "marcação",
+        "CSS3": "estilos",
+        "Playwright": "e2e",
+        "Git": "controle de versão",
+        "VS Code": "ambiente de dev",
+        "AI tools": "produtividade"
       }
     },
     "toolNames": {
@@ -606,12 +619,15 @@
   },
   "liveLab": {
     "title": "Live Lab",
-    "subtitle": "Demonstração de telemetria — pulsos WebSocket, limiares e log de eventos. Inspirado em dashboards industriais em produção; não é produto real de cliente.",
+    "workspace": {
+      "ariaLabel": "Espaço de telemetria ao vivo"
+    },
+    "subtitle": "Demonstração funcional: stream WebSocket, limiares e log de eventos. Inspirado em dashboards industriais reais; não é produto de cliente.",
     "header": {
-      "badge": "Demo · telemetria",
+      "badge": "Demo técnica",
       "badgeTooltip": "Fluxo de sensores ao vivo via Socket.io — não é mockup de UI",
-      "transportLive": "Transporte ao vivo · pulso #{{tick}}",
-      "transportConnecting": "Sincronizando transporte de telemetria…"
+      "transportLive": "Conectado · amostra #{{tick}}",
+      "transportConnecting": "Estabelecendo conexão WebSocket…"
     },
     "boot": {
       "transportStatus": "Transporte de telemetria",
@@ -735,11 +751,11 @@
     "techFastApi": "FastAPI"
   },
   "projects": {
-    "title": "Trabalho de engenharia",
-    "subtitle": "Registro de sinais — automação em produção, telemetria realtime e infraestrutura de design system.",
+    "title": "Projetos de engenharia",
+    "subtitle": "Estudos de caso e código aberto com escopo explícito: arquitetura, trade-offs e o que o repositório prova. Produção em cliente privado está em Sobre.",
     "showcase": {
       "eyebrow": "Trabalhos selecionados",
-      "lead": "Cada projeto declara intenção, arquitetura e trade-off de engenharia. Trabalho em produção (repositório privado) não aparece aqui — veja Experiência em Sobre.",
+      "lead": "Cada card resume problema, stack e decisão técnica. Repositórios privados de produção não aparecem aqui — veja Experiência em Sobre.",
       "viewCase": "Ver estudo de caso",
       "hostedDemo": "Demonstração hospedada",
       "repository": "Repositório"
@@ -762,9 +778,9 @@
     },
     "casePanel": {
       "close": "Fechar",
-      "framing": "Enquadramento",
+      "framing": "Contexto",
       "architecture": "Arquitetura",
-      "decision": "Decisão de engenharia",
+      "decision": "Decisão técnica",
       "discussLive": "Ver telemetria ao vivo"
     },
     "caseStudies": {
@@ -773,20 +789,25 @@
         "architecture": "UI em camadas com limites tipados entre views, estado e API ou dados estáticos.",
         "decision": "Priorizar legibilidade, estados de loading/erro honestos e composição sustentável em vez de ruído visual."
       },
-      "vault-erp-sync": {
-        "framing": "Automação core: integrar dados PLM do Autodesk Vault com estoque e miniaturas do ERP corporativo — agendado, idempotente e seguro contra concorrência.",
-        "architecture": "Camada Python sobre REST do Vault; orquestração via Task Scheduler no Windows; fila assíncrona com locks explícitos por revisão de ativo.",
-        "decision": "Serializar gravações de miniatura e número de estoque em janelas do scheduler em vez de sync paralelo otimista — trocar latência por zero falhas de colisão."
+      "vinicius-portfolio": {
+        "framing": "Monorepo deste portfólio: backend FastAPI + Socket.IO e frontend React 19 (Vite) com Live Lab e chat admin.",
+        "architecture": "backend/ (FastAPI, SQLAlchemy, scripts de seed) e interfaces/web/ (React, TanStack Query, styled-components, i18n).",
+        "decision": "Produto único com projetos honestos em portfolio_catalog.py — títulos iguais aos nomes dos repositórios no GitHub."
       },
-      "live-lab-telemetry": {
-        "framing": "Telemetria / Live Lab core: matriz operacional para streams WebSocket de alta frequência com orçamento de render no cliente.",
-        "architecture": "Consumidor React + TypeScript; transporte Socket.io; throttle de render a 100ms desacoplado do ingresso; envelope tipado e contrato de UI para estado de conexão.",
-        "decision": "Limitar pintura a 10Hz mantendo throughput completo em memória — preservar 60fps sob rajadas sem perder fidelidade do transporte."
+      "ReactGram": {
+        "framing": "App CRA em reactgram/: feed estilo Instagram com auth, posts, curtidas, Redux Toolkit e json-server em data/db.json.",
+        "architecture": "Páginas React Router (Home, Login, Register, Profile, Publish), hook useAuth e REST mock via npm run server.",
+        "decision": "Descrever a UI social e a API mock como no código — sem backend de produção além do json-server."
       },
-      "design-system-core": {
-        "framing": "Infraestrutura de Design System: rigor de tokens, motion choreography e APIs que resistem à explosão de props.",
-        "architecture": "Contrato de tema em Styled-components; isolamento Storybook por primitivo; mapas de variantes co-localizados com surfaces e motion presets.",
-        "decision": "Compor via compound slots e enums — bloquear prop sprawl antes que force re-renders em cascata nas superfícies do observatório."
+      "tasks-flask-crud": {
+        "framing": "API Flask com tarefas em lista Python: CRUD completo em /tasks, modelo Task e pytest em tests.py.",
+        "architecture": "app.py com tasks[] em memória; models/task.py serializa JSON — sem SQLAlchemy nem MySQL.",
+        "decision": "Deixar explícito que a persistência é em memória, alinhado ao código do repositório."
+      },
+      "sample-flask-auth": {
+        "framing": "API Flask de auth (README: autenticação com banco): login/logout, usuários com bcrypt e MySQL via SQLAlchemy.",
+        "architecture": "Sessões Flask-Login; modelo User; rotas de login, CRUD de usuário e 403 por papel admin/user.",
+        "decision": "Copiar alinhada ao MySQL + Flask-Login do app.py — credenciais no repo são só para dev local."
       }
     },
     "viewCode": "Ver código-fonte",
@@ -795,14 +816,18 @@
     "loading": "Carregando projetos...",
     "error": "Não foi possível carregar os projetos. Tente novamente.",
     "caseCtas": {
-      "vault-erp-sync": "Inspecionar sincronizador",
-      "live-lab-telemetry": "Abrir matriz de telemetria",
-      "design-system-core": "Ver design system"
+      "vinicius-portfolio": "Abrir repositório",
+      "ReactGram": "Abrir repositório",
+      "tasks-flask-crud": "Abrir repositório",
+      "sample-flask-auth": "Abrir repositório"
     },
     "capabilities": {
       "react": "Arquitetura de componentes",
       "typescript": "Contratos tipados",
       "python": "Runtime de serviço",
+      "javascript": "Runtime JavaScript",
+      "flask": "Framework Flask",
+      "mysql": "Banco MySQL",
       "websocket": "Transporte realtime",
       "performance": "Controle de render",
       "styled-components": "Estilo orientado a tokens",

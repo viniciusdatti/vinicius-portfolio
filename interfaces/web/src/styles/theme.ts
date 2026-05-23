@@ -66,7 +66,7 @@ export const darkTheme: Theme = {
     gradientTextHero:
       'linear-gradient(120deg, #F1F5F9 0%, #F59E0B 55%, #FDE68A 100%)',
     gradientTextDisplay:
-      'linear-gradient(165deg, #F1F5F9 0%, #A1A1AA 100%)',
+      'linear-gradient(to right, #F59E0B 0%, #EF4444 100%)',
     gradientNavUnderline:
       'linear-gradient(90deg, #F59E0B 0%, #FDE68A 100%)',
     gradientSectionFade:
@@ -197,7 +197,7 @@ export const lightTheme: Theme = {
     gradientTextHero:
       'linear-gradient(120deg, #17120A 0%, #92680A 55%, #C49A3C 100%)',
     gradientTextDisplay:
-      'linear-gradient(165deg, #17120A 0%, #4A3F2F 100%)',
+      'linear-gradient(to right, #92680A 0%, #DC2626 100%)',
     gradientNavUnderline:
       'linear-gradient(90deg, #92680A 0%, #C49A3C 100%)',
     gradientSectionFade:

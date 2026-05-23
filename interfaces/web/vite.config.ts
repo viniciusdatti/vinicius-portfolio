@@ -29,6 +29,13 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(rootDir, 'src'),
       },
     },
+    optimizeDeps: {
+      include: [
+        'react-hook-form',
+        'zod',
+        '@hookform/resolvers/zod',
+      ],
+    },
     server: {
       port: Number(env.VITE_DEV_PORT ?? 5173),
       strictPort: true,
