@@ -1,49 +1,132 @@
-import { MockWindowScene } from '@/components/ProjectShowcase/ProjectShowcase.types';
+/**
+ * @fileoverview Repository-keyed terminal mock lines for ProjectShowcase preview panels.
+ */
 
-export enum TerminalCodeTokenRole {
-  Keyword = 'keyword',
-  Accent = 'accent',
-  Muted = 'muted',
-  Plain = 'plain',
-}
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
 
-export interface TerminalCodeLine {
-  text: string;
-  role: TerminalCodeTokenRole;
-  delay: string;
-}
+// Types
+import type { TerminalCodeLine } from '@/components/ProjectShowcase/ProjectShowcase.types';
 
-const VAULT_ORCHESTRATOR_LINES: TerminalCodeLine[] = [
-  { text: 'const VAULT_LOCK_TTL_MS = 30_000;', role: TerminalCodeTokenRole.Accent, delay: '0s' },
-  { text: 'await vaultClient.getRevision(assetId);', role: TerminalCodeTokenRole.Plain, delay: '0.4s' },
-  { text: 'scheduler.enqueue(syncErpThumbnail);', role: TerminalCodeTokenRole.Keyword, delay: '0.9s' },
-  { text: 'if (!acquireLock(revision)) return;', role: TerminalCodeTokenRole.Muted, delay: '1.3s' },
-  { text: 'erp.pushStockDelta(payload);', role: TerminalCodeTokenRole.Plain, delay: '1.8s' },
+// Components
+import {
+  MockWindowScene,
+  PortfolioRepositorySlug,
+  TerminalCodeTokenRole,
+} from '@/components/ProjectShowcase/ProjectShowcase.types';
+
+/* *************************************************************************************************
+ ******************************************** CONSTANTS ********************************************
+ ************************************************************************************************ */
+
+const VINICIUS_PORTFOLIO_LINES: TerminalCodeLine[] = [
+  { text: '// interfaces/web — React + Vite', role: TerminalCodeTokenRole.Muted, delay: '0s' },
+  {
+    text: 'const { data } = useProjects();',
+    role: TerminalCodeTokenRole.Plain,
+    delay: '0.4s',
+  },
+  {
+    text: 'return <ProjectShowcaseGrid projects={data} />;',
+    role: TerminalCodeTokenRole.Accent,
+    delay: '0.9s',
+  },
+  { text: '// backend — FastAPI + Socket.IO', role: TerminalCodeTokenRole.Muted, delay: '1.3s' },
+  {
+    text: '@router.get("/projects")  # REST API',
+    role: TerminalCodeTokenRole.Keyword,
+    delay: '1.8s',
+  },
 ];
 
-const TABLE_SYNC_LINES: TerminalCodeLine[] = [
-  { text: 'SELECT sku, qty FROM erp_stock;', role: TerminalCodeTokenRole.Muted, delay: '0.2s' },
-  { text: 'MAP vault.thumb → erp.asset_id', role: TerminalCodeTokenRole.Accent, delay: '0.6s' },
-  { text: 'UPSERT inventory_delta …', role: TerminalCodeTokenRole.Keyword, delay: '1s' },
-  { text: 'COMMIT; -- idempotent batch', role: TerminalCodeTokenRole.Plain, delay: '1.4s' },
+const REACTGRAM_LINES: TerminalCodeLine[] = [
+  { text: '// reactgram/ — Create React App', role: TerminalCodeTokenRole.Muted, delay: '0s' },
+  {
+    text: 'const posts = useSelector(selectPublish);',
+    role: TerminalCodeTokenRole.Plain,
+    delay: '0.4s',
+  },
+  {
+    text: 'dispatch(likePublish(postId));',
+    role: TerminalCodeTokenRole.Accent,
+    delay: '0.9s',
+  },
+  { text: '// npm run server', role: TerminalCodeTokenRole.Muted, delay: '1.3s' },
+  {
+    text: 'json-server --watch data/db.json',
+    role: TerminalCodeTokenRole.Keyword,
+    delay: '1.8s',
+  },
 ];
 
-const HOOK_RUNTIME_LINES: TerminalCodeLine[] = [
-  { text: 'export const useSyncPulse = () => {', role: TerminalCodeTokenRole.Keyword, delay: '0s' },
-  { text: '  const [phase, setPhase] = useState<Phase>();', role: TerminalCodeTokenRole.Plain, delay: '0.5s' },
-  { text: '  useEffect(() => subscribe(socket), []);', role: TerminalCodeTokenRole.Accent, delay: '1s' },
-  { text: '  return { phase, metrics };', role: TerminalCodeTokenRole.Muted, delay: '1.5s' },
+const TASKS_FLASK_CRUD_LINES: TerminalCodeLine[] = [
+  { text: '# tasks-flask-crud', role: TerminalCodeTokenRole.Muted, delay: '0s' },
+  {
+    text: '@app.route("/tasks", methods=["POST"])',
+    role: TerminalCodeTokenRole.Accent,
+    delay: '0.4s',
+  },
+  { text: 'def create_task():', role: TerminalCodeTokenRole.Keyword, delay: '0.9s' },
+  {
+    text: '  tasks.append(Task(id, title, ...))',
+    role: TerminalCodeTokenRole.Plain,
+    delay: '1.3s',
+  },
+  { text: '# tasks[] in memory — no DB', role: TerminalCodeTokenRole.Muted, delay: '1.8s' },
 ];
 
-const SNIPPETS_BY_SCENE: Record<MockWindowScene, TerminalCodeLine[]> = {
-  [MockWindowScene.Shell]: VAULT_ORCHESTRATOR_LINES,
-  [MockWindowScene.Table]: TABLE_SYNC_LINES,
-  [MockWindowScene.Code]: HOOK_RUNTIME_LINES,
+const SAMPLE_FLASK_AUTH_LINES: TerminalCodeLine[] = [
+  { text: '# sample-flask-auth', role: TerminalCodeTokenRole.Muted, delay: '0s' },
+  {
+    text: '@app.route("/login", methods=["POST"])',
+    role: TerminalCodeTokenRole.Accent,
+    delay: '0.4s',
+  },
+  {
+    text: 'bcrypt.checkpw(password, user.password)',
+    role: TerminalCodeTokenRole.Plain,
+    delay: '0.9s',
+  },
+  { text: 'login_user(user)', role: TerminalCodeTokenRole.Keyword, delay: '1.3s' },
+  { text: '# Flask-Login + MySQL', role: TerminalCodeTokenRole.Muted, delay: '1.8s' },
+];
+
+const DEFAULT_REPOSITORY_LINES: TerminalCodeLine[] = [
+  { text: '# repository', role: TerminalCodeTokenRole.Muted, delay: '0s' },
+  { text: 'git clone <repo-url>', role: TerminalCodeTokenRole.Accent, delay: '0.5s' },
+  { text: 'cd <project>', role: TerminalCodeTokenRole.Plain, delay: '1s' },
+  { text: 'cat README.md', role: TerminalCodeTokenRole.Keyword, delay: '1.5s' },
+];
+
+const SNIPPETS_BY_REPOSITORY_SLUG: Record<string, TerminalCodeLine[]> = {
+  [PortfolioRepositorySlug.ViniciusPortfolio]: VINICIUS_PORTFOLIO_LINES,
+  [PortfolioRepositorySlug.ReactGram]: REACTGRAM_LINES,
+  [PortfolioRepositorySlug.TasksFlaskCrud]: TASKS_FLASK_CRUD_LINES,
+  [PortfolioRepositorySlug.SampleFlaskAuth]: SAMPLE_FLASK_AUTH_LINES,
 };
 
+const SCENE_BY_REPOSITORY_SLUG: Record<string, MockWindowScene> = {
+  [PortfolioRepositorySlug.ViniciusPortfolio]: MockWindowScene.Shell,
+  [PortfolioRepositorySlug.ReactGram]: MockWindowScene.Code,
+  [PortfolioRepositorySlug.TasksFlaskCrud]: MockWindowScene.Code,
+  [PortfolioRepositorySlug.SampleFlaskAuth]: MockWindowScene.Table,
+};
+
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
+
 /**
- * Resolves monospace terminal lines for a mock window scene.
+ * Resolves monospace terminal lines for a GitHub repository slug.
  */
-export const getTerminalSnippetLines = (scene: MockWindowScene): TerminalCodeLine[] => (
-  SNIPPETS_BY_SCENE[scene]
-);
+export const getTerminalSnippetLinesForRepository = (
+  repositorySlug: string,
+): TerminalCodeLine[] => SNIPPETS_BY_REPOSITORY_SLUG[repositorySlug] ?? DEFAULT_REPOSITORY_LINES;
+
+/**
+ * Resolves mock window chrome variant for a repository (layout accent only).
+ */
+export const getMockWindowSceneForRepository = (
+  repositorySlug: string,
+): MockWindowScene => SCENE_BY_REPOSITORY_SLUG[repositorySlug] ?? MockWindowScene.Shell;

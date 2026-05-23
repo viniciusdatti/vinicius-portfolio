@@ -1,8 +1,20 @@
+/**
+ * @fileoverview Types and enums for project showcase cards, grid, and terminal mock.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Types
 import type { Variants } from 'framer-motion';
 
 import type { Project } from '@/data/types';
-import { Language } from '@/types';
+import type { Language } from '@/types';
+
+/* *************************************************************************************************
+ ********************************************** ENUMS **********************************************
+ ************************************************************************************************ */
 
 export enum ProjectShowcaseVariant {
   Featured = 'featured',
@@ -21,16 +33,37 @@ export enum ProjectShowcaseDetailMode {
   Callback = 'callback',
 }
 
-/**
- * Visual scene rendered inside the MockWindow preview panel.
- * Shell = app shell skeleton (default / featured).
- * Table = data-table layout (tone B cards).
- * Code  = code/config editor feel (tone C cards).
- */
+/** Mock window chrome accent paired with repository-specific terminal lines. */
 export enum MockWindowScene {
   Shell = 'shell',
   Table = 'table',
   Code = 'code',
+}
+
+/** Syntax highlighting role for animated terminal mock lines. */
+export enum TerminalCodeTokenRole {
+  Keyword = 'keyword',
+  Accent = 'accent',
+  Muted = 'muted',
+  Plain = 'plain',
+}
+
+/** GitHub repository slugs aligned with backend portfolio_catalog.PORTFOLIO_PROJECTS. */
+export enum PortfolioRepositorySlug {
+  ViniciusPortfolio = 'vinicius-portfolio',
+  ReactGram = 'ReactGram',
+  TasksFlaskCrud = 'tasks-flask-crud',
+  SampleFlaskAuth = 'sample-flask-auth',
+}
+
+/* *************************************************************************************************
+ ********************************************** TYPES **********************************************
+ ************************************************************************************************ */
+
+export interface TerminalCodeLine {
+  text: string;
+  role: TerminalCodeTokenRole;
+  delay: string;
 }
 
 export interface ProjectShowcaseCardProps {
@@ -50,4 +83,8 @@ export interface ProjectShowcaseGridProps {
   compact?: boolean;
   detailMode?: ProjectShowcaseDetailMode;
   onSelectProject?: (project: Project) => void;
+}
+
+export interface ProjectTerminalMockProps {
+  repositorySlug: string;
 }

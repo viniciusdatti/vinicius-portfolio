@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Styled components for the project showcase grid and cards.
+ */
+
+/* *************************************************************************************************
+ ********************************************* IMPORTS *********************************************
+ ************************************************************************************************ */
+
 // Libraries
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -8,11 +16,15 @@ import {
   featuredSpotlight,
   showcasePointerTorch,
 } from '@/styles/surfaces';
-import { TerminalCodeTokenRole } from '@/components/ProjectShowcase/projectTerminalSnippets';
 import {
-  ProjectShowcaseVariant,
   ProjectCanvasTone,
+  ProjectShowcaseVariant,
+  TerminalCodeTokenRole,
 } from '@/components/ProjectShowcase/ProjectShowcase.types';
+
+/* *************************************************************************************************
+ ********************************************* METHODS *********************************************
+ ************************************************************************************************ */
 
 const getPreviewMinHeight = (
   variant: ProjectShowcaseVariant | undefined,
@@ -36,9 +48,9 @@ const getCanvasBackground = (
   return theme.colors.gradientProjectCanvasA;
 };
 
-// =================================================================================================
-// ============================================= GRID ==============================================
-// =================================================================================================
+/* *************************************************************************************************
+ *********************************************** GRID **********************************************
+ ************************************************************************************************ */
 
 export const ShowcaseStaggerItem = styled(motion.div)`
   width: 100%;
@@ -86,9 +98,9 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
   };
 `;
 
-// =================================================================================================
-// ============================================= CARD ==============================================
-// =================================================================================================
+/* *************************************************************************************************
+ *********************************************** CARD **********************************************
+ ************************************************************************************************ */
 
 export interface ShowcaseCardStyleProps {
   $variant: ProjectShowcaseVariant;
@@ -252,7 +264,7 @@ export const TerminalShimmerWash = styled.div`
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(245, 158, 11, 0.55) 42%,
+    ${({ theme }) => theme.colors.primary}8c 42%,
     transparent 78%
   );
   background-size: 220% 100%;
@@ -293,8 +305,8 @@ export const TerminalCodeLine = styled.div<{
     return theme.colors.textSecondary;
   }};
 
-  text-shadow: ${({ $role }) => ($role === TerminalCodeTokenRole.Accent
-    ? '0 0 12px rgba(245, 158, 11, 0.35)'
+  text-shadow: ${({ $role, theme }) => ($role === TerminalCodeTokenRole.Accent
+    ? `0 0 12px ${theme.colors.primary}59`
     : 'none')};
 
   @media (prefers-reduced-motion: reduce) {
