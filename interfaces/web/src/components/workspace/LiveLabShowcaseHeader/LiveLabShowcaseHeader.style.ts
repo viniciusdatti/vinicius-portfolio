@@ -1,5 +1,6 @@
 // Libraries
 import styled, { css, keyframes } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Components
 import { glassSurface } from '@/styles/surfaces';
@@ -14,7 +15,7 @@ const badgeGlow = keyframes`
   50% { border-color: rgba(245, 158, 11, 0.55); }
 `;
 
-export const ShowcaseHeaderRoot = styled.div`
+export const ShowcaseHeaderRoot = styled(motion.header)`
   flex-shrink: 0;
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.lg};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -55,7 +56,7 @@ export const ShowcaseHeaderCopy = styled.div`
   z-index: 1;
 `;
 
-export const ShowcaseTitle = styled.h1`
+export const ShowcaseTitle = styled(motion.h1)`
   font-family: ${({ theme }) => theme.typography.fontFamily.display};
   font-size: clamp(1.5rem, 2.8vw, 2rem);
   font-weight: 700;
@@ -65,7 +66,7 @@ export const ShowcaseTitle = styled.h1`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-export const ShowcaseLead = styled.p`
+export const ShowcaseLead = styled(motion.p)`
   margin: 0 0 ${({ theme }) => theme.spacing.sm};
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
   color: ${({ theme }) => theme.colors.textSecondary};
@@ -73,7 +74,7 @@ export const ShowcaseLead = styled.p`
   max-width: ${({ theme }) => theme.layout.proseWide};
 `;
 
-export const ShowcaseMetaRow = styled.div`
+export const ShowcaseMetaRow = styled(motion.div)`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -139,7 +140,7 @@ export const StatusDot = styled.span<{ $live: boolean }>`
   `};
 `;
 
-export const ShowcaseBadge = styled.span`
+export const ShowcaseBadge = styled(motion.span)`
   position: relative;
   z-index: 1;
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

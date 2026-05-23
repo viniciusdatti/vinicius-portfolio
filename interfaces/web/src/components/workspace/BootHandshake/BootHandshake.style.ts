@@ -1,5 +1,6 @@
 // Libraries
 import styled, { css, keyframes, DefaultTheme } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Components
 import { glassSurface } from '@/styles/surfaces';
@@ -21,7 +22,7 @@ const shimmer = keyframes`
   100% { transform: translateX(200%); }
 `;
 
-export const BootRoot = styled.div`
+export const BootRoot = styled(motion.div)`
   padding: ${({ theme }) => theme.spacing.md} ${({ theme }) => theme.spacing.xl};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${glassSurface};

@@ -4,6 +4,10 @@ import React from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '@/hooks/useScrollMotion';
+
 // Components
 import { useTelemetry } from '@/components/Workspace/TelemetryProvider';
 import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
@@ -23,14 +27,23 @@ export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const { connected, tickCount } = useTelemetry();
   const { status } = useSystemHealth();
+  const { stagger, item } = useScrollMotion();
+  const reduced: boolean = usePrefersReducedMotion();
   const apiOnline: boolean = status === SystemHealthStatus.Online;
+  const motionInitial: string = reduced ? 'visible' : 'hidden';
 
   return (
-    <ShowcaseHeaderRoot role="region" aria-label={t('liveLab.title')}>
+    <ShowcaseHeaderRoot
+      role="region"
+      aria-label={t('liveLab.title')}
+      variants={stagger}
+      initial={motionInitial}
+      animate="visible"
+    >
       <ShowcaseHeaderCopy>
-        <ShowcaseTitle>{t('liveLab.title')}</ShowcaseTitle>
-        <ShowcaseLead>{t('liveLab.subtitle')}</ShowcaseLead>
-        <ShowcaseMetaRow>
+        <ShowcaseTitle variants={item}>{t('liveLab.title')}</ShowcaseTitle>
+        <ShowcaseLead variants={item}>{t('liveLab.subtitle')}</ShowcaseLead>
+        <ShowcaseMetaRow variants={item}>
           <LiveSignalStatus
             $live={connected}
             role="status"
@@ -50,7 +63,10 @@ export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
           </ShowcaseMeta>
         </ShowcaseMetaRow>
       </ShowcaseHeaderCopy>
-      <ShowcaseBadge title={t('liveLab.header.badgeTooltip')}>
+      <ShowcaseBadge
+        variants={item}
+        title={t('liveLab.header.badgeTooltip')}
+      >
         {t('liveLab.header.badge')}
       </ShowcaseBadge>
     </ShowcaseHeaderRoot>

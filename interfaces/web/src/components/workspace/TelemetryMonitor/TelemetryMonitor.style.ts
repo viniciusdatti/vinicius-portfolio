@@ -92,7 +92,8 @@ export const MonitorRoot = styled.div`
   flex-direction: column;
   height: 100%;
   min-height: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: transparent;
   ${operationalMono};
   position: relative;
@@ -208,24 +209,41 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
     && css`animation: ${blink} 2.2s ease-in-out infinite;`};
 `;
 
-export const MonitorMainGrid = styled.div`
+/** Row 1 + row 2 shell — terminal is never a grid child of the monitors row. */
+export const MonitorDashboard = styled.div`
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  gap: ${({ theme }) => theme.spacing.lg};
+  width: 100%;
+  min-width: 0;
+  overflow: visible;
+`;
+
+/** Row 1 — strict 12-column monitors grid (chart 4 / sensors 8 on desktop). */
+export const MonitorMonitorsGrid = styled.div`
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: ${({ theme }) => theme.sizes.layout.workspaceGap};
+  gap: ${({ theme }) => theme.spacing.lg};
+  width: 100%;
+  min-width: 0;
+  flex-shrink: 0;
   align-content: start;
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto auto auto;
-  }
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
     grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: minmax(220px, min(400px, 42vh)) auto;
+    gap: ${({ theme }) => theme.spacing.lg};
   };
+`;
+
+/** Row 2 — full-width terminal band below the monitors grid. */
+export const MonitorTerminalRow = styled.div`
+  flex: 0 0 auto;
+  width: 100%;
+  min-width: 0;
+  isolation: isolate;
+  contain: layout style;
 `;
 
 /** Placeholder while Recharts chunk loads — keeps layout stable on Live Lab mount. */
@@ -241,7 +259,6 @@ export const ChartPaneFallback = styled.div`
 
 export const MonitorChartPane = styled.div`
   grid-column: 1 / -1;
-  min-height: 200px;
   min-width: 0;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
   border-bottom: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -249,25 +266,14 @@ export const MonitorChartPane = styled.div`
   backdrop-filter: blur(6px);
   display: flex;
   flex-direction: column;
-
-  @media (max-height: 800px) {
-    min-height: 180px;
-  };
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-column: 1 / -1;
-    min-height: 220px;
-    max-height: min(360px, 40vh);
-  };
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout style;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: 1 / 5;
-    grid-row: 1;
+    grid-column: span 4;
     border-bottom: none;
     border-right: 1px solid ${({ theme }) => theme.colors.borderSubtle};
-    min-height: 240px;
-    height: min(400px, 42vh);
-    max-height: min(400px, 42vh);
   };
 `;
 
@@ -280,17 +286,11 @@ export const MonitorSensorsPane = styled.div`
   padding: ${({ theme }) => theme.spacing.xs};
   background: rgba(11, 13, 16, 0.78);
   backdrop-filter: blur(4px);
-
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    grid-column: 1 / -1;
-    max-height: none;
-  };
+  isolation: isolate;
+  contain: layout style;
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-column: 5 / 13;
-    grid-row: 1;
-    height: min(400px, 42vh);
-    max-height: min(400px, 42vh);
+    grid-column: span 8;
     padding: ${({ theme }) => theme.spacing.sm};
   };
 `;
@@ -474,15 +474,18 @@ export const ThresholdLimit = styled.span`
 `;
 
 export const EventLogRoot = styled.div`
-  grid-column: 1 / -1;
-  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
+  width: 100%;
   max-height: min(32vh, 240px);
   min-height: 140px;
-  border-top: 1px solid ${({ theme }) => theme.colors.border};
-  background: ${({ theme }) => theme.colors.background};
-  box-shadow: inset 0 1px 0 ${({ theme }) => theme.colors.borderLight};
+  border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
+  border-radius: ${({ theme }) => theme.borderRadius.lg};
+  background: ${({ theme }) => theme.colors.backgroundSecondary};
+  box-shadow:
+    inset 0 1px 0 ${({ theme }) => theme.colors.borderLight},
+    ${({ theme }) => theme.elevation.sm};
+  overflow: hidden;
   ${operationalMono};
 
   @media (max-height: 800px) {
@@ -491,8 +494,6 @@ export const EventLogRoot = styled.div`
   };
 
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
-    grid-row: 2;
-    width: 100%;
     max-height: min(28vh, 220px);
   };
 `;

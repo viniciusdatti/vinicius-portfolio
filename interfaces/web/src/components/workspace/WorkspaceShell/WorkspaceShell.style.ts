@@ -1,5 +1,6 @@
 // Libraries
 import styled, { css } from 'styled-components';
+import { motion } from 'framer-motion';
 
 // Components
 import { panelInsetRim } from '@/styles/surfaces';
@@ -52,7 +53,7 @@ export const WorkspaceChrome = styled.div`
   }
 `;
 
-export const LiveLabImmersionBand = styled.section<{ $immersive?: boolean }>`
+export const LiveLabImmersionBand = styled(motion.section)<{ $immersive?: boolean }>`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -126,4 +127,6 @@ export const TelemetryWorkspace = styled.div`
   @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
     margin: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg} 0;
   }
+
+  margin-bottom: ${({ theme }) => theme.spacing.lg};
 `;
