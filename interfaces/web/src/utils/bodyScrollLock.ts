@@ -14,16 +14,44 @@ const getDocumentScrollY = (): number => (
 );
 
 /**
+ * Drawer uses `position: fixed` + negative `top` (iOS-safe). Menu only toggles overflow
+ * so the document scroll position is preserved without a programmatic restore.
+ */
+const usesFixedScrollCompensation = (lockClass: BodyScrollLockClass): boolean => (
+  lockClass === BodyScrollLockClass.Drawer
+);
+
+/**
+ * Restores document scroll without animating (overrides `html { scroll-behavior: smooth }`).
+ */
+const restoreDocumentScrollY = (scrollY: number): void => {
+  const html: HTMLElement = document.documentElement;
+  const previousHtmlScrollBehavior: string = html.style.scrollBehavior;
+
+  html.style.scrollBehavior = 'auto';
+  window.scrollTo({ top: scrollY, left: 0, behavior: 'auto' });
+  html.scrollTop = scrollY;
+  document.body.scrollTop = scrollY;
+  html.style.scrollBehavior = previousHtmlScrollBehavior;
+};
+
+/**
  * Restores body scroll and returns to the saved scroll position.
  */
 export const unlockBodyScroll = (lockClass: BodyScrollLockClass): void => {
   const rawY: string | null = document.body.getAttribute(SCROLL_LOCK_Y_ATTR);
-  const scrollY: number = rawY !== null ? Number(rawY) : 0;
+  const parsedY: number = rawY !== null ? Number(rawY) : 0;
+  const scrollY: number = Number.isFinite(parsedY) ? Math.max(0, parsedY) : 0;
+  const hadFixedCompensation: boolean = usesFixedScrollCompensation(lockClass)
+    && document.body.style.top !== '';
 
   document.body.classList.remove(lockClass);
   document.body.style.top = '';
   document.body.removeAttribute(SCROLL_LOCK_Y_ATTR);
-  window.scrollTo(0, scrollY);
+
+  if (hadFixedCompensation) {
+    restoreDocumentScrollY(scrollY);
+  }
 };
 
 /**
@@ -32,8 +60,11 @@ export const unlockBodyScroll = (lockClass: BodyScrollLockClass): void => {
 export const lockBodyScroll = (lockClass: BodyScrollLockClass): (() => void) => {
   const scrollY: number = getDocumentScrollY();
   document.body.setAttribute(SCROLL_LOCK_Y_ATTR, String(scrollY));
-  document.body.style.top = `-${scrollY}px`;
   document.body.classList.add(lockClass);
+
+  if (usesFixedScrollCompensation(lockClass)) {
+    document.body.style.top = `-${scrollY}px`;
+  }
 
   return (): void => {
     unlockBodyScroll(lockClass);

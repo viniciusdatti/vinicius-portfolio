@@ -100,7 +100,7 @@ export const Drawer = ({
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
       unlockScroll();
-      previousFocusRef.current?.focus();
+      previousFocusRef.current?.focus({ preventScroll: true });
     };
   }, [open, onClose]);
 
