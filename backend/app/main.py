@@ -22,8 +22,7 @@ from app.core.logging import setup_logging
 from app.core.rate_limit import limiter
 
 # App - Database
-from app.db.base import Base
-from app.db.session import engine
+from app.db.bootstrap import ensure_catalog_seeded
 
 # App - WebSocket
 from app.websocket.server import sio
@@ -40,11 +39,7 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting Portfolio API...")
 
-    # Create database tables when not using Docker entrypoint seed (dev/SQLite).
-    if settings.is_development or settings.is_sqlite:
-        logger.info("Creating database tables...")
-        from app import models as _models  # noqa: F401 — register models on Base.metadata
-        Base.metadata.create_all(bind=engine)
+    ensure_catalog_seeded()
 
     yield
 
