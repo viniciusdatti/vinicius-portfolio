@@ -28,6 +28,7 @@ import {
   BodyScrollLockClass,
   lockBodyScroll,
 } from '@/utils/bodyScrollLock';
+import { prefetchRouteModule } from '@/lib/routePrefetch';
 import {
   HeaderContainer,
   HeaderShell,
@@ -119,6 +120,10 @@ export const Header = (): React.ReactElement => {
     scrollUnlockRef.current = null;
   }, []);
 
+  const handleNavLinkPrefetch = useCallback((path: string): void => {
+    prefetchRouteModule(path);
+  }, []);
+
   return (
     <>
       <HeaderContainer
@@ -149,6 +154,8 @@ export const Header = (): React.ReactElement => {
                     to={item.path}
                     $active={location.pathname === item.path}
                     $compact={isLiveLab}
+                    onMouseEnter={() => handleNavLinkPrefetch(item.path)}
+                    onFocus={() => handleNavLinkPrefetch(item.path)}
                   >
                     {t(item.labelKey)}
                   </NavLink>

@@ -27,7 +27,8 @@ export const telemetryMicroSnapTransition = motionPresets.spring.physical;
 /** Canonical route enter — fade + slide-up on navigation. */
 export const pageEnter: Variants = {
   initial: {
-    opacity: 0,
+    /* Keep opacity 1 so lazy routes never flash a blank shell if enter animation is delayed. */
+    opacity: 1,
     y: motionPresets.distance.fadeUp,
   },
   animate: {
@@ -39,10 +40,11 @@ export const pageEnter: Variants = {
     },
   },
   exit: {
-    opacity: 0,
+    /* Do not fade to 0 — sync enter/exit avoids a blank shell while lazy routes load. */
+    opacity: 1,
     y: -motionPresets.distance.pageExit,
     transition: {
-      duration: motionPresets.duration.normal,
+      duration: motionPresets.duration.fast,
       ease: motionEaseSoft,
     },
   },

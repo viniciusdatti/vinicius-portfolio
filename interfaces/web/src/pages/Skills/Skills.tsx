@@ -112,6 +112,8 @@ import {
   CertificateHours,
   ErrorMessage,
   CertificatesEmptyMessage,
+  SkillsFeedbackPanel,
+  SkillsLoadingMessage,
   RetryButton,
 } from '@/pages/Skills/Skills.style';
 import { SupportStackCard } from '@/components/skills/SupportStackCard';
@@ -453,7 +455,7 @@ export const Skills: React.FC = (): React.ReactElement => {
         {featuredPlacements.length > 0 ? (
           <SupportStackFeaturedRow
             variants={scrollMotion.stagger}
-            initial={scrollMotion.resolveInitial(reducedMotion)}
+            initial={false}
             animate="visible"
           >
             {featuredPlacements.map((placement: SkillLayoutPlacement) => (
@@ -464,7 +466,7 @@ export const Skills: React.FC = (): React.ReactElement => {
         {compactPlacements.length > 0 ? (
           <SupportStackGrid
             variants={scrollMotion.stagger}
-            initial={scrollMotion.resolveInitial(reducedMotion)}
+            initial={false}
             animate="visible"
           >
             {compactPlacements.map((placement: SkillLayoutPlacement) => (
@@ -504,7 +506,7 @@ export const Skills: React.FC = (): React.ReactElement => {
     return (
       <SkillsEditorialLayout
         variants={scrollMotion.stagger}
-        initial={scrollMotion.resolveInitial(reducedMotion)}
+        initial={false}
         animate="visible"
         exit={{ opacity: 0 }}
       >
@@ -516,7 +518,7 @@ export const Skills: React.FC = (): React.ReactElement => {
             {coreRow.length > 0 ? (
               <SkillsAsymmetricGrid
                 variants={scrollMotion.stagger}
-                initial={scrollMotion.resolveInitial(reducedMotion)}
+                initial={false}
                 animate="visible"
               >
                 {coreRow.map((placement: SkillLayoutPlacement) => renderSkillCard(placement))}
@@ -540,26 +542,31 @@ export const Skills: React.FC = (): React.ReactElement => {
   const renderSkillsContent = (): React.ReactElement => {
     if (skillsLoading) {
       return (
-        <SkillsGrid
-          variants={scrollMotion.stagger}
-          initial={scrollMotion.resolveInitial(reducedMotion)}
-          animate="visible"
-        >
-          {Array.from({ length: SKELETON_CARD_COUNT }, (_item: unknown, index: number) => (
-            <SkillCardSkeleton key={`skill-skeleton-${index}`} />
-          ))}
-        </SkillsGrid>
+        <>
+          <SkillsFeedbackPanel>
+            <SkillsLoadingMessage>{t('skills.loading')}</SkillsLoadingMessage>
+          </SkillsFeedbackPanel>
+          <SkillsGrid
+            variants={scrollMotion.stagger}
+            initial={false}
+            animate="visible"
+          >
+            {Array.from({ length: SKELETON_CARD_COUNT }, (_item: unknown, index: number) => (
+              <SkillCardSkeleton key={`skill-skeleton-${index}`} />
+            ))}
+          </SkillsGrid>
+        </>
       );
     }
 
     if (skillsError) {
       return (
-        <>
+        <SkillsFeedbackPanel>
           <ErrorMessage>{t('skills.error')}</ErrorMessage>
           <RetryButton type="button" onClick={() => refetchSkills()}>
             {t('common.retry')}
           </RetryButton>
-        </>
+        </SkillsFeedbackPanel>
       );
     }
 
@@ -571,7 +578,7 @@ export const Skills: React.FC = (): React.ReactElement => {
       return (
         <SkillsGrid
           variants={scrollMotion.stagger}
-          initial={scrollMotion.resolveInitial(reducedMotion)}
+          initial={false}
           animate="visible"
         >
           {Array.from({ length: 4 }, (_item: unknown, index: number) => (
@@ -583,27 +590,29 @@ export const Skills: React.FC = (): React.ReactElement => {
 
     if (certificatesError) {
       return (
-        <>
+        <SkillsFeedbackPanel>
           <ErrorMessage>{t('skills.certificatesError')}</ErrorMessage>
           <RetryButton type="button" onClick={() => refetchCertificates()}>
             {t('common.retry')}
           </RetryButton>
-        </>
+        </SkillsFeedbackPanel>
       );
     }
 
     if (sortedCertificates.length === 0) {
       return (
-        <CertificatesEmptyMessage>
-          {t('skills.certificates.empty')}
-        </CertificatesEmptyMessage>
+        <SkillsFeedbackPanel>
+          <CertificatesEmptyMessage>
+            {t('skills.certificates.empty')}
+          </CertificatesEmptyMessage>
+        </SkillsFeedbackPanel>
       );
     }
 
     return (
       <CertificatesGrid
         variants={scrollMotion.stagger}
-        initial={scrollMotion.resolveInitial(reducedMotion)}
+        initial={false}
         animate="visible"
       >
         {sortedCertificates.map((cert: Certificate) => {
@@ -656,14 +665,14 @@ export const Skills: React.FC = (): React.ReactElement => {
       <PageHeader>
         <PageTitle
           variants={scrollMotion.title}
-          initial={scrollMotion.resolveInitial(reducedMotion)}
+          initial={false}
           animate="visible"
         >
           <PageTitleGradient>{t('skills.title')}</PageTitleGradient>
         </PageTitle>
         <PageSubtitle
           variants={scrollMotion.section}
-          initial={scrollMotion.resolveInitial(reducedMotion)}
+          initial={false}
           animate="visible"
         >
           {t('skills.subtitle')}
@@ -672,7 +681,7 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <Section
         variants={scrollMotion.section}
-        initial={scrollMotion.resolveInitial(reducedMotion)}
+        initial={false}
         animate="visible"
       >
         {renderSkillsContent()}
@@ -680,7 +689,7 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <ExperienceSection
         variants={scrollMotion.depth}
-        initial={scrollMotion.resolveInitial(reducedMotion)}
+        initial={false}
         animate="visible"
       >
         <SectionTitle>
@@ -690,7 +699,7 @@ export const Skills: React.FC = (): React.ReactElement => {
         <ExperienceSubtitle>{t('skills.experience.subtitle')}</ExperienceSubtitle>
         <ExperienceGrid
           variants={scrollMotion.stagger}
-          initial={scrollMotion.resolveInitial(reducedMotion)}
+          initial={false}
           animate="visible"
         >
           {EXPERIENCE_ITEM_KEYS.map((key: string) => (
@@ -715,7 +724,7 @@ export const Skills: React.FC = (): React.ReactElement => {
 
       <CertificatesSection
         variants={scrollMotion.depth}
-        initial={scrollMotion.resolveInitial(reducedMotion)}
+        initial={false}
         animate="visible"
       >
         <SectionTitle>

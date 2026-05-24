@@ -312,6 +312,7 @@
   "skills": {
     "title": "Capabilities",
     "subtitle": "3+ years with production React and TypeScript — industrial monitoring, design system, auth, testing, and REST integrations.",
+    "loading": "Loading capabilities from the API…",
     "error": "Could not load capabilities. Please try again.",
     "certificatesError": "Could not load certificates. Please try again.",
     "filterAll": "All",

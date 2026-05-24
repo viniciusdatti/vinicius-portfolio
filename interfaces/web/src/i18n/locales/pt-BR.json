@@ -312,6 +312,7 @@
   "skills": {
     "title": "Competências",
     "subtitle": "3+ anos em React e TypeScript em produção — monitoramento industrial, design system, auth, testes e integrações REST.",
+    "loading": "Carregando competências da API…",
     "error": "Não foi possível carregar as competências. Tente novamente.",
     "certificatesError": "Não foi possível carregar os certificados. Tente novamente.",
     "filterAll": "Todas",

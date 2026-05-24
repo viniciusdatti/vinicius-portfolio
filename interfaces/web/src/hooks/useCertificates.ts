@@ -17,6 +17,12 @@ import { getCertificates } from '@/api';
  */
 export const certificatesQueryKey = (): string[] => ['certificates'];
 
+const CERTIFICATES_QUERY_RETRY_COUNT: number = 3;
+
+const resolveCertificatesQueryRetryDelay = (attemptIndex: number): number => (
+  Math.min(1000 * 2 ** attemptIndex, 12000)
+);
+
 /**
  * Hook to fetch all active certificates.
  *
@@ -28,4 +34,6 @@ Error
 >({
   queryKey: certificatesQueryKey(),
   queryFn: getCertificates,
+  retry: CERTIFICATES_QUERY_RETRY_COUNT,
+  retryDelay: resolveCertificatesQueryRetryDelay,
 });

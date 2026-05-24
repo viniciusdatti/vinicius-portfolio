@@ -941,24 +941,52 @@ export const CertificateHours = styled.span`
 `;
 
 /**
+ * Centered API feedback — error, loading hint, and empty states (all breakpoints).
+ */
+export const SkillsFeedbackPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  max-width: ${({ theme }) => theme.layout.proseWide};
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, ${({ theme }) => theme.spacing.xxl})
+    ${({ theme }) => theme.spacing.lg};
+  gap: ${({ theme }) => theme.spacing.md};
+  box-sizing: border-box;
+`;
+
+/**
  * Error message for failed API loads.
  */
 export const ErrorMessage = styled.p`
+  width: 100%;
   color: ${({ theme }) => theme.colors.error};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  margin: 0;
   text-align: center;
+  text-wrap: balance;
+`;
+
+export const SkillsLoadingMessage = styled.p`
+  width: 100%;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  margin: 0;
+  text-align: center;
+  text-wrap: balance;
 `;
 
 /**
  * Empty state when the certificates API returns no rows.
  */
 export const CertificatesEmptyMessage = styled.p`
+  width: 100%;
   color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  margin: 0;
   text-align: center;
-  max-width: ${({ theme }) => theme.layout.prose};
-  margin-left: auto;
-  margin-right: auto;
+  text-wrap: balance;
 `;
 
 /**
@@ -966,8 +994,10 @@ export const CertificatesEmptyMessage = styled.p`
  */
 export const RetryButton = styled.button`
   position: relative;
-  display: block;
-  margin: 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.lg};
   background: ${({ theme }) => theme.colors.gradientButtonPrimary};
   color: ${({ theme }) => theme.colors.onPrimary};
