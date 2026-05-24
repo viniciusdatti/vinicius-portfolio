@@ -10,10 +10,8 @@ import React, {
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Components
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   hamburgerTop,
   hamburgerMiddle,
@@ -39,7 +37,7 @@ import {
   LogoMark,
   LogoSuffix,
   Nav,
-  NavLink,
+  NavLink as HeaderNavLink,
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
@@ -149,7 +147,7 @@ export const Header: React.FC = (): React.ReactElement => {
             <HeaderCenter $compact={isLiveLab}>
               <Nav $compact={isLiveLab}>
                 {navItems.map((item) => (
-                  <NavLink
+                  <HeaderNavLink
                     key={item.path}
                     to={item.path}
                     $active={location.pathname === item.path}
@@ -158,7 +156,7 @@ export const Header: React.FC = (): React.ReactElement => {
                     onFocus={() => handleNavLinkPrefetch(item.path)}
                   >
                     {t(item.labelKey)}
-                  </NavLink>
+                  </HeaderNavLink>
                 ))}
               </Nav>
             </HeaderCenter>
