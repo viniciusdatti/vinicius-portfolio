@@ -111,6 +111,7 @@ import {
   ModalButton,
   CertificateHours,
   ErrorMessage,
+  CertificatesEmptyMessage,
   RetryButton,
 } from '@/pages/Skills/Skills.style';
 import { SupportStackCard } from '@/components/skills/SupportStackCard';
@@ -588,6 +589,14 @@ export const Skills: React.FC = (): React.ReactElement => {
             {t('common.retry')}
           </RetryButton>
         </>
+      );
+    }
+
+    if (sortedCertificates.length === 0) {
+      return (
+        <CertificatesEmptyMessage>
+          {t('skills.certificates.empty')}
+        </CertificatesEmptyMessage>
       );
     }
 
