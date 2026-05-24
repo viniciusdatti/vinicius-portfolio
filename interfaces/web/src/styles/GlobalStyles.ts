@@ -39,7 +39,11 @@ export const GlobalStyles = createGlobalStyle`
     overflow: hidden;
   }
 
-  body.menu-scroll-locked,
+  body.menu-scroll-locked {
+    overscroll-behavior: none;
+    touch-action: none;
+  }
+
   body.drawer-scroll-locked {
     position: fixed;
     width: 100%;
