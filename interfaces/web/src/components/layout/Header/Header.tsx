@@ -13,9 +13,6 @@ import { useTranslation } from 'react-i18next';
 // Hooks
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Components
 import {
   hamburgerTop,
