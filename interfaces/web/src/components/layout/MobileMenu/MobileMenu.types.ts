@@ -8,6 +8,7 @@ export interface MobileMenuNavItem {
 }
 
 export interface MobileMenuProps {
+  isOpen: boolean;
   navItems: MobileMenuNavItem[];
   currentPath: string;
   onClose: () => void;
