@@ -69,7 +69,7 @@ const initialState: HeaderState = {
   mobileMenuOpen: false,
 };
 
-export const Header = (): React.ReactElement => {
+export const Header: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
