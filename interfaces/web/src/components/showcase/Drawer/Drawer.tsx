@@ -5,7 +5,7 @@
 // Core
 import React, {
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useId,
   useMemo,
   useRef,
@@ -25,6 +25,7 @@ import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
 
 // Components
 import { motionPresets } from '@/styles/motionPresets';
+import { BodyScrollLockClass, lockBodyScroll } from '@/utils/bodyScrollLock';
 import {
   DrawerViewport,
   DrawerOverlay,
@@ -79,7 +80,7 @@ export const Drawer = ({
     onClose();
   }, [onClose]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) {
       return undefined;
     }
@@ -87,7 +88,7 @@ export const Drawer = ({
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     closeButtonRef.current?.focus();
 
-    document.body.classList.add('drawer-scroll-locked');
+    const unlockScroll = lockBodyScroll(BodyScrollLockClass.Drawer);
 
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
@@ -98,7 +99,7 @@ export const Drawer = ({
     document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      document.body.classList.remove('drawer-scroll-locked');
+      unlockScroll();
       previousFocusRef.current?.focus();
     };
   }, [open, onClose]);

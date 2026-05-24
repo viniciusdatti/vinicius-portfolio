@@ -950,6 +950,18 @@ export const ErrorMessage = styled.p`
 `;
 
 /**
+ * Empty state when the certificates API returns no rows.
+ */
+export const CertificatesEmptyMessage = styled.p`
+  color: ${({ theme }) => theme.colors.textSecondary};
+  margin-bottom: ${({ theme }) => theme.spacing.md};
+  text-align: center;
+  max-width: ${({ theme }) => theme.layout.prose};
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+/**
  * Retry button for error states.
  */
 export const RetryButton = styled.button`
