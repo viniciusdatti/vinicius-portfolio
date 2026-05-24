@@ -415,6 +415,7 @@
     },
     "certificates": {
       "title": "Certificados",
+      "empty": "Nenhum certificado disponível no momento.",
       "filterAll": "Todos",
       "viewCertificate": "Ver certificado",
       "close": "Fechar",

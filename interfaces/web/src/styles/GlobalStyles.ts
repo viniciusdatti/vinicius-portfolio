@@ -39,6 +39,14 @@ export const GlobalStyles = createGlobalStyle`
     overflow: hidden;
   }
 
+  body.menu-scroll-locked,
+  body.drawer-scroll-locked {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
   body.workspace-scroll-locked {
     height: 100vh;
   }

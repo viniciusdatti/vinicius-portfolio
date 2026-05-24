@@ -16,15 +16,23 @@ import { drawerPanelChrome } from '@/styles/surfaces';
  ********************************************* STYLES **********************************************
  ************************************************************************************************ */
 
-export const Overlay = styled(motion.div)`
+/** Full-viewport stacking context so panel geometry stays correct when body scroll is locked. */
+export const MenuViewport = styled.div`
   position: fixed;
   inset: 0;
-  background-color: ${({ theme }) => theme.colors.overlay};
   z-index: ${({ theme }) => theme.zIndex.modal};
+  pointer-events: none;
+`;
+
+export const Overlay = styled(motion.div)`
+  position: absolute;
+  inset: 0;
+  background-color: ${({ theme }) => theme.colors.overlay};
+  pointer-events: auto;
 `;
 
 export const MenuContainer = styled(motion.nav)`
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   width: min(360px, 100vw);
@@ -38,7 +46,7 @@ export const MenuContainer = styled(motion.nav)`
   backdrop-filter: ${({ theme }) => theme.effects.backdrop.menu};
   -webkit-backdrop-filter: ${({ theme }) => theme.effects.backdrop.menu};
   box-shadow: ${({ theme }) => theme.elevation.lg};
-  z-index: ${({ theme }) => theme.zIndex.modal + 1};
+  pointer-events: auto;
   ${drawerPanelChrome};
 `;
 
