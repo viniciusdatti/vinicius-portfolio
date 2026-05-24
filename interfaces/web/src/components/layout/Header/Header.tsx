@@ -1,10 +1,14 @@
 // Core
-import React, { useState, useEffect } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+} from 'react';
 
 // Libraries
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence } from 'framer-motion';
 
 // Hooks
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -20,6 +24,10 @@ import { motionPresets } from '@/styles/motionPresets';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { MobileMenu } from '@/components/layout/MobileMenu';
+import {
+  BodyScrollLockClass,
+  lockBodyScroll,
+} from '@/utils/bodyScrollLock';
 import {
   HeaderContainer,
   HeaderShell,
@@ -64,8 +72,28 @@ export const Header = (): React.ReactElement => {
   const { t } = useTranslation();
   const location = useLocation();
   const [state, setState] = useState<HeaderState>(initialState);
+  const scrollUnlockRef = useRef<(() => void) | null>(null);
   const reducedMotion: boolean = usePrefersReducedMotion();
   const isLiveLab: boolean = location.pathname === '/live-lab';
+
+  const closeMobileMenu = useCallback((): void => {
+    scrollUnlockRef.current?.();
+    scrollUnlockRef.current = null;
+    setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }));
+  }, []);
+
+  const openMobileMenu = useCallback((): void => {
+    scrollUnlockRef.current = lockBodyScroll(BodyScrollLockClass.Menu);
+    setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: true }));
+  }, []);
+
+  const toggleMobileMenu = useCallback((): void => {
+    if (state.mobileMenuOpen) {
+      closeMobileMenu();
+      return;
+    }
+    openMobileMenu();
+  }, [state.mobileMenuOpen, closeMobileMenu, openMobileMenu]);
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -81,16 +109,15 @@ export const Header = (): React.ReactElement => {
 
   // Close mobile menu on route change
   useEffect(() => {
+    scrollUnlockRef.current?.();
+    scrollUnlockRef.current = null;
     setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }));
   }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open (class in GlobalStyles)
-  useEffect(() => {
-    document.body.classList.toggle('menu-scroll-locked', state.mobileMenuOpen);
-    return () => {
-      document.body.classList.remove('menu-scroll-locked');
-    };
-  }, [state.mobileMenuOpen]);
+  useEffect(() => (): void => {
+    scrollUnlockRef.current?.();
+    scrollUnlockRef.current = null;
+  }, []);
 
   return (
     <>
@@ -134,10 +161,7 @@ export const Header = (): React.ReactElement => {
                 <LanguageToggle />
                 <ThemeToggle />
                 <HamburgerButton
-                  onClick={() => setState((prev: HeaderState) => ({
-                    ...prev,
-                    mobileMenuOpen: !prev.mobileMenuOpen,
-                  }))}
+                  onClick={toggleMobileMenu}
                   aria-label={
                     state.mobileMenuOpen ? t('a11y.closeMenu') : t('a11y.openMenu')
                   }
@@ -162,15 +186,12 @@ export const Header = (): React.ReactElement => {
         </HeaderShell>
       </HeaderContainer>
 
-      <AnimatePresence>
-        {state.mobileMenuOpen && (
-          <MobileMenu
-            navItems={navItems}
-            currentPath={location.pathname}
-            onClose={() => setState((prev: HeaderState) => ({ ...prev, mobileMenuOpen: false }))}
-          />
-        )}
-      </AnimatePresence>
+      <MobileMenu
+        isOpen={state.mobileMenuOpen}
+        navItems={navItems}
+        currentPath={location.pathname}
+        onClose={closeMobileMenu}
+      />
     </>
   );
 };
