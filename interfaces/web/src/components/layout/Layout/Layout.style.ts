@@ -97,6 +97,8 @@ export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
           }
         `
     : css`
+          position: relative;
+          z-index: ${theme.zIndex.content};
           min-height: 0;
           overflow: visible;
         `)};

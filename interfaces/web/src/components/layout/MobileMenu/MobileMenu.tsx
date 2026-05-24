@@ -27,6 +27,7 @@ import type { MobileMenuProps } from '@/components/layout/MobileMenu/MobileMenu.
 // Components
 import { mobileMenuVariants, staggerItem, motionEase } from '@/styles/animations';
 import { motionPresets } from '@/styles/motionPresets';
+import { prefetchRouteModule } from '@/lib/routePrefetch';
 import {
   MenuViewport,
   Overlay,
@@ -105,6 +106,10 @@ export const MobileMenu = ({
     onClose();
   }, [onClose]);
 
+  const handleNavLinkPrefetch = useCallback((path: string): void => {
+    prefetchRouteModule(path);
+  }, []);
+
   useEffect(() => {
     if (!isOpen) {
       return undefined;
@@ -177,6 +182,8 @@ export const MobileMenu = ({
                   animate="animate"
                   custom={index}
                   onClick={handleLinkClick}
+                  onMouseEnter={() => handleNavLinkPrefetch(item.path)}
+                  onFocus={() => handleNavLinkPrefetch(item.path)}
                 >
                   {t(item.labelKey)}
                 </MenuLink>

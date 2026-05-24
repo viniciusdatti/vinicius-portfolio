@@ -7,12 +7,11 @@
  ************************************************************************************************ */
 
 // Core
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // Libraries
-import { Outlet, useLocation } from 'react-router-dom';
+import { useLocation, useOutlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { AnimatePresence } from 'framer-motion';
 
 // Components
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -30,6 +29,7 @@ import {
   WorkspaceMotionShell,
 } from '@/components/layout/Layout/Layout.style';
 import { resolvePageTransition } from '@/styles/animations';
+import { prefetchPublicRoutes } from '@/lib/routePrefetch';
 
 /* *************************************************************************************************
  *************************************** COMPONENT HANDLING ****************************************
@@ -40,10 +40,38 @@ import { resolvePageTransition } from '@/styles/animations';
  */
 const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
+  const outlet: React.ReactElement | null = useOutlet();
   const { bindScrollRoot } = useScrollMotionViewport();
   const isLiveLab: boolean = location.pathname === '/live-lab';
   const reducedMotion: boolean = usePrefersReducedMotion();
   const pageVariants = resolvePageTransition(isLiveLab, reducedMotion);
+  const routeTransitionKey: string = `${location.pathname}:${location.key}`;
+
+  const resolvePageContent = (): React.ReactElement | null => {
+    if (outlet === null) {
+      return null;
+    }
+    if (isLiveLab) {
+      return (
+        <WorkspaceMotionShell>
+          {outlet}
+        </WorkspaceMotionShell>
+      );
+    }
+    return outlet;
+  };
+
+  const pageContent: React.ReactElement | null = resolvePageContent();
+
+  useEffect((): (() => void) => {
+    const timerId: number = window.setTimeout((): void => {
+      prefetchPublicRoutes();
+    }, 1500);
+
+    return (): void => {
+      window.clearTimeout(timerId);
+    };
+  }, []);
 
   return (
     <>
@@ -55,24 +83,17 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
         ref={bindScrollRoot}
         $workspaceMode={isLiveLab}
       >
-        <AnimatePresence mode="wait" initial>
+        {pageContent !== null ? (
           <PageMotionLayer
-            key={location.key}
+            key={routeTransitionKey}
             $workspace={isLiveLab}
             variants={pageVariants}
-            initial="initial"
+            initial={false}
             animate="animate"
-            exit="exit"
           >
-            {isLiveLab ? (
-              <WorkspaceMotionShell>
-                <Outlet />
-              </WorkspaceMotionShell>
-            ) : (
-              <Outlet />
-            )}
+            {pageContent}
           </PageMotionLayer>
-        </AnimatePresence>
+        ) : null}
       </Main>
       {!isLiveLab ? <Footer /> : null}
     </>
@@ -86,9 +107,9 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
  * P0 gate: `usePrefersReducedMotion` strips scale/translate/blur from `pageEnter`;
  * only opacity fade runs when the user prefers reduced motion.
  *
- * IMPORTANT: The key on PageMotionLayer uses location.key (not pathname) so that
- * navigating back to the same route forces a full re-mount of the page tree,
- * resetting all whileInView animation states correctly.
+ * IMPORTANT: PageMotionLayer keys `${pathname}:${key}` and wraps the resolved
+ * `useOutlet()` element. Route exit animations were removed — AnimatePresence
+ * mode="wait" and exit fades left SPA navigations stuck when the tab was hidden.
  */
 export const Layout: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
