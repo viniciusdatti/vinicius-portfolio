@@ -16,8 +16,24 @@ import { StyledButton } from '@/components/Button/Button.style';
 
 const MotionStyledButton = motion.create(StyledButton);
 
+interface MotionStyledButtonPolymorphicProps
+  extends React.ComponentProps<typeof MotionStyledButton> {
+  as?: React.ElementType;
+  to?: string;
+  replace?: boolean;
+  state?: unknown;
+}
+
+const PolymorphicMotionButton = MotionStyledButton as React.FC<
+  MotionStyledButtonPolymorphicProps
+>;
+
 export const Button: ButtonComponent = ({
   variant = 'primary',
+  as,
+  to,
+  replace,
+  state,
   children,
   type,
   onClick,
@@ -47,8 +63,11 @@ export const Button: ButtonComponent = ({
   style,
   testId,
 }): React.ReactElement => {
-  const { ref, motionProps }: UsePhysicalInteractionResult<HTMLButtonElement> = (
-    usePhysicalInteraction<HTMLButtonElement>({
+  const Component: React.ElementType = as ?? 'button';
+  const isNativeButton: boolean = Component === 'button';
+
+  const { ref, motionProps }: UsePhysicalInteractionResult<HTMLElement> = (
+    usePhysicalInteraction<HTMLElement>({
       disabled: Boolean(disabled),
       enableTilt: false,
       enableSpotlight: false,
@@ -57,33 +76,37 @@ export const Button: ButtonComponent = ({
   );
 
   return (
-    <MotionStyledButton
+    <PolymorphicMotionButton
+      as={Component}
       ref={ref}
       $variant={variant}
       data-testid={testId}
-      type={type}
+      to={to}
+      replace={replace}
+      state={state}
+      type={isNativeButton ? (type ?? 'button') : undefined}
       onClick={onClick}
-      disabled={disabled}
+      disabled={isNativeButton ? disabled : undefined}
       className={className}
       id={id}
-      name={name}
-      value={value}
-      form={form}
-      formAction={formAction}
-      formEncType={formEncType}
-      formMethod={formMethod}
-      formNoValidate={formNoValidate}
-      formTarget={formTarget}
+      name={isNativeButton ? name : undefined}
+      value={isNativeButton ? value : undefined}
+      form={isNativeButton ? form : undefined}
+      formAction={isNativeButton ? formAction : undefined}
+      formEncType={isNativeButton ? formEncType : undefined}
+      formMethod={isNativeButton ? formMethod : undefined}
+      formNoValidate={isNativeButton ? formNoValidate : undefined}
+      formTarget={isNativeButton ? formTarget : undefined}
       aria-label={ariaLabel}
       aria-labelledby={ariaLabelledby}
       aria-describedby={ariaDescribedby}
-      aria-disabled={ariaDisabled}
+      aria-disabled={!isNativeButton && disabled ? true : ariaDisabled}
       aria-pressed={ariaPressed}
       aria-expanded={ariaExpanded}
       aria-controls={ariaControls}
       aria-haspopup={ariaHaspopup}
       role={role}
-      tabIndex={tabIndex}
+      tabIndex={!isNativeButton && disabled ? -1 : tabIndex}
       autoFocus={autoFocus}
       title={title}
       style={{ ...motionProps.style, ...style }}
@@ -92,6 +115,6 @@ export const Button: ButtonComponent = ({
       whileTap={motionProps.whileTap}
     >
       {children}
-    </MotionStyledButton>
+    </PolymorphicMotionButton>
   );
 };
