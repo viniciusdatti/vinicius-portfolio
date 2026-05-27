@@ -15,6 +15,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
   gap: ${({ theme }) => theme.spacing.sm};
   padding: ${({ theme }) => theme.sizes.button.paddingY}
     ${({ theme }) => theme.sizes.button.paddingX};

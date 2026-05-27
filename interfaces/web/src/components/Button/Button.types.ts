@@ -10,6 +10,8 @@ export interface ButtonProps
   children: ReactNode;
   as?: React.ElementType;
   to?: string;
+  replace?: boolean;
+  state?: unknown;
 }
 
 export type ButtonComponent = FC<ButtonProps>;

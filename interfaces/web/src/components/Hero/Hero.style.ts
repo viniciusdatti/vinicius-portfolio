@@ -773,6 +773,8 @@ export const HeroDescription = styled.p`
 `;
 
 export const CtaWrapper = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zIndex.content};
   margin-top: ${({ theme }) => theme.spacing.lg};
   display: flex;
   flex-direction: column;
