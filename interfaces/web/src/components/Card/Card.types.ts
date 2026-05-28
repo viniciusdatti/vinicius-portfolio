@@ -7,7 +7,7 @@ import type {
 } from 'react';
 
 // Types
-import type { TestableProps } from '@/types/testable';
+import type { TestableProps } from '../../types/testable';
 
 export enum CardVariant {
   MarketingGlass = 'marketing-glass',

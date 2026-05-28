@@ -7,12 +7,10 @@
  ************************************************************************************************ */
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
-import type { LiveLabObservatorySensorDef } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
+import { SensorStatus } from '../../../types/telemetry';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import type { LiveLabObservatorySensorDef } from './LiveLabObservatory.types';
 
 export const LOG_MESSAGE_KEYS: readonly string[] = [
   'home.liveLabPreview.log.tick',

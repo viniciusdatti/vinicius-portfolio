@@ -4,9 +4,13 @@ import React, { useEffect, useState } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
 // Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useTelemetry } from '../TelemetryProvider';
+
+// Component
 import {
   BootRoot,
   BootRow,
@@ -15,7 +19,7 @@ import {
   BootPhase,
   BootTrack,
   BootFill,
-} from '@/components/workspace/BootHandshake/BootHandshake.style';
+} from './BootHandshake.style';
 
 enum BootHandshakePhase {
   Initializing = 'initializing',

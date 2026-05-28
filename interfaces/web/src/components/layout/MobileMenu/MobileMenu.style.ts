@@ -6,17 +6,12 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Types
-import type { MenuLinkStyleProps } from '@/components/layout/MobileMenu/MobileMenu.types';
-
 // Components
-import { drawerPanelChrome } from '@/styles/surfaces';
+import { drawerPanelChrome } from '../../../styles/surfaces';
 
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+// Component
+import type { MenuLinkStyleProps } from './MobileMenu.types';
 
-/** Full-viewport stacking context so panel geometry stays correct when body scroll is locked. */
 export const MenuViewport = styled.div`
   position: fixed;
   inset: 0;

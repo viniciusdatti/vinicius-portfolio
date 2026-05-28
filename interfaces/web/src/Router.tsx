@@ -4,12 +4,12 @@ import React, { lazy, Suspense } from 'react';
 // Libraries
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 
-// Components
-import { Layout } from '@/components/layout';
-import { RouteError } from '@/components/RouteError';
-import { Spinner } from '@/components/common/Spinner';
-import { PageLoaderWrapper } from '@/Router.style';
-import { LiveLab } from '@/pages/LiveLab';
+// Component
+import { Layout } from './components/layout';
+import { RouteError } from './components/RouteError';
+import { Spinner } from './components/common/Spinner';
+import { PageLoaderWrapper } from './Router.style';
+import { LiveLab } from './pages/LiveLab';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));

@@ -7,9 +7,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-/**
- * Available theme modes.
- */
 type ThemeMode = 'dark' | 'light';
 
 /**

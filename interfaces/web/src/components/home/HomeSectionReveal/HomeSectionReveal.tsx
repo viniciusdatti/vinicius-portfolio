@@ -6,22 +6,12 @@
 import React from 'react';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Types
-import type { HomeSectionRevealProps } from '@/components/home/HomeSectionReveal/HomeSectionReveal.types';
+// Component
+import type { HomeSectionRevealProps } from './HomeSectionReveal.types';
+import { HomeSectionRevealRoot } from './HomeSectionReveal.style';
 
-// Components
-import { HomeSectionRevealRoot } from '@/components/home/HomeSectionReveal/HomeSectionReveal.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Stagger shell for nested Home blocks — children carry `variants={item}` from `useScrollMotion`.
- * Section-level opacity gates live inside each Home block; avoid wrapping whole sections here.
- */
 export const HomeSectionReveal: React.FC<HomeSectionRevealProps> = ({
   children,
   stagger = false,

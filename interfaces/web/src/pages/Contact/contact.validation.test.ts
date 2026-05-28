@@ -1,12 +1,6 @@
-// Core
-import { describe, expect, it } from 'vitest';
-
 // Libraries
+import { describe, expect, it } from 'vitest';
 import { z } from 'zod';
-
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
 
 const contactSchema = z.object({
   name: z.string().min(2).max(100),

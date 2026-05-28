@@ -1,10 +1,6 @@
 // Core
 import type { RefObject } from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface UseMotionLifecycleOptions {
   /** When false, intersection is treated as always visible (global ambient layers). */
   observeIntersection?: boolean;

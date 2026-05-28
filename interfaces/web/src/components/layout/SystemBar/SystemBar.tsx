@@ -5,11 +5,17 @@ import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// Store
+import { useTelemetryStore } from '../../../store/telemetryStore';
+
+// Hooks
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+
 // Components
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
-import { useTelemetryStore } from '@/store/telemetryStore';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
-import { LanguageToggle } from '@/components/LanguageToggle';
+import { ThemeToggle } from '../../common/ThemeToggle';
+import { LanguageToggle } from '../../LanguageToggle';
+
+// Component
 import {
   SystemBarRoot,
   SystemBarInner,
@@ -21,7 +27,7 @@ import {
   StatusPill,
   StatusDot,
   SystemBarActions,
-} from '@/components/layout/SystemBar/SystemBar.style';
+} from './SystemBar.style';
 
 const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
   '/': 'system.modules.home',

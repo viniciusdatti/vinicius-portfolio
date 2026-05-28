@@ -1,1 +1,2 @@
-export * from '@/components/home/RealtimePresence/RealtimePresence';
+// Component
+export * from './RealtimePresence';

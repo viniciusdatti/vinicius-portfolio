@@ -6,15 +6,19 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// Config
+import { publicAssetUrl } from '../../config/env';
+
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useAvatarPortraitObjectPosition } from '@/hooks/useAvatarPortraitObjectPosition';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useAvatarPortraitObjectPosition } from '../../hooks/useAvatarPortraitObjectPosition';
 
 // Components
-import { publicAssetUrl } from '@/config/env';
-import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
-import { Button } from '@/components/Button';
-import { HeroVisual3D } from '@/components/Hero/HeroVisual3D';
+import { AvatarPortraitPhoto } from '../AvatarPortrait';
+import { Button } from '../Button';
+
+// Component
+import { HeroVisual3D } from './HeroVisual3D';
 import {
   heroEntranceStagger,
   heroEyebrowLineExpand,
@@ -22,7 +26,7 @@ import {
   heroHeadlineStagger,
   heroModuleReveal,
   heroMonoReveal,
-} from '@/components/Hero/Hero.motion';
+} from './Hero.motion';
 import {
   HeroSection,
   HeroBackgroundStack,
@@ -57,11 +61,7 @@ import {
   HeroScrollChevron,
   ScrollCueLine,
   HeroMotionStack,
-} from '@/components/Hero/Hero.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './Hero.style';
 
 const STACK_TECHNOLOGIES: string[] = [
   'React',

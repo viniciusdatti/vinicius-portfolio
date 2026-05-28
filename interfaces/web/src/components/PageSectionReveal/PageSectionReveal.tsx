@@ -6,25 +6,15 @@
 import React, { useMemo } from 'react';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
 
-// Types
+// Component
 import {
   PageSectionRevealMode,
   type PageSectionRevealProps,
-} from '@/components/PageSectionReveal/PageSectionReveal.types';
+} from './PageSectionReveal.types';
+import { PageSectionRevealRoot } from './PageSectionReveal.style';
 
-// Components
-import { PageSectionRevealRoot } from '@/components/PageSectionReveal/PageSectionReveal.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Wraps page blocks with `whileInView` orchestration (`once`, amount 0.18).
- * Children in stagger modes should use `variants={item}` from `useScrollMotion`.
- */
 export const PageSectionReveal: React.FC<PageSectionRevealProps> = ({
   children,
   mode = PageSectionRevealMode.Section,

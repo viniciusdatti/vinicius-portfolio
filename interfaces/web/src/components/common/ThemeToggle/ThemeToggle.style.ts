@@ -2,10 +2,6 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
-/* *************************************************************************************************
- *************************************** THEME TOGGLE BUTTON ***************************************
- ************************************************************************************************ */
-
 export const ToggleButton = styled(motion.button)`
   display: flex;
   align-items: center;

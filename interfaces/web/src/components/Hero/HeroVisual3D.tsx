@@ -12,22 +12,16 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { PointMaterial, Points } from '@react-three/drei';
 import { Bloom, EffectComposer } from '@react-three/postprocessing';
 import { AdditiveBlending, type Group } from 'three';
+import { stepPhysicalSpring } from '../../lib/motionPhysics';
 
 // Hooks
-import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
+import { useMotionLifecycle } from '../../hooks/useMotionLifecycle';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useWebGLAvailable } from '../../hooks/useWebGLAvailable';
 
-// Types
-import type { HeroVisual3DProps } from '@/components/Hero/HeroVisual3D.types';
-
-// Components
-import { HeroVisual3DCanvasWrap } from '@/components/Hero/HeroVisual3D.style';
-import { stepPhysicalSpring } from '@/lib/motionPhysics';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import type { HeroVisual3DProps } from './HeroVisual3D.types';
+import { HeroVisual3DCanvasWrap } from './HeroVisual3D.style';
 
 const PARTICLE_COUNT: number = 2600;
 const SPHERE_RADIUS: number = 5.4;

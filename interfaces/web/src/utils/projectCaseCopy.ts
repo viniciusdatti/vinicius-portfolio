@@ -1,13 +1,8 @@
 // Types
-import type { Project, Technology } from '@/data/types';
-import { Language } from '@/types';
-import { ProjectCaseStudyField } from '@/types/projectCase';
+import type { Project, Technology } from '../data/types';
+import { Language } from '../types';
+import { ProjectCaseStudyField } from '../types/projectCase';
 
-export { ProjectCaseStudyField };
-
-/**
- * Last path segment of a GitHub repository URL (stable key for i18n case copy).
- */
 export const getProjectRepoSlug = (repositoryUrl: string): string => {
   const normalized: string = repositoryUrl.replace(/\/$/, '');
   const segments: string[] = normalized.split('/');

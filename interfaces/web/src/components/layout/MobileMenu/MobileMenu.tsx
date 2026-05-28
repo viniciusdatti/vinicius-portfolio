@@ -10,24 +10,24 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import { createPortal } from 'react-dom';
 
 // Libraries
-import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { AnimatePresence } from 'framer-motion';
 import type { Variants } from 'framer-motion';
+import { prefetchRouteModule } from '../../../lib/routePrefetch';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Types
-import type { MobileMenuProps } from '@/components/layout/MobileMenu/MobileMenu.types';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { mobileMenuVariants, staggerItem, motionEase } from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
-import { prefetchRouteModule } from '@/lib/routePrefetch';
+import { mobileMenuVariants, staggerItem, motionEase } from '../../../styles/animations';
+import { motionPresets } from '../../../styles/motionPresets';
+
+// Component
+import type { MobileMenuProps } from './MobileMenu.types';
 import {
   MenuViewport,
   Overlay,
@@ -40,7 +40,7 @@ import {
   MenuFooter,
   SocialLinks,
   SocialLink,
-} from '@/components/layout/MobileMenu/MobileMenu.style';
+} from './MobileMenu.style';
 
 const GitHubIcon = (): React.ReactElement => (
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden>

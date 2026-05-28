@@ -4,17 +4,14 @@
 
 // Libraries
 import { useQuery } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 
 // Types
-import type { UseQueryResult } from '@tanstack/react-query';
-import type { Certificate } from '@/types';
+import type { Certificate } from '../types';
 
 // Components
-import { getCertificates } from '@/api';
+import { getCertificates } from '../api';
 
-/**
- * Query key for certificates.
- */
 export const certificatesQueryKey = (): string[] => ['certificates'];
 
 const CERTIFICATES_QUERY_RETRY_COUNT: number = 3;

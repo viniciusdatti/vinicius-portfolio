@@ -2,13 +2,8 @@
 import type { Variants } from 'framer-motion';
 
 // Components
-import { motionPresets } from '@/styles/motionPresets';
+import { motionPresets } from '../../styles/motionPresets';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
-/** Hero entrance stagger — tight so headline + CTAs land before decorative modules. */
 export const HERO_STAGGER_DELAY: number = motionPresets.stagger.child;
 
 const heroEase = motionPresets.ease.out;

@@ -5,21 +5,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { SystemHealthStatus, useSystemHealth } from '@/hooks/useSystemHealth';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { SystemHealthStatus, useSystemHealth } from '../../hooks/useSystemHealth';
 
-// Components
+// Component
 import {
   TelemetryMicroDivider,
   TelemetryMicroDot,
   TelemetryMicroCursor,
   TelemetryMicroRoot,
   TelemetryMicroSegment,
-} from '@/components/Hero/HeroTelemetryMicroStrip.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './HeroTelemetryMicroStrip.style';
 
 const CLOCK_TICK_MS: number = 100;
 

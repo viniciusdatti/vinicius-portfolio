@@ -5,21 +5,15 @@ import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { useTexture } from '@react-three/drei';
 import type { Mesh } from 'three';
-
-// Types
-import type { HeroCanvasPointer } from '@/hooks/useHeroCanvasPointer.types';
-
-// Components
 import {
   PHYSICAL_SPRING_DAMPING,
   PHYSICAL_SPRING_MASS,
   PHYSICAL_SPRING_STIFFNESS,
   stepPhysicalSpring,
-} from '@/lib/motionPhysics';
+} from '../../../lib/motionPhysics';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Hooks
+import type { HeroCanvasPointer } from '../../../hooks/useHeroCanvasPointer.types';
 
 export interface PortraitMeshProps {
   imageSrc: string;

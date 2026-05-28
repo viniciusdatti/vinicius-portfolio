@@ -1,23 +1,21 @@
 // Core
 import React, { useMemo } from 'react';
 
-// Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
-import { useSocketThrottledValue } from '@/hooks/useSocketThrottledValue';
+// Libraries
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
 
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
+// Hooks
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
+import { useSocketThrottledValue } from '../../../hooks/useSocketThrottledValue';
 
 // Components
+import { useTelemetry } from '../../workspace/TelemetryProvider';
+
+// Component
 import {
   LiveLabStreamCanvas,
   LiveLabStreamLayer,
-} from '@/components/atmosphere/LiveLabStreamField/LiveLabStreamField.style';
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './LiveLabStreamField.style';
 
 const STREAM_TICK_THROTTLE_MS: number = 80;
 

@@ -1,1 +1,2 @@
-export * from '@/components/workspace/TelemetryMonitor/TelemetryMonitor';
+// Component
+export * from './TelemetryMonitor';

@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 import {
   afterAll, afterEach, beforeAll, beforeEach, vi,
 } from 'vitest';
-import { server } from '@/test/mocks/server';
+import { server } from './mocks/server';
 
 /* *************************************************************************************************
  ****************************************** GLOBAL MOCKS *******************************************

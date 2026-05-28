@@ -5,31 +5,31 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project } from '@/data/types';
-import {
-  ProjectCanvasTone,
-  ProjectShowcaseDetailMode,
-  ProjectShowcaseVariant,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import type { Project } from '../../data/types';
 
-// Components
+// Domain
 import {
   formatProjectSignalCode,
   groupProjectsIntoShowcaseRows,
   orderProjectsForShowcase,
-} from '@/domain/projects';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { ProjectShowcaseCard } from '@/components/ProjectShowcase/ProjectShowcaseCard';
-import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
+} from '../../domain/projects';
+
+// Hooks
+import { useScrollMotion } from '../../hooks/useScrollMotion';
+
+// Component
+import {
+  ProjectCanvasTone,
+  ProjectShowcaseDetailMode,
+  ProjectShowcaseVariant,
+} from './ProjectShowcase.types';
+import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
+import { ProjectShowcaseCard } from './ProjectShowcaseCard';
+import { ProjectCasePanel } from './ProjectCasePanel';
 import {
   ShowcaseGrid,
   ShowcaseRow,
-} from '@/components/ProjectShowcase/ProjectShowcase.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.style';
 
 const resolveVariant = (
   index: number,

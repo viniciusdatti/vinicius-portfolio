@@ -1,7 +1,7 @@
 // Core
 import React from 'react';
 
-// Components
+// Component
 import {
   AtmosphereDepthVeil,
   AtmosphereOrb,
@@ -12,15 +12,8 @@ import {
   NoiseVeil,
   PerspectiveStage,
   ScanBeam,
-} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from './LiveLabAtmosphere.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * CSS 3D operational atmosphere — perspective grid, horizon glow, scan beam (perf-safe fallback).
- */
 export const LiveLabAtmosphereCss = (): React.ReactElement => (
   <AtmosphereRoot aria-hidden>
     <AtmosphereOrb />

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 // Components
-import { panelChrome } from '@/styles/surfaces';
+import { panelChrome } from '../../styles/surfaces';
 
 export const CasePanelRoot = styled.div`
   grid-column: 1 / -1;

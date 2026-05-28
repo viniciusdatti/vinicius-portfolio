@@ -1,17 +1,12 @@
-// Types
+// Component
 import type {
   ClampDevicePixelRatioFn,
   PhysicalSpringStepResult,
   PhysicalTiltResult,
   ResolvePhysicalTiltFn,
   StepPhysicalSpringFn,
-} from '@/lib/motionPhysics.types';
+} from './motionPhysics.types';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
-/** Maximum canvas DPR — keeps telemetry fields within GPU budget. */
 export const MAX_DEVICE_PIXEL_RATIO: number = 1.5;
 
 /** Rauno/Stripe-style physical spring for hover, tilt, and layout morph. */

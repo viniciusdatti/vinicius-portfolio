@@ -1,2 +1,3 @@
-export * from '@/components/home/WorkCanvasPreview/WorkCanvasPreview';
-export * from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.types';
+// Component
+export * from './WorkCanvasPreview';
+export * from './WorkCanvasPreview.types';

@@ -6,23 +6,17 @@ import {
   useState,
 } from 'react';
 
-// Hooks
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Types
+// Component
+import { usePointerPosition } from './usePointerPosition';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 import {
   HeroCanvasInteractionMode,
   type HeroCanvasPointer,
   type UseHeroCanvasPointerOptions,
   type UseHeroCanvasPointerResult,
-} from '@/hooks/useHeroCanvasPointer.types';
+} from './useHeroCanvasPointer.types';
 
-export { HeroCanvasInteractionMode } from '@/hooks/useHeroCanvasPointer.types';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+export { HeroCanvasInteractionMode } from './useHeroCanvasPointer.types';
 
 const IDLE_POINTER: HeroCanvasPointer = {
   x: 0.5,

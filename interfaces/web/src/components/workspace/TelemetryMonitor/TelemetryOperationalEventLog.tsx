@@ -15,12 +15,12 @@ import { useTranslation } from 'react-i18next';
 // Types
 import {
   TELEMETRY_EVENT_LOG_MAX,
-} from '@/types/telemetry';
-import type { OperationalEventLogProps } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
+} from '../../../types/telemetry';
 
-// Components
-import { TelemetryEventLogLine } from '@/components/workspace/TelemetryMonitor/TelemetryEventLogLine';
-import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
+// Component
+import type { OperationalEventLogProps } from './TelemetryMonitor.types';
+import { TelemetryEventLogLine } from './TelemetryEventLogLine';
+import { TelemetryValueFlash } from './TelemetryValueFlash';
 import {
   EventLogHeader,
   EventLogLine,
@@ -30,11 +30,7 @@ import {
   EventLogTick,
   EventLogTime,
   EventLogTitle,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './TelemetryMonitor.style';
 
 const logPrefix = (type: 'info' | 'warn' | 'critical'): string => {
   if (type === 'critical') return 'CRT';

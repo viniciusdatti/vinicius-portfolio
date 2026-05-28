@@ -7,13 +7,8 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { drawerPanelChrome } from '@/styles/surfaces';
+import { drawerPanelChrome } from '../../../styles/surfaces';
 
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
-
-/** Full-viewport stacking context so fixed panel geometry stays correct. */
 export const DrawerViewport = styled.div`
   position: fixed;
   inset: 0;

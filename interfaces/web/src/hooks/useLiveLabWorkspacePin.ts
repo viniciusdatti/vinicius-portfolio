@@ -6,12 +6,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-gsap.registerPlugin(ScrollTrigger);
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface LiveLabWorkspacePinRefs {
   sectionRef: React.RefObject<HTMLElement | null>;
   stageRef: React.RefObject<HTMLDivElement | null>;

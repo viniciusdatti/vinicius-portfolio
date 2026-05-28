@@ -2,7 +2,10 @@
  * Skeleton loading component for project cards.
  */
 
+// Core
 import React from 'react';
+
+// Component
 import {
   SkeletonCard,
   SkeletonTitle,
@@ -12,7 +15,7 @@ import {
   SkeletonTag,
   SkeletonLinks,
   SkeletonButton,
-} from '@/components/ProjectCardSkeleton/ProjectCardSkeleton.style';
+} from './ProjectCardSkeleton.style';
 
 export const ProjectCardSkeleton = (): React.ReactElement => (
   <SkeletonCard>

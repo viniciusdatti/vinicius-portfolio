@@ -2,15 +2,11 @@
 import styled, { css, keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Component
 import {
   cardInteractive,
   operationalGlass,
-} from '@/styles/surfaces';
-
-/* *************************************************************************************************
- ******************************************* PAGE SHELL ********************************************
- ************************************************************************************************ */
+} from './surfaces';
 
 const pageShellPadding = css`
   padding: ${({ theme }) => theme.spacing.pageY}

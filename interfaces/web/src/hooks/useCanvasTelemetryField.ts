@@ -10,9 +10,6 @@ import {
 
 // Libraries
 import { useTheme } from 'styled-components';
-
-// Types
-import type { Theme } from '@/styles/theme';
 import {
   createConstellationNodes,
   drawTelemetryField,
@@ -20,15 +17,14 @@ import {
   TelemetryFieldPointer,
   TelemetryFieldVariant,
   type ConstellationNodeState,
-} from '@/lib/telemetryFieldCanvas';
-import { clampDevicePixelRatio } from '@/lib/motionPhysics';
+} from '../lib/telemetryFieldCanvas';
+import { clampDevicePixelRatio } from '../lib/motionPhysics';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Components
+import type { Theme } from '../styles/theme';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Component
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 export interface UseCanvasTelemetryFieldOptions {
   variant: TelemetryFieldVariant;

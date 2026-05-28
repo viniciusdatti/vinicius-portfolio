@@ -9,21 +9,23 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project } from '@/data/types';
-import { Language } from '@/types';
+import type { Project } from '../../data/types';
+import { Language } from '../../types';
+
+// Domain
+import { filterProjectsBySearch } from '../../domain/projects';
 
 // Hooks
-import { useProjects } from '@/hooks';
+import { useProjects } from '../../hooks';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
 
 // Components
 import {
   ProjectShowcaseGrid,
   ProjectCaseStudyContent,
-} from '@/components/ProjectShowcase';
-import { filterProjectsBySearch } from '@/domain/projects';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { PageSectionReveal } from '@/components/PageSectionReveal';
-import { PageSectionRevealMode } from '@/components/PageSectionReveal/PageSectionReveal.types';
+} from '../../components/ProjectShowcase';
+import { PageSectionReveal } from '../../components/PageSectionReveal';
+import { PageSectionRevealMode } from '../../components/PageSectionReveal/PageSectionReveal.types';
 import {
   PageContainerWide,
   PageHeaderEditorial,
@@ -35,9 +37,10 @@ import {
   PageSubtitle,
   PageLead,
   PageSectionSpacious,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
+import { Drawer } from '../../components/showcase';
 
-// View
+// Component
 import {
   Toolbar,
   SearchInput,
@@ -46,8 +49,7 @@ import {
   RetryButton,
   EmptyMessage,
   LoadingMessage,
-} from '@/pages/Projects/Projects.style';
-import { Drawer } from '@/components/showcase';
+} from './Projects.style';
 
 export const Projects = (): React.ReactElement => {
   const { t, i18n } = useTranslation();

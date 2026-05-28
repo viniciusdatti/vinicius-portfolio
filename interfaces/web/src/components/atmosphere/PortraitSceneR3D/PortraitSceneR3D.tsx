@@ -2,26 +2,20 @@
 import React, { Suspense, lazy } from 'react';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useWebGLAvailable } from '../../../hooks/useWebGLAvailable';
 
-// Types
-import type { PortraitSceneR3DProps } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
-
-// Components
+// Component
+import type { PortraitSceneR3DProps } from './PortraitSceneR3D.types';
 import {
   PortraitFallbackImage,
   PortraitSceneRoot,
-} from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './PortraitSceneR3D.style';
 
 const PortraitSceneR3DInner = lazy(
   async (): Promise<{ default: React.ComponentType<PortraitSceneR3DProps> }> => {
     const module = await import(
-      '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3DInner'
+      './PortraitSceneR3DInner'
     );
     return { default: module.PortraitSceneR3DInner };
   },

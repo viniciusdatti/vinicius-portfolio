@@ -1,2 +1,3 @@
-export * from '@/components/Hero/HeroVoidCanvas/HeroVoidCanvas';
-export * from '@/components/Hero/HeroVoidCanvas/HeroVoidCanvas.types';
+// Component
+export * from './HeroVoidCanvas';
+export * from './HeroVoidCanvas.types';

@@ -5,12 +5,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Styles
-import { SectionEyebrowAnimated } from '@/styles/pageLayout.style';
+// Components
+import { SectionEyebrowAnimated } from '../../../styles/pageLayout.style';
 
-// View
+// Component
 import {
   CloseBand,
   CloseGrid,
@@ -23,7 +23,7 @@ import {
   ContactTitle,
   ContactBody,
   ContactCta,
-} from '@/components/home/HomeChapterClose/HomeChapterClose.style';
+} from './HomeChapterClose.style';
 
 export const HomeChapterClose = (): React.ReactElement => {
   const { t } = useTranslation();

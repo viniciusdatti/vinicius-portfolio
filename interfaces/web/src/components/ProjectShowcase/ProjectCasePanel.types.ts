@@ -2,12 +2,8 @@
 import type { FC, ReactElement } from 'react';
 
 // Types
-import type { Project } from '@/data/types';
-import { Language } from '@/types';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+import type { Project } from '../../data/types';
+import { Language } from '../../types';
 
 export interface ProjectCasePanelProps {
   project: Project | null;

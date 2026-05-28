@@ -5,7 +5,6 @@ import React, { useMemo } from 'react';
 import type { Variants } from 'framer-motion';
 
 // Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   manifestoPhrase,
   manifestoPhraseReduced,
@@ -25,7 +24,10 @@ import {
   scrollRevealTitle,
   scrollRevealTitleReduced,
   scrollRevealViewport,
-} from '@/styles/animations';
+} from '../styles/animations';
+
+// Component
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 export type ScrollRevealViewport = typeof scrollRevealViewport & {
   root?: React.RefObject<Element | null>;

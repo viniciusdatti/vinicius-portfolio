@@ -5,7 +5,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Components
+// Component
 import {
   FooterContainer,
   FooterContent,
@@ -20,7 +20,7 @@ import {
   FooterBottom,
   Copyright,
   TechStack,
-} from '@/components/layout/Footer/Footer.style';
+} from './Footer.style';
 
 const GitHubIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor">

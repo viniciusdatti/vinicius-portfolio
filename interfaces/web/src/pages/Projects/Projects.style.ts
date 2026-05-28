@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 // Components
 import {
   operationalGlass,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
 
 export const Toolbar = styled(motion.div)`
   margin-bottom: ${({ theme }) => theme.spacing.xl};

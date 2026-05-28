@@ -1,4 +1,5 @@
-import type { TestableProps } from '@/types/testable';
+// Types
+import type { TestableProps } from '../../../types/testable';
 
 export type SpinnerSize = 'sm' | 'md' | 'lg';
 

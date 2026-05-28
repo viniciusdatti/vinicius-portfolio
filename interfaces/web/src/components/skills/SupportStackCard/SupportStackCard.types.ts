@@ -1,12 +1,8 @@
 // Types
-import type { Skill } from '@/types';
+import type { Skill } from '../../../types';
 
 // Domain
-import type { SkillLayoutTier } from '@/domain/skills';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+import type { SkillLayoutTier } from '../../../domain/skills';
 
 export interface SupportStackCardProps {
   skill: Skill;

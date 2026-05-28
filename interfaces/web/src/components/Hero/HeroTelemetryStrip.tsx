@@ -4,14 +4,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import { TelemetryStripStatusTone } from '@/components/Hero/HeroTelemetryStrip.types';
-
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { SystemHealthStatus, useSystemHealth } from '@/hooks/useSystemHealth';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { SystemHealthStatus, useSystemHealth } from '../../hooks/useSystemHealth';
 
-// Components
+// Component
+import { TelemetryStripStatusTone } from './HeroTelemetryStrip.types';
 import {
   TelemetryCell,
   TelemetryCellLabel,
@@ -23,11 +21,7 @@ import {
   TelemetryStripBody,
   TelemetryStripHeader,
   TelemetryStripRoot,
-} from '@/components/Hero/HeroTelemetryStrip.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './HeroTelemetryStrip.style';
 
 const CLOCK_TICK_MS: number = 100;
 

@@ -13,24 +13,30 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Technology } from '@/data/types';
-import type { ProjectShowcaseCardProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import type { Technology } from '../../data/types';
+import { Language } from '../../types';
+
+// Domain
+import { getProjectDisplayTitle } from '../../domain/projects';
+
+// Hooks
+import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
 
 // Components
-import { getProjectDisplayTitle } from '@/domain/projects';
-import { Language } from '@/types';
-import { ProjectShowcaseVariant } from '@/components/ProjectShowcase/ProjectShowcase.types';
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { ProjectTerminalMock } from '@/components/ProjectShowcase/ProjectTerminalMock';
-import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
-import { getTechIconUrl } from '@/utils/techIcon';
+import { WorkCanvasPreview } from '../home/WorkCanvasPreview';
+import { getTechIconUrl } from '../../utils/techIcon';
 import {
   getProjectCaseCtaKey,
   getProjectRepoSlug,
   resolveTechnologyCapabilityLabel,
-} from '@/utils/projectCaseCopy';
+} from '../../utils/projectCaseCopy';
+
+// Component
+import type { ProjectShowcaseCardProps } from './ProjectShowcase.types';
+import { ProjectShowcaseVariant } from './ProjectShowcase.types';
+import { ProjectTerminalMock } from './ProjectTerminalMock';
 import {
   ShowcaseStaggerItem,
   ShowcaseCard,
@@ -54,11 +60,7 @@ import {
   ArrowIcon,
   TechStackLine,
   TechStackSep,
-} from '@/components/ProjectShowcase/ProjectShowcase.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.style';
 
 const getProjectDescription = (
   project: ProjectShowcaseCardProps['project'],

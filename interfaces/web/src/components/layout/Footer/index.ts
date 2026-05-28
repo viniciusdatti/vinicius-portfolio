@@ -1,1 +1,2 @@
-export * from '@/components/layout/Footer/Footer';
+// Component
+export * from './Footer';

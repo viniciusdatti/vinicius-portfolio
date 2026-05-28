@@ -1,26 +1,19 @@
 // Core
 import React from 'react';
 
+// Libraries
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Types
-import type { HeroVoidCanvasProps } from '@/components/Hero/HeroVoidCanvas/HeroVoidCanvas.types';
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-// Components
+// Component
+import type { HeroVoidCanvasProps } from './HeroVoidCanvas.types';
 import {
   HeroVoidCanvasElement,
   HeroVoidCanvasLayer,
-} from '@/components/Hero/HeroVoidCanvas/HeroVoidCanvas.style';
+} from './HeroVoidCanvas.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Void terminal — Canvas2D telemetry field driven by parent pointer (mouse or touch drift).
- */
 export const HeroVoidCanvas: React.FC<HeroVoidCanvasProps> = ({
   pointer,
 }): React.ReactElement => {

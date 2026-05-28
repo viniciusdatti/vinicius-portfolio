@@ -1,2 +1,3 @@
-export * from '@/components/Hero/HeroPortraitBust/HeroPortraitBust';
-export * from '@/components/Hero/HeroPortraitBust/HeroPortraitBust.types';
+// Component
+export * from './HeroPortraitBust';
+export * from './HeroPortraitBust.types';

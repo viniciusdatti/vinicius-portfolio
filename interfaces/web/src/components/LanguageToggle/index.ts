@@ -1,2 +1,3 @@
-export * from '@/components/LanguageToggle/LanguageToggle';
-export * from '@/components/LanguageToggle/LanguageToggle.types';
+// Component
+export * from './LanguageToggle';
+export * from './LanguageToggle.types';

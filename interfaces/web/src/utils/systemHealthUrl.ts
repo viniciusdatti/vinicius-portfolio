@@ -1,10 +1,9 @@
-// Components
-import { env } from '@/config/env';
-import { getApiRootUrl } from '@/utils/apiRootUrl';
+// Config
+import { env } from '../config/env';
 
-/**
- * Root health endpoint (outside /api/v1).
- */
+// Component
+import { getApiRootUrl } from './apiRootUrl';
+
 export const getSystemHealthUrl = (): string => {
   if (env.apiUrl.startsWith('http')) {
     return `${getApiRootUrl()}/health`;

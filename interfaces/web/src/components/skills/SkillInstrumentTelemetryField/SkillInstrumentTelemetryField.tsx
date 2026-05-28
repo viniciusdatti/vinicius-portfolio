@@ -1,26 +1,22 @@
 // Core
 import React, { useEffect, useMemo, useState } from 'react';
 
-// Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Libraries
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
 
-// Types
+// Hooks
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+
+// Component
 import {
   SkillInstrumentFieldVariant,
   type SkillInstrumentTelemetryFieldProps,
-} from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-// Components
+} from './SkillInstrumentTelemetryField.types';
 import {
   SkillInstrumentFieldCanvas,
   SkillInstrumentFieldLayer,
-} from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './SkillInstrumentTelemetryField.style';
 
 const INSTRUMENT_PULSE_TICK_MS: number = 48;
 

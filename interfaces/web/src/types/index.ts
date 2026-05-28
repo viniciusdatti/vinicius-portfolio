@@ -1,6 +1,7 @@
 /* *************************************************************************************************
  ********************************** GLOBAL TYPES FOR PORTFOLIO V2 **********************************
  ************************************************************************************************ */
+
 // Enums (project standard: use Enum instead of string unions)
 export enum SkillCategory {
   Frontend = 'frontend',
@@ -93,5 +94,5 @@ export interface PaginatedResponse<T> {
   total_pages: number;
 }
 
-export * from '@/types/telemetry';
-export * from '@/types/projectCase';
+export * from './telemetry';
+export * from './projectCase';

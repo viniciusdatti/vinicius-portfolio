@@ -1,25 +1,16 @@
 // Core
 import React from 'react';
 
-// Types
-import type { HeroAmbientProps } from '@/components/Hero/HeroAmbient.types';
-
-// Components
+// Component
+import type { HeroAmbientProps } from './HeroAmbient.types';
 import {
   HeroAmbientLayer,
   HeroNoiseLayer,
   HeroOperationalGrid,
   HeroScanLine,
   HeroMouseGlow,
-} from '@/components/Hero/HeroAmbient.style';
+} from './HeroAmbient.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Hero atmosphere — operational grid, scan line, grain, pointer wash (max 2 infinite loops).
- */
 export const HeroAmbient = ({
   pointerX,
   pointerY,

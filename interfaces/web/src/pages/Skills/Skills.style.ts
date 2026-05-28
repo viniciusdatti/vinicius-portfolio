@@ -7,8 +7,8 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Types
-import { SkillLayoutTier } from '@/domain/skills/skillLayout.domain';
+// Domain
+import { SkillLayoutTier } from '../../domain/skills/skillLayout.domain';
 
 // Components
 import {
@@ -19,10 +19,9 @@ import {
   cardTitleClamp3,
   panelChrome,
   surfaceMotion,
-} from '@/styles/surfaces';
-import { scrollAnchorOffset } from '@/styles/sectionRhythm';
+} from '../../styles/surfaces';
+import { scrollAnchorOffset } from '../../styles/sectionRhythm';
 
-/** liftMd @ 280ms ease-out; elevation.md only (no ad-hoc shadow bloom). */
 const skillCardLiftMd = css`
   transition:
     transform ${({ theme }) => theme.transitions.normal},

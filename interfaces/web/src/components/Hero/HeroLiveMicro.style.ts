@@ -2,7 +2,7 @@
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
 // Components
-import { panelInsetRim } from '@/styles/surfaces';
+import { panelInsetRim } from '../../styles/surfaces';
 
 const livePulse = (theme: DefaultTheme) => keyframes`
   0%, 100% {

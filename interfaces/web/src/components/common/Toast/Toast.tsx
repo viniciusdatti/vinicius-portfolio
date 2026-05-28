@@ -1,11 +1,13 @@
 // Core
 import React from 'react';
 
-// Components
-import { useToastStore } from '@/store/toastStore';
-import { ToastHostRoot, ToastItemSurface } from '@/components/common/Toast/Toast.style';
+// Store
+import { useToastStore } from '../../../store/toastStore';
 
-export { showToast, ToastType } from '@/store/toastStore';
+// Component
+import { ToastHostRoot, ToastItemSurface } from './Toast.style';
+
+export { showToast, ToastType } from '../../../store/toastStore';
 
 export const ToastHost = (): React.ReactElement | null => {
   const toasts = useToastStore((s) => s.toasts);

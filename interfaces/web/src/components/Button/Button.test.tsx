@@ -1,22 +1,16 @@
 // Core
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 
 // Libraries
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-// Config
-import { darkTheme } from '@/styles/theme';
-
-// Types
-import type { ButtonProps } from '@/components/Button/Button.types';
-
 // Components
-import { Button } from '@/components/Button/Button';
+import { darkTheme } from '../../styles/theme';
 
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
+// Component
+import type { ButtonProps } from './Button.types';
+import { Button } from './Button';
 
 const defaultProps: ButtonProps = {
   testId: 'button-test',

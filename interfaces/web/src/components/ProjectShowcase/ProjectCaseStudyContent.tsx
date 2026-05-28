@@ -5,18 +5,18 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project, Technology } from '@/data/types';
-import { Language } from '@/types';
-import { ProjectCaseStudyField } from '@/types/projectCase';
+import type { Project, Technology } from '../../data/types';
+import { Language } from '../../types';
+import { ProjectCaseStudyField } from '../../types/projectCase';
 
-/* *************************************************************************************************
- ********************************************** UTILS **********************************************
- ************************************************************************************************ */
+// Components
 import {
   getProjectRepoSlug,
   resolveCaseStudyField,
   resolveTechnologyCapabilityLabel,
-} from '@/utils/projectCaseCopy';
+} from '../../utils/projectCaseCopy';
+
+// Component
 import {
   CasePanelGrid,
   CasePanelBlock,
@@ -28,7 +28,7 @@ import {
   CasePanelLink,
   CasePanelSecondaryLink,
   CasePanelRepoSlug,
-} from '@/components/ProjectShowcase/ProjectCasePanel.style';
+} from './ProjectCasePanel.style';
 
 export interface ProjectCaseStudyContentProps {
   project: Project;

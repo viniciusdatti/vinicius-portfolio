@@ -5,23 +5,21 @@
 // Core
 import React from 'react';
 
-// Hooks
-import { useTypewriterReveal } from '@/hooks/useTypewriterReveal';
+// Libraries
+import { formatClockTime } from '../../../lib/i18nDisplay';
 
 // Types
-import type { TelemetryEventLogEntry } from '@/types/telemetry';
+import type { TelemetryEventLogEntry } from '../../../types/telemetry';
 
-// Components
+// Hooks
+import { useTypewriterReveal } from '../../../hooks/useTypewriterReveal';
+
+// Component
 import {
   EventLogLine,
   EventLogPrefix,
   EventLogTime,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
-import { formatClockTime } from '@/lib/i18nDisplay';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+} from './TelemetryMonitor.style';
 
 interface TelemetryEventLogLineProps {
   entry: TelemetryEventLogEntry;

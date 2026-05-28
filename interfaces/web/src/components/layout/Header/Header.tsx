@@ -9,24 +9,28 @@ import React, {
 // Libraries
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { prefetchRouteModule } from '../../../lib/routePrefetch';
+
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import {
   hamburgerTop,
   hamburgerMiddle,
   hamburgerBottom,
   motionEase,
-} from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
-import { LanguageToggle } from '@/components/LanguageToggle';
-import { MobileMenu } from '@/components/layout/MobileMenu';
+} from '../../../styles/animations';
+import { motionPresets } from '../../../styles/motionPresets';
+import { ThemeToggle } from '../../common/ThemeToggle';
+import { LanguageToggle } from '../../LanguageToggle';
+import { MobileMenu } from '../MobileMenu';
 import {
   BodyScrollLockClass,
   lockBodyScroll,
-} from '@/utils/bodyScrollLock';
-import { prefetchRouteModule } from '@/lib/routePrefetch';
+} from '../../../utils/bodyScrollLock';
+
+// Component
 import {
   HeaderContainer,
   HeaderShell,
@@ -41,7 +45,7 @@ import {
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
-} from '@/components/layout/Header/Header.style';
+} from './Header.style';
 
 interface NavItem {
   path: string;

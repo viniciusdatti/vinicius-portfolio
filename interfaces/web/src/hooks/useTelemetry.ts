@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 // Libraries
 import i18n from 'i18next';
 import { io, Socket } from 'socket.io-client';
+import { resolveTelemetrySensorLabel } from '../lib/telemetrySensorDisplay';
 
 // Types
 import {
@@ -19,15 +20,10 @@ import {
   type TelemetryEventLogEntry,
   type TelemetryState,
   type TelemetryTick,
-} from '@/types/telemetry';
+} from '../types/telemetry';
 
 // Components
-import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
-import { getApiRootUrl } from '@/utils/apiRootUrl';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+import { getApiRootUrl } from '../utils/apiRootUrl';
 
 const MAX_HISTORY: number = 30;
 

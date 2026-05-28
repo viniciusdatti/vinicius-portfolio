@@ -5,14 +5,10 @@ import { describe, it, expect } from 'vitest';
 import {
   buildEditorialSkillsLayout,
   SkillLayoutTier,
-} from '@/domain/skills/skillLayout.domain';
+} from './skillLayout.domain';
 
-// Plugins
-import { buildFakeSkill } from '@/plugins/testUtils';
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+// Components
+import { buildFakeSkill } from '../../plugins/testUtils';
 
 describe('skillLayout.domain', (): void => {
   describe('buildEditorialSkillsLayout', (): void => {

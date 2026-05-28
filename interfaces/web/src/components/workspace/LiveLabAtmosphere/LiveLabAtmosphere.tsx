@@ -2,20 +2,16 @@
 import React, { Suspense, lazy } from 'react';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useWebGLAvailable } from '@/hooks/useWebGLAvailable';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useWebGLAvailable } from '../../../hooks/useWebGLAvailable';
 
-// Components
-import { LiveLabAtmosphereCss } from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereCss';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import { LiveLabAtmosphereCss } from './LiveLabAtmosphereCss';
 
 const LiveLabAtmosphereGL = lazy(
   async (): Promise<{ default: React.ComponentType }> => {
     const module = await import(
-      '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL'
+      './LiveLabAtmosphereGL'
     );
     return { default: module.LiveLabAtmosphereGL };
   },

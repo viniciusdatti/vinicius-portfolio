@@ -9,18 +9,16 @@
 // Core
 import React from 'react';
 
-// Types
+// Component
 import type {
   ProjectTerminalMockProps,
   TerminalCodeLine,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-
-// Components
-import { MockWindowScene } from '@/components/ProjectShowcase/ProjectShowcase.types';
+} from './ProjectShowcase.types';
+import { MockWindowScene } from './ProjectShowcase.types';
 import {
   getMockWindowSceneForRepository,
   getTerminalSnippetLinesForRepository,
-} from '@/components/ProjectShowcase/projectTerminalSnippets';
+} from './projectTerminalSnippets';
 import {
   MockWindow,
   MockWindowBar,
@@ -29,11 +27,7 @@ import {
   TerminalShimmerWash,
   TerminalCodeLine as TerminalCodeLineStyled,
   TerminalCursor,
-} from '@/components/ProjectShowcase/ProjectShowcase.style';
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.style';
 
 export const ProjectTerminalMock: React.FC<ProjectTerminalMockProps> = ({
   repositorySlug,

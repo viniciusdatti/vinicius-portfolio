@@ -2,8 +2,11 @@
  * Styles for SkillCardSkeleton component.
  */
 
+// Libraries
 import styled from 'styled-components';
-import { SkeletonBase } from '@/styles/skeleton';
+
+// Components
+import { SkeletonBase } from '../../styles/skeleton';
 
 export const SkeletonCard = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};

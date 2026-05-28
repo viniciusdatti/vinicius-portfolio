@@ -1,2 +1,3 @@
-export * from '@/components/PageSectionReveal/PageSectionReveal';
-export * from '@/components/PageSectionReveal/PageSectionReveal.types';
+// Component
+export * from './PageSectionReveal';
+export * from './PageSectionReveal.types';

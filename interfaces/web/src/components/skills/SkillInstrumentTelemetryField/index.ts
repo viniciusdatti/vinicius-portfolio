@@ -1,2 +1,3 @@
-export * from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField';
-export * from '@/components/skills/SkillInstrumentTelemetryField/SkillInstrumentTelemetryField.types';
+// Component
+export * from './SkillInstrumentTelemetryField';
+export * from './SkillInstrumentTelemetryField.types';

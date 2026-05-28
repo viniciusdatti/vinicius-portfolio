@@ -12,22 +12,20 @@ import React, { useEffect, useState } from 'react';
 // Libraries
 import { motion } from 'framer-motion';
 
-// Types
-import type { LiveLabObservatorySparklineProps } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { motionEase } from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { motionEase } from '../../../styles/animations';
+import { motionPresets } from '../../../styles/motionPresets';
+
+// Component
+import type { LiveLabObservatorySparklineProps } from './LiveLabObservatory.types';
 import {
   buildObservatorySparkline,
   sparkPathFromValues,
-} from '@/components/home/LiveLabObservatory/LiveLabObservatory.helpers';
-import { SparklineSvg } from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+} from './LiveLabObservatory.helpers';
+import { SparklineSvg } from './LiveLabObservatory.style';
 
 export const LiveLabObservatorySparkline: React.FC<LiveLabObservatorySparklineProps> = ({
   seed,

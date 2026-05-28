@@ -1,13 +1,6 @@
 // Core
 import { useEffect, useState } from 'react';
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Synchronous WebGL2 probe — avoids a null first paint that never recovers in some HMR paths.
- */
 const detectWebGL2 = (): boolean => {
   if (typeof document === 'undefined') {
     return false;

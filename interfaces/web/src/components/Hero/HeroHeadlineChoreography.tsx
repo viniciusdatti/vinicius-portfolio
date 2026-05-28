@@ -1,17 +1,13 @@
 // Core
 import React from 'react';
 
-// Components
+// Component
 import {
   HeroHeadline,
   HeroHeadlineBlock,
   HeroHeadlineLine,
   HeroHeadlineBlockLabel,
-} from '@/components/Hero/Hero.style';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+} from './Hero.style';
 
 export interface HeroHeadlineBlockConfig {
   label: string;

@@ -1,23 +1,17 @@
 // Core
 import React, { useEffect } from 'react';
 
-// Types
+// Hooks
+import type { UseMotionLifecycleResult } from '../../../hooks/useMotionLifecycle.types';
+import { useMotionLifecycle } from '../../../hooks/useMotionLifecycle';
+
+// Component
 import type {
   IdleImplFn,
   MotionPausedEffectCleanup,
   ObservatoryIdleLayerComponent,
-} from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
-import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
-
-// Hooks
-import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
-
-// Components
-import { ScanlineTrack } from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+} from './ObservatoryIdleLayer.types';
+import { ScanlineTrack } from './ObservatoryIdleLayer.style';
 
 const IdleLayerImpl: IdleImplFn = (): React.ReactElement | null => {
   const {

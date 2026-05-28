@@ -1,1 +1,2 @@
-export * from '@/components/atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D';
+// Component
+export * from './ObservatoryCanvas2D';

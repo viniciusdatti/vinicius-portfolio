@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { panelInsetRim } from '@/styles/surfaces';
+import { panelInsetRim } from '../../../styles/surfaces';
 
 export const WorkspaceRoot = styled.div`
   position: relative;

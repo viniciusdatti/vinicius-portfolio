@@ -1,15 +1,17 @@
 // Core
 import React, { createContext, useContext, useEffect } from 'react';
 
-// Hooks
-import { useTelemetrySocket } from '@/hooks/useTelemetry';
+// Store
+import { useTelemetryStore } from '../../../store/telemetryStore';
 
 // Types
-import type { TelemetryState } from '@/types/telemetry';
-import { useTelemetryStore } from '@/store/telemetryStore';
-import type { TelemetryProviderProps } from './TelemetryProvider.types';
+import type { TelemetryState } from '../../../types/telemetry';
 
-// Components
+// Hooks
+import { useTelemetrySocket } from '../../../hooks/useTelemetry';
+
+// Component
+import type { TelemetryProviderProps } from './TelemetryProvider.types';
 
 const TelemetryContext = createContext<TelemetryState | null>(null);
 

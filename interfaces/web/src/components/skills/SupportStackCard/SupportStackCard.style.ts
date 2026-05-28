@@ -6,9 +6,8 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Types
-import { SkillLayoutTier } from '@/domain/skills';
-import type { SupportStackCardStyleProps } from '@/components/skills/SupportStackCard/SupportStackCard.types';
+// Domain
+import { SkillLayoutTier } from '../../../domain/skills';
 
 // Components
 import {
@@ -16,13 +15,11 @@ import {
   cardTitleReadable,
   interactiveLift,
   operationalGlass,
-} from '@/styles/surfaces';
+} from '../../../styles/surfaces';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import type { SupportStackCardStyleProps } from './SupportStackCard.types';
 
-/** Vertical compact factor — 15% reduction vs legacy peripheral padding. */
 const SUPPORT_STACK_COMPACT_FACTOR: number = 0.85;
 
 /* *************************************************************************************************

@@ -2,9 +2,11 @@
 import styled, { DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+
+// Components
 import {
   ProjectCanvasTone,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
+} from '../../ProjectShowcase/ProjectShowcase.types';
 
 const canvasGradient = (
   tone: ProjectCanvasTone | undefined,

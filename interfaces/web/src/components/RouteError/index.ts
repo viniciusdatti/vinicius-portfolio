@@ -1,1 +1,2 @@
-export { RouteError } from '@/components/RouteError/RouteError';
+// Component
+export { RouteError } from './RouteError';

@@ -2,8 +2,8 @@
  * HTTP client configuration for API requests.
  */
 
-// Components
-import { env } from '@/config/env';
+// Config
+import { env } from '../config/env';
 
 const API_BASE_URL: string = env.apiUrl;
 

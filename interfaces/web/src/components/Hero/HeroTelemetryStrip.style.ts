@@ -1,15 +1,11 @@
 // Libraries
 import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 
-// Types
-import { TelemetryStripStatusTone } from '@/components/Hero/HeroTelemetryStrip.types';
-
 // Components
-import { glassSurface } from '@/styles/surfaces';
+import { glassSurface } from '../../styles/surfaces';
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+// Component
+import { TelemetryStripStatusTone } from './HeroTelemetryStrip.types';
 
 const getStatusColor = (tone: TelemetryStripStatusTone, theme: DefaultTheme): string => {
   if (tone === TelemetryStripStatusTone.Online) {

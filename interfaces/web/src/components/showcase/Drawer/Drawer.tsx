@@ -10,22 +10,22 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
+import { createPortal } from 'react-dom';
 
 // Libraries
-import { createPortal } from 'react-dom';
 import { AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { useDrawerSlideAxis } from '@/hooks/useDrawerSlideAxis';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Types
-import type { DrawerProps } from '@/components/showcase/Drawer/Drawer.types';
+import { useDrawerSlideAxis } from '../../../hooks/useDrawerSlideAxis';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { motionPresets } from '@/styles/motionPresets';
-import { BodyScrollLockClass, lockBodyScroll } from '@/utils/bodyScrollLock';
+import { motionPresets } from '../../../styles/motionPresets';
+import { BodyScrollLockClass, lockBodyScroll } from '../../../utils/bodyScrollLock';
+
+// Component
+import type { DrawerProps } from './Drawer.types';
 import {
   DrawerViewport,
   DrawerOverlay,
@@ -34,7 +34,7 @@ import {
   DrawerTitle,
   DrawerCloseButton,
   DrawerBody,
-} from '@/components/showcase/Drawer/Drawer.style';
+} from './Drawer.style';
 
 export const Drawer = ({
   open,

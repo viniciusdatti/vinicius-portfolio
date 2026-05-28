@@ -8,17 +8,13 @@
 
 // Libraries
 import styled, { keyframes } from 'styled-components';
+import { getTelemetryStatusColor } from '../../../../lib/telemetryStatusColor';
 
 // Types
-import type { SensorSparklineSvgProps } from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
-import { SensorStatus } from '@/types/telemetry';
+import { SensorStatus } from '../../../../types/telemetry';
 
-// Components
-import { getTelemetryStatusColor } from '@/lib/telemetryStatusColor';
-
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+// Component
+import type { SensorSparklineSvgProps } from './SensorSparkline.types';
 
 const drawLine = keyframes`
   from { stroke-dashoffset: 120; }

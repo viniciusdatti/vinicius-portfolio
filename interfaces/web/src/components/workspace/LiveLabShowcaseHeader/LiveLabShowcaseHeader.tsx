@@ -5,12 +5,14 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
 
 // Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+import { useTelemetry } from '../TelemetryProvider';
+
+// Component
 import {
   ShowcaseHeaderRoot,
   ShowcaseHeaderCopy,
@@ -21,7 +23,7 @@ import {
   ShowcaseBadge,
   LiveSignalStatus,
   StatusDot,
-} from '@/components/workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
+} from './LiveLabShowcaseHeader.style';
 
 export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();

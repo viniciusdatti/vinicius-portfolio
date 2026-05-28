@@ -13,10 +13,6 @@ import React, {
   useState,
 } from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface ScrollMotionViewportContextValue {
   scrollRootRef: React.RefObject<HTMLElement | null>;
   attachCustomRoot: boolean;

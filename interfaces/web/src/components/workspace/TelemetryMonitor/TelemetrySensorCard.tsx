@@ -11,19 +11,21 @@ import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
+import { resolveI18nKeyOrFallback } from '../../../lib/i18nDisplay';
+import { resolveTelemetrySensorLabel } from '../../../lib/telemetrySensorDisplay';
 
 // Types
-import type { SensorReading } from '@/types/telemetry';
-import { SensorStatus } from '@/types/telemetry';
-import type { SensorProps } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
+import type { SensorReading } from '../../../types/telemetry';
+import { SensorStatus } from '../../../types/telemetry';
 
 // Components
-import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
-import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
-import { telemetryMicroSnapTransition } from '@/styles/animations';
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
-import { SensorSparkline } from '@/components/workspace/TelemetryMonitor/SensorSparkline';
+import { telemetryMicroSnapTransition } from '../../../styles/animations';
+import { useTelemetry } from '../TelemetryProvider';
+
+// Component
+import type { SensorProps } from './TelemetryMonitor.types';
+import { TelemetryValueFlash } from './TelemetryValueFlash';
+import { SensorSparkline } from './SensorSparkline';
 import {
   SensorCard,
   SensorCardInner,
@@ -37,11 +39,7 @@ import {
   ThresholdCritMarker,
   ThresholdFill,
   ThresholdLimit,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './TelemetryMonitor.style';
 
 const resolveSensorStatusLabel = (
   status: SensorStatus,

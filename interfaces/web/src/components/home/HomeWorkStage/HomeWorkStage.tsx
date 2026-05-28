@@ -5,27 +5,29 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import type { Project } from '@/data/types';
+import type { Project } from '../../../data/types';
+import { Language } from '../../../types';
+
+// Domain
 import {
   formatProjectSignalCode,
   getProjectDisplayTitle,
   orderProjectsForShowcase,
-} from '@/domain/projects';
-import { Language } from '@/types';
-import {
-  ProjectCanvasTone,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
+} from '../../../domain/projects';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
 // Components
-import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
-import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
-import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
-import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
+import {
+  ProjectCanvasTone,
+} from '../../ProjectShowcase/ProjectShowcase.types';
+import { HomeSectionReveal } from '../HomeSectionReveal';
+import { WorkCanvasPreview } from '../WorkCanvasPreview';
+import { ProjectCasePanel } from '../../ProjectShowcase/ProjectCasePanel';
+import { ProjectCardSkeleton } from '../../ProjectCardSkeleton';
 
-// View
+// Component
 import {
   WorkStage,
   WorkStageGrid,
@@ -50,7 +52,7 @@ import {
   CasePanelSlot,
   WorkError,
   WorkRetry,
-} from '@/components/home/HomeWorkStage/HomeWorkStage.style';
+} from './HomeWorkStage.style';
 
 export interface HomeWorkStageProps {
   projects: Project[] | undefined;

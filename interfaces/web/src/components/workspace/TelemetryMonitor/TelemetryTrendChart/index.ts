@@ -1,4 +1,5 @@
-export * from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart';
+// Component
+export * from './TelemetryTrendChart';
 export type {
   TelemetryTrendChartProps,
-} from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.types';
+} from './TelemetryTrendChart.types';

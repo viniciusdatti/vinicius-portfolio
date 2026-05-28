@@ -1,2 +1,3 @@
-export * from '@/components/Typography/Typography.style';
-export * from '@/components/Typography/Typography.types';
+// Component
+export * from './Typography.style';
+export * from './Typography.types';

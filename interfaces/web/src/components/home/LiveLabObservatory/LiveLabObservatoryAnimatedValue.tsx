@@ -9,16 +9,12 @@
 // Core
 import React, { useEffect, useState } from 'react';
 
-// Types
-import type { LiveLabObservatoryAnimatedValueProps } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
-// Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { SensorTileValue } from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+// Component
+import type { LiveLabObservatoryAnimatedValueProps } from './LiveLabObservatory.types';
+import { SensorTileValue } from './LiveLabObservatory.style';
 
 export const LiveLabObservatoryAnimatedValue: React.FC<LiveLabObservatoryAnimatedValueProps> = ({
   base,

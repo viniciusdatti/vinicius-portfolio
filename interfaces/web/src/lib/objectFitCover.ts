@@ -1,19 +1,11 @@
-// Types
+// Component
 import type {
   ComputeObjectFitCoverPositionFn,
   CoverFocalPoint,
   FormatObjectFitCoverPositionFn,
   ObjectFitCoverPosition,
-} from '@/lib/objectFitCover.types';
+} from './objectFitCover.types';
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Computes object-position (%) so a normalized focal point appears at the container center
- * with object-fit: cover (same math as background-position after cover sizing).
- */
 export const computeObjectFitCoverPosition: ComputeObjectFitCoverPositionFn = (
   imageWidth: number,
   imageHeight: number,

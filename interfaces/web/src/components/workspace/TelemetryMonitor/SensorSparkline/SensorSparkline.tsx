@@ -9,22 +9,16 @@
 // Core
 import React, { useMemo } from 'react';
 
-// Types
+// Component
 import type {
   SensorSparklinePaths,
   SensorSparklinePoint,
   SensorSparklineProps,
-} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
-
-// Components
+} from './SensorSparkline.types';
 import {
   SparklineSvg,
   SparklineWrap,
-} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './SensorSparkline.style';
 
 const buildSparklinePaths = (values: number[]): SensorSparklinePaths | null => {
   const samples: number[] = values.length > 1 ? values.slice(-24) : [];

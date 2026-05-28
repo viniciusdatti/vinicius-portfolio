@@ -1,8 +1,8 @@
 // Libraries
 import styled from 'styled-components';
 
-// Components
-import { AVATAR_CIRCULAR_COVER_POSITION } from '@/config/avatarImage';
+// Config
+import { AVATAR_CIRCULAR_COVER_POSITION } from '../../../config/avatarImage';
 
 export const PortraitSceneRoot = styled.div`
   position: relative;
