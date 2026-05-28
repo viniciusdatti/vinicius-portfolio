@@ -3,7 +3,7 @@
  */
 
 // Types
-import type { HighlightCardStatus } from '@/types';
+import type { HighlightCardStatus } from '../../../types';
 
 export interface StatusCardProps {
   /** Card title/label */

@@ -1,6 +1,7 @@
-export * from '@/components/atmosphere/PageAmbientField/PageAmbientField';
-export * from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
+// Component
+export * from './PageAmbientField';
+export * from './PageAmbientField.types';
 export {
   PageAmbientContent,
   PageAmbientShell,
-} from '@/components/atmosphere/PageAmbientField/PageAmbientField.style';
+} from './PageAmbientField.style';

@@ -6,19 +6,13 @@
  ********************************************* IMPORTS *********************************************
  ************************************************************************************************ */
 
-// Types
-import type { TerminalCodeLine } from '@/components/ProjectShowcase/ProjectShowcase.types';
-
-// Components
+// Component
+import type { TerminalCodeLine } from './ProjectShowcase.types';
 import {
   MockWindowScene,
   PortfolioRepositorySlug,
   TerminalCodeTokenRole,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.types';
 
 const VINICIUS_PORTFOLIO_LINES: TerminalCodeLine[] = [
   { text: '// interfaces/web — React + Vite', role: TerminalCodeTokenRole.Muted, delay: '0s' },

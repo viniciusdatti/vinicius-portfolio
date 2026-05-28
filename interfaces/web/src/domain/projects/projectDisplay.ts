@@ -1,12 +1,10 @@
-import type { Project } from '@/data/types';
-import { Language } from '@/types';
+// Types
+import type { Project } from '../../data/types';
+import { Language } from '../../types';
 
-import { getProjectRepoSlug } from '@/utils/projectCaseCopy';
+// Components
+import { getProjectRepoSlug } from '../../utils/projectCaseCopy';
 
-/**
- * Localized project title for showcase and case panels.
- * Display name always matches the GitHub repository slug (honest labeling).
- */
 export const getProjectDisplayTitle = (
   project: Project,
   language: Language,

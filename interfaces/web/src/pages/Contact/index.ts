@@ -3,4 +3,5 @@
  * Re-exports all public components and types from the Contact module.
  */
 
-export * from '@/pages/Contact/Contact';
+// Component
+export * from './Contact';

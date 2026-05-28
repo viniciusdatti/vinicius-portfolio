@@ -3,8 +3,8 @@ import styled, { DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Theme
-import { operationalGlass } from '@/styles/surfaces';
+// Components
+import { operationalGlass } from '../../../styles/surfaces';
 
 const MotionLink = motion.create(Link);
 

@@ -1,10 +1,6 @@
 // Libraries
 import { css } from 'styled-components';
 
-/**
- * High-contrast internal inset rim — 1px hairline on ::before (Stripe/Vercel panel physics).
- * Prefer merging into an existing ::before when the surface already defines one.
- */
 export const surfaceInsetRim = css`
   &::before {
     content: '';

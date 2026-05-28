@@ -1,9 +1,10 @@
 // Libraries
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { PHYSICAL_PERSPECTIVE_PX } from '../../../lib/motionPhysics';
 
-import { PHYSICAL_PERSPECTIVE_PX } from '@/lib/motionPhysics';
-import { operationalGlassDeep } from '@/styles/surfaces';
+// Components
+import { operationalGlassDeep } from '../../../styles/surfaces';
 
 export const HeroPortraitBustRoot = styled(motion.div)`
   display: none;

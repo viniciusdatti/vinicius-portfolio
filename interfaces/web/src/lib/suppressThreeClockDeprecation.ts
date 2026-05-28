@@ -1,11 +1,6 @@
 // Libraries
 import { setConsoleFunction } from 'three';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
-/** Emitted by THREE.Clock constructor since r183 (used internally by @react-three/fiber 9.x). */
 const THREE_CLOCK_DEPRECATION: string = 'Clock: This module has been deprecated';
 
 type BrowserConsoleMethod = (message?: unknown, ...params: unknown[]) => void;

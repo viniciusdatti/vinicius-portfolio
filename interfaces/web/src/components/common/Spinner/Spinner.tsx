@@ -1,9 +1,9 @@
 // Core
 import React from 'react';
 
-// Components
-import { SpinnerContainer } from '@/components/common/Spinner/Spinner.style';
-import type { SpinnerProps } from '@/components/common/Spinner/Spinner.types';
+// Component
+import { SpinnerContainer } from './Spinner.style';
+import type { SpinnerProps } from './Spinner.types';
 
 export const Spinner = ({
   size = 'md',

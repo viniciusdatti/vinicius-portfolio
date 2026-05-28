@@ -1,9 +1,5 @@
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-/* *************************************************************************************************
- ********************************************** ENUMS **********************************************
- ************************************************************************************************ */
+// Libraries
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
 
 export enum PageAmbientFieldKind {
   HomeObservatory = 'home_observatory',

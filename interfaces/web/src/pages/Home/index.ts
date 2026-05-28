@@ -3,4 +3,5 @@
  * Re-exports the Home component for external consumption.
  */
 
-export * from '@/pages/Home/Home';
+// Component
+export * from './Home';

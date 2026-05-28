@@ -1,13 +1,13 @@
 // Core
-import './index.css';
-import './lib/suppressThreeClockDeprecation';
 import React from 'react';
+
+// Libraries
 import ReactDOM from 'react-dom/client';
 
-/* *************************************************************************************************
- *********************************************** APP ***********************************************
- ************************************************************************************************ */
-import App from '@/App';
+// Component
+import './index.css';
+import './lib/suppressThreeClockDeprecation';
+import App from './App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

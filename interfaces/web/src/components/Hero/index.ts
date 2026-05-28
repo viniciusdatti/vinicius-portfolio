@@ -1,7 +1,8 @@
-export * from '@/components/Hero/Hero';
-export * from '@/components/Hero/Hero.types';
-export * from '@/components/Hero/HeroLiveMicro';
-export * from '@/components/Hero/HeroTelemetryMicroStrip';
-export * from '@/components/Hero/HeroTelemetryStrip';
-export * from '@/components/Hero/HeroTelemetryStrip.types';
-export * from '@/components/Hero/HeroVisual3D';
+// Component
+export * from './Hero';
+export * from './Hero.types';
+export * from './HeroLiveMicro';
+export * from './HeroTelemetryMicroStrip';
+export * from './HeroTelemetryStrip';
+export * from './HeroTelemetryStrip.types';
+export * from './HeroVisual3D';

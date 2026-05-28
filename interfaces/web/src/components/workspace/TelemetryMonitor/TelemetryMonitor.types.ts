@@ -10,11 +10,7 @@
 import type React from 'react';
 
 // Types
-import type { SensorReading, TelemetryEventLogEntry } from '@/types/telemetry';
-
-/* *************************************************************************************************
- ********************************************** ENUMS **********************************************
- ************************************************************************************************ */
+import type { SensorReading, TelemetryEventLogEntry } from '../../../types/telemetry';
 
 export enum TelemetryEventLogPlacement {
   Embedded = 'embedded',

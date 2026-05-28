@@ -11,7 +11,7 @@ import styled, { css, keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { glassSurface } from '@/styles/surfaces';
+import { glassSurface } from '../../../styles/surfaces';
 
 const blink = keyframes`
   0%, 100% { opacity: 1; }

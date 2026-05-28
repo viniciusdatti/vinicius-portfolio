@@ -1,1 +1,2 @@
-export * from '@/pages/LiveLab/LiveLab';
+// Component
+export * from './LiveLab';

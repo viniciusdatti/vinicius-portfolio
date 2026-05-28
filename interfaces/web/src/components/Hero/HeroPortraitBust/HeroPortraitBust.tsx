@@ -1,20 +1,18 @@
 // Core
 import React from 'react';
 
-// Types
-import type { HeroPortraitBustProps } from '@/components/Hero/HeroPortraitBust/HeroPortraitBust.types';
-
-// Components
-import { PortraitSceneR3D } from '@/components/atmosphere/PortraitSceneR3D';
-import { HeroPortraitBustRoot } from '@/components/Hero/HeroPortraitBust/HeroPortraitBust.style';
+// Libraries
 import {
   resolvePhysicalTilt,
-} from '@/lib/motionPhysics';
-import { motionPresets } from '@/styles/motionPresets';
+} from '../../../lib/motionPhysics';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Components
+import { PortraitSceneR3D } from '../../atmosphere/PortraitSceneR3D';
+import { motionPresets } from '../../../styles/motionPresets';
+
+// Component
+import type { HeroPortraitBustProps } from './HeroPortraitBust.types';
+import { HeroPortraitBustRoot } from './HeroPortraitBust.style';
 
 const PORTRAIT_FRAME_MAX_TILT_DEG: number = 3;
 

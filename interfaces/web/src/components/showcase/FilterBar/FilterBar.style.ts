@@ -6,11 +6,7 @@
 import styled from 'styled-components';
 
 // Components
-import { scrollAnchorOffset } from '@/styles/sectionRhythm';
-
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+import { scrollAnchorOffset } from '../../../styles/sectionRhythm';
 
 export const FilterBarWrapper = styled.div`
   display: flex;

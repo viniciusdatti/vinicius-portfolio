@@ -4,11 +4,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 // Components
-import { surfaceMotion } from '@/styles/surfaces';
-
-/* *************************************************************************************************
- ********************************************** GRID ***********************************************
- ************************************************************************************************ */
+import { surfaceMotion } from '../../../styles/surfaces';
 
 const CAPABILITY_SIGNAL_COL: string = '4.5rem';
 const CAPABILITY_SIGNAL_COL_MOBILE: string = '3.25rem';

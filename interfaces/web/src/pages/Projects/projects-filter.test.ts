@@ -1,16 +1,14 @@
-// Core
+// Libraries
 import { describe, it, expect } from 'vitest';
 
 // Types
-import type { Project } from '@/data/types';
+import type { Project } from '../../data/types';
+
+// Domain
+import { filterProjectsBySearch } from '../../domain/projects';
 
 // Components
-import { filterProjectsBySearch } from '@/domain/projects';
-import { buildFakeProject, MOCKED_PROJECT_LIST } from '@/plugins/testUtils';
-
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
+import { buildFakeProject, MOCKED_PROJECT_LIST } from '../../plugins/testUtils';
 
 const projects: Project[] = MOCKED_PROJECT_LIST;
 

@@ -12,15 +12,19 @@ import React, { useEffect } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { useLiveLabWorkspacePin } from '../../../hooks/useLiveLabWorkspacePin';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
 // Components
-import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { BootHandshake } from '@/components/workspace/BootHandshake';
-import { LiveLabStreamField } from '@/components/atmosphere/LiveLabStreamField';
-import { LiveLabAtmosphere } from '@/components/workspace/LiveLabAtmosphere';
-import { LiveLabShowcaseHeader } from '@/components/workspace/LiveLabShowcaseHeader';
-import { TelemetryMonitor } from '@/components/workspace/TelemetryMonitor';
-import { TelemetryEventLogPlacement } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
+import { BootHandshake } from '../BootHandshake';
+import { LiveLabStreamField } from '../../atmosphere/LiveLabStreamField';
+import { LiveLabAtmosphere } from '../LiveLabAtmosphere';
+import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
+import { TelemetryMonitor } from '../TelemetryMonitor';
+import { TelemetryEventLogPlacement } from '../TelemetryMonitor/TelemetryMonitor.types';
+
+// Component
 import {
   ImmersionProgressFill,
   ImmersionProgressTrack,
@@ -30,15 +34,8 @@ import {
   TelemetryWorkspace,
   WorkspaceChrome,
   WorkspaceRoot,
-} from '@/components/workspace/WorkspaceShell/WorkspaceShell.style';
+} from './WorkspaceShell.style';
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
-
-/**
- * Live Lab — full-viewport operational telemetry with 3D atmosphere.
- */
 export const WorkspaceShell: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const { refs, pinEnabled } = useLiveLabWorkspacePin();

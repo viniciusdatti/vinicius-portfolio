@@ -6,10 +6,6 @@ import { useFrame } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
 import type { Group } from 'three';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface LiveLabGridSceneProps {
   accentHex: string;
   backgroundHex: string;

@@ -1,2 +1,3 @@
-export * from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D';
-export * from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
+// Component
+export * from './PortraitSceneR3D';
+export * from './PortraitSceneR3D.types';

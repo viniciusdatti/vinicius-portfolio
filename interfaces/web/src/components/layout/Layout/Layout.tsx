@@ -12,32 +12,29 @@ import React, { useEffect } from 'react';
 // Libraries
 import { useLocation, useOutlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { prefetchPublicRoutes } from '../../../lib/routePrefetch';
 
-// Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 import {
   ScrollMotionViewportProvider,
   useScrollMotionViewport,
-} from '@/hooks/scrollMotionViewport';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { LayoutAmbientBackdrop } from '@/components/layout/LayoutAmbientBackdrop';
+} from '../../../hooks/scrollMotionViewport';
+
+// Components
+import { Header } from '../Header';
+import { Footer } from '../Footer';
+import { LayoutAmbientBackdrop } from '../LayoutAmbientBackdrop';
+import { resolvePageTransition } from '../../../styles/animations';
+
+// Component
 import {
   SkipLink,
   Main,
   PageMotionLayer,
   WorkspaceMotionShell,
-} from '@/components/layout/Layout/Layout.style';
-import { resolvePageTransition } from '@/styles/animations';
-import { prefetchPublicRoutes } from '@/lib/routePrefetch';
+} from './Layout.style';
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
-
-/**
- * Inner layout chrome — binds the scroll root ref for nested `whileInView` observers.
- */
 const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
   const outlet: React.ReactElement | null = useOutlet();

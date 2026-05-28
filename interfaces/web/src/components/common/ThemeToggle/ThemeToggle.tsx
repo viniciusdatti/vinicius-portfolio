@@ -5,17 +5,19 @@ import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
+// Store
+import { useThemeStore } from '../../../store';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { motionPresets } from '@/styles/motionPresets';
-import { motionEase } from '@/styles/animations';
-import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
-import { useThemeStore } from '@/store';
+import { motionPresets } from '../../../styles/motionPresets';
+import { motionEase } from '../../../styles/animations';
+
+// Component
+import type { ThemeToggleProps } from './ThemeToggle.types';
+import { ToggleButton } from './ThemeToggle.style';
 
 const SunIcon = (): React.ReactElement => (
   <svg

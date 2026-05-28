@@ -4,8 +4,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Components
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+// Hooks
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+
+// Component
 import {
   TeaserRoot,
   TeaserMetrics,
@@ -16,7 +18,7 @@ import {
   TeaserContextItem,
   TeaserActivity,
   TeaserActivityDot,
-} from '@/components/home/LiveLabTeaser/LiveLabTeaser.style';
+} from './LiveLabTeaser.style';
 
 const CONTEXT_KEYS: string[] = [
   'home.liveLabPreview.context.transport',

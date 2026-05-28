@@ -1,5 +1,5 @@
-// Components
-import { publicAssetUrl } from '@/config/env';
+// Config
+import { publicAssetUrl } from '../config/env';
 
 const TECH_SLUG_ICON_MAP: Record<string, string> = {
   react: 'icons/react.svg',

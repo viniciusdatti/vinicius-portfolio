@@ -4,22 +4,17 @@ import React, { useMemo } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Components
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+// Hooks
+import { useSystemHealth, SystemHealthStatus } from '../../hooks/useSystemHealth';
+
+// Component
 import {
   LiveMicroRoot,
   LiveMicroDot,
   LiveMicroLabel,
   LiveMicroHint,
-} from '@/components/Hero/HeroLiveMicro.style';
+} from './HeroLiveMicro.style';
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
-
-/**
- * Subtle realtime signal embedded in the hero portrait — connection truth without console UI.
- */
 export const HeroLiveMicro = (): React.ReactElement => {
   const { t } = useTranslation();
   const { status, version } = useSystemHealth();

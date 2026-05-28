@@ -3,12 +3,11 @@
  */
 
 // Types
-import type { Certificate, Skill } from '@/types';
+import type { Certificate, Skill } from '../../types';
 
 // Config
-import { publicAssetUrl } from '@/config/env';
+import { publicAssetUrl } from '../../config/env';
 
-/** Platform badge styling and logo assets. */
 export interface PlatformConfig {
   logo: string;
   color: string;

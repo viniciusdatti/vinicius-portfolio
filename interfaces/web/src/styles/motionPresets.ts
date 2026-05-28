@@ -2,11 +2,12 @@
  * Framer Motion presets — single source aligned with theme.motion / theme.transitions.
  */
 
+// Libraries
 import {
   PHYSICAL_SPRING_DAMPING,
   PHYSICAL_SPRING_MASS,
   PHYSICAL_SPRING_STIFFNESS,
-} from '@/lib/motionPhysics';
+} from '../lib/motionPhysics';
 
 export const motionPresets = {
   ease: {

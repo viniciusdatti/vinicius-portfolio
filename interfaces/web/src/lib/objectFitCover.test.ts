@@ -1,9 +1,7 @@
+// Libraries
 import { describe, expect, it } from 'vitest';
 
-import {
-  computeObjectFitCoverPosition,
-  formatObjectFitCoverPosition,
-} from '@/lib/objectFitCover';
+// Config
 import {
   ABOUT_AVATAR_CONTENT_PX,
   AVATAR_CIRCULAR_COVER_POSITION,
@@ -12,7 +10,13 @@ import {
   AVATAR_IMAGE_NATURAL_WIDTH,
   AVATAR_PORTRAIT_OBJECT_POSITION,
   computeAvatarPortraitObjectPosition,
-} from '@/config/avatarImage';
+} from '../config/avatarImage';
+
+// Component
+import {
+  computeObjectFitCoverPosition,
+  formatObjectFitCoverPosition,
+} from './objectFitCover';
 
 describe('computeObjectFitCoverPosition', () => {
   it('centers avatar focal point for square cover crop at any container size', () => {

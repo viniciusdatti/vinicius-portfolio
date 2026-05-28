@@ -18,16 +18,14 @@ import {
   featuredSpotlight,
   showcasePointerTorch,
   showcaseSpecularRim,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
+
+// Component
 import {
   ProjectCanvasTone,
   ProjectShowcaseVariant,
   TerminalCodeTokenRole,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.types';
 
 const getPreviewMinHeight = (
   variant: ProjectShowcaseVariant | undefined,

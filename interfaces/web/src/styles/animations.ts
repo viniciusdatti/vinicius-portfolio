@@ -1,10 +1,8 @@
 // Libraries
 import { Variants } from 'framer-motion';
 
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
-import { motionPresets } from '@/styles/motionPresets';
+// Component
+import { motionPresets } from './motionPresets';
 
 export const motionEase = motionPresets.ease.out;
 

@@ -3,18 +3,18 @@ import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
+import { resolveI18nKeyOrFallback } from '../../../lib/i18nDisplay';
 
 // Config
-import { publicAssetUrl } from '@/config/env';
+import { publicAssetUrl } from '../../../config/env';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
 // Components
-import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
-import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
+import { HomeSectionReveal } from '../HomeSectionReveal';
 
-// View
+// Component
 import {
   CapabilityBand,
   CapabilityShell,
@@ -35,7 +35,7 @@ import {
   CapabilityFeaturedMeta,
   CapabilityFeaturedDomain,
   CapabilityFeaturedDesc,
-} from '@/components/home/HomeCapabilityRail/HomeCapabilityRail.style';
+} from './HomeCapabilityRail.style';
 
 interface CapabilityItem {
   name: string;

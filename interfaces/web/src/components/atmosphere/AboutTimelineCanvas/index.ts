@@ -1,1 +1,2 @@
-export * from '@/components/atmosphere/AboutTimelineCanvas/AboutTimelineCanvas';
+// Component
+export * from './AboutTimelineCanvas';

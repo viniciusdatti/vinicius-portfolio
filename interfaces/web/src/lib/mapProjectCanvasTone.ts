@@ -1,10 +1,9 @@
-// Types
-import { ProjectCanvasTone } from '@/components/ProjectShowcase/ProjectShowcase.types';
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
+// Components
+import { ProjectCanvasTone } from '../components/ProjectShowcase/ProjectShowcase.types';
 
-/**
- * Maps project runway tone to Canvas2D preview variant.
- */
+// Component
+import { TelemetryFieldVariant } from './telemetryFieldCanvas';
+
 export const mapProjectCanvasTone = (tone: ProjectCanvasTone): TelemetryFieldVariant => {
   if (tone === ProjectCanvasTone.B) {
     return TelemetryFieldVariant.WorkB;

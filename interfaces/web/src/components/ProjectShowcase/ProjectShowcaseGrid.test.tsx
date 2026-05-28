@@ -1,31 +1,25 @@
 // Core
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 
 // Libraries
+import { render, screen } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
 
-// Config
-import i18n from '@/i18n/config';
-import { darkTheme } from '@/styles/theme';
-
 // Types
-import { Language } from '@/types';
-import type { ProjectShowcaseGridProps } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import { Language } from '../../types';
 
-/* *************************************************************************************************
- ********************************************* PLUGINS *********************************************
- ************************************************************************************************ */
-import { MOCKED_PROJECT_LIST } from '@/plugins/testUtils';
+// Config
+import i18n from '../../i18n/config';
 
 // Components
-import { ProjectShowcaseGrid } from '@/components/ProjectShowcase/ProjectShowcaseGrid';
+import { darkTheme } from '../../styles/theme';
+import { MOCKED_PROJECT_LIST } from '../../plugins/testUtils';
 
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
+// Component
+import type { ProjectShowcaseGridProps } from './ProjectShowcase.types';
+import { ProjectShowcaseGrid } from './ProjectShowcaseGrid';
 
 const defaultProps: ProjectShowcaseGridProps = {
   projects: MOCKED_PROJECT_LIST,

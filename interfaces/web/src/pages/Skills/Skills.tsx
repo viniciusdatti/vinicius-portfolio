@@ -15,12 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, type Variants } from 'framer-motion';
 
 // Types
-import type { Certificate, Skill } from '@/types';
-
-// Hooks
-import { useSkills, useCertificates } from '@/hooks';
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
+import type { Certificate, Skill } from '../../types';
 
 // Domain
 import {
@@ -33,14 +28,19 @@ import {
   SkillLayoutTier,
   type EditorialSkillsLayout,
   type SkillLayoutPlacement,
-} from '@/domain/skills';
+} from '../../domain/skills';
+
+// Hooks
+import { useSkills, useCertificates } from '../../hooks';
+import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
 
 // Components
-import { motionEase } from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
-import { SkillCardSkeleton } from '@/components/SkillCardSkeleton';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { motionEase } from '../../styles/animations';
+import { motionPresets } from '../../styles/motionPresets';
+import { SkillCardSkeleton } from '../../components/SkillCardSkeleton';
 import {
   PageContainer,
   PageHeader,
@@ -48,9 +48,10 @@ import {
   PageTitleGradient,
   PageSubtitle,
   SectionEyebrow,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
+import { SupportStackCard } from '../../components/skills/SupportStackCard';
 
-// View
+// Component
 import {
   Section,
   SectionTitle,
@@ -115,12 +116,7 @@ import {
   SkillsFeedbackPanel,
   SkillsLoadingMessage,
   RetryButton,
-} from '@/pages/Skills/Skills.style';
-import { SupportStackCard } from '@/components/skills/SupportStackCard';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+} from './Skills.style';
 
 interface SkillsPageState {
   selectedCertificate: Certificate | null;

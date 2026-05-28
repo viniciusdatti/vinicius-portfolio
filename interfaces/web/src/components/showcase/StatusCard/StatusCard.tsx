@@ -6,16 +6,14 @@
 // Core
 import React from 'react';
 
-// Types
-import type { StatusCardProps } from '@/components/showcase/StatusCard/StatusCard.types';
-
-// Components
+// Component
+import type { StatusCardProps } from './StatusCard.types';
 import {
   StyledStatusCard,
   StatusCardTitle,
   StatusCardValue,
   StatusCardUnit,
-} from '@/components/showcase/StatusCard/StatusCard.style';
+} from './StatusCard.style';
 
 export const StatusCard = ({
   title,

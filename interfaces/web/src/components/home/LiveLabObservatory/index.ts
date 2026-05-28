@@ -1,1 +1,2 @@
-export { LiveLabObservatory } from '@/components/home/LiveLabObservatory/LiveLabObservatory';
+// Component
+export { LiveLabObservatory } from './LiveLabObservatory';

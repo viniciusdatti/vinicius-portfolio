@@ -11,18 +11,22 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+// Hooks
+import { useScrollMotion } from '../../hooks/useScrollMotion';
+
 // Components
-import { showToast, ToastType } from '@/components/common/Toast';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { submitContact, ApiError } from '@/api';
-import { motionPresets } from '@/styles/motionPresets';
+import { showToast, ToastType } from '../../components/common/Toast';
+import { submitContact, ApiError } from '../../api';
+import { motionPresets } from '../../styles/motionPresets';
 import {
   PageContainer,
   PageHeader,
   PageTitle,
   PageTitleGradient,
   PageSubtitle,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
+
+// Component
 import {
   ContactConsoleColumn,
   FormSection,
@@ -47,11 +51,7 @@ import {
   LiveLabCTATitle,
   LiveLabCTADescription,
   LiveLabCTAButton,
-} from '@/pages/Contact/Contact.style';
-
-/* *************************************************************************************************
- ********************************************** ICONS **********************************************
- ************************************************************************************************ */
+} from './Contact.style';
 
 const EmailIcon = (): React.ReactElement => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>

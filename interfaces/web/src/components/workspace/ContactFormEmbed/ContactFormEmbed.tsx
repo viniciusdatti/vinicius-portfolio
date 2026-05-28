@@ -8,7 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 // Components
-import { submitContact, ApiError } from '@/api';
+import { submitContact, ApiError } from '../../../api';
+
+// Component
 import {
   EmbedForm,
   EmbedField,
@@ -18,7 +20,7 @@ import {
   EmbedError,
   EmbedSubmit,
   EmbedSuccess,
-} from '@/components/workspace/ContactFormEmbed/ContactFormEmbed.style';
+} from './ContactFormEmbed.style';
 
 const contactSchema = z.object({
   name: z.string().min(2).max(100),

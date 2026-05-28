@@ -8,16 +8,10 @@
 
 // Libraries
 import styled, { css, keyframes, DefaultTheme } from 'styled-components';
+import { getTelemetryStatusColor } from '../../../lib/telemetryStatusColor';
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
-
-// Components
-import { getTelemetryStatusColor } from '@/lib/telemetryStatusColor';
-
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+import { SensorStatus } from '../../../types/telemetry';
 
 const statusColor = (
   status: SensorStatus,

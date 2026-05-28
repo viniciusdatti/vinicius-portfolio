@@ -2,18 +2,14 @@
 import { describe, it, expect } from 'vitest';
 
 // Types
-import { Language } from '@/types';
+import { Language } from '../../types';
 
 // Components
 import {
   formatProjectSignalCode,
   getProjectDisplayTitle,
-} from '@/domain/projects/projectDisplay';
-import { buildFakeProject } from '@/plugins/testUtils';
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+} from './projectDisplay';
+import { buildFakeProject } from '../../plugins/testUtils';
 
 describe('projectDisplay', (): void => {
   describe('formatProjectSignalCode', (): void => {

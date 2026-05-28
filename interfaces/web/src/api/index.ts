@@ -2,18 +2,19 @@
  * API module exports.
  */
 
-export { apiClient, ApiError } from '@/api/client';
+// Component
+export { apiClient, ApiError } from './client';
 export {
   isApiError,
   isHttpStatus,
   isNotFoundError,
   isUnauthorizedError,
-} from '@/api/guards';
-export { getProjects } from '@/api/projects';
-export { getSkills } from '@/api/skills';
-export { getCertificates } from '@/api/certificates';
+} from './guards';
+export { getProjects } from './projects';
+export { getSkills } from './skills';
+export { getCertificates } from './certificates';
 export {
   submitContact,
   type ContactSubmitPayload,
   type ContactSubmitResponse,
-} from '@/api/contact';
+} from './contact';

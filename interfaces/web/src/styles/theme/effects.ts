@@ -1,3 +1,4 @@
+// Component
 import type { ThemeEffects } from './types';
 
 export const darkEffects: ThemeEffects = {

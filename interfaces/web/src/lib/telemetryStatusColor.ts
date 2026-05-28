@@ -2,11 +2,8 @@
 import type { DefaultTheme } from 'styled-components';
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
+import { SensorStatus } from '../types/telemetry';
 
-/**
- * Operational status color for Live Lab telemetry (distinct from brand amber).
- */
 export const getTelemetryStatusColor = (
   status: SensorStatus,
   theme: DefaultTheme,

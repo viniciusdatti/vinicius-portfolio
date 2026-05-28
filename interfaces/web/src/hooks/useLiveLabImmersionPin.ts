@@ -6,17 +6,11 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
 // Components
-import { motionPresets } from '@/styles/motionPresets';
+import { motionPresets } from '../styles/motionPresets';
 
-gsap.registerPlugin(ScrollTrigger);
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Component
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 export interface LiveLabImmersionPinRefs {
   sectionRef: React.RefObject<HTMLElement | null>;

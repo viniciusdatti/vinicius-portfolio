@@ -3,8 +3,11 @@
  * Kept for backward compatibility with MSW handlers and legacy imports.
  */
 
-import type { Project, Technology } from '@/data/types';
-import type { Certificate, Skill } from '@/types';
+// Types
+import type { Project, Technology } from '../../data/types';
+import type { Certificate, Skill } from '../../types';
+
+// Components
 import {
   buildFakeCertificate,
   buildFakeProject,
@@ -13,7 +16,7 @@ import {
   MOCKED_CERTIFICATE_LIST,
   MOCKED_PROJECT_LIST,
   MOCKED_SKILL_LIST,
-} from '@/plugins/testUtils';
+} from '../../plugins/testUtils';
 
 export const mockTechnology = buildFakeTechnology;
 export const mockProject = buildFakeProject;

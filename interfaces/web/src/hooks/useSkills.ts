@@ -4,17 +4,14 @@
 
 // Libraries
 import { useQuery } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 
 // Types
-import type { UseQueryResult } from '@tanstack/react-query';
-import type { Skill } from '@/types';
+import type { Skill } from '../types';
 
 // Components
-import { getSkills } from '@/api';
+import { getSkills } from '../api';
 
-/**
- * Query key for skills.
- */
 export const skillsQueryKey = (category?: string): string[] => [
   'skills',
   category ?? 'all',

@@ -2,11 +2,7 @@
  * Hooks module exports.
  */
 
-export { useProjects, projectsQueryKey } from '@/hooks/useProjects';
-export { useSkills, skillsQueryKey } from '@/hooks/useSkills';
-export { useCertificates, certificatesQueryKey } from '@/hooks/useCertificates';
-export { useLocationKey } from '@/hooks/useLocationKey';
-export { useTelemetrySocket } from '@/hooks/useTelemetry';
+// Types
 export {
   TELEMETRY_EVENT_LOG_MAX,
   SensorStatus,
@@ -15,13 +11,20 @@ export {
   type TelemetryEventLogEntry,
   type TelemetryState,
   type TelemetryTick,
-} from '@/types/telemetry';
-export { useCountUp } from '@/hooks/useCountUp';
-export { useScrollMotion } from '@/hooks/useScrollMotion';
-export type { ScrollMotionContract } from '@/hooks/useScrollMotion';
+} from '../types/telemetry';
+
+// Component
+export { useProjects, projectsQueryKey } from './useProjects';
+export { useSkills, skillsQueryKey } from './useSkills';
+export { useCertificates, certificatesQueryKey } from './useCertificates';
+export { useLocationKey } from './useLocationKey';
+export { useTelemetrySocket } from './useTelemetry';
+export { useCountUp } from './useCountUp';
+export { useScrollMotion } from './useScrollMotion';
+export type { ScrollMotionContract } from './useScrollMotion';
 export {
   ScrollMotionViewportProvider,
   useScrollMotionViewport,
-} from '@/hooks/scrollMotionViewport';
-export type { ScrollMotionViewportContextValue } from '@/hooks/scrollMotionViewport';
-export { useTypewriterReveal } from '@/hooks/useTypewriterReveal';
+} from './scrollMotionViewport';
+export type { ScrollMotionViewportContextValue } from './scrollMotionViewport';
+export { useTypewriterReveal } from './useTypewriterReveal';

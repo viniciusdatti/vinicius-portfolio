@@ -27,30 +27,28 @@ import {
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
+import { resolveTelemetrySensorLabel } from '../../../../lib/telemetrySensorDisplay';
 
 // Types
-import type { SensorReading } from '@/types/telemetry';
+import type { SensorReading } from '../../../../types/telemetry';
+import { SensorStatus } from '../../../../types/telemetry';
+
+// Hooks
+import { usePrefersReducedMotion } from '../../../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../../../hooks/useScrollMotion';
+
+// Component
 import type {
   TelemetryTrendChartMargin,
   TelemetryTrendChartPalette,
   TelemetryTrendChartPoint,
   TelemetryTrendChartProps,
-} from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.types';
-import { SensorStatus } from '@/types/telemetry';
-
-// Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { resolveTelemetrySensorLabel } from '@/lib/telemetrySensorDisplay';
+} from './TelemetryTrendChart.types';
 import {
   ChartPlot,
   ChartRoot,
   ChartTitle,
-} from '@/components/workspace/TelemetryMonitor/TelemetryTrendChart/TelemetryTrendChart.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+} from './TelemetryTrendChart.style';
 
 const AREA_FILL_TOP_OPACITY: number = 0.14;
 

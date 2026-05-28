@@ -1,7 +1,6 @@
 // Libraries
 import { css } from 'styled-components';
 
-/** Full-bleed band — alternates page density without decorative effects */
 export const sectionBand = css`
   width: 100%;
   max-width: none;

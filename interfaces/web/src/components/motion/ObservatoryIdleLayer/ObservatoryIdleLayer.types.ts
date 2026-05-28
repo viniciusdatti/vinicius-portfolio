@@ -1,11 +1,6 @@
 // Core
 import type React from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
-/** Global ambient idle layer — no configurable props. */
 export type ObservatoryIdleLayerProps = Record<string, never>;
 
 /** Global ambient idle layer component contract. */

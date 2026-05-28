@@ -9,15 +9,13 @@
 // Libraries
 import styled, { keyframes, css, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
-
-// Types
-import { SensorStatus } from '@/types/telemetry';
-
-// Components
 import {
   getTelemetryStatusColor,
   getTelemetryStatusSurface,
-} from '@/lib/telemetryStatusColor';
+} from '../../../lib/telemetryStatusColor';
+
+// Types
+import { SensorStatus } from '../../../types/telemetry';
 
 const getSensorStatusColor = (
   status: SensorStatus,

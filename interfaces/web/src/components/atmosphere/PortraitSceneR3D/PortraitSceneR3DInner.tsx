@@ -5,18 +5,16 @@ import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useTheme } from 'styled-components';
 
-// Types
-import type { Theme } from '@/styles/theme';
-import type { PortraitSceneR3DProps } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.types';
-import type { HeroCanvasPointer } from '@/hooks/useHeroCanvasPointer.types';
+// Hooks
+import type { HeroCanvasPointer } from '../../../hooks/useHeroCanvasPointer.types';
 
 // Components
-import { PortraitMesh } from '@/components/atmosphere/PortraitSceneR3D/PortraitMesh';
-import { PortraitCanvasWrap } from '@/components/atmosphere/PortraitSceneR3D/PortraitSceneR3D.style';
+import type { Theme } from '../../../styles/theme';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import type { PortraitSceneR3DProps } from './PortraitSceneR3D.types';
+import { PortraitMesh } from './PortraitMesh';
+import { PortraitCanvasWrap } from './PortraitSceneR3D.style';
 
 const IDLE_POINTER: HeroCanvasPointer = {
   x: 0.5,

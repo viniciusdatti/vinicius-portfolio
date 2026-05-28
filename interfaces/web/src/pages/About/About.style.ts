@@ -6,22 +6,20 @@
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
+// Config
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '../../config/avatarImage';
+
 // Components
-import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '@/config/avatarImage';
-import { cardStatSignal, surfaceInsetRim } from '@/styles/surfaces';
+import { cardStatSignal, surfaceInsetRim } from '../../styles/surfaces';
 import {
   editorialAccentRail,
   scrollAnchorOffset,
-} from '@/styles/sectionRhythm';
+} from '../../styles/sectionRhythm';
 import {
   PageCard,
   PageSection,
   SectionTitle,
-} from '@/styles/pageLayout.style';
-
-/* *************************************************************************************************
- ********************************************* SHARED **********************************************
- ************************************************************************************************ */
+} from '../../styles/pageLayout.style';
 
 const observabilityMono = css`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};

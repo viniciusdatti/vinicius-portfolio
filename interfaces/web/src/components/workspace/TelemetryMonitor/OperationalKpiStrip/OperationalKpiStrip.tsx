@@ -13,22 +13,20 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
-import type { OperationalKpiStripProps } from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.types';
+import { SensorStatus } from '../../../../types/telemetry';
 
 // Components
-import { TelemetryValueFlash } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash';
+import { TelemetryValueFlash } from '../TelemetryValueFlash';
+
+// Component
+import type { OperationalKpiStripProps } from './OperationalKpiStrip.types';
 import {
   KpiLabel,
   KpiMeta,
   KpiStripRoot,
   KpiTile,
   KpiValue,
-} from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip/OperationalKpiStrip.style';
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+} from './OperationalKpiStrip.style';
 
 export const OperationalKpiStrip: React.FC<OperationalKpiStripProps> = ({
   readings,

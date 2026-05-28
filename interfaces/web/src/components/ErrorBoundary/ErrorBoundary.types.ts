@@ -1,4 +1,4 @@
-// Types
+// Core
 import type { ReactNode } from 'react';
 
 export interface ErrorBoundaryProps {

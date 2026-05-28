@@ -11,7 +11,7 @@ import styled, { css, keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
 // Components
-import { glassSurface } from '@/styles/surfaces';
+import { glassSurface } from '../../../styles/surfaces';
 
 const progressPulse = (theme: DefaultTheme) => keyframes`
   0% {

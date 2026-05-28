@@ -4,12 +4,8 @@ import type { CSSProperties, RefCallback } from 'react';
 // Libraries
 import type { TargetAndTransition, Transition } from 'framer-motion';
 
-// Types
-import type { PointerPosition } from '@/hooks/usePointerPosition';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Component
+import type { PointerPosition } from './usePointerPosition';
 
 export interface UsePhysicalInteractionOptions {
   disabled?: boolean;

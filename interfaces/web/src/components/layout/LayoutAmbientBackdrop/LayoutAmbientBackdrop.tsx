@@ -8,23 +8,13 @@ import React, { useEffect, useState } from 'react';
 // Libraries
 import { useLocation } from 'react-router-dom';
 
-// Types
+// Components
 import {
   PageAmbientFieldKind,
   resolveAmbientKindFromPath,
-} from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
+} from '../../atmosphere/PageAmbientField/PageAmbientField.types';
+import { PageAmbientField } from '../../atmosphere/PageAmbientField';
 
-// Components
-import { PageAmbientField } from '@/components/atmosphere/PageAmbientField';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Fixed ambient canvas behind page content — one instance per route, no per-page stacking traps.
- * Always mounted on public routes; canvas animates unless prefers-reduced-motion (static frame).
- */
 export const LayoutAmbientBackdrop: React.FC = (): React.ReactElement | null => {
   const { pathname } = useLocation();
   const kind: PageAmbientFieldKind | null = resolveAmbientKindFromPath(pathname);

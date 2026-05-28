@@ -9,16 +9,12 @@
 // Core
 import React, { useEffect, useRef, useState } from 'react';
 
-// Types
-import type { TelemetryValueFlashProps } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
+// Hooks
+import { usePrefersReducedMotion } from '../../../../hooks/usePrefersReducedMotion';
 
-// Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { ValueFlashWrap } from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.style';
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
+// Component
+import type { TelemetryValueFlashProps } from './TelemetryValueFlash.types';
+import { ValueFlashWrap } from './TelemetryValueFlash.style';
 
 const FLASH_THROTTLE_MS: number = 100;
 const FLASH_DURATION_MS: number = 380;

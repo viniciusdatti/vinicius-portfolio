@@ -1,1 +1,2 @@
-export { HomeWorkStage } from '@/components/home/HomeWorkStage/HomeWorkStage';
+// Component
+export { HomeWorkStage } from './HomeWorkStage';

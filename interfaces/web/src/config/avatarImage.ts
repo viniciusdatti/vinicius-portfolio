@@ -1,17 +1,10 @@
-// Types
-import type { CoverFocalPoint } from '@/lib/objectFitCover.types';
-
-// Components
+// Libraries
+import type { CoverFocalPoint } from '../lib/objectFitCover.types';
 import {
   computeObjectFitCoverPosition,
   formatObjectFitCoverPosition,
-} from '@/lib/objectFitCover';
+} from '../lib/objectFitCover';
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
-/** Natural pixel size of public/avatar.png (verified via runtime naturalWidth/Height). */
 export const AVATAR_IMAGE_NATURAL_WIDTH: number = 768;
 
 export const AVATAR_IMAGE_NATURAL_HEIGHT: number = 1344;

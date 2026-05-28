@@ -6,9 +6,19 @@ import {
 
 // Libraries
 import type { Transition } from 'framer-motion';
+import type { PhysicalTiltResult } from '../lib/motionPhysics.types';
+import {
+  PHYSICAL_LIFT_PX,
+  PHYSICAL_MAX_TILT_DEG,
+  PHYSICAL_PERSPECTIVE_PX,
+  PHYSICAL_TAP_SCALE,
+  resolvePhysicalTilt,
+} from '../lib/motionPhysics';
 
-// Types
-import type { PhysicalTiltResult } from '@/lib/motionPhysics.types';
+// Components
+import { motionPresets } from '../styles/motionPresets';
+
+// Component
 import type {
   BuildPhysicalMotionPropsFn,
   PhysicalInteractionMotionProps,
@@ -16,31 +26,12 @@ import type {
   UsePhysicalInteractionOptions,
   UsePhysicalInteractionResult,
   UsePointerPositionHookResult,
-} from '@/hooks/usePhysicalInteraction.types';
-import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
+} from './usePhysicalInteraction.types';
+import type { UseMotionLifecycleResult } from './useMotionLifecycle.types';
+import { useMotionLifecycle } from './useMotionLifecycle';
+import { usePointerPosition } from './usePointerPosition';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
-// Hooks
-import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Components
-import {
-  PHYSICAL_LIFT_PX,
-  PHYSICAL_MAX_TILT_DEG,
-  PHYSICAL_PERSPECTIVE_PX,
-  PHYSICAL_TAP_SCALE,
-  resolvePhysicalTilt,
-} from '@/lib/motionPhysics';
-import { motionPresets } from '@/styles/motionPresets';
-
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Spring-driven tilt, lift, spotlight vars, and tap scale for interactive surfaces.
- */
 export const usePhysicalInteraction: UsePhysicalInteractionHook = <
   T extends HTMLElement = HTMLDivElement,
 >(

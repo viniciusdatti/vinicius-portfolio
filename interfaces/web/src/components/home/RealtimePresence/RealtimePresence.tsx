@@ -5,11 +5,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
 
-// Components
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+// Component
 import {
   PresenceStrip,
   PresenceInner,
@@ -18,15 +18,8 @@ import {
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
-} from '@/components/home/RealtimePresence/RealtimePresence.style';
+} from './RealtimePresence.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Subtle live strip on home — connection truth and micro-activity without console chrome.
- */
 export const RealtimePresence = (): React.ReactElement => {
   const { t } = useTranslation();
   const { stagger, item, viewport } = useScrollMotion();

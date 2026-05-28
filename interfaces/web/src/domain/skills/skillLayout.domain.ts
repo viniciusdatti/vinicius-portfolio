@@ -4,13 +4,8 @@
  */
 
 // Types
-import type { Skill } from '@/types';
+import type { Skill } from '../../types';
 
-/* *************************************************************************************************
- ********************************************** ENUMS **********************************************
- ************************************************************************************************ */
-
-/** Visual weight tier — each maps to a distinct card treatment in Skills.style.ts */
 export enum SkillLayoutTier {
   Hero = 'hero',
   CoreLarge = 'core_large',

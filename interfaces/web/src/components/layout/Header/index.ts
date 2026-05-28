@@ -1,1 +1,2 @@
-export * from '@/components/layout/Header/Header';
+// Component
+export * from './Header';

@@ -1,1 +1,2 @@
-export * from '@/components/atmosphere/LiveLabStreamField/LiveLabStreamField';
+// Component
+export * from './LiveLabStreamField';

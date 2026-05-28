@@ -1,4 +1,5 @@
-import type { Project } from '@/data/types';
+// Types
+import type { Project } from '../../data/types';
 
 const FEATURED_REPOSITORY_FRAGMENT: string = 'vinicius-portfolio';
 

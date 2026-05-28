@@ -17,18 +17,18 @@ import React, {
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
+// Components
+import { useTelemetry } from '../TelemetryProvider';
+import { MonitorTelemetryField } from '../../atmosphere/MonitorTelemetryField';
+
+// Component
 import {
   TelemetryEventLogPlacement,
   type TelemetryMonitorProps,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
-
-// Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { MonitorTelemetryField } from '@/components/atmosphere/MonitorTelemetryField';
-import { OperationalKpiStrip } from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip';
-import { TelemetryOperationalEventLog } from '@/components/workspace/TelemetryMonitor/TelemetryOperationalEventLog';
-import { TelemetrySensorCard } from '@/components/workspace/TelemetryMonitor/TelemetrySensorCard';
+} from './TelemetryMonitor.types';
+import { OperationalKpiStrip } from './OperationalKpiStrip';
+import { TelemetryOperationalEventLog } from './TelemetryOperationalEventLog';
+import { TelemetrySensorCard } from './TelemetrySensorCard';
 import {
   ChartPaneFallback,
   ConnectingState,
@@ -44,10 +44,10 @@ import {
   MonitorToolbar,
   StatusDot,
   ToolbarSep,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
+} from './TelemetryMonitor.style';
 
 const TelemetryTrendChart = lazy(
-  () => import('@/components/workspace/TelemetryMonitor/TelemetryTrendChart').then(
+  () => import('./TelemetryTrendChart').then(
     (module) => ({ default: module.TelemetryTrendChart }),
   ),
 );

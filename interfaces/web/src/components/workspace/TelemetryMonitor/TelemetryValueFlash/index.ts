@@ -1,4 +1,5 @@
-export * from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash';
+// Component
+export * from './TelemetryValueFlash';
 export type {
   TelemetryValueFlashProps,
-} from '@/components/workspace/TelemetryMonitor/TelemetryValueFlash/TelemetryValueFlash.types';
+} from './TelemetryValueFlash.types';

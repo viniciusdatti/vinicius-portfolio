@@ -1,17 +1,19 @@
 // Core
 import React, { Component } from 'react';
 
-// Types
-import type { ErrorBoundaryProps, ErrorBoundaryState } from '@/components/ErrorBoundary/ErrorBoundary.types';
+// Config
+import i18n from '../../i18n/config';
 
 // Components
+import { Button } from '../Button';
+
+// Component
+import type { ErrorBoundaryProps, ErrorBoundaryState } from './ErrorBoundary.types';
 import {
   ErrorContainer,
   ErrorTitle,
   ErrorText,
-} from '@/components/ErrorBoundary/ErrorBoundary.style';
-import { Button } from '@/components/Button';
-import i18n from '@/i18n/config';
+} from './ErrorBoundary.style';
 
 const t = (key: string): string => (i18n as { t: (k: string) => string }).t(key);
 

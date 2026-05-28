@@ -1,4 +1,5 @@
-export { ObservatoryIdleLayer } from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer';
+// Component
+export { ObservatoryIdleLayer } from './ObservatoryIdleLayer';
 export type {
   IdleImplFn,
   IdleLayerRenderFn,
@@ -6,4 +7,4 @@ export type {
   ObservatoryIdleLayerImplFn,
   ObservatoryIdleLayerProps,
   MotionPausedEffectCleanup,
-} from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
+} from './ObservatoryIdleLayer.types';

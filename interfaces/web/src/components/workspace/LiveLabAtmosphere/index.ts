@@ -1,1 +1,2 @@
-export { LiveLabAtmosphere } from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere';
+// Component
+export { LiveLabAtmosphere } from './LiveLabAtmosphere';

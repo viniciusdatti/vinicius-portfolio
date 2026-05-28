@@ -2,7 +2,7 @@
  * Skeleton / shimmer — single source of truth.
  *
  * Usage:
- *   import { shimmerAnimation, SkeletonBase } from '@/styles/skeleton';
+ *   import { shimmerAnimation, SkeletonBase } from './skeleton';
  *
  *   export const MyElement = styled.div`
  *     ${SkeletonBase};
@@ -15,6 +15,7 @@
  *   - SkillCardSkeleton.style.ts   (local `shimmer` keyframe)
  */
 
+// Libraries
 import { css, keyframes } from 'styled-components';
 
 export const shimmerAnimation = keyframes`

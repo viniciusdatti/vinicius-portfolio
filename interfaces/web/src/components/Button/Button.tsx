@@ -5,14 +5,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // Hooks
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
 
-// Types
-import type { ButtonComponent } from '@/components/Button/Button.types';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
-
-// Components
-import { StyledButton } from '@/components/Button/Button.style';
+// Component
+import type { ButtonComponent } from './Button.types';
+import { StyledButton } from './Button.style';
 
 const MotionStyledButton = motion.create(StyledButton);
 
@@ -25,7 +23,7 @@ interface MotionStyledButtonPolymorphicProps
 }
 
 const PolymorphicMotionButton = MotionStyledButton as React.FC<
-  MotionStyledButtonPolymorphicProps
+MotionStyledButtonPolymorphicProps
 >;
 
 export const Button: ButtonComponent = ({

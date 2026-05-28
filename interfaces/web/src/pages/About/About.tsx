@@ -9,16 +9,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-// Hooks
-import { useCountUp } from '@/hooks';
-import { useAvatarPortraitObjectPosition } from '@/hooks/useAvatarPortraitObjectPosition';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-
 // Config
-import { publicAssetUrl } from '@/config/env';
+import { publicAssetUrl } from '../../config/env';
+
+// Hooks
+import { useCountUp } from '../../hooks';
+import { useAvatarPortraitObjectPosition } from '../../hooks/useAvatarPortraitObjectPosition';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
 
 // Components
-import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
+import { AvatarPortraitPhoto } from '../../components/AvatarPortrait';
 import {
   PageContainer,
   PageHeader,
@@ -26,9 +26,9 @@ import {
   PageTitleGradient,
   PageSubtitle,
   SectionEyebrow,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
 
-// View
+// Component
 import {
   IntroSection,
   Avatar,
@@ -68,7 +68,7 @@ import {
   ExperienceLogEntry,
   ExperienceLogIndex,
   ExperienceLogMessage,
-} from '@/pages/About/About.style';
+} from './About.style';
 
 const SUPERIOR_LOG_KEYS: readonly string[] = [
   'about.superior.items.realtime',

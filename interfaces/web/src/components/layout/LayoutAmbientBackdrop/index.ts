@@ -1,1 +1,2 @@
-export { LayoutAmbientBackdrop } from '@/components/layout/LayoutAmbientBackdrop/LayoutAmbientBackdrop';
+// Component
+export { LayoutAmbientBackdrop } from './LayoutAmbientBackdrop';

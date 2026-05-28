@@ -1,4 +1,5 @@
-import type { ProjectCanvasTone } from '@/components/ProjectShowcase/ProjectShowcase.types';
+// Components
+import type { ProjectCanvasTone } from '../../ProjectShowcase/ProjectShowcase.types';
 
 export interface WorkCanvasPreviewProps {
   tone: ProjectCanvasTone;

@@ -6,7 +6,7 @@ import {
   type RefObject,
 } from 'react';
 
-// Types
+// Component
 import type {
   IntersectionObserverCallbackFn,
   IntersectionObserverCleanup,
@@ -17,14 +17,8 @@ import type {
   UseMotionLifecycleResult,
   VisibilityChangeCleanup,
   VisibilityChangeHandler,
-} from '@/hooks/useMotionLifecycle.types';
-
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './useMotionLifecycle.types';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
 const resolveMotionTarget = (target?: MotionLifecycleTarget): Element | null => {
   if (!target) {

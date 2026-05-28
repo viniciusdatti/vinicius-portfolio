@@ -1,1 +1,2 @@
-export { HomeChapterClose } from '@/components/home/HomeChapterClose/HomeChapterClose';
+// Component
+export { HomeChapterClose } from './HomeChapterClose';

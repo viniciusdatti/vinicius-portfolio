@@ -2,6 +2,7 @@
  ********************************************* SECTION *********************************************
  ************************************************************************************************ */
 
+// Component
 import type { Theme } from './theme/types';
 import { sharedTheme } from './theme/shared';
 import { darkEffects, lightEffects } from './theme/effects';

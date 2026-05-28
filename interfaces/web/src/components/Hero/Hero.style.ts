@@ -2,15 +2,17 @@
 import { motion } from 'framer-motion';
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
+// Config
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '../../config/avatarImage';
+
 // Components
-import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '@/config/avatarImage';
-import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
+import { AvatarPortraitPhoto } from '../AvatarPortrait';
 import {
   cardPointerVars,
   operationalGlass,
   operationalGlassDeep,
   surfaceMotion,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
 
 const gridDrift = (theme: DefaultTheme) => keyframes`
   0% {

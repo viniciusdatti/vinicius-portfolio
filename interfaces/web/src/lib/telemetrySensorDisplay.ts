@@ -1,10 +1,9 @@
 // Types
-import type { SensorReading } from '@/types/telemetry';
+import type { SensorReading } from '../types/telemetry';
 
-// Components
-import { resolveI18nKeyOrFallback } from '@/lib/i18nDisplay';
+// Component
+import { resolveI18nKeyOrFallback } from './i18nDisplay';
 
-/** Legacy API ids from older telemetry demos — map to current generic i18n keys. */
 const LEGACY_SENSOR_I18N_ID: Record<string, string> = {
   crusher_rpm: 'spin_rate',
   motor_temp: 'thermal',

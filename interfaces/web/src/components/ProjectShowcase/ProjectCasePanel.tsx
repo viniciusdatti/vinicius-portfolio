@@ -6,19 +6,21 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion, type Variants } from 'framer-motion';
 import type { TFunction } from 'i18next';
 
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Domain
+import { getProjectDisplayTitle } from '../../domain/projects';
 
-// Types
+// Hooks
+import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
+
+// Components
+import { resolveLayoutMorphPanel } from '../../styles/animations';
+
+// Component
 import type {
   ProjectCasePanelCloseHandler,
   ProjectCasePanelComponent,
-} from '@/components/ProjectShowcase/ProjectCasePanel.types';
-import { getProjectDisplayTitle } from '@/domain/projects';
-
-// Components
-import { ProjectCaseStudyContent } from '@/components/ProjectShowcase/ProjectCaseStudyContent';
-import { resolveLayoutMorphPanel } from '@/styles/animations';
+} from './ProjectCasePanel.types';
+import { ProjectCaseStudyContent } from './ProjectCaseStudyContent';
 import {
   CasePanelRoot,
   CasePanelInner,
@@ -26,15 +28,7 @@ import {
   CasePanelIndex,
   CasePanelTitle,
   CasePanelClose,
-} from '@/components/ProjectShowcase/ProjectCasePanel.style';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+} from './ProjectCasePanel.style';
 
 export const ProjectCasePanel: ProjectCasePanelComponent = ({
   project,

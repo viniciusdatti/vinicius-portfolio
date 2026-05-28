@@ -1,25 +1,17 @@
-// Core
+// Libraries
 import { describe, it, expect } from 'vitest';
 
-/* *************************************************************************************************
- ********************************************* DOMAIN **********************************************
- ************************************************************************************************ */
+// Components
+import { buildFakeCertificate, buildFakeSkill } from '../../plugins/testUtils';
+
+// Component
 import {
   resolveSkillIconUrl,
   resolveSkillDisplayName,
   resolveCertificateDisplayName,
   getPlatformConfig,
   sortCertificates,
-} from '@/domain/skills/skills.domain';
-
-/* *************************************************************************************************
- ********************************************* PLUGINS *********************************************
- ************************************************************************************************ */
-import { buildFakeCertificate, buildFakeSkill } from '@/plugins/testUtils';
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+} from './skills.domain';
 
 describe('skills.domain', (): void => {
   describe('resolveSkillIconUrl', (): void => {

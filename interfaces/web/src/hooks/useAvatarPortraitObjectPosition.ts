@@ -6,20 +6,12 @@ import {
   useState,
 } from 'react';
 
-// Types
-import type { UseAvatarPortraitObjectPositionResult } from '@/hooks/useAvatarPortraitObjectPosition.types';
+// Config
+import { computeAvatarPortraitObjectPosition } from '../config/avatarImage';
 
-// Components
-import { computeAvatarPortraitObjectPosition } from '@/config/avatarImage';
+// Component
+import type { UseAvatarPortraitObjectPositionResult } from './useAvatarPortraitObjectPosition.types';
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Measures the portrait frame and derives object-position so the face stays centered
- * at any rendered width (Hero mobile/desktop, About intro).
- */
 export const useAvatarPortraitObjectPosition = (): UseAvatarPortraitObjectPositionResult => {
   const frameRef = useRef<HTMLDivElement>(null);
   const [objectPosition, setObjectPosition] = useState<string>(

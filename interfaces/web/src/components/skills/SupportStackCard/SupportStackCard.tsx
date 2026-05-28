@@ -5,14 +5,12 @@
 // Core
 import React from 'react';
 
-// Types
-import type { SupportStackCardProps } from '@/components/skills/SupportStackCard/SupportStackCard.types';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
-
 // Hooks
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import type { UsePhysicalInteractionResult } from '../../../hooks/usePhysicalInteraction.types';
+import { usePhysicalInteraction } from '../../../hooks/usePhysicalInteraction';
 
-// Components
+// Component
+import type { SupportStackCardProps } from './SupportStackCard.types';
 import {
   SupportStackCardInner,
   SupportStackCardRoot,
@@ -21,15 +19,8 @@ import {
   SupportStackIconWell,
   SupportStackLabel,
   SupportStackTextColumn,
-} from '@/components/skills/SupportStackCard/SupportStackCard.style';
+} from './SupportStackCard.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Stack de suporte cell — operational glass, pointer torch, tier scale, icon well.
- */
 export const SupportStackCard: React.FC<SupportStackCardProps> = ({
   skill,
   displayName,

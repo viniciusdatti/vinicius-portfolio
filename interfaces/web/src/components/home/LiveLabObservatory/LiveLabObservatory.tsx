@@ -2,10 +2,6 @@
  * @fileoverview Premium observability showcase — live motion without WebSocket on home.
  */
 
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -13,23 +9,25 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
+import { formatClockTime } from '../../../lib/i18nDisplay';
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
-import type { LiveLabObservatoryLogLine } from '@/components/home/LiveLabObservatory/LiveLabObservatory.types';
+import { SensorStatus } from '../../../types/telemetry';
 
-// Components
-import { formatClockTime } from '@/lib/i18nDisplay';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
-import { LiveLabObservatoryAnimatedValue } from '@/components/home/LiveLabObservatory/LiveLabObservatoryAnimatedValue';
-import { LiveLabObservatorySparkline } from '@/components/home/LiveLabObservatory/LiveLabObservatorySparkline';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+
+// Component
+import type { LiveLabObservatoryLogLine } from './LiveLabObservatory.types';
+import { LiveLabObservatoryAnimatedValue } from './LiveLabObservatoryAnimatedValue';
+import { LiveLabObservatorySparkline } from './LiveLabObservatorySparkline';
 import {
   buildObservatorySparkline,
   getObservatorySensors,
   LOG_MESSAGE_KEYS,
   sparkPathFromValues,
-} from '@/components/home/LiveLabObservatory/LiveLabObservatory.helpers';
+} from './LiveLabObservatory.helpers';
 import {
   ChartLabel,
   ChartPane,
@@ -47,11 +45,7 @@ import {
   SensorTileLabel,
   SidePanel,
   SparklineSvg,
-} from '@/components/home/LiveLabObservatory/LiveLabObservatory.style';
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+} from './LiveLabObservatory.style';
 
 export const LiveLabObservatory: React.FC = (): React.ReactElement => {
   const { t, i18n } = useTranslation();

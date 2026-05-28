@@ -5,19 +5,13 @@
 // Core
 import React from 'react';
 
-// Types
-import type { FilterBarProps } from '@/components/showcase/FilterBar/FilterBar.types';
-
-// Components
+// Component
+import type { FilterBarProps } from './FilterBar.types';
 import {
   FilterBarWrapper,
   FilterChip,
   FilterCount,
-} from '@/components/showcase/FilterBar/FilterBar.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+} from './FilterBar.style';
 
 export const FilterBar: React.FC<FilterBarProps> = ({
   filters,

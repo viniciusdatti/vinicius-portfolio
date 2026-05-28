@@ -1,4 +1,5 @@
-import type { HeroCanvasPointer } from '@/hooks/useHeroCanvasPointer.types';
+// Hooks
+import type { HeroCanvasPointer } from '../../../hooks/useHeroCanvasPointer.types';
 
 export interface PortraitSceneR3DProps {
   imageSrc: string;

@@ -1,10 +1,6 @@
 // Core
 import { useEffect, useRef, useState } from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface UseSocketThrottledValueOptions {
   /** Minimum ms between propagated updates (Live Lab socket fields default 100). */
   intervalMs?: number;

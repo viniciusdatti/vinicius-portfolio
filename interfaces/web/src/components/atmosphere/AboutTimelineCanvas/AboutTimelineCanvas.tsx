@@ -1,25 +1,18 @@
 // Core
 import React from 'react';
 
+// Libraries
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-// Components
+// Component
 import {
   TimelineCanvasElement,
   TimelineCanvasLayer,
-} from '@/components/atmosphere/AboutTimelineCanvas/AboutTimelineCanvas.style';
+} from './AboutTimelineCanvas.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Animated timeline rail behind About experience section.
- */
 export const AboutTimelineCanvas = (): React.ReactElement => {
   const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Timeline,

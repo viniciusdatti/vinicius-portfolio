@@ -5,26 +5,19 @@ import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useTheme } from 'styled-components';
 
-// Types
-import type { Theme } from '@/styles/theme';
-
 // Components
-import { LiveLabGridScene } from '@/components/workspace/LiveLabAtmosphere/LiveLabGridScene';
-import { LiveLabPostEffects } from '@/components/workspace/LiveLabAtmosphere/LiveLabPostEffects';
+import type { Theme } from '../../../styles/theme';
+
+// Component
+import { LiveLabGridScene } from './LiveLabGridScene';
+import { LiveLabPostEffects } from './LiveLabPostEffects';
 import {
   AtmosphereDepthVeil,
   AtmosphereRoot,
   GlCanvasWrap,
   NoiseVeil,
-} from '@/components/workspace/LiveLabAtmosphere/LiveLabAtmosphere.style';
+} from './LiveLabAtmosphere.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * WebGL atmosphere — infinite grid floor with amber fog (lazy-loaded).
- */
 export const LiveLabAtmosphereGL = (): React.ReactElement => {
   const theme = useTheme() as Theme;
   const accentHex: string = theme.colors.primary;
