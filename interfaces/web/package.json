@@ -19,7 +19,9 @@
     "generate-favicon": "node scripts/generate-favicon.cjs",
     "prebuild": "yarn generate-favicon",
     "mcp:install-browsers": "yarn dlx playwright install chromium",
-    "qa:audit": "node scripts/qa-audit.mjs"
+    "qa:audit": "node scripts/qa-audit.mjs",
+    "migrate:imports:relative": "node scripts/migrate-alias-imports-to-relative.mjs",
+    "normalize:imports": "node scripts/normalize-import-sections.mjs --write"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
