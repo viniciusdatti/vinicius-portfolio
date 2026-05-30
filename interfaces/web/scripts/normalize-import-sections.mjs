@@ -1,7 +1,8 @@
 /**
- * Normalizes import section comments across src/.
+ * Normalizes import blocks with fixed + dynamically derived section banners.
  *
- * Section order: Core → Libraries → Store → Types → Config → Domain → Hooks → Components → Component
+ * Fixed: Core, Libraries, Api, Hooks, Layout, Components, Icons, Styles, Types
+ * Dynamic: folder name of the imported module (e.g. // Store, // Utils, // Config)
  *
  * Usage: node scripts/normalize-import-sections.mjs [--write]
  */
@@ -14,27 +15,37 @@ const WEB_ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SRC_ROOT = path.join(WEB_ROOT, 'src');
 const WRITE = process.argv.includes('--write');
 
-const SECTION_ORDER = [
+const FIXED_SECTION_ORDER = [
   'Core',
   'Libraries',
-  'Store',
-  'Types',
-  'Config',
-  'Domain',
+  'Api',
   'Hooks',
+  'Layout',
   'Components',
-  'Component',
+  'Icons',
+  'Styles',
+  'Types',
 ];
 
+const FIXED_SECTION_SET = new Set(FIXED_SECTION_ORDER);
+
 const CORE_PACKAGES = new Set(['react', 'react-dom']);
+
+const STYLE_TOKEN_MODULES = new Set([
+  'animations',
+  'motionPresets',
+  'surfaces',
+  'sectionRhythm',
+  'skeleton',
+  'GlobalStyles',
+  'theme',
+]);
 
 const walk = (dir, out = []) => {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       walk(full, out);
-    } else if (/\.test\.tsx?$/.test(entry.name)) {
-      continue;
     } else if (/\.tsx?$/.test(entry.name)) {
       out.push(full);
     }
@@ -42,58 +53,167 @@ const walk = (dir, out = []) => {
   return out;
 };
 
+const collectTargetFiles = () => {
+  const files = walk(SRC_ROOT);
+  for (const configFile of ['vite.config.ts', 'vitest.config.ts']) {
+    const full = path.join(WEB_ROOT, configFile);
+    if (fs.existsSync(full)) {
+      files.push(full);
+    }
+  }
+  return files;
+};
+
+const normalizePath = (specifier) => specifier.replace(/\\/g, '/');
+
 const isCoreSpecifier = (specifier) => (
   CORE_PACKAGES.has(specifier) || specifier.startsWith('react/')
 );
 
-const isRelativeLib = (specifier) => (
-  /(?:^|\/)(?:\.\.\/)*lib(?:\/|$)/.test(specifier.replace(/\\/g, '/'))
-);
-
-const isTypesModule = (specifier) => {
-  const normalized = specifier.replace(/\\/g, '/');
-  if (normalized.endsWith('.types')) {
-    return false;
-  }
-  return /(?:^|\/)(\.\.\/)*types(?:\/|$)/.test(normalized);
-};
-
-const pathSegment = (specifier, segment) => {
-  const normalized = specifier.replace(/\\/g, '/');
+const pathHasSegment = (specifier, segment) => {
+  const normalized = normalizePath(specifier);
   return new RegExp(`(?:^|/)(?:\\.\\./)*(?:[^/]+/)*${segment}(?:/|$)`).test(normalized);
 };
 
-const classifySpecifier = (specifier) => {
+const basename = (specifier) => {
+  const normalized = normalizePath(specifier);
+  const parts = normalized.split('/');
+  return parts[parts.length - 1] ?? normalized;
+};
+
+const capitalizeSection = (value) => {
+  if (!value || value.length === 0) {
+    return 'Components';
+  }
+  return value.charAt(0).toUpperCase() + value.slice(1);
+};
+
+const resolveSpecifierDirectory = (specifier, importerFilePath) => {
+  const normalized = normalizePath(specifier);
+  if (!normalized.startsWith('.')) {
+    return null;
+  }
+
+  let resolved = path.dirname(importerFilePath);
+  for (const segment of normalized.split('/')) {
+    if (segment === '' || segment === '.') {
+      continue;
+    }
+    if (segment === '..') {
+      resolved = path.dirname(resolved);
+      continue;
+    }
+    resolved = path.join(resolved, segment);
+  }
+
+  return path.dirname(resolved);
+};
+
+const deriveDynamicSection = (specifier, importerFilePath) => {
+  const targetDir = resolveSpecifierDirectory(specifier, importerFilePath);
+  if (targetDir === null) {
+    return 'Components';
+  }
+
+  const folderName = path.basename(targetDir);
+  if (folderName === 'src' || folderName === '.') {
+    return 'Components';
+  }
+
+  return capitalizeSection(folderName);
+};
+
+const isLayoutModule = (specifier) => {
+  const normalized = normalizePath(specifier);
+  return (
+    normalized.includes('pageLayout.style')
+    || normalized.includes('/layout/')
+    || normalized.includes('WorkspaceShell')
+    || normalized.includes('SystemBar')
+    || normalized.includes('PageSectionReveal')
+    || normalized.includes('HomeSectionReveal')
+  );
+};
+
+const isIconModule = (specifier) => {
+  const normalized = normalizePath(specifier);
+  const base = basename(normalized).replace(/\.[^.]+$/, '');
+  if (normalized.includes('/icons/')) {
+    return true;
+  }
+  if (/Icons$/.test(base)) {
+    return true;
+  }
+  if (/^[A-Z][A-Za-z0-9]*Icon$/.test(base)) {
+    return true;
+  }
+  return false;
+};
+
+const isStyleModule = (specifier) => {
+  const normalized = normalizePath(specifier);
+  if (isLayoutModule(specifier)) {
+    return false;
+  }
+  const base = basename(normalized).replace(/\.(tsx?|jsx?)$/, '');
+  if (STYLE_TOKEN_MODULES.has(base)) {
+    return true;
+  }
+  return (
+    normalized.includes('/styles/')
+    || normalized.endsWith('.style')
+    || /\.style(\.|$)/.test(normalized)
+  );
+};
+
+const isTypesModule = (specifier) => {
+  const normalized = normalizePath(specifier);
+  if (normalized.endsWith('.types') || normalized.endsWith('.schema')) {
+    return true;
+  }
+  return (
+    pathHasSegment(normalized, 'types')
+    || pathHasSegment(normalized, 'domain')
+    || pathHasSegment(normalized, 'data')
+  );
+};
+
+const classifySpecifier = (specifier, importerFilePath) => {
   if (!specifier.startsWith('.')) {
     return isCoreSpecifier(specifier) ? 'Core' : 'Libraries';
   }
 
-  if (specifier.startsWith('./')) {
-    return 'Component';
+  const normalized = normalizePath(specifier);
+
+  if (pathHasSegment(normalized, 'api')) {
+    return 'Api';
   }
 
-  const normalized = specifier.replace(/\\/g, '/');
-
-  if (isRelativeLib(normalized)) {
-    return 'Libraries';
-  }
-  if (pathSegment(normalized, 'store')) {
-    return 'Store';
-  }
-  if (pathSegment(normalized, 'domain')) {
-    return 'Domain';
-  }
-  if (pathSegment(normalized, 'hooks')) {
+  if (pathHasSegment(normalized, 'hooks')) {
     return 'Hooks';
   }
-  if (pathSegment(normalized, 'config')) {
-    return 'Config';
-  }
+
   if (isTypesModule(normalized)) {
     return 'Types';
   }
 
-  return 'Components';
+  if (isLayoutModule(normalized)) {
+    return 'Layout';
+  }
+
+  if (isIconModule(normalized)) {
+    return 'Icons';
+  }
+
+  if (isStyleModule(normalized)) {
+    return 'Styles';
+  }
+
+  if (pathHasSegment(normalized, 'components')) {
+    return 'Components';
+  }
+
+  return deriveDynamicSection(specifier, importerFilePath);
 };
 
 const getModuleSpecifier = (sourceFile, node) => {
@@ -112,7 +232,7 @@ const isTopLevelImportOrExport = (node) => (
   && node.moduleSpecifier !== undefined
 );
 
-const SECTION_COMMENT = /^\/\/ (?:Core|Libraries|Store|Types|Config|Domain|Hooks|Components|Component|API|Style|Styles|Theme|View|Plugins)\s*$/;
+const SECTION_LINE = /^\/\/ [A-Za-z][A-Za-z0-9]*\s*$/;
 
 const collectLeadingPreamble = (content, firstImportPos) => {
   const preamble = content.slice(0, firstImportPos);
@@ -120,7 +240,7 @@ const collectLeadingPreamble = (content, firstImportPos) => {
   const kept = [];
   for (const line of lines) {
     const trimmed = line.trim();
-    if (SECTION_COMMENT.test(trimmed)) {
+    if (SECTION_LINE.test(trimmed) || /^\/\/ --- .+ ---\s*$/.test(trimmed)) {
       continue;
     }
     if (
@@ -142,58 +262,112 @@ const collectLeadingPreamble = (content, firstImportPos) => {
   return kept.join('\n').replace(/\n+$/, '');
 };
 
-const findBodyStart = (sourceFile) => {
-  let bodyStart = sourceFile.end;
-  const visit = (node) => {
-    if (isTopLevelImportOrExport(node)) {
-      return;
+const collectTopImportNodes = (sourceFile) => {
+  const nodes = [];
+  for (const statement of sourceFile.statements) {
+    if (isTopLevelImportOrExport(statement)) {
+      nodes.push(statement);
+      continue;
     }
-    if (
-      ts.isFunctionDeclaration(node)
-      || ts.isClassDeclaration(node)
-      || ts.isInterfaceDeclaration(node)
-      || ts.isEnumDeclaration(node)
-      || ts.isTypeAliasDeclaration(node)
-      || (ts.isVariableStatement(node)
-        && node.declarationList.declarations.some((decl) => {
-          const name = decl.name;
-          return ts.isIdentifier(name) && /^[A-Z]/.test(name.text) === false
-            ? false
-            : true;
-        }))
-    ) {
-      if (node.getStart(sourceFile) < bodyStart) {
-        bodyStart = node.getStart(sourceFile);
+    break;
+  }
+  return nodes;
+};
+
+const mergeBucketImports = (entries) => {
+  const bySpecifier = new Map();
+  const order = [];
+
+  for (const entry of entries) {
+    const sourceFile = ts.createSourceFile(
+      'merge.ts',
+      entry,
+      ts.ScriptTarget.Latest,
+      true,
+      ts.ScriptKind.TSX,
+    );
+    const statement = sourceFile.statements[0];
+    const specifier = getModuleSpecifier(sourceFile, statement);
+    const key = specifier ?? entry;
+    if (!bySpecifier.has(key)) {
+      bySpecifier.set(key, []);
+      order.push(key);
+    }
+    bySpecifier.get(key).push({ statement, sourceFile });
+  }
+
+  const merged = [];
+  for (const key of order) {
+    const statements = bySpecifier.get(key);
+    if (statements.length === 1) {
+      const { statement, sourceFile } = statements[0];
+      merged.push(statement.getText(sourceFile).trimEnd());
+      continue;
+    }
+
+    const importStatements = statements.filter(({ statement }) => ts.isImportDeclaration(statement));
+    const exportStatements = statements.filter(
+      ({ statement }) => ts.isExportDeclaration(statement) && statement.exportClause !== undefined,
+    );
+
+    if (importStatements.length > 1) {
+      const spec = key;
+      const defaultImport = importStatements.find(
+        ({ statement }) => statement.importClause?.name !== undefined,
+      );
+      const namedSets = importStatements.flatMap(({ statement, sourceFile: sf }) => {
+        const elements = statement.importClause?.namedBindings;
+        if (elements === undefined) {
+          return [];
+        }
+        if (ts.isNamespaceImport(elements)) {
+          return [elements.name.text];
+        }
+        return elements.elements.map((el) => el.getText(sf));
+      });
+      const uniqueNamed = [...new Set(namedSets)];
+      const parts = [];
+      if (defaultImport?.statement.importClause?.name) {
+        parts.push(defaultImport.statement.importClause.name.text);
       }
-      return;
-    }
-    if (ts.isVariableStatement(node)) {
-      if (node.getStart(sourceFile) < bodyStart) {
-        bodyStart = node.getStart(sourceFile);
+      if (uniqueNamed.length > 0) {
+        parts.push(`{ ${uniqueNamed.join(', ')} }`);
       }
-      return;
+      merged.push(`import ${parts.join(', ')} from '${spec}';`);
+      exportStatements.forEach(({ statement, sourceFile: sf }) => {
+        merged.push(statement.getText(sf).trimEnd());
+      });
+      continue;
     }
-    if (ts.isExportAssignment(node) || ts.isModuleDeclaration(node)) {
-      if (node.getStart(sourceFile) < bodyStart) {
-        bodyStart = node.getStart(sourceFile);
-      }
-      return;
-    }
-    ts.forEachChild(node, visit);
-  };
-  visit(sourceFile);
-  return bodyStart;
+
+    statements.forEach(({ statement, sourceFile: sf }) => {
+      merged.push(statement.getText(sf).trimEnd());
+    });
+  }
+
+  return merged.map((line) => (line.endsWith(';') ? line : `${line};`));
 };
 
 const buildImportsRegion = (buckets) => {
+  const dynamicSections = [...buckets.keys()]
+    .filter((section) => !FIXED_SECTION_SET.has(section))
+    .sort((left, right) => left.localeCompare(right));
+
+  const orderedSections = [
+    ...FIXED_SECTION_ORDER.filter((section) => buckets.has(section)),
+    ...dynamicSections,
+  ];
+
   const chunks = [];
-  for (const section of SECTION_ORDER) {
+  for (const section of orderedSections) {
     const imports = buckets.get(section);
     if (imports === undefined || imports.length === 0) {
       continue;
     }
-    chunks.push(`// ${section}\n${imports.join('\n')}`);
+    const mergedImports = mergeBucketImports(imports);
+    chunks.push(`// ${section}\n${mergedImports.join('\n')}`);
   }
+
   return chunks.length > 0 ? `${chunks.join('\n\n')}\n` : '';
 };
 
@@ -206,26 +380,21 @@ const normalizeFile = (filePath, content) => {
     filePath.endsWith('.tsx') ? ts.ScriptKind.TSX : ts.ScriptKind.TS,
   );
 
-  const importNodes = [];
-  for (const statement of sourceFile.statements) {
-    if (isTopLevelImportOrExport(statement)) {
-      importNodes.push(statement);
-    }
-  }
-
+  const importNodes = collectTopImportNodes(sourceFile);
   if (importNodes.length === 0) {
     return null;
   }
 
   const firstImportPos = importNodes[0].getStart(sourceFile);
   const lastImportEnd = importNodes[importNodes.length - 1].getEnd();
-  const bodyStart = findBodyStart(sourceFile);
-  const tailStart = Math.max(lastImportEnd, bodyStart);
+  const tailStart = lastImportEnd;
 
   const buckets = new Map();
   for (const node of importNodes) {
     const specifier = getModuleSpecifier(sourceFile, node);
-    const section = specifier === null ? 'Components' : classifySpecifier(specifier);
+    const section = specifier === null
+      ? 'Components'
+      : classifySpecifier(specifier, filePath);
     const text = node.getText(sourceFile).trimEnd();
     const list = buckets.get(section) ?? [];
     list.push(text.endsWith(';') ? text : `${text};`);
@@ -235,7 +404,7 @@ const normalizeFile = (filePath, content) => {
   const preamble = collectLeadingPreamble(content, firstImportPos);
   const importsRegion = buildImportsRegion(buckets);
   let tail = content.slice(tailStart).replace(/^\n+/, '');
-  tail = tail.replace(/^(?:\/\/ [A-Za-z]+\s*\n)+/m, '');
+  tail = tail.replace(/^(?:(?:\/\/ --- .+ ---|\/\/ [A-Za-z][A-Za-z0-9]*)\s*\n)+/m, '');
 
   const parts = [];
   if (preamble.length > 0) {
@@ -246,24 +415,14 @@ const normalizeFile = (filePath, content) => {
     parts.push(tail);
   }
 
-  const next = `${parts.join('\n\n')}\n`;
+  let next = `${parts.join('\n\n')}\n`;
+  next = next.replace(/\n+$/, '\n');
   return next === content ? null : next;
 };
 
 let changedFiles = 0;
 
-const shouldSkipFile = (filePath) => {
-  const rel = path.relative(SRC_ROOT, filePath).replace(/\\/g, '/');
-  if (rel === 'types/index.ts') {
-    return true;
-  }
-  return false;
-};
-
-for (const filePath of walk(SRC_ROOT)) {
-  if (shouldSkipFile(filePath)) {
-    continue;
-  }
+for (const filePath of collectTargetFiles()) {
   const original = fs.readFileSync(filePath, 'utf8');
   const next = normalizeFile(filePath, original);
   if (next === null) {
