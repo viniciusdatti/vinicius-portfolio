@@ -50,6 +50,32 @@
     "profile": "Profile",
     "channel": "Channel"
   },
+  "seo": {
+    "home": {
+      "title": "Vinicius Datti | Front-end Engineer",
+      "description": "Front-end engineer building highly available React interfaces for real-time data and critical operations — React, TypeScript, WebSocket, and production-grade UI."
+    },
+    "about": {
+      "title": "About | Vinicius Datti",
+      "description": "Production React and TypeScript: telemetry, design system, authentication, and automated testing."
+    },
+    "skills": {
+      "title": "Capabilities | Vinicius Datti",
+      "description": "3+ years with production React and TypeScript — industrial monitoring, design system, auth, testing, and REST integrations."
+    },
+    "projects": {
+      "title": "Engineering Projects | Vinicius Datti",
+      "description": "Case studies and open source with explicit scope: architecture, trade-offs, and what each repository proves."
+    },
+    "contact": {
+      "title": "Contact | Vinicius Datti",
+      "description": "Actively seeking remote or hybrid Front-end Engineer or Software Engineer roles — let's talk."
+    },
+    "liveLab": {
+      "title": "Live Lab | Vinicius Datti",
+      "description": "Functional demo: WebSocket stream, thresholds, and event log inspired by real industrial dashboards."
+    }
+  },
   "system": {
     "id": "VD·RT",
     "workspaceName": "Vinicius Datti — Portfolio",
@@ -226,6 +252,8 @@
       "cta": "Open Live Lab",
       "footer": {
         "transport": "WebSocket",
+        "modeLive": "live",
+        "modeSimulated": "simulated",
         "tick": "tick",
         "sensors": "sensors"
       },

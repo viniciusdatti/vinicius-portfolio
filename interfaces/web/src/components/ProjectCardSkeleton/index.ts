@@ -1,1 +1,1 @@
-export * from '@/components/ProjectCardSkeleton/ProjectCardSkeleton';
+export * from './ProjectCardSkeleton';

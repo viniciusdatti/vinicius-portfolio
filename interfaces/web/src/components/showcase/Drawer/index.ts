@@ -1,2 +1,3 @@
-export * from '@/components/showcase/Drawer/Drawer';
-export * from '@/components/showcase/Drawer/Drawer.types';
+export * from './Drawer.types';
+
+export * from './Drawer';

@@ -1,7 +1,3 @@
-/**
- * @fileoverview Types for the mobile navigation drawer.
- */
-
 export interface MobileMenuNavItem {
   path: string;
   labelKey: string;

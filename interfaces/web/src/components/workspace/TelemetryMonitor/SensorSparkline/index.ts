@@ -1,4 +1,3 @@
-export * from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline';
-export type {
-  SensorSparklineProps,
-} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
+export * from './SensorSparkline.types';
+
+export * from './SensorSparkline';

@@ -12,6 +12,8 @@ alwaysApply: true
 ## Imports and Props (3+ items)
 - **Imports:** When an import has 3 or more named items, break into multiple lines (one item per line).
 - **Props:** When a component receives 3 or more props (or destructuring has 3+ keys), put each on its own line for readability.
+- **Trailing comma:** Always include a trailing comma after the last element in a vertical list.
+- **Batch enforcement:** Run `yarn normalize:vertical-breaks` from `interfaces/web` after bulk refactors.
 
 ```typescript
 // ❌ BAD - 3+ items on one line

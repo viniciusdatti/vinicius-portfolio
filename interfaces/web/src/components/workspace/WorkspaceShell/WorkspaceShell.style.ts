@@ -1,17 +1,9 @@
-/**
- * @fileoverview Workspace shell layout for Live Lab operational viewport.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
-import { panelInsetRim } from '@/styles/surfaces';
+// Styles
+import { panelInsetRim } from '../../../styles/surfaces';
 
 export const WorkspaceRoot = styled.div`
   position: relative;

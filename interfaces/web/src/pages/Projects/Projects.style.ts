@@ -1,15 +1,11 @@
-/**
- * Styled components for Projects page — editorial showcase layout.
- */
-
 // Libraries
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import {
   operationalGlass,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
 
 export const Toolbar = styled(motion.div)`
   margin-bottom: ${({ theme }) => theme.spacing.xl};

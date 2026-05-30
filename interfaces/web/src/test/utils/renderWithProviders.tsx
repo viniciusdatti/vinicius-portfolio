@@ -1,11 +1,15 @@
+// Core
 import React, { type ReactElement } from 'react';
-import { render, type RenderOptions } from '@testing-library/react';
+
+// Libraries
+import { render, RenderOptions } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 import { MemoryRouter } from 'react-router-dom';
-import { darkTheme } from '@/styles/theme';
 
-/** Creates a fresh QueryClient for each test — no shared cache between tests. */
+// Styles
+import { darkTheme } from '../../styles/theme';
+
 const createTestQueryClient = (): QueryClient => new QueryClient({
   defaultOptions: {
     queries: {

@@ -1,8 +1,6 @@
-import type { Project } from '@/data/types';
+// Libraries
+import { Project } from '../../data/types';
 
-/**
- * Filters projects by title search (locale-aware).
- */
 export const filterProjectsBySearch = (
   projects: Project[],
   search: string,

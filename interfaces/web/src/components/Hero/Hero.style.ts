@@ -3,14 +3,18 @@ import { motion } from 'framer-motion';
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 
 // Components
-import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '@/config/avatarImage';
-import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
+import { AvatarPortraitPhoto } from '../AvatarPortrait';
+
+// Styles
 import {
   cardPointerVars,
   operationalGlass,
   operationalGlassDeep,
   surfaceMotion,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
+
+// Config
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '../../config/avatarImage';
 
 const gridDrift = (theme: DefaultTheme) => keyframes`
   0% {
@@ -32,15 +36,11 @@ const scrollCueBounce = (theme: DefaultTheme) => keyframes`
   };
 `;
 
-/**
- * @deprecated Warp column guides removed — vertical rails behind hero copy were distracting.
- */
 export const HeroColumnGuides = styled.div`
   display: none;
   pointer-events: none;
 `;
 
-/** Background stack — dot grid + hero center wash (z-index 0, under WebGL). */
 export const HeroBackgroundStack = styled.div`
   position: absolute;
   inset: 0;
@@ -49,7 +49,6 @@ export const HeroBackgroundStack = styled.div`
   overflow: hidden;
 `;
 
-/** Warp-style technical dot grid — cell size from theme.sizes.hero.gridCell. */
 export const HeroDotGrid = styled.div`
   position: absolute;
   inset: 0;
@@ -65,7 +64,6 @@ export const HeroDotGrid = styled.div`
   pointer-events: none;
 `;
 
-/** HeroAmbient center orb — gradientHeroCenter, amber capped at 10% alpha in theme. */
 export const HeroCenterWash = styled.div`
   position: absolute;
   inset: 0;
@@ -73,9 +71,6 @@ export const HeroCenterWash = styled.div`
   pointer-events: none;
 `;
 
-/**
- * Clip container for per-character headline mask reveal.
- */
 export const HeroHeadlineCharClip = styled.span<{ $space?: boolean }>`
   display: inline-block;
   overflow: hidden;
@@ -89,20 +84,12 @@ export const HeroHeadlineChar = styled(motion.span)<{ $accent?: boolean }>`
   color: ${({ $accent, theme }) => ($accent ? theme.colors.accent : theme.colors.text)};
 `;
 
-/** @deprecated Use HeroHeadlineCharClip */
-export const HeroHeadlineWordClip = HeroHeadlineCharClip;
-
-/** @deprecated Use HeroHeadlineChar */
-export const HeroHeadlineWord = HeroHeadlineChar;
-
-/** Outer measure shell — grid column owns width; no artificial H1 cap. */
 export const HeroHeadlineClip = styled.div`
   width: 100%;
   max-width: 100%;
   min-width: 0;
 `;
 
-/** Inner mask — vertical clip only for headline entrance choreography. */
 export const HeroHeadlineClipInner = styled(motion.div)`
   overflow: hidden;
   width: 100%;
@@ -129,7 +116,6 @@ export const HeroHeadlineBlock = styled.div`
   min-width: 0;
 `;
 
-/** Microscopic mono channel label above each headline line (rauno-style contrast). */
 export const HeroHeadlineBlockLabel = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: clamp(0.5625rem, 1.6vw, ${({ theme }) => theme.typography.fontSize.xs});
@@ -155,13 +141,11 @@ export const HeroMicroLabel = styled.span`
   font-feature-settings: "tnum";
 `;
 
-/** Live Lab channel — accent tone, paired with secondary rule in row 2. */
 export const HeroLiveMicroLabel = styled(HeroMicroLabel)`
   color: ${({ theme }) => theme.colors.accent};
   opacity: 0.9;
 `;
 
-/** Shared row shell — rule + mono label, full width for wrap on narrow viewports. */
 export const HeroEyebrowRow = styled.div`
   display: flex;
   align-items: center;
@@ -170,10 +154,6 @@ export const HeroEyebrowRow = styled.div`
   min-width: 0;
 `;
 
-/** @deprecated Use HeroEyebrowRow — kept for export stability. */
-export const HeroLiveIndicatorRow = HeroEyebrowRow;
-
-/** Uppercase technical eyebrows — editorial rhythm between channel lines. */
 export const HeroEyebrowStack = styled.div`
   display: flex;
   flex-direction: column;
@@ -188,7 +168,6 @@ export const HeroEyebrowStack = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
-/** Static secondary rule — same 24px measure as HeroEyebrowLine for label alignment. */
 export const HeroEyebrowRuleSecondary = styled.span`
   display: block;
   width: 24px;
@@ -198,7 +177,6 @@ export const HeroEyebrowRuleSecondary = styled.span`
   opacity: 0.28;
 `;
 
-/** Animated technical rule — expands 0 → 24px via Framer (Hero.motion). */
 export const HeroEyebrowLine = styled(motion.span)`
   display: block;
   width: 24px;
@@ -224,13 +202,11 @@ export const HeroHeadlineLine = styled.span<{ $accent?: boolean }>`
   min-width: 0;
 `;
 
-/** Default headline tone — crisp primary text inside the unified H1 line. */
 export const HeroHeadlineText = styled.span`
   display: inline;
   color: ${({ theme }) => theme.colors.text};
 `;
 
-/** Amber display gradient — second half of the hero headline (theme gradientTextDisplay). */
 export const HeroHeadlineHighlight = styled.span`
   display: inline-block;
   background-image: ${({ theme }) => theme.colors.gradientTextDisplay};
@@ -317,7 +293,6 @@ export const HeroSection = styled.section`
   };
 `;
 
-/** @deprecated Superseded by HeroAmbient operational grid — kept for export stability. */
 export const HeroDecoGrid = styled.div`
   position: absolute;
   inset: 0;
@@ -342,7 +317,6 @@ export const HeroDecoGrid = styled.div`
   }
 `;
 
-/** Framer stagger root — editorial cubic entrance choreography. */
 export const HeroMotionStack = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -356,7 +330,6 @@ export const HeroMotionStack = styled(motion.div)`
   };
 `;
 
-/** Canonical 2-column hero shell — content column + portrait (desktop). */
 export const HeroLayoutGrid = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.content};
@@ -382,10 +355,6 @@ export const HeroLayoutGrid = styled.div`
   };
 `;
 
-/** @deprecated Use HeroLayoutGrid */
-export const HeroControlRoomGrid = HeroLayoutGrid;
-
-/** Negative space bay — cols 8–12 reserved for HeroVisual3D particles (desktop). */
 export const HeroVoidReserve = styled.div`
   display: none;
   min-width: 0;
@@ -400,9 +369,6 @@ export const HeroVoidReserve = styled.div`
   };
 `;
 
-/**
- * Desktop portrait column — integrated second grid cell beside narrative content.
- */
 export const HeroPortraitDesktopSlot = styled(motion.div)`
   display: none;
   position: relative;
@@ -430,7 +396,6 @@ export const HeroPortraitDesktopSlot = styled(motion.div)`
   };
 `;
 
-/** Portrait reveal wrapper — mobile/tablet only; omitted from desktop grid flow. */
 export const HeroPortraitMobileReveal = styled(motion.div)`
   width: 100%;
   display: block;
@@ -440,7 +405,6 @@ export const HeroPortraitMobileReveal = styled(motion.div)`
   };
 `;
 
-/** Portrait in document flow on mobile/tablet — stacked above centered narrative. */
 export const HeroPortraitMobileSlot = styled.div`
   display: flex;
   flex-direction: column;
@@ -474,9 +438,6 @@ export const HeroNarrativeColumn = styled.div`
   };
 `;
 
-/**
- * Unified narrative cell — eyebrows through CTAs; grid centering targets this block.
- */
 export const HeroNarrativeContent = styled.div`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.content};
@@ -496,7 +457,6 @@ export const HeroNarrativeContent = styled.div`
   };
 `;
 
-/** Scroll cue — row 2 on desktop so it does not pull portrait off the content midline. */
 export const HeroScrollCueSlot = styled(motion.div)`
   width: 100%;
   display: flex;
@@ -509,9 +469,6 @@ export const HeroScrollCueSlot = styled(motion.div)`
     align-self: start;
   };
 `;
-
-/** @deprecated Use HeroNarrativeColumn */
-export const HeroPrimaryColumn = HeroNarrativeColumn;
 
 export const HeroVoidTerminal = styled.div`
   position: absolute;
@@ -551,7 +508,6 @@ export const HeroVoidColumn = styled.div`
   min-height: inherit;
 `;
 
-/** Mono label — instrumented void bay (desktop). */
 export const HeroVoidTerminalLabel = styled.span`
   position: absolute;
   top: ${({ theme }) => theme.spacing.md};
@@ -623,15 +579,6 @@ export const HeroPortraitPanel = styled.div`
   };
 `;
 
-/** @deprecated Use HeroControlRoomGrid — kept for type compatibility during migration. */
-export const HeroEditorialGrid = HeroControlRoomGrid;
-
-/** @deprecated Use HeroPrimaryColumn. */
-export const HeroCopyColumn = HeroPrimaryColumn;
-
-/** @deprecated Use HeroPanelColumn. */
-export const HeroVisualColumn = HeroPanelColumn;
-
 export const HeroAvatarFrame = styled(motion.div)`
   position: relative;
   width: min(100%, ${({ theme }) => theme.sizes.hero.avatarFrame});
@@ -652,9 +599,6 @@ export const HeroAvatarFrame = styled(motion.div)`
     max-width: 100%;
   }
 `;
-
-/** @deprecated Pill tag replaced by HeroMicroLabel stack */
-export const HeroDecoTag = HeroMicroLabel;
 
 export const HeroGreeting = styled.span`
   font-size: ${({ theme }) => theme.typography.fontSize.sm};
@@ -829,10 +773,6 @@ export const HeroScrollCue = styled.button`
   };
 `;
 
-/**
- * Chevron that bounces independently below the scroll cue text.
- * Separate from HeroScrollCue so only the chevron animates, not the label.
- */
 export const HeroScrollChevron = styled.span`
   display: block;
   font-size: 0.65em;

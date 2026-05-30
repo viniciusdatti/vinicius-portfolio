@@ -1,5 +1,9 @@
 // Core
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 // Libraries
 import gsap from 'gsap';
@@ -7,16 +11,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
 
-// Components
-import { motionPresets } from '@/styles/motionPresets';
+// Styles
+import { DESKTOP_BREAKPOINT_PX } from '../styles/theme/shared';
+import { motionPresets } from '../styles/motionPresets';
 
-gsap.registerPlugin(ScrollTrigger);
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Utils
+import { LIVE_LAB_IMMERSIVE_CLASS } from '../utils/bodyScrollLock';
 
 export interface LiveLabImmersionPinRefs {
   sectionRef: React.RefObject<HTMLElement | null>;
@@ -34,22 +36,12 @@ export interface LiveLabImmersionPinState {
   pinEnabled: boolean;
 }
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
-const DESKTOP_QUERY: string = '(min-width: 1024px)';
+const DESKTOP_QUERY: string = `(min-width: ${DESKTOP_BREAKPOINT_PX}px)`;
 const SCROLL_DISTANCE: string = '+=220%';
 const PIN_START: string = 'top top+=6rem';
 const HEADER_OFFSET_PX: number = 96;
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Computes scale + translate needed to expand the observatory canvas to full-bleed.
- */
+/** Maps the pinned canvas rect to a full-bleed scale/translate for the immersion reveal. */
 const computeFullBleedTransform = (
   canvas: HTMLElement,
 ): { scale: number; x: number; y: number } => {
@@ -69,13 +61,6 @@ const computeFullBleedTransform = (
   return { scale, x, y };
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Pins the Live Lab immersion band and scrubs observatory scale from inset glass to full-bleed.
- */
 export const useLiveLabImmersionPin = (): LiveLabImmersionPinState => {
   const reduced: boolean = usePrefersReducedMotion();
   const [isDesktop, setIsDesktop] = useState<boolean>(() => {
@@ -92,6 +77,14 @@ export const useLiveLabImmersionPin = (): LiveLabImmersionPinState => {
   const progressRef = useRef<HTMLDivElement | null>(null);
 
   const pinEnabled: boolean = !reduced && isDesktop;
+
+  // Toggles document scroll mode so Framer viewport.root defers to Layout when pinned.
+  useEffect(() => {
+    document.body.classList.toggle(LIVE_LAB_IMMERSIVE_CLASS, pinEnabled);
+    return (): void => {
+      document.body.classList.remove(LIVE_LAB_IMMERSIVE_CLASS);
+    };
+  }, [pinEnabled]);
 
   useEffect(() => {
     const media: MediaQueryList = window.matchMedia(DESKTOP_QUERY);
@@ -119,6 +112,7 @@ export const useLiveLabImmersionPin = (): LiveLabImmersionPinState => {
       if (atmosphere) gsap.set(atmosphere, { opacity: 0 });
       if (progress) gsap.set(progress, { scaleX: 0, transformOrigin: 'left center' });
 
+      // Pinned scrub timeline: copy fades, canvas full-bleeds, HUD/field parallax, progress bar.
       const buildTimeline = (): gsap.core.Timeline => {
         const {
           scale,

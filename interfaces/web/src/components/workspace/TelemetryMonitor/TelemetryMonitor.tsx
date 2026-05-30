@@ -1,11 +1,3 @@
-/**
- * @fileoverview Live Lab telemetry monitor — KPI strip, trend chart, sensors, event log.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, {
   lazy,
@@ -17,18 +9,7 @@ import React, {
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import {
-  TelemetryEventLogPlacement,
-  type TelemetryMonitorProps,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
-
-// Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { MonitorTelemetryField } from '@/components/atmosphere/MonitorTelemetryField';
-import { OperationalKpiStrip } from '@/components/workspace/TelemetryMonitor/OperationalKpiStrip';
-import { TelemetryOperationalEventLog } from '@/components/workspace/TelemetryMonitor/TelemetryOperationalEventLog';
-import { TelemetrySensorCard } from '@/components/workspace/TelemetryMonitor/TelemetrySensorCard';
+// Styles
 import {
   ChartPaneFallback,
   ConnectingState,
@@ -44,17 +25,29 @@ import {
   MonitorToolbar,
   StatusDot,
   ToolbarSep,
-} from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.style';
+} from './TelemetryMonitor.style';
+
+// Types
+import {
+  TelemetryEventLogPlacement, TelemetryMonitorProps,
+} from './TelemetryMonitor.types';
+
+// Atmosphere
+import { MonitorTelemetryField } from '../../atmosphere/MonitorTelemetryField';
+
+// TelemetryMonitor
+import { OperationalKpiStrip } from './OperationalKpiStrip';
+import { TelemetryOperationalEventLog } from './TelemetryOperationalEventLog';
+import { TelemetrySensorCard } from './TelemetrySensorCard';
+
+// Workspace
+import { useTelemetry } from '../TelemetryProvider';
 
 const TelemetryTrendChart = lazy(
-  () => import('@/components/workspace/TelemetryMonitor/TelemetryTrendChart').then(
+  () => import('./TelemetryTrendChart').then(
     (module) => ({ default: module.TelemetryTrendChart }),
   ),
 );
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
   eventLogPlacement = TelemetryEventLogPlacement.Embedded,

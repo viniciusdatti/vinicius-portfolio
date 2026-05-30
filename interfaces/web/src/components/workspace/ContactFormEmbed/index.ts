@@ -1,1 +1,1 @@
-export * from '@/components/workspace/ContactFormEmbed/ContactFormEmbed';
+export * from './ContactFormEmbed';

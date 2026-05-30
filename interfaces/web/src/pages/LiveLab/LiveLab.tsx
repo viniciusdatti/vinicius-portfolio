@@ -1,18 +1,26 @@
 // Core
 import React from 'react';
 
-// Components
-import { LiveLabPageShell } from '@/pages/LiveLab/LiveLab.style';
-import { TelemetryProvider } from '@/components/workspace/TelemetryProvider';
-import { WorkspaceShell } from '@/components/workspace/WorkspaceShell';
+// Hooks
+import { usePageMeta, PageMetaRoute } from '../../hooks';
 
-/**
- * Live Lab — live industrial telemetry (operational regime).
- */
-export const LiveLab: React.FC = (): React.ReactElement => (
-  <LiveLabPageShell data-testid="live-lab-page">
-    <TelemetryProvider>
-      <WorkspaceShell />
-    </TelemetryProvider>
-  </LiveLabPageShell>
-);
+// Layout
+import { WorkspaceShell } from '../../components/workspace/WorkspaceShell';
+
+// Components
+import { TelemetryProvider } from '../../components/workspace/TelemetryProvider';
+
+// Styles
+import { LiveLabPageShell } from './LiveLab.style';
+
+export const LiveLab: React.FC = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.LiveLab);
+
+  return (
+    <LiveLabPageShell data-testid="live-lab-page">
+      <TelemetryProvider>
+        <WorkspaceShell />
+      </TelemetryProvider>
+    </LiveLabPageShell>
+  );
+};

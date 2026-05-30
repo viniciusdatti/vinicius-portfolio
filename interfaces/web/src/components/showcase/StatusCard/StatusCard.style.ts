@@ -1,13 +1,8 @@
-/**
- * Styled components for StatusCard (HighlightCard-style).
- * Status colors from theme; no inline styles.
- */
-
 // Libraries
 import styled from 'styled-components';
 
 // Types
-import { HighlightCardStatus } from '@/types';
+import { HighlightCardStatus } from '../../../types';
 
 type ThemeColors = {
   colors: { success: string; error: string; textMuted: string };

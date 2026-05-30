@@ -1,2 +1,3 @@
-export * from '@/components/Button/Button';
-export * from '@/components/Button/Button.types';
+export * from './Button.types';
+
+export * from './Button';

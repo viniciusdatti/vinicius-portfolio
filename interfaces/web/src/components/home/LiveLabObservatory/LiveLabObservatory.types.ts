@@ -1,17 +1,13 @@
-/**
- * @fileoverview Types for the home Live Lab observatory preview panel.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Types
-import { SensorStatus } from '@/types/telemetry';
+import {
+  SensorStatus,
+  TelemetryEventType,
+} from '../../../types/telemetry';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+export enum ObservatoryDataMode {
+  Simulated = 'simulated',
+  Live = 'live',
+}
 
 export interface LiveLabObservatorySensorDef {
   id: string;
@@ -20,17 +16,20 @@ export interface LiveLabObservatorySensorDef {
   base: number;
   variance: number;
   status: SensorStatus;
+  liveValue?: number;
+  sparklineValues?: number[];
 }
 
 export interface LiveLabObservatoryLogLine {
   time: string;
   msg: string;
-  type?: 'info' | 'warn';
+  type?: TelemetryEventType;
 }
 
 export interface LiveLabObservatorySparklineProps {
   seed: number;
   strokeColor: string;
+  values?: number[];
 }
 
 export interface LiveLabObservatoryAnimatedValueProps {
@@ -38,4 +37,17 @@ export interface LiveLabObservatoryAnimatedValueProps {
   variance: number;
   unit: string;
   status: SensorStatus;
+  liveValue?: number;
+}
+
+export interface LiveLabObservatoryViewProps {
+  dataMode: ObservatoryDataMode;
+  apiLabel: string;
+  isApiLive: boolean;
+  isTransportLive: boolean;
+  transportModeLabel: string;
+  sensors: LiveLabObservatorySensorDef[];
+  logs: LiveLabObservatoryLogLine[];
+  tick: number;
+  aggregateSpark: number[];
 }

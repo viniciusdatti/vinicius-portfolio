@@ -1,12 +1,9 @@
-/**
- * Framer Motion presets — single source aligned with theme.motion / theme.transitions.
- */
-
+// Lib
 import {
   PHYSICAL_SPRING_DAMPING,
   PHYSICAL_SPRING_MASS,
   PHYSICAL_SPRING_STIFFNESS,
-} from '@/lib/motionPhysics';
+} from '../lib/motion';
 
 export const motionPresets = {
   ease: {
@@ -14,7 +11,6 @@ export const motionPresets = {
     inOut: [0.45, 0, 0.55, 1] as const,
   },
   spring: {
-    /** Rauno/Stripe physical hover + tilt + layout morph. */
     physical: {
       type: 'spring' as const,
       stiffness: PHYSICAL_SPRING_STIFFNESS,

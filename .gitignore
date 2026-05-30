@@ -83,6 +83,9 @@ Thumbs.db
 .vscode/
 *.swp
 
+# One-off git history scrub scripts (local only; do not commit)
+scripts/history-scrub/
+
 # QA / audit artifacts (local only)
 interfaces/web/qa-screenshots/
 interfaces/web/qa-*.png

@@ -1,8 +1,7 @@
-/* *************************************************************************************************
- ********************************************* SECTION *********************************************
- ************************************************************************************************ */
+// Types
+import { Theme } from './theme/types';
 
-import type { Theme } from './theme/types';
+// Theme
 import { sharedTheme } from './theme/shared';
 import { darkEffects, lightEffects } from './theme/effects';
 
@@ -19,7 +18,6 @@ export const darkTheme: Theme = {
     surfaceElevated: '#1A1F28',
     surfaceGlass: 'rgba(22, 26, 34, 0.72)',
     text: '#F1F5F9',
-    /** ~7:1 on #0B0D10 — readable body on grid/canvas backgrounds (WCAG AA) */
     textSecondary: '#C4CDD8',
     textMuted: '#A8B4C4',
     onPrimary: '#0B0D10',
@@ -135,16 +133,15 @@ export const darkTheme: Theme = {
 export const lightTheme: Theme = {
   mode: 'light',
   colors: {
-    // ── Canvas — neutro frio (slate), sem undertone quente ───────────────────
+    // ── Canvas — cool neutral (slate), no warm undertone ───────────────────
     background: '#F8FAFC',
     backgroundSecondary: '#F1F5F9',
     surface: '#FFFFFF',
     surfaceHover: '#F8FAFC',
     surfaceElevated: '#FFFFFF',
     surfaceGlass: 'rgba(255, 255, 255, 0.82)',
-    // ── Texto — neutro preto/cinza (sem undertone quente) ─────────────────────
+    // ── Text — neutral black/gray (no warm undertone) ─────────────────────
     text: '#000000',
-    /** ~10:1 on #F8FAFC — matches dark-mode prose hierarchy */
     textSecondary: '#334155',
     textMuted: '#475569',
     onPrimary: '#FFFFFF',
@@ -159,7 +156,7 @@ export const lightTheme: Theme = {
     primaryBorderStrong: '#93C5FD',
     accent: '#1D4ED8',
     accentMuted: 'rgba(37, 99, 235, 0.08)',
-    // ── Semântica ────────────────────────────────────────────────────────────
+    // ── Semantic colors ────────────────────────────────────────────────────
     success: '#15803D',
     successSurface: 'rgba(21, 128, 61, 0.12)',
     mutedSurface: 'rgba(15, 23, 42, 0.05)',
@@ -180,13 +177,13 @@ export const lightTheme: Theme = {
     badgeCourseSurface: 'rgba(37, 99, 235, 0.1)',
     badgeMicro: '#7c3aed',
     badgeMicroSurface: 'rgba(124, 58, 237, 0.1)',
-    // ── Bordas — slate-blue component rims ──────────────────────────────────
+    // ── Borders — slate-blue component rims ──────────────────────────────────
     border: '#E2E8F0',
     borderLight: '#DBEAFE',
     borderSubtle: '#F1F5F9',
     focusRing: 'rgba(29, 78, 216, 0.45)',
     overlay: 'rgba(248, 250, 252, 0.88)',
-    // ── Gradientes — mesma intenção do dark, cores ajustadas ────────────────
+    // ── Gradients — same intent as dark, adjusted colors ────────────────
     gradientHero:
       'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(37, 99, 235, 0.08), transparent 65%)',
     gradientAccent:

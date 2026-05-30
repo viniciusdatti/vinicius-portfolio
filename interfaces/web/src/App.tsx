@@ -1,21 +1,27 @@
 // Core
-import './i18n/config';
 import React from 'react';
 
 // Libraries
 import { ThemeProvider } from 'styled-components';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-// Theme
-import { GlobalStyles } from '@/styles/GlobalStyles';
-import { darkTheme, lightTheme, Theme } from '@/styles/theme';
-
 // Components
-import { ErrorBoundary } from '@/components/ErrorBoundary';
-import { ToastHost } from '@/components/common/Toast';
-import { ObservatoryIdleLayer } from '@/components/motion/ObservatoryIdleLayer';
-import { Router } from '@/Router';
-import { useThemeStore } from '@/store';
+import { useThemeStore } from './store';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { ToastHost } from './components/common/Toast';
+import { ObservatoryIdleLayer } from './components/motion/ObservatoryIdleLayer';
+import { Router } from './Router';
+
+// Styles
+import { GlobalStyles } from './styles/GlobalStyles';
+import {
+  darkTheme,
+  lightTheme,
+  Theme,
+} from './styles/theme';
+
+// I18n
+import './i18n/config';
 
 const queryClient: QueryClient = new QueryClient({
   defaultOptions: {
@@ -49,4 +55,4 @@ const App = (): React.ReactElement => (
   </ErrorBoundary>
 );
 
-export default App;
+export { App };

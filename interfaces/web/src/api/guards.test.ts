@@ -1,15 +1,17 @@
-// Core
-import { describe, expect, it } from 'vitest';
+// Libraries
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest';
 
-/* *************************************************************************************************
- *********************************************** API ***********************************************
- ************************************************************************************************ */
-import { ApiError } from '@/api/client';
-import { isApiError, isNotFoundError, isUnauthorizedError } from '@/api/guards';
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+// Api
+import { ApiError } from './client';
+import {
+  isApiError,
+  isNotFoundError,
+  isUnauthorizedError,
+} from './guards';
 
 describe('api/guards', (): void => {
   // METHOD: isApiError *******************************

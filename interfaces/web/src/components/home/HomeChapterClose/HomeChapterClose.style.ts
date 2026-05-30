@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Theme
-import { operationalGlass } from '@/styles/surfaces';
+// Styles
+import { operationalGlass } from '../../../styles/surfaces';
 
 export const CloseBand = styled.section`
   width: 100%;
