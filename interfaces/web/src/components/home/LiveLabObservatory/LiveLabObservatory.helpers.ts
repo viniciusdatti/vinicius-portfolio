@@ -1,16 +1,8 @@
-/**
- * @fileoverview Sparkline and sensor seed helpers for the home observatory preview.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Types
-import { SensorStatus } from '../../../types/telemetry';
+import { SensorStatus } from '@/types/telemetry';
 
-// Component
-import type { LiveLabObservatorySensorDef } from './LiveLabObservatory.types';
+// Components
+import { LiveLabObservatorySensorDef } from './LiveLabObservatory.types';
 
 export const LOG_MESSAGE_KEYS: readonly string[] = [
   'home.liveLabPreview.log.tick',
@@ -19,10 +11,6 @@ export const LOG_MESSAGE_KEYS: readonly string[] = [
   'home.liveLabPreview.log.buffer',
   'home.liveLabPreview.log.sync',
 ];
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
 
 export const getObservatorySensors = (
   t: (key: string) => string,

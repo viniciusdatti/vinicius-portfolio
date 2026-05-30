@@ -1,5 +1,5 @@
 // Types
-import type { Project } from '../../data/types';
+import { Project } from '@/data/types';
 
 export const filterProjectsBySearch = (
   projects: Project[],

@@ -1,11 +1,3 @@
-/**
- * @fileoverview Repository-keyed terminal mock lines for ProjectShowcase preview panels.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Component
 import type { TerminalCodeLine } from './ProjectShowcase.types';
 import {
@@ -106,10 +98,6 @@ const SCENE_BY_REPOSITORY_SLUG: Record<string, MockWindowScene> = {
   [PortfolioRepositorySlug.TasksFlaskCrud]: MockWindowScene.Code,
   [PortfolioRepositorySlug.SampleFlaskAuth]: MockWindowScene.Table,
 };
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
 
 /**
  * Resolves monospace terminal lines for a GitHub repository slug.

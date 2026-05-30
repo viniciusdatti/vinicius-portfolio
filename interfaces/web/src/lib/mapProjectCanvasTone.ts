@@ -1,8 +1,6 @@
 // Components
-import { ProjectCanvasTone } from '../components/ProjectShowcase/ProjectShowcase.types';
-
-// Component
-import { TelemetryFieldVariant } from './telemetryFieldCanvas';
+import { ProjectCanvasTone } from '@/components/ProjectShowcase/ProjectShowcase.types';
+import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
 
 export const mapProjectCanvasTone = (tone: ProjectCanvasTone): TelemetryFieldVariant => {
   if (tone === ProjectCanvasTone.B) {

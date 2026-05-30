@@ -1,11 +1,3 @@
-/**
- * @fileoverview Live Lab workspace shell — atmosphere, telemetry monitor, and scroll pin.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useEffect } from 'react';
 
@@ -23,8 +15,6 @@ import { LiveLabAtmosphere } from '../LiveLabAtmosphere';
 import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
 import { TelemetryMonitor } from '../TelemetryMonitor';
 import { TelemetryEventLogPlacement } from '../TelemetryMonitor/TelemetryMonitor.types';
-
-// Component
 import {
   ImmersionProgressFill,
   ImmersionProgressTrack,

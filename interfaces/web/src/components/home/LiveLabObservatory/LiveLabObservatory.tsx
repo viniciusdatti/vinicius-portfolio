@@ -1,7 +1,3 @@
-/**
- * @fileoverview Premium observability showcase — live motion without WebSocket on home.
- */
-
 // Core
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -9,17 +5,17 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
-import { formatClockTime } from '../../../lib/i18nDisplay';
+import { formatClockTime } from '@/lib/i18nDisplay';
 
 // Types
-import { SensorStatus } from '../../../types/telemetry';
+import { SensorStatus } from '@/types/telemetry';
 
 // Hooks
-import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
 
-// Component
-import type { LiveLabObservatoryLogLine } from './LiveLabObservatory.types';
+// Components
+import { LiveLabObservatoryLogLine } from './LiveLabObservatory.types';
 import { LiveLabObservatoryAnimatedValue } from './LiveLabObservatoryAnimatedValue';
 import { LiveLabObservatorySparkline } from './LiveLabObservatorySparkline';
 import {
