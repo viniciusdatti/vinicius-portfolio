@@ -1,19 +1,35 @@
 // Core
-import React, { createContext, useContext, useEffect } from 'react';
-
-// Store
-import { useTelemetryStore } from '../../../store/telemetryStore';
-
-// Types
-import type { TelemetryState } from '../../../types/telemetry';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+} from 'react';
 
 // Hooks
 import { useTelemetrySocket } from '../../../hooks/useTelemetry';
 
-// Component
-import type { TelemetryProviderProps } from './TelemetryProvider.types';
+// Types
+import { TelemetryState } from '../../../types/telemetry';
+import { TelemetryProviderProps } from './TelemetryProvider.types';
+
+// Store
+import { useTelemetryStore } from '../../../store/telemetryStore';
 
 const TelemetryContext = createContext<TelemetryState | null>(null);
+
+export interface TelemetryFixtureProviderProps {
+  value: TelemetryState;
+  children: React.ReactNode;
+}
+
+export const TelemetryFixtureProvider = ({
+  value,
+  children,
+}: TelemetryFixtureProviderProps): React.ReactElement => (
+  <TelemetryContext.Provider value={value}>
+    {children}
+  </TelemetryContext.Provider>
+);
 
 const TelemetryProvider = ({
   children,
