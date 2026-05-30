@@ -48,12 +48,12 @@
     "cases": "Cases",
     "capabilities": "Capabilities",
     "profile": "Profile",
-    "channel": "Channel"
+    "channel": "Contact"
   },
   "seo": {
     "home": {
       "title": "Vinicius Datti | Front-end Engineer",
-      "description": "Front-end engineer building highly available React interfaces for real-time data and critical operations — React, TypeScript, WebSocket, and production-grade UI."
+      "description": "Front-end engineer with 3+ years in production at Superior Industries — highly available React interfaces, WebSocket, TypeScript, and industrial-grade UI."
     },
     "about": {
       "title": "About | Vinicius Datti",
@@ -90,7 +90,7 @@
       "capabilities": "Capabilities",
       "cases": "Cases",
       "liveLab": "Live Lab",
-      "channel": "Outbound",
+      "channel": "Contact",
       "contact": "Contact"
     },
     "status": {
@@ -143,17 +143,18 @@
   "home": {
     "hero": {
       "name": "Vinicius Datti",
-      "eyebrow": "Front-end engineering · production systems",
+      "eyebrow": "Front-end engineering · Superior Industries · production systems",
       "liveIndicator": "Live demo: WebSocket telemetry in Live Lab",
       "aria": "Home — control room",
       "headlinePart1": "I build highly available React interfaces for real-time data ",
       "headlinePart2": "and critical operations.",
-      "description": "Over three years of experience designing and consolidating large-scale web applications using React and TypeScript: high-performance dashboards with WebSocket, dynamic threshold validation, multi-state UI control, and stable integration with Python and PostgreSQL APIs.",
-      "stackLine": "React · TypeScript · WebSocket · Styled-components · Jest · Playwright",
+      "description": "3 years and 4 months in on-site production — industrial dashboards with WebSocket, Storybook design system, full JWT auth, Jest and Playwright testing on critical flows, Python/PostgreSQL integrations, and end-to-end module ownership.",
+      "stackLine": "React · TypeScript · WebSocket · Storybook · Jest · Playwright · FastAPI",
       "portraitAlt": "Vinicius Datti",
       "scrollCue": "Explore the portfolio",
-      "ctaPrimary": "View work",
-      "ctaSecondary": "Open Live Lab",
+      "ctaPrimary": "Open Live Lab",
+      "ctaSecondary": "View work",
+      "ctaCV": "Download CV",
       "telemetry": {
         "stripLabel": "Operational telemetry readout",
         "headerTitle": "Telemetry // Readout",
@@ -210,7 +211,7 @@
       "projects": {
         "eyebrow": "01 — Selected work",
         "index": "01",
-        "story": "Each case documents scope, engineering choices, and what the repository demonstrates — study and experiments, not private production work.",
+        "story": "Each case documents architecture, technical decisions, and real trade-offs. Private production code lives in About.",
         "viewAll": "Explore all cases"
       },
       "liveLab": {
@@ -228,8 +229,8 @@
       }
     },
     "aboutPreview": {
-      "title": "Professional experience (2023–2026)",
-      "description": "Production dashboards, WebSocket telemetry, Storybook design system, full auth flows, and Jest + Playwright — details in About.",
+      "title": "Superior Industries Inc · Front-end Developer (Feb 2023–May 2026 · on-site)",
+      "description": "Industrial dashboards with WebSocket telemetry, Storybook design system, full auth flows, Jest + Playwright testing, and active code review — details in About.",
       "cta": "Read full experience"
     },
     "skillsPreview": {
@@ -240,7 +241,7 @@
     "liveLabPreview": {
       "title": "Live Lab",
       "badge": "Live demo",
-      "description": "Portfolio demo: simulated channels (spin, thermal, pressure, vibration) over WebSocket — real-time observability patterns, not tied to a real product.",
+      "description": "A public demonstration of the capabilities used in real industrial monitoring systems: continuous WebSocket streams, dynamic thresholds, event log, and trend chart — the same observability patterns from the production dashboards I built and maintained.",
       "sensors": {
         "temp": "Temperature",
         "vib": "Vibration",
@@ -300,7 +301,7 @@
     },
     "intro": {
       "title": "Front-end engineer",
-      "lead": "For three+ years I have built production React and TypeScript applications with full module ownership — from component architecture to API integration and typed contracts across layers.",
+      "lead": "3 years and 4 months building React and TypeScript applications in on-site production, with full module ownership — component architecture, Storybook design system, Jest and Playwright testing on critical flows, full JWT auth, and Python/PostgreSQL API integration.",
       "highlight": "WebSocket · REST · PostgreSQL · Styled-components · Storybook · Jest · Playwright",
       "impact": "Delivered industrial dashboards with WebSocket telemetry and dynamic thresholds; evolved a component library with Storybook; implemented session auth with refresh; maintained Jest and Playwright suites on critical flows and responsive layouts for plant and office."
     },
@@ -319,14 +320,16 @@
     "superior": {
       "sectionTitle": "Professional experience",
       "title": "Superior Industries Inc",
-      "period": "Feb 2023 – May 2026",
+      "period": "Feb 2023 – May 2026 · 3 years 4 months",
       "role": "Front-end Developer · on-site",
       "summary": "Front-end on large-scale React/TypeScript applications: production monitoring dashboards, documented design system, and REST API consumption (Python/PostgreSQL), with emphasis on typing, testing, and code review.",
       "items": {
-        "realtime": "Panels with continuous WebSocket ingestion, configurable thresholds, and UI that reflects channel and sensor degradation without ambiguity.",
+        "realtime": "Dashboards with continuous WebSocket telemetry streams, dynamic threshold validation, and multi-state rendering — unambiguous feedback when channel or sensor degrades.",
         "designSystem": "Styled-components component library with tokens and Storybook documentation — faster delivery and less visual drift.",
-        "auth": "Login, session, token refresh, and password recovery flows with route guards and validation aligned to the API contract.",
-        "quality": "Jest and Playwright on critical paths; continuous code review; responsiveness validated on mobile, tablet, and desktop."
+        "auth": "Full auth flows: login, session control, token refresh, and password recovery with route guards and API-contract-aligned validation.",
+        "quality": "Jest and Playwright on critical paths; responsiveness validated on mobile, tablet, and desktop.",
+        "codeReview": "Active code review focused on component patterns, performance, and type safety with TypeScript.",
+        "integrations": "REST API integrations and back-end contributions with Python and PostgreSQL."
       }
     },
     "education": {
@@ -339,7 +342,7 @@
   },
   "skills": {
     "title": "Capabilities",
-    "subtitle": "3+ years with production React and TypeScript — industrial monitoring, design system, auth, testing, and REST integrations.",
+    "subtitle": "3+ years in production — React, TypeScript, WebSocket, Storybook, Jest, Playwright, FastAPI, and PostgreSQL on real industrial applications.",
     "loading": "Loading capabilities from the API…",
     "error": "Could not load capabilities. Please try again.",
     "certificatesError": "Could not load certificates. Please try again.",
@@ -364,18 +367,15 @@
         "JavaScript": "runtime",
         "Jest": "unit tests",
         "Docker": "containers",
-        "Cursor": "AI workflow",
         "HTML5": "markup",
         "CSS3": "styles",
         "Playwright": "e2e",
         "Git": "version control",
-        "VS Code": "dev environment",
-        "AI tools": "productivity"
+        "Storybook": "component documentation",
+        "Vite": "build & bundler",
+        "React Hook Form": "forms",
+        "Zod": "schema validation"
       }
-    },
-    "toolNames": {
-      "cursor": "Cursor",
-      "aiTools": "AI tools"
     },
     "categories": {
       "frontend": "UI & architecture",
@@ -388,7 +388,7 @@
     "experience": {
       "title": "Front-end in production",
       "intro": "Dashboards with WebSocket telemetry, threshold validation, and multi-state UI. Design system with Styled-components and Storybook; Jest and Playwright on critical paths.",
-      "subtitle": "Industrial production · portfolio · open-source studies",
+      "subtitle": "Superior Industries Inc · 3 years 4 months · on-site production",
       "items": {
         "auth": {
           "title": "JWT auth with role-based routing",
@@ -482,7 +482,7 @@
     "workspace": {
       "ariaLabel": "Live telemetry workspace"
     },
-    "subtitle": "Functional demo: WebSocket stream, thresholds, and event log. Inspired by real industrial dashboards; not a client product.",
+    "subtitle": "Functional live demo: continuous WebSocket stream, dynamic thresholds, event log, and trend chart — the same observability patterns from production industrial dashboards.",
     "header": {
       "badge": "Technical demo",
       "badgeTooltip": "Live sensor stream over Socket.io — not a UI mockup",
@@ -539,6 +539,7 @@
     "title": "Contact",
     "subtitle": "Actively seeking remote or hybrid Front-end Engineer or Software Engineer roles — let's talk.",
     "form": {
+      "consoleLabel": "Send a message",
       "name": "Name",
       "namePlaceholder": "Your name",
       "email": "Email",
@@ -561,6 +562,8 @@
       "emailValue": "viniciusdatti@gmail.com",
       "linkedin": "LinkedIn",
       "github": "GitHub",
+      "cv": "Resume",
+      "cvValue": "Download PDF",
       "location": "Location",
       "locationValue": "São Paulo, Brazil"
     },
@@ -571,7 +574,7 @@
     }
   },
   "footer": {
-    "description": "Front-end · React · TypeScript · WebSocket · Styled-components · Jest · Playwright. Open to remote or hybrid opportunities.",
+    "description": "Front-end Engineer · React · TypeScript · WebSocket · Storybook · Jest · Playwright. Open to remote or hybrid opportunities.",
     "navigation": "Navigation",
     "contact": "Contact",
     "linkedin": "LinkedIn",
@@ -584,16 +587,16 @@
   },
   "projects": {
     "title": "Engineering projects",
-    "subtitle": "Case studies and open source with explicit scope: architecture, trade-offs, and what the repository proves. Private client production is in About.",
+    "subtitle": "Cases documenting architecture, technical decisions, and real trade-offs — production work at Superior Industries is in About.",
     "showcase": {
       "eyebrow": "Selected work",
-      "lead": "Each card summarizes problem, stack, and technical decision. Private production repositories are not listed here — see Experience in About.",
+      "lead": "Architecture, technical decisions, and documented trade-offs in each case. Private production work lives in About.",
       "viewCase": "View case study",
       "hostedDemo": "Hosted demo",
       "repository": "Repository"
     },
     "sectionTitle": "Engineering showcase",
-    "sectionLead": "Study and open-source cases with honest scope. Industrial production work lives in About.",
+    "sectionLead": "Architecture, technical decisions, and documented trade-offs. Industrial production work lives in About.",
     "sectionList": "Case index",
     "filters": {
       "all": "All"
