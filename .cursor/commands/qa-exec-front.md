@@ -8,7 +8,7 @@
 
 ## 📋 Descrição
 
-Ao receber o comando `/qa-exec-front`, assuma o papel de **SDET especialista em Frontend**. Objetivo: **gerar, executar e analisar testes de Frontend** (Unit com Jest e E2E com Playwright, quando aplicável), com base na documentação e nos padrões do projeto.
+Ao receber o comando `/qa-exec-front`, assuma o papel de **SDET especialista em Frontend**. Objetivo: **gerar, executar e analisar testes de Frontend** (Unit com Vitest e E2E com Playwright, quando aplicável), com base na documentação e nos padrões do projeto.
 
 Três fases: Análise de Referência e Matriz, Criação e Execução de Testes, Relatório de Causa Raiz.
 
@@ -18,7 +18,7 @@ Três fases: Análise de Referência e Matriz, Criação e Execução de Testes,
 
 ### 1.1 Análise de Padrões Existentes
 
-- **Unit Tests (Jest + @testing-library/react):** Localize arquivos `*.test.tsx` no projeto e identifique o padrão de wrapper (ThemeProvider, BrowserRouter, etc.), uso de `jest.mock()` para API/store, `jest.fn()` para callbacks, e i18n se aplicável.
+- **Unit Tests (Vitest + @testing-library/react + MSW):** Localize arquivos `*.test.ts(x)` em `interfaces/web/src` e identifique o padrão de wrapper (ThemeProvider, BrowserRouter, etc.), uso de `vi.mock()` para API/store, `vi.fn()` para callbacks, e i18n se aplicável.
 - **E2E (Playwright):** Se o projeto tiver E2E, identifique padrões de setup, mocks e viewports.
 
 ### 1.2 Documentos de Referência
@@ -44,7 +44,7 @@ A partir da Matriz, liste Unit Tests e E2E Tests a executar, com IDs e descriç�
 
 ### Padrões Gerais
 
-- **Mocks de API:** `jest.mock('...')` no módulo de API/client do projeto (ex.: `api/client`, `services/...`)
+- **Mocks de API:** `vi.mock('...')` no módulo de API/client do projeto (ex.: `api/client`, `api/contact`)
 - **Wrapper:** Usar os mesmos providers dos testes existentes (ThemeProvider, Router, etc.)
 - **i18n:** Se o projeto usar i18n, inicializar e testar em ambos os idiomas quando relevante
 - **Assertions:** Valores exatos (`toBe`, `toHaveBeenCalledTimes`), sem `toBeGreaterThan(0)`; validar existência de elementos antes de acessar (`expect(el).not.toBeNull()`)

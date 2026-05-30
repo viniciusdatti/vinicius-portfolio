@@ -53,7 +53,7 @@ Caminhos de referência: `backend/` para backend, `interfaces/web/src/` para fro
 - Componentes React (styled-components, sem estilos inline)
 - i18n: todas as strings via react-i18next; chaves em pt_BR e en_US
 - Tratamento de estados (loading, erro, sucesso)
-- Testes: Jest + @testing-library/react; wrapper com ThemeProvider, Router conforme padrão do projeto; assertions precisas (sem toBeGreaterThan(0))
+- Testes: Vitest + @testing-library/react + MSW; wrapper com ThemeProvider, Router conforme padrão do projeto; assertions precisas (sem toBeGreaterThan(0))
 
 ---
 

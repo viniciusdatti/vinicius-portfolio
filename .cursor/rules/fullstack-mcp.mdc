@@ -1,5 +1,5 @@
 ---
-description: Full-stack MCP workflow — backend API + CRA frontend + Playwright QA
+description: Full-stack MCP workflow — backend API + Vite frontend + Playwright QA
 alwaysApply: true
 ---
 
@@ -60,4 +60,4 @@ cd backend && venv\Scripts\python.exe -m poetry run pycodestyle . --max-line-len
 ## Stack notes
 
 - Frontend: **Vite**, port **5173**
-- Git: `main` (prod), `develop` (integration), `feature/*`
+- Git: `master` (prod), `develop` (integration), `feature/*`

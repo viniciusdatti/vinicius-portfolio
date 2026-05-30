@@ -141,7 +141,7 @@ yarn dev
 
 ```bash
 yarn dev:api   # Terminal 1 — http://127.0.0.1:8000
-yarn dev:web   # Terminal 2 — http://localhost:3000
+yarn dev:web   # Terminal 2 — http://localhost:5173
 yarn health:api
 yarn qa:audit  # smoke UI + API (both servers must be running)
 ```
@@ -168,7 +168,7 @@ yarn dev
 | Variable | Description | Default |
 |----------|-------------|---------|
 | `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/portfolio` |
-| `CORS_ORIGINS` | Allowed origins (comma-separated) | `http://localhost:3000` |
+| `CORS_ORIGINS` | Allowed origins (comma-separated) | `http://localhost:5173` |
 | `ENVIRONMENT` | Environment name | `development` |
 | `LOG_LEVEL` | Logging level | `INFO` |
 
@@ -195,7 +195,9 @@ Production-oriented patterns aligned with industrial SPA discipline:
 | Layer | Location | Role |
 |-------|----------|------|
 | API client + guards | `src/api/` | axios client, `ApiError`, type guards (`isNotFoundError`, etc.) |
+| Domain validation | `src/domain/` | Zod schemas (e.g. contact form) |
 | Domain plugins | `src/plugins/` | Pure business logic (skills icons, test builders) — testable without React |
+| Canvas telemetry | `src/lib/telemetryFieldCanvas/` | Shared canvas field helpers — canonical entry: `index.ts` |
 | Server state | TanStack Query hooks in `src/hooks/` | Skills, projects, certificates, telemetry |
 | Client state | Zustand stores in `src/store/` | theme, telemetry, toast |
 | Live Lab | `src/components/workspace/` | WorkspaceShell — telemetry monitor, atmosphere, recharts |
@@ -205,4 +207,4 @@ Production-oriented patterns aligned with industrial SPA discipline:
 
 **Scripts:** `yarn lint` · `yarn typecheck` · `yarn test` · `yarn build` · `yarn analyze` (bundle report → `dist/stats.html`)
 
-Path alias: `@/` → `src/` (Vite + tsconfig + Vitest).
+Imports: **relative paths only** (convenção do repo). O alias `@/` existe em tsconfig para tooling legado; novos arquivos não devem usá-lo — ver `.cursor/rules/import-sections.mdc`.

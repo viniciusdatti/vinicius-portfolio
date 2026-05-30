@@ -8,7 +8,7 @@ Setup para o agente atuar como **engenheiro full-stack + QA em runtime** no mono
 |--------|--------|
 | **filesystem** | Monorepo: `backend/`, `interfaces/web/`, `docs/` |
 | **shell** | Cwd padrão: **raiz do repo** — `yarn dev:api`, `yarn dev:web`, build, testes |
-| **playwright** | UI em **http://localhost:3000**; rede API **http://localhost:8000** |
+| **playwright** | UI em **http://localhost:5173**; rede API **http://localhost:8000** |
 
 Playwright: `.cursor/playwright-mcp.config.json`  
 Saída: `.cursor/playwright-output/` (gitignored)
@@ -27,7 +27,7 @@ Não habilitado por padrão (conflito de perfil Chromium com Playwright). Ver co
 ```bash
 # Na raiz do monorepo
 yarn dev:api    # http://127.0.0.1:8000 — FastAPI + Socket.IO
-yarn dev:web    # http://localhost:3000 — CRA
+yarn dev:web    # http://localhost:5173 — Vite
 ```
 
 5. Smoke audit (shell):

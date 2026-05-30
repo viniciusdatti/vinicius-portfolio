@@ -10,8 +10,8 @@ alwaysApply: false
 
 ## Regra
 
-- Antes de criar builders de dados (ex: `buildUser`, `buildProject`), verifique se já existem em `testUtils`, `__tests__/utils` ou arquivos de mock do projeto
-- Use builders existentes como base (ex: `buildFakeProject()`, `buildFakeUser()`)
+- Antes de criar builders de dados (ex: `buildUser`, `buildProject`), verifique se já existem em `src/plugins/testUtils.ts` ou handlers MSW em `src/test/mocks/`
+- Use builders existentes como base (ex: `buildFakeProject()`, `buildFakeSkill()`)
 - Ao criar builders locais, derive dos utilitários existentes com `overrides`
 - Nunca duplique campos manualmente quando um builder já fornece defaults type-safe
 
@@ -28,7 +28,7 @@ const project: Project = {
 };
 
 // ✅ CORRETO - usar builder existente com overrides
-import { buildFakeProject } from '../__tests__/utils';
+import { buildFakeProject } from '../../plugins/testUtils';
 
 const project = buildFakeProject({
   id: 1,
@@ -38,5 +38,5 @@ const project = buildFakeProject({
 
 ## Onde encontrar utilitários
 
-- `src/**/__tests__/utils.ts` ou `**/testUtils.ts` — builders e mocks de dados
-- Verifique constantes exportadas para dados padrão (ex: `MOCK_PROJECT`, `MOCK_USER`)
+- `src/plugins/testUtils.ts` — builders type-safe (`buildFakeProject`, `buildFakeSkill`, `buildFakeCertificate`, etc.)
+- `src/test/mocks/handlers.ts` — MSW handlers que reutilizam os mesmos builders
