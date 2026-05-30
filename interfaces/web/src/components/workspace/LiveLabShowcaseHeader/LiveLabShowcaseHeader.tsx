@@ -5,12 +5,11 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+import { useSystemHealth } from '../../../hooks/useSystemHealth';
 
-// Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+// Styles
 import {
   ShowcaseHeaderRoot,
   ShowcaseHeaderCopy,
@@ -21,7 +20,13 @@ import {
   ShowcaseBadge,
   LiveSignalStatus,
   StatusDot,
-} from '@/components/workspace/LiveLabShowcaseHeader/LiveLabShowcaseHeader.style';
+} from './LiveLabShowcaseHeader.style';
+
+// Lib
+import { resolveSystemHealthIsLive } from '../../../lib/systemHealth';
+
+// Workspace
+import { useTelemetry } from '../TelemetryProvider';
 
 export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
@@ -29,7 +34,7 @@ export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { status } = useSystemHealth();
   const { stagger, item } = useScrollMotion();
   const reduced: boolean = usePrefersReducedMotion();
-  const apiOnline: boolean = status === SystemHealthStatus.Online;
+  const apiOnline: boolean = resolveSystemHealthIsLive(status);
   const motionInitial: string = reduced ? 'visible' : 'hidden';
 
   return (

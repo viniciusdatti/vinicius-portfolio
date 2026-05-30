@@ -5,17 +5,19 @@ import React from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { ThemeToggleProps } from '@/components/common/ThemeToggle/ThemeToggle.types';
-
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
 // Components
-import { motionPresets } from '@/styles/motionPresets';
-import { motionEase } from '@/styles/animations';
-import { ToggleButton } from '@/components/common/ThemeToggle/ThemeToggle.style';
-import { useThemeStore } from '@/store';
+import { useThemeStore } from '../../../store';
+
+// Styles
+import { motionPresets } from '../../../styles/motionPresets';
+import { motionEase } from '../../../styles/animations';
+import { ToggleButton } from './ThemeToggle.style';
+
+// Types
+import { ThemeToggleProps } from './ThemeToggle.types';
 
 const SunIcon = (): React.ReactElement => (
   <svg
@@ -27,15 +29,59 @@ const SunIcon = (): React.ReactElement => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <circle cx="12" cy="12" r="5" />
-    <line x1="12" y1="1" x2="12" y2="3" />
-    <line x1="12" y1="21" x2="12" y2="23" />
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-    <line x1="1" y1="12" x2="3" y2="12" />
-    <line x1="21" y1="12" x2="23" y2="12" />
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    <circle
+      cx="12"
+      cy="12"
+      r="5"
+    />
+    <line
+      x1="12"
+      y1="1"
+      x2="12"
+      y2="3"
+    />
+    <line
+      x1="12"
+      y1="21"
+      x2="12"
+      y2="23"
+    />
+    <line
+      x1="4.22"
+      y1="4.22"
+      x2="5.64"
+      y2="5.64"
+    />
+    <line
+      x1="18.36"
+      y1="18.36"
+      x2="19.78"
+      y2="19.78"
+    />
+    <line
+      x1="1"
+      y1="12"
+      x2="3"
+      y2="12"
+    />
+    <line
+      x1="21"
+      y1="12"
+      x2="23"
+      y2="12"
+    />
+    <line
+      x1="4.22"
+      y1="19.78"
+      x2="5.64"
+      y2="18.36"
+    />
+    <line
+      x1="18.36"
+      y1="5.64"
+      x2="19.78"
+      y2="4.22"
+    />
   </svg>
 );
 

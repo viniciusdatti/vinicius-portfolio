@@ -1,30 +1,18 @@
-/**
- * @fileoverview Inline sensor sparkline for telemetry KPI strips.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useMemo } from 'react';
 
-// Types
-import type {
-  SensorSparklinePaths,
-  SensorSparklinePoint,
-  SensorSparklineProps,
-} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
-
-// Components
+// Styles
 import {
   SparklineSvg,
   SparklineWrap,
-} from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.style';
+} from './SensorSparkline.style';
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+// Types
+import {
+  SensorSparklinePaths,
+  SensorSparklinePoint,
+  SensorSparklineProps,
+} from './SensorSparkline.types';
 
 const buildSparklinePaths = (values: number[]): SensorSparklinePaths | null => {
   const samples: number[] = values.length > 1 ? values.slice(-24) : [];
@@ -51,10 +39,6 @@ const buildSparklinePaths = (values: number[]): SensorSparklinePaths | null => {
   const last: SensorSparklinePoint = points[points.length - 1];
   return { line, area, last };
 };
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const SensorSparkline: React.FC<SensorSparklineProps> = ({
   values,

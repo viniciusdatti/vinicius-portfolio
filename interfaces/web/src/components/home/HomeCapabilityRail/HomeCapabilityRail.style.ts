@@ -3,12 +3,8 @@ import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
-import { surfaceMotion } from '@/styles/surfaces';
-
-/* *************************************************************************************************
- ********************************************** GRID ***********************************************
- ************************************************************************************************ */
+// Styles
+import { surfaceMotion } from '../../../styles/surfaces';
 
 const CAPABILITY_SIGNAL_COL: string = '4.5rem';
 const CAPABILITY_SIGNAL_COL_MOBILE: string = '3.25rem';
@@ -33,9 +29,6 @@ const capabilityRowGrid = css`
   }
 `;
 
-/**
- * Elevated registry cell — one explicit edge vs. dot-grid background (no stacked hairlines).
- */
 const capabilityEntrySurface = css`
   ${surfaceMotion};
   position: relative;
@@ -45,10 +38,6 @@ const capabilityEntrySurface = css`
   box-shadow: ${({ theme }) => theme.elevation.sm};
   padding: ${({ theme }) => theme.spacing.lg} ${({ theme }) => theme.spacing.xl};
 `;
-
-/* *************************************************************************************************
- ********************************************** SHELL **********************************************
- ************************************************************************************************ */
 
 export const CapabilityBand = styled.section`
   position: relative;
@@ -128,10 +117,6 @@ export const CapabilityLink = styled(MotionCapabilityLink)`
     text-decoration: underline;
   };
 `;
-
-/* *************************************************************************************************
- ********************************************** ROWS ***********************************************
- ************************************************************************************************ */
 
 export const CapabilityList = styled(motion.ul)`
   list-style: none;

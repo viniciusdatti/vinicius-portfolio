@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
-import { glassSurface } from '@/styles/surfaces';
+// Styles
+import { glassSurface } from '../../../styles/surfaces';
 
 const MotionLink = motion.create(Link);
 

@@ -1,1 +1,1 @@
-export { HomeWorkStage } from '@/components/home/HomeWorkStage/HomeWorkStage';
+export * from './HomeWorkStage';

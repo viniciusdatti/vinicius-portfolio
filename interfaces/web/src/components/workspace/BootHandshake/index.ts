@@ -1,1 +1,1 @@
-export * from '@/components/workspace/BootHandshake/BootHandshake';
+export * from './BootHandshake';

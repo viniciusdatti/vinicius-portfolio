@@ -2,27 +2,19 @@
 import React from 'react';
 
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Types
-import {
-  resolveAmbientVariant,
-  type PageAmbientFieldProps,
-} from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
-
-// Components
+// Styles
 import {
   PageAmbientCanvas,
   PageAmbientLayer,
-} from '@/components/atmosphere/PageAmbientField/PageAmbientField.style';
+} from './PageAmbientField.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Types
+import {
+  resolveAmbientVariant, PageAmbientFieldProps,
+} from './PageAmbientField.types';
 
-/**
- * Full-page Canvas2D ambient field — topological mesh, constellation, or wireframe.
- */
 export const PageAmbientField: React.FC<PageAmbientFieldProps> = ({
   kind,
   pulse = 0,
@@ -39,7 +31,11 @@ export const PageAmbientField: React.FC<PageAmbientFieldProps> = ({
   });
 
   return (
-    <PageAmbientLayer ref={bindContainerRef} aria-hidden data-ambient-field={kind}>
+    <PageAmbientLayer
+      ref={bindContainerRef}
+      aria-hidden
+      data-ambient-field={kind}
+    >
       <PageAmbientCanvas ref={canvasRef} />
     </PageAmbientLayer>
   );

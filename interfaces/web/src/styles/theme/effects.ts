@@ -1,4 +1,5 @@
-import type { ThemeEffects } from './types';
+// Types
+import { ThemeEffects } from './types';
 
 export const darkEffects: ThemeEffects = {
   blur: {

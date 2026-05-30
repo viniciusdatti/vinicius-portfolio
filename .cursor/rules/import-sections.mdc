@@ -1,50 +1,81 @@
 ---
-description: Imports devem ser agrupados e separados por seções na ordem Core → Libraries → Types → Theme → Components
+description: Import sections (relative paths) and internal TSX blocks
 globs: "**/*.{ts,tsx}"
 alwaysApply: true
 ---
 
-# Ordem e seções de imports
+# Import sections (portfolio)
 
-Em **todo** arquivo TypeScript/TSX do projeto, os imports devem ser organizados em blocos com comentários de seção, **nessa ordem**:
+## Imports — relative paths only
 
-1. **// Core** — React, ReactDOM e dependências centrais do app (ex.: `react`, `react-dom`, side-effect como `./i18n/config`).
-2. **// Libraries** — bibliotecas externas (ex.: `styled-components`, `framer-motion`, `react-i18next`, `i18next`).
-3. **// Types** — apenas `import type ...` de tipos e interfaces (exceto Theme).
-4. **// Theme** — imports do tema: `theme`, `Theme` ou qualquer coisa de `./styles/theme` / `./theme`.
-5. **// Components** — código interno do projeto: componentes, views, estilos, data, i18n (caminhos relativos `./`, `../`), exceto o tema.
+**Do not** use `@/`. Group with `// Section` and a blank line between groups, in this order (omit empty sections):
 
-## Regras
+| Section | Content |
+|--------|-----------|
+| **// Core** | `react`, `react-dom` |
+| **// Libraries** | npm (`framer-motion`, `react-i18next`, `styled-components`, etc.) **and** utilities under `src/lib/` (`../../../lib/i18nDisplay`, etc.) |
+| **// Store** | `../../store/...` |
+| **// Types** | `../../types` or `../../data/types` (domain types in `src/types`) |
+| **// Config** | `../../config/...`, breakpoints |
+| **// Domain** | `../../domain/...` |
+| **// Hooks** | `../../hooks/...` — **never** mix with Components |
+| **// Components** | other app modules (`../Button`, `../../api/...`, `../../styles/...`, `../../utils/...`) |
+| **// Component** | colocated: `./Module.types`, `./Module.helpers`, children, **`./Module.style`** |
 
-- Use **exatamente** os rótulos: `// Core`, `// Libraries`, `// Types`, `// Theme`, `// Components`.
-- Inclua **apenas** as seções que o arquivo realmente usa (ex.: se não houver import do tema, não crie seção Theme).
-- Dentro de cada seção, mantenha uma linha em branco entre seções; imports do mesmo grupo ficam juntos.
+Do **not** use a separate **// Style** section — module styled-components belong in **// Component**.
 
-## Exemplo
+`.types.ts` / `.helpers.ts` files: only **// Types** and **// Component** when needed.
+
+Use `import { User, UserType } from '...'` — **not** `import type { ... }` or `import { type ... }`.
+
+## `index.ts`
+
+```ts
+export * from './ComponentName';
+export * from './ComponentName.types';
+```
+
+## TSX — component body
+
+Inside `export const Component: React.FC = () => {`, use 100-column asterisk blocks via `ASTERISK_SECTION` in `lib/sectionComment.ts`:
+
+1. **DEPENDENCIES** — `useTranslation`, `useNavigate`, `useTheme`, data hooks
+2. **STATE** — state `interface`, `initialState`, `useState`
+3. **METHODS** — local helpers, `useMemo`/`useCallback`, handlers
+4. **COMPONENT HANDLING** — `useEffect`, `return (` JSX
+
+Generate text with `formatAsteriskSectionHeader('DEPENDENCIES')` in `lib/sectionComment.ts` or use `ASTERISK_SECTION.dependencies` for new files.
+
+Small `.ts` files (types, helpers, style): **no** asterisk blocks in the body — only `//` sections in imports.
+
+## Portfolio conventions
+
+- Components: `export const Name: React.FC<Props> = (): React.ReactElement => {` (not `function Name()`).
+- State: typed `initialState` object before `useState`.
+- Enums in `src/types` or `Component.types.ts`.
+
+## Example imports (component)
 
 ```ts
 // Core
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 // Libraries
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
+import { formatClockTime } from '../../../lib/i18nDisplay';
 
 // Types
-import type { ProjectGridProps } from './ProjectGrid.types';
+import { SensorStatus } from '../../../types';
 
-// Theme
-import { theme } from './styles/theme';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
 
-// Components
-import { Card } from '../Card';
-import { Grid } from './ProjectGrid.style';
+// Component
+import { LiveLabObservatoryAnimatedValue } from './LiveLabObservatoryAnimatedValue';
+import { LOG_MESSAGE_KEYS, getObservatorySensors } from './LiveLabObservatory.helpers';
+import { LiveLabObservatoryLogLine } from './LiveLabObservatory.types';
+import { ObservatoryRoot, SensorPanel } from './LiveLabObservatory.style';
 ```
-
-Arquivo só com biblioteca:
-
-```ts
-// Libraries
-import styled from 'styled-components';
-```
-
-Nenhum arquivo do projeto deve ter imports sem essas seções ou em ordem diferente.

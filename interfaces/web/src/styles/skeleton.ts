@@ -1,20 +1,4 @@
-/**
- * Skeleton / shimmer — single source of truth.
- *
- * Usage:
- *   import { shimmerAnimation, SkeletonBase } from '@/styles/skeleton';
- *
- *   export const MyElement = styled.div`
- *     ${SkeletonBase};
- *     width: 70%;
- *     height: 1rem;
- *   `;
- *
- * Migrated from:
- *   - ProjectCardSkeleton.style.ts (local `shimmer` keyframe)
- *   - SkillCardSkeleton.style.ts   (local `shimmer` keyframe)
- */
-
+// Libraries
 import { css, keyframes } from 'styled-components';
 
 export const shimmerAnimation = keyframes`
@@ -22,10 +6,6 @@ export const shimmerAnimation = keyframes`
   100% { background-position:  200% 0; }
 `;
 
-/**
- * Base mixin for skeleton elements.
- * Applies shimmer gradient animation using theme border/surface tokens.
- */
 export const SkeletonBase = css`
   background: linear-gradient(
     90deg,

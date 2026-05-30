@@ -1,1 +1,1 @@
-export { Projects } from '@/pages/Projects/Projects';
+export * from './Projects';

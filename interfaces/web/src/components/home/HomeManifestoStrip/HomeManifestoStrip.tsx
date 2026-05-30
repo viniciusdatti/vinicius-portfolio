@@ -5,9 +5,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// View
+// Styles
 import {
   ManifestoBand,
   ManifestoInner,
@@ -16,15 +16,15 @@ import {
   ManifestoLine,
   ManifestoEmphasis,
   ManifestoMeta,
-} from '@/components/home/HomeManifestoStrip/HomeManifestoStrip.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+} from './HomeManifestoStrip.style';
 
 export const HomeManifestoStrip = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { manifestoStagger, manifestoPhrase, viewport } = useScrollMotion();
+  const {
+    manifestoStagger,
+    manifestoPhrase,
+    viewport,
+  } = useScrollMotion();
 
   return (
     <ManifestoBand id="manifesto" aria-label={t('home.manifesto.aria')}>

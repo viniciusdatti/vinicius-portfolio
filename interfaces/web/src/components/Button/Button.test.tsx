@@ -1,22 +1,18 @@
 // Core
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 
 // Libraries
+import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-// Config
-import { darkTheme } from '@/styles/theme';
+// Styles
+import { darkTheme } from '../../styles/theme';
 
 // Types
-import type { ButtonProps } from '@/components/Button/Button.types';
+import { ButtonProps } from './Button.types';
 
-// Components
-import { Button } from '@/components/Button/Button';
-
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
+// Button
+import { Button } from './Button';
 
 const defaultProps: ButtonProps = {
   testId: 'button-test',
@@ -28,10 +24,6 @@ const ButtonComponent = (props: ButtonProps): React.ReactElement => (
     <Button {...props} />
   </ThemeProvider>
 );
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
 
 describe('Button Component', (): void => {
   // PROP: TESTID *******************************

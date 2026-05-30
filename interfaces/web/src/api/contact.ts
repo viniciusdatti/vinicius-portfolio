@@ -1,10 +1,6 @@
-/**
- * Contact form API.
- */
+// Api
+import { apiClient } from './client';
 
-import { apiClient } from '@/api/client';
-
-/** Payload sent when submitting the contact form. */
 export interface ContactSubmitPayload {
   name: string;
   email: string;
@@ -13,7 +9,6 @@ export interface ContactSubmitPayload {
   message: string;
 }
 
-/** Response returned by the contact submission endpoint. */
 export interface ContactSubmitResponse {
   id: number;
   name: string;
@@ -26,13 +21,6 @@ export interface ContactSubmitResponse {
   replied_at: string | null;
 }
 
-/**
- * Submits the contact form to the backend.
- * Saves the submission and triggers email/telegram notifications.
- *
- * @param payload - Contact form data
- * @returns The created contact submission from the API
- */
 export const submitContact = (
   payload: ContactSubmitPayload,
 ): Promise<ContactSubmitResponse> => apiClient.post<ContactSubmitResponse>('/contact', payload);

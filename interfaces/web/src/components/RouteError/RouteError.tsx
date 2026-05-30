@@ -6,12 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { useRouteError } from 'react-router-dom';
 
 // Components
-import { Button } from '@/components/Button';
+import { Button } from '../Button';
+
+// Styles
 import {
   RouteErrorContainer,
   RouteErrorText,
   RouteErrorTitle,
-} from '@/components/RouteError/RouteError.style';
+} from './RouteError.style';
 
 export const RouteError = (): React.ReactElement => {
   const { t } = useTranslation();
@@ -28,7 +30,11 @@ export const RouteError = (): React.ReactElement => {
     <RouteErrorContainer role="alert" aria-live="assertive">
       <RouteErrorTitle>{t('common.errorTitle')}</RouteErrorTitle>
       <RouteErrorText>{message}</RouteErrorText>
-      <Button type="button" onClick={handleReload} testId="route-error-reload">
+      <Button
+        type="button"
+        onClick={handleReload}
+        testId="route-error-reload"
+      >
         {t('common.reload')}
       </Button>
     </RouteErrorContainer>

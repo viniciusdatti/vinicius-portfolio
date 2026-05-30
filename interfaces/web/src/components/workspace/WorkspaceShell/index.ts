@@ -1,1 +1,1 @@
-export * from '@/components/workspace/WorkspaceShell/WorkspaceShell';
+export * from './WorkspaceShell';

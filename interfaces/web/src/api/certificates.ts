@@ -1,15 +1,9 @@
-/**
- * Certificates API functions.
- */
+// Api
+import { apiClient } from './client';
 
-import { apiClient } from '@/api/client';
-import type { Certificate } from '@/types';
+// Types
+import { Certificate } from '../types';
 
-/**
- * Fetch all certificates from the API.
- *
- * @returns Promise with array of certificates
- */
 export const getCertificates = async (): Promise<Certificate[]> => apiClient.get<Certificate[]>('/certificates', {
   active_only: 'true',
 });

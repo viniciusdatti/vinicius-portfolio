@@ -35,6 +35,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body.menu-scroll-locked,
   body.drawer-scroll-locked,
+  body.modal-scroll-locked,
   body.workspace-scroll-locked {
     overflow: hidden;
   }
@@ -45,6 +46,13 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body.drawer-scroll-locked {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  body.modal-scroll-locked {
     position: fixed;
     width: 100%;
     left: 0;

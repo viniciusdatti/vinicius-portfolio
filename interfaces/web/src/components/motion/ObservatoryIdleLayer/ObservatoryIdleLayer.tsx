@@ -1,23 +1,19 @@
 // Core
 import React, { useEffect } from 'react';
 
+// Hooks
+import { UseMotionLifecycleResult } from '../../../hooks/useMotionLifecycle.types';
+import { useMotionLifecycle } from '../../../hooks/useMotionLifecycle';
+
+// Styles
+import { ScanlineTrack } from './ObservatoryIdleLayer.style';
+
 // Types
-import type {
+import {
   IdleImplFn,
   MotionPausedEffectCleanup,
   ObservatoryIdleLayerComponent,
-} from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.types';
-import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
-
-// Hooks
-import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
-
-// Components
-import { ScanlineTrack } from '@/components/motion/ObservatoryIdleLayer/ObservatoryIdleLayer.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+} from './ObservatoryIdleLayer.types';
 
 const IdleLayerImpl: IdleImplFn = (): React.ReactElement | null => {
   const {
@@ -41,7 +37,4 @@ const IdleLayerImpl: IdleImplFn = (): React.ReactElement | null => {
   return <ScanlineTrack aria-hidden data-testid="observatory-idle-scanline" />;
 };
 
-/**
- * Global idle telemetry — scanline sweep + grid pulse gate via data-motion-paused on html.
- */
 export const ObservatoryIdleLayer: ObservatoryIdleLayerComponent = IdleLayerImpl;

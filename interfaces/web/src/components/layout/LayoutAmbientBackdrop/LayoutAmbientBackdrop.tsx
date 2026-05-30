@@ -1,7 +1,3 @@
-/**
- * @fileoverview Route-aware full-viewport Canvas2D ambient — visible on all public pages.
- */
-
 // Core
 import React, { useEffect, useState } from 'react';
 
@@ -12,19 +8,11 @@ import { useLocation } from 'react-router-dom';
 import {
   PageAmbientFieldKind,
   resolveAmbientKindFromPath,
-} from '@/components/atmosphere/PageAmbientField/PageAmbientField.types';
+} from '../../atmosphere/PageAmbientField/PageAmbientField.types';
 
-// Components
-import { PageAmbientField } from '@/components/atmosphere/PageAmbientField';
+// Atmosphere
+import { PageAmbientField } from '../../atmosphere/PageAmbientField';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Fixed ambient canvas behind page content — one instance per route, no per-page stacking traps.
- * Always mounted on public routes; canvas animates unless prefers-reduced-motion (static frame).
- */
 export const LayoutAmbientBackdrop: React.FC = (): React.ReactElement | null => {
   const { pathname } = useLocation();
   const kind: PageAmbientFieldKind | null = resolveAmbientKindFromPath(pathname);

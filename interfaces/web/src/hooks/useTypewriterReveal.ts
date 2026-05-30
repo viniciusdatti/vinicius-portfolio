@@ -1,13 +1,5 @@
-/**
- * @fileoverview Types operational log lines character-by-character when enabled.
- */
-
 // Core
 import { useEffect, useState } from 'react';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
 
 interface UseTypewriterRevealOptions {
   text: string;
@@ -20,14 +12,6 @@ interface UseTypewriterRevealResult {
   isComplete: boolean;
 }
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Reveals `text` one character at a time.
- * When disabled or reduced motion, returns full text immediately.
- */
 export const useTypewriterReveal = ({
   text,
   enabled,

@@ -1,26 +1,14 @@
-/**
- * @fileoverview Live Lab workspace shell — atmosphere, telemetry monitor, and scroll pin.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useEffect } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Components
-import { useLiveLabWorkspacePin } from '@/hooks/useLiveLabWorkspacePin';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { BootHandshake } from '@/components/workspace/BootHandshake';
-import { LiveLabStreamField } from '@/components/atmosphere/LiveLabStreamField';
-import { LiveLabAtmosphere } from '@/components/workspace/LiveLabAtmosphere';
-import { LiveLabShowcaseHeader } from '@/components/workspace/LiveLabShowcaseHeader';
-import { TelemetryMonitor } from '@/components/workspace/TelemetryMonitor';
-import { TelemetryEventLogPlacement } from '@/components/workspace/TelemetryMonitor/TelemetryMonitor.types';
+// Hooks
+import { useLiveLabWorkspacePin } from '../../../hooks/useLiveLabWorkspacePin';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
+// Layout
 import {
   ImmersionProgressFill,
   ImmersionProgressTrack,
@@ -30,15 +18,20 @@ import {
   TelemetryWorkspace,
   WorkspaceChrome,
   WorkspaceRoot,
-} from '@/components/workspace/WorkspaceShell/WorkspaceShell.style';
+} from './WorkspaceShell.style';
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+// Types
+import { TelemetryEventLogPlacement } from '../TelemetryMonitor/TelemetryMonitor.types';
 
-/**
- * Live Lab — full-viewport operational telemetry with 3D atmosphere.
- */
+// Atmosphere
+import { LiveLabStreamField } from '../../atmosphere/LiveLabStreamField';
+
+// Workspace
+import { BootHandshake } from '../BootHandshake';
+import { LiveLabAtmosphere } from '../LiveLabAtmosphere';
+import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
+import { TelemetryMonitor } from '../TelemetryMonitor';
+
 export const WorkspaceShell: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const { refs, pinEnabled } = useLiveLabWorkspacePin();

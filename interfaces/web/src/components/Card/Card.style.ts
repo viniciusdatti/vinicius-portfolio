@@ -1,10 +1,7 @@
 // Libraries
 import styled, { css } from 'styled-components';
 
-// Types
-import { CardVariant } from '@/components/Card/Card.types';
-
-// Components
+// Styles
 import {
   cardMarketingGlass,
   cardStatSignal,
@@ -12,7 +9,10 @@ import {
   cardShowcaseSurface,
   cardInteractive,
   cardPointerVars,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
+
+// Types
+import { CardVariant } from './Card.types';
 
 const variantStyles = {
   [CardVariant.MarketingGlass]: css`

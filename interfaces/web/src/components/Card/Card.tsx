@@ -5,17 +5,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // Hooks
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
+import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
+
+// Styles
+import { StyledCard } from './Card.style';
 
 // Types
 import {
-  CardVariant,
-  type CardComponent,
-} from '@/components/Card/Card.types';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
-
-// Components
-import { StyledCard } from '@/components/Card/Card.style';
+  CardVariant, CardComponent,
+} from './Card.types';
 
 const MotionStyledCard = motion.create(StyledCard);
 

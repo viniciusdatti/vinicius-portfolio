@@ -1,0 +1,56 @@
+// Types
+import {
+  ClampDevicePixelRatioFn,
+  PhysicalSpringStepResult,
+  PhysicalTiltResult,
+  ResolvePhysicalTiltFn,
+  StepPhysicalSpringFn,
+} from './motionPhysics.types';
+
+export const MAX_DEVICE_PIXEL_RATIO: number = 1.5;
+
+export const PHYSICAL_SPRING_STIFFNESS: number = 150;
+
+export const PHYSICAL_SPRING_DAMPING: number = 20;
+
+export const PHYSICAL_SPRING_MASS: number = 0.8;
+
+export const PHYSICAL_PERSPECTIVE_PX: number = 900;
+
+export const PHYSICAL_MAX_TILT_DEG: number = 6;
+
+export const PHYSICAL_LIFT_PX: number = 3;
+
+export const PHYSICAL_TAP_SCALE: number = 0.98;
+
+export const clampDevicePixelRatio: ClampDevicePixelRatioFn = (
+  devicePixelRatio: number,
+  max: number = MAX_DEVICE_PIXEL_RATIO,
+): number => Math.min(Math.max(devicePixelRatio, 1), max);
+
+export const resolvePhysicalTilt: ResolvePhysicalTiltFn = (
+  x: number,
+  y: number,
+  maxTiltDeg: number = PHYSICAL_MAX_TILT_DEG,
+): PhysicalTiltResult => {
+  const rotateX: number = (y - 0.5) * -maxTiltDeg * 2;
+  const rotateY: number = (x - 0.5) * maxTiltDeg * 2;
+  return { rotateX, rotateY };
+};
+
+export const stepPhysicalSpring: StepPhysicalSpringFn = (
+  current: number,
+  velocity: number,
+  target: number,
+  delta: number,
+  stiffness: number = PHYSICAL_SPRING_STIFFNESS,
+  damping: number = PHYSICAL_SPRING_DAMPING,
+  mass: number = PHYSICAL_SPRING_MASS,
+): PhysicalSpringStepResult => {
+  const springForce: number = (target - current) * stiffness;
+  const dampingForce: number = velocity * damping;
+  const acceleration: number = (springForce - dampingForce) / mass;
+  const nextVelocity: number = velocity + acceleration * delta;
+  const nextValue: number = current + nextVelocity * delta;
+  return { value: nextValue, velocity: nextVelocity };
+};

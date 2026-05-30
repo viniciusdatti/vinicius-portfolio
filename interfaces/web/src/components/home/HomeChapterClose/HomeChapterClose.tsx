@@ -5,12 +5,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
+// Layout
+import { SectionEyebrowAnimated } from '../../../styles/pageLayout.style';
 
 // Styles
-import { SectionEyebrowAnimated } from '@/styles/pageLayout.style';
-
-// View
 import {
   CloseBand,
   CloseGrid,
@@ -23,11 +23,15 @@ import {
   ContactTitle,
   ContactBody,
   ContactCta,
-} from '@/components/home/HomeChapterClose/HomeChapterClose.style';
+} from './HomeChapterClose.style';
 
 export const HomeChapterClose = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { stagger, item, viewport } = useScrollMotion();
+  const {
+    stagger,
+    item,
+    viewport,
+  } = useScrollMotion();
 
   return (
     <CloseBand id="section-contact">

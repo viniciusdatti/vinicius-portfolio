@@ -1,5 +1,11 @@
 /* Shared tokens (mode-agnostic) */
 
+/** Canonical desktop breakpoint in px — single source for media queries and layout logic. */
+export const DESKTOP_BREAKPOINT_PX: number = 1024;
+
+/** Dark-mode primary accent hex — mirrors darkTheme.colors.primary. */
+export const PRIMARY_ACCENT_HEX: string = '#00E5FF';
+
 export const sharedTheme = {
   typography: {
     fontFamily: {
@@ -92,7 +98,7 @@ export const sharedTheme = {
   breakpoints: {
     mobile: '480px',
     tablet: '768px',
-    desktop: '1024px',
+    desktop: `${DESKTOP_BREAKPOINT_PX}px`,
     wide: '1280px',
     ultraWide: '1600px',
   },

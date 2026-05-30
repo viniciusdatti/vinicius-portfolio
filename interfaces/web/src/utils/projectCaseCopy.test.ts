@@ -1,23 +1,21 @@
-// Core
-import { describe, it, expect } from 'vitest';
+// Libraries
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
-/* *************************************************************************************************
- ********************************************** UTILS **********************************************
- ************************************************************************************************ */
-import { ProjectCaseStudyField } from '@/types/projectCase';
+// Types
+import { ProjectCaseStudyField } from '../types/projectCase';
+
+// Plugins
+import { buildFakeProject } from '../plugins/testUtils';
+
+// Utils
 import {
   getProjectRepoSlug,
   getProjectCaseStudyKey,
-} from '@/utils/projectCaseCopy';
-
-/* *************************************************************************************************
- ********************************************* PLUGINS *********************************************
- ************************************************************************************************ */
-import { buildFakeProject } from '@/plugins/testUtils';
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+} from './projectCaseCopy';
 
 describe('projectCaseCopy utils', (): void => {
   // METHOD: getProjectRepoSlug *******************************

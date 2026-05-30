@@ -10,9 +10,6 @@ const getDrawerSlideAxis = (): 'x' | 'y' => {
   return window.matchMedia(DRAWER_MOBILE_MQ).matches ? 'y' : 'x';
 };
 
-/**
- * Desktop: slide from right (x). Mobile/tablet: bottom sheet (y).
- */
 export const useDrawerSlideAxis = (): 'x' | 'y' => useSyncExternalStore(
   (onStoreChange: () => void): (() => void) => {
     const media: MediaQueryList = window.matchMedia(DRAWER_MOBILE_MQ);

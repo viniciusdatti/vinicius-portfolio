@@ -60,11 +60,10 @@ const R3F_UNKNOWN_PROPERTY_IGNORE = [
 
 /** Glob patterns for modules that render R3F lowercase intrinsics. */
 const R3F_SOURCE_GLOBS = [
-  'src/components/Hero/HeroVisual3D.tsx',
-  'src/components/atmosphere/PortraitSceneR3D/**/*.tsx',
-  'src/components/workspace/LiveLabAtmosphere/LiveLabGridScene.tsx',
-  'src/components/workspace/LiveLabAtmosphere/LiveLabPostEffects.tsx',
-  'src/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL.tsx',
+  'src/components/Hero/HeroVisual3D/**/*.tsx',
+  'src/components/workspace/LiveLabAtmosphere/LiveLabGridScene/LiveLabGridScene.tsx',
+  'src/components/workspace/LiveLabAtmosphere/LiveLabPostEffects/LiveLabPostEffects.tsx',
+  'src/components/workspace/LiveLabAtmosphere/LiveLabAtmosphereGL/LiveLabAtmosphereGL.tsx',
 ];
 
 module.exports = {

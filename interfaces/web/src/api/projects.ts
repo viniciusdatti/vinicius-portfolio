@@ -1,16 +1,9 @@
-/**
- * Projects API functions.
- */
+// Api
+import { apiClient } from './client';
 
-import { apiClient } from '@/api/client';
-import type { Project } from '@/data/types';
+// Types
+import { Project } from '../data/types';
 
-/**
- * Fetch all projects from the API.
- *
- * @param technology - Optional technology filter
- * @returns Promise with array of projects
- */
 export const getProjects = async (
   technology?: string,
 ): Promise<Project[]> => apiClient.get<Project[]>('/projects', { technology });

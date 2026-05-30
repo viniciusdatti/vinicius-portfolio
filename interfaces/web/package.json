@@ -16,10 +16,15 @@
     "test": "vitest run --passWithNoTests --config vitest.config.ts",
     "test:watch": "vitest --config vitest.config.ts",
     "test:coverage": "vitest run --coverage --config vitest.config.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "generate-favicon": "node scripts/generate-favicon.cjs",
     "prebuild": "yarn generate-favicon",
     "mcp:install-browsers": "yarn dlx playwright install chromium",
-    "qa:audit": "node scripts/qa-audit.mjs"
+    "qa:audit": "node scripts/qa-audit.mjs",
+    "migrate:imports:relative": "node scripts/migrate-alias-imports-to-relative.mjs",
+    "normalize:imports": "node scripts/normalize-import-sections.mjs --write",
+    "normalize:vertical-breaks": "node scripts/normalize-vertical-breaks.mjs --write"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -47,6 +52,11 @@
   },
   "devDependencies": {
     "@react-three/eslint-plugin": "^0.1.2",
+    "@storybook/addon-essentials": "8.6.14",
+    "@storybook/addon-interactions": "8.6.14",
+    "@storybook/react": "8.6.14",
+    "@storybook/react-vite": "8.6.14",
+    "@storybook/test": "8.6.14",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
@@ -71,6 +81,7 @@
     "playwright": "1.52.0",
     "rollup-plugin-visualizer": "^7.0.1",
     "sharp": "^0.34.5",
+    "storybook": "8.6.14",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
     "vitest": "^2.1.8"

@@ -1,39 +1,24 @@
-/**
- * i18n configuration for internationalization.
- */
-
 // Libraries
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-/* *************************************************************************************************
- ********************************************* LOCALES *********************************************
- ************************************************************************************************ */
-import ptBR from '@/i18n/locales/pt-BR.json';
-import enUS from '@/i18n/locales/en-US.json';
+// Lib
+import { bindDocumentLangSync } from '../lib/pageMeta';
+import { resolveI18nBcp47Tag } from '../lib/i18n';
+
+// Locales
+import ptBR from './locales/pt-BR.json';
+import enUS from './locales/en-US.json';
 
 const supportedLngs: string[] = ['pt-BR', 'en-US'];
 const defaultLng: string = 'en-US';
 
-/**
- * Detects initial language based on browser settings.
- */
 const getInitialLanguage = (): string => {
   if (typeof navigator === 'undefined' || !navigator.language) {
     return defaultLng;
   }
 
-  const browserLang: string = navigator.language;
-
-  if (browserLang.startsWith('pt')) {
-    return 'pt-BR';
-  }
-
-  if (browserLang.startsWith('en')) {
-    return 'en-US';
-  }
-
-  return defaultLng;
+  return resolveI18nBcp47Tag(navigator.language);
 };
 
 i18n.use(initReactI18next).init({
@@ -48,5 +33,8 @@ i18n.use(initReactI18next).init({
     escapeValue: false,
   },
 });
+
+// Single global listener — keeps document.documentElement.lang in sync with i18n.
+bindDocumentLangSync(i18n);
 
 export default i18n;
