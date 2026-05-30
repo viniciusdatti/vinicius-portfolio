@@ -1,7 +1,3 @@
-/**
- * @fileoverview Drawer — portaled to document.body so fixed positioning stays viewport-true.
- */
-
 // Core
 import React, {
   useCallback,
@@ -20,12 +16,8 @@ import { useTranslation } from 'react-i18next';
 import { useDrawerSlideAxis } from '../../../hooks/useDrawerSlideAxis';
 import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 
-// Components
+// Styles
 import { motionPresets } from '../../../styles/motionPresets';
-import { BodyScrollLockClass, lockBodyScroll } from '../../../utils/bodyScrollLock';
-
-// Component
-import type { DrawerProps } from './Drawer.types';
 import {
   DrawerViewport,
   DrawerOverlay,
@@ -35,6 +27,13 @@ import {
   DrawerCloseButton,
   DrawerBody,
 } from './Drawer.style';
+
+// Types
+import { DrawerProps } from './Drawer.types';
+
+// Utils
+import { BodyScrollLockClass, lockBodyScroll } from '../../../utils/bodyScrollLock';
+import { trapTabKey } from '../../../utils/focusTrap';
 
 export const Drawer = ({
   open,
@@ -93,11 +92,15 @@ export const Drawer = ({
     const handleKeyDown = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         onClose();
+        return;
+      }
+      if (panelRef.current) {
+        trapTabKey(panelRef.current, event);
       }
     };
 
     document.addEventListener('keydown', handleKeyDown);
-    return () => {
+    return (): void => {
       document.removeEventListener('keydown', handleKeyDown);
       unlockScroll();
       previousFocusRef.current?.focus({ preventScroll: true });
@@ -113,6 +116,7 @@ export const Drawer = ({
       {open ? (
         <DrawerViewport>
           <DrawerOverlay
+            aria-hidden="true"
             data-open="true"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -149,8 +153,18 @@ export const Drawer = ({
                   strokeWidth="2"
                   aria-hidden
                 >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
+                  <line
+                    x1="18"
+                    y1="6"
+                    x2="6"
+                    y2="18"
+                  />
+                  <line
+                    x1="6"
+                    y1="6"
+                    x2="18"
+                    y2="18"
+                  />
                 </svg>
               </DrawerCloseButton>
             </DrawerHeader>
