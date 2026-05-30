@@ -5,51 +5,51 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript)](https://www.typescriptlang.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 
-**[→ Ver demo em produção](https://viniciusdatti-portfolio.vercel.app)**
+**[→ Live Demo](https://viniciusdatti-portfolio.vercel.app)**
 
-Portfolio pessoal construído como SPA de nível produção — arquitetura monorepo com React 19 + TypeScript no front, FastAPI + PostgreSQL no back, WebSocket para telemetria em tempo real e CI/CD automatizado com 95+ deployments.
-
----
-
-## Destaques de Engenharia
-
-- **TypeScript strict end-to-end** — frontend + backend tipados, type guards explícitos na camada de API
-- **Testes em múltiplas camadas** — Vitest + RTL + MSW (unit/integration); Playwright (E2E); cobertura de componentes com Testing Library
-- **WebSocket + telemetria em tempo real** — monitor de estado via WorkspaceShell, streams contínuos com recharts
-- **i18n completo** — pt-BR / en-US via react-i18next com lazy loading de namespaces
-- **Error handling robusto** — RouteError boundary por rota + React ErrorBoundary global
-- **Design System com tokens** — styled-components + tema escuro-ready, componentes com testId via TestableProps
-- **Git workflow semântico** — PRs com prefixos convencionais, branches feature/* -> develop -> master
-- **CI/CD** — pipeline automatizado, deploy contínuo na Vercel
+Personal portfolio built as a production-grade SPA — monorepo with React 19 + TypeScript on the frontend, FastAPI + PostgreSQL on the backend, WebSocket for real-time telemetry, and automated CI/CD with 95+ deployments.
 
 ---
 
-## Stack
+## Engineering Highlights
 
-| Camada | Tecnologias |
-|--------|-------------|
+- **Strict TypeScript end-to-end** — fully typed frontend and backend with explicit type guards in the API layer
+- **Multi-layer testing** — Vitest + RTL + MSW (unit/integration); Playwright (E2E); component coverage with Testing Library
+- **Real-time WebSocket telemetry** — live state monitor via WorkspaceShell, continuous streams with recharts
+- **Full i18n** — pt-BR / en-US via react-i18next with lazy-loaded namespaces
+- **Robust error handling** — per-route RouteError boundary + global React ErrorBoundary
+- **Design System with tokens** — styled-components + dark-mode-ready theme, components with testId via TestableProps
+- **Semantic Git workflow** — conventional PR prefixes, branches feature/* -> develop -> master
+- **CI/CD** — automated pipeline with continuous deployment to Vercel
+
+---
+
+## Tech Stack
+
+| Layer | Technologies |
+|-------|-------------|
 | **Frontend** | React 19, TypeScript, Vite, styled-components, Framer Motion |
-| **Estado** | TanStack Query (server state) + Zustand (client state) |
-| **Testes** | Vitest, React Testing Library, MSW, Playwright |
+| **State** | TanStack Query (server state) + Zustand (client state) |
+| **Testing** | Vitest, React Testing Library, MSW, Playwright |
 | **Backend** | FastAPI, SQLAlchemy 2.x, Pydantic, WebSocket |
-| **Banco** | PostgreSQL 14+ |
+| **Database** | PostgreSQL 14+ |
 | **DevOps** | GitHub Actions, Vercel, Docker Compose |
 | **i18n** | react-i18next (pt-BR / en-US) |
 
 ---
 
-## Arquitetura Frontend (interfaces/web)
+## Frontend Architecture (interfaces/web)
 
 ```
 src/
 ├── api/           # axios client, ApiError, type guards
-├── plugins/       # lógica de domínio pura (testável sem React)
+├── plugins/       # pure domain logic (testable without React)
 ├── hooks/         # TanStack Query — skills, projects, certificates, telemetry
 ├── store/         # Zustand — theme, telemetry, toast
 ├── components/
-│   ├── workspace/ # WorkspaceShell — monitor de telemetria + recharts
+│   ├── workspace/ # WorkspaceShell — telemetry monitor + recharts
 │   └── ui/        # Button, Card, Drawer (a11y), Spinner
-└── pages/         # Route pages — errorElement por rota
+└── pages/         # route pages — errorElement per route
 ```
 
 **Path alias:** @/ -> src/ (Vite + tsconfig + Vitest)
@@ -58,7 +58,7 @@ src/
 
 ---
 
-## Estrutura do Monorepo
+## Monorepo Structure
 
 ```
 vinicius-portfolio/
@@ -80,14 +80,14 @@ vinicius-portfolio/
 
 ---
 
-## Setup Local
+## Getting Started
 
-### Pré-requisitos
+### Prerequisites
 
 - Node.js 18+ · Python 3.11+ · PostgreSQL 14+ · Yarn
-- Ou: **Docker** (recomendado)
+- Or: **Docker** (recommended)
 
-### Com Docker (recomendado)
+### With Docker (recommended)
 
 ```bash
 cp .env.docker.example .env.docker
@@ -96,22 +96,22 @@ docker compose --env-file .env.docker up --build -d
 cd interfaces/web && cp .env.example .env && yarn install && yarn dev
 ```
 
-| Serviço | URL |
+| Service | URL |
 |---------|-----|
 | Frontend (Vite) | http://localhost:5173 |
 | API | http://localhost:8000 |
-| Docs API | http://localhost:8000/docs |
+| API Docs | http://localhost:8000/docs |
 
-### Manual
+### Manual Setup
 
 **Backend:**
 ```bash
 cd backend
-python -m venv venv && source venv/bin/activate
+python -m venv venv && source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 cp .env.example .env
 createdb portfolio
-python scripts/seed.py
+python scripts/seed.py          # optional
 uvicorn app.main:socket_app --reload --port 8000
 ```
 
@@ -121,43 +121,44 @@ cd interfaces/web
 yarn install && cp .env.example .env && yarn dev
 ```
 
-**A partir da raiz:**
+**From monorepo root:**
 ```bash
 yarn dev:api   # Terminal 1
 yarn dev:web   # Terminal 2
-yarn qa:audit  # smoke tests UI + API
+yarn qa:audit  # smoke tests — UI + API (both servers must be running)
 ```
 
 ---
 
-## Variáveis de Ambiente
+## Environment Variables
 
 **Backend (backend/.env):**
 
-| Variável | Descrição | Default |
-|----------|-----------|---------|
+| Variable | Description | Default |
+|----------|-------------|---------|
 | DATABASE_URL | PostgreSQL connection string | postgresql://postgres:postgres@localhost:5432/portfolio |
-| CORS_ORIGINS | Origins permitidas (vírgula) | http://localhost:3000 |
-| ENVIRONMENT | Ambiente | development |
+| CORS_ORIGINS | Allowed origins (comma-separated) | http://localhost:3000 |
+| ENVIRONMENT | Environment name | development |
+| LOG_LEVEL | Logging level | INFO |
 
 **Frontend (interfaces/web/.env):**
 
-| Variável | Descrição | Default |
-|----------|-----------|---------|
+| Variable | Description | Default |
+|----------|-------------|---------|
 | VITE_API_URL | Backend API URL | http://localhost:8000/api/v1 |
 
 ---
 
 ## Git Workflow
 
-- master — produção
-- develop — integração contínua
-- feature/* — desenvolvimento isolado
+- `master` — production
+- `develop` — continuous integration
+- `feature/*` — isolated development
 
-Detalhes: docs/GIT_WORKFLOW.md e CONTRIBUTING.md.
+Details: `docs/GIT_WORKFLOW.md` and `CONTRIBUTING.md`.
 
 ---
 
-## Licença
+## License
 
 MIT — © Vinicius Datti
