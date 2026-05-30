@@ -77,6 +77,8 @@ const SUPERIOR_LOG_KEYS: readonly string[] = [
   'about.superior.items.designSystem',
   'about.superior.items.auth',
   'about.superior.items.quality',
+  'about.superior.items.codeReview',
+  'about.superior.items.integrations',
 ] as const;
 
 interface StatCounterProps {
