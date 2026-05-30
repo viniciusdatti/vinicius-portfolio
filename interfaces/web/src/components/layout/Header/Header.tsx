@@ -35,6 +35,7 @@ import {
   HeaderTrailing,
   Logo,
   LogoMark,
+  LogoName,
   LogoSuffix,
   Nav,
   NavLink as HeaderNavLink,
@@ -153,6 +154,7 @@ export const Header: React.FC = (): React.ReactElement => {
               aria-label={t('header.logoAria')}
             >
               <LogoMark>{t('system.logoMark')}</LogoMark>
+              <LogoName>{t('home.hero.name')}</LogoName>
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
             </Logo>
 

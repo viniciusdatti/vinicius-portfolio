@@ -161,6 +161,16 @@ export const LogoMark = styled.span`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
+export const LogoName = styled.span`
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  letter-spacing: 0.04em;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: none;
+  };
+`;
+
 export const LogoSuffix = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
   font-weight: ${({ theme }) => theme.typography.fontWeight.medium};
