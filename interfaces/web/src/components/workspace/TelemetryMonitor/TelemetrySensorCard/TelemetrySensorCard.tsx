@@ -1,31 +1,11 @@
-/**
- * @fileoverview Single sensor card with sparkline and threshold bar.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
-import React from 'react';
+import React, { memo } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { resolveI18nKeyOrFallback } from '../../../lib/i18nDisplay';
-import { resolveTelemetrySensorLabel } from '../../../lib/telemetrySensorDisplay';
 
-// Types
-import type { SensorReading } from '../../../types/telemetry';
-import { SensorStatus } from '../../../types/telemetry';
-
-// Components
-import { telemetryMicroSnapTransition } from '../../../styles/animations';
-import { useTelemetry } from '../TelemetryProvider';
-
-// Component
-import type { SensorProps } from './TelemetryMonitor.types';
-import { TelemetryValueFlash } from './TelemetryValueFlash';
-import { SensorSparkline } from './SensorSparkline';
+// Styles
+import { telemetryMicroSnapTransition } from '../../../../styles/animations';
 import {
   SensorCard,
   SensorCardInner,
@@ -39,7 +19,22 @@ import {
   ThresholdCritMarker,
   ThresholdFill,
   ThresholdLimit,
-} from './TelemetryMonitor.style';
+} from '../TelemetryMonitor.style';
+
+// Types
+import { SensorReading, SensorStatus } from '../../../../types/telemetry';
+import { SensorProps } from '../TelemetryMonitor.types';
+
+// Lib
+import { resolveI18nKeyOrFallback } from '../../../../lib/i18n';
+import { resolveTelemetrySensorLabel } from '../../../../lib/telemetry';
+
+// TelemetryMonitor
+import { TelemetryValueFlash } from '../TelemetryValueFlash';
+import { SensorSparkline } from '../SensorSparkline';
+
+// Workspace
+import { useTelemetry } from '../../TelemetryProvider';
 
 const resolveSensorStatusLabel = (
   status: SensorStatus,
@@ -62,11 +57,7 @@ const critMarkerPct = (r: SensorReading): number => {
 
 const formatReading = (value: number): string => value.toFixed(2);
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
-
-export const TelemetrySensorCard: React.FC<SensorProps> = ({
+export const TelemetrySensorCard: React.FC<SensorProps> = memo(({
   reading: r,
   index,
   compact = false,
@@ -115,4 +106,6 @@ export const TelemetrySensorCard: React.FC<SensorProps> = ({
       </SensorCardInner>
     </SensorCard>
   );
-};
+});
+
+TelemetrySensorCard.displayName = 'TelemetrySensorCard';

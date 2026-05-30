@@ -1,26 +1,10 @@
-/**
- * @fileoverview Scrollable operational event log for the telemetry monitor.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import {
-  TELEMETRY_EVENT_LOG_MAX,
-} from '../../../types/telemetry';
-
-// Component
-import type { OperationalEventLogProps } from './TelemetryMonitor.types';
-import { TelemetryEventLogLine } from './TelemetryEventLogLine';
-import { TelemetryValueFlash } from './TelemetryValueFlash';
+// Styles
 import {
   EventLogHeader,
   EventLogLine,
@@ -30,17 +14,24 @@ import {
   EventLogTick,
   EventLogTime,
   EventLogTitle,
-} from './TelemetryMonitor.style';
+} from '../TelemetryMonitor.style';
 
-const logPrefix = (type: 'info' | 'warn' | 'critical'): string => {
-  if (type === 'critical') return 'CRT';
-  if (type === 'warn') return 'WRN';
+// Types
+import {
+  TELEMETRY_EVENT_LOG_MAX,
+  TelemetryEventType,
+} from '../../../../types/telemetry';
+import { OperationalEventLogProps } from '../TelemetryMonitor.types';
+
+// TelemetryMonitor
+import { TelemetryEventLogLine } from '../TelemetryEventLogLine';
+import { TelemetryValueFlash } from '../TelemetryValueFlash';
+
+const logPrefix = (type: TelemetryEventType): string => {
+  if (type === TelemetryEventType.Critical) return 'CRT';
+  if (type === TelemetryEventType.Warn) return 'WRN';
   return 'INF';
 };
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const TelemetryOperationalEventLog: React.FC<OperationalEventLogProps> = ({
   logRef,
@@ -86,9 +77,9 @@ export const TelemetryOperationalEventLog: React.FC<OperationalEventLogProps> = 
           />
         ))}
         {eventLog.length === 0 && (
-          <EventLogLine $type="info">
+          <EventLogLine $type={TelemetryEventType.Info}>
             <EventLogTime>—</EventLogTime>
-            <EventLogPrefix $type="info">[INF]</EventLogPrefix>
+            <EventLogPrefix $type={TelemetryEventType.Info}>[INF]</EventLogPrefix>
             <span>{t('liveLab.monitor.noEvents')}</span>
           </EventLogLine>
         )}

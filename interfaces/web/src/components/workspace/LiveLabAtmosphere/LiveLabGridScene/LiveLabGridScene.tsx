@@ -4,20 +4,13 @@ import React, { useRef } from 'react';
 // Libraries
 import { useFrame } from '@react-three/fiber';
 import { Grid } from '@react-three/drei';
-import type { Group } from 'three';
+import { Group } from 'three';
 
 export interface LiveLabGridSceneProps {
   accentHex: string;
   backgroundHex: string;
 }
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Rotating floor grid with fog — Live Lab WebGL atmosphere core.
- */
 export const LiveLabGridScene = ({
   accentHex,
   backgroundHex,
@@ -36,8 +29,16 @@ export const LiveLabGridScene = ({
       <color attach="background" args={[backgroundHex]} />
       <fog attach="fog" args={[backgroundHex, 6, 22]} />
       <ambientLight intensity={0.35} />
-      <directionalLight position={[4, 8, 2]} intensity={0.55} color={accentHex} />
-      <group ref={groupRef} position={[0, -1.2, 0]} rotation={[Math.PI / 2.15, 0, 0]}>
+      <directionalLight
+        position={[4, 8, 2]}
+        intensity={0.55}
+        color={accentHex}
+      />
+      <group
+        ref={groupRef}
+        position={[0, -1.2, 0]}
+        rotation={[Math.PI / 2.15, 0, 0]}
+      >
         <Grid
           args={[24, 24]}
           cellSize={0.55}

@@ -5,7 +5,7 @@ import React, { Suspense, lazy } from 'react';
 import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 import { useWebGLAvailable } from '../../../hooks/useWebGLAvailable';
 
-// Component
+// LiveLabAtmosphere
 import { LiveLabAtmosphereCss } from './LiveLabAtmosphereCss';
 
 const LiveLabAtmosphereGL = lazy(
@@ -17,13 +17,6 @@ const LiveLabAtmosphereGL = lazy(
   },
 );
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Live Lab atmosphere — WebGL grid when supported, CSS 3D fallback otherwise.
- */
 export const LiveLabAtmosphere = (): React.ReactElement => {
   const reduced: boolean = usePrefersReducedMotion();
   const webglAvailable: boolean = useWebGLAvailable();

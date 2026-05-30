@@ -1,2 +1,1 @@
-// Component
-export { LiveLabAtmosphere } from './LiveLabAtmosphere';
+export * from './LiveLabAtmosphere';

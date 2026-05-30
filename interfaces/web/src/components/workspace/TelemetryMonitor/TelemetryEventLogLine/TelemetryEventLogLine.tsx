@@ -1,25 +1,21 @@
-/**
- * @fileoverview Single operational log line — typewriter reveal for the latest live entry.
- */
-
 // Core
 import React from 'react';
 
-// Libraries
-import { formatClockTime } from '../../../lib/i18nDisplay';
-
-// Types
-import type { TelemetryEventLogEntry } from '../../../types/telemetry';
-
 // Hooks
-import { useTypewriterReveal } from '../../../hooks/useTypewriterReveal';
+import { useTypewriterReveal } from '../../../../hooks/useTypewriterReveal';
 
-// Component
+// Styles
 import {
   EventLogLine,
   EventLogPrefix,
   EventLogTime,
-} from './TelemetryMonitor.style';
+} from '../TelemetryMonitor.style';
+
+// Types
+import { TelemetryEventLogEntry } from '../../../../types/telemetry';
+
+// Lib
+import { formatClockTime } from '../../../../lib/i18n';
 
 interface TelemetryEventLogLineProps {
   entry: TelemetryEventLogEntry;
@@ -28,10 +24,6 @@ interface TelemetryEventLogLineProps {
   language: string;
   logPrefix: (type: TelemetryEventLogEntry['type']) => string;
 }
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
 
 export const TelemetryEventLogLine: React.FC<TelemetryEventLogLineProps> = ({
   entry,
