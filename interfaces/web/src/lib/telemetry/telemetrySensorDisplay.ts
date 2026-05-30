@@ -1,8 +1,8 @@
 // Types
-import type { SensorReading } from '../types/telemetry';
+import { SensorReading } from '../../types/telemetry';
 
-// Component
-import { resolveI18nKeyOrFallback } from './i18nDisplay';
+// I18n
+import { resolveI18nKeyOrFallback } from '../i18n/i18nDisplay';
 
 const LEGACY_SENSOR_I18N_ID: Record<string, string> = {
   crusher_rpm: 'spin_rate',
@@ -10,16 +10,10 @@ const LEGACY_SENSOR_I18N_ID: Record<string, string> = {
   feed_pressure: 'pressure',
 };
 
-/**
- * Normalizes sensor id for `liveLab.monitor.sensors.*` (ignores domain-specific legacy ids).
- */
 export const resolveTelemetrySensorI18nId = (sensorId: string): string => (
   LEGACY_SENSOR_I18N_ID[sensorId] ?? sensorId
 );
 
-/**
- * Display label for telemetry cards and chart legend (never shows legacy Crusher/Motor/Feed copy).
- */
 export const resolveTelemetrySensorLabel = (
   reading: SensorReading,
   translate: (key: string) => string,

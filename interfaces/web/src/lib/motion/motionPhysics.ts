@@ -1,5 +1,5 @@
-// Component
-import type {
+// Types
+import {
   ClampDevicePixelRatioFn,
   PhysicalSpringStepResult,
   PhysicalTiltResult,
@@ -9,7 +9,6 @@ import type {
 
 export const MAX_DEVICE_PIXEL_RATIO: number = 1.5;
 
-/** Rauno/Stripe-style physical spring for hover, tilt, and layout morph. */
 export const PHYSICAL_SPRING_STIFFNESS: number = 150;
 
 export const PHYSICAL_SPRING_DAMPING: number = 20;
@@ -24,21 +23,11 @@ export const PHYSICAL_LIFT_PX: number = 3;
 
 export const PHYSICAL_TAP_SCALE: number = 0.98;
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Clamps devicePixelRatio for canvas and WebGL surfaces.
- */
 export const clampDevicePixelRatio: ClampDevicePixelRatioFn = (
   devicePixelRatio: number,
   max: number = MAX_DEVICE_PIXEL_RATIO,
 ): number => Math.min(Math.max(devicePixelRatio, 1), max);
 
-/**
- * Maps normalized pointer position (0–1) to perspective tilt degrees.
- */
 export const resolvePhysicalTilt: ResolvePhysicalTiltFn = (
   x: number,
   y: number,
@@ -49,9 +38,6 @@ export const resolvePhysicalTilt: ResolvePhysicalTiltFn = (
   return { rotateX, rotateY };
 };
 
-/**
- * Integrates one frame of a damped spring toward a target (matches Framer physical spring).
- */
 export const stepPhysicalSpring: StepPhysicalSpringFn = (
   current: number,
   velocity: number,

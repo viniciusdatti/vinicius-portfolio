@@ -1,5 +1,5 @@
-// Component
-import type {
+// Types
+import {
   ComputeObjectFitCoverPositionFn,
   CoverFocalPoint,
   FormatObjectFitCoverPositionFn,
@@ -37,7 +37,6 @@ export const computeObjectFitCoverPosition: ComputeObjectFitCoverPositionFn = (
   return { xPercent, yPercent };
 };
 
-/** Formats object-position for styled-components / CSS. */
 export const formatObjectFitCoverPosition: FormatObjectFitCoverPositionFn = (
   position: ObjectFitCoverPosition,
 ): string => {

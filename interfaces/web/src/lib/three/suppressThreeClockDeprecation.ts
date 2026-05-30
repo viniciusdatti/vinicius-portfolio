@@ -5,15 +5,7 @@ const THREE_CLOCK_DEPRECATION: string = 'Clock: This module has been deprecated'
 
 type BrowserConsoleMethod = (message?: unknown, ...params: unknown[]) => void;
 
-/* *************************************************************************************************
- ********************************************** STATE **********************************************
- ************************************************************************************************ */
-
 let isThreeConsoleConfigured: boolean = false;
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
 
 const getBrowserConsole = (): Console => globalThis.console;
 
@@ -25,10 +17,6 @@ const bindBrowserConsoleMethod = (
   return bound;
 };
 
-/**
- * Suppresses the r183 Clock deprecation warning from dependency code until @react-three/fiber v10.
- * Remove this module after upgrading R3F (Timer-based frameloop: pmndrs/react-three-fiber#2688).
- */
 export const suppressThreeClockDeprecation = (): void => {
   if (isThreeConsoleConfigured) {
     return;
