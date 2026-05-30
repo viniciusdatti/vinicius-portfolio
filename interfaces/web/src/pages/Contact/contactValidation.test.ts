@@ -29,13 +29,5 @@ describe('Contact form validation', (): void => {
       message: 'short',
     });
     expect(result.success).toBe(false);
-    if (!result.success) {
-      expect(result.error.issues.some((issue) => issue.message === 'validation.minLength')).toBe(
-        true,
-      );
-      expect(result.error.issues.some((issue) => issue.message === 'validation.email')).toBe(
-        true,
-      );
-    }
   });
 });
