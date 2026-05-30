@@ -1,0 +1,52 @@
+---
+description: Crucial batch-scan rules for orchestrator subagents — English code, SSOT, comments, validation
+alwaysApply: true
+---
+
+# Orchestrator Batch Scan — Non-Negotiable Rules
+
+When the orchestrator delegates batch scans or refactors to subagents, **all four rules below apply with zero tolerance**.
+
+## 1. Code Internationalization (100% English Standard)
+
+- Translate **immediately** any Portuguese found in code comments, internal log strings, or annotations.
+- Official repository language under the hood is **technical English**.
+- **Do not** translate user-facing i18n locale files (`i18n/locales/*.json`) or locale-specific API fields (`name_pt`, `title_pt`, `description_pt` values meant for PT content).
+
+## 2. Strategic Comments on Complex Logic
+
+When subagents encounter complex functions, animation math (Framer Motion / GSAP / R3F), async state orchestration, or pagination:
+
+- **Do not** leave the logic unexplained.
+- Add clean, short, objective comments in **English** describing **intent** or architectural decisions — for Tech Lead reviewability.
+- Avoid noise on trivial one-liners.
+
+## 3. Single Source of Truth (SSOT)
+
+Subagents must audit state and helpers for SSOT:
+
+- Remove redundant state or duplicate variables tracking the same data.
+- Prefer **derived values** (`useMemo`, computed getters) over synced duplicate state.
+- Centralize shared mappings (health status, locale resolution, breakpoints, theme tokens).
+- Do not introduce parallel helpers that drift from existing enums/types in `src/types/`.
+
+## 4. Re-Validation After Changes (MCP / Shell)
+
+After translation and SSOT refactors, **re-run sanity checks** from `interfaces/web`:
+
+```bash
+yarn lint
+yarn build
+```
+
+- Fix any breakage caused by refactors before marking the batch complete.
+- Use **yarn**, not npm.
+- Also run `ReadLints` on touched files per `validate-lint-and-types.mdc`.
+
+## Subagent Split (recommended)
+
+| Subagent | Primary focus |
+|----------|----------------|
+| **Subagent 1** | English translation of comments/logs/annotations |
+| **Subagent 2** | SSOT audit — redundant state, derived data, shared helpers |
+| **Both** | Strategic comments + post-change lint/build validation |
