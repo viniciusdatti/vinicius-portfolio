@@ -1,9 +1,9 @@
 // Types
-import type { Project } from '../../data/types';
-import { Language } from '../../types';
+import { Project } from '@/data/types';
+import { Language } from '@/types';
 
 // Components
-import { getProjectRepoSlug } from '../../utils/projectCaseCopy';
+import { getProjectRepoSlug } from '@/utils/projectCaseCopy';
 
 export const getProjectDisplayTitle = (
   project: Project,
