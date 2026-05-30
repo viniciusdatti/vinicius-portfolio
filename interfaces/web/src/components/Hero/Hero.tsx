@@ -76,7 +76,9 @@ const STACK_TECHNOLOGIES: string[] = [
   'React',
   'TypeScript',
   'WebSocket',
-  'FastAPI',
+  'Storybook',
+  'Jest',
+  'Playwright',
 ];
 
 const scrollToNarrative = (): void => {
@@ -188,7 +190,7 @@ export const Hero: React.FC = (): React.ReactElement => {
               <motion.div variants={heroModuleReveal}>
                 <CtaWrapper>
                   <CtaButtonWrapper>
-                    <Button as={Link} to="/projects">
+                    <Button as={Link} to="/live-lab">
                       {t('home.hero.ctaPrimary')}
                     </Button>
                   </CtaButtonWrapper>
@@ -196,9 +198,21 @@ export const Hero: React.FC = (): React.ReactElement => {
                     <Button
                       variant="secondary"
                       as={Link}
-                      to="/live-lab"
+                      to="/projects"
                     >
                       {t('home.hero.ctaSecondary')}
+                    </Button>
+                  </CtaButtonWrapper>
+                  <CtaButtonWrapper>
+                    <Button
+                      variant="secondary"
+                      as="a"
+                      href="/vinicius-datti-frontend-engineer-cv.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      download
+                    >
+                      {t('home.hero.ctaCV')}
                     </Button>
                   </CtaButtonWrapper>
                 </CtaWrapper>
