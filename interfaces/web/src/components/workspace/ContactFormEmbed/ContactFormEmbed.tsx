@@ -3,14 +3,16 @@ import React, { useState } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { useForm } from 'react-hook-form';
+import { useForm, UseFormRegisterReturn } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+
+// Api
+import { submitContact } from '../../../api';
 
 // Components
-import { submitContact, ApiError } from '../../../api';
+import { showToast, ToastType } from '../../../store';
 
-// Component
+// Styles
 import {
   EmbedForm,
   EmbedField,
@@ -20,119 +22,150 @@ import {
   EmbedError,
   EmbedSubmit,
   EmbedSuccess,
+  EmbedFeedback,
 } from './ContactFormEmbed.style';
 
-const contactSchema = z.object({
-  name: z.string().min(2).max(100),
-  email: z.string().email(),
-  message: z.string().min(10).max(5000),
-});
+// Types
+import {
+  contactFormEmbedSchema,
+  ContactFormEmbedValues,
+  getContactSubmitErrorMessage,
+} from '../../../domain/contact';
 
-type ContactFormData = z.infer<typeof contactSchema>;
+interface ContactFormEmbedState {
+  isSuccess: boolean;
+}
 
-const getSubmitErrorMessage = (
-  error: unknown,
-  rateLimitText: string,
-  fallbackText: string,
-): string => {
-  if (!(error instanceof ApiError)) return fallbackText;
-  if (error.status === 429) return rateLimitText;
-  return error.message;
+const initialState: ContactFormEmbedState = {
+  isSuccess: false,
 };
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const ContactFormEmbed = (): React.ReactElement => {
   const { t } = useTranslation();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [state, setState] = useState<ContactFormEmbedState>(initialState);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset,
-  } = useForm<ContactFormData>({
-    resolver: zodResolver(contactSchema),
+  } = useForm<ContactFormEmbedValues>({
+    resolver: zodResolver(contactFormEmbedSchema),
   });
 
-  const nameField = register('name');
-  const emailField = register('email');
-  const messageField = register('message');
+  const nameField: UseFormRegisterReturn<'name'> = register('name');
+  const emailField: UseFormRegisterReturn<'email'> = register('email');
+  const messageField: UseFormRegisterReturn<'message'> = register('message');
 
-  const onSubmit = async (data: ContactFormData): Promise<void> => {
-    setSubmitError(null);
-    setIsSubmitting(true);
+  const onSubmit = async (data: ContactFormEmbedValues): Promise<void> => {
     try {
       await submitContact({
         name: data.name,
         email: data.email,
         message: data.message,
       });
-      setIsSuccess(true);
+      setState({ isSuccess: true });
       reset();
-      setTimeout(() => setIsSuccess(false), 5000);
+      setTimeout((): void => {
+        setState({ isSuccess: false });
+      }, 5000);
     } catch (error) {
-      setSubmitError(getSubmitErrorMessage(
+      const message = getContactSubmitErrorMessage(
         error,
         t('contact.form.rateLimitError'),
         t('contact.form.error'),
-      ));
-    } finally {
-      setIsSubmitting(false);
+      );
+      showToast(message, ToastType.Error);
     }
   };
 
-  if (isSuccess) {
-    return <EmbedSuccess>{t('contact.form.success')}</EmbedSuccess>;
-  }
-
   return (
-    <EmbedForm onSubmit={handleSubmit(onSubmit)}>
-      <EmbedField>
-        <EmbedLabel>{t('contact.form.name')}</EmbedLabel>
-        <EmbedInput
-          name={nameField.name}
-          onChange={nameField.onChange}
-          onBlur={nameField.onBlur}
-          ref={nameField.ref}
-        />
-        {errors.name ? (
-          <EmbedError>{t('validation.minLength')}</EmbedError>
-        ) : null}
-      </EmbedField>
-      <EmbedField>
-        <EmbedLabel>{t('contact.form.email')}</EmbedLabel>
-        <EmbedInput
-          type="email"
-          name={emailField.name}
-          onChange={emailField.onChange}
-          onBlur={emailField.onBlur}
-          ref={emailField.ref}
-        />
-        {errors.email ? (
-          <EmbedError>{t('validation.email')}</EmbedError>
-        ) : null}
-      </EmbedField>
-      <EmbedField>
-        <EmbedLabel>{t('contact.form.message')}</EmbedLabel>
-        <EmbedTextArea
-          name={messageField.name}
-          onChange={messageField.onChange}
-          onBlur={messageField.onBlur}
-          ref={messageField.ref}
-        />
-        {errors.message ? (
-          <EmbedError>{t('validation.minLength')}</EmbedError>
-        ) : null}
-      </EmbedField>
-      {submitError ? <EmbedError>{submitError}</EmbedError> : null}
-      <EmbedSubmit type="submit" disabled={isSubmitting}>
-        {isSubmitting ? t('common.loading') : t('contact.form.submit')}
-      </EmbedSubmit>
-    </EmbedForm>
+    <EmbedFeedback aria-live="polite">
+      {state.isSuccess ? (
+        <EmbedSuccess role="status">{t('contact.form.success')}</EmbedSuccess>
+      ) : (
+        <EmbedForm onSubmit={handleSubmit(onSubmit)} noValidate>
+          <EmbedField>
+            <EmbedLabel htmlFor="embed-contact-name">
+              {t('contact.form.name')}
+              {' '}
+              *
+            </EmbedLabel>
+            <EmbedInput
+              id="embed-contact-name"
+              name={nameField.name}
+              onChange={nameField.onChange}
+              onBlur={nameField.onBlur}
+              ref={nameField.ref}
+              autoComplete="name"
+              placeholder={t('contact.form.namePlaceholder')}
+              $hasError={!!errors.name}
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? 'embed-contact-name-error' : undefined}
+            />
+            {errors.name ? (
+              <EmbedError id="embed-contact-name-error" role="alert">
+                {t(errors.name.message || '', { min: 2 })}
+              </EmbedError>
+            ) : null}
+          </EmbedField>
+          <EmbedField>
+            <EmbedLabel htmlFor="embed-contact-email">
+              {t('contact.form.email')}
+              {' '}
+              *
+            </EmbedLabel>
+            <EmbedInput
+              id="embed-contact-email"
+              type="email"
+              name={emailField.name}
+              onChange={emailField.onChange}
+              onBlur={emailField.onBlur}
+              ref={emailField.ref}
+              autoComplete="email"
+              placeholder={t('contact.form.emailPlaceholder')}
+              $hasError={!!errors.email}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'embed-contact-email-error' : undefined}
+            />
+            {errors.email ? (
+              <EmbedError id="embed-contact-email-error" role="alert">
+                {t(errors.email.message || '')}
+              </EmbedError>
+            ) : null}
+          </EmbedField>
+          <EmbedField>
+            <EmbedLabel htmlFor="embed-contact-message">
+              {t('contact.form.message')}
+              {' '}
+              *
+            </EmbedLabel>
+            <EmbedTextArea
+              id="embed-contact-message"
+              name={messageField.name}
+              onChange={messageField.onChange}
+              onBlur={messageField.onBlur}
+              ref={messageField.ref}
+              placeholder={t('contact.form.messagePlaceholder')}
+              $hasError={!!errors.message}
+              aria-invalid={!!errors.message}
+              aria-describedby={errors.message ? 'embed-contact-message-error' : undefined}
+            />
+            {errors.message ? (
+              <EmbedError id="embed-contact-message-error" role="alert">
+                {t(errors.message.message || '', { min: 10 })}
+              </EmbedError>
+            ) : null}
+          </EmbedField>
+          <EmbedSubmit
+            type="submit"
+            disabled={isSubmitting}
+            $loading={isSubmitting}
+          >
+            {isSubmitting ? t('contact.form.sending') : t('contact.form.submit')}
+          </EmbedSubmit>
+        </EmbedForm>
+      )}
+    </EmbedFeedback>
   );
 };
