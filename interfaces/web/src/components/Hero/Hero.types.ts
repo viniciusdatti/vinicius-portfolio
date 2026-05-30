@@ -1,2 +1,2 @@
-// Tipos do Hero (expandir conforme necessário)
+// Hero types (extend as needed)
 export interface HeroProps {}
