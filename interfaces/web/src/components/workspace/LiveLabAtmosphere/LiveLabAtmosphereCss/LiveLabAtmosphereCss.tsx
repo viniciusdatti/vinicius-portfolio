@@ -1,7 +1,7 @@
 // Core
 import React from 'react';
 
-// Component
+// Styles
 import {
   AtmosphereDepthVeil,
   AtmosphereOrb,
@@ -12,7 +12,7 @@ import {
   NoiseVeil,
   PerspectiveStage,
   ScanBeam,
-} from './LiveLabAtmosphere.style';
+} from '../LiveLabAtmosphere.style';
 
 export const LiveLabAtmosphereCss = (): React.ReactElement => (
   <AtmosphereRoot aria-hidden>

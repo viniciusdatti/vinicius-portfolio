@@ -5,18 +5,18 @@ import React, { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { useTheme } from 'styled-components';
 
-// Components
-import type { Theme } from '../../../styles/theme';
-
-// Component
-import { LiveLabGridScene } from './LiveLabGridScene';
-import { LiveLabPostEffects } from './LiveLabPostEffects';
+// Styles
+import { Theme } from '../../../../styles/theme';
 import {
   AtmosphereDepthVeil,
   AtmosphereRoot,
   GlCanvasWrap,
   NoiseVeil,
-} from './LiveLabAtmosphere.style';
+} from '../LiveLabAtmosphere.style';
+
+// LiveLabAtmosphere
+import { LiveLabGridScene } from '../LiveLabGridScene';
+import { LiveLabPostEffects } from '../LiveLabPostEffects';
 
 export const LiveLabAtmosphereGL = (): React.ReactElement => {
   const theme = useTheme() as Theme;

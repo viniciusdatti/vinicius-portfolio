@@ -1,26 +1,14 @@
-/**
- * @fileoverview Types for the Live Lab telemetry monitor dashboard.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
-import type React from 'react';
+import React from 'react';
 
 // Types
-import type { SensorReading, TelemetryEventLogEntry } from '../../../types/telemetry';
+import { SensorReading, TelemetryEventLogEntry } from '../../../types/telemetry';
 
 export enum TelemetryEventLogPlacement {
   Embedded = 'embedded',
   Flow = 'flow',
   None = 'none',
 }
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
 
 export interface TelemetryMonitorProps {
   eventLogPlacement?: TelemetryEventLogPlacement;

@@ -1,21 +1,22 @@
-/**
- * @fileoverview Telemetry monitor dashboard styles for Live Lab.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
-import styled, { keyframes, css, DefaultTheme } from 'styled-components';
+import styled, {
+  keyframes,
+  css,
+  DefaultTheme,
+} from 'styled-components';
 import { motion } from 'framer-motion';
+
+// Types
+import {
+  SensorStatus,
+  TelemetryEventType,
+} from '../../../types/telemetry';
+
+// Lib
 import {
   getTelemetryStatusColor,
   getTelemetryStatusSurface,
-} from '../../../lib/telemetryStatusColor';
-
-// Types
-import { SensorStatus } from '../../../types/telemetry';
+} from '../../../lib/telemetry';
 
 const getSensorStatusColor = (
   status: SensorStatus,
@@ -33,11 +34,9 @@ const getThresholdFillColor = (
   theme: DefaultTheme,
 ): string => getTelemetryStatusColor(status, theme);
 
-type EventLogType = 'info' | 'warn' | 'critical';
-
-const getEventLogLineColor = (type: EventLogType, theme: DefaultTheme): string => {
-  if (type === 'critical') return theme.colors.error;
-  if (type === 'warn') return theme.colors.warning;
+const getEventLogLineColor = (type: TelemetryEventType, theme: DefaultTheme): string => {
+  if (type === TelemetryEventType.Critical) return theme.colors.error;
+  if (type === TelemetryEventType.Warn) return theme.colors.warning;
   return theme.colors.textMuted;
 };
 
@@ -198,7 +197,6 @@ export const StatusDot = styled.span<{ $connected: boolean }>`
     && css`animation: ${blink} 2.2s ease-in-out infinite;`};
 `;
 
-/** Chart + sensors + optional terminal — column on mobile, chart+log split on desktop. */
 export const MonitorDashboard = styled.div<{ $hasTerminal?: boolean }>`
   display: flex;
   flex-direction: column;
@@ -230,7 +228,6 @@ export const MonitorDashboard = styled.div<{ $hasTerminal?: boolean }>`
   `};
 `;
 
-/** Embedded event log — beside chart on desktop; capped band on mobile. */
 export const MonitorTerminalRow = styled.div`
   flex: 0 0 auto;
   width: 100%;
@@ -254,7 +251,6 @@ export const MonitorTerminalRow = styled.div`
   }
 `;
 
-/** Placeholder while Recharts chunk loads — keeps layout stable on Live Lab mount. */
 export const ChartPaneFallback = styled.div`
   display: flex;
   flex-direction: column;
@@ -266,7 +262,6 @@ export const ChartPaneFallback = styled.div`
   opacity: ${({ theme }) => theme.effects.opacity.subtle};
 `;
 
-/** Full-width hero trend chart — primary visual focus. */
 export const MonitorHeroChart = styled.div`
   display: flex;
   flex-direction: column;
@@ -295,7 +290,6 @@ export const MonitorHeroChart = styled.div`
   contain: layout style;
 `;
 
-/** Compact sensor metrics below the hero chart. */
 export const MonitorSensorStrip = styled.div`
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -584,7 +578,7 @@ export const EventLogScroll = styled.div`
   };
 `;
 
-export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical'; $isLatest?: boolean }>`
+export const EventLogLine = styled.div<{ $type: TelemetryEventType; $isLatest?: boolean }>`
   display: flex;
   gap: ${({ theme }) => theme.spacing.sm};
   align-items: flex-start;
@@ -616,7 +610,7 @@ export const EventLogLine = styled.div<{ $type: 'info' | 'warn' | 'critical'; $i
   `}
 `;
 
-export const EventLogPrefix = styled.span<{ $type: 'info' | 'warn' | 'critical' }>`
+export const EventLogPrefix = styled.span<{ $type: TelemetryEventType }>`
   flex-shrink: 0;
   font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   letter-spacing: 0.06em;

@@ -2,7 +2,11 @@
 import React from 'react';
 
 // Libraries
-import { EffectComposer, Bloom, ChromaticAberration } from '@react-three/postprocessing';
+import {
+  EffectComposer,
+  Bloom,
+  ChromaticAberration,
+} from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 
 export const LiveLabPostEffects = (): React.ReactElement => (
