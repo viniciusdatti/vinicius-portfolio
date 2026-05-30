@@ -1,13 +1,10 @@
 // Core
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 // Libraries
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-// Config
-import { publicAssetUrl } from '../../config/env';
 
 // Hooks
 import { usePrefersReducedMotion } from '../../hooks/usePrefersReducedMotion';
@@ -17,16 +14,7 @@ import { useAvatarPortraitObjectPosition } from '../../hooks/useAvatarPortraitOb
 import { AvatarPortraitPhoto } from '../AvatarPortrait';
 import { Button } from '../Button';
 
-// Component
-import { HeroVisual3D } from './HeroVisual3D';
-import {
-  heroEntranceStagger,
-  heroEyebrowLineExpand,
-  heroHeadlineClipReveal,
-  heroHeadlineStagger,
-  heroModuleReveal,
-  heroMonoReveal,
-} from './Hero.motion';
+// Styles
 import {
   HeroSection,
   HeroBackgroundStack,
@@ -63,16 +51,33 @@ import {
   HeroMotionStack,
 } from './Hero.style';
 
+// Config
+import { publicAssetUrl } from '../../config/env';
+
+// Hero
+import { HeroVisual3DProps } from './HeroVisual3D/HeroVisual3D.types';
+import {
+  heroEntranceStagger,
+  heroEyebrowLineExpand,
+  heroHeadlineClipReveal,
+  heroHeadlineStagger,
+  heroModuleReveal,
+  heroMonoReveal,
+} from './Hero.motion';
+
+const HeroVisual3D = lazy(
+  async (): Promise<{ default: React.FC<HeroVisual3DProps> }> => {
+    const module = await import('./HeroVisual3D');
+    return { default: module.HeroVisual3D };
+  },
+);
+
 const STACK_TECHNOLOGIES: string[] = [
   'React',
   'TypeScript',
   'WebSocket',
   'FastAPI',
 ];
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
 
 const scrollToNarrative = (): void => {
   document.getElementById('section-work')?.scrollIntoView({ behavior: 'smooth' });
@@ -83,7 +88,6 @@ interface HeroPortraitFrameProps {
   alt: string;
 }
 
-/** Measured portrait frame — object-position tracks container size (mobile + desktop). */
 const HeroPortraitFrame: React.FC<HeroPortraitFrameProps> = ({
   avatarSrc,
   alt,
@@ -101,13 +105,6 @@ const HeroPortraitFrame: React.FC<HeroPortraitFrameProps> = ({
   );
 };
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Hero — canonical 2-column narrative + portrait grid, editorial cubic choreography.
- */
 export const Hero: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const reduced: boolean = usePrefersReducedMotion();
@@ -123,7 +120,9 @@ export const Hero: React.FC = (): React.ReactElement => {
         <HeroDotGrid />
         <HeroCenterWash />
       </HeroBackgroundStack>
-      <HeroVisual3D containerRef={heroRef} />
+      <Suspense fallback={null}>
+        <HeroVisual3D containerRef={heroRef} />
+      </Suspense>
       <HeroLayoutGrid>
         <HeroPortraitMobileReveal
           variants={heroModuleReveal}
@@ -194,7 +193,11 @@ export const Hero: React.FC = (): React.ReactElement => {
                     </Button>
                   </CtaButtonWrapper>
                   <CtaButtonWrapper>
-                    <Button variant="secondary" as={Link} to="/live-lab">
+                    <Button
+                      variant="secondary"
+                      as={Link}
+                      to="/live-lab"
+                    >
                       {t('home.hero.ctaSecondary')}
                     </Button>
                   </CtaButtonWrapper>

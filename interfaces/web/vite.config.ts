@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
         'react-hook-form',
         'zod',
         '@hookform/resolvers/zod',
+        'use-sync-external-store/shim/with-selector',
       ],
     },
     server: {
