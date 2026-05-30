@@ -22,7 +22,7 @@ import {
   stepConstellationNodes,
   TelemetryFieldPointer,
   TelemetryFieldVariant, ConstellationNodeState,
-} from '../lib/telemetryFieldCanvas';
+} from '../lib/telemetryFieldCanvas/index';
 import { clampDevicePixelRatio } from '../lib/motion';
 
 export interface UseCanvasTelemetryFieldOptions {

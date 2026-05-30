@@ -11,7 +11,7 @@ import {
 } from './ObservatoryCanvas2D.style';
 
 // Lib
-import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas/index';
 
 export const ObservatoryCanvas2D = (): React.ReactElement => {
   const { canvasRef, bindContainerRef } = useCanvasTelemetryField({

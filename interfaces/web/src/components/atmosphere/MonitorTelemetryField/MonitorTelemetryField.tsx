@@ -12,7 +12,7 @@ import {
 } from './MonitorTelemetryField.style';
 
 // Lib
-import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas/index';
 
 // Workspace
 import { useTelemetry } from '../../workspace/TelemetryProvider';
