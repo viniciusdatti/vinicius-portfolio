@@ -1,13 +1,5 @@
-/**
- * @fileoverview Types for the Live Lab telemetry trend chart (Recharts).
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Types
-import type { SensorReading } from '../../../../types/telemetry';
+import { SensorReading } from '../../../../types/telemetry';
 
 export interface TelemetryTrendChartProps {
   readings: SensorReading[];

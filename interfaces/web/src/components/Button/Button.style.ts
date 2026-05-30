@@ -1,11 +1,11 @@
 // Libraries
 import styled from 'styled-components';
 
-// Components
+// Styles
 import { buttonPrimaryRim, buttonShine } from '../../styles/surfaces';
 
-// Component
-import type { ButtonVariant } from './Button.types';
+// Types
+import { ButtonVariant } from './Button.types';
 
 interface StyledButtonProps {
   $variant?: ButtonVariant;

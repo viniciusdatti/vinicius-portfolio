@@ -3,7 +3,7 @@ import styled, { DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
+// Types
 import {
   ProjectCanvasTone,
 } from '../../ProjectShowcase/ProjectShowcase.types';

@@ -1,2 +1,1 @@
-// Component
-export { Projects } from './Projects';
+export * from './Projects';

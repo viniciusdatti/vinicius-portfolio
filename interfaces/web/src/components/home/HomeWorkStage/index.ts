@@ -1,2 +1,1 @@
-// Component
-export { HomeWorkStage } from './HomeWorkStage';
+export * from './HomeWorkStage';

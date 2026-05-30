@@ -7,12 +7,9 @@ import { useTranslation } from 'react-i18next';
 // Hooks
 import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+import { useSystemHealth } from '../../../hooks/useSystemHealth';
 
-// Components
-import { useTelemetry } from '../TelemetryProvider';
-
-// Component
+// Styles
 import {
   ShowcaseHeaderRoot,
   ShowcaseHeaderCopy,
@@ -25,13 +22,19 @@ import {
   StatusDot,
 } from './LiveLabShowcaseHeader.style';
 
+// Lib
+import { resolveSystemHealthIsLive } from '../../../lib/systemHealth';
+
+// Workspace
+import { useTelemetry } from '../TelemetryProvider';
+
 export const LiveLabShowcaseHeader: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
   const { connected, tickCount } = useTelemetry();
   const { status } = useSystemHealth();
   const { stagger, item } = useScrollMotion();
   const reduced: boolean = usePrefersReducedMotion();
-  const apiOnline: boolean = status === SystemHealthStatus.Online;
+  const apiOnline: boolean = resolveSystemHealthIsLive(status);
   const motionInitial: string = reduced ? 'visible' : 'hidden';
 
   return (

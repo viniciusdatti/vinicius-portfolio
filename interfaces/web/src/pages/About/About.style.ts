@@ -1,25 +1,23 @@
-/**
- * Styled components for the About page.
- */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Config
-import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '../../config/avatarImage';
-
-// Components
-import { cardStatSignal, surfaceInsetRim } from '../../styles/surfaces';
-import {
-  editorialAccentRail,
-  scrollAnchorOffset,
-} from '../../styles/sectionRhythm';
+// Layout
 import {
   PageCard,
   PageSection,
   SectionTitle,
 } from '../../styles/pageLayout.style';
+
+// Styles
+import { cardStatSignal, surfaceInsetRim } from '../../styles/surfaces';
+import {
+  editorialAccentRail,
+  scrollAnchorOffset,
+} from '../../styles/sectionRhythm';
+
+// Config
+import { AVATAR_PORTRAIT_FRAME_ASPECT_RATIO } from '../../config/avatarImage';
 
 const observabilityMono = css`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
@@ -34,7 +32,6 @@ const observabilitySubLabel = css`
   text-transform: uppercase;
 `;
 
-/** Backbone + node share the center axis of editorialAccentRail (2px left border) */
 const timelineRailGutter = css`
   --timeline-rail-width: 2px;
   --timeline-rail-x: calc(var(--timeline-rail-width) / 2);
@@ -45,10 +42,6 @@ export const Section = PageSection;
 export const PhilosophySection = styled(Section)`
   margin-top: ${({ theme }) => theme.spacing.xxl};
 `;
-
-/* *************************************************************************************************
- ********************************************** INTRO **********************************************
- ************************************************************************************************ */
 
 export const IntroSection = styled(Section)`
   display: grid;
@@ -127,7 +120,6 @@ export const IntroLead = styled(motion.p)`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-/** Primary narrative — full contrast; not washed out on dark canvas */
 export const IntroImpact = styled(motion.p)`
   ${introProseBlock};
   color: ${({ theme }) => theme.colors.text};
@@ -146,10 +138,6 @@ export const IntroHighlight = styled(motion.p)`
     font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
   };
 `;
-
-/* *************************************************************************************************
- **************************************** TELEMETRY METRICS ****************************************
- ************************************************************************************************ */
 
 export const StatsGrid = styled(motion.div)`
   display: grid;
@@ -188,7 +176,6 @@ export const StatNumber = styled.div`
   text-shadow: 0 0 24px ${({ theme }) => theme.colors.primary}33;
 `;
 
-/** Tooling labels (e.g. Jest · Playwright) — same mono contract, scaled for multi-token values */
 export const StatValue = styled(StatNumber)`
   font-size: clamp(1.125rem, 2.4vw, 1.625rem);
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.normal};
@@ -206,10 +193,6 @@ export const StatLabel = styled.div`
 `;
 
 export { SectionTitle };
-
-/* *************************************************************************************************
- *************************************** EXPERIENCE TIMELINE ***************************************
- ************************************************************************************************ */
 
 export const ExperienceSection = styled(Section)`
   display: flex;
@@ -369,10 +352,6 @@ export const ExperienceLogMessage = styled.span`
   text-wrap: balance;
 `;
 
-/* *************************************************************************************************
- ******************************************* PHILOSOPHY ********************************************
- ************************************************************************************************ */
-
 export const PhilosophyCard = styled(motion.div)`
   ${editorialAccentRail};
   padding: ${({ theme }) => theme.spacing.lg} 0 ${({ theme }) => theme.spacing.lg}
@@ -387,10 +366,6 @@ export const PhilosophyCard = styled(motion.div)`
     margin: 0;
   };
 `;
-
-/* *************************************************************************************************
- ******************************************** EDUCATION ********************************************
- ************************************************************************************************ */
 
 export const EducationCard = PageCard;
 

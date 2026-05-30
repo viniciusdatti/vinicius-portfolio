@@ -1,38 +1,27 @@
-/**
- * useTelemetrySocket — single WebSocket client for /telemetry namespace.
- * Consumed only via TelemetryProvider + useTelemetry().
- */
-
 // Core
 import { useEffect, useState } from 'react';
 
 // Libraries
 import i18n from 'i18next';
 import { io, Socket } from 'socket.io-client';
-import { resolveTelemetrySensorLabel } from '../lib/telemetrySensorDisplay';
 
 // Types
 import {
   SensorStatus,
   TelemetryEventType,
-  TELEMETRY_EVENT_LOG_MAX,
-  type SensorReading,
-  type TelemetryEventLogEntry,
-  type TelemetryState,
-  type TelemetryTick,
+  TELEMETRY_EVENT_LOG_MAX, SensorReading, TelemetryEventLogEntry, TelemetryState, TelemetryTick,
 } from '../types/telemetry';
 
-// Components
+// Lib
+import { resolveTelemetrySensorLabel } from '../lib/telemetry';
+
+// Utils
 import { getApiRootUrl } from '../utils/apiRootUrl';
 
 const MAX_HISTORY: number = 30;
 
 const SOCKET_OPTIONS = {
   path: '/socket.io',
-  /**
-   * Polling first: works through Vite proxy immediately. WS upgrade often 403 until
-   * `rewriteWsOrigin` is active (restart dev server after vite.config change).
-   */
   transports: ['polling', 'websocket'] as ('websocket' | 'polling')[],
   reconnection: true,
   reconnectionAttempts: 10,
@@ -40,16 +29,11 @@ const SOCKET_OPTIONS = {
   reconnectionDelayMax: 5000,
 };
 
-/** Dev-only: polling transport avoids Vite WS 403 until proxy rewriteWsOrigin is active. */
 const DEV_SOCKET_OPTIONS = {
   ...SOCKET_OPTIONS,
   transports: ['polling'] as ('websocket' | 'polling')[],
 };
 
-/**
- * Same origin as REST (`getApiRootUrl`): dev uses Vite `/socket.io` proxy; prod uses reverse proxy.
- * Avoids cross-origin WebSocket to :8000 (handshake 403 when page is localhost:5173).
- */
 const createTelemetrySocket = (): Socket => {
   const root: string = getApiRootUrl();
   const options = import.meta.env.DEV ? DEV_SOCKET_OPTIONS : SOCKET_OPTIONS;
@@ -90,23 +74,18 @@ const releaseTelemetrySocket = (): void => {
   }
 };
 
-/** Boot messages shown before the socket connects (transport lifecycle only). */
 const INITIAL_LOG: TelemetryEventLogEntry[] = [
   {
     ts: Date.now() - 1200,
-    message: 'Inicializando cliente de telemetria…',
+    message: 'Initializing telemetry client…',
     type: TelemetryEventType.Info,
   },
   {
     ts: Date.now() - 600,
-    message: 'Abrindo socket · namespace /telemetry',
+    message: 'Opening socket · namespace /telemetry',
     type: TelemetryEventType.Info,
   },
 ];
-
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
 
 export const useTelemetrySocket = (): TelemetryState => {
   const [state, setState] = useState<TelemetryState>({
@@ -128,17 +107,17 @@ export const useTelemetrySocket = (): TelemetryState => {
         eventLog: [
           {
             ts: now,
-            message: 'WebSocket conectado · namespace /telemetry',
+            message: 'WebSocket connected · namespace /telemetry',
             type: TelemetryEventType.Info,
           },
           {
             ts: now - 80,
-            message: 'Handshake concluído · aguardando telemetria',
+            message: 'Handshake complete · awaiting telemetry',
             type: TelemetryEventType.Info,
           },
           {
             ts: now - 160,
-            message: 'Scan de sensores iniciado · intervalo 2s',
+            message: 'Sensor scan started · 2s interval',
             type: TelemetryEventType.Info,
           },
           ...prev.eventLog,
@@ -153,7 +132,7 @@ export const useTelemetrySocket = (): TelemetryState => {
         eventLog: [
           {
             ts: Date.now(),
-            message: 'Transporte desconectado — aguardando reconexão',
+            message: 'Transport disconnected — awaiting reconnection',
             type: TelemetryEventType.Warn,
           },
           ...prev.eventLog,
@@ -167,7 +146,7 @@ export const useTelemetrySocket = (): TelemetryState => {
         eventLog: [
           {
             ts: Date.now(),
-            message: `Tentativa de reconexão #${attempt}…`,
+            message: `Reconnection attempt #${attempt}…`,
             type: TelemetryEventType.Warn,
           },
           ...prev.eventLog,
@@ -185,6 +164,7 @@ export const useTelemetrySocket = (): TelemetryState => {
 
         const translate = (key: string): string => i18n.t(key);
 
+        // Append history, emit critical/warn log lines; sample stable readings every 8 ticks.
         localReadings.forEach((r: SensorReading) => {
           const prevHistory: number[] = newHistory[r.id] ?? [];
           newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
@@ -193,13 +173,13 @@ export const useTelemetrySocket = (): TelemetryState => {
           if (r.status === SensorStatus.Critical) {
             newLog.unshift({
               ts: r.ts,
-              message: `${channelLabel} CRÍTICO · ${r.value}${r.unit} (limite: ${r.threshold_critical}${r.unit})`,
+              message: `${channelLabel} CRITICAL · ${r.value}${r.unit} (limit: ${r.threshold_critical}${r.unit})`,
               type: TelemetryEventType.Critical,
             });
           } else if (r.status === SensorStatus.Warn && Math.random() < 0.3) {
             newLog.unshift({
               ts: r.ts,
-              message: `${channelLabel} alerta · ${r.value}${r.unit}`,
+              message: `${channelLabel} warning · ${r.value}${r.unit}`,
               type: TelemetryEventType.Warn,
             });
           }
@@ -237,7 +217,7 @@ export const useTelemetrySocket = (): TelemetryState => {
         eventLog: [
           {
             ts: Date.now(),
-            message: `Falha no transporte · ${error.message}`,
+            message: `Transport failure · ${error.message}`,
             type: TelemetryEventType.Warn,
           },
           ...prev.eventLog,

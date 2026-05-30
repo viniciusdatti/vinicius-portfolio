@@ -1,3 +1,3 @@
-// Component
-export * from './ThemeToggle';
 export * from './ThemeToggle.types';
+
+export * from './ThemeToggle';

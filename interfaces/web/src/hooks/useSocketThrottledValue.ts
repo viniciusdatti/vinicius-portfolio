@@ -1,18 +1,14 @@
 // Core
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 export interface UseSocketThrottledValueOptions {
-  /** Minimum ms between propagated updates (Live Lab socket fields default 100). */
   intervalMs?: number;
 }
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Throttles fast socket-driven values so canvas/UI react at most once per interval.
- */
 export const useSocketThrottledValue = <T>(
   value: T,
   options: UseSocketThrottledValueOptions = {},

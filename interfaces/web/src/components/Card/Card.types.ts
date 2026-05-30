@@ -1,5 +1,5 @@
 // Core
-import type {
+import {
   FC,
   HTMLAttributes,
   ReactElement,
@@ -7,7 +7,7 @@ import type {
 } from 'react';
 
 // Types
-import type { TestableProps } from '../../types/testable';
+import { TestableProps } from '../../types/testable';
 
 export enum CardVariant {
   MarketingGlass = 'marketing-glass',

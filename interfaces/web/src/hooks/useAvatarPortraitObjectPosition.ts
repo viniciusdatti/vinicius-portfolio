@@ -6,11 +6,11 @@ import {
   useState,
 } from 'react';
 
+// Types
+import { UseAvatarPortraitObjectPositionResult } from './useAvatarPortraitObjectPosition.types';
+
 // Config
 import { computeAvatarPortraitObjectPosition } from '../config/avatarImage';
-
-// Component
-import type { UseAvatarPortraitObjectPositionResult } from './useAvatarPortraitObjectPosition.types';
 
 export const useAvatarPortraitObjectPosition = (): UseAvatarPortraitObjectPositionResult => {
   const frameRef = useRef<HTMLDivElement>(null);

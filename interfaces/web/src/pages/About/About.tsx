@@ -1,7 +1,3 @@
-/**
- * About page component displaying personal information and stats.
- */
-
 // Core
 import React from 'react';
 
@@ -9,16 +5,16 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
-// Config
-import { publicAssetUrl } from '../../config/env';
-
 // Hooks
-import { useCountUp } from '../../hooks';
+import {
+  useCountUp,
+  usePageMeta,
+  PageMetaRoute,
+} from '../../hooks';
 import { useAvatarPortraitObjectPosition } from '../../hooks/useAvatarPortraitObjectPosition';
 import { useScrollMotion } from '../../hooks/useScrollMotion';
 
-// Components
-import { AvatarPortraitPhoto } from '../../components/AvatarPortrait';
+// Layout
 import {
   PageContainer,
   PageHeader,
@@ -28,7 +24,10 @@ import {
   SectionEyebrow,
 } from '../../styles/pageLayout.style';
 
-// Component
+// Components
+import { AvatarPortraitPhoto } from '../../components/AvatarPortrait';
+
+// Styles
 import {
   IntroSection,
   Avatar,
@@ -69,6 +68,9 @@ import {
   ExperienceLogIndex,
   ExperienceLogMessage,
 } from './About.style';
+
+// Config
+import { publicAssetUrl } from '../../config/env';
 
 const SUPERIOR_LOG_KEYS: readonly string[] = [
   'about.superior.items.realtime',
@@ -122,6 +124,7 @@ const StatMetric = ({
 };
 
 export const About = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.About);
   const { t } = useTranslation();
   const { frameRef, objectPosition } = useAvatarPortraitObjectPosition();
   const {
@@ -193,12 +196,20 @@ export const About = (): React.ReactElement => {
         whileInView="visible"
         viewport={viewport}
       >
-        <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
+        <StatCounter
+          target={3}
+          suffix="+"
+          label={t('about.stats.experience')}
+        />
         <StatMetric
           value={t('about.stats.testing.value')}
           label={t('about.stats.testing.label')}
         />
-        <StatCounter target={400} suffix="+" label={t('about.stats.certifiedHours')} />
+        <StatCounter
+          target={400}
+          suffix="+"
+          label={t('about.stats.certifiedHours')}
+        />
       </StatsGrid>
 
       <ExperienceSection

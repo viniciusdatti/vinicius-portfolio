@@ -1,15 +1,8 @@
-/**
- * @fileoverview Operational support-stack card surface — glass, rim, tier scale, icon well.
- */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Domain
-import { SkillLayoutTier } from '../../../domain/skills';
-
-// Components
+// Styles
 import {
   cardBodyReadable,
   cardTitleReadable,
@@ -17,16 +10,12 @@ import {
   operationalGlass,
 } from '../../../styles/surfaces';
 
-// Component
-import type { SupportStackCardStyleProps } from './SupportStackCard.types';
+// Types
+import { SkillLayoutTier } from '../../../domain/skills';
+import { SupportStackCardStyleProps } from './SupportStackCard.types';
 
 const SUPPORT_STACK_COMPACT_FACTOR: number = 0.85;
 
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
-
-/** Cyan torch — overrides operationalGlass caustic ::after on support cells. */
 const supportStackPointerTorch = css`
   &::after {
     content: '';
@@ -101,9 +90,6 @@ const resolveSupportStackTierSurface = (tier: SkillLayoutTier): ReturnType<typeo
   }
 };
 
-/**
- * Canonical support-stack cell — operationalGlass, tier surfaces, interactiveLift.
- */
 export const SupportStackCardRoot = styled(motion.div)<SupportStackCardStyleProps>`
   ${operationalGlass};
   ${supportStackPointerTorch};
@@ -134,9 +120,6 @@ export const SupportStackCardRoot = styled(motion.div)<SupportStackCardStyleProp
   }
 `;
 
-/**
- * Centers the icon + copy cluster within the card footprint.
- */
 export const SupportStackCardInner = styled.div`
   display: flex;
   align-items: center;
@@ -145,9 +128,6 @@ export const SupportStackCardInner = styled.div`
   min-width: 0;
 `;
 
-/**
- * Unified horizontal archetype — icon left, labels vertically centered on the right.
- */
 export const SupportStackCardRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -189,9 +169,6 @@ const resolveIconWellScale = (tier: SkillLayoutTier): ReturnType<typeof css> => 
   }
 };
 
-/**
- * Icon pedestal — consistent glass well for mixed brand assets.
- */
 export const SupportStackIconWell = styled.div<SupportStackCardStyleProps>`
   flex-shrink: 0;
   display: flex;

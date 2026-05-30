@@ -1,31 +1,23 @@
-/**
- * @fileoverview Projects page — premium product showcase (bento grid + case drawer).
- */
-
 // Core
-import React, { useMemo, useState, useCallback } from 'react';
+import React, {
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { Project } from '../../data/types';
-import { Language } from '../../types';
-
-// Domain
-import { filterProjectsBySearch } from '../../domain/projects';
-
 // Hooks
-import { useProjects } from '../../hooks';
+import {
+  useProjects,
+  usePageMeta,
+  PageMetaRoute,
+} from '../../hooks';
 import { useScrollMotion } from '../../hooks/useScrollMotion';
 
-// Components
-import {
-  ProjectShowcaseGrid,
-  ProjectCaseStudyContent,
-} from '../../components/ProjectShowcase';
+// Layout
 import { PageSectionReveal } from '../../components/PageSectionReveal';
-import { PageSectionRevealMode } from '../../components/PageSectionReveal/PageSectionReveal.types';
 import {
   PageContainerWide,
   PageHeaderEditorial,
@@ -38,9 +30,15 @@ import {
   PageLead,
   PageSectionSpacious,
 } from '../../styles/pageLayout.style';
+
+// Components
+import {
+  ProjectShowcaseGrid,
+  ProjectCaseStudyContent,
+} from '../../components/ProjectShowcase';
 import { Drawer } from '../../components/showcase';
 
-// Component
+// Styles
 import {
   Toolbar,
   SearchInput,
@@ -51,20 +49,39 @@ import {
   LoadingMessage,
 } from './Projects.style';
 
+// Types
+import { Project } from '../../data/types';
+import { Language } from '../../types';
+import { PageSectionRevealMode } from '../../components/PageSectionReveal/PageSectionReveal.types';
+import { filterProjectsBySearch } from '../../domain/projects';
+
+// Lib
+import { isPortugueseLocale, resolveLanguage } from '../../lib/i18n';
+
+interface ProjectsPageState {
+  search: string;
+  selectedProject: Project | null;
+}
+
+const initialState: ProjectsPageState = {
+  search: '',
+  selectedProject: null,
+};
+
 export const Projects = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.Projects);
   const { t, i18n } = useTranslation();
   const {
     data: projects = [], isLoading, isError, refetch,
   } = useProjects();
-  const [search, setSearch] = useState<string>('');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [state, setState] = useState<ProjectsPageState>(initialState);
   const scrollMotion = useScrollMotion();
-  const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
-  const currentLanguage: Language = isPt ? Language.Pt : Language.En;
+  const isPt: boolean = isPortugueseLocale(i18n.language);
+  const currentLanguage: Language = resolveLanguage(i18n.language);
 
   const filteredProjects = useMemo(
-    () => filterProjectsBySearch(projects, search, isPt),
-    [projects, search, isPt],
+    () => filterProjectsBySearch(projects, state.search, isPt),
+    [projects, state.search, isPt],
   );
 
   const projectTitle = useCallback(
@@ -73,11 +90,15 @@ export const Projects = (): React.ReactElement => {
   );
 
   const handleCloseDrawer = useCallback((): void => {
-    setSelectedProject(null);
+    setState((prev: ProjectsPageState) => ({ ...prev, selectedProject: null }));
   }, []);
 
   const handleSelectProject = useCallback((project: Project): void => {
-    setSelectedProject(project);
+    setState((prev: ProjectsPageState) => ({ ...prev, selectedProject: project }));
+  }, []);
+
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
+    setState((prev: ProjectsPageState) => ({ ...prev, search: event.target.value }));
   }, []);
 
   const renderShowcaseContent = (): React.ReactNode => {
@@ -169,8 +190,8 @@ export const Projects = (): React.ReactElement => {
         <SearchInput
           type="search"
           placeholder={t('projects.searchPlaceholder')}
-          value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setSearch(e.target.value)}
+          value={state.search}
+          onChange={handleSearchChange}
           aria-label={t('projects.searchPlaceholder')}
         />
       </Toolbar>
@@ -182,14 +203,14 @@ export const Projects = (): React.ReactElement => {
       </PageSectionReveal>
 
       <Drawer
-        open={selectedProject != null}
+        open={state.selectedProject != null}
         onClose={handleCloseDrawer}
-        title={selectedProject ? projectTitle(selectedProject) : ''}
+        title={state.selectedProject ? projectTitle(state.selectedProject) : ''}
       >
-        {selectedProject != null && (
+        {state.selectedProject != null && (
           <DrawerCaseBody>
             <ProjectCaseStudyContent
-              project={selectedProject}
+              project={state.selectedProject}
               language={currentLanguage}
             />
           </DrawerCaseBody>

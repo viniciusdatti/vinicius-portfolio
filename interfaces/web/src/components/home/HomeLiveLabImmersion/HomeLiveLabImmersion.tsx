@@ -8,11 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useLiveLabImmersionPin } from '../../../hooks/useLiveLabImmersionPin';
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Components
-import { ObservatoryCanvas2D } from '../../atmosphere/ObservatoryCanvas2D';
-import { LiveLabObservatory } from '../LiveLabObservatory';
-
-// Component
+// Styles
 import {
   ImmersionBand,
   ImmersionPinStage,
@@ -33,6 +29,12 @@ import {
   NarrativeProgressTrack,
   NarrativeProgressFill,
 } from './HomeLiveLabImmersion.style';
+
+// Atmosphere
+import { ObservatoryCanvas2D } from '../../atmosphere/ObservatoryCanvas2D';
+
+// Home
+import { LiveLabObservatory } from '../LiveLabObservatory';
 
 export const HomeLiveLabImmersion = (): React.ReactElement => {
   const { t } = useTranslation();

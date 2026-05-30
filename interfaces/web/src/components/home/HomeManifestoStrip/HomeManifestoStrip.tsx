@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 // Hooks
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Component
+// Styles
 import {
   ManifestoBand,
   ManifestoInner,
@@ -20,7 +20,11 @@ import {
 
 export const HomeManifestoStrip = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { manifestoStagger, manifestoPhrase, viewport } = useScrollMotion();
+  const {
+    manifestoStagger,
+    manifestoPhrase,
+    viewport,
+  } = useScrollMotion();
 
   return (
     <ManifestoBand id="manifesto" aria-label={t('home.manifesto.aria')}>

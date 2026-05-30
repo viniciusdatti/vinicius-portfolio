@@ -1,12 +1,8 @@
-/**
- * Projects API functions.
- */
+// Api
+import { apiClient } from './client';
 
 // Types
-import type { Project } from '../data/types';
-
-// Component
-import { apiClient } from './client';
+import { Project } from '../data/types';
 
 export const getProjects = async (
   technology?: string,

@@ -1,7 +1,3 @@
-/**
- * @fileoverview Styled components for Router (e.g. page loader fallback).
- */
-
 // Libraries
 import styled from 'styled-components';
 

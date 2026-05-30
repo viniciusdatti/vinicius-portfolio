@@ -1,13 +1,7 @@
-/**
- * Shared test builders (portfolio). Reuse in unit tests instead of hand-building objects.
- */
-
 // Types
-import type { Project, Technology } from '../data/types';
+import { Project, Technology } from '../data/types';
 import {
-  SkillCategory,
-  type Certificate,
-  type Skill,
+  SkillCategory, Certificate, Skill,
 } from '../types';
 
 export const buildFakeTechnology = (

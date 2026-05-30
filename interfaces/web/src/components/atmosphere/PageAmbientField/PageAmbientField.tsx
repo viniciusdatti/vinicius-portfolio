@@ -4,15 +4,16 @@ import React from 'react';
 // Hooks
 import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Component
-import {
-  resolveAmbientVariant,
-  type PageAmbientFieldProps,
-} from './PageAmbientField.types';
+// Styles
 import {
   PageAmbientCanvas,
   PageAmbientLayer,
 } from './PageAmbientField.style';
+
+// Types
+import {
+  resolveAmbientVariant, PageAmbientFieldProps,
+} from './PageAmbientField.types';
 
 export const PageAmbientField: React.FC<PageAmbientFieldProps> = ({
   kind,
@@ -30,7 +31,11 @@ export const PageAmbientField: React.FC<PageAmbientFieldProps> = ({
   });
 
   return (
-    <PageAmbientLayer ref={bindContainerRef} aria-hidden data-ambient-field={kind}>
+    <PageAmbientLayer
+      ref={bindContainerRef}
+      aria-hidden
+      data-ambient-field={kind}
+    >
       <PageAmbientCanvas ref={canvasRef} />
     </PageAmbientLayer>
   );

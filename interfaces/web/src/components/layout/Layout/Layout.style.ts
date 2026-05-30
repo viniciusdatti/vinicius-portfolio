@@ -1,11 +1,3 @@
-/**
- * @fileoverview Styled components for the public Layout shell and page motion layer.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
@@ -34,10 +26,6 @@ export const SkipLink = styled.a`
     pointer-events: auto;
   };
 `;
-
-/* *************************************************************************************************
- ********************************************** MAIN ***********************************************
- ************************************************************************************************ */
 
 export const Main = styled.main<{ $workspaceMode?: boolean }>`
   outline: none;
@@ -100,14 +88,6 @@ export const PageMotionLayer = styled(motion.div)<{ $workspace?: boolean }>`
         `)};
 `;
 
-/* *************************************************************************************************
- ************************************* WORKSPACE MOTION SHELL **************************************
- ************************************************************************************************ */
-
-/**
- * Flex column wrapper for the Live Lab page transition motion.div.
- * Replaces the inline style={{ height: '100%', display: 'flex', flexDirection: 'column' }}.
- */
 export const WorkspaceMotionShell = styled.div`
   height: 100%;
   display: flex;

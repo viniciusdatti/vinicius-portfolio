@@ -2,20 +2,26 @@
 import React, { lazy, Suspense } from 'react';
 
 // Libraries
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from 'react-router-dom';
 
-// Component
+// Components
 import { Layout } from './components/layout';
 import { RouteError } from './components/RouteError';
 import { Spinner } from './components/common/Spinner';
+
+// Styles
 import { PageLoaderWrapper } from './Router.style';
-import { LiveLab } from './pages/LiveLab';
 
 const Home = lazy(() => import('./pages/Home').then((m) => ({ default: m.Home })));
 const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About })));
 const Skills = lazy(() => import('./pages/Skills').then((m) => ({ default: m.Skills })));
 const Projects = lazy(() => import('./pages/Projects').then((m) => ({ default: m.Projects })));
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
+const LiveLab = lazy(() => import('./pages/LiveLab').then((m) => ({ default: m.LiveLab })));
 
 const PageLoader = (): React.ReactElement => (
   <PageLoaderWrapper>
@@ -38,7 +44,7 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
       { path: 'skills', element: withSuspense(<Skills key="skills-view" />) },
       { path: 'projects', element: withSuspense(<Projects key="projects-view" />) },
       { path: 'contact', element: withSuspense(<Contact key="contact-view" />) },
-      { path: 'live-lab', element: <LiveLab key="live-lab-view" /> },
+      { path: 'live-lab', element: withSuspense(<LiveLab key="live-lab-view" />) },
       { path: 'home', element: <Navigate to="/" replace /> },
     ],
   },

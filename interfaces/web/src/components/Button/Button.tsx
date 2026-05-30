@@ -5,12 +5,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // Hooks
+import { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
 import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
-import type { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
 
-// Component
-import type { ButtonComponent } from './Button.types';
+// Styles
 import { StyledButton } from './Button.style';
+
+// Types
+import { ButtonComponent } from './Button.types';
 
 const MotionStyledButton = motion.create(StyledButton);
 

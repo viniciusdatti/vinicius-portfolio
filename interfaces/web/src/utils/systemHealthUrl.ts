@@ -1,7 +1,7 @@
 // Config
 import { env } from '../config/env';
 
-// Component
+// Utils
 import { getApiRootUrl } from './apiRootUrl';
 
 export const getSystemHealthUrl = (): string => {

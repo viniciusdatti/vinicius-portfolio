@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
+// Styles
 import { operationalGlass } from '../../../styles/surfaces';
 
 export const CloseBand = styled.section`

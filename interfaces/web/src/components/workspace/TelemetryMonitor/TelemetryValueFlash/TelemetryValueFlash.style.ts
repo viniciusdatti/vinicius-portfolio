@@ -1,16 +1,8 @@
-/**
- * @fileoverview Flash animation styles for telemetry value cells.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled, { css, keyframes } from 'styled-components';
 
-// Component
-import type { TelemetryValueFlashWrapProps } from './TelemetryValueFlash.types';
+// Types
+import { TelemetryValueFlashWrapProps } from './TelemetryValueFlash.types';
 
 const valueFlash = keyframes`
   0% {

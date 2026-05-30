@@ -1,15 +1,21 @@
-// Core
-import { describe, it, expect } from 'vitest';
+// Libraries
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
 // Types
 import { Language } from '../../types';
 
-// Components
+// Plugins
+import { buildFakeProject } from '../../plugins/testUtils';
+
+// Projects
 import {
   formatProjectSignalCode,
   getProjectDisplayTitle,
 } from './projectDisplay';
-import { buildFakeProject } from '../../plugins/testUtils';
 
 describe('projectDisplay', (): void => {
   describe('formatProjectSignalCode', (): void => {

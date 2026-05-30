@@ -1,12 +1,8 @@
-/**
- * Styled components for Projects page — editorial showcase layout.
- */
-
 // Libraries
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import {
   operationalGlass,
 } from '../../styles/surfaces';

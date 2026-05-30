@@ -10,13 +10,6 @@ const detectWebGL2 = (): boolean => {
   return gl !== null;
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Detects WebGL2 support once on mount (for lazy R3F atmosphere fallback).
- */
 export const useWebGLAvailable = (): boolean => {
   const [available, setAvailable] = useState<boolean>(detectWebGL2);
 

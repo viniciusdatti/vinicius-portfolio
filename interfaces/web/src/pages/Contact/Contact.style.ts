@@ -1,13 +1,9 @@
-/**
- * @fileoverview Styled components for the Contact page — operational input console.
- */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
+// Styles
 import {
   buttonPrimaryRim,
   buttonShine,
@@ -22,10 +18,6 @@ export interface InputStyleProps {
 export interface SubmitButtonStyleProps {
   $loading?: boolean;
 }
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
 
 const CONTACT_LABEL_TRACKING = '0.14em';
 
@@ -76,13 +68,6 @@ const contactFieldBase = css<InputStyleProps>`
     : contactFieldFocusVisible)};
 `;
 
-/* *************************************************************************************************
- ********************************************* LAYOUT **********************************************
- ************************************************************************************************ */
-
-/**
- * Centered editorial column — single-stack input console (no 50/50 marketing split).
- */
 export const ContactConsoleColumn = styled.div`
   width: 100%;
   max-width: ${({ theme }) => theme.layout.proseWide};
@@ -92,9 +77,6 @@ export const ContactConsoleColumn = styled.div`
   gap: ${({ theme }) => theme.spacing.xxl};
 `;
 
-/**
- * Operational glass shell for the contact form — rim via operationalGlass ::before only.
- */
 export const FormSection = styled(motion.section)`
   ${operationalGlass};
   border-radius: ${({ theme }) => theme.borderRadius.xxl};
@@ -116,27 +98,18 @@ export const ConsoleEyebrow = styled.p`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-/**
- * Form element with flex column layout.
- */
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-/**
- * Single-column field stack (console density — no paired marketing rows).
- */
 export const FormFieldStack = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-/**
- * Optional paired row for name + email on wider viewports only.
- */
 export const FormRow = styled.div`
   display: grid;
   grid-template-columns: 1fr;
@@ -148,18 +121,12 @@ export const FormRow = styled.div`
   };
 `;
 
-/**
- * Container for label and input with error message.
- */
 export const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.xs};
 `;
 
-/**
- * Uppercase mono field label — industrial telemetry caption.
- */
 export const Label = styled.label`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
@@ -169,18 +136,12 @@ export const Label = styled.label`
   color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
-/**
- * Graphite console text input with tactical focus ring.
- */
 export const Input = styled.input<InputStyleProps>`
   ${contactFieldBase};
   min-height: ${({ theme }) => theme.sizes.button.minHeight};
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 `;
 
-/**
- * Graphite console textarea with tactical focus ring.
- */
 export const TextArea = styled.textarea<InputStyleProps>`
   ${contactFieldBase};
   padding: ${({ theme }) => theme.spacing.md};
@@ -189,27 +150,18 @@ export const TextArea = styled.textarea<InputStyleProps>`
   line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
 `;
 
-/**
- * Semantic error copy — #EF4444 token.
- */
 export const ErrorText = styled.span`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   color: ${({ theme }) => theme.colors.error};
 `;
 
-/**
- * Screen-reader live region for submit success and API errors.
- */
 export const FormFeedback = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
-/**
- * Premium primary CTA — gradient + metallic sheen, 44px touch target.
- */
 export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
   position: relative;
   overflow: hidden;
@@ -246,9 +198,6 @@ export const SubmitButton = styled(motion.button)<SubmitButtonStyleProps>`
   };
 `;
 
-/**
- * Success state inside the live region after submission.
- */
 export const SuccessMessage = styled(motion.p)`
   margin: 0;
   padding: ${({ theme }) => theme.spacing.lg};
@@ -261,13 +210,6 @@ export const SuccessMessage = styled(motion.p)`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
 `;
 
-/* *************************************************************************************************
- ******************************************** AUX STRIP ********************************************
- ************************************************************************************************ */
-
-/**
- * Secondary channels below the console — not a form/info split column.
- */
 export const ContactAuxStrip = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr;

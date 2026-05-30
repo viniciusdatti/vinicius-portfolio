@@ -3,9 +3,6 @@ import { useEffect, useState } from 'react';
 
 const QUERY = '(prefers-reduced-motion: reduce)';
 
-/**
- * Mirrors prefers-reduced-motion for Framer Motion and pointer-driven effects.
- */
 export const usePrefersReducedMotion = (): boolean => {
   const [reduced, setReduced] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;

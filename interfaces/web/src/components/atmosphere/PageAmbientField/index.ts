@@ -1,7 +1,5 @@
-// Component
-export * from './PageAmbientField';
+export * from './PageAmbientField.style';
+
 export * from './PageAmbientField.types';
-export {
-  PageAmbientContent,
-  PageAmbientShell,
-} from './PageAmbientField.style';
+
+export * from './PageAmbientField';

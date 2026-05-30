@@ -1,11 +1,7 @@
-/**
- * Skeleton loading component for project cards.
- */
-
 // Core
 import React from 'react';
 
-// Component
+// Styles
 import {
   SkeletonCard,
   SkeletonTitle,
@@ -21,9 +17,9 @@ export const ProjectCardSkeleton = (): React.ReactElement => (
   <SkeletonCard>
     <SkeletonTitle />
     <SkeletonDescription>
-      <SkeletonLine width="100%" />
-      <SkeletonLine width="90%" />
-      <SkeletonLine width="75%" />
+      <SkeletonLine $width="100%" />
+      <SkeletonLine $width="90%" />
+      <SkeletonLine $width="75%" />
     </SkeletonDescription>
     <SkeletonTagList>
       <SkeletonTag />

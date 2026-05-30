@@ -1,25 +1,10 @@
-/**
- * @fileoverview Operational KPI strip above the Live Lab sensor grid.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useMemo } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import { SensorStatus } from '../../../../types/telemetry';
-
-// Components
-import { TelemetryValueFlash } from '../TelemetryValueFlash';
-
-// Component
-import type { OperationalKpiStripProps } from './OperationalKpiStrip.types';
+// Styles
 import {
   KpiLabel,
   KpiMeta,
@@ -27,6 +12,13 @@ import {
   KpiTile,
   KpiValue,
 } from './OperationalKpiStrip.style';
+
+// Types
+import { SensorStatus } from '../../../../types/telemetry';
+import { OperationalKpiStripProps } from './OperationalKpiStrip.types';
+
+// TelemetryMonitor
+import { TelemetryValueFlash } from '../TelemetryValueFlash';
 
 export const OperationalKpiStrip: React.FC<OperationalKpiStripProps> = ({
   readings,

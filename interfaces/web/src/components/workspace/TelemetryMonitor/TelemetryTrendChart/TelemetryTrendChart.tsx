@@ -1,11 +1,3 @@
-/**
- * @fileoverview Multi-sensor trend chart for the Live Lab telemetry monitor.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, {
   useEffect,
@@ -27,28 +19,29 @@ import {
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
-import { resolveTelemetrySensorLabel } from '../../../../lib/telemetrySensorDisplay';
-
-// Types
-import type { SensorReading } from '../../../../types/telemetry';
-import { SensorStatus } from '../../../../types/telemetry';
 
 // Hooks
 import { usePrefersReducedMotion } from '../../../../hooks/usePrefersReducedMotion';
 import { useScrollMotion } from '../../../../hooks/useScrollMotion';
 
-// Component
-import type {
-  TelemetryTrendChartMargin,
-  TelemetryTrendChartPalette,
-  TelemetryTrendChartPoint,
-  TelemetryTrendChartProps,
-} from './TelemetryTrendChart.types';
+// Styles
 import {
   ChartPlot,
   ChartRoot,
   ChartTitle,
 } from './TelemetryTrendChart.style';
+
+// Types
+import { SensorReading, SensorStatus } from '../../../../types/telemetry';
+import {
+  TelemetryTrendChartMargin,
+  TelemetryTrendChartPalette,
+  TelemetryTrendChartPoint,
+  TelemetryTrendChartProps,
+} from './TelemetryTrendChart.types';
+
+// Lib
+import { resolveTelemetrySensorLabel } from '../../../../lib/telemetry';
 
 const AREA_FILL_TOP_OPACITY: number = 0.14;
 
@@ -70,8 +63,19 @@ const TelemetryPulseDot = ({
   }
   return (
     <g>
-      <circle cx={cx} cy={cy} r={5} fill={stroke} opacity={0.22} />
-      <circle cx={cx} cy={cy} r={2.75} fill={stroke} />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={5}
+        fill={stroke}
+        opacity={0.22}
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={2.75}
+        fill={stroke}
+      />
     </g>
   );
 };
@@ -93,14 +97,6 @@ const initialPlotDimensions: PlotDimensions = {
   height: 0,
 };
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Tracks plot container size so Recharts receives explicit dimensions instead of
- * percentage-based ResponsiveContainer (avoids -1 width/height in flex layouts).
- */
 const usePlotDimensions = (
   plotRef: React.RefObject<HTMLDivElement | null>,
 ): PlotDimensions => {
@@ -154,10 +150,6 @@ const strokeForStatus = (
   }
   return colors.success;
 };
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const TelemetryTrendChart = ({
   readings,
@@ -233,9 +225,24 @@ export const TelemetryTrendChart = ({
                 const stroke: string = strokeForStatus(r.status, palette);
                 const gradId: string = `${gradientPrefix}-${r.id}`;
                 return (
-                  <linearGradient key={gradId} id={gradId} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor={stroke} stopOpacity={AREA_FILL_TOP_OPACITY} />
-                    <stop offset="100%" stopColor={stroke} stopOpacity={0} />
+                  <linearGradient
+                    key={gradId}
+                    id={gradId}
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="0%"
+                      stopColor={stroke}
+                      stopOpacity={AREA_FILL_TOP_OPACITY}
+                    />
+                    <stop
+                      offset="100%"
+                      stopColor={stroke}
+                      stopOpacity={0}
+                    />
                   </linearGradient>
                 );
               })}

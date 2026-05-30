@@ -1,2 +1,1 @@
-// Component
-export { HomeLiveLabImmersion } from './HomeLiveLabImmersion';
+export * from './HomeLiveLabImmersion';

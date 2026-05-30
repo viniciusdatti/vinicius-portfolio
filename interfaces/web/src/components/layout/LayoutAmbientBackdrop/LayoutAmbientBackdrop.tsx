@@ -1,18 +1,16 @@
-/**
- * @fileoverview Route-aware full-viewport Canvas2D ambient — visible on all public pages.
- */
-
 // Core
 import React, { useEffect, useState } from 'react';
 
 // Libraries
 import { useLocation } from 'react-router-dom';
 
-// Components
+// Types
 import {
   PageAmbientFieldKind,
   resolveAmbientKindFromPath,
 } from '../../atmosphere/PageAmbientField/PageAmbientField.types';
+
+// Atmosphere
 import { PageAmbientField } from '../../atmosphere/PageAmbientField';
 
 export const LayoutAmbientBackdrop: React.FC = (): React.ReactElement | null => {

@@ -1,16 +1,12 @@
-/**
- * @fileoverview Mobile navigation drawer — full-height panel, touch targets, safe areas.
- */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import { drawerPanelChrome } from '../../../styles/surfaces';
 
-// Component
-import type { MenuLinkStyleProps } from './MobileMenu.types';
+// Types
+import { MenuLinkStyleProps } from './MobileMenu.types';
 
 export const MenuViewport = styled.div`
   position: fixed;

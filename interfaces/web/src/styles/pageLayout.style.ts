@@ -2,7 +2,7 @@
 import styled, { css, keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Component
+// Styles
 import {
   cardInteractive,
   operationalGlass,
@@ -30,7 +30,6 @@ export const PageContainer = styled.div`
   };
 `;
 
-/** About — slightly narrower reading measure */
 export const PageContainerNarrow = styled(PageContainer)`
   max-width: ${({ theme }) => theme.layout.contentNarrow};
 
@@ -39,7 +38,6 @@ export const PageContainerNarrow = styled(PageContainer)`
   };
 `;
 
-/** Projects — wide showcase canvas */
 export const PageContainerWide = styled(PageContainer)`
   max-width: ${({ theme }) => theme.layout.contentWide};
 
@@ -57,7 +55,6 @@ export const PageHeader = styled.div`
   scroll-margin-top: calc(${({ theme }) => theme.sizes.layout.headerOffset} + 0.5rem);
 `;
 
-/** Gradient mask lives on inner span so Framer blur filters never flatten the H1. */
 export const PageTitleGradient = styled.span`
   display: inline-block;
   background: ${({ theme }) => theme.colors.gradientTextDisplay};
@@ -138,10 +135,6 @@ export const ContentGrid = styled.div`
   };
 `;
 
-/* *************************************************************************************************
- ****************************************** PAGE SECTIONS ******************************************
- ************************************************************************************************ */
-
 export const PageSection = styled(motion.section)`
   margin-bottom: ${({ theme }) => theme.spacing.sectionSm};
 `;
@@ -161,10 +154,6 @@ export const SectionTitle = styled.h2`
   color: ${({ theme }) => theme.colors.text};
   text-wrap: balance;
 `;
-
-/* *************************************************************************************************
- ************************************* EDITORIAL HEADER SPLIT **************************************
- ************************************************************************************************ */
 
 export const PageHeaderEditorial = styled(PageHeader)`
   @media (min-width: ${({ theme }) => theme.breakpoints.desktop}) {
@@ -250,10 +239,6 @@ export const PageLead = styled(motion.p)`
     margin-right: 0;
   };
 `;
-
-/* *************************************************************************************************
- **************************************** PAGE CARD SURFACE ****************************************
- ************************************************************************************************ */
 
 export const PageCard = styled(motion.div)`
   ${operationalGlass};

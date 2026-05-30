@@ -13,9 +13,6 @@ export const surfaceInsetRim = css`
   }
 `;
 
-/**
- * Standard surface motion — align with theme.transitions / motionPresets.
- */
 export const surfaceMotion = css`
   transition:
     border-color ${({ theme }) => theme.transitions.fast},
@@ -23,18 +20,12 @@ export const surfaceMotion = css`
     opacity ${({ theme }) => theme.transitions.fast};
 `;
 
-/**
- * CSS variables for pointer-driven card lighting and operational caustic sweep.
- */
 export const cardPointerVars = css`
   --spot-x: 50%;
   --spot-y: 50%;
   --spot-opacity: 0;
 `;
 
-/**
- * Frosted glass panel with subtle border and depth.
- */
 export const glassSurface = css`
   background: ${({ theme }) => theme.colors.surfaceGlass};
   backdrop-filter: ${({ theme }) => theme.effects.backdrop.glass};
@@ -42,9 +33,6 @@ export const glassSurface = css`
   border: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
-/**
- * Elevated card surface for interactive panels.
- */
 export const elevatedSurface = css`
   background-color: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -62,9 +50,6 @@ export const elevatedSurface = css`
   }
 `;
 
-/**
- * Premium hover lift — 3px (liftMd), 280ms ease-out; will-change only while hovered.
- */
 export const interactiveLift = css`
   transition:
     transform ${({ theme }) => theme.transitions.normal},
@@ -85,9 +70,6 @@ export const interactiveLift = css`
   }
 `;
 
-/**
- * Marketing glass card — frosted surfaceGlass, elevation tokens, rim via ::before.
- */
 export const cardMarketingGlass = css`
   ${glassSurface};
   box-shadow: ${({ theme }) => theme.elevation.md};
@@ -106,9 +88,6 @@ export const cardMarketingGlass = css`
   }
 `;
 
-/**
- * Subtle inner highlight for premium buttons.
- */
 export const buttonShine = css`
   position: relative;
   overflow: hidden;
@@ -123,9 +102,6 @@ export const buttonShine = css`
   };
 `;
 
-/**
- * Shared hover lift utility — transform via Framer spring (usePhysicalInteraction).
- */
 export const hoverLiftSm = css`
   @media (hover: hover) {
     &:hover {
@@ -134,9 +110,6 @@ export const hoverLiftSm = css`
   }
 `;
 
-/**
- * Elevated surface with subtle top rim light (living surface).
- */
 export const livingSurface = css`
   background: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -155,9 +128,6 @@ export const livingSurface = css`
   };
 `;
 
-/**
- * Featured card spotlight wash (atmospheric, not glow-heavy).
- */
 export const featuredSpotlight = css`
   &::after {
     content: '';
@@ -172,10 +142,6 @@ export const featuredSpotlight = css`
   };
 `;
 
-/**
- * Operational glass panel — control-room surfaces (Live Lab, observatory).
- * ::before = 1px inset rim + rim wash; ::after = pointer-tracked caustic sweep.
- */
 export const operationalGlass = css`
   ${glassSurface};
   ${cardPointerVars};
@@ -219,9 +185,6 @@ export const operationalGlass = css`
   }
 `;
 
-/**
- * Deep instrument glass — hero portrait, immersion observatory frame (depth via gradient).
- */
 export const operationalGlassDeep = css`
   ${operationalGlass};
   background:
@@ -229,9 +192,6 @@ export const operationalGlassDeep = css`
     ${({ theme }) => theme.colors.surfaceGlass};
 `;
 
-/**
- * Operational cell — hover border only (dense grids).
- */
 export const cardOperationalCell = css`
   ${operationalGlass};
   ${surfaceMotion};
@@ -243,10 +203,6 @@ export const cardOperationalCell = css`
   }
 `;
 
-/**
- * Pointer-driven glow via CSS variables (--spot-x, --spot-y, --spot-opacity).
- * Use on marketing cards that do not already consume ::after via operationalGlass.
- */
 export const pointerSpotlight = css`
   &::after {
     content: '';
@@ -265,9 +221,6 @@ export const pointerSpotlight = css`
   }
 `;
 
-/**
- * Hover lift + depth — transform via spring physics layer.
- */
 export const cardHoverElevated = css`
   ${surfaceMotion};
 
@@ -278,9 +231,6 @@ export const cardHoverElevated = css`
   }
 `;
 
-/**
- * Marketing interactive card — pointer spotlight + CSS lift (pair with pointer tracking).
- */
 export const cardInteractive = css`
   ${cardPointerVars};
   ${pointerSpotlight};
@@ -300,9 +250,6 @@ export const cardInteractive = css`
   }
 `;
 
-/**
- * KPI / stat tile — left signal bar (Datadog metric widget).
- */
 export const cardStatSignal = css`
   background-color: ${({ theme }) => theme.colors.surfaceElevated};
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
@@ -331,10 +278,6 @@ export const cardStatSignal = css`
   }
 `;
 
-/**
- * Selectable showcase row — solid elevated surface, gradient rim, md elevation only.
- * CSS lift via interactiveLiftShowcase; Framer whileTap on the card component.
- */
 export const interactiveLiftShowcase = css`
   transition:
     transform ${({ theme }) => theme.transitions.normal},
@@ -353,12 +296,6 @@ export const interactiveLiftShowcase = css`
   }
 `;
 
-/**
- * Amber (#f59e0b) pointer torch — pair with --spot-x / --spot-y / --spot-opacity on the card root.
- */
-/**
- * Specular cobalt rim — pair with 3D tilt on showcase cards at hover.
- */
 export const showcaseSpecularRim = css`
   position: absolute;
   inset: 0;
@@ -403,9 +340,6 @@ export const showcasePointerTorch = css`
   }
 `;
 
-/**
- * showcase-selectable archetype — glass observability panel (Projects / Trabalhos).
- */
 export const cardShowcaseSurface = css`
   ${cardPointerVars};
   background: ${({ theme }) => theme.colors.surfaceGlass};
@@ -444,9 +378,6 @@ export const cardShowcaseSurface = css`
   }
 `;
 
-/**
- * Inset rim on ::before — for panels that reserve ::after for scan/sweep layers.
- */
 export const panelInsetRim = css`
   position: relative;
   overflow: hidden;
@@ -463,17 +394,11 @@ export const panelInsetRim = css`
   };
 `;
 
-/**
- * Standard panel chrome — border + inset rim, no drop shadow.
- */
 export const panelChrome = css`
   border: 1px solid ${({ theme }) => theme.colors.borderSubtle};
   ${panelInsetRim};
 `;
 
-/**
- * Primary CTA inset highlight — pairs with buttonShine (::before).
- */
 export const buttonPrimaryRim = css`
   &::after {
     content: '';
@@ -486,17 +411,11 @@ export const buttonPrimaryRim = css`
   };
 `;
 
-/**
- * Drawer / slide-over panel — left edge + inset rim.
- */
 export const drawerPanelChrome = css`
   border-left: 1px solid ${({ theme }) => theme.colors.border};
   ${panelInsetRim};
 `;
 
-/**
- * Card titles inside flex/grid — wrap at word boundaries, not mid-token.
- */
 export const cardTitleReadable = css`
   min-width: 0;
   overflow-wrap: anywhere;
@@ -504,9 +423,6 @@ export const cardTitleReadable = css`
   hyphens: auto;
 `;
 
-/**
- * Card body copy — same wrapping rules as titles.
- */
 export const cardBodyReadable = css`
   min-width: 0;
   overflow-wrap: anywhere;
@@ -514,9 +430,6 @@ export const cardBodyReadable = css`
   hyphens: auto;
 `;
 
-/**
- * Card titles capped at two lines (editorial grids).
- */
 export const cardTitleClamp = css`
   ${cardTitleReadable};
   display: -webkit-box;
@@ -525,9 +438,6 @@ export const cardTitleClamp = css`
   overflow: hidden;
 `;
 
-/**
- * Card titles capped at three lines (certificate / long labels).
- */
 export const cardTitleClamp3 = css`
   ${cardTitleReadable};
   display: -webkit-box;

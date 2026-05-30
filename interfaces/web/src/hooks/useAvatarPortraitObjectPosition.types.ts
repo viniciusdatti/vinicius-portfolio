@@ -1,5 +1,5 @@
 // Core
-import type { RefObject } from 'react';
+import { RefObject } from 'react';
 
 export interface UseAvatarPortraitObjectPositionResult {
   frameRef: RefObject<HTMLDivElement | null>;

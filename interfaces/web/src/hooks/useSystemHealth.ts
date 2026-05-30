@@ -1,7 +1,7 @@
 // Core
 import { useEffect, useState } from 'react';
 
-// Components
+// Utils
 import { getSystemHealthUrl } from '../utils/systemHealthUrl';
 
 export enum SystemHealthStatus {
@@ -25,9 +25,6 @@ interface HealthPayload {
   version?: string;
 }
 
-/**
- * Polls backend /health for operational status in the system chrome.
- */
 export const useSystemHealth = (): SystemHealthState => {
   const [state, setState] = useState<SystemHealthState>(initialState);
 

@@ -1,8 +1,4 @@
-/**
- * Type guards for API error handling (portfolio predicates).
- */
-
-// Component
+// Api
 import { ApiError } from './client';
 
 export const isApiError = (error: unknown): error is ApiError => (

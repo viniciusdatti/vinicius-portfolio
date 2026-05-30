@@ -1,7 +1,7 @@
 // Libraries
 import { setupServer } from 'msw/node';
 
-// Component
+// Mocks
 import { handlers } from './handlers';
 
 export const server = setupServer(...handlers);

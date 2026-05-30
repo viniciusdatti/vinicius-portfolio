@@ -1,16 +1,8 @@
-/**
- * @fileoverview Live Lab showcase header strip styles.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled, { css, keyframes } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import { glassSurface } from '../../../styles/surfaces';
 
 const blink = keyframes`

@@ -1,11 +1,7 @@
-/**
- * Skeleton loading component for skill cards.
- */
-
 // Core
 import React from 'react';
 
-// Component
+// Styles
 import {
   SkeletonCard,
   SkeletonIcon,

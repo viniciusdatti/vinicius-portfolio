@@ -1,21 +1,21 @@
 // Core
 import React, { useMemo } from 'react';
 
-// Libraries
-import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
-
 // Hooks
 import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 import { useSocketThrottledValue } from '../../../hooks/useSocketThrottledValue';
 
-// Components
-import { useTelemetry } from '../../workspace/TelemetryProvider';
-
-// Component
+// Styles
 import {
   MonitorFieldCanvas,
   MonitorFieldLayer,
 } from './MonitorTelemetryField.style';
+
+// Lib
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+
+// Workspace
+import { useTelemetry } from '../../workspace/TelemetryProvider';
 
 const SOCKET_FIELD_THROTTLE_MS: number = 100;
 
@@ -38,7 +38,11 @@ export const MonitorTelemetryField = (): React.ReactElement => {
   });
 
   return (
-    <MonitorFieldLayer ref={bindContainerRef} data-telemetry-field aria-hidden>
+    <MonitorFieldLayer
+      ref={bindContainerRef}
+      data-telemetry-field
+      aria-hidden
+    >
       <MonitorFieldCanvas ref={canvasRef} />
     </MonitorFieldLayer>
   );

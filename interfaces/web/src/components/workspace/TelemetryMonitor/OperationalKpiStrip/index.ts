@@ -1,5 +1,3 @@
-// Component
+export * from './OperationalKpiStrip.types';
+
 export * from './OperationalKpiStrip';
-export type {
-  OperationalKpiStripProps,
-} from './OperationalKpiStrip.types';

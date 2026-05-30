@@ -1,8 +1,8 @@
 // Libraries
 import styled, { keyframes } from 'styled-components';
 
-// Component
-import type { SpinnerContainerProps } from './Spinner.types';
+// Types
+import { SpinnerContainerProps } from './Spinner.types';
 
 const spin = keyframes`
   0% { transform: rotate(0deg); }

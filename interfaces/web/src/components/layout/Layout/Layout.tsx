@@ -1,18 +1,9 @@
-/**
- * @fileoverview Public portfolio shell — canonical route transition + a11y motion gate.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useEffect } from 'react';
 
 // Libraries
 import { useLocation, useOutlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { prefetchPublicRoutes } from '../../../lib/routePrefetch';
 
 // Hooks
 import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
@@ -21,19 +12,22 @@ import {
   useScrollMotionViewport,
 } from '../../../hooks/scrollMotionViewport';
 
-// Components
+// Layout
 import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { LayoutAmbientBackdrop } from '../LayoutAmbientBackdrop';
-import { resolvePageTransition } from '../../../styles/animations';
 
-// Component
+// Styles
+import { resolvePageTransition } from '../../../styles/animations';
 import {
   SkipLink,
   Main,
   PageMotionLayer,
   WorkspaceMotionShell,
 } from './Layout.style';
+
+// Lib
+import { prefetchPublicRoutes } from '../../../lib/routing';
 
 const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
@@ -97,17 +91,6 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   );
 };
 
-/**
- * Public portfolio shell — cinematic pages with page transitions.
- * Live Lab uses full-viewport workspace mode (no footer, fade-only transition).
- *
- * P0 gate: `usePrefersReducedMotion` strips scale/translate/blur from `pageEnter`;
- * only opacity fade runs when the user prefers reduced motion.
- *
- * IMPORTANT: PageMotionLayer keys `${pathname}:${key}` and wraps the resolved
- * `useOutlet()` element. Route exit animations were removed — AnimatePresence
- * mode="wait" and exit fades left SPA navigations stuck when the tab was hidden.
- */
 export const Layout: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
 

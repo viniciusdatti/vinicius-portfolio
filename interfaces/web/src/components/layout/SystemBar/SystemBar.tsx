@@ -5,17 +5,10 @@ import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Store
-import { useTelemetryStore } from '../../../store/telemetryStore';
-
 // Hooks
-import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
+import { useSystemHealth } from '../../../hooks/useSystemHealth';
 
-// Components
-import { ThemeToggle } from '../../common/ThemeToggle';
-import { LanguageToggle } from '../../LanguageToggle';
-
-// Component
+// Layout
 import {
   SystemBarRoot,
   SystemBarInner,
@@ -28,6 +21,24 @@ import {
   StatusDot,
   SystemBarActions,
 } from './SystemBar.style';
+
+// Components
+import { LanguageToggle } from '../../LanguageToggle';
+
+// Types
+import { OperationalStatusTone } from '../../../types/telemetry';
+
+// Common
+import { ThemeToggle } from '../../common/ThemeToggle';
+
+// Lib
+import {
+  resolveSystemHealthLabel,
+  resolveSystemHealthTone,
+} from '../../../lib/systemHealth';
+
+// Store
+import { useTelemetryStore } from '../../../store/telemetryStore';
 
 const PORTFOLIO_MODULE_KEYS: Record<string, string> = {
   '/': 'system.modules.home',
@@ -54,27 +65,19 @@ export const SystemBar = (): React.ReactElement => {
     return PORTFOLIO_MODULE_KEYS[location.pathname] ?? 'system.modules.portfolio';
   }, [isLiveLab, location.pathname]);
 
-  const apiTone: 'ok' | 'warn' | 'idle' = useMemo(() => {
-    if (status === SystemHealthStatus.Online) {
-      return 'ok';
-    }
-    if (status === SystemHealthStatus.Offline) {
-      return 'warn';
-    }
-    return 'idle';
-  }, [status]);
+  const apiTone: OperationalStatusTone = useMemo(
+    (): OperationalStatusTone => resolveSystemHealthTone(status),
+    [status],
+  );
 
-  const apiLabel: string = useMemo(() => {
-    if (status === SystemHealthStatus.Online) {
-      return t('system.status.apiOnline');
-    }
-    if (status === SystemHealthStatus.Offline) {
-      return t('system.status.apiOffline');
-    }
-    return t('system.status.apiChecking');
-  }, [status, t]);
+  const apiLabel: string = useMemo(
+    (): string => resolveSystemHealthLabel(status, t, 'systemBar'),
+    [status, t],
+  );
 
-  const wsTone: 'ok' | 'warn' | 'idle' = telemetryConnected ? 'ok' : 'warn';
+  const wsTone: OperationalStatusTone = telemetryConnected
+    ? OperationalStatusTone.Ok
+    : OperationalStatusTone.Warn;
   const wsLabel: string = telemetryConnected
     ? t('system.status.telemetryLive')
     : t('system.status.telemetryIdle');
@@ -107,12 +110,14 @@ export const SystemBar = (): React.ReactElement => {
                 {wsLabel}
               </StatusPill>
               {tickLabel ? (
-                <StatusPill $tone="idle">{tickLabel}</StatusPill>
+                <StatusPill $tone={OperationalStatusTone.Idle}>{tickLabel}</StatusPill>
               ) : null}
-              <StatusPill $tone="idle">{buildLabel}</StatusPill>
+              <StatusPill $tone={OperationalStatusTone.Idle}>{buildLabel}</StatusPill>
             </>
           ) : (
-            <StatusPill $tone="idle">{t('system.status.latencyLive')}</StatusPill>
+            <StatusPill $tone={OperationalStatusTone.Idle}>
+              {t('system.status.latencyLive')}
+            </StatusPill>
           )}
         </StatusCluster>
         <SystemBarActions>

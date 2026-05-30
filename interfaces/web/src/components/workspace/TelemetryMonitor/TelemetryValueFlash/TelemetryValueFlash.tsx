@@ -1,27 +1,21 @@
-/**
- * @fileoverview Socket-driven value flash — opacity/background only (no scale/bounce).
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 // Hooks
 import { usePrefersReducedMotion } from '../../../../hooks/usePrefersReducedMotion';
 
-// Component
-import type { TelemetryValueFlashProps } from './TelemetryValueFlash.types';
+// Styles
 import { ValueFlashWrap } from './TelemetryValueFlash.style';
+
+// Types
+import { TelemetryValueFlashProps } from './TelemetryValueFlash.types';
 
 const FLASH_THROTTLE_MS: number = 100;
 const FLASH_DURATION_MS: number = 380;
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const TelemetryValueFlash: React.FC<TelemetryValueFlashProps> = ({
   cellId,
