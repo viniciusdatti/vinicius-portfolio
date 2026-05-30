@@ -1,5 +1,9 @@
 // Libraries
-import { describe, expect, it } from 'vitest';
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest';
 
 // Config
 import {
@@ -10,9 +14,9 @@ import {
   AVATAR_IMAGE_NATURAL_WIDTH,
   AVATAR_PORTRAIT_OBJECT_POSITION,
   computeAvatarPortraitObjectPosition,
-} from '../config/avatarImage';
+} from '../../config/avatarImage';
 
-// Component
+// Dom
 import {
   computeObjectFitCoverPosition,
   formatObjectFitCoverPosition,

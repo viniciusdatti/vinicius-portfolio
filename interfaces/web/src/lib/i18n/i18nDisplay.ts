@@ -1,20 +1,24 @@
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+// Types
+import { Language } from '../../types';
 
 /**
- * Maps i18next language code to a BCP 47 tag for Intl formatters.
+ * Single source of truth for mapping i18next language codes to the Language enum.
  */
+export const resolveLanguage = (language: string): Language => (
+  language.startsWith('pt') ? Language.Pt : Language.En
+);
+
+export const isPortugueseLocale = (language: string): boolean => (
+  resolveLanguage(language) === Language.Pt
+);
+
 export const resolveI18nBcp47Tag = (language: string): string => {
-  if (language.startsWith('pt')) {
+  if (resolveLanguage(language) === Language.Pt) {
     return 'pt-BR';
   }
   return 'en-US';
 };
 
-/**
- * Locale-aware clock readout (HH:mm:ss) for telemetry surfaces.
- */
 export const formatClockTime = (timestampMs: number, language: string): string => {
   const localeTag: string = resolveI18nBcp47Tag(language);
   return new Date(timestampMs).toLocaleTimeString(localeTag, {
@@ -24,9 +28,6 @@ export const formatClockTime = (timestampMs: number, language: string): string =
   });
 };
 
-/**
- * Returns translated copy when the key resolves; otherwise the API/backend fallback.
- */
 export const resolveI18nKeyOrFallback = (
   key: string,
   fallback: string,

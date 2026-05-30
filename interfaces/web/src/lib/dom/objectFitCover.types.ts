@@ -1,7 +1,6 @@
 export interface CoverFocalPoint {
   x: number;
   y: number;
-  /** Where the focal point should land in the container (0–1). Defaults to center. */
   containerX?: number;
   containerY?: number;
 }

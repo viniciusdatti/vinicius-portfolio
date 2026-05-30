@@ -1,8 +1,8 @@
 // Libraries
-import type { DefaultTheme } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
 
 // Types
-import { SensorStatus } from '../types/telemetry';
+import { SensorStatus } from '../../types/telemetry';
 
 export const getTelemetryStatusColor = (
   status: SensorStatus,
@@ -17,9 +17,6 @@ export const getTelemetryStatusColor = (
   return theme.colors.success;
 };
 
-/**
- * Surface tint for sparklines and badge backgrounds.
- */
 export const getTelemetryStatusSurface = (
   status: SensorStatus,
   theme: DefaultTheme,
