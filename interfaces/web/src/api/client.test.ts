@@ -4,17 +4,13 @@ import {
 } from 'vitest';
 import { http, HttpResponse } from 'msw';
 
-// Components
-import { server } from '../test/mocks/server';
-
-// Component
+// Api
 import { apiClient, ApiError } from './client';
 
-const API_BASE: string = 'http://localhost:8000/api/v1';
+// Mocks
+import { server } from '../test/mocks/server';
 
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+const API_BASE: string = 'http://localhost:8000/api/v1';
 
 describe('apiClient', (): void => {
   // METHOD: GET - OK *******************************
