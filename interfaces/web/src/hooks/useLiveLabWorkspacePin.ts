@@ -6,6 +6,9 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
+// Utils
+import { LIVE_LAB_IMMERSIVE_CLASS } from '../utils/bodyScrollLock';
+
 export interface LiveLabWorkspacePinRefs {
   sectionRef: React.RefObject<HTMLElement | null>;
   stageRef: React.RefObject<HTMLDivElement | null>;
@@ -18,35 +21,20 @@ export interface LiveLabWorkspacePinState {
   pinEnabled: boolean;
 }
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
 const PIN_START: string = 'top top+=6rem';
 const LOG_SCROLL_FALLBACK_PX: number = 320;
 
+/** ScrollTrigger end distance tracks live log height so pin duration matches content. */
 const resolveLogScrollDistance = (logFlow: HTMLElement | null): string => {
   const logHeight: number = logFlow?.offsetHeight ?? LOG_SCROLL_FALLBACK_PX;
   return `+=${Math.max(logHeight, LOG_SCROLL_FALLBACK_PX)}`;
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Pins the Live Lab monitor stage while the event log band scrolls through the viewport.
- */
 export const useLiveLabWorkspacePin = (): LiveLabWorkspacePinState => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement | null>(null);
   const logFlowRef = useRef<HTMLDivElement | null>(null);
   const progressRef = useRef<HTMLDivElement | null>(null);
-
-  /**
-   * GSAP pin collapsed the stage (~267px) and clipped the trend chart — disabled until
-   * pin spacing is reconciled with the viewport flex budget (MCP-validated 2026-05-23).
-   */
   const pinEnabled: boolean = false;
 
   useEffect(() => {
@@ -57,9 +45,9 @@ export const useLiveLabWorkspacePin = (): LiveLabWorkspacePinState => {
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle('live-lab-immersive', pinEnabled);
+    document.body.classList.toggle(LIVE_LAB_IMMERSIVE_CLASS, pinEnabled);
     return (): void => {
-      document.body.classList.remove('live-lab-immersive');
+      document.body.classList.remove(LIVE_LAB_IMMERSIVE_CLASS);
     };
   }, [pinEnabled]);
 
@@ -67,6 +55,7 @@ export const useLiveLabWorkspacePin = (): LiveLabWorkspacePinState => {
     () => {
       if (!pinEnabled) return undefined;
 
+      // Workspace pin: scrub CSS custom property + log reveal + section progress.
       const section: HTMLElement | null = sectionRef.current;
       const stage: HTMLElement | null = stageRef.current;
       const logFlow: HTMLElement | null = logFlowRef.current;

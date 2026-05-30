@@ -1,12 +1,8 @@
-/**
- * @fileoverview Drawer overlay — viewport-fixed panel; bottom sheet on mobile.
- */
-
 // Libraries
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import { drawerPanelChrome } from '../../../styles/surfaces';
 
 export const DrawerViewport = styled.div`

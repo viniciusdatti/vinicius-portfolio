@@ -1,2 +1,1 @@
-// Component
-export { LayoutAmbientBackdrop } from './LayoutAmbientBackdrop';
+export * from './LayoutAmbientBackdrop';

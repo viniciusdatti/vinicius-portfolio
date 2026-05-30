@@ -19,9 +19,6 @@ const TECH_SLUG_ICON_MAP: Record<string, string> = {
   jest: 'icons/jest.svg',
 };
 
-/**
- * Resolves a public icon URL for a technology slug, or null when unknown.
- */
 export const getTechIconUrl = (slug: string): string | null => {
   const normalizedSlug: string = slug.toLowerCase().trim();
   const iconPath: string | undefined = TECH_SLUG_ICON_MAP[normalizedSlug];

@@ -1,2 +1,3 @@
-// Component
-export { RouteError } from './RouteError';
+export * from './RouteError.types';
+
+export * from './RouteError';

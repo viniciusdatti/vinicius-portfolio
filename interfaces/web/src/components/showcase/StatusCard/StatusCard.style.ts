@@ -1,8 +1,3 @@
-/**
- * Styled components for StatusCard (HighlightCard-style).
- * Status colors from theme; no inline styles.
- */
-
 // Libraries
 import styled from 'styled-components';
 

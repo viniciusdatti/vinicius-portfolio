@@ -1,20 +1,18 @@
 // Libraries
-import { describe, it, expect } from 'vitest';
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
 // Types
-import type { Project } from '../../data/types';
-
-// Domain
+import { Project } from '../../data/types';
 import { filterProjectsBySearch } from '../../domain/projects';
 
-// Components
+// Plugins
 import { buildFakeProject, MOCKED_PROJECT_LIST } from '../../plugins/testUtils';
 
 const projects: Project[] = MOCKED_PROJECT_LIST;
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
 
 describe('projects search filter', (): void => {
   it('should return all projects when search is empty', (): void => {

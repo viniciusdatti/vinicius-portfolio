@@ -1,2 +1,1 @@
-// Component
 export * from './RealtimePresence';

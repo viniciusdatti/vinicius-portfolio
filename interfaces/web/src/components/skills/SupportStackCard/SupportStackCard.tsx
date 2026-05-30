@@ -1,16 +1,11 @@
-/**
- * @fileoverview Canonical support-stack technology card — single horizontal archetype.
- */
-
 // Core
-import React from 'react';
+import React, { memo } from 'react';
 
 // Hooks
-import type { UsePhysicalInteractionResult } from '../../../hooks/usePhysicalInteraction.types';
+import { UsePhysicalInteractionResult } from '../../../hooks/usePhysicalInteraction.types';
 import { usePhysicalInteraction } from '../../../hooks/usePhysicalInteraction';
 
-// Component
-import type { SupportStackCardProps } from './SupportStackCard.types';
+// Styles
 import {
   SupportStackCardInner,
   SupportStackCardRoot,
@@ -21,13 +16,16 @@ import {
   SupportStackTextColumn,
 } from './SupportStackCard.style';
 
-export const SupportStackCard: React.FC<SupportStackCardProps> = ({
+// Types
+import { SupportStackCardProps } from './SupportStackCard.types';
+
+export const SupportStackCard = memo(({
   skill,
   displayName,
   description,
   iconUrl,
   tier,
-}): React.ReactElement => {
+}: SupportStackCardProps): React.ReactElement => {
   const {
     ref,
     motionProps,
@@ -49,7 +47,11 @@ export const SupportStackCard: React.FC<SupportStackCardProps> = ({
       <SupportStackCardInner>
         <SupportStackCardRow>
           <SupportStackIconWell $tier={tier}>
-            <img src={iconUrl} alt="" aria-hidden />
+            <img
+              src={iconUrl}
+              alt=""
+              aria-hidden
+            />
           </SupportStackIconWell>
           <SupportStackTextColumn>
             <SupportStackLabel $tier={tier}>{displayName}</SupportStackLabel>
@@ -61,4 +63,6 @@ export const SupportStackCard: React.FC<SupportStackCardProps> = ({
       </SupportStackCardInner>
     </SupportStackCardRoot>
   );
-};
+});
+
+SupportStackCard.displayName = 'SupportStackCard';

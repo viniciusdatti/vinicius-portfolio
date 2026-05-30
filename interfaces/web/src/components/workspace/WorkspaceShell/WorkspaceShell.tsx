@@ -8,13 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useLiveLabWorkspacePin } from '../../../hooks/useLiveLabWorkspacePin';
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Components
-import { BootHandshake } from '../BootHandshake';
-import { LiveLabStreamField } from '../../atmosphere/LiveLabStreamField';
-import { LiveLabAtmosphere } from '../LiveLabAtmosphere';
-import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
-import { TelemetryMonitor } from '../TelemetryMonitor';
-import { TelemetryEventLogPlacement } from '../TelemetryMonitor/TelemetryMonitor.types';
+// Layout
 import {
   ImmersionProgressFill,
   ImmersionProgressTrack,
@@ -25,6 +19,18 @@ import {
   WorkspaceChrome,
   WorkspaceRoot,
 } from './WorkspaceShell.style';
+
+// Types
+import { TelemetryEventLogPlacement } from '../TelemetryMonitor/TelemetryMonitor.types';
+
+// Atmosphere
+import { LiveLabStreamField } from '../../atmosphere/LiveLabStreamField';
+
+// Workspace
+import { BootHandshake } from '../BootHandshake';
+import { LiveLabAtmosphere } from '../LiveLabAtmosphere';
+import { LiveLabShowcaseHeader } from '../LiveLabShowcaseHeader';
+import { TelemetryMonitor } from '../TelemetryMonitor';
 
 export const WorkspaceShell: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();

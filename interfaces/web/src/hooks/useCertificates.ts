@@ -1,16 +1,11 @@
-/**
- * Hook for fetching certificates from the API.
- */
-
 // Libraries
-import { useQuery } from '@tanstack/react-query';
-import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
+// Api
+import { getCertificates } from '../api';
 
 // Types
-import type { Certificate } from '../types';
-
-// Components
-import { getCertificates } from '../api';
+import { Certificate } from '../types';
 
 export const certificatesQueryKey = (): string[] => ['certificates'];
 
@@ -20,11 +15,6 @@ const resolveCertificatesQueryRetryDelay = (attemptIndex: number): number => (
   Math.min(1000 * 2 ** attemptIndex, 12000)
 );
 
-/**
- * Hook to fetch all active certificates.
- *
- * @returns Query result with certificates data, loading and error states
- */
 export const useCertificates = (): UseQueryResult<Certificate[], Error> => useQuery<
 Certificate[],
 Error

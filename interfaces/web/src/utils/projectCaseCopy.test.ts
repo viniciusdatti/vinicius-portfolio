@@ -1,13 +1,17 @@
 // Libraries
-import { describe, it, expect } from 'vitest';
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
 // Types
 import { ProjectCaseStudyField } from '../types/projectCase';
 
-// Components
+// Plugins
 import { buildFakeProject } from '../plugins/testUtils';
 
-// Component
+// Utils
 import {
   getProjectRepoSlug,
   getProjectCaseStudyKey,

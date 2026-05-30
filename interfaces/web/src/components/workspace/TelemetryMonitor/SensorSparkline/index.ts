@@ -1,5 +1,3 @@
-// Component
+export * from './SensorSparkline.types';
+
 export * from './SensorSparkline';
-export type {
-  SensorSparklineProps,
-} from './SensorSparkline.types';

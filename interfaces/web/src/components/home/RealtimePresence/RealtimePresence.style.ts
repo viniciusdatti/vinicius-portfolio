@@ -3,27 +3,37 @@ import styled, { DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
+// Styles
 import { operationalGlass } from '../../../styles/surfaces';
+
+// Types
+import { OperationalStatusTone } from '../../../types/telemetry';
 
 const MotionLink = motion.create(Link);
 
-type PresenceTone = 'ok' | 'warn' | 'idle';
-
-const getPresenceBorderColor = (tone: PresenceTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.success;
-  if (tone === 'warn') return theme.colors.warning;
+const getPresenceBorderColor = (
+  tone: OperationalStatusTone,
+  theme: DefaultTheme,
+): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.success;
+  if (tone === OperationalStatusTone.Warn) return theme.colors.warning;
   return theme.colors.borderSubtle;
 };
 
-const getPresenceTextColor = (tone: PresenceTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.success;
-  if (tone === 'warn') return theme.colors.warning;
+const getPresenceTextColor = (
+  tone: OperationalStatusTone,
+  theme: DefaultTheme,
+): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.success;
+  if (tone === OperationalStatusTone.Warn) return theme.colors.warning;
   return theme.colors.textMuted;
 };
 
-const getPresenceBackground = (tone: PresenceTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.successSurface;
+const getPresenceBackground = (
+  tone: OperationalStatusTone,
+  theme: DefaultTheme,
+): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.successSurface;
   return theme.colors.mutedSurface;
 };
 
@@ -65,7 +75,7 @@ export const PresencePills = styled.div`
   display: contents;
 `;
 
-export const PresencePill = styled(motion.span)<{ $tone: 'ok' | 'idle' | 'warn' }>`
+export const PresencePill = styled(motion.span)<{ $tone: OperationalStatusTone }>`
   font-family: ${({ theme }) => theme.typography.fontFamily.mono};
   font-size: ${({ theme }) => theme.typography.fontSize.xs};
   letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wide};

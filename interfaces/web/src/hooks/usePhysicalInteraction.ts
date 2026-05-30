@@ -1,25 +1,21 @@
 // Core
 import {
-  useMemo,
-  type CSSProperties,
+  useMemo, CSSProperties,
 } from 'react';
 
 // Libraries
-import type { Transition } from 'framer-motion';
-import type { PhysicalTiltResult } from '../lib/motionPhysics.types';
-import {
-  PHYSICAL_LIFT_PX,
-  PHYSICAL_MAX_TILT_DEG,
-  PHYSICAL_PERSPECTIVE_PX,
-  PHYSICAL_TAP_SCALE,
-  resolvePhysicalTilt,
-} from '../lib/motionPhysics';
+import { Transition } from 'framer-motion';
 
-// Components
+// Hooks
+import { useMotionLifecycle } from './useMotionLifecycle';
+import { usePointerPosition } from './usePointerPosition';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
+// Styles
 import { motionPresets } from '../styles/motionPresets';
 
-// Component
-import type {
+// Types
+import {
   BuildPhysicalMotionPropsFn,
   PhysicalInteractionMotionProps,
   UsePhysicalInteractionHook,
@@ -27,10 +23,17 @@ import type {
   UsePhysicalInteractionResult,
   UsePointerPositionHookResult,
 } from './usePhysicalInteraction.types';
-import type { UseMotionLifecycleResult } from './useMotionLifecycle.types';
-import { useMotionLifecycle } from './useMotionLifecycle';
-import { usePointerPosition } from './usePointerPosition';
-import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+import { UseMotionLifecycleResult } from './useMotionLifecycle.types';
+
+// Lib
+import {
+  PHYSICAL_LIFT_PX,
+  PHYSICAL_MAX_TILT_DEG,
+  PHYSICAL_PERSPECTIVE_PX,
+  PHYSICAL_TAP_SCALE,
+  PhysicalTiltResult,
+  resolvePhysicalTilt,
+} from '../lib/motion';
 
 export const usePhysicalInteraction: UsePhysicalInteractionHook = <
   T extends HTMLElement = HTMLDivElement,

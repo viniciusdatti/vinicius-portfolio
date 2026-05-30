@@ -1,3 +1,3 @@
-// Component
-export * from './MobileMenu';
 export * from './MobileMenu.types';
+
+export * from './MobileMenu';

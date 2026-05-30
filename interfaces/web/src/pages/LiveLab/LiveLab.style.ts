@@ -1,15 +1,7 @@
-/**
- * @fileoverview Live Lab page shell layout overrides.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled from 'styled-components';
 
-// Components
+// Layout
 import { PageContainerWide } from '../../styles/pageLayout.style';
 
 export const LiveLabPageShell = styled(PageContainerWide)`

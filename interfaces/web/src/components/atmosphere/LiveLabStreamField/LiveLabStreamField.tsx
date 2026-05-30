@@ -1,31 +1,24 @@
 // Core
 import React, { useMemo } from 'react';
 
-// Libraries
-import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
-
 // Hooks
 import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 import { useSocketThrottledValue } from '../../../hooks/useSocketThrottledValue';
 
-// Components
-import { useTelemetry } from '../../workspace/TelemetryProvider';
-
-// Component
+// Styles
 import {
   LiveLabStreamCanvas,
   LiveLabStreamLayer,
 } from './LiveLabStreamField.style';
 
+// Lib
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas';
+
+// Workspace
+import { useTelemetry } from '../../workspace/TelemetryProvider';
+
 const STREAM_TICK_THROTTLE_MS: number = 80;
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Directional vector stream canvas — acceleration and luminance spike on telemetry ticks.
- */
 export const LiveLabStreamField: React.FC = (): React.ReactElement => {
   const { tickCount, connected } = useTelemetry();
   const throttledTick: number = useSocketThrottledValue(tickCount, {
@@ -46,7 +39,11 @@ export const LiveLabStreamField: React.FC = (): React.ReactElement => {
   });
 
   return (
-    <LiveLabStreamLayer ref={bindContainerRef} data-telemetry-stream aria-hidden>
+    <LiveLabStreamLayer
+      ref={bindContainerRef}
+      data-telemetry-stream
+      aria-hidden
+    >
       <LiveLabStreamCanvas ref={canvasRef} />
     </LiveLabStreamLayer>
   );

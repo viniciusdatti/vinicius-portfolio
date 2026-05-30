@@ -8,7 +8,7 @@ import { useRouteError } from 'react-router-dom';
 // Components
 import { Button } from '../Button';
 
-// Component
+// Styles
 import {
   RouteErrorContainer,
   RouteErrorText,
@@ -30,7 +30,11 @@ export const RouteError = (): React.ReactElement => {
     <RouteErrorContainer role="alert" aria-live="assertive">
       <RouteErrorTitle>{t('common.errorTitle')}</RouteErrorTitle>
       <RouteErrorText>{message}</RouteErrorText>
-      <Button type="button" onClick={handleReload} testId="route-error-reload">
+      <Button
+        type="button"
+        onClick={handleReload}
+        testId="route-error-reload"
+      >
         {t('common.reload')}
       </Button>
     </RouteErrorContainer>

@@ -1,5 +1,5 @@
 // Core
-import type React from 'react';
+import React from 'react';
 
 export enum PageSectionRevealMode {
   Section = 'section',
@@ -10,7 +10,6 @@ export enum PageSectionRevealMode {
 
 export interface PageSectionRevealProps {
   children: React.ReactNode;
-  /** Kinetic contract variant — default section reveal. */
   mode?: PageSectionRevealMode;
   className?: string;
   id?: string;

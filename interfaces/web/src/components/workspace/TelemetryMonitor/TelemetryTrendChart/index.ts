@@ -1,5 +1,3 @@
-// Component
+export * from './TelemetryTrendChart.types';
+
 export * from './TelemetryTrendChart';
-export type {
-  TelemetryTrendChartProps,
-} from './TelemetryTrendChart.types';

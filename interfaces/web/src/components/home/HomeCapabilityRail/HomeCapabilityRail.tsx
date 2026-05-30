@@ -1,20 +1,17 @@
 // Core
-import React from 'react';
+import React, { memo } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
-import { resolveI18nKeyOrFallback } from '../../../lib/i18nDisplay';
-
-// Config
-import { publicAssetUrl } from '../../../config/env';
+import { Variants } from 'framer-motion';
 
 // Hooks
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Components
+// Layout
 import { HomeSectionReveal } from '../HomeSectionReveal';
 
-// Component
+// Styles
 import {
   CapabilityBand,
   CapabilityShell,
@@ -37,6 +34,12 @@ import {
   CapabilityFeaturedDesc,
 } from './HomeCapabilityRail.style';
 
+// Config
+import { publicAssetUrl } from '../../../config/env';
+
+// Lib
+import { resolveI18nKeyOrFallback } from '../../../lib/i18n';
+
 interface CapabilityItem {
   name: string;
   icon: string;
@@ -55,9 +58,43 @@ const ITEMS: CapabilityItem[] = [
   { name: 'Docker', icon: 'docker.svg', signal: 'SIG-06' },
 ];
 
+interface CapabilityRowItemProps {
+  cap: CapabilityItem;
+  itemVariant: Variants;
+  resolveCapabilityDomain: (skillName: string) => string;
+}
+
+const CapabilityRowItem: React.FC<CapabilityRowItemProps> = memo(({
+  cap,
+  itemVariant,
+  resolveCapabilityDomain,
+}): React.ReactElement => (
+  <CapabilityRow variants={itemVariant}>
+    <CapabilitySignal aria-hidden>{cap.signal}</CapabilitySignal>
+    <CapabilityNameLead>
+      <CapabilityNameIconSlot aria-hidden />
+      <CapabilityName>{cap.name}</CapabilityName>
+    </CapabilityNameLead>
+    <CapabilityMeta>
+      <CapabilityIcon
+        src={publicAssetUrl(`icons/${cap.icon}`)}
+        alt=""
+        aria-hidden
+      />
+      <CapabilityDomain>{resolveCapabilityDomain(cap.name)}</CapabilityDomain>
+    </CapabilityMeta>
+  </CapabilityRow>
+));
+
+CapabilityRowItem.displayName = 'CapabilityRowItem';
+
 export const HomeCapabilityRail = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { stagger, item, viewport } = useScrollMotion();
+  const {
+    stagger,
+    item,
+    viewport,
+  } = useScrollMotion();
 
   const featured = ITEMS.find((i) => i.featured);
   const rest = ITEMS.filter((i) => !i.featured);
@@ -110,21 +147,12 @@ export const HomeCapabilityRail = (): React.ReactElement => {
             </CapabilityFeaturedRow>
           ) : null}
           {rest.map((cap: CapabilityItem) => (
-            <CapabilityRow key={cap.name} variants={item}>
-              <CapabilitySignal aria-hidden>{cap.signal}</CapabilitySignal>
-              <CapabilityNameLead>
-                <CapabilityNameIconSlot aria-hidden />
-                <CapabilityName>{cap.name}</CapabilityName>
-              </CapabilityNameLead>
-              <CapabilityMeta>
-                <CapabilityIcon
-                  src={publicAssetUrl(`icons/${cap.icon}`)}
-                  alt=""
-                  aria-hidden
-                />
-                <CapabilityDomain>{resolveCapabilityDomain(cap.name)}</CapabilityDomain>
-              </CapabilityMeta>
-            </CapabilityRow>
+            <CapabilityRowItem
+              key={cap.name}
+              cap={cap}
+              itemVariant={item}
+              resolveCapabilityDomain={resolveCapabilityDomain}
+            />
           ))}
         </CapabilityList>
       </CapabilityShell>

@@ -1,11 +1,11 @@
 // Core
-import type { CSSProperties, RefCallback } from 'react';
+import { CSSProperties, RefCallback } from 'react';
 
 // Libraries
-import type { TargetAndTransition, Transition } from 'framer-motion';
+import { TargetAndTransition, Transition } from 'framer-motion';
 
-// Component
-import type { PointerPosition } from './usePointerPosition';
+// Hooks
+import { PointerPosition } from './usePointerPosition';
 
 export interface UsePhysicalInteractionOptions {
   disabled?: boolean;

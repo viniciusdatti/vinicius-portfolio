@@ -1,3 +1,3 @@
-// Component
-export * from './StatusCard';
 export * from './StatusCard.types';
+
+export * from './StatusCard';

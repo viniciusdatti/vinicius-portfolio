@@ -1,19 +1,16 @@
-/**
- * @fileoverview Viewport-driven kinetic reveal shell for public pages (P0 motion contract).
- */
-
 // Core
 import React, { useMemo } from 'react';
 
 // Hooks
 import { useScrollMotion } from '../../hooks/useScrollMotion';
 
-// Component
-import {
-  PageSectionRevealMode,
-  type PageSectionRevealProps,
-} from './PageSectionReveal.types';
+// Layout
 import { PageSectionRevealRoot } from './PageSectionReveal.style';
+
+// Types
+import {
+  PageSectionRevealMode, PageSectionRevealProps,
+} from './PageSectionReveal.types';
 
 export const PageSectionReveal: React.FC<PageSectionRevealProps> = ({
   children,

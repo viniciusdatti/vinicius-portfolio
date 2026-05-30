@@ -1,28 +1,17 @@
-/**
- * Hook for fetching skills from the API.
- */
-
 // Libraries
-import { useQuery } from '@tanstack/react-query';
-import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery, UseQueryResult } from '@tanstack/react-query';
+
+// Api
+import { getSkills } from '../api';
 
 // Types
-import type { Skill } from '../types';
-
-// Components
-import { getSkills } from '../api';
+import { Skill } from '../types';
 
 export const skillsQueryKey = (category?: string): string[] => [
   'skills',
   category ?? 'all',
 ];
 
-/**
- * Hook to fetch skills with optional category filter.
- *
- * @param category - Optional category (e.g. frontend, backend) to filter by
- * @returns Query result with skills data, loading and error states
- */
 const SKILLS_QUERY_RETRY_COUNT: number = 3;
 
 const resolveSkillsQueryRetryDelay = (attemptIndex: number): number => (

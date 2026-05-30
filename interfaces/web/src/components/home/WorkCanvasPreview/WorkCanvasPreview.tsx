@@ -1,18 +1,20 @@
 // Core
 import React, { useMemo } from 'react';
 
-// Libraries
-import { mapProjectCanvasTone } from '../../../lib/mapProjectCanvasTone';
-
 // Hooks
 import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Component
-import type { WorkCanvasPreviewProps } from './WorkCanvasPreview.types';
+// Styles
 import {
   WorkPreviewCanvas,
   WorkPreviewLayer,
 } from './WorkCanvasPreview.style';
+
+// Types
+import { WorkCanvasPreviewProps } from './WorkCanvasPreview.types';
+
+// Lib
+import { mapProjectCanvasTone } from '../../../lib/projects';
 
 export const WorkCanvasPreview = ({
   tone,

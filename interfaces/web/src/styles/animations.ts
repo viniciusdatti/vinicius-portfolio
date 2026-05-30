@@ -1,28 +1,17 @@
 // Libraries
 import { Variants } from 'framer-motion';
 
-// Component
+// Styles
 import { motionPresets } from './motionPresets';
 
 export const motionEase = motionPresets.ease.out;
 
 export const motionEaseSoft = motionPresets.ease.inOut;
 
-/** Shared physical spring — stiffness 150, damping 20, mass 0.8. */
 export const physicalSpringTransition = motionPresets.spring.physical;
 
-/** Live Lab socket ticks — quick scale snap on value/counter changes. */
 export const telemetryMicroSnapTransition = motionPresets.spring.physical;
 
-/* *************************************************************************************************
- **************************************** PAGE TRANSITIONS *****************************************
- ************************************************************************************************ */
-
-/**
- * Slide-up com fade — entrada suave, saída para cima.
- * Funciona em todas as páginas exceto Live Lab.
- */
-/** Canonical route enter — fade + slide-up on navigation. */
 export const pageEnter: Variants = {
   initial: {
     /* Keep opacity 1 so lazy routes never flash a blank shell if enter animation is delayed. */
@@ -48,9 +37,6 @@ export const pageEnter: Variants = {
   },
 };
 
-/**
- * Fade limpo — para o Live Lab (workspace não deve ter slide).
- */
 export const workspaceEnter: Variants = {
   initial: { opacity: 0 },
   animate: {
@@ -63,7 +49,6 @@ export const workspaceEnter: Variants = {
   },
 };
 
-/** Reduced motion — no blur/scale (accessibility + performance). */
 export const pageEnterReduced: Variants = {
   initial: { opacity: 1 },
   animate: {
@@ -76,7 +61,6 @@ export const pageEnterReduced: Variants = {
   },
 };
 
-/** Reduced motion — opacity only, 300ms linear (no Y/blur). */
 export const SCROLL_REVEAL_REDUCED_DURATION_S = 0.3;
 
 const scrollRevealReducedTransition = {
@@ -93,31 +77,18 @@ export const scrollRevealReduced: Variants = {
   },
 };
 
-/* *************************************************************************************************
- ****************************************** SCROLL REVEAL ******************************************
- ************************************************************************************************ */
-
-/** Canonical section reveal — item distance Y, normal duration, ease.out. */
 export const SCROLL_REVEAL_DURATION_S = motionPresets.duration.normal;
 
-/** Section/card reveal distance — perceptible fade-up without editorial overshoot. */
 export const SCROLL_REVEAL_Y_PX = motionPresets.distance.fadeUp;
 
-/** Gradient-safe page titles — Y-only so headline gradients never flash invisible. */
 export const SCROLL_REVEAL_TITLE_Y_PX = motionPresets.distance.editorial;
 
-/** Title-only depth cue — lighter than legacy 6px full-section blur. */
 export const SCROLL_REVEAL_TITLE_BLUR = '3px';
 
 export const SCROLL_REVEAL_STAGGER_CHILD_S = motionPresets.stagger.child;
 
-/** Row cascade — delay between asymmetric grid rows (Projects showcase). */
 export const SCROLL_REVEAL_ROW_STAGGER_CHILD_S = 0.12;
 
-/**
- * Viewport gate — fire once per mount so blocks stay visible after reveal.
- * Negative bottom margin triggers slightly before the section fully enters view.
- */
 export const scrollRevealViewport = {
   once: true,
   amount: 0.05 as const,
@@ -129,9 +100,6 @@ const scrollRevealTransition = {
   ease: motionEase,
 } as const;
 
-/**
- * Page title reveal — editorial Y only (opacity stays 1 for gradient headline safety).
- */
 export const scrollRevealTitle: Variants = {
   hidden: {
     opacity: 1,
@@ -148,9 +116,6 @@ export const scrollRevealTitle: Variants = {
 
 export const scrollRevealTitleReduced: Variants = scrollRevealReduced;
 
-/**
- * Route transition variants respecting prefers-reduced-motion.
- */
 export const resolvePageTransition = (
   isWorkspace: boolean,
   reducedMotion: boolean,
@@ -160,9 +125,6 @@ export const resolvePageTransition = (
   return pageEnter;
 };
 
-/**
- * Reveal de seção ao entrar na viewport — editorial, sem bounce.
- */
 export const scrollReveal: Variants = {
   hidden: {
     opacity: 0,
@@ -177,9 +139,6 @@ export const scrollReveal: Variants = {
   },
 };
 
-/**
- * Stagger container para listas de cards em scroll reveal.
- */
 export const scrollRevealStagger: Variants = {
   hidden: {},
   visible: {
@@ -190,7 +149,6 @@ export const scrollRevealStagger: Variants = {
   },
 };
 
-/** Reduced motion — no stagger delay; opacity-only fade on each child. */
 export const scrollRevealStaggerReduced: Variants = {
   hidden: {},
   visible: {
@@ -201,9 +159,6 @@ export const scrollRevealStaggerReduced: Variants = {
   },
 };
 
-/**
- * Outer container for row-based cascades (e.g. Projects bento rows).
- */
 export const scrollRevealRowStagger: Variants = {
   hidden: {},
   visible: {
@@ -216,9 +171,6 @@ export const scrollRevealRowStagger: Variants = {
 
 export const scrollRevealRowStaggerReduced: Variants = scrollRevealStaggerReduced;
 
-/**
- * Single showcase row — children use `scrollRevealItem` stagger inside the row.
- */
 export const scrollRevealRow: Variants = {
   hidden: {},
   visible: {
@@ -231,9 +183,6 @@ export const scrollRevealRow: Variants = {
 
 export const scrollRevealRowReduced: Variants = scrollRevealStaggerReduced;
 
-/**
- * Depth reveal — architecture / certificate columns settle from a near plane (scale 1.02).
- */
 export const scrollRevealDepth: Variants = {
   hidden: {
     opacity: 0,
@@ -250,9 +199,6 @@ export const scrollRevealDepth: Variants = {
 
 export const scrollRevealDepthReduced: Variants = scrollRevealReduced;
 
-/**
- * Item filho do stagger de scroll reveal.
- */
 export const scrollRevealItem: Variants = {
   hidden: {
     opacity: 0,
@@ -269,23 +215,12 @@ export const scrollRevealItem: Variants = {
 
 export const scrollRevealItemReduced: Variants = scrollRevealReduced;
 
-/* *************************************************************************************************
- **************************************** MANIFESTO REVEAL *****************************************
- ************************************************************************************************ */
-
-/** Manifesto phrase container — staggered editorial reveal (orchestrated-sequences). */
 export const manifestoPhraseStagger: Variants = scrollRevealStagger;
 
-/** Single manifesto phrase line — matches scroll reveal item contract. */
 export const manifestoPhrase: Variants = scrollRevealItem;
 
 export const manifestoPhraseReduced: Variants = scrollRevealItemReduced;
 
-/* *************************************************************************************************
- ***************************************** MENU STAGGER ********************************************
- ************************************************************************************************ */
-
-/** Mobile nav link — spring settle after overlay opens. */
 export const staggerItem: Variants = {
   initial: { opacity: 0, y: motionPresets.distance.item },
   animate: {
@@ -294,10 +229,6 @@ export const staggerItem: Variants = {
     transition: physicalSpringTransition,
   },
 };
-
-/* *************************************************************************************************
- ************************************** NAVIGATION ANIMATIONS **************************************
- ************************************************************************************************ */
 
 export const mobileMenuVariants: Variants = {
   closed: {
@@ -323,7 +254,6 @@ const hamburgerLineTransition = {
   ease: motionEase,
 };
 
-/** Matches 3×2px lines + 5px gaps — center offset 7px for a symmetric X. */
 const HAMBURGER_OPEN_Y_OFFSET = 7;
 
 export const hamburgerTop: Variants = {
@@ -349,11 +279,6 @@ export const hamburgerBottom: Variants = {
   },
 };
 
-/* *************************************************************************************************
- *************************************** LAYOUT MORPH PANEL ****************************************
- ************************************************************************************************ */
-
-/** Projector-style panel expansion — opacity + layout spring, no height tween. */
 export const layoutMorphPanel: Variants = {
   hidden: {
     opacity: 0,

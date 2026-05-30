@@ -1,5 +1,5 @@
 // Core
-import type { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 export interface ErrorBoundaryProps {
   children: ReactNode;

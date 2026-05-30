@@ -1,17 +1,9 @@
-/**
- * Theme store for managing application color scheme.
- * Persists theme preference to local storage.
- */
-
 // Libraries
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 type ThemeMode = 'dark' | 'light';
 
-/**
- * Theme state interface with actions.
- */
 interface ThemeState {
   mode: ThemeMode;
   toggleTheme: () => void;

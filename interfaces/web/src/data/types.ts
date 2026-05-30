@@ -1,20 +1,9 @@
-/**
- * Type definitions for portfolio data.
- * These types mirror the API response structure.
- */
-
-/**
- * Technology associated with a project.
- */
 export interface Technology {
   id: number;
   name: string;
   slug: string;
 }
 
-/**
- * Project from the API.
- */
 export interface Project {
   id: number;
   title: string;

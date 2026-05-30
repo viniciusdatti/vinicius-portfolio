@@ -1,2 +1,1 @@
-// Component
-export { HomeManifestoStrip } from './HomeManifestoStrip';
+export * from './HomeManifestoStrip';

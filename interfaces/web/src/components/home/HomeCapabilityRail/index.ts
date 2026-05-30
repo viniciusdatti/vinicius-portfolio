@@ -1,2 +1,1 @@
-// Component
-export { HomeCapabilityRail } from './HomeCapabilityRail';
+export * from './HomeCapabilityRail';

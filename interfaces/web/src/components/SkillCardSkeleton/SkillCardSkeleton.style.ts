@@ -1,11 +1,7 @@
-/**
- * Styles for SkillCardSkeleton component.
- */
-
 // Libraries
 import styled from 'styled-components';
 
-// Components
+// Styles
 import { SkeletonBase } from '../../styles/skeleton';
 
 export const SkeletonCard = styled.div`
@@ -18,10 +14,15 @@ export const SkeletonCard = styled.div`
   gap: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const SkeletonElement = styled.div<{ width?: string; height?: string }>`
+interface SkeletonElementStyleProps {
+  $width?: string;
+  $height?: string;
+}
+
+export const SkeletonElement = styled.div<SkeletonElementStyleProps>`
   ${SkeletonBase};
-  width: ${({ width }) => width || '100%'};
-  height: ${({ height }) => height || '1rem'};
+  width: ${({ $width }) => $width || '100%'};
+  height: ${({ $height }) => $height || '1rem'};
   flex-shrink: 0;
 `;
 

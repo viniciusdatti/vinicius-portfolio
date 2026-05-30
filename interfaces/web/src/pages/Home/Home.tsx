@@ -1,18 +1,15 @@
-/**
- * @fileoverview Home — cinematic product narrative (not a card grid portfolio).
- */
-
 // Core
 import React from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import { Language } from '../../types';
-
 // Hooks
-import { useProjects } from '../../hooks';
+import {
+  useProjects,
+  usePageMeta,
+  PageMetaRoute,
+} from '../../hooks';
 
 // Components
 import { Hero } from '../../components/Hero';
@@ -23,7 +20,14 @@ import { HomeLiveLabImmersion } from '../../components/home/HomeLiveLabImmersion
 import { HomeCapabilityRail } from '../../components/home/HomeCapabilityRail';
 import { HomeChapterClose } from '../../components/home/HomeChapterClose';
 
+// Types
+import { Language } from '../../types';
+
+// Lib
+import { resolveLanguage } from '../../lib/i18n';
+
 export const Home = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.Home);
   const { i18n } = useTranslation();
   const {
     data: projects,
@@ -32,7 +36,7 @@ export const Home = (): React.ReactElement => {
     refetch,
   } = useProjects();
 
-  const currentLanguage: Language = i18n.language?.startsWith('pt') ? Language.Pt : Language.En;
+  const currentLanguage: Language = resolveLanguage(i18n.language);
 
   return (
     <>

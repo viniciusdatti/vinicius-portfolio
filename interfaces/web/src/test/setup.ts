@@ -1,16 +1,15 @@
-/**
- * Global Vitest setup (Global Vitest setup for the portfolio web app).
- */
-
+// Libraries
 import '@testing-library/jest-dom';
 import {
-  afterAll, afterEach, beforeAll, beforeEach, vi,
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  vi,
 } from 'vitest';
-import { server } from './mocks/server';
 
-/* *************************************************************************************************
- ****************************************** GLOBAL MOCKS *******************************************
- ************************************************************************************************ */
+// Mocks
+import { server } from './mocks/server';
 
 beforeEach((): void => {
   Object.defineProperty(window, 'matchMedia', {
@@ -44,6 +43,14 @@ beforeEach((): void => {
   })) as unknown as typeof ResizeObserver;
 });
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+beforeAll((): void => {
+  server.listen({ onUnhandledRequest: 'warn' });
+});
+
+afterEach((): void => {
+  server.resetHandlers();
+});
+
+afterAll((): void => {
+  server.close();
+});

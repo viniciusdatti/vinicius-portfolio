@@ -1,17 +1,26 @@
 // Core
 import React from 'react';
 
-// Components
-import { TelemetryProvider } from '../../components/workspace/TelemetryProvider';
+// Hooks
+import { usePageMeta, PageMetaRoute } from '../../hooks';
+
+// Layout
 import { WorkspaceShell } from '../../components/workspace/WorkspaceShell';
 
-// Component
+// Components
+import { TelemetryProvider } from '../../components/workspace/TelemetryProvider';
+
+// Styles
 import { LiveLabPageShell } from './LiveLab.style';
 
-export const LiveLab: React.FC = (): React.ReactElement => (
-  <LiveLabPageShell data-testid="live-lab-page">
-    <TelemetryProvider>
-      <WorkspaceShell />
-    </TelemetryProvider>
-  </LiveLabPageShell>
-);
+export const LiveLab: React.FC = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.LiveLab);
+
+  return (
+    <LiveLabPageShell data-testid="live-lab-page">
+      <TelemetryProvider>
+        <WorkspaceShell />
+      </TelemetryProvider>
+    </LiveLabPageShell>
+  );
+};

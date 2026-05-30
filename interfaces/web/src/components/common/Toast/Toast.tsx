@@ -1,13 +1,11 @@
 // Core
 import React from 'react';
 
-// Store
-import { useToastStore } from '../../../store/toastStore';
-
-// Component
+// Styles
 import { ToastHostRoot, ToastItemSurface } from './Toast.style';
 
-export { showToast, ToastType } from '../../../store/toastStore';
+// Store
+import { useToastStore } from '../../../store/toastStore';
 
 export const ToastHost = (): React.ReactElement | null => {
   const toasts = useToastStore((s) => s.toasts);
@@ -17,7 +15,11 @@ export const ToastHost = (): React.ReactElement | null => {
   }
 
   return (
-    <ToastHostRoot role="status" aria-live="polite" data-testid="toast-host">
+    <ToastHostRoot
+      role="status"
+      aria-live="polite"
+      data-testid="toast-host"
+    >
       {toasts.map((toast) => (
         <ToastItemSurface key={toast.id} $type={toast.type}>
           {toast.text}

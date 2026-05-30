@@ -1,5 +1,3 @@
-// Component
+export * from './TelemetryValueFlash.types';
+
 export * from './TelemetryValueFlash';
-export type {
-  TelemetryValueFlashProps,
-} from './TelemetryValueFlash.types';

@@ -1,19 +1,16 @@
-/**
- * StatusCard component (HighlightCard-style).
- * Displays title, value, optional unit, and a status dot with theme-driven colors.
- */
-
 // Core
 import React from 'react';
 
-// Component
-import type { StatusCardProps } from './StatusCard.types';
+// Styles
 import {
   StyledStatusCard,
   StatusCardTitle,
   StatusCardValue,
   StatusCardUnit,
 } from './StatusCard.style';
+
+// Types
+import { StatusCardProps } from './StatusCard.types';
 
 export const StatusCard = ({
   title,

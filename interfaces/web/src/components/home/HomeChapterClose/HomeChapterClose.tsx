@@ -7,10 +7,10 @@ import { useTranslation } from 'react-i18next';
 // Hooks
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Components
+// Layout
 import { SectionEyebrowAnimated } from '../../../styles/pageLayout.style';
 
-// Component
+// Styles
 import {
   CloseBand,
   CloseGrid,
@@ -27,7 +27,11 @@ import {
 
 export const HomeChapterClose = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { stagger, item, viewport } = useScrollMotion();
+  const {
+    stagger,
+    item,
+    viewport,
+  } = useScrollMotion();
 
   return (
     <CloseBand id="section-contact">

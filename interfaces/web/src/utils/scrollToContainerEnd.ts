@@ -1,7 +1,3 @@
-/**
- * Scrolls within a scrollable parent instead of the document (avoids page jump).
- */
-
 const findScrollParent = (node: HTMLElement): HTMLElement | null => {
   let parent: HTMLElement | null = node.parentElement;
   while (parent) {

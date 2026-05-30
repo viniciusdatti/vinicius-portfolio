@@ -1,8 +1,12 @@
 // Core
-import type { FC, ReactElement, ReactNode } from 'react';
+import {
+  FC,
+  ReactElement,
+  ReactNode,
+} from 'react';
 
 // Types
-import type { TestableProps } from '../../types/testable';
+import { TestableProps } from '../../types/testable';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'outline';
 

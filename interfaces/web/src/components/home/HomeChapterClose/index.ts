@@ -1,2 +1,1 @@
-// Component
-export { HomeChapterClose } from './HomeChapterClose';
+export * from './HomeChapterClose';

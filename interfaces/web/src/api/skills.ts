@@ -1,12 +1,8 @@
-/**
- * Skills API functions.
- */
+// Api
+import { apiClient } from './client';
 
 // Types
-import type { Skill } from '../types';
-
-// Component
-import { apiClient } from './client';
+import { Skill } from '../types';
 
 export const getSkills = async (category?: string): Promise<Skill[]> => apiClient.get<Skill[]>('/skills', {
   ...(category ? { category } : {}),

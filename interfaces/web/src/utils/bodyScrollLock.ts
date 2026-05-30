@@ -1,11 +1,11 @@
-/**
- * @fileoverview Preserves scroll position while locking document scroll for overlays.
- */
-
 export enum BodyScrollLockClass {
   Menu = 'menu-scroll-locked',
   Drawer = 'drawer-scroll-locked',
+  Modal = 'modal-scroll-locked',
 }
+
+/** Body class toggled when Live Lab immersive pin mode uses document scroll. */
+export const LIVE_LAB_IMMERSIVE_CLASS: string = 'live-lab-immersive';
 
 const SCROLL_LOCK_Y_ATTR: string = 'data-scroll-lock-y';
 
@@ -13,17 +13,11 @@ const getDocumentScrollY = (): number => (
   window.scrollY || document.documentElement.scrollTop || 0
 );
 
-/**
- * Drawer uses `position: fixed` + negative `top` (iOS-safe). Menu only toggles overflow
- * so the document scroll position is preserved without a programmatic restore.
- */
 const usesFixedScrollCompensation = (lockClass: BodyScrollLockClass): boolean => (
   lockClass === BodyScrollLockClass.Drawer
+  || lockClass === BodyScrollLockClass.Modal
 );
 
-/**
- * Restores document scroll without animating (overrides `html { scroll-behavior: smooth }`).
- */
 const restoreDocumentScrollY = (scrollY: number): void => {
   const html: HTMLElement = document.documentElement;
   const previousHtmlScrollBehavior: string = html.style.scrollBehavior;
@@ -35,9 +29,6 @@ const restoreDocumentScrollY = (scrollY: number): void => {
   html.style.scrollBehavior = previousHtmlScrollBehavior;
 };
 
-/**
- * Restores body scroll and returns to the saved scroll position.
- */
 export const unlockBodyScroll = (lockClass: BodyScrollLockClass): void => {
   const rawY: string | null = document.body.getAttribute(SCROLL_LOCK_Y_ATTR);
   const parsedY: number = rawY !== null ? Number(rawY) : 0;
@@ -54,9 +45,6 @@ export const unlockBodyScroll = (lockClass: BodyScrollLockClass): void => {
   }
 };
 
-/**
- * Locks body scroll and keeps the current viewport position visually fixed.
- */
 export const lockBodyScroll = (lockClass: BodyScrollLockClass): (() => void) => {
   const scrollY: number = getDocumentScrollY();
   document.body.setAttribute(SCROLL_LOCK_Y_ATTR, String(scrollY));

@@ -3,38 +3,34 @@ import {
   useCallback,
   useEffect,
   useRef,
-  useState,
-  type RefCallback,
-  type RefObject,
+  useState, RefCallback, RefObject,
 } from 'react';
 
 // Libraries
 import { useTheme } from 'styled-components';
+
+// Hooks
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
+// Styles
+import { Theme } from '../styles/theme';
+
+// Lib
 import {
   createConstellationNodes,
   drawTelemetryField,
   stepConstellationNodes,
   TelemetryFieldPointer,
-  TelemetryFieldVariant,
-  type ConstellationNodeState,
+  TelemetryFieldVariant, ConstellationNodeState,
 } from '../lib/telemetryFieldCanvas';
-import { clampDevicePixelRatio } from '../lib/motionPhysics';
-
-// Components
-import type { Theme } from '../styles/theme';
-
-// Component
-import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+import { clampDevicePixelRatio } from '../lib/motion';
 
 export interface UseCanvasTelemetryFieldOptions {
   variant: TelemetryFieldVariant;
   pointer?: TelemetryFieldPointer;
   maxDevicePixelRatio?: number;
-  /** 0–1 — socket tick intensity for monitor/work fields. */
   pulse?: number;
-  /** 0–1 — scroll-linked parallax for wireframe variants. */
   scrollOffset?: number;
-  /** Track window pointer against the canvas container bounds. */
   trackPointer?: boolean;
 }
 
@@ -43,10 +39,6 @@ export interface UseCanvasTelemetryFieldResult {
   containerRef: RefObject<HTMLDivElement | null>;
   bindContainerRef: RefCallback<HTMLDivElement>;
 }
-
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
 
 const DEFAULT_POINTER: TelemetryFieldPointer = {
   x: 0.5,
@@ -59,13 +51,6 @@ const CONSTELLATION_NODE_COUNT: number = 48;
 const CYAN_ACCENT: string = '#00E5FF';
 const COBALT_ACCENT: string = '#0052FF';
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Resize-aware Canvas2D telemetry field — pauses off-viewport; static frame when reduced motion.
- */
 export const useCanvasTelemetryField = (
   options: UseCanvasTelemetryFieldOptions,
 ): UseCanvasTelemetryFieldResult => {
@@ -80,7 +65,6 @@ export const useCanvasTelemetryField = (
 
   const theme: Theme = useTheme() as Theme;
   const systemReducedMotion: boolean = usePrefersReducedMotion();
-  /** Static frame when OS requests reduced motion; backdrop may still mount for brand. */
   const reduced: boolean = systemReducedMotion;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);

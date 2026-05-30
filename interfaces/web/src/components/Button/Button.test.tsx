@@ -5,11 +5,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { ThemeProvider } from 'styled-components';
 
-// Components
+// Styles
 import { darkTheme } from '../../styles/theme';
 
-// Component
-import type { ButtonProps } from './Button.types';
+// Types
+import { ButtonProps } from './Button.types';
+
+// Button
 import { Button } from './Button';
 
 const defaultProps: ButtonProps = {
@@ -22,10 +24,6 @@ const ButtonComponent = (props: ButtonProps): React.ReactElement => (
     <Button {...props} />
   </ThemeProvider>
 );
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
 
 describe('Button Component', (): void => {
   // PROP: TESTID *******************************

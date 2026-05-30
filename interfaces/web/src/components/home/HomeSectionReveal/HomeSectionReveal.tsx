@@ -1,16 +1,14 @@
-/**
- * @fileoverview Viewport-driven scroll reveal shell for Home sections below the fold.
- */
-
 // Core
 import React from 'react';
 
 // Hooks
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Component
-import type { HomeSectionRevealProps } from './HomeSectionReveal.types';
+// Layout
 import { HomeSectionRevealRoot } from './HomeSectionReveal.style';
+
+// Types
+import { HomeSectionRevealProps } from './HomeSectionReveal.types';
 
 export const HomeSectionReveal: React.FC<HomeSectionRevealProps> = ({
   children,
