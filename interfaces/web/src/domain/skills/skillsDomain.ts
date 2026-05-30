@@ -1,9 +1,5 @@
-/**
- * Domain helpers for skills and certificates showcase.
- */
-
 // Types
-import type { Certificate, Skill } from '../../types';
+import { Certificate, Skill } from '../../types';
 
 // Config
 import { publicAssetUrl } from '../../config/env';

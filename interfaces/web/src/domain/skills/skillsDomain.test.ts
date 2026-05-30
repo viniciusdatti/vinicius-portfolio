@@ -1,19 +1,23 @@
 // Libraries
-import { describe, it, expect } from 'vitest';
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
-// Components
+// Plugins
 import { buildFakeCertificate, buildFakeSkill } from '../../plugins/testUtils';
 
-// Component
+// Skills
 import {
   resolveSkillIconUrl,
   resolveSkillDisplayName,
   resolveCertificateDisplayName,
   getPlatformConfig,
   sortCertificates,
-} from './skills.domain';
+} from './skillsDomain';
 
-describe('skills.domain', (): void => {
+describe('skillsDomain', (): void => {
   describe('resolveSkillIconUrl', (): void => {
     it('should use icon_url when provided as relative path', (): void => {
       const url: string = resolveSkillIconUrl(
