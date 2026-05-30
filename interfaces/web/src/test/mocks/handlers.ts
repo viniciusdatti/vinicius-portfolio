@@ -1,17 +1,21 @@
 // Libraries
 import { http, HttpResponse } from 'msw';
 
-// Components
-import { mockCertificateList, mockProjectList, mockSkillList } from '../fixtures';
+// Plugins
+import {
+  MOCKED_CERTIFICATE_LIST,
+  MOCKED_PROJECT_LIST,
+  MOCKED_SKILL_LIST,
+} from '../../plugins/testUtils';
 
 const API_BASE = 'http://localhost:8000/api/v1';
 
 export const handlers = [
-  http.get(`${API_BASE}/projects`, () => HttpResponse.json(mockProjectList())),
+  http.get(`${API_BASE}/projects`, () => HttpResponse.json(MOCKED_PROJECT_LIST)),
 
-  http.get(`${API_BASE}/skills`, () => HttpResponse.json(mockSkillList())),
+  http.get(`${API_BASE}/skills`, () => HttpResponse.json(MOCKED_SKILL_LIST)),
 
-  http.get(`${API_BASE}/certificates`, () => HttpResponse.json(mockCertificateList())),
+  http.get(`${API_BASE}/certificates`, () => HttpResponse.json(MOCKED_CERTIFICATE_LIST)),
 
   http.post(`${API_BASE}/contact`, () => HttpResponse.json({
     id: 1,
