@@ -1,8 +1,29 @@
-// Types
-import { SensorStatus } from '@/types/telemetry';
+/**
+ * Live Lab home preview telemetry helpers.
+ *
+ * Data modes:
+ * - Simulated — API offline; deterministic demo values for portfolio storytelling.
+ * - Live — API online; WebSocket ticks from useTelemetrySocket when connected.
+ */
+// Libraries
+import { TFunction } from 'i18next';
 
-// Components
-import { LiveLabObservatorySensorDef } from './LiveLabObservatory.types';
+// Types
+import {
+  SensorReading,
+  SensorStatus,
+  TelemetryEventLogEntry,
+  TelemetryEventType,
+} from '../../../types/telemetry';
+import {
+  LiveLabObservatoryLogLine,
+  LiveLabObservatorySensorDef,
+  ObservatoryDataMode,
+} from './LiveLabObservatory.types';
+
+// Lib
+import { formatClockTime } from '../../../lib/i18n';
+import { resolveTelemetrySensorLabel } from '../../../lib/telemetry';
 
 export const LOG_MESSAGE_KEYS: readonly string[] = [
   'home.liveLabPreview.log.tick',
@@ -60,6 +81,14 @@ export const buildObservatorySparkline = (seed: number, len: number): number[] =
 };
 
 export const sparkPathFromValues = (values: number[], w: number, h: number): string => {
+  if (values.length === 0) {
+    return '';
+  }
+  if (values.length === 1) {
+    const y: number = h / 2;
+    return `M0,${y.toFixed(1)} L${w.toFixed(1)},${y.toFixed(1)}`;
+  }
+
   const min: number = Math.min(...values);
   const max: number = Math.max(...values);
   const range: number = max - min || 1;
@@ -71,3 +100,86 @@ export const sparkPathFromValues = (values: number[], w: number, h: number): str
     })
     .join(' ');
 };
+
+export const mapTelemetryReadingsToSensors = (
+  readings: SensorReading[],
+  history: Record<string, number[]>,
+  t: TFunction,
+  fallback: LiveLabObservatorySensorDef[],
+): LiveLabObservatorySensorDef[] => {
+  if (readings.length === 0) {
+    return fallback;
+  }
+
+  return readings.slice(0, 4).map((reading: SensorReading): LiveLabObservatorySensorDef => ({
+    id: reading.id,
+    label: resolveTelemetrySensorLabel(reading, t),
+    unit: reading.unit,
+    base: reading.value,
+    variance: 0,
+    status: reading.status,
+    liveValue: reading.value,
+    sparklineValues: history[reading.id],
+  }));
+};
+
+export const mapTelemetryLogEntries = (
+  entries: TelemetryEventLogEntry[],
+  language: string,
+  limit: number = 4,
+): LiveLabObservatoryLogLine[] => (
+  entries.slice(0, limit).map((entry: TelemetryEventLogEntry): LiveLabObservatoryLogLine => ({
+    time: formatClockTime(entry.ts, language),
+    msg: entry.message,
+    type: entry.type,
+  }))
+);
+
+export const buildAggregateSparkFromHistory = (
+  history: Record<string, number[]>,
+  seed: number,
+  len: number = 32,
+): number[] => {
+  const series: number[][] = Object.values(history).filter((values: number[]) => values.length > 0);
+  if (series.length === 0) {
+    return buildObservatorySparkline(seed, len);
+  }
+
+  const maxLen: number = Math.max(...series.map((values: number[]) => values.length));
+  const out: number[] = [];
+  for (let i: number = 0; i < maxLen; i += 1) {
+    let sum: number = 0;
+    let count: number = 0;
+    series.forEach((values: number[]) => {
+      const value: number | undefined = values[i];
+      if (typeof value === 'number') {
+        sum += value;
+        count += 1;
+      }
+    });
+    out.push(count > 0 ? sum / count : seed);
+  }
+  return out.length >= 2 ? out : buildObservatorySparkline(seed, len);
+};
+
+export const resolveObservatoryTransportLabel = (
+  dataMode: ObservatoryDataMode,
+  isTransportLive: boolean,
+  t: TFunction,
+): string => {
+  if (dataMode === ObservatoryDataMode.Simulated) {
+    return t('home.liveLabPreview.footer.modeSimulated');
+  }
+  if (isTransportLive) {
+    return t('home.liveLabPreview.footer.modeLive');
+  }
+  return t('home.liveLabPreview.metrics.transportSync');
+};
+
+export const resolveLogTypeFromMessageKey = (
+  messageKey: string,
+): TelemetryEventType => (
+  messageKey.includes('threshold')
+    ? TelemetryEventType.Warn
+    : TelemetryEventType.Info
+);
