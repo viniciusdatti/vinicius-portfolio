@@ -1,10 +1,5 @@
-/**
- * Editorial layout partitioning for the Skills page.
- * Assigns hierarchy tiers and asymmetric grid spans per skill.
- */
-
 // Types
-import type { Skill } from '../../types';
+import { Skill } from '../../types';
 
 export enum SkillLayoutTier {
   Hero = 'hero',
@@ -16,10 +11,6 @@ export enum SkillLayoutTier {
   PeripheralCompact = 'peripheral_compact',
   PeripheralMinimal = 'peripheral_minimal',
 }
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
 
 export interface SkillLayoutPlacement {
   skill: Skill;
@@ -38,10 +29,6 @@ interface SkillLayoutRegistryEntry {
   gridSpan: number;
 }
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
 const HERO_SKILL_NAME: string = 'React';
 
 const CORE_SKILL_NAMES: readonly string[] = [
@@ -51,9 +38,6 @@ const CORE_SKILL_NAMES: readonly string[] = [
   'PostgreSQL',
 ];
 
-/**
- * Fixed tier + span per known skill — no two adjacent blocks share the same span + tier pair.
- */
 const SKILL_LAYOUT_REGISTRY: Record<string, SkillLayoutRegistryEntry> = {
   React: { tier: SkillLayoutTier.Hero, gridSpan: 12 },
   TypeScript: { tier: SkillLayoutTier.CoreLarge, gridSpan: 2 },
@@ -85,10 +69,6 @@ const FALLBACK_TIERS: readonly SkillLayoutTier[] = [
 
 const FALLBACK_SPANS: readonly number[] = [1, 1, 2, 1, 1, 2];
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
 const sortSkillsByDisplayOrder = (skills: Skill[]): Skill[] => (
   [...skills].sort((a: Skill, b: Skill): number => a.display_order - b.display_order)
 );
@@ -114,12 +94,10 @@ const toPlacement = (skill: Skill, fallbackIndex: number): SkillLayoutPlacement 
   };
 };
 
-/**
- * Partitions skills into hero, core architectural row, and asymmetric peripheral blocks.
- */
 export const buildEditorialSkillsLayout = (skills: Skill[]): EditorialSkillsLayout => {
   const ordered: Skill[] = sortSkillsByDisplayOrder(skills);
 
+  // Reserve hero + core names; remaining skills flow into peripheral tiers.
   const heroSkill: Skill | undefined = ordered.find(
     (skill: Skill): boolean => skill.name === HERO_SKILL_NAME,
   );

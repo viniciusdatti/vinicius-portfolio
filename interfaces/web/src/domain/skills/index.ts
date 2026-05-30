@@ -1,3 +1,2 @@
-// Component
-export * from './skills.domain';
-export * from './skillLayout.domain';
+export * from './skillsDomain';
+export * from './skillLayoutDomain';

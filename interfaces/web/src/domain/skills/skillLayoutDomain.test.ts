@@ -1,16 +1,20 @@
-// Core
-import { describe, it, expect } from 'vitest';
+// Libraries
+import {
+  describe,
+  it,
+  expect,
+} from 'vitest';
 
-// Domain
+// Plugins
+import { buildFakeSkill } from '../../plugins/testUtils';
+
+// Skills
 import {
   buildEditorialSkillsLayout,
   SkillLayoutTier,
-} from './skillLayout.domain';
+} from './skillLayoutDomain';
 
-// Components
-import { buildFakeSkill } from '../../plugins/testUtils';
-
-describe('skillLayout.domain', (): void => {
+describe('skillLayoutDomain', (): void => {
   describe('buildEditorialSkillsLayout', (): void => {
     it('should place React as hero and core stack in coreRow', (): void => {
       const layout = buildEditorialSkillsLayout([
