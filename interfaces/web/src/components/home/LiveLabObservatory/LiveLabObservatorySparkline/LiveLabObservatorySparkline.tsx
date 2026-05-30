@@ -1,11 +1,3 @@
-/**
- * @fileoverview Animated mini sparkline for home observatory sensor tiles.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
 import React, { useEffect, useState } from 'react';
 
@@ -13,28 +5,39 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Hooks
-import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { usePrefersReducedMotion } from '../../../../hooks/usePrefersReducedMotion';
 
-// Components
-import { motionEase } from '../../../styles/animations';
-import { motionPresets } from '../../../styles/motionPresets';
+// Styles
+import { motionEase } from '../../../../styles/animations';
+import { motionPresets } from '../../../../styles/motionPresets';
+import { SparklineSvg } from '../LiveLabObservatory.style';
 
-// Component
-import type { LiveLabObservatorySparklineProps } from './LiveLabObservatory.types';
+// Types
+import { LiveLabObservatorySparklineProps } from '../LiveLabObservatory.types';
+
+// LiveLabObservatory
 import {
   buildObservatorySparkline,
   sparkPathFromValues,
-} from './LiveLabObservatory.helpers';
-import { SparklineSvg } from './LiveLabObservatory.style';
+} from '../LiveLabObservatory.helpers';
 
-export const LiveLabObservatorySparkline: React.FC<LiveLabObservatorySparklineProps> = ({
+export const LiveLabObservatorySparkline: React.FC<
+LiveLabObservatorySparklineProps
+> = ({
   seed,
   strokeColor,
+  values: liveValues,
 }): React.ReactElement => {
   const reduced: boolean = usePrefersReducedMotion();
-  const [values, setValues] = useState<number[]>(() => buildObservatorySparkline(seed, 24));
+  const [values, setValues] = useState<number[]>(
+    () => liveValues ?? buildObservatorySparkline(seed, 24),
+  );
 
   useEffect(() => {
+    if (liveValues && liveValues.length >= 2) {
+      setValues(liveValues);
+      return undefined;
+    }
     if (reduced) return undefined;
     const id: number = window.setInterval(() => {
       setValues((prev: number[]) => {
@@ -44,7 +47,7 @@ export const LiveLabObservatorySparkline: React.FC<LiveLabObservatorySparklinePr
       });
     }, 1200);
     return (): void => window.clearInterval(id);
-  }, [reduced, seed]);
+  }, [reduced, seed, liveValues]);
 
   const d: string = sparkPathFromValues(values, 120, 28);
 

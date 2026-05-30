@@ -1,2 +1,3 @@
-// Component
-export { LiveLabObservatory } from './LiveLabObservatory';
+export * from './LiveLabObservatory.types';
+
+export * from './LiveLabObservatory';

@@ -50,6 +50,32 @@
     "profile": "Perfil",
     "channel": "Contato"
   },
+  "seo": {
+    "home": {
+      "title": "Vinicius Datti | Engenheiro Front-end",
+      "description": "Engenheiro front-end que constrói interfaces React de alta disponibilidade para dados em tempo real e operações críticas — React, TypeScript, WebSocket e UI de produção."
+    },
+    "about": {
+      "title": "Sobre | Vinicius Datti",
+      "description": "React e TypeScript em produção: telemetria, design system, autenticação e testes automatizados."
+    },
+    "skills": {
+      "title": "Competências | Vinicius Datti",
+      "description": "Mais de 3 anos com React e TypeScript em produção — monitoramento industrial, design system, auth, testes e integrações REST."
+    },
+    "projects": {
+      "title": "Projetos de Engenharia | Vinicius Datti",
+      "description": "Cases e open source com escopo explícito: arquitetura, trade-offs e o que cada repositório comprova."
+    },
+    "contact": {
+      "title": "Contato | Vinicius Datti",
+      "description": "Em busca ativa de vagas remotas ou híbridas como Engenheiro Front-end ou Software Engineer — vamos conversar."
+    },
+    "liveLab": {
+      "title": "Live Lab | Vinicius Datti",
+      "description": "Demo funcional: stream WebSocket, thresholds e log de eventos inspirados em dashboards industriais reais."
+    }
+  },
   "system": {
     "id": "VD·RT",
     "workspaceName": "Vinicius Datti — Portfólio",
@@ -226,6 +252,8 @@
       "cta": "Abrir Live Lab",
       "footer": {
         "transport": "WebSocket",
+        "modeLive": "ao vivo",
+        "modeSimulated": "simulado",
         "tick": "pulso",
         "sensors": "sensores"
       },
