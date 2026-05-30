@@ -95,3 +95,6 @@ package-lock.json
 
 # Misc
 *.tsbuildinfo
+
+# Cursor MCP local config (contains local paths)
+.cursor/mcp.json

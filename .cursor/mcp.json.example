@@ -7,18 +7,18 @@
         "npx",
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "D:/Portifolio/vinicius-portfolio",
-        "D:/Portifolio/vinicius-portfolio/interfaces/web",
-        "D:/Portifolio/vinicius-portfolio/backend",
-        "D:/Portifolio/vinicius-portfolio/docs"
+        "/path/to/vinicius-portfolio",
+        "/path/to/vinicius-portfolio/interfaces/web",
+        "/path/to/vinicius-portfolio/backend",
+        "/path/to/vinicius-portfolio/docs"
       ]
     },
     "shell": {
       "command": "cmd",
       "args": ["/c", "npx", "-y", "@mako10k/mcp-shell-server"],
-      "cwd": "D:/Portifolio/vinicius-portfolio",
+      "cwd": "/path/to/vinicius-portfolio",
       "env": {
-        "MCP_SHELL_DEFAULT_WORKDIR": "D:/Portifolio/vinicius-portfolio",
+        "MCP_SHELL_DEFAULT_WORKDIR": "/path/to/vinicius-portfolio",
         "MCP_SHELL_SECURITY_MODE": "strict"
       }
     },
@@ -30,9 +30,9 @@
         "-y",
         "@playwright/mcp@0.0.75",
         "--config",
-        "D:/Portifolio/vinicius-portfolio/.cursor/playwright-mcp.config.json"
+        "/path/to/vinicius-portfolio/.cursor/playwright-mcp.config.json"
       ],
-      "cwd": "D:/Portifolio/vinicius-portfolio/interfaces/web",
+      "cwd": "/path/to/vinicius-portfolio/interfaces/web",
       "env": {
         "PLAYWRIGHT_MCP_ALLOWED_ORIGINS": "http://localhost:5173;http://127.0.0.1:5173;http://localhost:3000;http://127.0.0.1:3000;http://localhost:8000;http://127.0.0.1:8000;https://fonts.googleapis.com;https://fonts.gstatic.com"
       }
