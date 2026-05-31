@@ -63,6 +63,12 @@ interfaces/web/.env
 # Local diff exports (review artifacts)
 *.diff
 
+# Local README / profile draft artifacts (never commit)
+.tmp-*
+
+# QA capture outputs (keep generated GIF tracked separately when intentional)
+assets/live-lab-validation.png
+
 # Logs
 logs/
 npm-debug.log*

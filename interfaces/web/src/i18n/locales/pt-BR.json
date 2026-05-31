@@ -656,6 +656,11 @@
       "tasks-flask-crud": "Abrir repositório",
       "sample-flask-auth": "Abrir repositório"
     },
+    "studies": {
+      "eyebrow": "Estudos e experimentos",
+      "title": "Estudos anteriores",
+      "description": "Projetos exploratórios e exercícios de aprendizado. Histórico mantido — contexto e escopo documentados em cada case."
+    },
     "capabilities": {
       "react": "Arquitetura de componentes",
       "typescript": "Contratos tipados",

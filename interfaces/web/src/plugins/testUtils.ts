@@ -21,6 +21,7 @@ export const buildFakeProject = (overrides: Partial<Project> = {}): Project => (
   description_pt: 'Monorepo full-stack deste portfólio (FastAPI + React/Vite).',
   repository_url: 'https://github.com/viniciusdatti/vinicius-portfolio',
   demo_url: null,
+  is_featured: false,
   technologies: [
     buildFakeTechnology({ id: 1, name: 'React', slug: 'react' }),
     buildFakeTechnology({ id: 2, name: 'TypeScript', slug: 'typescript' }),
@@ -36,6 +37,7 @@ export const MOCKED_PROJECT_LIST: Project[] = [
     id: 1,
     title: 'vinicius-portfolio',
     title_pt: 'vinicius-portfolio',
+    is_featured: true,
     repository_url: 'https://github.com/viniciusdatti/vinicius-portfolio',
     technologies: [
       buildFakeTechnology({ id: 1, name: 'React', slug: 'react' }),

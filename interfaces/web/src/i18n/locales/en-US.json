@@ -656,6 +656,11 @@
       "tasks-flask-crud": "Open repository",
       "sample-flask-auth": "Open repository"
     },
+    "studies": {
+      "eyebrow": "Studies & experiments",
+      "title": "Earlier studies",
+      "description": "Exploratory projects and learning exercises. History preserved — scope and context documented in each case."
+    },
     "capabilities": {
       "react": "Component architecture",
       "typescript": "Type-safe contracts",

@@ -33,6 +33,7 @@ class ProjectRead(ProjectBase):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    is_featured: bool = False
     technologies: List[TechnologyInProject] = Field(default_factory=list)
     created_at: datetime
     updated_at: datetime
