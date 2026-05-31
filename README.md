@@ -1,73 +1,93 @@
-# Vinicius Portfolio - Full-Stack Monorepo
+# Vinicius Portfolio
 
-Professional portfolio application demonstrating full-stack development skills.
+[![CI](https://github.com/viniciusdatti/vinicius-portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/viniciusdatti/vinicius-portfolio/actions)
+[![Deployments](https://img.shields.io/badge/deployments-95-brightgreen)](https://viniciusdatti-portfolio.vercel.app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript)](https://www.typescriptlang.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://react.dev)
 
-## Project Structure
+**[→ Live Demo](https://viniciusdatti-portfolio.vercel.app)**
 
-```
-vinicius-portfolio/
-├── backend/                  # FastAPI REST API
-│   ├── app/
-│   │   ├── api/              # API endpoints
-│   │   ├── core/             # Configuration, logging, exceptions
-│   │   ├── db/               # Database configuration
-│   │   ├── models/           # SQLAlchemy models
-│   │   ├── schemas/          # Pydantic schemas
-│   │   └── services/         # Business logic
-│   ├── scripts/              # Utility scripts (seed, etc.)
-│   ├── requirements.txt
-│   └── .env.example
-├── interfaces/
-│   └── web/                  # React Frontend
-│       ├── src/
-│       │   ├── api/          # API client
-│       │   ├── components/   # UI components
-│       │   ├── hooks/        # Custom hooks
-│       │   ├── i18n/         # Internationalization
-│       │   ├── styles/       # Theme and global styles
-│       │   └── pages/        # Route pages (single source for screens)
-│       ├── public/
-│       ├── package.json
-│       └── .env.example
-├── docs/                     # Documentation
-│   └── portfolio/
-│       ├── functional_requirements/
-│       └── technical_specifications/
-├── .cursor/                  # MCP (filesystem, shell, playwright) + agent rules
-├── CONTRIBUTING.md
-└── README.md
-```
+Personal portfolio built as a production-grade SPA — monorepo with React 19 + TypeScript on the frontend, FastAPI + PostgreSQL on the backend, WebSocket for real-time telemetry, and automated CI/CD with 95+ deployments.
 
-## Git workflow
+---
 
-- **`master`** — produção
-- **`develop`** — integração contínua
-- **`feature/*`** — desenvolvimento isolado
+## Engineering Highlights
 
-Detalhes: [docs/GIT_WORKFLOW.md](./docs/GIT_WORKFLOW.md) e [CONTRIBUTING.md](./CONTRIBUTING.md).
+- **Strict TypeScript end-to-end** — fully typed frontend and backend with explicit type guards in the API layer
+- **Multi-layer testing** — Vitest + RTL + MSW (unit/integration); Playwright (E2E); component coverage with Testing Library
+- **Real-time WebSocket telemetry** — live state monitor via WorkspaceShell, continuous streams with recharts
+- **Full i18n** — pt-BR / en-US via react-i18next with lazy-loaded namespaces
+- **Robust error handling** — per-route RouteError boundary + global React ErrorBoundary
+- **Design System with tokens** — styled-components + dark-mode-ready theme, components with testId via TestableProps
+- **Semantic Git workflow** — conventional PR prefixes, branches feature/* -> develop -> master
+- **CI/CD** — automated pipeline with continuous deployment to Vercel
 
-Agentes Cursor: [.cursor/README.md](./.cursor/README.md).
+---
 
 ## Tech Stack
 
-### Backend
-- **FastAPI** - Modern Python web framework
-- **SQLAlchemy 2.x** - ORM for database operations
-- **PostgreSQL** - Relational database
-- **Pydantic** - Data validation
+| Layer | Technologies |
+|-------|-------------|
+| **Frontend** | React 19, TypeScript, Vite, styled-components, Framer Motion |
+| **State** | TanStack Query (server state) + Zustand (client state) |
+| **Testing** | Vitest, React Testing Library, MSW, Playwright |
+| **Backend** | FastAPI, SQLAlchemy 2.x, Pydantic, WebSocket |
+| **Database** | PostgreSQL 14+ |
+| **DevOps** | GitHub Actions, Vercel, Docker Compose |
+| **i18n** | react-i18next (pt-BR / en-US) |
 
-### Frontend (interfaces/web)
-- **React 19** - UI library
-- **TypeScript** - Type safety
-- **Vite** - dev server on port 5173 (HMR)
-- **TanStack Query** - Server state management
-- **styled-components** - CSS-in-JS styling
-- **react-i18next** - Internationalization (pt-BR / en-US)
-- **Framer Motion** - Animations
+---
 
-## Ambiente local (recomendado)
+## Frontend Architecture (interfaces/web)
 
-**Docker:** PostgreSQL + FastAPI (reload). **Host:** Vite + React 19.
+```
+src/
+├── api/           # axios client, ApiError, type guards
+├── plugins/       # pure domain logic (testable without React)
+├── hooks/         # TanStack Query — skills, projects, certificates, telemetry
+├── store/         # Zustand — theme, telemetry, toast
+├── components/
+│   ├── workspace/ # WorkspaceShell — telemetry monitor + recharts
+│   └── ui/        # Button, Card, Drawer (a11y), Spinner
+└── pages/         # route pages — errorElement per route
+```
+
+**Path alias:** @/ -> src/ (Vite + tsconfig + Vitest)
+
+**Scripts:** yarn lint · yarn typecheck · yarn test · yarn build · yarn analyze
+
+---
+
+## Monorepo Structure
+
+```
+vinicius-portfolio/
+├── backend/           # FastAPI REST API
+│   ├── app/
+│   │   ├── api/       # endpoints
+│   │   ├── core/      # config, logging, exceptions
+│   │   ├── db/        # database config
+│   │   ├── models/    # SQLAlchemy models
+│   │   ├── schemas/   # Pydantic schemas
+│   │   └── services/  # business logic
+│   └── requirements.txt
+├── interfaces/
+│   └── web/           # React Frontend
+├── docs/              # functional_requirements + technical_specifications
+├── .github/           # CI workflows
+└── .cursor/           # MCP (filesystem, shell, playwright)
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+ · Python 3.11+ · PostgreSQL 14+ · Yarn
+- Or: **Docker** (recommended)
+
+### With Docker (recommended)
 
 ```bash
 cp .env.docker.example .env.docker
@@ -76,135 +96,69 @@ docker compose --env-file .env.docker up --build -d
 cd interfaces/web && cp .env.example .env && yarn install && yarn dev
 ```
 
-- Frontend (Vite): http://localhost:5173  
-- API: http://localhost:8000  
-- Guia: [docs/DOCKER.md](./docs/DOCKER.md) | Git: [docs/GIT_WORKFLOW.md](./docs/GIT_WORKFLOW.md)
+| Service | URL |
+|---------|-----|
+| Frontend (Vite) | http://localhost:5173 |
+| API | http://localhost:8000 |
+| API Docs | http://localhost:8000/docs |
 
-## Getting Started
+### Manual Setup
 
-### Prerequisites
-
-- Node.js 18+ (ou Docker)
-- Python 3.11+ (ou Docker)
-- PostgreSQL 14+ (ou Docker)
-- Yarn
-
-### Backend Setup
-
+**Backend:**
 ```bash
-cd vinicius-portfolio/backend
-
-# Create virtual environment
-python -m venv venv
-
-# Activate (Windows)
-venv\Scripts\activate
-
-# Activate (Linux/Mac)
-source venv/bin/activate
-
-# Install dependencies
+cd backend
+python -m venv venv && source venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
-
-# Configure environment
 cp .env.example .env
-# Edit .env with your database credentials
-
-# Create database
 createdb portfolio
-
-# Seed initial data (optional)
-python scripts/seed.py
-
-# Run server (use socket_app for REST + WebSocket)
+python scripts/seed.py          # optional
 uvicorn app.main:socket_app --reload --port 8000
 ```
 
-### Frontend Setup
-
+**Frontend:**
 ```bash
-cd vinicius-portfolio/interfaces/web
-
-# Install dependencies
-yarn install
-
-# Configure environment
-cp .env.example .env
-
-# Run development server (Vite)
-yarn dev
-```
-
-### Running Both
-
-**From monorepo root (recommended):**
-
-```bash
-yarn dev:api   # Terminal 1 — http://127.0.0.1:8000
-yarn dev:web   # Terminal 2 — http://localhost:5173
-yarn health:api
-yarn qa:audit  # smoke UI + API (both servers must be running)
-```
-
-**Manual (equivalent):**
-
-```bash
-cd backend
-venv\Scripts\activate
-python -m uvicorn app.main:socket_app --reload --port 8000
-
 cd interfaces/web
-yarn dev
+yarn install && cp .env.example .env && yarn dev
 ```
 
-- Frontend: http://localhost:5173
-- API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+**From monorepo root:**
+```bash
+yarn dev:api   # Terminal 1
+yarn dev:web   # Terminal 2
+yarn qa:audit  # smoke tests — UI + API (both servers must be running)
+```
+
+---
 
 ## Environment Variables
 
-### Backend (`backend/.env`)
+**Backend (backend/.env):**
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/portfolio` |
-| `CORS_ORIGINS` | Allowed origins (comma-separated) | `http://localhost:5173` |
-| `ENVIRONMENT` | Environment name | `development` |
-| `LOG_LEVEL` | Logging level | `INFO` |
+| DATABASE_URL | PostgreSQL connection string | postgresql://postgres:postgres@localhost:5432/portfolio |
+| CORS_ORIGINS | Allowed origins (comma-separated) | http://localhost:3000 |
+| ENVIRONMENT | Environment name | development |
+| LOG_LEVEL | Logging level | INFO |
 
-### Frontend (`interfaces/web/.env`)
+**Frontend (interfaces/web/.env):**
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `VITE_API_URL` | Backend API URL | `http://localhost:8000/api/v1` |
+| VITE_API_URL | Backend API URL | http://localhost:8000/api/v1 |
 
-## Features
+---
 
-- Full-Stack Architecture with REST API
-- Database with Many-to-Many relationships
-- Internationalization (pt-BR / en-US)
-- Skeleton Loading states
-- Global error handling
-- Design System with tokens
-- Dark Mode ready architecture
+## Git Workflow
 
-## Frontend architecture (interfaces/web)
+- `master` — production
+- `develop` — continuous integration
+- `feature/*` — isolated development
 
-Production-oriented patterns aligned with industrial SPA discipline:
+Details: `docs/GIT_WORKFLOW.md` and `CONTRIBUTING.md`.
 
-| Layer | Location | Role |
-|-------|----------|------|
-| API client + guards | `src/api/` | axios client, `ApiError`, type guards (`isNotFoundError`, etc.) |
-| Domain validation | `src/domain/` | Zod schemas (e.g. contact form) |
-| Domain plugins | `src/plugins/` | Pure business logic (skills icons, test builders) — testable without React |
-| Canvas telemetry | `src/lib/telemetryFieldCanvas/` | Shared canvas field helpers — canonical entry: `index.ts` |
-| Server state | TanStack Query hooks in `src/hooks/` | Skills, projects, certificates, telemetry |
-| Client state | Zustand stores in `src/store/` | theme, telemetry, toast |
-| Live Lab | `src/components/workspace/` | WorkspaceShell — telemetry monitor, atmosphere, recharts |
-| Design system | `src/components/` | Button, Card, Drawer (a11y), Spinner — `testId` prop via `TestableProps` |
-| Errors | `RouteError`, `ErrorBoundary` | route `errorElement` + React error boundary |
-| Tests | Vitest + RTL + MSW | unit/domain tests; handlers for projects, skills, certificates, contact |
+---
 
-**Scripts:** `yarn lint` · `yarn typecheck` · `yarn test` · `yarn build` · `yarn analyze` (bundle report → `dist/stats.html`)
+## License
 
-Imports: **relative paths only** (convenção do repo). O alias `@/` existe em tsconfig para tooling legado; novos arquivos não devem usá-lo — ver `.cursor/rules/import-sections.mdc`.
+MIT — © Vinicius Datti
