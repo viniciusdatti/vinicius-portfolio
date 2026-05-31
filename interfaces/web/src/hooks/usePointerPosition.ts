@@ -2,22 +2,13 @@
 import {
   useCallback,
   useEffect,
-  useState,
-  type RefCallback,
+  useState, RefCallback,
 } from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface PointerPosition {
-  /** 0–1 relative to element width */
   x: number;
-  /** 0–1 relative to element height */
   y: number;
-  /** px from element left */
   px: number;
-  /** px from element top */
   py: number;
 }
 
@@ -28,10 +19,6 @@ export interface UsePointerPositionResult<T extends HTMLElement = HTMLDivElement
   element: T | null;
 }
 
-/* *************************************************************************************************
- ******************************************** CONSTANTS ********************************************
- ************************************************************************************************ */
-
 const DEFAULT_POSITION: PointerPosition = {
   x: 0.5,
   y: 0.5,
@@ -39,14 +26,6 @@ const DEFAULT_POSITION: PointerPosition = {
   py: 0,
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Normalized pointer position within a container — drives spotlight glow and tilt.
- * Uses a callback ref so listeners attach after the DOM node mounts.
- */
 export const usePointerPosition = <T extends HTMLElement = HTMLDivElement>(
   disabled: boolean = false,
 ): UsePointerPositionResult<T> => {

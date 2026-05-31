@@ -2,26 +2,21 @@
 import React, { useMemo } from 'react';
 
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
-import { useSocketThrottledValue } from '@/hooks/useSocketThrottledValue';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
+import { useSocketThrottledValue } from '../../../hooks/useSocketThrottledValue';
 
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-// Components
+// Styles
 import {
   MonitorFieldCanvas,
   MonitorFieldLayer,
-} from '@/components/atmosphere/MonitorTelemetryField/MonitorTelemetryField.style';
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
+} from './MonitorTelemetryField.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Lib
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas/index';
 
-/**
- * Socket-throttled telemetry field behind the Live Lab monitor grid.
- */
+// Workspace
+import { useTelemetry } from '../../workspace/TelemetryProvider';
+
 const SOCKET_FIELD_THROTTLE_MS: number = 100;
 
 export const MonitorTelemetryField = (): React.ReactElement => {
@@ -43,7 +38,11 @@ export const MonitorTelemetryField = (): React.ReactElement => {
   });
 
   return (
-    <MonitorFieldLayer ref={bindContainerRef} data-telemetry-field aria-hidden>
+    <MonitorFieldLayer
+      ref={bindContainerRef}
+      data-telemetry-field
+      aria-hidden
+    >
       <MonitorFieldCanvas ref={canvasRef} />
     </MonitorFieldLayer>
   );

@@ -1,13 +1,7 @@
-/** Fixed-width section dividers for source files (100 columns, centered label). */
-
 export const SECTION_COMMENT_WIDTH = 100 as const;
 
 const PREFIX = '// ';
 
-/**
- * Builds the three-line asterisk section header block (100 columns).
- * @param label - Section name (uppercased); max length ~90 characters.
- */
 export const formatAsteriskSectionHeader = (label: string): string => {
   const normalized: string = label.trim().toUpperCase();
   const line1: string = `/* ${'*'.repeat(SECTION_COMMENT_WIDTH - 3)}`;
@@ -28,10 +22,6 @@ export const formatAsteriskSectionHeader = (label: string): string => {
   return `${line1}\n${line2}\n${line3}`;
 };
 
-/**
- * Builds the three-line equals section header block (100 columns).
- * @param label - Section name (uppercased); max length ~90 characters.
- */
 export const formatSectionHeader = (label: string): string => {
   const normalized: string = label.trim().toUpperCase();
   const border: string = `${PREFIX}${'='.repeat(SECTION_COMMENT_WIDTH - PREFIX.length)}`;
@@ -50,7 +40,6 @@ export const formatSectionHeader = (label: string): string => {
   return `${border}\n${middle}\n${border}`;
 };
 
-/** Pre-built asterisk headers for common regions (copy into files or codegen). */
 export const ASTERISK_SECTION = {
   imports: formatAsteriskSectionHeader('IMPORTS'),
   enums: formatAsteriskSectionHeader('ENUMS'),
@@ -65,7 +54,6 @@ export const ASTERISK_SECTION = {
   config: formatAsteriskSectionHeader('CONFIG'),
 } as const;
 
-/** Pre-built equals headers (legacy — prefer {@link ASTERISK_SECTION}). */
 export const SECTION = {
   types: formatSectionHeader('TYPES'),
   constants: formatSectionHeader('CONSTANTS'),

@@ -2,25 +2,20 @@
 import React, { useMemo } from 'react';
 
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Types
-import type { WorkCanvasPreviewProps } from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.types';
-import { mapProjectCanvasTone } from '@/lib/mapProjectCanvasTone';
-
-// Components
+// Styles
 import {
   WorkPreviewCanvas,
   WorkPreviewLayer,
-} from '@/components/home/WorkCanvasPreview/WorkCanvasPreview.style';
+} from './WorkCanvasPreview.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Types
+import { WorkCanvasPreviewProps } from './WorkCanvasPreview.types';
 
-/**
- * Generative Canvas2D signal preview for the home work runway.
- */
+// Lib
+import { mapProjectCanvasTone } from '../../../lib/projects';
+
 export const WorkCanvasPreview = ({
   tone,
   active,

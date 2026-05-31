@@ -1,13 +1,6 @@
 // Core
 import { useEffect, useState } from 'react';
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * Synchronous WebGL2 probe — avoids a null first paint that never recovers in some HMR paths.
- */
 const detectWebGL2 = (): boolean => {
   if (typeof document === 'undefined') {
     return false;
@@ -17,13 +10,6 @@ const detectWebGL2 = (): boolean => {
   return gl !== null;
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Detects WebGL2 support once on mount (for lazy R3F atmosphere fallback).
- */
 export const useWebGLAvailable = (): boolean => {
   const [available, setAvailable] = useState<boolean>(detectWebGL2);
 

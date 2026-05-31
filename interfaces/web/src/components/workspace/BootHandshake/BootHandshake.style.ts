@@ -1,17 +1,13 @@
-/**
- * @fileoverview Boot handshake overlay styles for Live Lab workspace entry.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
-import styled, { css, keyframes, DefaultTheme } from 'styled-components';
+import styled, {
+  css,
+  keyframes,
+  DefaultTheme,
+} from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
-import { glassSurface } from '@/styles/surfaces';
+// Styles
+import { glassSurface } from '../../../styles/surfaces';
 
 const progressPulse = (theme: DefaultTheme) => keyframes`
   0% {

@@ -1,2 +1,3 @@
-export * from '@/components/skills/SupportStackCard/SupportStackCard';
-export * from '@/components/skills/SupportStackCard/SupportStackCard.types';
+export * from './SupportStackCard.types';
+
+export * from './SupportStackCard';

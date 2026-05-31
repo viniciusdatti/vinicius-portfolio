@@ -1,31 +1,23 @@
 // Core
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { Project } from '@/data/types';
-import {
-  formatProjectSignalCode,
-  getProjectDisplayTitle,
-  orderProjectsForShowcase,
-} from '@/domain/projects';
-import { Language } from '@/types';
-import {
-  ProjectCanvasTone,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
+// Layout
+import { HomeSectionReveal } from '../HomeSectionReveal';
 
 // Components
-import { HomeSectionReveal } from '@/components/home/HomeSectionReveal';
-import { WorkCanvasPreview } from '@/components/home/WorkCanvasPreview';
-import { ProjectCasePanel } from '@/components/ProjectShowcase/ProjectCasePanel';
-import { ProjectCardSkeleton } from '@/components/ProjectCardSkeleton';
+import { ProjectCardSkeleton } from '../../ProjectCardSkeleton';
 
-// View
+// Styles
 import {
   WorkStage,
   WorkStageGrid,
@@ -50,7 +42,25 @@ import {
   CasePanelSlot,
   WorkError,
   WorkRetry,
-} from '@/components/home/HomeWorkStage/HomeWorkStage.style';
+} from './HomeWorkStage.style';
+
+// Types
+import { Project } from '../../../data/types';
+import { Language } from '../../../types';
+import {
+  formatProjectSignalCode,
+  getProjectDisplayTitle,
+  orderProjectsForShowcase,
+} from '../../../domain/projects';
+import {
+  ProjectCanvasTone,
+} from '../../ProjectShowcase/ProjectShowcase.types';
+
+// Home
+import { WorkCanvasPreview } from '../WorkCanvasPreview';
+
+// ProjectShowcase
+import { ProjectCasePanel } from '../../ProjectShowcase/ProjectCasePanel';
 
 export interface HomeWorkStageProps {
   projects: Project[] | undefined;

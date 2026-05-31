@@ -1,13 +1,8 @@
-/**
- * Shared test builders (portfolio). Reuse in unit tests instead of hand-building objects.
- */
-
-import type { Project, Technology } from '@/data/types';
+// Types
+import { Project, Technology } from '../data/types';
 import {
-  SkillCategory,
-  type Certificate,
-  type Skill,
-} from '@/types';
+  SkillCategory, Certificate, Skill,
+} from '../types';
 
 export const buildFakeTechnology = (
   overrides: Partial<Technology> = {},
@@ -26,6 +21,7 @@ export const buildFakeProject = (overrides: Partial<Project> = {}): Project => (
   description_pt: 'Monorepo full-stack deste portfólio (FastAPI + React/Vite).',
   repository_url: 'https://github.com/viniciusdatti/vinicius-portfolio',
   demo_url: null,
+  is_featured: false,
   technologies: [
     buildFakeTechnology({ id: 1, name: 'React', slug: 'react' }),
     buildFakeTechnology({ id: 2, name: 'TypeScript', slug: 'typescript' }),
@@ -41,6 +37,7 @@ export const MOCKED_PROJECT_LIST: Project[] = [
     id: 1,
     title: 'vinicius-portfolio',
     title_pt: 'vinicius-portfolio',
+    is_featured: true,
     repository_url: 'https://github.com/viniciusdatti/vinicius-portfolio',
     technologies: [
       buildFakeTechnology({ id: 1, name: 'React', slug: 'react' }),

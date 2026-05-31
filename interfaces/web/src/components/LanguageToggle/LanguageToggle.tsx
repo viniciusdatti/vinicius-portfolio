@@ -4,11 +4,11 @@ import React from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { LanguageToggleProps } from '@/components/LanguageToggle/LanguageToggle.types';
+// Styles
+import { ToggleWrapper, LangButton } from './LanguageToggle.style';
 
-// Components
-import { ToggleWrapper, LangButton } from '@/components/LanguageToggle/LanguageToggle.style';
+// Types
+import { LanguageToggleProps } from './LanguageToggle.types';
 
 export const LanguageToggle = ({ className }: LanguageToggleProps): React.ReactElement => {
   const { i18n, t } = useTranslation();

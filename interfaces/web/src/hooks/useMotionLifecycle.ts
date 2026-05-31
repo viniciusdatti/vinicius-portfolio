@@ -2,12 +2,14 @@
 import {
   useEffect,
   useLayoutEffect,
-  useState,
-  type RefObject,
+  useState, RefObject,
 } from 'react';
 
+// Hooks
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
 // Types
-import type {
+import {
   IntersectionObserverCallbackFn,
   IntersectionObserverCleanup,
   MotionLifecycleTarget,
@@ -17,14 +19,7 @@ import type {
   UseMotionLifecycleResult,
   VisibilityChangeCleanup,
   VisibilityChangeHandler,
-} from '@/hooks/useMotionLifecycle.types';
-
-// Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './useMotionLifecycle.types';
 
 const resolveMotionTarget = (target?: MotionLifecycleTarget): Element | null => {
   if (!target) {
@@ -37,13 +32,6 @@ const resolveMotionTarget = (target?: MotionLifecycleTarget): Element | null => 
   return refTarget.current;
 };
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Gates motion loops by viewport visibility, tab focus, and reduced-motion preference.
- */
 export const useMotionLifecycle: UseMotionLifecycleHook = (
   target?: MotionLifecycleTarget,
   options: UseMotionLifecycleOptions = {},
@@ -69,8 +57,6 @@ export const useMotionLifecycle: UseMotionLifecycleHook = (
   const [observedElement, setObservedElement] = useState<Element | null>(
     (): Element | null => resolveMotionTarget(target),
   );
-
-  /** Re-resolve RefObject targets after mount — ref assignment does not re-render parents. */
   useLayoutEffect((): (() => void) | undefined => {
     const syncTarget = (): void => {
       setObservedElement(resolveMotionTarget(target));

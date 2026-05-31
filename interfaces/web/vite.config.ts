@@ -34,6 +34,7 @@ export default defineConfig(({ mode }) => {
         'react-hook-form',
         'zod',
         '@hookform/resolvers/zod',
+        'use-sync-external-store/shim/with-selector',
       ],
     },
     server: {
@@ -69,6 +70,15 @@ export default defineConfig(({ mode }) => {
         output: {
           manualChunks: (id: string): string | undefined => {
             if (!id.includes('node_modules')) return undefined;
+            // React core — isolated so it can be long-cached independently
+            if (
+              id.includes('/react/')
+              || id.includes('/react-dom/')
+              || id.includes('/react-is/')
+              || id.includes('/scheduler/')
+            ) {
+              return 'vendor-react';
+            }
             if (id.includes('recharts') || id.includes('d3-')) return 'vendor-recharts';
             if (
               id.includes('three')

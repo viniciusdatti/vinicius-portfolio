@@ -10,23 +10,23 @@ import React, {
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+
+// Layout
+import { MobileMenu } from '../MobileMenu';
+
 // Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { LanguageToggle } from '../../LanguageToggle';
+
+// Styles
 import {
   hamburgerTop,
   hamburgerMiddle,
   hamburgerBottom,
   motionEase,
-} from '@/styles/animations';
-import { motionPresets } from '@/styles/motionPresets';
-import { ThemeToggle } from '@/components/common/ThemeToggle';
-import { LanguageToggle } from '@/components/LanguageToggle';
-import { MobileMenu } from '@/components/layout/MobileMenu';
-import {
-  BodyScrollLockClass,
-  lockBodyScroll,
-} from '@/utils/bodyScrollLock';
-import { prefetchRouteModule } from '@/lib/routePrefetch';
+} from '../../../styles/animations';
+import { motionPresets } from '../../../styles/motionPresets';
 import {
   HeaderContainer,
   HeaderShell,
@@ -35,13 +35,26 @@ import {
   HeaderTrailing,
   Logo,
   LogoMark,
+  LogoName,
   LogoSuffix,
   Nav,
   NavLink as HeaderNavLink,
   HeaderActions,
   HamburgerButton,
   HamburgerLine,
-} from '@/components/layout/Header/Header.style';
+} from './Header.style';
+
+// Common
+import { ThemeToggle } from '../../common/ThemeToggle';
+
+// Lib
+import { prefetchRouteModule } from '../../../lib/routing';
+
+// Utils
+import {
+  BodyScrollLockClass,
+  lockBodyScroll,
+} from '../../../utils/bodyScrollLock';
 
 interface NavItem {
   path: string;
@@ -141,6 +154,7 @@ export const Header: React.FC = (): React.ReactElement => {
               aria-label={t('header.logoAria')}
             >
               <LogoMark>{t('system.logoMark')}</LogoMark>
+              <LogoName>{t('home.hero.name')}</LogoName>
               <LogoSuffix>{t('system.logoSuffix')}</LogoSuffix>
             </Logo>
 

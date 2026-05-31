@@ -1,27 +1,15 @@
-/**
- * @fileoverview Viewport-driven scroll reveal shell for Home sections below the fold.
- */
-
 // Core
 import React from 'react';
 
 // Hooks
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
+// Layout
+import { HomeSectionRevealRoot } from './HomeSectionReveal.style';
 
 // Types
-import type { HomeSectionRevealProps } from '@/components/home/HomeSectionReveal/HomeSectionReveal.types';
+import { HomeSectionRevealProps } from './HomeSectionReveal.types';
 
-// Components
-import { HomeSectionRevealRoot } from '@/components/home/HomeSectionReveal/HomeSectionReveal.style';
-
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
-
-/**
- * Stagger shell for nested Home blocks — children carry `variants={item}` from `useScrollMotion`.
- * Section-level opacity gates live inside each Home block; avoid wrapping whole sections here.
- */
 export const HomeSectionReveal: React.FC<HomeSectionRevealProps> = ({
   children,
   stagger = false,

@@ -1,30 +1,18 @@
-// Core
-import { describe, expect, it } from 'vitest';
-
 // Libraries
-import { z } from 'zod';
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest';
 
-/* *************************************************************************************************
- **************************************** TEST SUPPORT VARS ****************************************
- ************************************************************************************************ */
-
-const contactSchema = z.object({
-  name: z.string().min(2).max(100),
-  email: z.string().email(),
-  company: z.string().max(200).optional(),
-  subject: z.string().max(200).optional(),
-  message: z.string().min(10).max(5000),
-});
-
-/* *************************************************************************************************
- ***************************************** TEST EXECUTION ******************************************
- ************************************************************************************************ */
+// Types
+import { contactFormSchema } from '../../domain/contact';
 
 describe('Contact form validation', (): void => {
   // SCHEMA: valid payload *******************************
 
   it('should accept valid payload', (): void => {
-    const result = contactSchema.safeParse({
+    const result = contactFormSchema.safeParse({
       name: 'Jane Doe',
       email: 'jane@example.com',
       message: 'Hello from the portfolio contact form.',
@@ -35,11 +23,19 @@ describe('Contact form validation', (): void => {
   // SCHEMA: invalid payload *******************************
 
   it('should reject short name and message', (): void => {
-    const result = contactSchema.safeParse({
+    const result = contactFormSchema.safeParse({
       name: 'J',
       email: 'not-an-email',
       message: 'short',
     });
     expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.some((issue) => issue.message === 'validation.minLength')).toBe(
+        true,
+      );
+      expect(result.error.issues.some((issue) => issue.message === 'validation.email')).toBe(
+        true,
+      );
+    }
   });
 });

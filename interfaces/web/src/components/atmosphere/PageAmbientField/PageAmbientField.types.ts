@@ -1,9 +1,5 @@
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-/* *************************************************************************************************
- ********************************************** ENUMS **********************************************
- ************************************************************************************************ */
+// Lib
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas/index';
 
 export enum PageAmbientFieldKind {
   HomeObservatory = 'home_observatory',
@@ -12,15 +8,9 @@ export enum PageAmbientFieldKind {
   ProjectsWireframe = 'projects_wireframe',
 }
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
-
 export interface PageAmbientFieldProps {
   kind: PageAmbientFieldKind;
-  /** 0–1 socket or scroll-driven modulation. */
   pulse?: number;
-  /** 0–1 scroll offset for wireframe parallax. */
   scrollOffset?: number;
 }
 

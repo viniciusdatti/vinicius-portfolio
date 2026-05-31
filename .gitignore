@@ -63,6 +63,12 @@ interfaces/web/.env
 # Local diff exports (review artifacts)
 *.diff
 
+# Local README / profile draft artifacts (never commit)
+.tmp-*
+
+# QA capture outputs (keep generated GIF tracked separately when intentional)
+assets/live-lab-validation.png
+
 # Logs
 logs/
 npm-debug.log*
@@ -82,6 +88,9 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# One-off git history scrub scripts (local only; do not commit)
+scripts/history-scrub/
 
 # QA / audit artifacts (local only)
 interfaces/web/qa-screenshots/

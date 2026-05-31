@@ -1,23 +1,24 @@
 // Libraries
 import styled, { DefaultTheme } from 'styled-components';
 
-type StatusTone = 'ok' | 'warn' | 'idle';
+// Types
+import { OperationalStatusTone } from '../../../types/telemetry';
 
-const getToneBorderColor = (tone: StatusTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.success;
-  if (tone === 'warn') return theme.colors.warning;
+const getToneBorderColor = (tone: OperationalStatusTone, theme: DefaultTheme): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.success;
+  if (tone === OperationalStatusTone.Warn) return theme.colors.warning;
   return theme.colors.borderSubtle;
 };
 
-const getToneTextColor = (tone: StatusTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.success;
-  if (tone === 'warn') return theme.colors.warning;
+const getToneTextColor = (tone: OperationalStatusTone, theme: DefaultTheme): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.success;
+  if (tone === OperationalStatusTone.Warn) return theme.colors.warning;
   return theme.colors.textMuted;
 };
 
-const getToneBackground = (tone: StatusTone, theme: DefaultTheme): string => {
-  if (tone === 'ok') return theme.colors.successSurface;
-  if (tone === 'warn') return theme.colors.warningSurface;
+const getToneBackground = (tone: OperationalStatusTone, theme: DefaultTheme): string => {
+  if (tone === OperationalStatusTone.Ok) return theme.colors.successSurface;
+  if (tone === OperationalStatusTone.Warn) return theme.colors.warningSurface;
   return theme.colors.mutedSurface;
 };
 
@@ -94,7 +95,7 @@ export const SystemBarActions = styled.div`
   flex-shrink: 0;
 `;
 
-export const StatusPill = styled.span<{ $tone: 'ok' | 'warn' | 'idle' }>`
+export const StatusPill = styled.span<{ $tone: OperationalStatusTone }>`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -107,7 +108,7 @@ export const StatusPill = styled.span<{ $tone: 'ok' | 'warn' | 'idle' }>`
   white-space: nowrap;
 `;
 
-export const StatusDot = styled.span<{ $tone: 'ok' | 'warn' | 'idle' }>`
+export const StatusDot = styled.span<{ $tone: OperationalStatusTone }>`
   width: 6px;
   height: 6px;
   border-radius: ${({ theme }) => theme.borderRadius.full};

@@ -1,23 +1,34 @@
-/**
- * @fileoverview Home Live Lab observatory panel styles.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
-import styled, { css, keyframes, DefaultTheme } from 'styled-components';
+import styled, {
+  css,
+  keyframes,
+  DefaultTheme,
+} from 'styled-components';
 
 // Types
-import { SensorStatus } from '@/types/telemetry';
+import {
+  SensorStatus,
+  TelemetryEventType,
+} from '../../../types/telemetry';
 
-// Components
-import { getTelemetryStatusColor } from '@/lib/telemetryStatusColor';
+// Lib
+import { getTelemetryStatusColor } from '../../../lib/telemetry';
 
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+export interface ObservatoryLiveStyleProps {
+  $live?: boolean;
+}
+
+export interface SensorTileStyleProps {
+  $status: SensorStatus;
+}
+
+export interface SensorTileValueStyleProps {
+  $status: SensorStatus;
+}
+
+export interface LogLineStyleProps {
+  $type?: TelemetryEventType;
+}
 
 const statusColor = (
   status: SensorStatus,
@@ -76,7 +87,7 @@ export const ObservatoryTitle = styled.span`
   color: ${({ theme }) => theme.colors.textMuted};
 `;
 
-export const ObservatoryLive = styled.span<{ $live?: boolean }>`
+export const ObservatoryLive = styled.span<ObservatoryLiveStyleProps>`
   display: inline-flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
@@ -117,7 +128,7 @@ export const SensorPanel = styled.div`
   background: ${({ theme }) => theme.colors.borderSubtle};
 `;
 
-export const SensorTile = styled.div<{ $status: SensorStatus }>`
+export const SensorTile = styled.div<SensorTileStyleProps>`
   position: relative;
   padding: ${({ theme }) => theme.spacing.md};
   background: ${({ theme }) => theme.colors.surfaceElevated};
@@ -144,7 +155,7 @@ export const SensorTileLabel = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.xs};
 `;
 
-export const SensorTileValue = styled.div<{ $status: SensorStatus }>`
+export const SensorTileValue = styled.div<SensorTileValueStyleProps>`
   font-size: ${({ theme }) => theme.typography.fontSize.lg};
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -189,12 +200,14 @@ export const LogPane = styled.div`
   padding: ${({ theme }) => theme.spacing.sm} ${({ theme }) => theme.spacing.md};
 `;
 
-export const LogLine = styled.div<{ $type?: 'info' | 'warn' }>`
+export const LogLine = styled.div<LogLineStyleProps>`
   display: flex;
   gap: ${({ theme }) => theme.spacing.sm};
   font-size: ${({ theme }) => theme.typography.fontSize.caption};
   line-height: 1.5;
-  color: ${({ $type, theme }) => ($type === 'warn' ? theme.colors.warning : theme.colors.textMuted)};
+  color: ${({ $type, theme }) => (
+    $type === TelemetryEventType.Warn ? theme.colors.warning : theme.colors.textMuted
+  )};
   animation: ${logFade} 0.35s ease-out both;
 
   time {

@@ -1,43 +1,40 @@
-/**
- * @fileoverview Public portfolio shell — canonical route transition + a11y motion gate.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Core
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 
 // Libraries
 import { useLocation, useOutlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-// Components
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+// Hooks
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
 import {
   ScrollMotionViewportProvider,
   useScrollMotionViewport,
-} from '@/hooks/scrollMotionViewport';
-import { Header } from '@/components/layout/Header';
-import { Footer } from '@/components/layout/Footer';
-import { LayoutAmbientBackdrop } from '@/components/layout/LayoutAmbientBackdrop';
+} from '../../../hooks/scrollMotionViewport';
+
+// Layout
+import { Header } from '../Header';
+import { Footer } from '../Footer';
+import { LayoutAmbientBackdrop } from '../LayoutAmbientBackdrop';
+
+// Styles
+import { resolvePageTransition } from '../../../styles/animations';
 import {
   SkipLink,
   Main,
   PageMotionLayer,
   WorkspaceMotionShell,
-} from '@/components/layout/Layout/Layout.style';
-import { resolvePageTransition } from '@/styles/animations';
-import { prefetchPublicRoutes } from '@/lib/routePrefetch';
+} from './Layout.style';
 
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
+// Lib
+import { prefetchPublicRoutes } from '../../../lib/routing';
 
-/**
- * Inner layout chrome — binds the scroll root ref for nested `whileInView` observers.
- */
+const ObservatoryIdleLayer = lazy(
+  () => import('../../motion/ObservatoryIdleLayer').then(
+    (module) => ({ default: module.ObservatoryIdleLayer }),
+  ),
+);
+
 const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
   const outlet: React.ReactElement | null = useOutlet();
@@ -75,6 +72,9 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <ObservatoryIdleLayer />
+      </Suspense>
       <LayoutAmbientBackdrop />
       <Header />
       <Main
@@ -100,17 +100,6 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   );
 };
 
-/**
- * Public portfolio shell — cinematic pages with page transitions.
- * Live Lab uses full-viewport workspace mode (no footer, fade-only transition).
- *
- * P0 gate: `usePrefersReducedMotion` strips scale/translate/blur from `pageEnter`;
- * only opacity fade runs when the user prefers reduced motion.
- *
- * IMPORTANT: PageMotionLayer keys `${pathname}:${key}` and wraps the resolved
- * `useOutlet()` element. Route exit animations were removed — AnimatePresence
- * mode="wait" and exit fades left SPA navigations stuck when the tab was hidden.
- */
 export const Layout: React.FC = (): React.ReactElement => {
   const { t } = useTranslation();
 

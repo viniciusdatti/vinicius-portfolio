@@ -2,24 +2,17 @@
 import React from 'react';
 
 // Hooks
-import { useCanvasTelemetryField } from '@/hooks/useCanvasTelemetryField';
+import { useCanvasTelemetryField } from '../../../hooks/useCanvasTelemetryField';
 
-// Types
-import { TelemetryFieldVariant } from '@/lib/telemetryFieldCanvas';
-
-// Components
+// Styles
 import {
   ObservatoryCanvasElement,
   ObservatoryCanvasLayer,
-} from '@/components/atmosphere/ObservatoryCanvas2D/ObservatoryCanvas2D.style';
+} from './ObservatoryCanvas2D.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Lib
+import { TelemetryFieldVariant } from '../../../lib/telemetryFieldCanvas/index';
 
-/**
- * Canvas2D telemetry field behind the home Live Lab observatory preview.
- */
 export const ObservatoryCanvas2D = (): React.ReactElement => {
   const { canvasRef, bindContainerRef } = useCanvasTelemetryField({
     variant: TelemetryFieldVariant.Observatory,

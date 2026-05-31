@@ -1,19 +1,12 @@
 // Core
-import type { RefObject } from 'react';
-
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+import { RefObject } from 'react';
 
 export interface UseMotionLifecycleOptions {
-  /** When false, intersection is treated as always visible (global ambient layers). */
   observeIntersection?: boolean;
-  /** IntersectionObserver threshold — default 0.05. */
   threshold?: number;
 }
 
 export interface UseMotionLifecycleResult {
-  /** Element is on-screen and tab is visible — safe to run loops / rAF. */
   isActive: boolean;
   isIntersecting: boolean;
   isTabVisible: boolean;

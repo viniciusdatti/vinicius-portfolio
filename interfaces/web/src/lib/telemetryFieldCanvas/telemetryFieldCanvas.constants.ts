@@ -1,0 +1,12 @@
+export const VOID_COLS: number = 14;
+export const VOID_ROWS: number = 10;
+export const OBS_COLS: number = 15;
+export const OBS_ROWS: number = 9;
+export const PARTICLE_COUNT_VOID: number = 36;
+export const PARTICLE_COUNT_OBS: number = 64;
+export const TOPOLOGICAL_MESH_COLS: number = 28;
+export const TOPOLOGICAL_MESH_ROWS: number = 16;
+export const COBALT_MESH_RGBA: string = 'rgba(0, 82, 255, 0.22)';
+export const COBALT_MESH_CURSOR_RGBA: string = 'rgba(0, 82, 255, 0.42)';
+export const CONSTELLATION_CONNECT_RADIUS: number = 0.2;
+export const CONSTELLATION_CURSOR_RADIUS: number = 0.22;

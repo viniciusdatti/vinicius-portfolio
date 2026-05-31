@@ -1,18 +1,7 @@
-/**
- * useCountUp — animates a number from 0 to a target value when the element
- * enters the viewport. Uses requestAnimationFrame for smooth animation.
- * Respects prefers-reduced-motion: immediately shows the final value.
- */
-
 // Core
-import { useEffect, useRef, useState } from 'react';
-
-// Types
-import type { RefObject } from 'react';
-
-/* *************************************************************************************************
- ****************************************** INITIAL STATE ******************************************
- ************************************************************************************************ */
+import {
+  useEffect, useRef, useState, RefObject,
+} from 'react';
 
 interface UseCountUpOptions {
   target: number;
@@ -23,10 +12,6 @@ interface UseCountUpResult {
   count: number;
   ref: RefObject<HTMLDivElement | null>;
 }
-
-/* *************************************************************************************************
- *************************************** COMPONENT HANDLING ****************************************
- ************************************************************************************************ */
 
 export const useCountUp = ({
   target,
@@ -59,11 +44,6 @@ export const useCountUp = ({
         }
 
         const startTime: number = performance.now();
-
-        /**
-         * Animation step: advances count toward target using cubic ease-out.
-         * Schedules itself via requestAnimationFrame until progress reaches 1.
-         */
         const step = (currentTime: number): void => {
           const elapsed: number = currentTime - startTime;
           const progress: number = Math.min(elapsed / duration, 1);

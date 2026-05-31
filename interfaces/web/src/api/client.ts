@@ -1,9 +1,5 @@
-/**
- * HTTP client configuration for API requests.
- */
-
-// Components
-import { env } from '@/config/env';
+// Config
+import { env } from '../config/env';
 
 const API_BASE_URL: string = env.apiUrl;
 
@@ -11,9 +7,6 @@ interface RequestOptions extends RequestInit {
   params?: Record<string, string | undefined>;
 }
 
-/**
- * Custom error class for API errors.
- */
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -25,10 +18,6 @@ export class ApiError extends Error {
   }
 }
 
-/**
- * Parses API error payload into a single message.
- * Supports FastAPI-style `detail` and SlowAPI-style `error`.
- */
 const parseApiErrorMessage = (
   status: number,
   errorData: Record<string, unknown> | null,
@@ -45,9 +34,6 @@ const parseApiErrorMessage = (
   return `HTTP error ${status}`;
 };
 
-/**
- * Build URL with query parameters.
- */
 const buildUrl = (
   endpoint: string,
   params?: Record<string, string | undefined>,
@@ -68,9 +54,6 @@ const buildUrl = (
   return url.toString();
 };
 
-/**
- * Make an HTTP request to the API.
- */
 const request = async <T>(
   endpoint: string,
   options: RequestOptions = {},
@@ -105,9 +88,6 @@ const request = async <T>(
   return response.json();
 };
 
-/**
- * API client interface with HTTP methods.
- */
 interface ApiClient {
   get: <T>(
     endpoint: string,
@@ -118,9 +98,6 @@ interface ApiClient {
   delete: <T>(endpoint: string) => Promise<T>;
 }
 
-/**
- * API client with HTTP methods.
- */
 export const apiClient: ApiClient = {
   get: <T>(
     endpoint: string,

@@ -1,5 +1,8 @@
 # Regra de Organização de Imports
 
+> **Canônico:** `.cursor/rules/import-sections.mdc` (seções, ordem, paths relativos, asterisk blocks).
+> Este arquivo é referência legada — em caso de conflito, prevalece `import-sections.mdc`.
+
 ## Descrição
 Todos os arquivos do projeto devem seguir uma organização padronizada de imports, separados por comentários que indicam a categoria.
 

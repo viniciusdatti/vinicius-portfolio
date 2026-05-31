@@ -1,16 +1,14 @@
 // Core
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { useLiveLabImmersionPin } from '@/hooks/useLiveLabImmersionPin';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { useLiveLabImmersionPin } from '../../../hooks/useLiveLabImmersionPin';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Components
-import { ObservatoryCanvas2D } from '@/components/atmosphere/ObservatoryCanvas2D';
-import { LiveLabObservatory } from '@/components/home/LiveLabObservatory';
+// Component
 import {
   ImmersionBand,
   ImmersionPinStage,
@@ -30,7 +28,18 @@ import {
   VisualFrameForeground,
   NarrativeProgressTrack,
   NarrativeProgressFill,
-} from '@/components/home/HomeLiveLabImmersion/HomeLiveLabImmersion.style';
+} from './HomeLiveLabImmersion.style';
+
+const ObservatoryCanvas2D = lazy(
+  () => import('../../atmosphere/ObservatoryCanvas2D').then(
+    (module) => ({ default: module.ObservatoryCanvas2D }),
+  ),
+);
+const LiveLabObservatory = lazy(
+  () => import('../LiveLabObservatory').then(
+    (module) => ({ default: module.LiveLabObservatory }),
+  ),
+);
 
 export const HomeLiveLabImmersion = (): React.ReactElement => {
   const { t } = useTranslation();
@@ -86,12 +95,14 @@ export const HomeLiveLabImmersion = (): React.ReactElement => {
           >
             <ObservatoryCanvas ref={refs.canvasRef}>
               <VisualFrame>
-                <ImmersionFieldParallax ref={refs.fieldLayerRef}>
-                  <ObservatoryCanvas2D />
-                </ImmersionFieldParallax>
-                <VisualFrameForeground ref={refs.hudLayerRef}>
-                  <LiveLabObservatory />
-                </VisualFrameForeground>
+                <Suspense fallback={null}>
+                  <ImmersionFieldParallax ref={refs.fieldLayerRef}>
+                    <ObservatoryCanvas2D />
+                  </ImmersionFieldParallax>
+                  <VisualFrameForeground ref={refs.hudLayerRef}>
+                    <LiveLabObservatory />
+                  </VisualFrameForeground>
+                </Suspense>
               </VisualFrame>
             </ObservatoryCanvas>
           </ImmersionVisual>

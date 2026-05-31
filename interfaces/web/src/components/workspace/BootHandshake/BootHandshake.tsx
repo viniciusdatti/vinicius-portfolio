@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react';
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Components
-import { useTelemetry } from '@/components/workspace/TelemetryProvider';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+// Hooks
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+
+// Styles
 import {
   BootRoot,
   BootRow,
@@ -15,7 +16,10 @@ import {
   BootPhase,
   BootTrack,
   BootFill,
-} from '@/components/workspace/BootHandshake/BootHandshake.style';
+} from './BootHandshake.style';
+
+// Workspace
+import { useTelemetry } from '../TelemetryProvider';
 
 enum BootHandshakePhase {
   Initializing = 'initializing',
@@ -31,9 +35,6 @@ const getBootProgress = (phase: BootHandshakePhase): number => {
   return 100;
 };
 
-/**
- * Transport boot strip — mirrors production edge handshake: init → socket → live telemetry.
- */
 export const BootHandshake = (): React.ReactElement | null => {
   const { t } = useTranslation();
   const { connected } = useTelemetry();

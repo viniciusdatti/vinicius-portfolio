@@ -1,7 +1,3 @@
-/**
- * @fileoverview Scroll root for Framer Motion `whileInView` when layout uses a nested scroller.
- */
-
 // Core
 import React, {
   createContext,
@@ -13,19 +9,17 @@ import React, {
   useState,
 } from 'react';
 
-/* *************************************************************************************************
- ********************************************** TYPES **********************************************
- ************************************************************************************************ */
+// Utils
+import {
+  BodyScrollLockClass,
+  LIVE_LAB_IMMERSIVE_CLASS,
+} from '../utils/bodyScrollLock';
 
 export interface ScrollMotionViewportContextValue {
   scrollRootRef: React.RefObject<HTMLElement | null>;
   attachCustomRoot: boolean;
   bindScrollRoot: (node: HTMLElement | null) => void;
 }
-
-/* *************************************************************************************************
- ********************************************* CONTEXT *********************************************
- ************************************************************************************************ */
 
 const defaultScrollRootRef: React.RefObject<HTMLElement | null> = { current: null };
 
@@ -39,13 +33,6 @@ const ScrollMotionViewportContext = createContext<ScrollMotionViewportContextVal
   defaultContextValue,
 );
 
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
-
-/**
- * True when `element` is the active vertical scroll container (not document/body scroll).
- */
 const isNestedScrollContainer = (element: HTMLElement): boolean => {
   const { overflowY } = window.getComputedStyle(element);
   const allowsScroll: boolean = overflowY === 'auto'
@@ -58,14 +45,11 @@ const isNestedScrollContainer = (element: HTMLElement): boolean => {
 };
 
 const bodyUsesDocumentScroll = (): boolean => (
-  document.body.classList.contains('live-lab-immersive')
-  || document.body.classList.contains('menu-scroll-locked')
-  || document.body.classList.contains('drawer-scroll-locked')
+  document.body.classList.contains(LIVE_LAB_IMMERSIVE_CLASS)
+  || document.body.classList.contains(BodyScrollLockClass.Menu)
+  || document.body.classList.contains(BodyScrollLockClass.Drawer)
+  || document.body.classList.contains(BodyScrollLockClass.Modal)
 );
-
-/* *************************************************************************************************
- ******************************************** PROVIDER *********************************************
- ************************************************************************************************ */
 
 export interface ScrollMotionViewportProviderProps {
   children: React.ReactNode;
@@ -83,6 +67,7 @@ export const ScrollMotionViewportProvider: React.FC<ScrollMotionViewportProvider
       setAttachCustomRoot(false);
       return;
     }
+    // Attach Framer viewport.root only when the shell scrolls inside Layout, not document.
     const nestedScroll: boolean = isNestedScrollContainer(node);
     setAttachCustomRoot(nestedScroll && !bodyUsesDocumentScroll());
   }, []);
@@ -126,10 +111,6 @@ export const ScrollMotionViewportProvider: React.FC<ScrollMotionViewportProvider
     </ScrollMotionViewportContext.Provider>
   );
 };
-
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
 
 export const useScrollMotionViewport = (): ScrollMotionViewportContextValue => (
   useContext(ScrollMotionViewportContext)

@@ -33,7 +33,7 @@ Identifique todos os componentes testáveis afetados:
 
 ### 1.3 Classificação de Cenários
 
-- **Implementáveis:** Cenários executáveis com a infraestrutura atual (jest.mock, testing-library)
+- **Implementáveis:** Cenários executáveis com a infraestrutura atual (`vi.mock`, Vitest, testing-library, MSW)
 - **TODO (Fora do Escopo):** Cenários que requerem infraestrutura não disponível (E2E, acessibilidade, etc.)
 
 ### 1.4 Perguntas de Refino

@@ -1,24 +1,12 @@
-/**
- * @fileoverview Styled sparkline chart for telemetry KPI sensor strips.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled, { keyframes } from 'styled-components';
 
 // Types
-import type { SensorSparklineSvgProps } from '@/components/workspace/TelemetryMonitor/SensorSparkline/SensorSparkline.types';
-import { SensorStatus } from '@/types/telemetry';
+import { SensorStatus } from '../../../../types/telemetry';
+import { SensorSparklineSvgProps } from './SensorSparkline.types';
 
-// Components
-import { getTelemetryStatusColor } from '@/lib/telemetryStatusColor';
-
-/* *************************************************************************************************
- ********************************************* STYLES **********************************************
- ************************************************************************************************ */
+// Lib
+import { getTelemetryStatusColor } from '../../../../lib/telemetry';
 
 const drawLine = keyframes`
   from { stroke-dashoffset: 120; }

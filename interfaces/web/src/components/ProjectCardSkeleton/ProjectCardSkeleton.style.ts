@@ -1,9 +1,8 @@
-/**
- * Styles for ProjectCardSkeleton component.
- */
-
+// Libraries
 import styled from 'styled-components';
-import { SkeletonBase } from '@/styles/skeleton';
+
+// Styles
+import { SkeletonBase } from '../../styles/skeleton';
 
 export const SkeletonCard = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
@@ -11,10 +10,15 @@ export const SkeletonCard = styled.div`
   padding: ${({ theme }) => theme.spacing.lg};
 `;
 
-export const SkeletonElement = styled.div<{ width?: string; height?: string }>`
+interface SkeletonElementStyleProps {
+  $width?: string;
+  $height?: string;
+}
+
+export const SkeletonElement = styled.div<SkeletonElementStyleProps>`
   ${SkeletonBase};
-  width: ${({ width }) => width || '100%'};
-  height: ${({ height }) => height || '1rem'};
+  width: ${({ $width }) => $width || '100%'};
+  height: ${({ $height }) => $height || '1rem'};
 `;
 
 export const SkeletonTitle = styled(SkeletonElement)`
@@ -30,7 +34,11 @@ export const SkeletonDescription = styled.div`
   margin-top: 0.5rem;
 `;
 
-export const SkeletonLine = styled(SkeletonElement)<{ width?: string }>`
+interface SkeletonLineStyleProps {
+  $width?: string;
+}
+
+export const SkeletonLine = styled(SkeletonElement)<SkeletonLineStyleProps>`
   height: 0.875rem;
 `;
 

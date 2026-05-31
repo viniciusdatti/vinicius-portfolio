@@ -1,29 +1,23 @@
-/**
- * @fileoverview Projects page — premium product showcase (bento grid + case drawer).
- */
-
 // Core
-import React, { useMemo, useState, useCallback } from 'react';
+import React, {
+  useMemo,
+  useState,
+  useCallback,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
-// Types
-import type { Project } from '@/data/types';
-import { Language } from '@/types';
-
 // Hooks
-import { useProjects } from '@/hooks';
-
-// Components
 import {
-  ProjectShowcaseGrid,
-  ProjectCaseStudyContent,
-} from '@/components/ProjectShowcase';
-import { filterProjectsBySearch } from '@/domain/projects';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
-import { PageSectionReveal } from '@/components/PageSectionReveal';
-import { PageSectionRevealMode } from '@/components/PageSectionReveal/PageSectionReveal.types';
+  useProjects,
+  usePageMeta,
+  PageMetaRoute,
+} from '../../hooks';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
+
+// Layout
+import { PageSectionReveal } from '../../components/PageSectionReveal';
 import {
   PageContainerWide,
   PageHeaderEditorial,
@@ -35,9 +29,16 @@ import {
   PageSubtitle,
   PageLead,
   PageSectionSpacious,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
 
-// View
+// Components
+import {
+  ProjectShowcaseGrid,
+  ProjectCaseStudyContent,
+} from '../../components/ProjectShowcase';
+import { Drawer } from '../../components/showcase';
+
+// Styles
 import {
   Toolbar,
   SearchInput,
@@ -46,23 +47,53 @@ import {
   RetryButton,
   EmptyMessage,
   LoadingMessage,
-} from '@/pages/Projects/Projects.style';
-import { Drawer } from '@/components/showcase';
+  StudiesDivider,
+  StudiesDividerLine,
+  StudiesSectionLabel,
+  StudiesEyebrow,
+  StudiesTitle,
+  StudiesDescription,
+} from './Projects.style';
+
+// Types
+import { Project } from '../../data/types';
+import { Language } from '../../types';
+import { PageSectionRevealMode } from '../../components/PageSectionReveal/PageSectionReveal.types';
+import { filterProjectsBySearch, partitionProjectsByTier } from '../../domain/projects';
+
+// Lib
+import { isPortugueseLocale, resolveLanguage } from '../../lib/i18n';
+
+interface ProjectsPageState {
+  search: string;
+  selectedProject: Project | null;
+}
+
+const initialState: ProjectsPageState = {
+  search: '',
+  selectedProject: null,
+};
 
 export const Projects = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.Projects);
   const { t, i18n } = useTranslation();
   const {
     data: projects = [], isLoading, isError, refetch,
   } = useProjects();
-  const [search, setSearch] = useState<string>('');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [state, setState] = useState<ProjectsPageState>(initialState);
   const scrollMotion = useScrollMotion();
-  const isPt: boolean = i18n.language?.startsWith('pt') ?? false;
-  const currentLanguage: Language = isPt ? Language.Pt : Language.En;
+  const isPt: boolean = isPortugueseLocale(i18n.language);
+  const currentLanguage: Language = resolveLanguage(i18n.language);
 
   const filteredProjects = useMemo(
-    () => filterProjectsBySearch(projects, search, isPt),
-    [projects, search, isPt],
+    () => filterProjectsBySearch(projects, state.search, isPt),
+    [projects, state.search, isPt],
+  );
+
+  // Split filtered projects into featured (primary) and studies (secondary)
+  const { featured: featuredProjects, studies: studyProjects } = useMemo(
+    () => partitionProjectsByTier(filteredProjects),
+    [filteredProjects],
   );
 
   const projectTitle = useCallback(
@@ -71,26 +102,76 @@ export const Projects = (): React.ReactElement => {
   );
 
   const handleCloseDrawer = useCallback((): void => {
-    setSelectedProject(null);
+    setState((prev: ProjectsPageState) => ({ ...prev, selectedProject: null }));
   }, []);
 
   const handleSelectProject = useCallback((project: Project): void => {
-    setSelectedProject(project);
+    setState((prev: ProjectsPageState) => ({ ...prev, selectedProject: project }));
   }, []);
+
+  const handleSearchChange = useCallback((event: React.ChangeEvent<HTMLInputElement>): void => {
+    setState((prev: ProjectsPageState) => ({ ...prev, search: event.target.value }));
+  }, []);
+
+  const renderFeaturedSection = (): React.ReactNode => {
+    if (featuredProjects.length === 0) {
+      return null;
+    }
+    return (
+      <ProjectShowcaseGrid
+        projects={featuredProjects}
+        language={currentLanguage}
+        onSelectProject={handleSelectProject}
+      />
+    );
+  };
+
+  const renderStudiesSection = (): React.ReactNode => {
+    if (studyProjects.length === 0) {
+      return null;
+    }
+    return (
+      <>
+        <StudiesDivider
+          variants={scrollMotion.section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
+        >
+          <StudiesDividerLine />
+          <StudiesSectionLabel>
+            <StudiesEyebrow>{t('projects.studies.eyebrow')}</StudiesEyebrow>
+            <StudiesTitle>{t('projects.studies.title')}</StudiesTitle>
+            <StudiesDescription>{t('projects.studies.description')}</StudiesDescription>
+          </StudiesSectionLabel>
+          <StudiesDividerLine />
+        </StudiesDivider>
+
+        <ProjectShowcaseGrid
+          projects={studyProjects}
+          language={currentLanguage}
+          compact
+          onSelectProject={handleSelectProject}
+        />
+      </>
+    );
+  };
 
   const renderShowcaseContent = (): React.ReactNode => {
     if (isLoading) {
       return <LoadingMessage>{t('projects.loading')}</LoadingMessage>;
     }
-    if (filteredProjects.length === 0) {
+
+    const hasAny = featuredProjects.length > 0 || studyProjects.length > 0;
+    if (!hasAny) {
       return <EmptyMessage>{t('projects.empty')}</EmptyMessage>;
     }
+
     return (
-      <ProjectShowcaseGrid
-        projects={filteredProjects}
-        language={currentLanguage}
-        onSelectProject={handleSelectProject}
-      />
+      <>
+        {renderFeaturedSection()}
+        {renderStudiesSection()}
+      </>
     );
   };
 
@@ -167,8 +248,8 @@ export const Projects = (): React.ReactElement => {
         <SearchInput
           type="search"
           placeholder={t('projects.searchPlaceholder')}
-          value={search}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>): void => setSearch(e.target.value)}
+          value={state.search}
+          onChange={handleSearchChange}
           aria-label={t('projects.searchPlaceholder')}
         />
       </Toolbar>
@@ -180,14 +261,14 @@ export const Projects = (): React.ReactElement => {
       </PageSectionReveal>
 
       <Drawer
-        open={selectedProject != null}
+        open={state.selectedProject != null}
         onClose={handleCloseDrawer}
-        title={selectedProject ? projectTitle(selectedProject) : ''}
+        title={state.selectedProject ? projectTitle(state.selectedProject) : ''}
       >
-        {selectedProject != null && (
+        {state.selectedProject != null && (
           <DrawerCaseBody>
             <ProjectCaseStudyContent
-              project={selectedProject}
+              project={state.selectedProject}
               language={currentLanguage}
             />
           </DrawerCaseBody>

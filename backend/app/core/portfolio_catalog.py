@@ -1,6 +1,6 @@
 """Curated portfolio projects — titles match GitHub repository names (no fictional labels)."""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Tuple
 
 GITHUB_OWNER: str = "viniciusdatti"
@@ -14,6 +14,8 @@ class PortfolioProjectEntry:
     description_en: str
     description_pt: str
     technology_slugs: Tuple[str, ...]
+    # True for primary engineering projects; False for studies and experiments.
+    is_featured: bool = field(default=False)
 
     @property
     def repository_url(self) -> str:
@@ -38,6 +40,7 @@ PORTFOLIO_PROJECTS: Tuple[PortfolioProjectEntry, ...] = (
             "Live Lab e conteúdo de projetos/skills via API."
         ),
         technology_slugs=("react", "typescript", "python", "websocket"),
+        is_featured=True,
     ),
     PortfolioProjectEntry(
         repo_slug="ReactGram",

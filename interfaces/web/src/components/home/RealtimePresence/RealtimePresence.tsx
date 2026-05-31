@@ -1,15 +1,19 @@
 // Core
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
 
 // Hooks
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import { usePrefersReducedMotion } from '../../../hooks/usePrefersReducedMotion';
+import { useScrollMotion } from '../../../hooks/useScrollMotion';
+import { useSystemHealth, SystemHealthStatus } from '../../../hooks/useSystemHealth';
 
-// Components
-import { useSystemHealth, SystemHealthStatus } from '@/hooks/useSystemHealth';
+// Styles
 import {
   PresenceStrip,
   PresenceInner,
@@ -18,18 +22,24 @@ import {
   PresenceLink,
   PresenceMicro,
   PresenceMicroDot,
-} from '@/components/home/RealtimePresence/RealtimePresence.style';
+} from './RealtimePresence.style';
 
-/* *************************************************************************************************
- ******************************************** COMPONENT ********************************************
- ************************************************************************************************ */
+// Types
+import { OperationalStatusTone } from '../../../types/telemetry';
 
-/**
- * Subtle live strip on home — connection truth and micro-activity without console chrome.
- */
+// Lib
+import {
+  resolveSystemHealthLabel,
+  resolveSystemHealthTone,
+} from '../../../lib/systemHealth';
+
 export const RealtimePresence = (): React.ReactElement => {
   const { t } = useTranslation();
-  const { stagger, item, viewport } = useScrollMotion();
+  const {
+    stagger,
+    item,
+    viewport,
+  } = useScrollMotion();
   const reduced: boolean = usePrefersReducedMotion();
   const { status, version } = useSystemHealth();
   const [tick, setTick] = useState<number>(0);
@@ -44,23 +54,15 @@ export const RealtimePresence = (): React.ReactElement => {
     return () => clearInterval(id);
   }, [reduced]);
 
-  const apiTone: 'ok' | 'idle' | 'warn' = useMemo(() => {
-    if (status === SystemHealthStatus.Online) {
-      return 'ok';
-    }
-    if (status === SystemHealthStatus.Offline) {
-      return 'warn';
-    }
-    return 'idle';
-  }, [status]);
+  const apiTone: OperationalStatusTone = useMemo(
+    (): OperationalStatusTone => resolveSystemHealthTone(status),
+    [status],
+  );
 
-  const getApiLabel = (): string => {
-    if (status === SystemHealthStatus.Online) return t('home.realtime.apiLive');
-    if (status === SystemHealthStatus.Offline) return t('home.realtime.apiAway');
-    return t('home.realtime.apiSync');
-  };
-
-  const apiLabel: string = getApiLabel();
+  const apiLabel: string = useMemo(
+    (): string => resolveSystemHealthLabel(status, t, 'homeRealtime'),
+    [status, t],
+  );
 
   const microLabel: string = useMemo(() => {
     if (status === SystemHealthStatus.Checking) {
@@ -84,11 +86,11 @@ export const RealtimePresence = (): React.ReactElement => {
         <PresencePill $tone={apiTone} variants={item}>
           {apiLabel}
         </PresencePill>
-        <PresencePill $tone="idle" variants={item}>
+        <PresencePill $tone={OperationalStatusTone.Idle} variants={item}>
           {t('home.realtime.channelIdle')}
         </PresencePill>
         <PresenceMicro variants={item}>
-          <PresenceMicroDot $live={apiTone === 'ok'} aria-hidden />
+          <PresenceMicroDot $live={apiTone === OperationalStatusTone.Ok} aria-hidden />
           <span>{microLabel}</span>
         </PresenceMicro>
         <PresenceLink to="/live-lab" variants={item}>

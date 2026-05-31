@@ -1,1 +1,1 @@
-export { HomeCapabilityRail } from '@/components/home/HomeCapabilityRail/HomeCapabilityRail';
+export * from './HomeCapabilityRail';

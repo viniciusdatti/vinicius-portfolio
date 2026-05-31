@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-// Components
-import { glassSurface } from '@/styles/surfaces';
+// Styles
+import { glassSurface } from '../../../styles/surfaces';
 
 const MotionLink = motion.create(Link);
 
@@ -159,6 +159,16 @@ export const Logo = styled(MotionLink)`
 
 export const LogoMark = styled.span`
   color: ${({ theme }) => theme.colors.primary};
+`;
+
+export const LogoName = styled.span`
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.bold};
+  letter-spacing: 0.04em;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
+    display: none;
+  };
 `;
 
 export const LogoSuffix = styled.span`

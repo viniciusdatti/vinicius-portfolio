@@ -1,7 +1,3 @@
-/**
- * About page component displaying personal information and stats.
- */
-
 // Core
 import React from 'react';
 
@@ -10,15 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 
 // Hooks
-import { useCountUp } from '@/hooks';
-import { useAvatarPortraitObjectPosition } from '@/hooks/useAvatarPortraitObjectPosition';
-import { useScrollMotion } from '@/hooks/useScrollMotion';
+import {
+  useCountUp,
+  usePageMeta,
+  PageMetaRoute,
+} from '../../hooks';
+import { useAvatarPortraitObjectPosition } from '../../hooks/useAvatarPortraitObjectPosition';
+import { useScrollMotion } from '../../hooks/useScrollMotion';
 
-// Config
-import { publicAssetUrl } from '@/config/env';
-
-// Components
-import { AvatarPortraitPhoto } from '@/components/AvatarPortrait';
+// Layout
 import {
   PageContainer,
   PageHeader,
@@ -26,9 +22,12 @@ import {
   PageTitleGradient,
   PageSubtitle,
   SectionEyebrow,
-} from '@/styles/pageLayout.style';
+} from '../../styles/pageLayout.style';
 
-// View
+// Components
+import { AvatarPortraitPhoto } from '../../components/AvatarPortrait';
+
+// Styles
 import {
   IntroSection,
   Avatar,
@@ -68,13 +67,18 @@ import {
   ExperienceLogEntry,
   ExperienceLogIndex,
   ExperienceLogMessage,
-} from '@/pages/About/About.style';
+} from './About.style';
+
+// Config
+import { publicAssetUrl } from '../../config/env';
 
 const SUPERIOR_LOG_KEYS: readonly string[] = [
   'about.superior.items.realtime',
   'about.superior.items.designSystem',
   'about.superior.items.auth',
   'about.superior.items.quality',
+  'about.superior.items.codeReview',
+  'about.superior.items.integrations',
 ] as const;
 
 interface StatCounterProps {
@@ -122,6 +126,7 @@ const StatMetric = ({
 };
 
 export const About = (): React.ReactElement => {
+  usePageMeta(PageMetaRoute.About);
   const { t } = useTranslation();
   const { frameRef, objectPosition } = useAvatarPortraitObjectPosition();
   const {
@@ -193,12 +198,20 @@ export const About = (): React.ReactElement => {
         whileInView="visible"
         viewport={viewport}
       >
-        <StatCounter target={3} suffix="+" label={t('about.stats.experience')} />
+        <StatCounter
+          target={3}
+          suffix="+"
+          label={t('about.stats.experience')}
+        />
         <StatMetric
           value={t('about.stats.testing.value')}
           label={t('about.stats.testing.label')}
         />
-        <StatCounter target={400} suffix="+" label={t('about.stats.certifiedHours')} />
+        <StatCounter
+          target={400}
+          suffix="+"
+          label={t('about.stats.certifiedHours')}
+        />
       </StatsGrid>
 
       <ExperienceSection

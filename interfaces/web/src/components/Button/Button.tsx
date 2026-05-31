@@ -5,14 +5,14 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 // Hooks
-import { usePhysicalInteraction } from '@/hooks/usePhysicalInteraction';
+import { UsePhysicalInteractionResult } from '../../hooks/usePhysicalInteraction.types';
+import { usePhysicalInteraction } from '../../hooks/usePhysicalInteraction';
+
+// Styles
+import { StyledButton } from './Button.style';
 
 // Types
-import type { ButtonComponent } from '@/components/Button/Button.types';
-import type { UsePhysicalInteractionResult } from '@/hooks/usePhysicalInteraction.types';
-
-// Components
-import { StyledButton } from '@/components/Button/Button.style';
+import { ButtonComponent } from './Button.types';
 
 const MotionStyledButton = motion.create(StyledButton);
 
@@ -22,10 +22,14 @@ interface MotionStyledButtonPolymorphicProps
   to?: string;
   replace?: boolean;
   state?: unknown;
+  href?: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
 }
 
 const PolymorphicMotionButton = MotionStyledButton as React.FC<
-  MotionStyledButtonPolymorphicProps
+MotionStyledButtonPolymorphicProps
 >;
 
 export const Button: ButtonComponent = ({
@@ -61,6 +65,10 @@ export const Button: ButtonComponent = ({
   autoFocus,
   title,
   style,
+  href,
+  target,
+  rel,
+  download,
   testId,
 }): React.ReactElement => {
   const Component: React.ElementType = as ?? 'button';
@@ -84,6 +92,10 @@ export const Button: ButtonComponent = ({
       to={to}
       replace={replace}
       state={state}
+      href={href}
+      target={target}
+      rel={rel}
+      download={download}
       type={isNativeButton ? (type ?? 'button') : undefined}
       onClick={onClick}
       disabled={isNativeButton ? disabled : undefined}

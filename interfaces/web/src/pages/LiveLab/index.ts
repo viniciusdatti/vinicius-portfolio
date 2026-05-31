@@ -1,1 +1,1 @@
-export * from '@/pages/LiveLab/LiveLab';
+export * from './LiveLab';

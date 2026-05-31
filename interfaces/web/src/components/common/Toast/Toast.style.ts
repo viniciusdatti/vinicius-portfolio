@@ -1,10 +1,11 @@
 // Libraries
-import styled from 'styled-components';
-import type { DefaultTheme } from 'styled-components';
+import styled, { DefaultTheme } from 'styled-components';
 
-// Components
-import { panelInsetRim } from '@/styles/surfaces';
-import { ToastType } from '@/store/toastStore';
+// Styles
+import { panelInsetRim } from '../../../styles/surfaces';
+
+// Store
+import { ToastType } from '../../../store/toastStore';
 
 const toneColor = (type: ToastType, theme: DefaultTheme): string => {
   if (type === ToastType.Success) {

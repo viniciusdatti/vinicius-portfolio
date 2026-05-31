@@ -1,7 +1,3 @@
-/* *************************************************************************************************
- ********************************************* SECTION *********************************************
- ************************************************************************************************ */
-
 export enum SensorStatus {
   Ok = 'ok',
   Warn = 'warn',
@@ -12,6 +8,12 @@ export enum TelemetryEventType {
   Info = 'info',
   Warn = 'warn',
   Critical = 'critical',
+}
+
+export enum OperationalStatusTone {
+  Ok = 'ok',
+  Warn = 'warn',
+  Idle = 'idle',
 }
 
 export interface SensorReading {
@@ -44,5 +46,4 @@ export interface TelemetryState {
   tickCount: number;
 }
 
-/** Max event-log lines kept in memory and rendered (oldest dropped). */
 export const TELEMETRY_EVENT_LOG_MAX: number = 40;

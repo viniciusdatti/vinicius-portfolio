@@ -1,46 +1,40 @@
 // Core
 import {
-  useMemo,
-  type CSSProperties,
+  useMemo, CSSProperties,
 } from 'react';
 
 // Libraries
-import type { Transition } from 'framer-motion';
+import { Transition } from 'framer-motion';
+
+// Hooks
+import { useMotionLifecycle } from './useMotionLifecycle';
+import { usePointerPosition } from './usePointerPosition';
+import { usePrefersReducedMotion } from './usePrefersReducedMotion';
+
+// Styles
+import { motionPresets } from '../styles/motionPresets';
 
 // Types
-import type { PhysicalTiltResult } from '@/lib/motionPhysics.types';
-import type {
+import {
   BuildPhysicalMotionPropsFn,
   PhysicalInteractionMotionProps,
   UsePhysicalInteractionHook,
   UsePhysicalInteractionOptions,
   UsePhysicalInteractionResult,
   UsePointerPositionHookResult,
-} from '@/hooks/usePhysicalInteraction.types';
-import type { UseMotionLifecycleResult } from '@/hooks/useMotionLifecycle.types';
+} from './usePhysicalInteraction.types';
+import { UseMotionLifecycleResult } from './useMotionLifecycle.types';
 
-// Hooks
-import { useMotionLifecycle } from '@/hooks/useMotionLifecycle';
-import { usePointerPosition } from '@/hooks/usePointerPosition';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
-
-// Components
+// Lib
 import {
   PHYSICAL_LIFT_PX,
   PHYSICAL_MAX_TILT_DEG,
   PHYSICAL_PERSPECTIVE_PX,
   PHYSICAL_TAP_SCALE,
+  PhysicalTiltResult,
   resolvePhysicalTilt,
-} from '@/lib/motionPhysics';
-import { motionPresets } from '@/styles/motionPresets';
+} from '../lib/motion';
 
-/* *************************************************************************************************
- ********************************************** HOOK ***********************************************
- ************************************************************************************************ */
-
-/**
- * Spring-driven tilt, lift, spotlight vars, and tap scale for interactive surfaces.
- */
 export const usePhysicalInteraction: UsePhysicalInteractionHook = <
   T extends HTMLElement = HTMLDivElement,
 >(

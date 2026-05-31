@@ -53,6 +53,17 @@ module.exports = {
       },
     },
     {
+      files: [
+        '**/*.stories.tsx',
+        '.storybook/**/*.{ts,tsx}',
+      ],
+      rules: {
+        'import/no-extraneous-dependencies': ['error', {
+          devDependencies: true,
+        }],
+      },
+    },
+    {
       files: R3F_SOURCE_GLOBS,
       rules: {
         'react/no-unknown-property': ['error', {

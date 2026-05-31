@@ -57,6 +57,9 @@ A arquitetura separa **regimes de UI**:
 ```
 interfaces/web/src/
 ├── api/              # REST clients — sem styled
+├── domain/           # Zod schemas (contact, skills, projects)
+├── lib/              # Shared libs (telemetryFieldCanvas → index.ts)
+├── plugins/          # Pure logic + testUtils builders
 ├── components/
 │   ├── layout/       # Layout, Header, Footer, SystemBar
 │   ├── workspace/    # Live Lab only (WorkspaceShell, TelemetryMonitor)
@@ -71,7 +74,7 @@ interfaces/web/src/
 ├── styles/           # theme, surfaces, animations, pageLayout
 ├── hooks/
 ├── store/            # themeStore, telemetryStore, toastStore
-└── types/
+└── types/            # domain.ts, telemetry.ts, projectCase.ts
 ```
 
 **Page TSX:** composição + hooks de dados; estilos em `*.style.ts` ou imports de `pageLayout` / feature styles.

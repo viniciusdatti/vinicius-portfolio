@@ -1,25 +1,9 @@
-/**
- * @fileoverview Live Lab page shell layout overrides.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled from 'styled-components';
 
-// Components
-import { PageContainerWide } from '@/styles/pageLayout.style';
+// Layout
+import { PageContainerWide } from '../../styles/pageLayout.style';
 
-/* *************************************************************************************************
- ******************************************* PAGE SHELL ********************************************
- ************************************************************************************************ */
-
-/**
- * Live Lab operational shell — canonical PageContainer with header clearance via Layout Main.
- * Top padding is zero here because Main already applies theme.sizes.layout.headerOffset.
- */
 export const LiveLabPageShell = styled(PageContainerWide)`
   position: relative;
   z-index: ${({ theme }) => theme.zIndex.base};

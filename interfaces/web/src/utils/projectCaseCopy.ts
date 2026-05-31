@@ -1,35 +1,21 @@
 // Types
-import type { Project, Technology } from '@/data/types';
-import { Language } from '@/types';
-import { ProjectCaseStudyField } from '@/types/projectCase';
+import { Project, Technology } from '../data/types';
+import { Language } from '../types';
+import { ProjectCaseStudyField } from '../types/projectCase';
 
-export { ProjectCaseStudyField };
-
-/**
- * Last path segment of a GitHub repository URL (stable key for i18n case copy).
- */
 export const getProjectRepoSlug = (repositoryUrl: string): string => {
   const normalized: string = repositoryUrl.replace(/\/$/, '');
   const segments: string[] = normalized.split('/');
   return segments[segments.length - 1] ?? '';
 };
 
-/**
- * i18n key for per-case CTA label under projects.caseCtas.<slug>.
- */
 export const getProjectCaseCtaKey = (project: Project): string => {
   const slug: string = getProjectRepoSlug(project.repository_url);
   return `projects.caseCtas.${slug}`;
 };
 
-/**
- * i18n key for engineering capability label under projects.capabilities.<techSlug>.
- */
 export const getTechnologyCapabilityKey = (techSlug: string): string => `projects.capabilities.${techSlug}`;
 
-/**
- * Resolves capability label: i18n when defined, otherwise technology name from API.
- */
 export const resolveTechnologyCapabilityLabel = (
   tech: Technology,
   translate: (key: string, options?: { defaultValue?: string }) => string,
@@ -38,9 +24,6 @@ export const resolveTechnologyCapabilityLabel = (
   return translate(key, { defaultValue: tech.name });
 };
 
-/**
- * i18n key for case study narrative: projects.caseStudies.<slug>.<field>.
- */
 export const getProjectCaseStudyKey = (
   project: Project,
   field: ProjectCaseStudyField,
@@ -59,9 +42,6 @@ const getProjectDescriptionFallback = (
   return project.description ?? '';
 };
 
-/**
- * Resolves case study copy: per-repo i18n, then default field, then project description.
- */
 export const resolveCaseStudyField = (
   project: Project,
   field: ProjectCaseStudyField,

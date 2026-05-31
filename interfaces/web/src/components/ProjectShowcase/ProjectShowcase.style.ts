@@ -1,16 +1,8 @@
-/**
- * @fileoverview Styled components for the project showcase grid and cards.
- */
-
-/* *************************************************************************************************
- ********************************************* IMPORTS *********************************************
- ************************************************************************************************ */
-
 // Libraries
 import styled, { keyframes, DefaultTheme } from 'styled-components';
 import { motion } from 'framer-motion';
 
-// Components
+// Styles
 import {
   cardBodyReadable,
   cardShowcaseSurface,
@@ -18,16 +10,14 @@ import {
   featuredSpotlight,
   showcasePointerTorch,
   showcaseSpecularRim,
-} from '@/styles/surfaces';
+} from '../../styles/surfaces';
+
+// Types
 import {
   ProjectCanvasTone,
   ProjectShowcaseVariant,
   TerminalCodeTokenRole,
-} from '@/components/ProjectShowcase/ProjectShowcase.types';
-
-/* *************************************************************************************************
- ********************************************* METHODS *********************************************
- ************************************************************************************************ */
+} from './ProjectShowcase.types';
 
 const getPreviewMinHeight = (
   variant: ProjectShowcaseVariant | undefined,
@@ -51,16 +41,11 @@ const getCanvasBackground = (
   return theme.colors.gradientProjectCanvasA;
 };
 
-/* *************************************************************************************************
- ********************************************** GRID ***********************************************
- ************************************************************************************************ */
-
 export const ShowcaseStaggerItem = styled(motion.div)`
   width: 100%;
   min-width: 0;
 `;
 
-/** Full-width row inside the asymmetric bento — row cascade + inner card stagger. */
 export const ShowcaseRow = styled(motion.div)<{ $isHeadRow?: boolean; $compact?: boolean }>`
   display: grid;
   width: 100%;
@@ -115,10 +100,6 @@ export const ShowcaseGrid = styled(motion.div)<{ $compact?: boolean }>`
     gap: 24px;
   };
 `;
-
-/* *************************************************************************************************
- ********************************************** CARD ***********************************************
- ************************************************************************************************ */
 
 export interface ShowcaseCardStyleProps {
   $variant: ProjectShowcaseVariant;
@@ -393,10 +374,6 @@ export const MockBody = styled.div`
   gap: ${({ theme }) => theme.spacing.sm};
 `;
 
-/**
- * Keyframe that simulates "data loading" activity by gently shifting the line width.
- * Each MockLine gets a different animation-delay so they feel async.
- */
 const lineActivity = keyframes`
   0%   { width: var(--line-w); }
   30%  { width: calc(var(--line-w) - 14%); }
@@ -425,10 +402,6 @@ export const MockLineAccent = styled(MockLine)`
   animation-delay: 0.8s;
 `;
 
-/**
- * Grid layout for the data-table MockWindow scene.
- * Arranges three MockLine items side by side as table columns.
- */
 export const MockRowGroup = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -436,10 +409,6 @@ export const MockRowGroup = styled.div`
   align-items: center;
 `;
 
-/**
- * Left-accent block for the code/config MockWindow scene.
- * Gives a terminal / editor feel via a left gold border.
- */
 export const MockCodeGroup = styled.div`
   display: flex;
   flex-direction: column;
@@ -597,10 +566,6 @@ export const ArrowIcon = styled.span`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
-/**
- * Architecture stack thread — appears in featured card body on desktop.
- * Replaces floating tech chips to give a cleaner engineering narrative.
- */
 export const TechStackLine = styled.div`
   display: none;
 
