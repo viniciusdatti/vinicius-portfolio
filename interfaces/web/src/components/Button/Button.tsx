@@ -22,6 +22,10 @@ interface MotionStyledButtonPolymorphicProps
   to?: string;
   replace?: boolean;
   state?: unknown;
+  href?: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
 }
 
 const PolymorphicMotionButton = MotionStyledButton as React.FC<
@@ -61,6 +65,10 @@ export const Button: ButtonComponent = ({
   autoFocus,
   title,
   style,
+  href,
+  target,
+  rel,
+  download,
   testId,
 }): React.ReactElement => {
   const Component: React.ElementType = as ?? 'button';
@@ -84,6 +92,10 @@ export const Button: ButtonComponent = ({
       to={to}
       replace={replace}
       state={state}
+      href={href}
+      target={target}
+      rel={rel}
+      download={download}
       type={isNativeButton ? (type ?? 'button') : undefined}
       onClick={onClick}
       disabled={isNativeButton ? disabled : undefined}
