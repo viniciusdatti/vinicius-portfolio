@@ -134,3 +134,50 @@ export const LoadingMessage = styled.p`
   padding: ${({ theme }) => theme.spacing.xxl};
   text-align: center;
 `;
+
+// ---------------------------------------------------------------------------
+// Studies section — separator and header for the secondary-tier projects
+// ---------------------------------------------------------------------------
+
+export const StudiesDivider = styled(motion.div)`
+  width: 100%;
+  margin: ${({ theme }) => theme.spacing.xxl} 0 ${({ theme }) => theme.spacing.xl};
+  display: flex;
+  align-items: center;
+  gap: ${({ theme }) => theme.spacing.lg};
+`;
+
+export const StudiesDividerLine = styled.div`
+  flex: 1;
+  height: 1px;
+  background: ${({ theme }) => theme.colors.borderSubtle};
+`;
+
+export const StudiesSectionLabel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ theme }) => theme.spacing.xs};
+`;
+
+export const StudiesEyebrow = styled.span`
+  font-family: ${({ theme }) => theme.typography.fontFamily.mono};
+  font-size: ${({ theme }) => theme.typography.fontSize.xs};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.wider};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.colors.textMuted};
+`;
+
+export const StudiesTitle = styled.h2`
+  font-size: ${({ theme }) => theme.typography.fontSize.lg};
+  font-weight: ${({ theme }) => theme.typography.fontWeight.semibold};
+  color: ${({ theme }) => theme.colors.textSecondary};
+  letter-spacing: ${({ theme }) => theme.typography.letterSpacing.tight};
+`;
+
+export const StudiesDescription = styled.p`
+  font-size: ${({ theme }) => theme.typography.fontSize.sm};
+  color: ${({ theme }) => theme.colors.textMuted};
+  line-height: ${({ theme }) => theme.typography.lineHeight.relaxed};
+  max-width: 52ch;
+  margin-top: ${({ theme }) => theme.spacing.xs};
+`;

@@ -82,7 +82,7 @@ export const TelemetryMonitor: React.FC<TelemetryMonitorProps> = ({
   }
 
   return (
-    <MonitorRoot>
+    <MonitorRoot data-testid="telemetry-dashboard">
       {showMonitor ? <MonitorTelemetryField /> : null}
       {showMonitor ? (
         <MonitorHeader>

@@ -1,6 +1,12 @@
 # Especificação Técnica - Portfólio Vinicius Datti V2
 
 > **Atualização (2026):** As seções de **chat em tempo real**, **painel admin** e **autenticação JWT** foram **removidas do código**. O produto atual é: site público (projetos, skills, certificados, contato) + **Live Lab** (telemetria via Socket.IO `/telemetry`). Use o repositório como fonte da verdade; trechos abaixo que citam admin/chat são histórico de planejamento.
+>
+> **Contratos de tipos (implementação):**
+> - `src/types/domain.ts` — `Skill`, `Certificate`, enums (`SkillCategory`, `Language`, `HighlightCardStatus`)
+> - Contact: `src/domain/contact/contactSchema.ts` (`ContactFormValues`) + `src/api/contact.ts` (`ContactSubmitPayload`, `ContactSubmitResponse`)
+> - Test builders: `src/plugins/testUtils.ts` (não usar `test/fixtures/` — removido)
+> - Canvas telemetria: `src/lib/telemetryFieldCanvas/index.ts` (entry canônico)
 
 ## Documento de Referência
 - **Requisito Funcional:** `/docs/portfolio-v2/functional_requirements/feature_requirement_pt-br.md`
@@ -620,7 +626,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://..."
     
     # CORS
-    cors_origins: str = "http://localhost:3000"
+    cors_origins: str = "http://localhost:5173"
     
     # Environment
     environment: str = "development"
@@ -999,6 +1005,8 @@ interfaces/web/src/
 ### 5.2 Interfaces TypeScript
 
 #### 5.2.1 Types Globais (`types/index.ts`)
+
+> **Implementação atual:** ver banner de atualização no topo deste documento. O bloco abaixo mistura histórico (chat/auth) com tipos ainda válidos (`Skill`, `Certificate`). Contact usa Zod + API client, não `ContactFormData`.
 
 ```typescript
 // Skill

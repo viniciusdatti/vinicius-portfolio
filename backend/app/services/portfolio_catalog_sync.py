@@ -78,6 +78,7 @@ def sync_portfolio_projects(db: Session) -> int:
                 description_pt=entry.description_pt,
                 repository_url=entry.repository_url,
                 demo_url=None,
+                is_featured=entry.is_featured,
                 technologies=tech_list,
             )
             db.add(project)
@@ -87,6 +88,7 @@ def sync_portfolio_projects(db: Session) -> int:
         project.title_pt = entry.title
         project.description = entry.description_en
         project.description_pt = entry.description_pt
+        project.is_featured = entry.is_featured
         project.technologies = tech_list
 
     db.commit()

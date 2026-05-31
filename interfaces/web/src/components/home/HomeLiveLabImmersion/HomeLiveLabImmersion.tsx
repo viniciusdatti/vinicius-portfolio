@@ -1,5 +1,5 @@
 // Core
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 
 // Libraries
 import { useTranslation } from 'react-i18next';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useLiveLabImmersionPin } from '../../../hooks/useLiveLabImmersionPin';
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Styles
+// Component
 import {
   ImmersionBand,
   ImmersionPinStage,
@@ -30,11 +30,16 @@ import {
   NarrativeProgressFill,
 } from './HomeLiveLabImmersion.style';
 
-// Atmosphere
-import { ObservatoryCanvas2D } from '../../atmosphere/ObservatoryCanvas2D';
-
-// Home
-import { LiveLabObservatory } from '../LiveLabObservatory';
+const ObservatoryCanvas2D = lazy(
+  () => import('../../atmosphere/ObservatoryCanvas2D').then(
+    (module) => ({ default: module.ObservatoryCanvas2D }),
+  ),
+);
+const LiveLabObservatory = lazy(
+  () => import('../LiveLabObservatory').then(
+    (module) => ({ default: module.LiveLabObservatory }),
+  ),
+);
 
 export const HomeLiveLabImmersion = (): React.ReactElement => {
   const { t } = useTranslation();
@@ -90,12 +95,14 @@ export const HomeLiveLabImmersion = (): React.ReactElement => {
           >
             <ObservatoryCanvas ref={refs.canvasRef}>
               <VisualFrame>
-                <ImmersionFieldParallax ref={refs.fieldLayerRef}>
-                  <ObservatoryCanvas2D />
-                </ImmersionFieldParallax>
-                <VisualFrameForeground ref={refs.hudLayerRef}>
-                  <LiveLabObservatory />
-                </VisualFrameForeground>
+                <Suspense fallback={null}>
+                  <ImmersionFieldParallax ref={refs.fieldLayerRef}>
+                    <ObservatoryCanvas2D />
+                  </ImmersionFieldParallax>
+                  <VisualFrameForeground ref={refs.hudLayerRef}>
+                    <LiveLabObservatory />
+                  </VisualFrameForeground>
+                </Suspense>
               </VisualFrame>
             </ObservatoryCanvas>
           </ImmersionVisual>

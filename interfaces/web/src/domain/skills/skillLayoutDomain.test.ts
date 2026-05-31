@@ -68,19 +68,23 @@ describe('skillLayoutDomain', (): void => {
       expect(layout.peripheral.map((item) => item.skill.name)).toEqual(['Jest', 'Git']);
     });
 
-    it('should assign instrument peripheral tier to VS Code and AI tools', (): void => {
+    it('should assign featured and standard tiers to Storybook, Vite, and Zod', (): void => {
       const layout = buildEditorialSkillsLayout([
-        buildFakeSkill({ id: 1, name: 'VS Code', display_order: 12 }),
-        buildFakeSkill({ id: 2, name: 'AI tools', display_order: 13 }),
+        buildFakeSkill({ id: 1, name: 'Storybook', display_order: 12 }),
+        buildFakeSkill({ id: 2, name: 'Vite', display_order: 13 }),
+        buildFakeSkill({ id: 3, name: 'Zod', display_order: 14 }),
       ]);
 
-      const vsCode = layout.peripheral.find((item) => item.skill.name === 'VS Code');
-      const aiTools = layout.peripheral.find((item) => item.skill.name === 'AI tools');
+      const storybook = layout.peripheral.find((item) => item.skill.name === 'Storybook');
+      const vite = layout.peripheral.find((item) => item.skill.name === 'Vite');
+      const zod = layout.peripheral.find((item) => item.skill.name === 'Zod');
 
-      expect(vsCode?.tier).toBe(SkillLayoutTier.PeripheralInstrument);
-      expect(vsCode?.gridSpan).toBe(1);
-      expect(aiTools?.tier).toBe(SkillLayoutTier.PeripheralInstrument);
-      expect(aiTools?.gridSpan).toBe(1);
+      expect(storybook?.tier).toBe(SkillLayoutTier.PeripheralFeatured);
+      expect(storybook?.gridSpan).toBe(2);
+      expect(vite?.tier).toBe(SkillLayoutTier.PeripheralStandard);
+      expect(vite?.gridSpan).toBe(1);
+      expect(zod?.tier).toBe(SkillLayoutTier.PeripheralCompact);
+      expect(zod?.gridSpan).toBe(1);
     });
   });
 });

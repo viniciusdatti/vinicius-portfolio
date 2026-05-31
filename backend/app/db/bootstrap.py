@@ -9,7 +9,11 @@ from types import ModuleType
 
 # App - Database
 from app.db.base import Base
+from app.db.schema_migrations import apply_schema_migrations
 from app.db.session import SessionLocal, engine
+
+# App - Services
+from app.services.portfolio_catalog_sync import sync_portfolio_projects
 
 logger = logging.getLogger(__name__)
 
@@ -46,9 +50,13 @@ def ensure_catalog_seeded() -> None:
     from app.models.skill import Skill
 
     Base.metadata.create_all(bind=engine)
+    apply_schema_migrations()
 
     db = SessionLocal()
     try:
+        synced_count: int = sync_portfolio_projects(db)
+        logger.info("Portfolio catalog sync complete (%s entries).", synced_count)
+
         skill_count: int = db.query(Skill).count()
         cert_count: int = db.query(Certificate).count()
         if skill_count > 0 and cert_count > 0:

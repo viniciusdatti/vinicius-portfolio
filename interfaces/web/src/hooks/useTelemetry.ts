@@ -7,18 +7,24 @@ import { io, Socket } from 'socket.io-client';
 
 // Types
 import {
-  SensorStatus,
-  TelemetryEventType,
-  TELEMETRY_EVENT_LOG_MAX, SensorReading, TelemetryEventLogEntry, TelemetryState, TelemetryTick,
+  TelemetryEventLogEntry,
+  TelemetryState,
+  TelemetryTick,
 } from '../types/telemetry';
 
 // Lib
-import { resolveTelemetrySensorLabel } from '../lib/telemetry';
+import {
+  buildConnectErrorEventLogEntry,
+  buildConnectEventLogEntries,
+  buildDisconnectEventLogEntry,
+  buildReconnectAttemptEventLogEntry,
+  createInitialTelemetryEventLog,
+  prependTelemetryEventLog,
+} from '../lib/telemetry/telemetryEventLog';
+import { processTelemetryTick } from '../lib/telemetry/telemetryTickReducer';
 
 // Utils
 import { getApiRootUrl } from '../utils/apiRootUrl';
-
-const MAX_HISTORY: number = 30;
 
 const SOCKET_OPTIONS = {
   path: '/socket.io',
@@ -74,18 +80,7 @@ const releaseTelemetrySocket = (): void => {
   }
 };
 
-const INITIAL_LOG: TelemetryEventLogEntry[] = [
-  {
-    ts: Date.now() - 1200,
-    message: 'Initializing telemetry client…',
-    type: TelemetryEventType.Info,
-  },
-  {
-    ts: Date.now() - 600,
-    message: 'Opening socket · namespace /telemetry',
-    type: TelemetryEventType.Info,
-  },
-];
+const INITIAL_LOG: TelemetryEventLogEntry[] = createInitialTelemetryEventLog();
 
 export const useTelemetrySocket = (): TelemetryState => {
   const [state, setState] = useState<TelemetryState>({
@@ -104,24 +99,7 @@ export const useTelemetrySocket = (): TelemetryState => {
       setState((prev) => ({
         ...prev,
         connected: true,
-        eventLog: [
-          {
-            ts: now,
-            message: 'WebSocket connected · namespace /telemetry',
-            type: TelemetryEventType.Info,
-          },
-          {
-            ts: now - 80,
-            message: 'Handshake complete · awaiting telemetry',
-            type: TelemetryEventType.Info,
-          },
-          {
-            ts: now - 160,
-            message: 'Sensor scan started · 2s interval',
-            type: TelemetryEventType.Info,
-          },
-          ...prev.eventLog,
-        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
+        eventLog: prependTelemetryEventLog(prev.eventLog, buildConnectEventLogEntries(now)),
       }));
     };
 
@@ -129,83 +107,33 @@ export const useTelemetrySocket = (): TelemetryState => {
       setState((prev) => ({
         ...prev,
         connected: false,
-        eventLog: [
-          {
-            ts: Date.now(),
-            message: 'Transport disconnected — awaiting reconnection',
-            type: TelemetryEventType.Warn,
-          },
-          ...prev.eventLog,
-        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
+        eventLog: prependTelemetryEventLog(
+          prev.eventLog,
+          [buildDisconnectEventLogEntry(Date.now())],
+        ),
       }));
     };
 
     const onReconnectAttempt = (attempt: number): void => {
       setState((prev) => ({
         ...prev,
-        eventLog: [
-          {
-            ts: Date.now(),
-            message: `Reconnection attempt #${attempt}…`,
-            type: TelemetryEventType.Warn,
-          },
-          ...prev.eventLog,
-        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
+        eventLog: prependTelemetryEventLog(
+          prev.eventLog,
+          [buildReconnectAttemptEventLogEntry(Date.now(), attempt)],
+        ),
       }));
     };
 
     const onTelemetryTick = (tick: TelemetryTick): void => {
       setState((prev) => {
-        const newHistory: Record<string, number[]> = { ...prev.history };
-        const newLog: TelemetryEventLogEntry[] = [...prev.eventLog];
-        const nextTick: number = prev.tickCount + 1;
-
-        const localReadings: SensorReading[] = tick.readings;
-
         const translate = (key: string): string => i18n.t(key);
-
-        // Append history, emit critical/warn log lines; sample stable readings every 8 ticks.
-        localReadings.forEach((r: SensorReading) => {
-          const prevHistory: number[] = newHistory[r.id] ?? [];
-          newHistory[r.id] = [...prevHistory, r.value].slice(-MAX_HISTORY);
-          const channelLabel: string = resolveTelemetrySensorLabel(r, translate);
-
-          if (r.status === SensorStatus.Critical) {
-            newLog.unshift({
-              ts: r.ts,
-              message: `${channelLabel} CRITICAL · ${r.value}${r.unit} (limit: ${r.threshold_critical}${r.unit})`,
-              type: TelemetryEventType.Critical,
-            });
-          } else if (r.status === SensorStatus.Warn && Math.random() < 0.3) {
-            newLog.unshift({
-              ts: r.ts,
-              message: `${channelLabel} warning · ${r.value}${r.unit}`,
-              type: TelemetryEventType.Warn,
-            });
-          }
-        });
-
-        if (nextTick % 8 === 0) {
-          const stable: SensorReading[] = localReadings.filter(
-            (r: SensorReading) => r.status === SensorStatus.Ok,
-          );
-          if (stable.length > 0) {
-            const pick: SensorReading = stable[nextTick % stable.length];
-            const channelLabel: string = resolveTelemetrySensorLabel(pick, translate);
-            newLog.unshift({
-              ts: pick.ts,
-              message: `${channelLabel} nominal · ${pick.value}${pick.unit}`,
-              type: TelemetryEventType.Info,
-            });
-          }
-        }
 
         return {
           ...prev,
-          readings: localReadings,
-          history: newHistory,
-          eventLog: newLog.slice(0, TELEMETRY_EVENT_LOG_MAX),
-          tickCount: nextTick,
+          ...processTelemetryTick(prev, tick, {
+            translate,
+            shouldAppendWarnLog: (): boolean => Math.random() < 0.3,
+          }),
         };
       });
     };
@@ -214,14 +142,10 @@ export const useTelemetrySocket = (): TelemetryState => {
       setState((prev) => ({
         ...prev,
         connected: false,
-        eventLog: [
-          {
-            ts: Date.now(),
-            message: `Transport failure · ${error.message}`,
-            type: TelemetryEventType.Warn,
-          },
-          ...prev.eventLog,
-        ].slice(0, TELEMETRY_EVENT_LOG_MAX),
+        eventLog: prependTelemetryEventLog(
+          prev.eventLog,
+          [buildConnectErrorEventLogEntry(Date.now(), error.message)],
+        ),
       }));
     };
 

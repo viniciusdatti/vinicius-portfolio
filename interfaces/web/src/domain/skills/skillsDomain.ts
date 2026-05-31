@@ -24,10 +24,11 @@ const SKILL_ICON_FILES: Record<string, string> = {
   Playwright: 'icons/playwright.svg',
   Git: 'icons/git.svg',
   Docker: 'icons/docker.svg',
-  'VS Code': 'icons/vscode.svg',
-  Cursor: 'cursor-icon.png',
-  'AI tools': 'ai-tools-icon.png',
   WebSocket: 'icons/socketio.svg',
+  Storybook: 'icons/storybook.svg',
+  Vite: 'icons/vite.svg',
+  'React Hook Form': 'icons/react-hook-form.svg',
+  Zod: 'icons/zod.svg',
 };
 
 const PLATFORM_ORDER: Record<string, number> = {

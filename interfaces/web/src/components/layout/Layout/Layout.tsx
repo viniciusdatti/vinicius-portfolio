@@ -1,5 +1,5 @@
 // Core
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 
 // Libraries
 import { useLocation, useOutlet } from 'react-router-dom';
@@ -28,6 +28,12 @@ import {
 
 // Lib
 import { prefetchPublicRoutes } from '../../../lib/routing';
+
+const ObservatoryIdleLayer = lazy(
+  () => import('../../motion/ObservatoryIdleLayer').then(
+    (module) => ({ default: module.ObservatoryIdleLayer }),
+  ),
+);
 
 const LayoutScrollChrome: React.FC = (): React.ReactElement => {
   const location = useLocation();
@@ -66,6 +72,9 @@ const LayoutScrollChrome: React.FC = (): React.ReactElement => {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <ObservatoryIdleLayer />
+      </Suspense>
       <LayoutAmbientBackdrop />
       <Header />
       <Main

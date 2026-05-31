@@ -35,15 +35,17 @@ export * from './ComponentName.types';
 ```
 
 ### 3. Import Pattern
-Always import from the folder, not the file:
+Always import from the folder barrel via **relative paths** (not deep file paths):
 
 ```ts
 // ✅ GOOD
-import { Button } from '@/components/Button';
+import { Button } from '../../components/Button';
 
 // ❌ BAD
-import { Button } from '@/components/Button/Button';
+import { Button } from '../../components/Button/Button';
 ```
+
+Do **not** use the `@/` alias in new code — see `import-sections.mdc`.
 
 ### 4. Named Exports Only
 Always use named exports, never default exports:
@@ -71,7 +73,7 @@ export interface ButtonProps { ... }
 export const StyledButton = styled.button`...`;
 
 // Button/Button.tsx
-import type { ButtonProps } from './Button.types';
+import { ButtonProps } from './Button.types';
 import { StyledButton } from './Button.style';
 
 export const Button: React.FC<ButtonProps> = ({ ... }) => { ... };

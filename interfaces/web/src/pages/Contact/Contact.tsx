@@ -32,6 +32,7 @@ import {
   GitHubIcon,
   LinkedInIcon,
   LocationIcon,
+  DownloadIcon,
 } from './ContactIcons';
 
 // Styles
@@ -158,7 +159,7 @@ export const Contact: React.FC = (): React.ReactElement => {
           aria-labelledby="contact-console-heading"
         >
           <ConsoleEyebrow id="contact-console-heading">
-            {t('contact.form.consoleLabel', { defaultValue: 'Input channel' })}
+            {t('contact.form.consoleLabel')}
           </ConsoleEyebrow>
 
           <FormFeedback aria-live="polite">
@@ -322,6 +323,16 @@ export const Contact: React.FC = (): React.ReactElement => {
               >
                 <GitHubIcon />
                 <span>{t('contact.info.github')}</span>
+              </InfoItem>
+              <InfoItem
+                href="/vinicius-datti-frontend-engineer-cv.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                aria-label={t('contact.info.cv')}
+              >
+                <DownloadIcon />
+                <span>{t('contact.info.cvValue')}</span>
               </InfoItem>
               <InfoItem as="div">
                 <LocationIcon />

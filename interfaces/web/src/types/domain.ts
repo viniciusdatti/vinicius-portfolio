@@ -7,13 +7,6 @@ export enum SkillCategory {
   Iot = 'iot',
 }
 
-export enum ContactSubmissionStatus {
-  Pending = 'pending',
-  Read = 'read',
-  Replied = 'replied',
-  Archived = 'archived',
-}
-
 export enum Language {
   Pt = 'pt',
   En = 'en',
@@ -47,31 +40,4 @@ export interface Certificate {
   year: number | null;
   display_order: number;
   is_active: boolean;
-}
-
-export interface ContactFormData {
-  name: string;
-  email: string;
-  company?: string;
-  subject?: string;
-  message: string;
-}
-
-export interface ContactSubmission extends ContactFormData {
-  id: number;
-  status: ContactSubmissionStatus;
-  created_at: string;
-}
-
-export interface ApiResponse<T> {
-  data: T;
-  message?: string;
-}
-
-export interface PaginatedResponse<T> {
-  items: T[];
-  total: number;
-  page: number;
-  per_page: number;
-  total_pages: number;
 }

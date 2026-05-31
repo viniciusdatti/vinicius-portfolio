@@ -28,27 +28,29 @@ Prefer **TypeScript Enums** over string literal unions (`'a' | 'b' | 'c'`) for:
 
 ```typescript
 // ❌ BAD - string union
-status: 'pending' | 'read' | 'replied' | 'archived';
-sender_type: 'visitor' | 'admin';
-role: 'admin' | 'super_admin';
+category: 'frontend' | 'backend' | 'testing';
+status: 'neutral' | 'success' | 'error';
 
 // ✅ GOOD - enum
-export enum ContactSubmissionStatus {
-  Pending = 'pending',
-  Read = 'read',
-  Replied = 'replied',
-  Archived = 'archived',
+export enum SkillCategory {
+  Frontend = 'frontend',
+  Backend = 'backend',
+  Testing = 'testing',
+  Realtime = 'realtime',
+  Tools = 'tools',
+  Iot = 'iot',
 }
-status: ContactSubmissionStatus;
+category: SkillCategory;
 
-export enum ChatMessageSenderType {
-  Visitor = 'visitor',
-  Admin = 'admin',
+export enum HighlightCardStatus {
+  Neutral = 'neutral',
+  Success = 'success',
+  Error = 'error',
 }
-sender_type: ChatMessageSenderType;
+status: HighlightCardStatus;
 ```
 
 ## Usage in code
 
-- Compare and assign using the enum: `msg.sender_type === ChatMessageSenderType.Visitor`.
-- When receiving from API, cast if needed: `sender_type: data.sender_type as ChatMessageSenderType`.
+- Compare and assign using the enum: `skill.category === SkillCategory.Frontend`.
+- When receiving from API, cast if needed: `category: data.category as SkillCategory`.

@@ -12,6 +12,7 @@ export interface Project {
   description_pt: string | null;
   repository_url: string;
   demo_url: string | null;
+  is_featured: boolean;
   technologies: Technology[];
   created_at: string;
   updated_at: string;

@@ -9,7 +9,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useThemeStore } from './store';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ToastHost } from './components/common/Toast';
-import { ObservatoryIdleLayer } from './components/motion/ObservatoryIdleLayer';
 import { Router } from './Router';
 
 // Styles
@@ -40,7 +39,6 @@ const ThemedApp = (): React.ReactElement => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <ObservatoryIdleLayer />
       <ToastHost />
       <Router />
     </ThemeProvider>

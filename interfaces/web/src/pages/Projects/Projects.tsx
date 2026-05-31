@@ -47,13 +47,19 @@ import {
   RetryButton,
   EmptyMessage,
   LoadingMessage,
+  StudiesDivider,
+  StudiesDividerLine,
+  StudiesSectionLabel,
+  StudiesEyebrow,
+  StudiesTitle,
+  StudiesDescription,
 } from './Projects.style';
 
 // Types
 import { Project } from '../../data/types';
 import { Language } from '../../types';
 import { PageSectionRevealMode } from '../../components/PageSectionReveal/PageSectionReveal.types';
-import { filterProjectsBySearch } from '../../domain/projects';
+import { filterProjectsBySearch, partitionProjectsByTier } from '../../domain/projects';
 
 // Lib
 import { isPortugueseLocale, resolveLanguage } from '../../lib/i18n';
@@ -84,6 +90,12 @@ export const Projects = (): React.ReactElement => {
     [projects, state.search, isPt],
   );
 
+  // Split filtered projects into featured (primary) and studies (secondary)
+  const { featured: featuredProjects, studies: studyProjects } = useMemo(
+    () => partitionProjectsByTier(filteredProjects),
+    [filteredProjects],
+  );
+
   const projectTitle = useCallback(
     (p: Project): string => (isPt ? p.title_pt ?? p.title : p.title),
     [isPt],
@@ -101,19 +113,65 @@ export const Projects = (): React.ReactElement => {
     setState((prev: ProjectsPageState) => ({ ...prev, search: event.target.value }));
   }, []);
 
+  const renderFeaturedSection = (): React.ReactNode => {
+    if (featuredProjects.length === 0) {
+      return null;
+    }
+    return (
+      <ProjectShowcaseGrid
+        projects={featuredProjects}
+        language={currentLanguage}
+        onSelectProject={handleSelectProject}
+      />
+    );
+  };
+
+  const renderStudiesSection = (): React.ReactNode => {
+    if (studyProjects.length === 0) {
+      return null;
+    }
+    return (
+      <>
+        <StudiesDivider
+          variants={scrollMotion.section}
+          initial="hidden"
+          whileInView="visible"
+          viewport={scrollMotion.viewport}
+        >
+          <StudiesDividerLine />
+          <StudiesSectionLabel>
+            <StudiesEyebrow>{t('projects.studies.eyebrow')}</StudiesEyebrow>
+            <StudiesTitle>{t('projects.studies.title')}</StudiesTitle>
+            <StudiesDescription>{t('projects.studies.description')}</StudiesDescription>
+          </StudiesSectionLabel>
+          <StudiesDividerLine />
+        </StudiesDivider>
+
+        <ProjectShowcaseGrid
+          projects={studyProjects}
+          language={currentLanguage}
+          compact
+          onSelectProject={handleSelectProject}
+        />
+      </>
+    );
+  };
+
   const renderShowcaseContent = (): React.ReactNode => {
     if (isLoading) {
       return <LoadingMessage>{t('projects.loading')}</LoadingMessage>;
     }
-    if (filteredProjects.length === 0) {
+
+    const hasAny = featuredProjects.length > 0 || studyProjects.length > 0;
+    if (!hasAny) {
       return <EmptyMessage>{t('projects.empty')}</EmptyMessage>;
     }
+
     return (
-      <ProjectShowcaseGrid
-        projects={filteredProjects}
-        language={currentLanguage}
-        onSelectProject={handleSelectProject}
-      />
+      <>
+        {renderFeaturedSection()}
+        {renderStudiesSection()}
+      </>
     );
   };
 

@@ -88,7 +88,7 @@ A navegação deve:
 - Visualização das tecnologias principais organizadas por categoria
 - Frontend: React, TypeScript, JavaScript, styled-components, Framer Motion
 - Backend: Python, FastAPI, PostgreSQL
-- Testes: Jest, Playwright
+- Testes: Vitest, Playwright (E2E sob demanda)
 - Ferramentas: Git, WebSocket, Docker
 - IoT: Menção à experiência com soluções IoT
 
@@ -104,7 +104,7 @@ A navegação deve:
 - Organização por categorias com visual diferenciado:
   - **Frontend:** React, TypeScript, JavaScript, HTML, CSS, styled-components, Framer Motion
   - **Backend:** Python, FastAPI, PostgreSQL, REST APIs
-  - **Testes:** Jest (unitários), Playwright (E2E)
+  - **Testes:** Vitest (unitários), Playwright (E2E sob demanda)
   - **Real-time:** WebSocket
   - **Ferramentas:** Git, Docker, VS Code
   - **IoT:** Experiência com soluções IoT

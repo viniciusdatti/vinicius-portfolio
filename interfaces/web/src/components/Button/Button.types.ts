@@ -18,6 +18,10 @@ export interface ButtonProps
   to?: string;
   replace?: boolean;
   state?: unknown;
+  href?: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
 }
 
 export type ButtonComponent = FC<ButtonProps>;

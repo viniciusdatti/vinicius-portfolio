@@ -46,16 +46,17 @@ const SKILL_LAYOUT_REGISTRY: Record<string, SkillLayoutRegistryEntry> = {
   PostgreSQL: { tier: SkillLayoutTier.CoreLarge, gridSpan: 2 },
   'Styled Components': { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 2 },
   WebSocket: { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 2 },
+  Storybook: { tier: SkillLayoutTier.PeripheralFeatured, gridSpan: 2 },
   JavaScript: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
   Jest: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
   Docker: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
-  Cursor: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  Vite: { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
+  'React Hook Form': { tier: SkillLayoutTier.PeripheralStandard, gridSpan: 1 },
   HTML5: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
   CSS3: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
   Playwright: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
   Git: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
-  'VS Code': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 1 },
-  'AI tools': { tier: SkillLayoutTier.PeripheralInstrument, gridSpan: 1 },
+  Zod: { tier: SkillLayoutTier.PeripheralCompact, gridSpan: 1 },
 };
 
 const FALLBACK_TIERS: readonly SkillLayoutTier[] = [
