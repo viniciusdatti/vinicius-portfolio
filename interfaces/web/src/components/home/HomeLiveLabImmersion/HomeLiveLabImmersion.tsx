@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useLiveLabImmersionPin } from '../../../hooks/useLiveLabImmersionPin';
 import { useScrollMotion } from '../../../hooks/useScrollMotion';
 
-// Styles
+// Component
 import {
   ImmersionBand,
   ImmersionPinStage,
